@@ -32,7 +32,7 @@ public class LoginController implements Initializable {
 	
 	@FXML
 	public void onBtExitAction() {
-		
+		System.exit(0);
 	}
 	
 	@FXML

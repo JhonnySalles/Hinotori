@@ -21,7 +21,7 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/guiMain/Login.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 			
-			//Usado para teste, setar o fxml da tela que está testando apra abrir ela ao invez da tela de usuario.
+		 //Usado para teste, setar o fxml da tela que está testando apra abrir ela ao invez da tela de usuario.
 		//FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Main.fxml"));
 		//	AnchorPane scPnTelaPrincipal = loader.load();
 			
