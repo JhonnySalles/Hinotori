@@ -5,14 +5,21 @@
 		http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 		version="1.0">
 		<persistence-unit name="teste" transaction-type="RESOURCE_LOCAL">
-			<provider>org.hibernate.ejb.HibernatePersistence</provider>
+			<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 				<properties>
-					<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-					<property name="hibernate.hbm2ddl.auto" value="update"/>
+					<!-- Configuração da conexão -->
 					<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+					<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/baseteste"/>
 					<property name="javax.persistence.jdbc.user" value="admin"/>
 					<property name="javax.persistence.jdbc.password" value="admin"/>
-					<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/estoque"/>
+					<!--  propriedades do hibernate -->
+					<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+					<property name="hibernate.show_sql" value="true"/>
+					<property name="hibernate.format_sql" value="false" />					
+					
+					<!--  atualiza o banco, gera as tabelas se for preciso -->
+					<property name="hibernate.hbm2ddl.auto" value="update"/>
+									
 				</properties>
 		</persistence-unit>
 	</persistence>
