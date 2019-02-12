@@ -10,32 +10,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" prefHeight="350.0" prefWidth="600.0" stylesheets="@application.css/" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TelaConfiguracaoController">
+<AnchorPane fx:id="background" prefHeight="350.0" prefWidth="602.0" stylesheets="@application.css/" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TelaConfiguracaoController">
    <children>
-      <Pane fx:id="paneDireita" layoutX="200.0" layoutY="8.0" prefHeight="350.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Button fx:id="btnExit" layoutX="354.0" layoutY="11.0" maxHeight="21.0" maxWidth="21.0" minHeight="21.0" minWidth="21.0" mnemonicParsing="false" onAction="#onBtExitAction" prefHeight="21.0" prefWidth="21.0" />
-            <Label layoutX="52.0" layoutY="52.0" text="IP" />
-            <TextField fx:id="txtIP" layoutX="51.0" layoutY="71.0" prefHeight="25.0" prefWidth="239.0" />
-            <Label layoutX="301.0" layoutY="52.0" text="Porta" />
-            <TextField fx:id="txtPorta" layoutX="300.0" layoutY="71.0" prefHeight="25.0" prefWidth="77.0" />
-            <Label layoutX="52.0" layoutY="108.0" text="Usuario" />
-            <TextField fx:id="txtUsuario" layoutX="51.0" layoutY="126.0" prefHeight="25.0" prefWidth="327.0" styleClass="text-field" />
-            <Label layoutX="53.0" layoutY="163.0" text="Senha" />
-            <TextField fx:id="txtSenha" layoutX="51.0" layoutY="181.0" prefHeight="25.0" prefWidth="327.0" />
-            <Button fx:id="btnTestarConexao" layoutX="53.0" layoutY="236.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="btnSombra" text="Testar Conexão" />
-            <ChoiceBox fx:id="chBoxBase" disable="true" layoutX="197.0" layoutY="236.0" prefHeight="25.0" prefWidth="180.0" />
-            <Button fx:id="btnCancelar" layoutX="54.0" layoutY="305.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="btnSombra" text="Cancelar" />
-            <Button fx:id="btnConfirmar" layoutX="197.0" layoutY="305.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="btnSombra" text="Confirmar" />
-            <Label layoutX="343.0" layoutY="276.0" text="Status" />
-            <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="335.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/config/bntDataBase_48.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-      <Pane fx:id="paneEsquerda" layoutX="6.0" layoutY="6.0" prefHeight="600.0" prefWidth="239.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="361.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="paneEsquerda" maxHeight="-Infinity" prefHeight="350.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="56.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -47,6 +24,29 @@
                   <Font name="Sword Kanji" size="36.0" />
                </font>
             </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="paneDireita" layoutX="243.0" prefHeight="350.0" prefWidth="358.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="btnExit" layoutX="322.0" layoutY="14.0" maxHeight="21.0" maxWidth="21.0" minHeight="21.0" minWidth="21.0" mnemonicParsing="false" onAction="#onBtExitAction" prefHeight="21.0" prefWidth="21.0" />
+            <Label layoutX="15.0" layoutY="52.0" text="IP" />
+            <TextField fx:id="txtIP" layoutX="14.0" layoutY="71.0" prefHeight="25.0" prefWidth="239.0" />
+            <Label layoutX="264.0" layoutY="52.0" text="Porta" />
+            <TextField fx:id="txtPorta" layoutX="263.0" layoutY="71.0" onAction="#onTxtPortaEventAction" prefHeight="25.0" prefWidth="77.0" />
+            <Label layoutX="15.0" layoutY="108.0" text="Usuario" />
+            <TextField fx:id="txtUsuario" layoutX="14.0" layoutY="126.0" prefHeight="25.0" prefWidth="327.0" styleClass="text-field" />
+            <Label layoutX="16.0" layoutY="163.0" text="Senha" />
+            <TextField fx:id="txtSenha" layoutX="14.0" layoutY="181.0" prefHeight="25.0" prefWidth="327.0" />
+            <Button fx:id="btnTestarConexao" layoutX="16.0" layoutY="236.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="btnSombra" text="Testar Conexão" />
+            <ChoiceBox fx:id="chBoxBase" disable="true" layoutX="160.0" layoutY="236.0" prefHeight="25.0" prefWidth="180.0" />
+            <Button fx:id="btnCancelar" layoutX="17.0" layoutY="305.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="btnSombra" text="Cancelar" />
+            <Button fx:id="btnConfirmar" layoutX="160.0" layoutY="305.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="btnSombra" text="Confirmar" />
+            <Label layoutX="306.0" layoutY="276.0" text="Status" />
+            <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="298.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/config/bntDataBase_48.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>

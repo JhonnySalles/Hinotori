@@ -20,4 +20,10 @@
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>JAVA_HOME</name>
+			<value>file:/C:/Program%20Files/Java/jre1.8.0_60</value>
+		</variable>
+	</variableList>
 </projectDescription>
