@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="150.0" prefWidth="500.0" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Alertas.ConfirmacaoController">
+   <children>
+      <Pane prefWidth="100.0" style="-fx-background-color: linear-gradient(to bottom right, #000000 0%, #212121 50%, #333333 100%); -fx-opacity: 0.6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="20.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/config/bntInformePergunta_48.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="paneDireita" layoutX="100.0" layoutY="-2.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <Button fx:id="btnConfirmar" layoutX="39.0" layoutY="88.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Confirmar" />
+            <Button fx:id="btnCancelar" layoutX="212.0" layoutY="88.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Cancelar" />
+            <Label fx:id="lblPrincipal" layoutX="39.0" layoutY="18.0" text="Deseja realmente cancelar?" />
+            <Label fx:id="lblSecundario" layoutX="39.0" layoutY="48.0" text="Toda a alteração será descartada." />
+         </children>
+      </Pane>
+      <Pane layoutY="2.0" prefHeight="20.0" prefWidth="400.0" style="-fx-background-color: #000000; -fx-opacity: 0.7;" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>
