@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" prefHeight="350.0" prefWidth="602.0" stylesheets="@application.css/" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TelaConfiguracaoController">
+<AnchorPane fx:id="background" prefHeight="350.0" prefWidth="602.0" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaConfiguracaoController">
    <children>
       <Pane fx:id="paneEsquerda" maxHeight="-Infinity" prefHeight="350.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,21 +25,21 @@
                   <Font name="Sword Kanji" size="36.0" />
                </font>
             </Label>
-            <Pane fx:id="pnImgAviso" layoutX="24.0" layoutY="247.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="pnImgAviso" layoutX="9.0" layoutY="247.0" prefHeight="20.0" prefWidth="20.0" />
             <Label fx:id="lblAviso" alignment="CENTER" contentDisplay="CENTER" layoutX="18.0" layoutY="267.0" prefHeight="65.0" prefWidth="205.0" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true" />
          </children>
       </Pane>
       <Pane fx:id="paneDireita" layoutX="243.0" prefHeight="350.0" prefWidth="358.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button fx:id="btnExit" layoutX="322.0" layoutY="14.0" maxHeight="21.0" maxWidth="21.0" minHeight="21.0" minWidth="21.0" mnemonicParsing="false" onAction="#onBtExitAction" prefHeight="21.0" prefWidth="21.0" />
-            <Label layoutX="15.0" layoutY="52.0" text="IP" />
-            <TextField fx:id="txtIP" layoutX="14.0" layoutY="71.0" prefHeight="25.0" prefWidth="239.0" />
+            <Label layoutX="43.0" layoutY="52.0" text="IP" />
+            <TextField fx:id="txtIP" layoutX="42.0" layoutY="71.0" prefHeight="27.0" prefWidth="213.0" />
             <Label layoutX="264.0" layoutY="52.0" text="Porta" />
-            <TextField fx:id="txtPorta" layoutX="263.0" layoutY="71.0" onAction="#onTxtPortaEventAction" prefHeight="25.0" prefWidth="77.0" />
-            <Label layoutX="15.0" layoutY="108.0" text="Usuario" />
-            <TextField fx:id="txtUsuario" layoutX="14.0" layoutY="126.0" prefHeight="25.0" prefWidth="327.0" styleClass="text-field" />
-            <Label layoutX="16.0" layoutY="163.0" text="Senha" />
-            <PasswordField fx:id="pswSenha" layoutX="14.0" layoutY="182.0" prefHeight="27.0" prefWidth="327.0" />
+            <TextField fx:id="txtPorta" layoutX="265.0" layoutY="71.0" onAction="#onTxtPortaEventAction" prefHeight="27.0" prefWidth="75.0" />
+            <Label layoutX="41.0" layoutY="108.0" text="Usuario" />
+            <TextField fx:id="txtUsuario" layoutX="42.0" layoutY="126.0" prefHeight="27.0" prefWidth="299.0" styleClass="text-field" />
+            <Label layoutX="44.0" layoutY="163.0" text="Senha" />
+            <PasswordField fx:id="pswSenha" layoutX="42.0" layoutY="182.0" prefHeight="27.0" prefWidth="299.0" />
             <Button fx:id="btnTestarConexao" layoutX="16.0" layoutY="236.0" mnemonicParsing="false" onAction="#onBtnTesteClick" prefHeight="25.0" prefWidth="120.0" styleClass="btnSombra" text="Testar Conexão" />
             <ChoiceBox fx:id="chBoxBase" disable="true" layoutX="160.0" layoutY="236.0" prefHeight="25.0" prefWidth="180.0" />
             <Button fx:id="btnCancelar" layoutX="17.0" layoutY="305.0" mnemonicParsing="false" onAction="#onBtnCancelarClick" prefHeight="25.0" prefWidth="120.0" styleClass="btnSombra" text="Cancelar" />
@@ -47,7 +47,22 @@
             <Label layoutX="306.0" layoutY="276.0" text="Status" />
             <ImageView fx:id="imgViewConexao" fitHeight="48.0" fitWidth="48.0" layoutX="298.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/config/bntDataBase_48.png" />
+                  <Image url="@../images/config/icoDataBase_48.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/config/icoUsuario_48.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/config/icoChave_48.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/config/icoRede_48.png" />
                </image>
             </ImageView>
          </children>

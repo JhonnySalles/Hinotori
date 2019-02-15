@@ -8,16 +8,16 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="150.0" prefWidth="500.0" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alerts.ConfirmacaoController">
+<AnchorPane prefHeight="150.0" prefWidth="500.0" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alerts.ErroController">
    <children>
       <Pane layoutY="2.0" prefHeight="20.0" prefWidth="400.0" style="-fx-background-color: #000000; -fx-opacity: 0.7;" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fx:id="ImgVwIconeTitulo" fitHeight="18.0" fitWidth="18.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/config/icoInformePergunta_48.png" />
+                  <Image url="@../images/config/icoErro_48.png" />
                </image>
             </ImageView>
-            <Label fx:id="lblTitulo" layoutX="40.0" layoutY="1.0" textFill="WHITE">
+            <Label fx:id="lblTitulo" layoutX="40.0" layoutY="1.0" text="Erro" textFill="#eb0000">
                <font>
                   <Font size="14.0" />
                </font>
@@ -27,16 +27,15 @@
          <children>
             <ImageView fx:id="ImgVwIcone" fitHeight="60.0" fitWidth="60.0" layoutX="20.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/config/icoInformePergunta_48.png" />
+                  <Image url="@../images/config/icoErro_48.png" />
                </image>
             </ImageView>
          </children>
       </Pane>
       <Pane fx:id="paneDireita" layoutX="100.0" layoutY="-2.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <children>
-            <Button fx:id="btnConfirmar" layoutX="212.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Confirmar" />
-            <Button fx:id="btnCancelar" layoutX="40.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Cancelar" />
-            <Label fx:id="lblPrincipal" layoutX="39.0" layoutY="10.0" prefHeight="35.0" prefWidth="324.0" text="Deseja continuar?" wrapText="true" />
+            <Button fx:id="btnOk" layoutX="121.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="btnOkErro" text="OK" />
+            <Label fx:id="lblPrincipal" layoutX="39.0" layoutY="10.0" prefHeight="35.0" prefWidth="324.0" text="Ocorreu um erro inesperado no sistema." wrapText="true" />
             <Label fx:id="lblSecundario" layoutX="39.0" layoutY="48.0" prefHeight="35.0" prefWidth="324.0" wrapText="true" />
          </children>
       </Pane>

@@ -1,11 +1,14 @@
 package entitis;
 
+import java.net.URL;
+
 public class Conexao {
 	
 	String ip;
 	String porta;
 	String usuario;
 	String senha;
+	URL url;
 	
 	public String getIp() {
 		return ip;

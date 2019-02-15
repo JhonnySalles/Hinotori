@@ -1,10 +1,11 @@
-package application;
+package gui;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import alerts.Alertas;
+import connection.ConexaoMySQL;
+import entitis.Conexao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import util.Animacao;
 
 public class TelaConfiguracaoController implements Initializable {
 	
@@ -60,6 +62,8 @@ public class TelaConfiguracaoController implements Initializable {
 	@FXML
 	ImageView imgViewConexao;
 	
+	Conexao dadosConexao;
+	
 	@FXML
 	public void onBtExitAction() {
 		System.exit(0);
@@ -70,26 +74,26 @@ public class TelaConfiguracaoController implements Initializable {
 		lblAviso.setText("");
 		lblAviso.setVisible(false);
 		pnImgAviso.setVisible(false);
-		
-		imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/bntDataBase_48.png")));
-		imgViewConexao.setFitWidth(48);
-		imgViewConexao.setFitHeight(48);
-		
+
 		if (validaCampos() && Constraints.validaIp(txtIP)) {
+			Animacao.inicia(imgViewConexao);
 			String ip = txtIP.getText();
 			String port = txtPorta.getText();
 			String user = txtUsuario.getText();
 			String psword = pswSenha.getText();
 			
 			if (ConexaoMySQL.testaConexxaoMySQL(ip, port, "MySQL", user, psword)) {
+				
+				Animacao.timeline.stop();
 				lblAviso.setText("Conectado com sucesso!");
 				lblAviso.setVisible(true);
-				imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/bntDataConectado_48.png")));
+				imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataConectado_48.png")));
 				imgViewConexao.setFitWidth(48);
 				imgViewConexao.setFitHeight(48);
-			} else {
 				
-				ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/bntSinalizaMarcada_48.png")));
+			} else {
+				Animacao.timeline.stop();
+				ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinalizaMarcada_48.png")));
 				img.setFitWidth(20);
 				img.setFitHeight(20);
 				
@@ -98,7 +102,7 @@ public class TelaConfiguracaoController implements Initializable {
 				lblAviso.setText("Não foi possivel conectar ao banco, verifique os dados de conexão!");
 				lblAviso.setVisible(true);
 				
-				imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/bntDataSemConexao_48.png")));
+				imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataSemConexao_48.png")));
 				imgViewConexao.setFitWidth(48);
 				imgViewConexao.setFitHeight(48);
 			}
@@ -107,7 +111,7 @@ public class TelaConfiguracaoController implements Initializable {
 	
 	@FXML
 	public void onBtnCancelarClick() {
-		if (Alertas.Confirmacao("Sair", "", "")) {
+		if (Alertas.Confirmacao("Sair", "Deseja realmente cancelar?", "Toda a alteração será descartada.")) {
 			System.exit(0);
 		}
 	}
@@ -134,6 +138,15 @@ public class TelaConfiguracaoController implements Initializable {
 		}
 	}
 	
+	public void setConfig(Conexao dadosConexao) {
+		this.dadosConexao = dadosConexao;
+		
+		txtIP.setText(dadosConexao.getIp());
+		txtPorta.setText(dadosConexao.getPorta());
+		txtUsuario.setText(dadosConexao.getUsuario());
+		pswSenha.setText(dadosConexao.getSenha());
+	}
+	
 	
 	public Boolean validaCampos() {
 		Boolean result = false;
@@ -146,7 +159,7 @@ public class TelaConfiguracaoController implements Initializable {
 			if (txtIP.getText().isEmpty()) {
 				txtIP.setStyle("-fx-border-color: red;");
 				if (informe) {
-					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/bntSinaliza_48.png")));
+					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinaliza_48.png")));
 					img.setFitWidth(20);
 					img.setFitHeight(20);
 					
@@ -163,7 +176,7 @@ public class TelaConfiguracaoController implements Initializable {
 				txtPorta.setStyle("-fx-border-color: red;");
 				
 				if (informe) {
-					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/bntSinaliza_48.png")));
+					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinaliza_48.png")));
 					img.setFitWidth(20);
 					img.setFitHeight(20);
 					
@@ -180,7 +193,7 @@ public class TelaConfiguracaoController implements Initializable {
 				txtUsuario.setStyle("-fx-border-color: red;");
 				
 				if (informe) {
-					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/bntSinaliza_48.png")));
+					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinaliza_48.png")));
 					img.setFitWidth(20);
 					img.setFitHeight(20);
 					
@@ -197,7 +210,7 @@ public class TelaConfiguracaoController implements Initializable {
 				pswSenha.setStyle("-fx-border-color: red;");
 				
 				if (informe) {
-					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/bntSinaliza_48.png")));
+					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinaliza_48.png")));
 					img.setFitWidth(20);
 					img.setFitHeight(20);
 					

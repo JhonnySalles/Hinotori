@@ -1,5 +1,7 @@
 package application;
 	
+import alerts.ErroController;
+import gui.TelaConfiguracaoController;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -12,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import util.ProcessaXML;
 
 
 public class Main extends Application {
@@ -30,7 +33,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/TelaConfiguracao.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/TelaConfiguracao.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 			
 			Scene mainScene = new Scene(scPnTelaPrincipal); // Carrega a scena
@@ -68,6 +71,9 @@ public class Main extends Application {
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.show(); // Mostra a tela.
 			
+			ProcessaXML xml = new ProcessaXML();
+			TelaConfiguracaoController controller = loader.getController();
+			xml.verificaXml(controller);
 			
 		} catch(Exception e) {
 			e.printStackTrace();

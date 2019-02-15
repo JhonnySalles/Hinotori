@@ -9,13 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
-public class ConfirmacaoController implements Initializable {
+public class ErroController implements Initializable {
 	
 	@FXML
-	Button btnConfirmar;
-	
-	@FXML
-	Button btnCancelar;
+	Button btnOk;
 	
 	@FXML
 	Label lblTitulo;

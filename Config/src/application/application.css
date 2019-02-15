@@ -6,6 +6,24 @@
     -fx-font-size: 36px;
 }
 
+.btnOkErro {
+    -fx-background-color: radial-gradient(center 80% 10% , radius 180% , #e60000 0%, #212121 100%);
+    -fx-text-fill: #ffffff;
+    -fx-text-stroke: black;
+    -fx-stroke-width: 1;
+}
+
+.btnOkErro:hover {
+    -fx-background-color: linear-gradient(to top, #e60000 0%, #212121 100%);
+    -fx-text-fill: #ffffff;
+}
+
+.btnOkErro:pressed {
+    -fx-background-color: linear-gradient(to right, #212121 0%, #212121 100%);
+    -fx-text-fill: #ffffff;
+}
+
+
 #btnConfirmar {
     -fx-background-color: radial-gradient(center 80% 10%, radius 180%, #58E82D 0%, #212121 100%);
     -fx-text-fill: #ffffff;
