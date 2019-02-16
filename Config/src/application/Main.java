@@ -1,6 +1,5 @@
 package application;
 	
-import alerts.ErroController;
 import gui.TelaConfiguracaoController;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
@@ -20,7 +19,9 @@ import util.ProcessaXML;
 public class Main extends Application {
 	
 	// Metodo para fazer a tela se movimentar
+	@SuppressWarnings("unused")
 	private double xOffset = 0;
+	@SuppressWarnings("unused")
 	private double yOffset = 0;
 	private static class Delta {
 	    double x, y;
@@ -73,7 +74,7 @@ public class Main extends Application {
 			
 			ProcessaXML xml = new ProcessaXML();
 			TelaConfiguracaoController controller = loader.getController();
-			xml.verificaXml(controller);
+			xml.verificaConfig(controller);
 			
 		} catch(Exception e) {
 			e.printStackTrace();

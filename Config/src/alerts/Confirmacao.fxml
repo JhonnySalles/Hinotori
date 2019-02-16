@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="150.0" prefWidth="500.0" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alerts.ConfirmacaoController">
+<AnchorPane prefHeight="150.0" prefWidth="500.0" style="-fx-effect: dropshadow( one-pass-box , #333333, 0, 0.0 , 3, 3);;" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alerts.ConfirmacaoController">
    <children>
       <Pane layoutY="2.0" prefHeight="20.0" prefWidth="400.0" style="-fx-background-color: #000000; -fx-opacity: 0.7;" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -36,8 +36,7 @@
          <children>
             <Button fx:id="btnConfirmar" layoutX="212.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Confirmar" />
             <Button fx:id="btnCancelar" layoutX="40.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Cancelar" />
-            <Label fx:id="lblPrincipal" layoutX="39.0" layoutY="10.0" prefHeight="35.0" prefWidth="324.0" text="Deseja continuar?" wrapText="true" />
-            <Label fx:id="lblSecundario" layoutX="39.0" layoutY="48.0" prefHeight="35.0" prefWidth="324.0" wrapText="true" />
+            <Label fx:id="lblPrincipal" layoutX="39.0" layoutY="10.0" prefHeight="71.0" prefWidth="324.0" text="Deseja continuar?" wrapText="true" />
          </children>
       </Pane>
    </children>

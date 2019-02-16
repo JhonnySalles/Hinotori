@@ -23,6 +23,22 @@
     -fx-text-fill: #ffffff;
 }
 
+.btnOkConfirma {
+    -fx-background-color: radial-gradient(center 80% 10% , radius 180% , #58E82D 0%, #212121 100%);
+    -fx-text-fill: #ffffff;
+    -fx-text-stroke: black;
+    -fx-stroke-width: 1;
+}
+
+.btnOkConfirma:hover {
+    -fx-background-color: linear-gradient(to top, #58E82D 0%, #212121 100%);
+    -fx-text-fill: #ffffff;
+}
+
+.btnOkConfirma:pressed {
+    -fx-background-color: linear-gradient(to right, #212121 0%, #212121 100%);
+    -fx-text-fill: #ffffff;
+}
 
 #btnConfirmar {
     -fx-background-color: radial-gradient(center 80% 10%, radius 180%, #58E82D 0%, #212121 100%);
@@ -117,13 +133,6 @@
     -fx-border-width: 0 0 2 0;
     -fx-border-color: blue;
 }
-
-.choice-box:hover{
-    -fx-background-color: transparent;
-    -fx-border-width: 0 0 2 0;
-    -fx-border-color: green;
-}
-
 
 /*--------  Botao de exit ----------*/
 #btnExit{

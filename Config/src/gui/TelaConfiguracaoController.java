@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import util.Animacao;
+import util.ProcessaXML;
 
 public class TelaConfiguracaoController implements Initializable {
 	
@@ -39,7 +40,10 @@ public class TelaConfiguracaoController implements Initializable {
 	Button btnCancelar;
 	
 	@FXML
-	ChoiceBox chBoxBase;
+	ChoiceBox<String> chBoxBase;
+	
+	@FXML
+	ChoiceBox<String> chBoxDataBase;
 	
 	@FXML
 	TextField txtIP;
@@ -74,15 +78,14 @@ public class TelaConfiguracaoController implements Initializable {
 		lblAviso.setText("");
 		lblAviso.setVisible(false);
 		pnImgAviso.setVisible(false);
+		chBoxBase.getItems().clear();
 
 		if (validaCampos() && Constraints.validaIp(txtIP)) {
 			Animacao.inicia(imgViewConexao);
-			String ip = txtIP.getText();
-			String port = txtPorta.getText();
-			String user = txtUsuario.getText();
-			String psword = pswSenha.getText();
 			
-			if (ConexaoMySQL.testaConexxaoMySQL(ip, port, "MySQL", user, psword)) {
+			if (ConexaoMySQL.testaConexaoMySQL(txtIP.getText().toString(), txtPorta.getText().toString(), 
+											   chBoxDataBase.getSelectionModel().getSelectedItem().toString(),
+											   txtUsuario.getText().toString(), pswSenha.getText().toString(), chBoxBase)) {
 				
 				Animacao.timeline.stop();
 				lblAviso.setText("Conectado com sucesso!");
@@ -111,14 +114,19 @@ public class TelaConfiguracaoController implements Initializable {
 	
 	@FXML
 	public void onBtnCancelarClick() {
-		if (Alertas.Confirmacao("Sair", "Deseja realmente cancelar?", "Toda a alteração será descartada.")) {
+		if (Alertas.Confirmacao("Sair", "Deseja realmente cancelar? \n Toda a alteração será descartada.")) {
 			System.exit(0);
 		}
 	}
 	
 	@FXML
 	public void onBtnConfirmarClick() {
-		
+		if (chBoxBase.getSelectionModel().getSelectedIndex() < 0) {
+			Alertas.Aviso("Aviso", "");
+		} else {
+			dadosConexao.setBase(chBoxBase.getSelectionModel().getSelectedItem());
+			ProcessaXML.gravaConfig();
+		}
 	}
 	
 	@FXML
@@ -141,12 +149,21 @@ public class TelaConfiguracaoController implements Initializable {
 	public void setConfig(Conexao dadosConexao) {
 		this.dadosConexao = dadosConexao;
 		
-		txtIP.setText(dadosConexao.getIp());
+		txtIP.setText(dadosConexao.getHost());
 		txtPorta.setText(dadosConexao.getPorta());
 		txtUsuario.setText(dadosConexao.getUsuario());
 		pswSenha.setText(dadosConexao.getSenha());
+		chBoxDataBase.getSelectionModel().select(dadosConexao.getDatabase());
 	}
 	
+	public void processaDados() {
+		dadosConexao.setHost(txtIP.getText());
+		dadosConexao.setPorta(txtPorta.getText());
+		dadosConexao.setBase(chBoxBase.getSelectionModel().getSelectedItem());
+		dadosConexao.setUsuario(txtUsuario.getText());
+		dadosConexao.setSenha(pswSenha.getText());
+		dadosConexao.setDatabase(chBoxDataBase.getSelectionModel().getSelectedItem());
+	}
 	
 	public Boolean validaCampos() {
 		Boolean result = false;
@@ -154,6 +171,10 @@ public class TelaConfiguracaoController implements Initializable {
 		
 		if (!txtIP.getText().isEmpty() 		&& !txtPorta.getText().isEmpty() &&
 		    !txtUsuario.getText().isEmpty() && !pswSenha.getText().isEmpty()) {
+			txtIP.setStyle("-fx-border-color: green;");
+			txtPorta.setStyle("-fx-border-color: green;");
+			txtUsuario.setStyle("-fx-border-color: green;");
+			pswSenha.setStyle("-fx-border-color: green;");
 			result = true;
 		} else {
 			if (txtIP.getText().isEmpty()) {
@@ -228,7 +249,6 @@ public class TelaConfiguracaoController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
 		Constraints.setTxtFieldPort(txtPorta);
 		
 		txtIP.focusedProperty().addListener(new ChangeListener<Boolean>(){
@@ -245,21 +265,29 @@ public class TelaConfiguracaoController implements Initializable {
 		txtPorta.focusedProperty().addListener(new ChangeListener<Boolean>(){
 		    @Override
 		    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue){
-		        if (txtPorta.textProperty().get().toString().isEmpty()) {
-		        	txtPorta.setStyle("");
-		        } else {
-		        	txtPorta.setStyle("-fx-border-color: green;");
-		        }
+		    	if (newPropertyValue) { // Usado para limpar o stilo para que pinte quando entra
+		    		txtPorta.setStyle("");
+		        } else { // Após, na saida faz então a validação.
+			    	if (txtPorta.textProperty().get().toString().isEmpty()) {
+			        	txtPorta.setStyle("");
+			        } else {
+			        	txtPorta.setStyle("-fx-border-color: green;");
+			        }
+			    }
 		    }
 		});
 		
 		txtUsuario.focusedProperty().addListener(new ChangeListener<Boolean>(){
 		    @Override
-		    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue){
-		    	if (txtUsuario.textProperty().get().toString().isEmpty()) {
+		    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue){    	
+		    	if (newPropertyValue) {
 		    		txtUsuario.setStyle("");
 		        } else {
-		        	txtUsuario.setStyle("-fx-border-color: green;");
+			    	if (txtUsuario.textProperty().get().toString().isEmpty()) {
+			    		txtUsuario.setStyle("");
+			        } else {
+			        	txtUsuario.setStyle("-fx-border-color: green;");
+			        }
 		        }
 		    }
 		});
@@ -267,13 +295,19 @@ public class TelaConfiguracaoController implements Initializable {
 		pswSenha.focusedProperty().addListener(new ChangeListener<Boolean>(){
 		    @Override
 		    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue){
-		        if (pswSenha.textProperty().get().toString().isEmpty()) {
-		        	pswSenha.setStyle("");
+		    	if (newPropertyValue) {
+		    		pswSenha.setStyle("");
 		        } else {
-		        	pswSenha.setStyle("-fx-border-color: green;");
+			    	if (pswSenha.textProperty().get().toString().isEmpty()) {
+			        	pswSenha.setStyle("");
+			        } else {
+			        	pswSenha.setStyle("-fx-border-color: green;");
+			        }
 		        }
 		    }
 		});
+		
+		chBoxDataBase.getItems().add("MySQL");
+		chBoxDataBase.getSelectionModel().select("MySQL");
 	}
-
 }

@@ -26,11 +26,6 @@ public class ErroController implements Initializable {
 	@FXML
 	Label lblPrincipal;
 	
-	@FXML 
-	Label lblSecundario;
-	
-	
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		

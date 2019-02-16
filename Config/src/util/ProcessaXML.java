@@ -1,100 +1,112 @@
 package util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
-
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 
 import alerts.Alertas;
 import entitis.Conexao;
 import gui.TelaConfiguracaoController;
 
 public class ProcessaXML {
-
 	
-	public Conexao leituraXml(File arquivo) {
+	public static Conexao dadosConexao = new Conexao();
+	public final static File f = new File(new File("").getAbsolutePath() + "\\..\\Servidor\\META-INF\\conexao.properties");
+	
+	public static void leituraConfig(File arquivo) {
+		Properties prop = new Properties();
 		
-		// Irá utilizar o XStream para realizar a leitura do config.
-		FileReader reader = null;
 		try {
-			//carrega o arquivo XML para um objeto reader
-			reader = new FileReader(arquivo);
+			// Carrega o arquivo proprierts para ser manipulado
+			prop.load(new FileInputStream(arquivo));
+			
+			// Carrega as informações para a entidade 
+			dadosConexao.setDatabase(prop.getProperty("prop.server.database"));
+			dadosConexao.setHost(prop.getProperty("prop.server.host"));
+			dadosConexao.setPorta(prop.getProperty("prop.server.port"));
+			dadosConexao.setBase(prop.getProperty("prop.server.base"));
+			dadosConexao.setUsuario(prop.getProperty("prop.server.login"));
+			dadosConexao.setSenha(prop.getProperty("prop.server.password"));
+			
 		} catch (FileNotFoundException e) {
-			System.out.println("Não foi possivel ler o xml do config.");
+			System.out.println("Não foi possivel ler o arquivo de config, verifique o caminho: " + f.toString());
 			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			System.out.println("Erro ao carregar o arquivo de config.");
+			e.printStackTrace();
+			return;
+		}
+	}
+	
+	public static void gravaConfig() {
+		Boolean resultado = false;
+		Properties prop = new Properties();
+		
+		try {
+			// Carrega o arquivo proprierts para ser manipulado
+			prop.load(new FileInputStream(f));
+			
+			// Carrega as informações para a entidade 
+			prop.setProperty("prop.server.database", dadosConexao.getDatabase());
+			prop.setProperty("prop.server.host", dadosConexao.getHost());
+			prop.setProperty("prop.server.port", dadosConexao.getPorta());
+			prop.setProperty("prop.server.base", dadosConexao.getBase());
+			prop.setProperty("prop.server.login", dadosConexao.getUsuario());
+			prop.setProperty("prop.server.password", dadosConexao.getSenha());
+			
+			FileOutputStream arquivoOut = new FileOutputStream(f);
+			prop.store(arquivoOut, null);
+			
+			resultado = true;
+		} catch (FileNotFoundException e) {
+			System.out.println("Não foi possivel ler o arquivo de config, verifique o caminho: " + f.toString());
+			e.printStackTrace();
+			resultado = false;
+		} catch (IOException e) {
+			System.out.println("Erro ao salvar o arquivo de configuração.");
+			e.printStackTrace();
+			resultado = false;
 		}
 		
-		Properties prop = new Properties();
-	    prop.setProperty("hibernate.connection.driver_class", "oracle.jdbc.driver.OracleDriver");
-	    prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost...");
-	    prop.setProperty("hibernate.connection.username", "root");
-	    prop.setProperty("hibernate.connection.password", "123");
-	    prop.setProperty("dialect", "org.hibernate.dialect.OracleDialect");
-
-	    SessionFactory sessionFactory = new Configuration()
-	            .addPackage("pacote onde estao as entidades")
-	                .addProperties(prop)
-	                .addAnnotatedClass(Conexao.class)
-	                .buildSessionFactory();
-		
-		Conexao cn = new Conexao("teste", "000", "teste", "teste");
-		return cn;
-	}
-	
-	public static void gravaXml(File URL, String user, String password, String driver) {
-		
-		System.out.println("teste");
-		Configuration config = new Configuration();
-		System.out.println("teste");
-		config.configure(URL.toString());
-		System.out.println("teste");
-
-		config.setProperty("javax.persistence.jdbc.user", "update" );
-		System.out.println("teste");
-		config.setProperty("javax.persistence.jdbc.password", "defgh629154" ); 
-		
-		/*Properties prop = new Properties();
-	    prop.setProperty("hibernate.connection.driver_class", "oracle.jdbc.driver.OracleDriver");
-	    prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost...");
-	    prop.setProperty("hibernate.connection.username", "root");
-	    prop.setProperty("hibernate.connection.password", "123");
-	    prop.setProperty("dialect", "org.hibernate.dialect.OracleDialect");
-
-	    SessionFactory sessionFactory = new Configuration()
-	            .addPackage("pacote onde estao as entidades")
-	                .addProperties(prop)
-	                .addAnnotatedClass(Conexao.class)
-	                .buildSessionFactory();*/
-	    
-	   // return sessionFactory;
-		
-	}
-	
-	public void verificaXml(TelaConfiguracaoController cntr) {
-		String caminho = new File("").getAbsolutePath();
-		
-		File f = new File(caminho + "\\..\\Servidor\\META-INF\\hibernate.cfg.xml");
-		if(f.exists()) {
-			ProcessaXML.gravaXml(f, null, null, null);
-			//Conexao cn = leituraXml(f);
-			//cntr.setConfig(cn);
-			
+		if (resultado) {
+			Alertas.Concluido("Salvar", "Arquivo de configuração salvo com sucesso.");
+			System.exit(0);
 		} else {
-			System.out.println("Não encontrado o arquivo xml de configuração, verifique o caminho: \n"+
-							   caminho + "\\..\\Servidor\\META-INF\\hibernate.cfg.xml");
-			
-			Alertas.Erro("Erro ao abrir arquivo de configuração",
-						 "Não foi possivel encontrar arquivo xml de configuração.", 
-						 "Verifique a pasta META-INF no local de instalação.");
+			Alertas.Erro("Erro", "Não foi possivel salvar o arquivo de configuração.");
+		}
+	}
+	
+	public void verificaConfig(TelaConfiguracaoController cntr) {
+		if(f.exists()) {
+			ProcessaXML.leituraConfig(f);
+			cntr.setConfig(dadosConexao);
+			cntr.validaCampos();
+		} else {
+			ProcessaXML.criaConfig(f);
 		}	
 	}
 	
-	public void criaXml() {
+	public static void criaConfig(File arquivo) {
+		Properties prop = new Properties();
 		
+		prop.setProperty("prop.server.database", "");
+		prop.setProperty("prop.server.host", "");
+		prop.setProperty("prop.server.port", "");
+		prop.setProperty("prop.server.base", "");
+		prop.setProperty("prop.server.login", "");
+		prop.setProperty("prop.server.password", "");
+
+		try {
+			FileOutputStream arquivoOut = new FileOutputStream(arquivo);
+			prop.store(arquivoOut, null);
+		} catch (IOException e) {
+			System.out.println("Não foi possivel salvar o arquivo de configuração em: " + arquivo.toString());
+			e.printStackTrace();
+		}		
 	}
 	
 	
