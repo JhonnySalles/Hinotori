@@ -3,9 +3,11 @@ package util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Properties;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 
 import alerts.Alertas;
 import entitis.Conexao;
@@ -25,26 +27,50 @@ public class ProcessaXML {
 			System.out.println("Não foi possivel ler o xml do config.");
 			e.printStackTrace();
 		}
-		/*
-		//Cria o objeto xstream
-		XStream xStream = new XStream(new DomDriver());
-		//informamos as tags que serao lidas
-		//como foi feito no metodo gerarXml002
-		xStream.alias("Contato", Conexao.class);
-		xStream.aliasField("Endereco", Conexao.class, "endereco");
-		xStream.aliasField("Telefones", Conexao.class, "telefones");
-		xStream.alias("Telefone", Conexao.class);
-		//cria um objeto Contato,
-		//contendo os dados do xml
-		Contato contato = (Contato) xStream.fromXML(reader);
-		//Exibimos no console o resultado
-		System.out.println(contato.toString());*/
+		
+		Properties prop = new Properties();
+	    prop.setProperty("hibernate.connection.driver_class", "oracle.jdbc.driver.OracleDriver");
+	    prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost...");
+	    prop.setProperty("hibernate.connection.username", "root");
+	    prop.setProperty("hibernate.connection.password", "123");
+	    prop.setProperty("dialect", "org.hibernate.dialect.OracleDialect");
+
+	    SessionFactory sessionFactory = new Configuration()
+	            .addPackage("pacote onde estao as entidades")
+	                .addProperties(prop)
+	                .addAnnotatedClass(Conexao.class)
+	                .buildSessionFactory();
 		
 		Conexao cn = new Conexao("teste", "000", "teste", "teste");
 		return cn;
 	}
 	
-	public void gravaXml() {
+	public static void gravaXml(File URL, String user, String password, String driver) {
+		
+		System.out.println("teste");
+		Configuration config = new Configuration();
+		System.out.println("teste");
+		config.configure(URL.toString());
+		System.out.println("teste");
+
+		config.setProperty("javax.persistence.jdbc.user", "update" );
+		System.out.println("teste");
+		config.setProperty("javax.persistence.jdbc.password", "defgh629154" ); 
+		
+		/*Properties prop = new Properties();
+	    prop.setProperty("hibernate.connection.driver_class", "oracle.jdbc.driver.OracleDriver");
+	    prop.setProperty("hibernate.connection.url", "jdbc:mysql://localhost...");
+	    prop.setProperty("hibernate.connection.username", "root");
+	    prop.setProperty("hibernate.connection.password", "123");
+	    prop.setProperty("dialect", "org.hibernate.dialect.OracleDialect");
+
+	    SessionFactory sessionFactory = new Configuration()
+	            .addPackage("pacote onde estao as entidades")
+	                .addProperties(prop)
+	                .addAnnotatedClass(Conexao.class)
+	                .buildSessionFactory();*/
+	    
+	   // return sessionFactory;
 		
 	}
 	
@@ -53,9 +79,9 @@ public class ProcessaXML {
 		
 		File f = new File(caminho + "\\..\\Servidor\\META-INF\\hibernate.cfg.xml");
 		if(f.exists()) {
-			System.out.println("Abrir");
-			Conexao cn = leituraXml(f);
-			cntr.setConfig(cn);
+			ProcessaXML.gravaXml(f, null, null, null);
+			//Conexao cn = leituraXml(f);
+			//cntr.setConfig(cn);
 			
 		} else {
 			System.out.println("Não encontrado o arquivo xml de configuração, verifique o caminho: \n"+
