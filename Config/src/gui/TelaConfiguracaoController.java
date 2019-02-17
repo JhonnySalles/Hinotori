@@ -1,6 +1,8 @@
 package gui;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
 import alerts.Alertas;
@@ -8,8 +10,12 @@ import connection.ConexaoMySQL;
 import entitis.Conexao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -17,6 +23,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import util.Animacao;
@@ -74,34 +82,71 @@ public class TelaConfiguracaoController implements Initializable {
 	}
 	
 	@FXML
+	public void onBtnTesteEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if (e.getCode().toString().equals("ENTER")) {
+			btnTestarConexao.fire();
+		}
+	}
+	
+	@FXML
 	public void onBtnTesteClick() {
+		background.getScene().getRoot().setCursor(Cursor.WAIT);
+
 		lblAviso.setText("");
 		lblAviso.setVisible(false);
 		pnImgAviso.setVisible(false);
 		chBoxBase.getItems().clear();
-
+		
 		if (validaCampos() && Constraints.validaIp(txtIP)) {
-			Animacao.inicia(imgViewConexao);
 			
-			if (ConexaoMySQL.testaConexaoMySQL(txtIP.getText().toString(), txtPorta.getText().toString(), 
-											   chBoxDataBase.getSelectionModel().getSelectedItem().toString(),
-											   txtUsuario.getText().toString(), pswSenha.getText().toString(), chBoxBase)) {
+				Animacao.inicia(imgViewConexao);	
 				
-				Animacao.timeline.stop();
-				TelaConfiguracaoController.this.aviso("", "Conectado com sucesso!");
+				// Criação da thread para que esteja validando a conexão e não trave a tela.
+				Task<Boolean> verificaConexao = new Task<Boolean>() {
+	
+					@Override
+					protected Boolean call() throws Exception {
+						return ConexaoMySQL.testaConexaoMySQL(txtIP.getText().toString(), txtPorta.getText().toString(), 
+	 							  chBoxDataBase.getSelectionModel().getSelectedItem().toString(),
+	 							  txtUsuario.getText().toString(), pswSenha.getText().toString());
+					}
+					
+					@Override
+					protected void succeeded() {
+						Animacao.timeline.stop();
+						Boolean conectado = getValue();
+						
+						if (conectado) {
+							TelaConfiguracaoController.this.aviso("", "Conectado com sucesso!");
 
-				imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataConectado_48.png")));
-				imgViewConexao.setFitWidth(48);
-				imgViewConexao.setFitHeight(48);
-				
-			} else {
-				Animacao.timeline.stop();
-				TelaConfiguracaoController.this.aviso("", "Não foi possivel conectar ao banco, verifique os dados de conexão!");
-				
-				imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataSemConexao_48.png")));
-				imgViewConexao.setFitWidth(48);
-				imgViewConexao.setFitHeight(48);
-			}
+							imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataConectado_48.png")));
+							imgViewConexao.setFitWidth(48);
+							imgViewConexao.setFitHeight(48);
+							
+							chBoxBase.getItems().addAll(ConexaoMySQL.bases);
+							chBoxBase.setDisable(false);
+							chBoxBase.getSelectionModel().select(0);
+							
+						} else {
+							TelaConfiguracaoController.this.aviso("", "Não foi possivel conectar ao banco, verifique os dados de conexão!");
+							
+							imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataSemConexao_48.png")));
+							imgViewConexao.setFitWidth(48);
+							imgViewConexao.setFitHeight(48);
+						}
+						background.getScene().getRoot().setCursor(null);
+					}
+				};
+					Thread t = new Thread(verificaConexao);
+					t.setDaemon(true);
+					t.start();
+		}
+	}
+	
+	@FXML
+	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if (e.getCode().toString().equals("ENTER")) {
+			btnCancelar.fire();
 		}
 	}
 	
@@ -109,6 +154,13 @@ public class TelaConfiguracaoController implements Initializable {
 	public void onBtnCancelarClick() {
 		if (Alertas.Confirmacao("Sair", "Deseja realmente cancelar? \nToda a alteração será descartada.")) {
 			System.exit(0);
+		}
+	}
+	
+	@FXML
+	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if (e.getCode().toString().equals("ENTER")) {
+			btnConfirmar.fire();
 		}
 	}
 	
@@ -125,6 +177,41 @@ public class TelaConfiguracaoController implements Initializable {
 	@FXML
 	public void onTxtPortaEventAction() {
 		Constraints.setTxtFieldPort(txtIP);
+	}
+	
+	@FXML
+	public void onIpEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if (e.getCode().toString().equals("ENTER")) {
+			txtPorta.requestFocus();
+		}
+	}
+	
+	@FXML
+	public void onPortaEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if (e.getCode().toString().equals("ENTER")) {
+			chBoxDataBase.requestFocus();
+		}
+	}
+	
+	@FXML
+	public void onDataBaseEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if (e.getCode().toString().equals("ENTER")) {
+			txtUsuario.requestFocus();
+		}
+	}
+	
+	@FXML
+	public void onUsuarioEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if (e.getCode().toString().equals("ENTER")) {
+			pswSenha.requestFocus();
+		}
+	}
+	
+	@FXML
+	public void onSenhaEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if (e.getCode().toString().equals("ENTER")) {
+			btnTestarConexao.requestFocus();
+		}
 	}
 	
 	public void onTxtIPExitAction() {
@@ -233,7 +320,7 @@ public class TelaConfiguracaoController implements Initializable {
 	}
 	
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		Constraints.setTxtFieldPort(txtPorta);
 		
 		txtIP.focusedProperty().addListener(new ChangeListener<Boolean>(){
