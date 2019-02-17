@@ -1,4 +1,4 @@
-package Projeto.Restaurante;
+package br.com.shiyoken.restaurante;
 
 /**
  * Hello world!

@@ -1,5 +1,6 @@
 package util;
 
+import application.Main;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -10,9 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public class Animacao  {
-	
-	final static double Width = 48;
-	final static double Height = 48;
 	
 	final static Image banco = new Image(Animacao.class.getResource("../images/config/icoDataBase_48.png").toString());
 	final static Image conectando = new Image(Animacao.class.getResource("../images/config/icoDataEspera_48.png").toString());
@@ -28,16 +26,16 @@ public class Animacao  {
 					@Override
 					public void handle(ActionEvent t) {
 						img.setImage(banco);
-						img.setFitWidth(Width);
-						img.setFitHeight(Height);
+						img.setFitWidth(Main.imgBancoWidth);
+						img.setFitHeight(Main.imgBancoHeight);
 					}
 				}),
 				new KeyFrame(Duration.millis(500), new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
 						img.setImage(conectando);
-						img.setFitWidth(Width);
-						img.setFitHeight(Height);
+						img.setFitWidth(Main.imgBancoWidth);
+						img.setFitHeight(Main.imgBancoHeight);
 					}
 				})
 				);
@@ -45,5 +43,4 @@ public class Animacao  {
 		timeline.play();
 		
 	}
-
 }

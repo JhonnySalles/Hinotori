@@ -18,6 +18,9 @@ import util.ProcessaXML;
 
 public class Main extends Application {
 	
+	final public static double imgBancoWidth = 35;
+	final public static double imgBancoHeight = 35;
+	
 	// Metodo para fazer a tela se movimentar
 	@SuppressWarnings("unused")
 	private double xOffset = 0;

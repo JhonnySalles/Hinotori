@@ -14,7 +14,6 @@ public class ConexaoMySQL {
 
 	public static Boolean testaConexaoMySQL(String server, String port, String dataBase, String user, String psswd) {
 
-
 		Connection connection = null;
 		Boolean conecta = false;
 		bases.clear();

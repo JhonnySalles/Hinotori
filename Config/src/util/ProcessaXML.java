@@ -10,6 +10,7 @@ import java.util.Properties;
 import alerts.Alertas;
 import entitis.Conexao;
 import gui.TelaConfiguracaoController;
+import model.encode.Encryption;
 
 public class ProcessaXML {
 	
@@ -22,14 +23,14 @@ public class ProcessaXML {
 		try {
 			// Carrega o arquivo proprierts para ser manipulado
 			prop.load(new FileInputStream(arquivo));
-			
+
 			// Carrega as informações para a entidade 
 			dadosConexao.setDatabase(prop.getProperty("prop.server.database"));
 			dadosConexao.setHost(prop.getProperty("prop.server.host"));
 			dadosConexao.setPorta(prop.getProperty("prop.server.port"));
 			dadosConexao.setBase(prop.getProperty("prop.server.base"));
 			dadosConexao.setUsuario(prop.getProperty("prop.server.login"));
-			dadosConexao.setSenha(prop.getProperty("prop.server.password"));
+			dadosConexao.setSenha(Encryption.decodifica(prop.getProperty("prop.server.password")));
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("Não foi possivel ler o arquivo de config, verifique o caminho: " + f.toString());
@@ -56,7 +57,7 @@ public class ProcessaXML {
 			prop.setProperty("prop.server.port", dadosConexao.getPorta());
 			prop.setProperty("prop.server.base", dadosConexao.getBase());
 			prop.setProperty("prop.server.login", dadosConexao.getUsuario());
-			prop.setProperty("prop.server.password", dadosConexao.getSenha());
+			prop.setProperty("prop.server.password", Encryption.codifica(dadosConexao.getSenha()));
 			
 			FileOutputStream arquivoOut = new FileOutputStream(f);
 			prop.store(arquivoOut, null);
@@ -93,12 +94,12 @@ public class ProcessaXML {
 	public static void criaConfig(File arquivo) {
 		Properties prop = new Properties();
 		
-		prop.setProperty("prop.server.database", "");
-		prop.setProperty("prop.server.host", "");
-		prop.setProperty("prop.server.port", "");
-		prop.setProperty("prop.server.base", "");
-		prop.setProperty("prop.server.login", "");
-		prop.setProperty("prop.server.password", "");
+		prop.setProperty("prop.server.database", "base");
+		prop.setProperty("prop.server.host", "localhost");
+		prop.setProperty("prop.server.port", "3306");
+		prop.setProperty("prop.server.base", "mysql");
+		prop.setProperty("prop.server.login", "admin");
+		prop.setProperty("prop.server.password", "HmbiDggIHlM\\=");
 
 		try {
 			FileOutputStream arquivoOut = new FileOutputStream(arquivo);

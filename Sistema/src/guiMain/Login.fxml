@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="800.0" styleClass="LayoutLogin" stylesheets="@../css/DarkTheme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiMain.LoginController">
+<AnchorPane prefHeight="450.0" prefWidth="800.0" styleClass="LayoutLogin" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiMain.LoginController">
    <children>
       <Pane fx:id="paneLogin" layoutX="200.0" layoutY="117.0" prefHeight="200.0" prefWidth="591.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0">
          <children>
@@ -23,14 +23,16 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="cbBoxUsuario" layoutX="499.0" layoutY="138.0" onKeyPressed="#onUserEnter" prefHeight="25.0" prefWidth="260.0" styleClass="loginSombra" />
+            <ComboBox fx:id="cbBoxUsuario" layoutX="499.0" layoutY="138.0" onKeyPressed="#onUserEnter" prefHeight="25.0" prefWidth="260.0" styleClass="choice-box" />
             <Label layoutX="499.0" layoutY="180.0" text="Senha">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <PasswordField fx:id="pswFieldPassword" layoutX="499.0" layoutY="200.0" maxHeight="25.0" maxWidth="260.0" minHeight="25.0" minWidth="260.0" onKeyPressed="#onPasswordEnter" prefHeight="25.0" prefWidth="260.0" promptText="Digite a senha" styleClass="loginSombra" />
+            <PasswordField fx:id="pswFieldPassword" layoutX="499.0" layoutY="200.0" maxHeight="25.0" maxWidth="260.0" minHeight="25.0" minWidth="260.0" onKeyPressed="#onPasswordEnter" prefHeight="25.0" prefWidth="260.0" promptText="Digite a senha" />
             <Button fx:id="btnLogin" defaultButton="true" layoutX="499.0" layoutY="248.0" maxHeight="25.0" maxWidth="260.0" minHeight="25.0" minWidth="260.0" mnemonicParsing="false" onKeyPressed="#onBtLoginAction" onMouseClicked="#onBtLoginAction" prefHeight="25.0" prefWidth="260.0" styleClass="loginSombra" text="Login" />
+            <ImageView fx:id="imgViewAviso" fitHeight="20.0" fitWidth="20.0" layoutX="467.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="lblAviso" layoutX="499.0" layoutY="319.0" prefHeight="38.0" prefWidth="208.0" />
             <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="720.0" layoutY="319.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/login/Shiyoken.png" />

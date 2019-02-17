@@ -1,4 +1,4 @@
-package Projeto.Restaurante;
+package br.com.shiyoken.restaurante;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

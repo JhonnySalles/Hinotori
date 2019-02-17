@@ -6,13 +6,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
 import alerts.Alertas;
+import application.Main;
 import connection.ConexaoMySQL;
 import entitis.Conexao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -24,7 +23,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import util.Animacao;
@@ -120,8 +118,8 @@ public class TelaConfiguracaoController implements Initializable {
 							TelaConfiguracaoController.this.aviso("", "Conectado com sucesso!");
 
 							imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataConectado_48.png")));
-							imgViewConexao.setFitWidth(48);
-							imgViewConexao.setFitHeight(48);
+							imgViewConexao.setFitWidth(Main.imgBancoWidth);
+							imgViewConexao.setFitHeight(Main.imgBancoHeight);
 							
 							chBoxBase.getItems().addAll(ConexaoMySQL.bases);
 							chBoxBase.setDisable(false);
@@ -131,8 +129,8 @@ public class TelaConfiguracaoController implements Initializable {
 							TelaConfiguracaoController.this.aviso("", "Não foi possivel conectar ao banco, verifique os dados de conexão!");
 							
 							imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataSemConexao_48.png")));
-							imgViewConexao.setFitWidth(48);
-							imgViewConexao.setFitHeight(48);
+							imgViewConexao.setFitWidth(Main.imgBancoWidth);
+							imgViewConexao.setFitHeight(Main.imgBancoHeight);
 						}
 						background.getScene().getRoot().setCursor(null);
 					}
