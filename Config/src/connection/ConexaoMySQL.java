@@ -6,13 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import alerts.Alertas;
 import javafx.scene.control.ChoiceBox;
 
 public class ConexaoMySQL {
 	
 	public static Boolean testaConexaoMySQL(String server, String port, String dataBase, 
-			  								  String user, String psswd, ChoiceBox<String> checkBoxBase){
+			  								String user, String psswd, ChoiceBox<String> checkBoxBase){
 		  Connection connection = null;
 		  Boolean conecta = false;
 		  try {
@@ -52,8 +51,10 @@ public class ConexaoMySQL {
 		  } catch (ClassNotFoundException e) {  //Driver não encontrado
 	            System.out.println("O driver de conexão expecificado nao foi encontrado.");
 	            e.printStackTrace();
+	            
 	      } catch (SQLException e) {
 	            System.out.println("Nao foi possivel conectar ao Banco de Dados.");
+	            
 	      }
 		  
 		  return conecta;

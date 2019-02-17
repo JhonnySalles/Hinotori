@@ -46,7 +46,7 @@ public class Alertas {
 
 			Scene tela = new Scene(scPnTelaPrincipal); // Carrega a scena
 			tela.setFill(Color.TRANSPARENT);
-			
+		
 			Stage stageTela = new Stage();
 			stageTela.setScene(tela); // Seta a cena principal
 			

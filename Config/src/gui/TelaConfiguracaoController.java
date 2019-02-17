@@ -88,22 +88,15 @@ public class TelaConfiguracaoController implements Initializable {
 											   txtUsuario.getText().toString(), pswSenha.getText().toString(), chBoxBase)) {
 				
 				Animacao.timeline.stop();
-				lblAviso.setText("Conectado com sucesso!");
-				lblAviso.setVisible(true);
+				TelaConfiguracaoController.this.aviso("", "Conectado com sucesso!");
+
 				imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataConectado_48.png")));
 				imgViewConexao.setFitWidth(48);
 				imgViewConexao.setFitHeight(48);
 				
 			} else {
 				Animacao.timeline.stop();
-				ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinalizaMarcada_48.png")));
-				img.setFitWidth(20);
-				img.setFitHeight(20);
-				
-				pnImgAviso.getChildren().add(img);
-				pnImgAviso.setVisible(true);
-				lblAviso.setText("Não foi possivel conectar ao banco, verifique os dados de conexão!");
-				lblAviso.setVisible(true);
+				TelaConfiguracaoController.this.aviso("", "Não foi possivel conectar ao banco, verifique os dados de conexão!");
 				
 				imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../images/config/icoDataSemConexao_48.png")));
 				imgViewConexao.setFitWidth(48);
@@ -114,7 +107,7 @@ public class TelaConfiguracaoController implements Initializable {
 	
 	@FXML
 	public void onBtnCancelarClick() {
-		if (Alertas.Confirmacao("Sair", "Deseja realmente cancelar? \n Toda a alteração será descartada.")) {
+		if (Alertas.Confirmacao("Sair", "Deseja realmente cancelar? \nToda a alteração será descartada.")) {
 			System.exit(0);
 		}
 	}
@@ -122,7 +115,7 @@ public class TelaConfiguracaoController implements Initializable {
 	@FXML
 	public void onBtnConfirmarClick() {
 		if (chBoxBase.getSelectionModel().getSelectedIndex() < 0) {
-			Alertas.Aviso("Aviso", "");
+			TelaConfiguracaoController.this.aviso("icoAviso_48.png", "Necessário seleceionar uma base, por favor selecione uma base válida!");
 		} else {
 			dadosConexao.setBase(chBoxBase.getSelectionModel().getSelectedItem());
 			ProcessaXML.gravaConfig();
@@ -143,6 +136,26 @@ public class TelaConfiguracaoController implements Initializable {
 			} else {
 				txtIP.setStyle("-fx-border-color: red;");
 			}
+		}
+	}
+	
+	public void aviso(String imagem, String texto) {
+		lblAviso.setVisible(false);
+		pnImgAviso.setVisible(false);
+		
+		if (!imagem.isEmpty()) {
+			ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/"+imagem)));
+			img.setFitWidth(20);
+			img.setFitHeight(20);
+			
+			pnImgAviso.getChildren().clear();
+			pnImgAviso.getChildren().add(img);
+			pnImgAviso.setVisible(true);
+		}
+		
+		if (!texto.isEmpty()) {
+			lblAviso.setText(texto);
+			lblAviso.setVisible(true);
 		}
 	}
 	
@@ -180,15 +193,8 @@ public class TelaConfiguracaoController implements Initializable {
 			if (txtIP.getText().isEmpty()) {
 				txtIP.setStyle("-fx-border-color: red;");
 				if (informe) {
-					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinaliza_48.png")));
-					img.setFitWidth(20);
-					img.setFitHeight(20);
 					
-					pnImgAviso.getChildren().add(img);
-					pnImgAviso.setVisible(true);
-					lblAviso.setText("Porfavor, informe um ip válido!");
-					lblAviso.setVisible(true);
-					
+					TelaConfiguracaoController.this.aviso("icoSinaliza_48.png", "Porfavor, informe um ip válido!");
 					informe = false;
 				}
 			}
@@ -197,15 +203,8 @@ public class TelaConfiguracaoController implements Initializable {
 				txtPorta.setStyle("-fx-border-color: red;");
 				
 				if (informe) {
-					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinaliza_48.png")));
-					img.setFitWidth(20);
-					img.setFitHeight(20);
 					
-					pnImgAviso.getChildren().add(img);
-					pnImgAviso.setVisible(true);
-					lblAviso.setText("Porfavor, informe a porta!");
-					lblAviso.setVisible(true);
-					
+					TelaConfiguracaoController.this.aviso("icoSinaliza_48.png", "Porfavor, informe a porta!");
 					informe = false;
 				}
 			}
@@ -214,15 +213,8 @@ public class TelaConfiguracaoController implements Initializable {
 				txtUsuario.setStyle("-fx-border-color: red;");
 				
 				if (informe) {
-					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinaliza_48.png")));
-					img.setFitWidth(20);
-					img.setFitHeight(20);
-					
-					pnImgAviso.getChildren().add(img);
-					pnImgAviso.setVisible(true);
-					lblAviso.setText("Porfavor, informe o usuário!");
-					lblAviso.setVisible(true);
-					
+
+					TelaConfiguracaoController.this.aviso("icoSinaliza_48.png", "Porfavor, informe o usuário!");
 					informe = false;
 				}
 			}
@@ -231,15 +223,8 @@ public class TelaConfiguracaoController implements Initializable {
 				pswSenha.setStyle("-fx-border-color: red;");
 				
 				if (informe) {
-					ImageView img = new ImageView(new Image(getClass().getResourceAsStream("../images/config/icoSinaliza_48.png")));
-					img.setFitWidth(20);
-					img.setFitHeight(20);
 					
-					pnImgAviso.getChildren().add(img);
-					pnImgAviso.setVisible(true);
-					lblAviso.setText("Porfavor, informe a senha!");
-					lblAviso.setVisible(true);
-					
+					TelaConfiguracaoController.this.aviso("icoSinaliza_48.png", "Porfavor, informe a senha!");
 					informe = false;
 				}
 			}	

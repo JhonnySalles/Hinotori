@@ -35,7 +35,7 @@
       <Pane fx:id="paneDireita" layoutX="100.0" layoutY="-2.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <children>
             <Button fx:id="btnOk" layoutX="121.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="btnOkConfirma" text="OK" />
-            <Label fx:id="lblPrincipal" layoutX="39.0" layoutY="10.0" prefHeight="72.0" prefWidth="324.0" text="Necessário seleceionar uma base, por favor selecione uma base válida." wrapText="true" />
+            <Label fx:id="lblPrincipal" layoutX="39.0" layoutY="10.0" prefHeight="72.0" prefWidth="324.0" wrapText="true" />
          </children>
       </Pane>
    </children>

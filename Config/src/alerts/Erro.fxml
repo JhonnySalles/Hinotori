@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="150.0" prefWidth="500.0" style="-fx-effect: dropshadow( one-pass-box , #333333, 0, 0.0 , 3, 3);;" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alerts.ErroController">
+<AnchorPane prefHeight="150.0" prefWidth="500.0" style="-fx-effect: dropshadow( one-pass-box , #333333, 0, 0.0 , 3, 3); -fx-border-color: black; -fx-border-width: 1px;" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alerts.ErroController">
    <children>
-      <Pane layoutY="2.0" prefHeight="20.0" prefWidth="400.0" style="-fx-background-color: #000000; -fx-opacity: 0.7;" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutY="2.0" prefHeight="20.0" prefWidth="400.0" style="-fx-background-color: #000000; -fx-opacity: 0.7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fx:id="ImgVwIconeTitulo" fitHeight="18.0" fitWidth="18.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
