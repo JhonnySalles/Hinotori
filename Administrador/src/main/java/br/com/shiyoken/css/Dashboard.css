@@ -4,7 +4,55 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-/*--------  Panels de rolagens ----------*/
+/*---------- Estilos de background ----------*/
+
+.background-1 {
+    -fx-background-color:  #000000;
+}
+
+.background-2 {
+    -fx-background-color:  #333333;
+}
+
+.background-3 {
+    -fx-background-color:  #212121;
+}
+
+/*---------- Estilos de fonte ----------*/
+.texto-titulo{
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+}
+
+.texto-stilo-1{
+    -fx-text-fill: white;
+}
+.texto-stilo-2 {
+    -fx-background-color:  #ffffff;
+}
+
+
+/*---------- Estilos do menu ----------*/
+.menu-bar {
+    -fx-background-color: #212121;
+}
+
+.menu .label, .menu-item .label {
+    -fx-text-fill: #eee;
+}
+.menu:hover, .menu:focused, .menu:pressed {
+    -fx-background-color: #005a9e;
+}
+.menu-item:hover {
+    -fx-background-color: #005a9e;
+}
+.context-menu {
+    -fx-fill: white;
+    -fx-background-color: linear-gradient(#212121 0%, #212121  100%);
+    -fx-effect: dropshadow( one-pass-box , rgba(75,75,75,0.8) , 0, 0.0 , 2, 2);
+}
+
+/*----------  Panels de rolagens ----------*/
 .split-pane:horizontal > .split-pane-divider {
 	-fx-background-color: transparent;
 }
@@ -17,7 +65,7 @@
 }
 
 
-/*--------  Tab panels ----------*/
+/*----------  Tab panels ----------*/
 .tab-pane {
     -fx-tab-min-height: 3em;
     -fx-tab-max-height: 3em;
