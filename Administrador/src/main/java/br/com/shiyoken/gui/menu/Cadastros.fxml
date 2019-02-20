@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="150.0" minHeight="-Infinity" minWidth="60.0" prefHeight="526.0" prefWidth="150.0" spacing="5.0" styleClass="background-Black3" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXButton fx:id="btnCadCliente" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Cad. cliente" textFill="WHITE" />
+      <JFXButton fx:id="btnCadFilial" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Cad. filial" textFill="WHITE" />
+      <JFXButton fx:id="btnCadUsuario" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Cad.usuario" textFill="WHITE" />
+   </children>
+   <padding>
+      <Insets bottom="5.0" top="5.0" />
+   </padding>
+   <stylesheets>
+      <URL value="@../../resources/css/Dashboard.css" />
+      <URL value="@../../resources/css/Botoes.css" />
+   </stylesheets>
+</VBox>

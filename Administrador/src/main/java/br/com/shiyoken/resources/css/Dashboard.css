@@ -6,17 +6,42 @@
 
 /*---------- Estilos de background ----------*/
 
-.background-1 {
-    -fx-background-color:  #000000;
+.background-Black1 {
+     -fx-background-color:  #000000;
+ }
+
+.background-Black2 {
+    -fx-background-color:  #212121;
 }
 
-.background-2 {
+.background-Black3 {
     -fx-background-color:  #333333;
 }
 
-.background-3 {
-    -fx-background-color:  #212121;
+.background-Black4 {
+    -fx-background-color:  #3c3c3c;
 }
+
+.background-Black5 {
+    -fx-background-color:  #666666;
+}
+
+.background-Blue1 {
+    -fx-background-color:  #004578;
+}
+
+.background-Blue2 {
+    -fx-background-color:  #005a9e;
+}
+
+.background-Blue3 {
+    -fx-background-color:  #106ebe;
+}
+
+.background-Blue4 {
+    -fx-background-color:  #0078d4;
+}
+
 
 /*---------- Estilos de fonte ----------*/
 .texto-titulo{
@@ -66,11 +91,21 @@
 
 
 /*----------  Tab panels ----------*/
+
+/* Remove a borda de selecao da tab */
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.tab-header-area .tab-header-background {
+    -fx-background-color: #0078d4;
+}
+
 .tab-pane {
     -fx-tab-min-height: 3em;
     -fx-tab-max-height: 3em;
     -fx-tab-min-width: 4em;
-    -fx-tab-max-width: 4em;
     -fx-padding: 0 0 0 0;
 }
 
@@ -94,5 +129,18 @@
     -fx-background-insets: 0;
     -fx-border-width: 3 0 0 0;
     -fx-border-color: #000000;
-
 }
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #96b946;
+}
+
+
