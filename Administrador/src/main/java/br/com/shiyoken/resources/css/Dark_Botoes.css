@@ -6,7 +6,7 @@
 
 /*---------- Botoes Cadastros ----------*/
 #btnCadastros {
-    -fx-background-image: url("../images/btnMain/bntCadastros_100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntCadastros_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -15,18 +15,18 @@
 }
 
 #btnCadastros:hover {
-    -fx-background-image: url("../images/btnMain/bntCadastros_Hover100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntCadastros_Hover100.png");
     -fx-text-fill: #2ecc71;
 }
 
 #btnCadastros:focused{
-    -fx-background-image: url("../images/btnMain/bntCadastros_Select100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntCadastros_Select100.png");
     -fx-text-fill: #ffffff;
 }
 
 /* Cadastro filial */
 #btnCadFilial {
-    -fx-background-image: url("../images/btnMain/bntFilial_100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntFilial_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -35,18 +35,18 @@
 }
 
 #btnCadFilial:hover {
-    -fx-background-image: url("../images/btnMain/bntFilial_Hover100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntFilial_Hover100.png");
     -fx-text-fill: #2ecc71;
 }
 
 #btnCadFilial:focused{
-    -fx-background-image: url("../images/btnMain/bntFilial_Select100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntFilial_Select100.png");
     -fx-text-fill: #ffffff;
 }
 
 /* Cadastro usuario */
 #btnCadUsuario {
-    -fx-background-image: url("../images/btnMain/bntUsuario_100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntUsuario_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -55,18 +55,18 @@
 }
 
 #btnCadUsuario:hover {
-    -fx-background-image: url("../images/btnMain/bntUsuario_Hover100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntUsuario_Hover100.png");
     -fx-text-fill: #2ecc71;
 }
 
 #btnCadUsuario:focused{
-    -fx-background-image: url("../images/btnMain/bntUsuario_Select100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntUsuario_Select100.png");
     -fx-text-fill: #ffffff;
 }
 
 /* Cadastro cliente */
 #btnCadCliente {
-    -fx-background-image: url("../images/btnMain/bntCliente_100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntCliente_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -75,12 +75,12 @@
 }
 
 #btnCadCliente:hover {
-    -fx-background-image: url("../images/btnMain/bntCliente_Hover100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntCliente_Hover100.png");
     -fx-text-fill: #2ecc71;
 }
 
 #btnCadCliente:focused{
-    -fx-background-image: url("../images/btnMain/bntCliente_Select100.png");
+    -fx-background-image: url("../images/btnMain_Dark/bntCliente_Select100.png");
     -fx-text-fill: #ffffff;
 }
 

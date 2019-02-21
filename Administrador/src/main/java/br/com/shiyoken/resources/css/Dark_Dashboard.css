@@ -42,6 +42,64 @@
     -fx-background-color:  #0078d4;
 }
 
+.background-Blue5 {
+    -fx-background-color:  #71afe5;
+}
+
+.background-White1 {
+    -fx-background-color:  #ffffff;
+}
+
+.background-White2 {
+    -fx-background-color:  #eaeaea;
+}
+
+.background-White3 {
+    -fx-background-color:  #dadada;
+}
+
+.background-White4 {
+    -fx-background-color:  #d0d0d0;
+}
+
+.background-Red1 {
+    -fx-background-color:  #a4262c;
+}
+
+.background-Red2 {
+    -fx-background-color:  #ef6950;
+}
+
+.background-Green1 {
+        -fx-background-color:  #407855;
+}
+
+.background-Purple1 {
+    -fx-background-color:  #854085;
+}
+
+.background-Purple2 {
+    -fx-background-color:  #8764b8;
+}
+
+.background-Purple3 {
+    -fx-background-color:  #b4a0ff;
+}
+
+
+.background-Orange1 {
+    -fx-background-color:  #ca5010;
+}
+
+.background-Indigo1 {
+    -fx-background-color:  #4052ab;
+}
+
+
+.background-Yellow1 {
+    -fx-background-color:  #ffc83d;
+}
+
 
 /*---------- Estilos de fonte ----------*/
 .texto-titulo{
@@ -144,3 +202,29 @@
 }
 
 
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Clientes ------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------  Image cliente ----------*/
+
+.imgview-cliente{
+    -fx-border-color: red;
+    -fx-border-radius: 5;
+}
+
+.tituloBackground-clientes{
+    -fx-background-image: url("../images/background/textura-couro-preto-4k.jpg");
+    -fx-background-position: center;
+    -fx-background-size: 600 600;
+    -fx-background-repeat: no-repeat;
+}
+.imgBackground-clientes{
+    -fx-background-image: url("../images/icon/icoClientes.png");
+    -fx-background-position: center;
+    -fx-background-size: 200 200;
+    -fx-background-repeat: no-repeat;
+    -fx-opacity: 0.7;
+}
