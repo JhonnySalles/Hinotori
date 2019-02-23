@@ -220,6 +220,7 @@
     -fx-background-position: center;
     -fx-background-size: 600 600;
     -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
 }
 .imgBackground-clientes{
     -fx-background-image: url("../images/icon/icoClientes.png");
@@ -228,3 +229,4 @@
     -fx-background-repeat: no-repeat;
     -fx-opacity: 0.7;
 }
+
