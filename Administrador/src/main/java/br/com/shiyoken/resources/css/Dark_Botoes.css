@@ -25,7 +25,7 @@
 }
 
 /* Cadastro filial */
-#btnCadFilial {
+#btnCadEmpresa {
     -fx-background-image: url("../images/btnMain_Dark/bntFilial_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
@@ -34,12 +34,12 @@
     -fx-text-fill: #ffffff;
 }
 
-#btnCadFilial:hover {
+#btnCadEmpresa:hover {
     -fx-background-image: url("../images/btnMain_Dark/bntFilial_Hover100.png");
     -fx-text-fill: #2ecc71;
 }
 
-#btnCadFilial:focused{
+#btnCadEmpresa:focused{
     -fx-background-image: url("../images/btnMain_Dark/bntFilial_Select100.png");
     -fx-text-fill: #ffffff;
 }
@@ -88,7 +88,7 @@
 
 
 /*---------- Botoes Padroes ----------*/
-#btnPsq {
+.btnPsq {
     -fx-background-image: url("../images/btn/btnPesquisar_48.png");
     -fx-background-position: 0 0;
     -fx-background-size: 20 20;
@@ -97,15 +97,15 @@
     -fx-text-fill: #ffffff;
 }
 
-#btnPsq:hover {
+.btnPsq:hover {
     -fx-text-fill: #2ecc71;
 }
 
-#btnPsq:focused{
+.btnPsq:focused{
     -fx-text-fill: #ffffff;
 }
 
-#btnPsq:pressed {
+.btnPsq:pressed {
     -fx-padding: 15 13 14 15; /* Pading Ã© a movimentaÃ§Ã£o da descriÃ§Ã£o do botÃ£o, ele Ã© o espaÃ§amento entre os elementos. */
     -fx-background-insets: 2 0 0 0,2 0 3 0,2 0 4 0,2 0 5 0;
     -fx-background-position: 2 2;
