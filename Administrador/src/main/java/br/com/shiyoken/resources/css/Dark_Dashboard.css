@@ -67,11 +67,19 @@
 }
 
 .background-Red2 {
+    -fx-background-color:  #f44336;
+}
+
+.background-Red3 {
     -fx-background-color:  #ef6950;
 }
 
 .background-Green1 {
         -fx-background-color:  #407855;
+}
+
+.background-Green2 {
+    -fx-background-color:  #7cb342;
 }
 
 .background-Purple1 {
@@ -144,7 +152,12 @@
 }
 
 .split-pane *.split-pane-divider {
-    -fx-padding: 0 0 0 1;
+    -fx-padding: 0;
+}
+
+.splitbox {
+    -fx-box-border: #000000;
+    -fx-padding: 1;
 }
 
 
@@ -203,6 +216,39 @@
 
 
 
+/*---------- Estilos do scroll ----------*/
+.scroll-pane {
+    -fx-background-color: black;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #3c3c3c;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: black;
+}
+
+
+
 /*---------- Estilos do rodape ----------*/
 .lblRodape {
     -fx-text-fill: #eee;
@@ -215,24 +261,49 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
 /*----------  Image cliente ----------*/
-
-.imgview-cliente{
-    -fx-border-color: red;
-    -fx-border-radius: 5;
-}
-
 .tituloBackground-clientes{
-    -fx-background-image: url("../images/background/textura-couro-preto-4k.jpg");
-    -fx-background-position: center;
-    -fx-background-size: 600 600;
-    -fx-background-repeat: no-repeat;
-    -fx-background-size: cover;
+    -fx-background-color: linear-gradient(to right top, #0277BD , #1A237E);
 }
 .imgBackground-clientes{
     -fx-background-image: url("../images/icon/icoClientes.png");
     -fx-background-position: center;
     -fx-background-size: 200 200;
     -fx-background-repeat: no-repeat;
-    -fx-opacity: 0.7;
 }
 
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Empresas ------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------  Image empresa ----------*/
+.tituloBackground-empresa{
+    -fx-background-color: linear-gradient(to right top, #C2185B , #b71c1c);
+}
+.imgBackground-empresa{
+    -fx-background-image: url("../images/icon/icoEmpresa.png");
+    -fx-background-position: bottom center;
+
+    -fx-background-size: 300 130;
+    -fx-background-repeat: no-repeat;
+}
+
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Usuarios ------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------  Image usuario ----------*/
+.tituloBackground-usuario{
+    -fx-background-color: linear-gradient(to right top, #689F38 , #1B5E20);
+}
+.imgBackground-usuario{
+    -fx-background-image: url("../images/icon/icoUsuario.png");
+    -fx-background-position: bottom center;
+
+    -fx-background-size: 180 130;
+    -fx-background-repeat: no-repeat;
+}

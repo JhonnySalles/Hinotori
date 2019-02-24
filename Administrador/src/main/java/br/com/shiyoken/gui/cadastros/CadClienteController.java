@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -61,6 +62,19 @@ public class CadClienteController implements Initializable {
 	
 	@FXML
 	ScrollPane background;
+	
+	@FXML
+	private Button btnConfirmar;
+	@FXML
+	private Button btnCancelar;
+	@FXML
+	private Button btnNovo;
+	@FXML
+	private Button btnExcluir;
+	@FXML
+	private Button btnPesquisar;
+	@FXML
+	private Button btnVoltar;
 	
 	
 	@FXML

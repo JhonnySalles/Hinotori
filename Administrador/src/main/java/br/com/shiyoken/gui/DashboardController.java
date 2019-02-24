@@ -36,11 +36,17 @@ public class DashboardController implements Initializable  {
 	private Map<URL, Stage> telas = new HashMap<>();
 	
 	@FXML
-	JFXHamburger btnHamburger;
+	JFXHamburger btnBurgerBotoes;
 	
 	@FXML
-	SplitPane slipPane;
+	SplitPane splitPane;
 	Boolean btnPaneAberto = false;
+	
+	@FXML
+	AnchorPane apBotoes;
+	
+	@FXML
+	AnchorPane apBotoesDetalhes;
 	
 	@FXML
 	VBox vbBotoesDetalhes;
@@ -105,25 +111,32 @@ public class DashboardController implements Initializable  {
 	
 
 	private void apBotoesMovDireita() {
-		DoubleProperty dprop = slipPane.getDividers().get(1).positionProperty();
-		DoubleTransition dt = new DoubleTransition(Duration.millis(800), dprop);
-		dt.setToValue(1); dt.play();		
+		apBotoesDetalhes.setMaxWidth(150);
+		DoubleProperty dprop = splitPane.getDividers().get(1).positionProperty();
+		DoubleTransition dt = new DoubleTransition(Duration.millis(600), dprop);
+		dt.setToValue(1); dt.play();	
+		SplitPane.setResizableWithParent(splitPane, Boolean.FALSE);
 	}
 	
 	private void apBotoesMovEsquerda() {
-		DoubleProperty dprop = slipPane.getDividers().get(1).positionProperty();
-		DoubleTransition dt = new DoubleTransition(Duration.millis(800), dprop);
-		dt.setToValue(0); dt.play();		
+		DoubleProperty dprop = splitPane.getDividers().get(1).positionProperty();
+		DoubleTransition dt = new DoubleTransition(Duration.millis(600), dprop);
+		
+		dt.setToValue(0); dt.play();
+		SplitPane.setResizableWithParent(splitPane, Boolean.FALSE);
+
+
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-			
-		HamburgerBackArrowBasicTransition burgerTask = new HamburgerBackArrowBasicTransition(btnHamburger);
-        burgerTask.setRate(-1);
-		btnHamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            burgerTask.setRate(burgerTask.getRate() * -1);
-            burgerTask.play();
+		
+		
+		HamburgerBackArrowBasicTransition burgerBtnTask = new HamburgerBackArrowBasicTransition(btnBurgerBotoes);
+		burgerBtnTask.setRate(-1);
+        btnBurgerBotoes.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+        	burgerBtnTask.setRate(burgerBtnTask.getRate() * -1);
+        	burgerBtnTask.play();
         });
 	}
 	

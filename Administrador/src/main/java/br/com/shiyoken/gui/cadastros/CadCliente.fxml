@@ -5,8 +5,10 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
@@ -23,11 +25,11 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="800.0" stylesheets="@../../resources/css/Dark_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.shiyoken.gui.cadastros.CadClienteController">
    <children>
-      <ScrollPane fx:id="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fx:id="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="0.0">
          <content>
-            <FlowPane hgap="10.0" styleClass="background-Black3" vgap="10.0">
+            <FlowPane alignment="TOP_CENTER" hgap="10.0" prefHeight="0.0" prefWidth="0.0" prefWrapLength="800.0" styleClass="background-Black3" vgap="10.0">
                <children>
-                  <Pane fx:id="paneBackground" maxHeight="600.0" maxWidth="450.0" minHeight="600.0" minWidth="450.0" prefHeight="600.0" prefWidth="450.0" style="-fx-effect: dropshadow( one-pass-box , #212121, 0, 0.0 , 3, 3);;" styleClass="background-White2">
+                  <Pane fx:id="paneBackground" maxHeight="600.0" maxWidth="450.0" minHeight="600.0" minWidth="450.0" prefHeight="600.0" prefWidth="450.0" styleClass="background-White2">
                      <children>
                         <GridPane alignment="CENTER" prefHeight="140.0" prefWidth="450.0">
                           <columnConstraints>
@@ -52,8 +54,6 @@
                                     <LinearGradient endX="0.6714285714285715" endY="0.4285714285714286" startX="0.3" startY="0.42857142857142855">
                                        <stops>
                                           <Stop color="#125d9e" />
-                                          <Stop color="#1577ff" offset="0.3973614567286802" />
-                                          <Stop color="#177cff" offset="0.42465536990954694" />
                                           <Stop color="#125d9e" offset="0.44847335782280645" />
                                           <Stop color="#1577ff" offset="1.0" />
                                        </stops>
@@ -70,8 +70,6 @@
                                     <LinearGradient endX="0.6714285714285715" endY="0.4285714285714286" startX="0.3" startY="0.42857142857142855">
                                        <stops>
                                           <Stop color="#125d9e" />
-                                          <Stop color="#1577ff" offset="0.3973614567286802" />
-                                          <Stop color="#177cff" offset="0.42465536990954694" />
                                           <Stop color="#125d9e" offset="0.44847335782280645" />
                                           <Stop color="#1577ff" offset="1.0" />
                                        </stops>
@@ -168,5 +166,58 @@
             </FlowPane>
          </content>
       </ScrollPane>
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="10.0" styleClass="background-Blue2" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="btnConfirmar" alignment="BASELINE_RIGHT" defaultButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Confirmar" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="btnCancelar" alignment="BASELINE_RIGHT" cancelButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Cancelar" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="btnNovo" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Novo" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="btnExcluir" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Excluir" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="btnPesquisar" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Pesquisar" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnVoltar" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Voltar" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
