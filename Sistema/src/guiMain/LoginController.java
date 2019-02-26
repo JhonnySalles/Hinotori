@@ -15,7 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import model.encode.DecodeHash;
+//import model.encode.DecodeHash;
 
 public class LoginController implements Initializable {
 	
@@ -94,21 +94,20 @@ public class LoginController implements Initializable {
 		String password = pswFieldPassword.getText();
 		
 		
-		if (DecodeHash.CompPassword(user, password)) {
-			
-			
-		} else {
-			
-			if (cbBoxUsuario.getValue() == null){
-				cbBoxUsuario.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-				cbBoxUsuario.requestFocus();
-			} else {
-				// Deixa o campo de senha em vermelho.
-				pswFieldPassword.setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);");
-				pswFieldPassword.requestFocus(); // Seta o foco no campo
-				pswFieldPassword.selectAll();    // seleciona todo o texto.
-			}		
-		}
+		/*
+		 * if (DecodeHash.CompPassword(user, password)) {
+		 * 
+		 * 
+		 * } else {
+		 * 
+		 * if (cbBoxUsuario.getValue() == null){ cbBoxUsuario.
+		 * setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);"
+		 * ); cbBoxUsuario.requestFocus(); } else { // Deixa o campo de senha em
+		 * vermelho. pswFieldPassword.
+		 * setStyle("-fx-background-color: red,linear-gradient(to bottom, derive(red,60%) 5%,derive(red,90%) 40%);"
+		 * ); pswFieldPassword.requestFocus(); // Seta o foco no campo
+		 * pswFieldPassword.selectAll(); // seleciona todo o texto. } }
+		 */
 		
 	
 	}

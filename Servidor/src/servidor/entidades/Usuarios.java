@@ -1,14 +1,25 @@
 package servidor.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 
 @Entity
@@ -20,53 +31,65 @@ public class Usuarios implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="USR_login" , nullable=false, length=20, unique=true)
-	private String login="Admin";
+	@Column(name="usr_login" , nullable=false, length=20, unique=true)
+	private String login;
 	
-	@Column(name="USR_Nome", length=150)
+	@Column(name="usr_nome", length=150)
 	private String nome;
     
-	@Column(name="USR_Senha")
+	@Column(name="usr_senha")
 	private String senha;
 	
-	@Column(name="USR_email")
+	@Column(name="usr_email")
 	private String email;
-    
-	@Column(name="Emp_Codigo")
-	private int emp_codigo;
-    
-	@Column(name="USR_DtCadastro")
+   
+	@Column(name="usr_dtCadastro")
 	@Temporal(TemporalType.DATE)
 	private Date DtCadastro; 
 	
-	@Column(name="USR_Status")
+	@Column(name="usr_status")
     private int ativo = 1;
     
-	@Column(name="USR_Permissao")
+	@Column(name="usr_permissao")
     private int permissao = 0;
     
-	@Column(name="USR_Supervisor")
+	@Column(name="usr_supervisor")
 	private int supervisor;
 	
-    public Usuarios() {
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "usuariosempresas",    		
+    		joinColumns = 
+    			@JoinColumn(name= "usr_login", referencedColumnName= "usr_login",columnDefinition="varchar(20)",nullable=false),    			
+            inverseJoinColumns = 
+            	@JoinColumn(name = "emp_codigo", referencedColumnName = "emp_codigo", nullable = false), 
+        	foreignKey = 
+            	@ForeignKey(name="Usuarios_Empresas"),
+            inverseForeignKey = 
+            	@ForeignKey(name="Empresas_Usuarios"),
+            uniqueConstraints = {
+            	@UniqueConstraint(name="usuariosempresas", columnNames={"usr_login","emp_codigo"})}
+    		
+    		)           
+	
+	private List<Empresas> trabalha = new ArrayList<>();
+	
+	
+	public Usuarios() {
     }
 
     public Usuarios(String login) {
         this.login = login;
     }
+    
+    
+    
+	public List<Empresas> getTrabalha() {
+		return trabalha;
+	}
 
-    public Usuarios(String login, String nome,String senha,    		
-    		Date DtCadastro, int emp_codigo,
-    		int ativo, int permissao, int supervisor) {
-        this.login = login;
-        this.nome = nome;        
-        this.senha= senha;
-        this.DtCadastro = DtCadastro;
-        this.emp_codigo = emp_codigo;
-        this.setAtivo(ativo);
-        this.setPermissao(permissao);
-        this.supervisor=supervisor;
-    }
+	public void setTrabalha(List<Empresas> trabalha) {
+		this.trabalha = trabalha;
+	}
 
 	public String getLogin() {
 		return login;
@@ -98,14 +121,6 @@ public class Usuarios implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public int getEmp_Codigo() {
-		return emp_codigo;
-	}
-
-	public void setEmp_Codigo(int emp_codigo) {
-		this.emp_codigo = emp_codigo;
 	}
 
 	public Date getDtCadastro() {

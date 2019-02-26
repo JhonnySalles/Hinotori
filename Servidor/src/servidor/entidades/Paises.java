@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -18,36 +17,34 @@ public class Paises implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@SequenceGenerator(name="pais_codigo",sequenceName="pais_codigo",allocationSize = 1) 
-	@GeneratedValue(generator="pais_codigo", strategy = GenerationType.SEQUENCE)
-	private int id;
-	@Column(name="pais_nome")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="pais_codigo",nullable=false, length=11)
+	private int pais_codigo;
+	@Column(name="pais_nome", nullable=false,length=50)
 	private String nome;
-	@Column(name="pais_codbacen")
+	@Column(name="pais_codbacen", length=11)
 	private int bacen;
-	
-	
-	
+
 	public Paises() {
 	}
 
 	public Paises(int id) {
-		this.id=id;
+		this.pais_codigo=id;
 	}
 
 	public Paises(int id,String nome, int bacen) {
-		this.id = id;
+		this.pais_codigo= id;
 		this.nome = nome;
 		this.bacen = bacen;
 	}
 
 	
 	public int getId() {
-		return id;
+		return pais_codigo;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.pais_codigo = id;
 	}
 	public String getNome() {
 		return nome;
@@ -66,7 +63,7 @@ public class Paises implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + pais_codigo;
 		return result;
 	}
 
@@ -79,7 +76,7 @@ public class Paises implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Paises other = (Paises) obj;
-		if (id != other.id)
+		if (pais_codigo != other.pais_codigo)
 			return false;
 		return true;
 	}

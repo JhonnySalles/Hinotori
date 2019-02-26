@@ -5,8 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class Controlador {
-
-	private EntityManagerFactory emf;
+private EntityManagerFactory emf;
 
 	private static Persistence persistence;
 

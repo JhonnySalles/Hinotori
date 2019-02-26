@@ -4,12 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ForeignKey;
+
+@SuppressWarnings("deprecation")
 @Entity
 @Table(name="Estados") 
 public class Estados implements Serializable{
@@ -20,35 +22,36 @@ public class Estados implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@SequenceGenerator(name="estado_codigo",sequenceName="estado_codigo",allocationSize = 1) 
-	@GeneratedValue(generator="estado_codigo", strategy = GenerationType.SEQUENCE)
-	private int id;
+	@Column(name="estado_sigla", nullable=false, unique=true, length=2) 
+	private String sigla;
 	
-	@Column(name="estado_nome", nullable=false)
+	@Column(name="estado_nome", nullable=false, length=50)
 	private String nome;
 
-	@Column(name="estado_codibge", nullable=false)
-	private int ibge;
-
+	@Column(name="estado_codibge", nullable=false,length=11)
+	private int ibge;	
 	
-	
-	
+	@ManyToOne
+	@JoinColumn(name = "pais_codigo", referencedColumnName = "pais_codigo", nullable = false)
+	@ForeignKey(name = "Estados_Paises")
+	private Paises pais;
+	 
 	public Estados() {
 	
 	}
 	
-	public Estados(int id, String nome, int codibge) {
-		this.id=id;
+	public Estados(String sigla, String nome, int codibge) {
+		this.sigla=sigla;
 		this.nome=nome;
 		this.ibge=codibge;
 	}
 
-	public int getId() {
-		return id;
+	public String getSigla() {
+		return sigla;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
 
 	public String getNome() {
@@ -67,11 +70,19 @@ public class Estados implements Serializable{
 		this.ibge = ibge;
 	}
 
+    public Paises getPais() {
+        return pais;
+    }
+
+    public void setPais(Paises pais) {
+        this.pais = pais;
+    }
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((sigla == null) ? 0 : sigla.hashCode());
 		return result;
 	}
 
@@ -84,11 +95,11 @@ public class Estados implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Estados other = (Estados) obj;
-		if (id != other.id)
+		if (sigla == null) {
+			if (other.sigla != null)
+				return false;
+		} else if (!sigla.equals(other.sigla))
 			return false;
 		return true;
 	}
-	
-	
-	
 }
