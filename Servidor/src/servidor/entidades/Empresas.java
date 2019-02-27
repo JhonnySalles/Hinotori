@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,8 +32,8 @@ public class Empresas implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="emp_codigo", nullable=false, length=11)
-	
 	private int id;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "usuariosempresas",
     			joinColumns = 
@@ -51,7 +49,7 @@ public class Empresas implements Serializable{
             		}
     		 )
 	private List<Usuarios> emprega = new ArrayList<>();
-	
+		
 	@Column(name="emp_razaosocial", nullable=false, length=255)
 	private String razaoSocial;
 	
@@ -75,8 +73,14 @@ public class Empresas implements Serializable{
 	@Column(name="emp_im", length=25)
 	private String im;
 	
-	@Column(name="emp_descricao", nullable=false,length=255)
-	private String nome;
+	@SuppressWarnings("deprecation")
+	@ManyToOne
+	@JoinColumn(name = "Cid_codigo", referencedColumnName = "Cid_codigo", nullable = false)
+	@org.hibernate.annotations.ForeignKey(name = "Empresas_Cidades")
+	private Cidades cidade;
+	
+	@Column(name="emp_endereco", nullable=false,length=255)
+	private String endereco;
 	
 	@Column(name="emp_numero", length=20)
 	private String numero;
@@ -115,6 +119,22 @@ public class Empresas implements Serializable{
 	
 	public Empresas() {
 	
+	}
+
+	public Cidades getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidades cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 
 	public int getId() {
@@ -187,14 +207,6 @@ public class Empresas implements Serializable{
 
 	public void setIm(String im) {
 		this.im = im;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public String getNumero() {
