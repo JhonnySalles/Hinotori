@@ -1,6 +1,6 @@
-package br.com.shiyoken.administrador;
+package br.com.hinotori.administrador;
 
-import br.com.shiyoken.administrador.gui.DashboardController;
+import br.com.hinotori.administrador.gui.DashboardController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

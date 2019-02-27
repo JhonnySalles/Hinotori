@@ -1,4 +1,4 @@
-package br.com.shiyoken.administrador;
+package br.com.hinotori.administrador;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -19,58 +19,58 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" stylesheets="@../../../resources/css/Dark_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.shiyoken.administrador.gui.cadastros.CadEmpresaController">
+<AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../../../resources/css/Dark_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.hinotori.administrador.gui.cadastros.CadClienteController">
    <children>
       <ScrollPane fx:id="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="0.0">
          <content>
-            <FlowPane alignment="TOP_CENTER" prefHeight="0.0" prefWidth="0.0" prefWrapLength="800.0" styleClass="background-Black3">
+            <FlowPane alignment="TOP_CENTER" hgap="10.0" prefHeight="0.0" prefWidth="0.0" prefWrapLength="800.0" styleClass="background-Black3" vgap="10.0">
                <children>
-                  <Pane fx:id="paneBackground" maxHeight="600.0" maxWidth="450.0" minHeight="600.0" minWidth="450.0" prefHeight="600.0" prefWidth="450.0" style="-fx-background-radius: 10px;" styleClass="background-White2">
+                  <Pane fx:id="paneBackground" maxHeight="550.0" maxWidth="450.0" minHeight="565.0" minWidth="450.0" prefHeight="550.0" prefWidth="450.0" style="-fx-background-radius: 10px;" styleClass="background-White2">
                      <children>
-                        <Pane prefHeight="150.0" prefWidth="450.0" style="-fx-background-radius: 10px;" styleClass="tituloBackground-empresa">
+                        <Pane minHeight="150.0" minWidth="450.0" prefHeight="150.0" prefWidth="450.0" style="-fx-background-radius: 10px;" styleClass="tituloBackground-clientes">
                            <children>
-                              <Pane layoutX="59.0" layoutY="3.0" prefHeight="130.0" prefWidth="333.0" styleClass="imgBackground-empresa" />
+                              <Pane layoutX="134.0" layoutY="5.0" prefHeight="130.0" prefWidth="200.0" styleClass="imgBackground-clientes" />
                            </children>
                         </Pane>
                         <HBox alignment="CENTER" layoutY="133.0">
                            <children>
-                              <Rectangle arcHeight="1.0" arcWidth="5.0" fill="#f44336" height="33.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
+                              <Rectangle arcHeight="1.0" arcWidth="5.0" fill="DODGERBLUE" height="33.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
                               <Polygon points="-10.0, 17.0, -10.0, -16.0, 0.0, -11.0, 10.0, -16.0, 10.0, 17.0, 0.0, 13.0" stroke="TRANSPARENT" strokeType="INSIDE">
                                  <fill>
-                                    <LinearGradient endX="0.7000000000000001" endY="0.4285714285714286" startX="0.26666666666666666" startY="0.42857142857142855">
+                                    <LinearGradient endX="0.6714285714285715" endY="0.4285714285714286" startX="0.3" startY="0.42857142857142855">
                                        <stops>
-                                          <Stop color="#b12f28" />
-                                          <Stop color="#b12f28" offset="0.4408105225737641" />
-                                          <Stop color="#f44336" offset="1.0" />
+                                          <Stop color="#125d9e" />
+                                          <Stop color="#125d9e" offset="0.44847335782280645" />
+                                          <Stop color="#1577ff" offset="1.0" />
                                        </stops>
                                     </LinearGradient>
                                  </fill>
                               </Polygon>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f44336" height="33.0" layoutX="10.0" layoutY="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="310.0" HBox.hgrow="ALWAYS">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="33.0" layoutX="10.0" layoutY="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="310.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Rectangle>
                               <Polygon points="-10.0, 17.0, -10.0, -16.0, 0.0, -11.0, 10.0, -16.0, 10.0, 17.0, 0.0, 13.0" stroke="TRANSPARENT" strokeType="INSIDE">
                                  <fill>
-                                    <LinearGradient endX="0.7571428571428572" endY="0.4285714285714286" startX="0.29047619047619044" startY="0.42857142857142855">
+                                    <LinearGradient endX="0.6714285714285715" endY="0.4285714285714286" startX="0.3" startY="0.42857142857142855">
                                        <stops>
-                                          <Stop color="#b12f28" />
-                                          <Stop color="#b12f28" offset="0.44847335782280623" />
-                                          <Stop color="#f44336" offset="1.0" />
+                                          <Stop color="#125d9e" />
+                                          <Stop color="#125d9e" offset="0.44847335782280645" />
+                                          <Stop color="#1577ff" offset="1.0" />
                                        </stops>
                                     </LinearGradient>
                                  </fill>
                               </Polygon>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f44336" height="33.0" layoutX="125.0" layoutY="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="33.0" layoutX="125.0" layoutY="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
                            </children>
                         </HBox>
-                        <Label contentDisplay="CENTER" layoutX="121.0" layoutY="132.0" text="Cadastro de Empresa" textFill="WHITE">
+                        <Label contentDisplay="CENTER" layoutX="121.0" layoutY="132.0" text="Cadastro de Cliente" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <VBox layoutX="49.0" layoutY="178.0" minHeight="304.0" minWidth="350.0" prefHeight="388.0" prefWidth="352.0" spacing="5.0">
+                        <VBox layoutX="49.0" layoutY="178.0" minHeight="304.0" minWidth="350.0" prefHeight="300.0" prefWidth="352.0" spacing="5.0">
                            <children>
                               <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                                  <children>
@@ -142,7 +142,7 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <Pane layoutX="126.0" layoutY="586.0" prefHeight="14.0" prefWidth="199.0" styleClass="background-Red2" />
+                        <Pane layoutX="125.0" layoutY="551.0" prefHeight="14.0" prefWidth="199.0" styleClass="background-Blue5" />
                      </children>
                      <FlowPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -152,7 +152,7 @@
             </FlowPane>
          </content>
       </ScrollPane>
-      <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="150.0" spacing="10.0" styleClass="background-Red1" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0" spacing="10.0" styleClass="background-Blue2" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
             <Button fx:id="btnConfirmar" alignment="BASELINE_RIGHT" defaultButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../../resources/css/Dark_Botoes.css" text="Confirmar" textFill="WHITE">

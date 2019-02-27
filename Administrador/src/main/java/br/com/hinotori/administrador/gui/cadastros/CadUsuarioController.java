@@ -1,4 +1,4 @@
-package br.com.shiyoken.administrador.gui.cadastros;
+package br.com.hinotori.administrador.gui.cadastros;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
-public class CadEmpresaController implements Initializable {
+public class CadUsuarioController implements Initializable {
 	
 	@FXML
 	JFXTextField txtCodigo;
@@ -76,5 +76,4 @@ public class CadEmpresaController implements Initializable {
 		background.setFitToWidth(true);
 		
 	}
-
 }

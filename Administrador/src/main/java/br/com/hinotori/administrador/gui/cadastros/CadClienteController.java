@@ -1,4 +1,4 @@
-package br.com.shiyoken.administrador.gui.cadastros;
+package br.com.hinotori.administrador.gui.cadastros;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,8 +12,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
+import model.constraints.Limitadores;
+import model.mask.Mascaras;
 
-public class CadUsuarioController implements Initializable {
+public class CadClienteController implements Initializable {
 	
 	@FXML
 	JFXTextField txtCodigo;
@@ -71,9 +73,23 @@ public class CadUsuarioController implements Initializable {
 	private Button btnVoltar;
 	
 	
+	@FXML
+	private void txtCepKeyRelased() {
+		 
+		
+	}
+	
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
 		background.setFitToHeight(true);
 		background.setFitToWidth(true);
+		
+		Limitadores.setTextFieldID(txtCodigo, 11);
+		Limitadores.setTextFieldInteger(txtNumero);
+		
+		Mascaras.cepField(txtCep);
+		Mascaras.foneField(txtTelefone);
+		Mascaras.foneField(txtCelular);		
 		
 	}
 }

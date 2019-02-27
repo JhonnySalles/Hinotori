@@ -1,4 +1,4 @@
-package br.com.shiyoken.administrador.gui;
+package br.com.hinotori.administrador.gui;
 
 import java.io.IOException;
 import java.io.InputStream;
