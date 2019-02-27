@@ -143,6 +143,15 @@
     -fx-effect: dropshadow( one-pass-box , rgba(75,75,75,0.8) , 0, 0.0 , 2, 2);
 }
 
+/* Cor da letra de atalho do teclado */
+.context-menu .accelerator-text {
+    -fx-text-fill: #42A5F5;
+}
+
+.mnemonic-underline {
+    -fx-stroke: #ffffff;
+}
+
 /*----------  Panels de rolagens ----------*/
 .split-pane:horizontal > .split-pane-divider {
 	-fx-background-color: transparent;
@@ -237,12 +246,26 @@
     -fx-background-radius: 0em;
 }
 
+/* Barra */
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
     -fx-background-color: #3c3c3c;
     -fx-background-radius: 5em;
 }
 
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #666666;
+}
+.scroll-bar:horizontal .thumb:pressed,
+.scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #757575;
+
+    -fx-background-insets: 3.0;
+    -fx-effect: dropshadow( one-pass-box , #1e90ff, 4, 4, 0, 0);
+}
+
+/* Quina */
 .scroll-pane > .corner {
     -fx-background-color: black;
 }
@@ -304,6 +327,6 @@
     -fx-background-image: url("../images/icon/icoUsuario.png");
     -fx-background-position: bottom center;
 
-    -fx-background-size: 180 130;
+    -fx-background-size: 180 165;
     -fx-background-repeat: no-repeat;
 }

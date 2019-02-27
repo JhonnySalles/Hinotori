@@ -3,19 +3,15 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -23,29 +19,19 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" stylesheets="@../../resources/css/Dark_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.shiyoken.gui.cadastros.CadUsuarioController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" stylesheets="@../../../resources/css/Dark_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.shiyoken.administrador.gui.cadastros.CadUsuarioController">
    <children>
       <ScrollPane fx:id="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="0.0">
          <content>
             <FlowPane alignment="TOP_CENTER" prefHeight="0.0" prefWidth="0.0" prefWrapLength="800.0" styleClass="background-Black3">
                <children>
-                  <Pane fx:id="paneBackground" maxHeight="600.0" maxWidth="450.0" minHeight="600.0" minWidth="450.0" prefHeight="600.0" prefWidth="450.0" styleClass="background-White2">
+                  <Pane fx:id="paneBackground" maxHeight="600.0" maxWidth="450.0" minHeight="600.0" minWidth="450.0" prefHeight="600.0" prefWidth="450.0" style="-fx-background-radius: 10px;" styleClass="background-White2">
                      <children>
-                        <GridPane alignment="CENTER" prefHeight="140.0" prefWidth="450.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                        <Pane prefHeight="150.0" prefWidth="450.0" style="-fx-background-radius: 10px;" styleClass="tituloBackground-usuario">
                            <children>
-                              <Pane prefHeight="130.0" prefWidth="200.0" styleClass="imgBackground-usuario" />
+                              <Pane layoutX="113.0" layoutY="-2.0" prefHeight="166.0" prefWidth="225.0" styleClass="imgBackground-usuario" />
                            </children>
-                           <styleClass>
-                              <String fx:value="background-Black4" />
-                              <String fx:value="tituloBackground-usuario" />
-                           </styleClass>
-                        </GridPane>
+                        </Pane>
                         <HBox alignment="CENTER" layoutY="133.0">
                            <children>
                               <Rectangle arcHeight="1.0" arcWidth="5.0" fill="#7cb342" height="33.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
@@ -139,7 +125,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                                  <children>
-                                    <JFXButton fx:id="btnPsqCidades" ellipsisString="" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" prefHeight="20.0" prefWidth="20.0" styleClass="btnPsq" stylesheets="@../../resources/css/Dark_Botoes.css" text=" " />
+                                    <JFXButton fx:id="btnPsqCidades" ellipsisString="" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" prefHeight="20.0" prefWidth="20.0" styleClass="btnPsq" stylesheets="@../../../resources/css/Dark_Botoes.css" text=" " />
                                     <JFXTextField fx:id="txtCidade" labelFloat="true" prefHeight="25.0" prefWidth="207.0" promptText="Cidade" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Times New Roman" size="12.0" />
@@ -169,7 +155,7 @@
       <VBox alignment="TOP_CENTER" layoutX="20.0" layoutY="20.0" prefHeight="200.0" prefWidth="150.0" spacing="10.0" styleClass="background-Green2" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="btnConfirmar" alignment="BASELINE_RIGHT" defaultButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Confirmar" textFill="WHITE">
+            <Button fx:id="btnConfirmar" alignment="BASELINE_RIGHT" defaultButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../../resources/css/Dark_Botoes.css" text="Confirmar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -177,7 +163,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button fx:id="btnCancelar" alignment="BASELINE_RIGHT" cancelButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Cancelar" textFill="WHITE">
+            <Button fx:id="btnCancelar" alignment="BASELINE_RIGHT" cancelButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../../resources/css/Dark_Botoes.css" text="Cancelar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -185,7 +171,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button fx:id="btnNovo" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Novo" textFill="WHITE">
+            <Button fx:id="btnNovo" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../../resources/css/Dark_Botoes.css" text="Novo" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -193,7 +179,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button fx:id="btnExcluir" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Excluir" textFill="WHITE">
+            <Button fx:id="btnExcluir" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../../resources/css/Dark_Botoes.css" text="Excluir" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -201,7 +187,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button fx:id="btnPesquisar" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Pesquisar" textFill="WHITE">
+            <Button fx:id="btnPesquisar" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../../resources/css/Dark_Botoes.css" text="Pesquisar" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -209,7 +195,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnVoltar" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Voltar" textFill="WHITE">
+            <Button fx:id="btnVoltar" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../../resources/css/Dark_Botoes.css" text="Voltar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>

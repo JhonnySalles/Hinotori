@@ -1,6 +1,6 @@
 package br.com.shiyoken.administrador;
 
-import br.com.shiyoken.gui.DashboardController;
+import br.com.shiyoken.administrador.gui.DashboardController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,7 +20,7 @@ public class App extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			//Classe inicial
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/Dashboard.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/Dashboard.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 			mainController = loader.getController();
 			

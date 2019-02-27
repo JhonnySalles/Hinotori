@@ -1,4 +1,4 @@
-package br.com.shiyoken.gui.cadastros;
+package br.com.shiyoken.administrador.gui.cadastros;
 
 import java.net.URL;
 import java.util.ResourceBundle;

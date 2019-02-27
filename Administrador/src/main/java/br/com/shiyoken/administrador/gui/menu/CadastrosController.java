@@ -1,9 +1,9 @@
-package br.com.shiyoken.gui.menu;
+package br.com.shiyoken.administrador.gui.menu;
 
 import com.jfoenix.controls.JFXButton;
 
 import br.com.shiyoken.administrador.App;
-import br.com.shiyoken.gui.DashboardController;
+import br.com.shiyoken.administrador.gui.DashboardController;
 import javafx.fxml.FXML;
 
 public class CadastrosController {

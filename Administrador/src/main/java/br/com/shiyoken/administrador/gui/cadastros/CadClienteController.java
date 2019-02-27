@@ -1,4 +1,4 @@
-package br.com.shiyoken.gui.cadastros;
+package br.com.shiyoken.administrador.gui.cadastros;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -79,7 +79,7 @@ public class CadClienteController implements Initializable {
 	
 	@FXML
 	private void txtCepKeyRelased() {
-		
+		 
 		
 	}
 	

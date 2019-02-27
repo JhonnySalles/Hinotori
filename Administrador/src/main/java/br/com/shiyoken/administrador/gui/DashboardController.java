@@ -1,4 +1,4 @@
-package br.com.shiyoken.gui;
+package br.com.shiyoken.administrador.gui;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,7 +82,7 @@ public class DashboardController implements Initializable  {
 	
 	@FXML
 	private void onBtnCadastrosAction() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/menu/Cadastros.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("menu/Cadastros.fxml"));
 		try {
 			VBox vbCadastros = loader.load();
 			vbBotoesDetalhes.getChildren().clear();
@@ -96,17 +96,17 @@ public class DashboardController implements Initializable  {
 	
 	@FXML
 	public void onBtnCadClienteAction() {
-		loadView("../gui/cadastros/CadCliente.fxml", "Cadastro Cliente" ,"../resources/images/icon/icoMenuCliente.png");
+		loadView("cadastros/CadCliente.fxml", "Cadastro Cliente" ,"../../resources/images/icon/icoMenuCliente.png");
 	}
 	
 	@FXML
 	public void onBtnCadEmpresaAction() {
-		loadView("../gui/cadastros/CadEmpresa.fxml", "Cadastro Empresa" ,"../resources/images/icon/icoMenuEmpresa.png");
+		loadView("cadastros/CadEmpresa.fxml", "Cadastro Empresa" ,"../../resources/images/icon/icoMenuEmpresa.png");
 	}
 	
 	@FXML
 	public void onBtnCadUsuarioAction() {
-		loadView("../gui/cadastros/CadUsuario.fxml", "Cadastro Usuario" ,"../resources/images/icon/icoMenuUsuario.png");
+		loadView("cadastros/CadUsuario.fxml", "Cadastro Usuario" ,"../../resources/images/icon/icoMenuUsuario.png");
 	}
 	
 
