@@ -255,11 +255,11 @@
 
 .scroll-bar:horizontal .thumb:hover,
 .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #666666;
+    -fx-background-color: #757575;
 }
 .scroll-bar:horizontal .thumb:pressed,
 .scroll-bar:vertical .thumb:pressed {
-    -fx-background-color: #757575;
+    -fx-background-color: #666666;
 
     -fx-background-insets: 3.0;
     -fx-effect: dropshadow( one-pass-box , #1e90ff, 4, 4, 0, 0);

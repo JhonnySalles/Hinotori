@@ -96,7 +96,7 @@ public class DashboardController implements Initializable  {
 	
 	@FXML
 	public void onBtnCadClienteAction() {
-		loadView("cadastros/CadCliente.fxml", "Cadastro Cliente", "/resources/images/icon/icoMenuCliente.png");
+		loadView("cadastros/CadCliente.fxml", "Cadastro Cliente", "../resources/images/icon/icoMenuCliente.png");
 	}
 	
 	@FXML
@@ -141,9 +141,13 @@ public class DashboardController implements Initializable  {
 	}
 	
 	private static ImageView buildImage(InputStream inputStream) { // Redimenciona a imagem para a aba
+		if (inputStream == null) {
+			return null;
+		}
+		
 		Image i = new Image(inputStream);
 		ImageView imageView = new ImageView();
-		// You can set width and height
+	
 		imageView.setFitHeight(16);
 		imageView.setFitWidth(16);
 		imageView.setImage(i);

@@ -1,5 +1,6 @@
 package Sistema;
 
+import Servidor.persistencia.Controlador;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -12,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 
 /**
  * Hello world!
@@ -87,7 +89,7 @@ public class App extends Application {
 	}
 	
 	public static void main(String[] args) {
-		//Controlador com = new Controlador();
+		Controlador com = new Controlador();
 		launch(args);
 	}
 }

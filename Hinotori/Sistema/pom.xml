@@ -22,6 +22,13 @@
   </properties>
   
   <dependencies>
+  <!-- Dependencia para o módulo comum  -->
+  	<dependency>
+    	<groupId>br.com.Hinotori</groupId>
+    	<artifactId>Servidor</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>  	
+  	</dependency>
+  
 	<dependency>
     	<groupId>io.github.typhon0</groupId>
     	<artifactId>AnimateFX</artifactId>
