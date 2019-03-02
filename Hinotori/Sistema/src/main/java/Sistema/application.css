@@ -1,0 +1,104 @@
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Estilos de Login ----------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*--------  Botao de login ----------*/
+#btnLogin {
+    -fx-background-color: radial-gradient(center 80% 10% , radius 180% , #58E82D 0%, #212121 100%);
+    -fx-text-fill: #ffffff;
+    -fx-text-stroke: black;
+    -fx-stroke-width: 1;
+}
+
+#btnLogin:hover {
+    -fx-background-color: linear-gradient(to top, #58E82D 0%, #212121 100%);
+    -fx-text-fill: #ffffff;
+}
+
+#btnLogin:pressed {
+    -fx-background-color: linear-gradient(to right, #212121 0%, #212121 100%);
+    -fx-text-fill: #ffffff;
+}
+
+#paneLogin{
+    -fx-background-color: linear-gradient(to bottom right, #f2f2f2 0%, #ffffff 50%, #d9d9d9 100%);
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.25) , 0, 0.2 , 5, 5);
+}
+
+
+#paneLogo{
+    -fx-background-color: linear-gradient(to bottom right, #000000 0%, #212121 50%, #333333 100%);
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.25) , 0, 0.2 , 5, 5);
+}
+
+.logoTexto{
+    -fx-text-fill: white;
+}
+
+.loginSombra {
+    -fx-effect: dropshadow( one-pass-box , #333333, 0, 0.0 , 3, 3);
+}
+
+
+/*--------  Botao de exit ----------*/
+#btnExit{
+    -fx-background-color: transparent;
+    -fx-background-image: url("resources/images/login/btnExit_48.png");
+    -fx-background-position: 0 0;
+    -fx-background-size: 20 20;
+    -fx-background-repeat: no-repeat;
+}
+
+#btnExit:focused{
+    -fx-background-color: rgba(153, 206, 255,0.5);
+    -fx-background-radius: 0;
+    -fx-border-color: #0084ff;
+}
+
+#btnExit:hover{
+    -fx-background-color: rgba(153, 206, 255,0.5);
+    -fx-background-radius: 0;
+    -fx-border-color: #0084ff;
+}
+
+/*--------  Background do login ----------*/
+.LayoutLogin{
+    -fx-background-color:  transparent;
+}
+
+
+/*--------  Campos de texto ----------*/
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: grey;
+    -fx-border-width: 0 0 2 0;
+
+}
+
+.text-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: blue;
+}
+
+.text-field:hover{
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.choice-box {
+    -fx-background-color: transparent;
+    -fx-border-color: grey;
+    -fx-border-width: 0 0 2 0;
+}
+
+.choice-box:focused {
+    -fx-background-color: transparent ;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: blue;
+}
+
