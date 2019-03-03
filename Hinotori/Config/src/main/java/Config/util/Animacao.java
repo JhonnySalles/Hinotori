@@ -12,8 +12,8 @@ import javafx.util.Duration;
 
 public class Animacao  {
 	
-	final static Image banco = new Image(Animacao.class.getResource("../images/config/icoDataBase_48.png").toString());
-	final static Image conectando = new Image(Animacao.class.getResource("../images/config/icoDataEspera_48.png").toString());
+	final static Image banco = new Image(Animacao.class.getResource("") + "/../resources/images/icoDataEspera_48.png");
+	final static Image conectando = new Image(Animacao.class.getResource(" ../ ../resources/images/icoDataEspera_48.png").toString());
 	
 	final public static Timeline timeline = new Timeline();
 	
@@ -25,7 +25,7 @@ public class Animacao  {
 				new KeyFrame(Duration.millis(250), new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
-						img.setImage(banco);
+						//img.setImage(banco);
 						img.setFitWidth(App.imgBancoWidth);
 						img.setFitHeight(App.imgBancoHeight);
 					}
@@ -33,7 +33,7 @@ public class Animacao  {
 				new KeyFrame(Duration.millis(500), new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
-						img.setImage(conectando);
+						//img.setImage(conectando);
 						img.setFitWidth(App.imgBancoWidth);
 						img.setFitHeight(App.imgBancoHeight);
 					}

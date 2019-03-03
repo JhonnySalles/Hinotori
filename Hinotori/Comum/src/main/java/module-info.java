@@ -8,6 +8,7 @@ module Comum {
 	exports model.cliping;
 	exports model.animation;
 	exports model.encode;
+	exports model.config;
 
 	requires java.logging;
 	requires javafx.base;

@@ -17,6 +17,7 @@ module Config {
 	requires javafx.controls;
 	requires javafx.fxml;
 	requires javafx.graphics;
+	requires Servidor;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens Config.gui to javafx.fxml;

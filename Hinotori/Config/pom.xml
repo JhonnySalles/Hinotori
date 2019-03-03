@@ -29,18 +29,28 @@
     	<version>0.0.1-SNAPSHOT</version>  	
   	</dependency>
   	
+  	<!-- Dependencia para o módulo servidor  -->
+  	<dependency>
+    	<groupId>br.com.Hinotori</groupId>
+    	<artifactId>Servidor</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>  	
+  	</dependency>
+  	
+  	<!-- Animacao -->
   	<dependency>
     	<groupId>io.github.typhon0</groupId>
     	<artifactId>AnimateFX</artifactId>
     	<version>1.2.1</version>
     </dependency>
     
+    <!-- Componentes estilizado javafx -->
     <dependency>
     	<groupId>com.jfoenix</groupId>
     	<artifactId>jfoenix</artifactId>
     	<version>9.0.8</version>
 	</dependency>
 	
+	<!-- Componentes javafx -->
 	<dependency>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-controls</artifactId>
@@ -53,5 +63,5 @@
         <version>11.0.2</version>
     </dependency>
   </dependencies>
-  
+    
 </project>

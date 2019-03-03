@@ -1,7 +1,8 @@
 package Config;
 
 import Config.gui.TelaConfiguracaoController;
-import Config.util.ProcessaXML;
+import Config.util.Animacao;
+import Config.util.ProcessaConfig;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,12 +15,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.config.Config;
 
 
 public class App extends Application {
 	
 	final public static double imgBancoWidth = 35;
 	final public static double imgBancoHeight = 35;
+	
+	public static String arquivo;
 	
 	// Metodo para fazer a tela se movimentar
 	@SuppressWarnings("unused")
@@ -39,7 +43,7 @@ public class App extends Application {
 		try {
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/TelaConfiguracao.fxml"));
-			AnchorPane scPnTelaPrincipal = loader.load();	
+			AnchorPane scPnTelaPrincipal = loader.load();
 			
 			Scene mainScene = new Scene(scPnTelaPrincipal); // Carrega a scena
 			mainScene.setFill(Color.TRANSPARENT);
@@ -72,13 +76,14 @@ public class App extends Application {
 			
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Shiyoken");
-			//primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Config/resources/images/Shiyoken.png")));
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/images/Shiyoken.png")));
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.show(); // Mostra a tela.
 			
-			ProcessaXML xml = new ProcessaXML();
-			TelaConfiguracaoController controller = loader.getController();
-			xml.verificaConfig(controller);
+			TelaConfiguracaoController mainController = loader.getController();
+			ProcessaConfig processa = new ProcessaConfig();
+			processa.processaConfig(mainController); //Faz a leitura e carrega as config.
+			
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -86,6 +91,12 @@ public class App extends Application {
 	}
 	
 	public static void main(String[] args) {
+		//System.out.println(Animacao.class.getResource(" ../resources").toString());
 		launch(args);
 	}
+
+	public static String getArquivo() {
+		return arquivo;
+	}
+	
 }

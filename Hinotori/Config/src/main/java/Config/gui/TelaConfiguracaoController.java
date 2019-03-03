@@ -10,7 +10,7 @@ import Config.alerts.Alertas;
 import Config.connection.ConexaoMySQL;
 import Config.entitis.Conexao;
 import Config.util.Animacao;
-import Config.util.ProcessaXML;
+import Config.util.ProcessaConfig;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -74,13 +74,15 @@ public class TelaConfiguracaoController implements Initializable {
 	
 	Conexao dadosConexao;
 	
+	static String arquivo;
+	
 	@FXML
 	public void onBtExitAction() {
 		System.exit(0);
 	}
 	
 	@FXML
-	public void onBtnTesteEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+	public void onBtnTesteEnter(@SuppressWarnings("exports") KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		if (e.getCode().toString().equals("ENTER")) {
 			btnTestarConexao.fire();
 		}
@@ -88,7 +90,6 @@ public class TelaConfiguracaoController implements Initializable {
 	
 	@FXML
 	public void onBtnTesteClick() {
-		background.getScene().getRoot().setCursor(Cursor.WAIT);
 
 		lblAviso.setText("");
 		lblAviso.setVisible(false);
@@ -97,52 +98,53 @@ public class TelaConfiguracaoController implements Initializable {
 		
 		if (validaCampos() && Constraints.validaIp(txtIP)) {
 			
-				Animacao.inicia(imgViewConexao);	
+			background.getScene().getRoot().setCursor(Cursor.WAIT);
+			Animacao.inicia(imgViewConexao);	
 				
-				// Criação da thread para que esteja validando a conexão e não trave a tela.
-				Task<Boolean> verificaConexao = new Task<Boolean>() {
-	
-					@Override
-					protected Boolean call() throws Exception {
-						return ConexaoMySQL.testaConexaoMySQL(txtIP.getText().toString(), txtPorta.getText().toString(), 
-	 							  chBoxDataBase.getSelectionModel().getSelectedItem().toString(),
-	 							  txtUsuario.getText().toString(), pswSenha.getText().toString());
-					}
-					
-					@Override
-					protected void succeeded() {
-						Animacao.timeline.stop();
-						Boolean conectado = getValue();
-						
-						if (conectado) {
-							TelaConfiguracaoController.this.aviso("", "Conectado com sucesso!");
+			// Criação da thread para que esteja validando a conexão e não trave a tela.
+			Task<Boolean> verificaConexao = new Task<Boolean>() {
 
-							//imgViewConexao.setImage(new Image(getClass().getResourceAsStream("/Config/resources/images/icoDataConectado_48.png")));
-							imgViewConexao.setFitWidth(App.imgBancoWidth);
-							imgViewConexao.setFitHeight(App.imgBancoHeight);
-							
-							chBoxBase.getItems().addAll(ConexaoMySQL.bases);
-							chBoxBase.setDisable(false);
-							chBoxBase.getSelectionModel().select(0);
-							
-						} else {
-							TelaConfiguracaoController.this.aviso("", "Não foi possivel conectar ao banco, verifique os dados de conexão!");
-							
-							imgViewConexao.setImage(new Image(getClass().getResourceAsStream("/Config/resources/images/icoDataSemConexao_48.png")));
-							imgViewConexao.setFitWidth(App.imgBancoWidth);
-							imgViewConexao.setFitHeight(App.imgBancoHeight);
-						}
-						background.getScene().getRoot().setCursor(null);
+				@Override
+				protected Boolean call() throws Exception {
+					return ConexaoMySQL.testaConexaoMySQL(txtIP.getText().toString(), txtPorta.getText().toString(), 
+ 							  chBoxDataBase.getSelectionModel().getSelectedItem().toString(),
+ 							  txtUsuario.getText().toString(), pswSenha.getText().toString());
+				}
+				
+				@Override
+				protected void succeeded() {
+					Animacao.timeline.stop();
+					Boolean conectado = getValue();
+					
+					if (conectado) {
+						TelaConfiguracaoController.this.aviso("", "Conectado com sucesso!");
+
+						//imgViewConexao.setImage(new Image(getClass().getResourceAsStream("/Config/resources/images/icoDataConectado_48.png")));
+						imgViewConexao.setFitWidth(App.imgBancoWidth);
+						imgViewConexao.setFitHeight(App.imgBancoHeight);
+						
+						chBoxBase.getItems().addAll(ConexaoMySQL.bases);
+						chBoxBase.setDisable(false);
+						chBoxBase.getSelectionModel().select(0);
+						
+					} else {
+						TelaConfiguracaoController.this.aviso("", "Não foi possivel conectar ao banco, verifique os dados de conexão!");
+						
+						imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../resources/images/icoDataSemConexao_48.png")));
+						imgViewConexao.setFitWidth(App.imgBancoWidth);
+						imgViewConexao.setFitHeight(App.imgBancoHeight);
 					}
-				};
-					Thread t = new Thread(verificaConexao);
-					t.setDaemon(true);
-					t.start();
+					background.getScene().getRoot().setCursor(null);
+				}
+			};
+				Thread t = new Thread(verificaConexao);
+				t.setDaemon(true);
+				t.start();
 		}
 	}
 	
 	@FXML
-	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+	public void onBtnCancelarEnter(@SuppressWarnings("exports") KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		if (e.getCode().toString().equals("ENTER")) {
 			btnCancelar.fire();
 		}
@@ -156,7 +158,7 @@ public class TelaConfiguracaoController implements Initializable {
 	}
 	
 	@FXML
-	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+	public void onBtnConfirmarEnter(@SuppressWarnings("exports") KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		if (e.getCode().toString().equals("ENTER")) {
 			btnConfirmar.fire();
 		}
@@ -168,7 +170,7 @@ public class TelaConfiguracaoController implements Initializable {
 			TelaConfiguracaoController.this.aviso("icoAviso_48.png", "Necessário seleceionar uma base, por favor selecione uma base válida!");
 		} else {
 			dadosConexao.setBase(chBoxBase.getSelectionModel().getSelectedItem());
-			ProcessaXML.gravaConfig();
+			ProcessaConfig.gravaConfig();
 		}
 	}
 	
@@ -178,35 +180,35 @@ public class TelaConfiguracaoController implements Initializable {
 	}
 	
 	@FXML
-	public void onIpEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+	public void onIpEnter(@SuppressWarnings("exports") KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		if (e.getCode().toString().equals("ENTER")) {
 			txtPorta.requestFocus();
 		}
 	}
 	
 	@FXML
-	public void onPortaEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+	public void onPortaEnter(@SuppressWarnings("exports") KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		if (e.getCode().toString().equals("ENTER")) {
 			chBoxDataBase.requestFocus();
 		}
 	}
 	
 	@FXML
-	public void onDataBaseEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+	public void onDataBaseEnter(@SuppressWarnings("exports") KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		if (e.getCode().toString().equals("ENTER")) {
 			txtUsuario.requestFocus();
 		}
 	}
 	
 	@FXML
-	public void onUsuarioEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+	public void onUsuarioEnter(@SuppressWarnings("exports") KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		if (e.getCode().toString().equals("ENTER")) {
 			pswSenha.requestFocus();
 		}
 	}
 	
 	@FXML
-	public void onSenhaEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+	public void onSenhaEnter(@SuppressWarnings("exports") KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		if (e.getCode().toString().equals("ENTER")) {
 			btnTestarConexao.requestFocus();
 		}
@@ -222,6 +224,15 @@ public class TelaConfiguracaoController implements Initializable {
 				txtIP.setStyle("-fx-border-color: red;");
 			}
 		}
+	}
+	
+	public static String getArquivo() {
+		return arquivo;
+	}
+
+	@SuppressWarnings("static-access")
+	public void setArquivo(String arquivos) {
+		this.arquivo = arquivos;
 	}
 	
 	public void aviso(String imagem, String texto) {
@@ -252,6 +263,7 @@ public class TelaConfiguracaoController implements Initializable {
 		txtUsuario.setText(dadosConexao.getUsuario());
 		pswSenha.setText(dadosConexao.getSenha());
 		chBoxDataBase.getSelectionModel().select(dadosConexao.getDatabase());
+		validaCampos();
 	}
 	
 	public void processaDados() {
@@ -380,4 +392,5 @@ public class TelaConfiguracaoController implements Initializable {
 		chBoxDataBase.getItems().add("MySQL");
 		chBoxDataBase.getSelectionModel().select("MySQL");
 	}
+
 }

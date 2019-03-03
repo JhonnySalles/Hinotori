@@ -10,15 +10,22 @@ import java.util.Properties;
 import Config.alerts.Alertas;
 import Config.entitis.Conexao;
 import Config.gui.TelaConfiguracaoController;
-import model.encode.Encryption;
+import model.config.Config;
+import model.config.CriaConfig;
 
-public class ProcessaXML {
+public class ProcessaConfig {
 	
 	public static Conexao dadosConexao = new Conexao();
-	public final static File f = new File(new File("C:\\Teste") + "\\conexao.properties");
+	public final static File f = new File(Config.verificaConfig());
 	
 	public static void leituraConfig(File arquivo) {
+		
 		Properties prop = new Properties();
+		
+		if (prop.isEmpty()) {
+			CriaConfig cria = new CriaConfig();
+			cria.criaConfig(arquivo);
+		}
 		
 		try {
 			// Carrega o arquivo proprierts para ser manipulado
@@ -30,7 +37,9 @@ public class ProcessaXML {
 			dadosConexao.setPorta(prop.getProperty("prop.server.port"));
 			dadosConexao.setBase(prop.getProperty("prop.server.base"));
 			dadosConexao.setUsuario(prop.getProperty("prop.server.login"));
-			dadosConexao.setSenha(Encryption.decodifica(prop.getProperty("prop.server.password")));
+			dadosConexao.setSenha(prop.getProperty("prop.server.password"));
+			
+			//dadosConexao.setSenha(Encryption.decodifica(prop.getProperty("prop.server.password")));
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("Não foi possivel ler o arquivo de config, verifique o caminho: " + f.toString());
@@ -57,7 +66,7 @@ public class ProcessaXML {
 			prop.setProperty("prop.server.port", dadosConexao.getPorta());
 			prop.setProperty("prop.server.base", dadosConexao.getBase());
 			prop.setProperty("prop.server.login", dadosConexao.getUsuario());
-			prop.setProperty("prop.server.password", Encryption.codifica(dadosConexao.getSenha()));
+			//	prop.setProperty("prop.server.password", Encryption.codifica(dadosConexao.getSenha()));
 			
 			FileOutputStream arquivoOut = new FileOutputStream(f);
 			prop.store(arquivoOut, null);
@@ -81,34 +90,9 @@ public class ProcessaXML {
 		}
 	}
 	
-	public void verificaConfig(TelaConfiguracaoController cntr) {
-		if(f.exists()) {
-			ProcessaXML.leituraConfig(f);
-			cntr.setConfig(dadosConexao);
-			cntr.validaCampos();
-		} else {
-			ProcessaXML.criaConfig(f);
-		}	
+	public void processaConfig(TelaConfiguracaoController cntr) {
+		ProcessaConfig.leituraConfig(f);
+		cntr.setConfig(dadosConexao);
 	}
-	
-	public static void criaConfig(File arquivo) {
-		Properties prop = new Properties();
 		
-		prop.setProperty("prop.server.database", "base");
-		prop.setProperty("prop.server.host", "localhost");
-		prop.setProperty("prop.server.port", "3306");
-		prop.setProperty("prop.server.base", "mysql");
-		prop.setProperty("prop.server.login", "admin");
-		prop.setProperty("prop.server.password", "HmbiDggIHlM\\=");
-
-		try {
-			FileOutputStream arquivoOut = new FileOutputStream(arquivo);
-			prop.store(arquivoOut, null);
-		} catch (IOException e) {
-			System.out.println("Não foi possivel salvar o arquivo de configuração em: " + arquivo.toString());
-			e.printStackTrace();
-		}		
-	}
-	
-	
 }
