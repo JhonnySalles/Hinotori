@@ -13,14 +13,13 @@ public class ConexaoMySQL {
 	final public static List<String> bases = new ArrayList<>();
 
 	public static Boolean testaConexaoMySQL(String server, String port, String dataBase, String user, String psswd) {
-
 		Connection connection = null;
 		Boolean conecta = false;
 		bases.clear();
 		try {
 
 			if (dataBase.equals("MySQL")) {
-				String driverName = "com.mysql.jdbc.Driver";
+				String driverName = "com.mysql.cj.jdbc.Driver";
 				Class.forName(driverName);
 
 				String url = "jdbc:mysql://" + server + ":" + port;
@@ -46,7 +45,7 @@ public class ConexaoMySQL {
 				conecta = false;
 			}
 
-			// connection.close();
+			connection.close();
 
 		} catch (ClassNotFoundException e) { // Driver n�o encontrado
 			System.out.println("O driver de conex�o expecificado nao foi encontrado.");

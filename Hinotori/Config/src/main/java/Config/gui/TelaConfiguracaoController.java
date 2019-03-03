@@ -101,7 +101,7 @@ public class TelaConfiguracaoController implements Initializable {
 			background.getScene().getRoot().setCursor(Cursor.WAIT);
 			Animacao.inicia(imgViewConexao);	
 				
-			// Criação da thread para que esteja validando a conexão e não trave a tela.
+			// Criacao da thread para que esteja validando a conexao e nao trave a tela.
 			Task<Boolean> verificaConexao = new Task<Boolean>() {
 
 				@Override
@@ -240,12 +240,12 @@ public class TelaConfiguracaoController implements Initializable {
 		pnImgAviso.setVisible(false);
 		
 		if (!imagem.isEmpty()) {
-			//ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/Config/resources/images/"+imagem)));
-			//img.setFitWidth(20);
-			//img.setFitHeight(20);
+			ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/resources/images/"+imagem)));
+			img.setFitWidth(20);
+			img.setFitHeight(20);
 			
 			pnImgAviso.getChildren().clear();
-			//pnImgAviso.getChildren().add(img);
+			pnImgAviso.getChildren().add(img);
 			pnImgAviso.setVisible(true);
 		}
 		
@@ -349,7 +349,7 @@ public class TelaConfiguracaoController implements Initializable {
 		    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue){
 		    	if (newPropertyValue) { // Usado para limpar o stilo para que pinte quando entra
 		    		txtPorta.setStyle("");
-		        } else { // Após, na saida faz então a validação.
+		        } else { // Após, na saida faz então a validacao.
 			    	if (txtPorta.textProperty().get().toString().isEmpty()) {
 			        	txtPorta.setStyle("");
 			        } else {
@@ -390,6 +390,7 @@ public class TelaConfiguracaoController implements Initializable {
 		});
 		
 		chBoxDataBase.getItems().add("MySQL");
+		//chBoxDataBase.getItems().add("SQL");
 		chBoxDataBase.getSelectionModel().select("MySQL");
 	}
 

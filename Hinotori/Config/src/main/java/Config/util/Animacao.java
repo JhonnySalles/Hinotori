@@ -12,7 +12,7 @@ import javafx.util.Duration;
 
 public class Animacao  {
 
-	final static Image banco = new Image(Animacao.class.getResourceAsStream("/resources/images/icoDataEspera_48.png"));
+	final static Image banco = new Image(Animacao.class.getResourceAsStream("/resources/images/icoDataBase_48.png"));
 	final static Image conectando = new Image(Animacao.class.getResourceAsStream("/resources/images/icoDataEspera_48.png"));
 	
 	@SuppressWarnings("exports")

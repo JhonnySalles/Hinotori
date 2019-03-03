@@ -10,12 +10,14 @@ public class CriaConfig {
 	public void criaConfig(File arquivo) {
 		Properties prop = new Properties();
 		
-		prop.setProperty("prop.server.database", "base");
+
 		prop.setProperty("prop.server.host", "localhost");
 		prop.setProperty("prop.server.port", "3306");
-		prop.setProperty("prop.server.base", "mysql");
+		prop.setProperty("prop.server.base", "MySQL");
 		prop.setProperty("prop.server.login", "admin");
-		prop.setProperty("prop.server.password", "HmbiDggIHlM\\=");
+		prop.setProperty("prop.server.password", "crg+SNfHXEMF7MkmtK4CdA==");
+		prop.setProperty("prop.server.database", "MySQL");
+		prop.setProperty("prop.server.base", "");
 
 		try {
 			FileOutputStream arquivoOut = new FileOutputStream(arquivo);

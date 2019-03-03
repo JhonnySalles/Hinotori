@@ -30,7 +30,7 @@ public class Alertas {
 	
 	public static boolean Confirmacao(String titulo, String texto) {
 		try {
-			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("/alerts/Confirmacao.fxml"));
+			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("Confirmacao.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 			
 			// Obtem a referencia do controller para editar as label.
@@ -84,9 +84,9 @@ public class Alertas {
 				stageTela.close();
 			});
 			
-			// Faz a tela ser obrigat�ria para voltar ao voltar a tela anterior
+			// Faz a tela ser obrigatoria para voltar ao voltar a tela anterior
 			stageTela.setTitle(titulo);
-			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("../images/config/icoInformePergunta_48.png")));
+			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("/resources/images/icoInformePergunta_48.png")));
 			stageTela.initModality(Modality.APPLICATION_MODAL); 
 			stageTela.initStyle(StageStyle.TRANSPARENT);
 			stageTela.showAndWait(); // Mostra a tela.
@@ -119,7 +119,7 @@ public class Alertas {
 			Stage stageTela = new Stage();
 			stageTela.setScene(tela); // Seta a cena principal
 			
-			// Eventos de clique do mouse realizando a movimenta��o da tela.
+			// Eventos de clique do mouse realizando a movimentacao da tela.
 			tela.setOnMousePressed(new EventHandler<MouseEvent>() {
 		        @Override
 		        public void handle(MouseEvent event) {
@@ -146,9 +146,9 @@ public class Alertas {
 				stageTela.close();
 			});
 			
-			// Faz a tela ser obrigat�ria para voltar ao voltar a tela anterior
+			// Faz a tela ser obrigatoria para voltar ao voltar a tela anterior
 			stageTela.setTitle(titulo);
-			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("../images/config/icoErro_48.png")));
+			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("/resources/images/icoErro_48.png")));
 			stageTela.initModality(Modality.APPLICATION_MODAL); 
 			stageTela.initStyle(StageStyle.TRANSPARENT);
 			stageTela.showAndWait(); // Mostra a tela.
@@ -181,7 +181,7 @@ public class Alertas {
 			Stage stageTela = new Stage();
 			stageTela.setScene(tela); // Seta a cena principal
 
-			// Eventos de clique do mouse realizando a movimenta��o da tela.
+			// Eventos de clique do mouse realizando a movimentacao da tela.
 			tela.setOnMousePressed(new EventHandler<MouseEvent>() {
 		        @Override
 		        public void handle(MouseEvent event) {
@@ -208,9 +208,9 @@ public class Alertas {
 				stageTela.close();
 			});
 			
-			// Faz a tela ser obrigat�ria para voltar ao voltar a tela anterior
+			// Faz a tela ser obrigatoria para voltar ao voltar a tela anterior
 			stageTela.setTitle(titulo);
-			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("../images/config/icoConfimacao_48.png")));
+			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("/resources/images/icoConfimacao_48.png")));
 			stageTela.initModality(Modality.APPLICATION_MODAL); 
 			stageTela.initStyle(StageStyle.TRANSPARENT);
 			stageTela.showAndWait(); // Mostra a tela.
@@ -243,7 +243,7 @@ public class Alertas {
 			Stage stageTela = new Stage();
 			stageTela.setScene(tela); // Seta a cena principal
 
-			// Eventos de clique do mouse realizando a movimenta��o da tela.
+			// Eventos de clique do mouse realizando a movimentacao da tela.
 			tela.setOnMousePressed(new EventHandler<MouseEvent>() {
 		        @Override
 		        public void handle(MouseEvent event) {
@@ -270,9 +270,9 @@ public class Alertas {
 				stageTela.close();
 			});
 			
-			// Faz a tela ser obrigat�ria para voltar ao voltar a tela anterior
+			// Faz a tela ser obrigatoria para voltar ao voltar a tela anterior
 			stageTela.setTitle(titulo);
-			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("../images/config/icoAviso_48.png")));
+			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("/resources/images/icoAviso_48.png")));
 			stageTela.initModality(Modality.APPLICATION_MODAL); 
 			stageTela.initStyle(StageStyle.TRANSPARENT);
 			stageTela.showAndWait(); // Mostra a tela.

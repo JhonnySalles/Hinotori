@@ -14,7 +14,7 @@
          <children>
             <ImageView fx:id="ImgVwIconeTitulo" fitHeight="18.0" fitWidth="18.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/images/icoConfimacao_48.png" />
+                  <Image url="@../../resources/images/icoConfimacao_48.png" />
                </image>
             </ImageView>
             <Label fx:id="lblTitulo" layoutX="40.0" layoutY="1.0" text="Concluido" textFill="#03ff18">
@@ -27,7 +27,7 @@
          <children>
             <ImageView fx:id="ImgVwIcone" fitHeight="60.0" fitWidth="60.0" layoutX="20.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/images/icoConfimacao_48.png" />
+                  <Image url="@../../resources/images/icoConfimacao_48.png" />
                </image>
             </ImageView>
          </children>

@@ -32,13 +32,14 @@ public class ProcessaConfig {
 			// Carrega o arquivo proprierts para ser manipulado
 			prop.load(new FileInputStream(arquivo));
 
-			// Carrega as informa��es para a entidade 
+			// Carrega as informacoes para a entidade 
 			dadosConexao.setDatabase(prop.getProperty("prop.server.database"));
 			dadosConexao.setHost(prop.getProperty("prop.server.host"));
 			dadosConexao.setPorta(prop.getProperty("prop.server.port"));
 			dadosConexao.setBase(prop.getProperty("prop.server.base"));
 			dadosConexao.setUsuario(prop.getProperty("prop.server.login"));
 			dadosConexao.setSenha(Encryption.decodifica(prop.getProperty("prop.server.password")));
+			dadosConexao.setDatabase(prop.getProperty("prop.server.database"));
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("Não foi possivel ler o arquivo de config, verifique o caminho: " + f.toString());
@@ -66,6 +67,7 @@ public class ProcessaConfig {
 			prop.setProperty("prop.server.base", dadosConexao.getBase());
 			prop.setProperty("prop.server.login", dadosConexao.getUsuario());
 			prop.setProperty("prop.server.password", Encryption.codifica(dadosConexao.getSenha()));
+			prop.setProperty("prop.server.database", dadosConexao.getDatabase());
 			
 			FileOutputStream arquivoOut = new FileOutputStream(f);
 			prop.store(arquivoOut, null);
