@@ -9,10 +9,11 @@ module Sistema {
 	exports Sistema.util;
 	exports Sistema;
 
+	requires Comum;
+	requires Servidor;
 	requires javafx.base;
 	requires javafx.controls;
 	requires javafx.fxml;
 	requires javafx.graphics;
-	requires Servidor;
-	
+
 }

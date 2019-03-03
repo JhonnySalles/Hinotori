@@ -1,5 +1,7 @@
 package Administrador.gui;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -26,14 +28,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.animation.DoubleTransition;
 
 public class DashboardController implements Initializable  {
 
 	private Map<String, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
-	private Map<URL, Stage> telas = new HashMap<>();
+	//private Map<URL, Stage> telas = new HashMap<>();
 	
 	@FXML
 	JFXHamburger btnBurgerBotoes;
@@ -124,14 +125,10 @@ public class DashboardController implements Initializable  {
 		
 		dt.setToValue(0); dt.play();
 		SplitPane.setResizableWithParent(splitPane, Boolean.FALSE);
-
-
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		
 		HamburgerBackArrowBasicTransition burgerBtnTask = new HamburgerBackArrowBasicTransition(btnBurgerBotoes);
 		burgerBtnTask.setRate(-1);
         btnBurgerBotoes.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
@@ -144,7 +141,6 @@ public class DashboardController implements Initializable  {
 		if (inputStream == null) {
 			return null;
 		}
-		
 		Image i = new Image(inputStream);
 		ImageView imageView = new ImageView();
 	
@@ -168,12 +164,10 @@ public class DashboardController implements Initializable  {
 																						// nela.
 			} else {
 				Tab aba = new Tab(tela);
-				// aba.setContent(new Button("Um botão de conteúdo"));
-				// aba.setContent(new Rectangle(150, 50));
-				
-				
+
 				if (icon != "") { // Irá chamar a função para redimencionar e colocar a imagem.
-					aba.setGraphic(buildImage(getClass().getClassLoader().getResourceAsStream(icon)));
+					File initialFile = new File(getClass().getResource("").getPath()+icon); // Coloca o caminho do arquivo com o caminho da imagem.
+					aba.setGraphic(buildImage(new FileInputStream(initialFile)));
 				}
 				FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 				AnchorPane newAnchorPane = loader.load();
@@ -188,7 +182,6 @@ public class DashboardController implements Initializable  {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			//Alerts.ShowAlert("Erro", "Não foi possivel carregar a tela.", e.getMessage(), AlertType.ERROR);
 		}
 	}
 }

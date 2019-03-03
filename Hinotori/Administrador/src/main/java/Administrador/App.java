@@ -18,7 +18,7 @@ public class App extends Application {
 	private static DashboardController mainController;
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(@SuppressWarnings("exports") Stage primaryStage) {
 		try {
 			//Classe inicial
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/Dashboard.fxml"));
@@ -35,6 +35,7 @@ public class App extends Application {
 			primaryStage.setTitle("Administrador");
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/images/icon/Shiyoken.png")));
 			primaryStage.initStyle(StageStyle.DECORATED);
+			primaryStage.setMaximized(true);
 			
 			primaryStage.show(); // Mostra a tela.
 			

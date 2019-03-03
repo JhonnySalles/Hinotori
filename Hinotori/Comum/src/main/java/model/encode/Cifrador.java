@@ -1,7 +1,6 @@
 package model.encode;
 
 import java.io.*;  
-import java.util.*;  
 import javax.crypto.*;  
 import javax.crypto.spec.*;  
 import java.security.*;  

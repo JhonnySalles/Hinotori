@@ -119,7 +119,7 @@ public class TelaConfiguracaoController implements Initializable {
 					if (conectado) {
 						TelaConfiguracaoController.this.aviso("", "Conectado com sucesso!");
 
-						//imgViewConexao.setImage(new Image(getClass().getResourceAsStream("/Config/resources/images/icoDataConectado_48.png")));
+						imgViewConexao.setImage(new Image(getClass().getResourceAsStream("/resources/images/icoDataConectado_48.png")));
 						imgViewConexao.setFitWidth(App.imgBancoWidth);
 						imgViewConexao.setFitHeight(App.imgBancoHeight);
 						
@@ -129,8 +129,8 @@ public class TelaConfiguracaoController implements Initializable {
 						
 					} else {
 						TelaConfiguracaoController.this.aviso("", "Não foi possivel conectar ao banco, verifique os dados de conexão!");
-						
-						imgViewConexao.setImage(new Image(getClass().getResourceAsStream("../resources/images/icoDataSemConexao_48.png")));
+
+						imgViewConexao.setImage(new Image(getClass().getResourceAsStream("/resources/images/icoDataSemConexao_48.png")));
 						imgViewConexao.setFitWidth(App.imgBancoWidth);
 						imgViewConexao.setFitHeight(App.imgBancoHeight);
 					}

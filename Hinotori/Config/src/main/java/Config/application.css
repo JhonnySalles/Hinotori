@@ -137,7 +137,7 @@
 /*--------  Botao de exit ----------*/
 #btnExit{
     -fx-background-color: transparent;
-    -fx-background-image: url("resources/images/btnExit_48.png");
+    -fx-background-image: url("../resources/images/btnExit_48.png");
     -fx-background-position: 0 0;
     -fx-background-size: 20 20;
     -fx-background-repeat: no-repeat;

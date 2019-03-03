@@ -26,6 +26,12 @@
     </dependency>
   </dependencies>
   
+  <dependencyManagement>
+  	<dependencies>
+  		
+	</dependencies>	
+  </dependencyManagement>
+  
   <modules>
   	<module>Comum</module>
   	<module>Servidor</module>

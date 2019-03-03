@@ -11,21 +11,22 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public class Animacao  {
+
+	final static Image banco = new Image(Animacao.class.getResourceAsStream("/resources/images/icoDataEspera_48.png"));
+	final static Image conectando = new Image(Animacao.class.getResourceAsStream("/resources/images/icoDataEspera_48.png"));
 	
-	final static Image banco = new Image(Animacao.class.getResource("") + "/../resources/images/icoDataEspera_48.png");
-	final static Image conectando = new Image(Animacao.class.getResource(" ../ ../resources/images/icoDataEspera_48.png").toString());
-	
+	@SuppressWarnings("exports")
 	final public static Timeline timeline = new Timeline();
 	
 	static Boolean reproduzir = false;
 	
-	synchronized public static void inicia(ImageView img) {
+	synchronized public static void inicia(@SuppressWarnings("exports") ImageView img) {
 		
 		timeline.getKeyFrames().addAll(
 				new KeyFrame(Duration.millis(250), new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
-						//img.setImage(banco);
+						img.setImage(banco);
 						img.setFitWidth(App.imgBancoWidth);
 						img.setFitHeight(App.imgBancoHeight);
 					}
@@ -33,7 +34,7 @@ public class Animacao  {
 				new KeyFrame(Duration.millis(500), new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
-						//img.setImage(conectando);
+						img.setImage(conectando);
 						img.setFitWidth(App.imgBancoWidth);
 						img.setFitHeight(App.imgBancoHeight);
 					}

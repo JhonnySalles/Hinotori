@@ -14,11 +14,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
-/**
- * Hello world!
- *
- */
 public class App extends Application {
 	
 	private static Scene mainScene;
@@ -37,7 +32,7 @@ public class App extends Application {
 	// Fim do metodo.
 	
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(@SuppressWarnings("exports") Stage primaryStage) {
 		try {
 			//Comentar esta linha para teste.
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("guiMain/Login.fxml"));

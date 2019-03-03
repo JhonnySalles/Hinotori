@@ -14,4 +14,5 @@ module Comum {
 	requires javafx.base;
 	requires javafx.controls;
 	requires javafx.graphics;
+	requires java.naming;
 }

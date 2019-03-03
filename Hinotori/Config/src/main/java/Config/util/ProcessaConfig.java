@@ -12,6 +12,7 @@ import Config.entitis.Conexao;
 import Config.gui.TelaConfiguracaoController;
 import model.config.Config;
 import model.config.CriaConfig;
+import model.encode.Encryption;
 
 public class ProcessaConfig {
 	
@@ -37,9 +38,7 @@ public class ProcessaConfig {
 			dadosConexao.setPorta(prop.getProperty("prop.server.port"));
 			dadosConexao.setBase(prop.getProperty("prop.server.base"));
 			dadosConexao.setUsuario(prop.getProperty("prop.server.login"));
-			dadosConexao.setSenha(prop.getProperty("prop.server.password"));
-			
-			//dadosConexao.setSenha(Encryption.decodifica(prop.getProperty("prop.server.password")));
+			dadosConexao.setSenha(Encryption.decodifica(prop.getProperty("prop.server.password")));
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("Não foi possivel ler o arquivo de config, verifique o caminho: " + f.toString());
@@ -60,13 +59,13 @@ public class ProcessaConfig {
 			// Carrega o arquivo proprierts para ser manipulado
 			prop.load(new FileInputStream(f));
 			
-			// Carrega as informa��es para a entidade 
+			// Carrega as informacoes para a entidade 
 			prop.setProperty("prop.server.database", dadosConexao.getDatabase());
 			prop.setProperty("prop.server.host", dadosConexao.getHost());
 			prop.setProperty("prop.server.port", dadosConexao.getPorta());
 			prop.setProperty("prop.server.base", dadosConexao.getBase());
 			prop.setProperty("prop.server.login", dadosConexao.getUsuario());
-			//	prop.setProperty("prop.server.password", Encryption.codifica(dadosConexao.getSenha()));
+			prop.setProperty("prop.server.password", Encryption.codifica(dadosConexao.getSenha()));
 			
 			FileOutputStream arquivoOut = new FileOutputStream(f);
 			prop.store(arquivoOut, null);

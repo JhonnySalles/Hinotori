@@ -17,7 +17,7 @@
          <children>
             <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="56.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/images/Shiyoken.png" />
+                  <Image url="@../../resources/images/Shiyoken.png" />
                </image>
             </ImageView>
             <Label fx:id="lblConfig" layoutX="24.0" layoutY="11.0" styleClass="logoTexto" text="Configuração">
@@ -48,27 +48,27 @@
             <Button fx:id="btnConfirmar" layoutX="160.0" layoutY="305.0" mnemonicParsing="false" onAction="#onBtnConfirmarClick" onKeyPressed="#onBtnConfirmarEnter" prefHeight="25.0" prefWidth="120.0" styleClass="btnSombra" text="Confirmar" />
             <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/images/icoRede_48.png" />
+                  <Image url="@../../resources/images/icoRede_48.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/images/icoDataBase_48.png" />
+                  <Image url="@../../resources/images/icoDataBase_48.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/images/icoUsuario_48.png" />
+                  <Image url="@../../resources/images/icoUsuario_48.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/images/icoChave_48.png" />
+                  <Image url="@../../resources/images/icoChave_48.png" />
                </image>
             </ImageView>
             <ImageView fx:id="imgViewConexao" fitHeight="35.0" fitWidth="35.0" layoutX="304.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/images/icoDataBase_48.png" />
+                  <Image url="@../../resources/images/icoDataBase_48.png" />
                </image>
             </ImageView>
          </children>
