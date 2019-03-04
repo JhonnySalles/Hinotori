@@ -23,6 +23,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -34,7 +35,6 @@ import model.animation.DoubleTransition;
 public class DashboardController implements Initializable  {
 
 	private Map<String, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
-	//private Map<URL, Stage> telas = new HashMap<>();
 	
 	@FXML
 	JFXHamburger btnBurgerBotoes;
@@ -65,10 +65,16 @@ public class DashboardController implements Initializable  {
 	private MenuItem mnItmCadUsuario;
 	
 	@FXML
+	private MenuItem mnItmConfigImpressora;
+	
+	@FXML
 	private Menu menuAjuda;
 	
 	@FXML
 	JFXButton btnCadastros;
+	
+	@FXML
+	JFXButton btnConfiguracao;
 	
 	@FXML
 	private void onBtnHanburgerAction() {
@@ -96,6 +102,20 @@ public class DashboardController implements Initializable  {
 	}
 	
 	@FXML
+	private void onBtnConfiguracaoAction() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("menu/Configuracao.fxml"));
+		try {
+			VBox vbCadastros = loader.load();
+			vbBotoesDetalhes.getChildren().clear();
+			vbBotoesDetalhes.getChildren().add(vbCadastros);
+			vbBotoesDetalhes.setFillWidth(true);
+			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
 	public void onBtnCadClienteAction() {
 		loadView("cadastros/CadCliente.fxml", "Cadastro Cliente", "../resources/images/icon/icoMenuCliente.png");
 	}
@@ -108,6 +128,11 @@ public class DashboardController implements Initializable  {
 	@FXML
 	public void onBtnCadUsuarioAction() {
 		loadView("cadastros/CadUsuario.fxml", "Cadastro Usuario", "../resources/images/icon/icoMenuUsuario.png");
+	}
+	
+	@FXML
+	public void onBtnConfigImpressoraAction() {
+		loadView("configuracao/ConfigImpressora.fxml", "Config. Impressora", "../resources/images/icon/icoMenuImpressoras.png");
 	}
 	
 
@@ -135,6 +160,10 @@ public class DashboardController implements Initializable  {
         	burgerBtnTask.setRate(burgerBtnTask.getRate() * -1);
         	burgerBtnTask.play();
         });
+        
+        /* Popup de descricao dos botoes */
+        Tooltip toltCadastro = new Tooltip("Cadastros");
+        btnCadastros.setTooltip(toltCadastro);
 	}
 	
 	private static ImageView buildImage(InputStream inputStream) { // Redimenciona a imagem para a aba

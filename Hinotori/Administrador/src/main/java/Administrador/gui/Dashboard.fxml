@@ -43,7 +43,10 @@
                 </Menu>
                 <Menu text="C_onfiguração">
                   <items>
-                    <MenuItem text="_Impressoras padrões" />
+                    <MenuItem fx:id="mnItmConfigImpressora" onAction="#onBtnConfigImpressoraAction" text="_Impressoras padrões">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                   </items>
                 </Menu>
                 <Menu fx:id="menuAjuda" text="_Ajuda" />
@@ -81,7 +84,7 @@
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </JFXButton>
-                              <JFXButton maxWidth="150.0" minWidth="150.0" prefWidth="150.0">
+                              <JFXButton fx:id="btnConfiguracao" maxWidth="150.0" minWidth="150.0" onAction="#onBtnConfiguracaoAction" onMouseClicked="#onBtnConfiguracaoAction" prefWidth="150.0" stylesheets="@../resources/css/Dark_Botoes.css">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>

@@ -224,7 +224,6 @@
 }
 
 
-
 /*---------- Estilos do scroll ----------*/
 .scroll-pane {
     -fx-background-color: black;
@@ -328,5 +327,23 @@
     -fx-background-position: bottom center;
 
     -fx-background-size: 180 165;
+    -fx-background-repeat: no-repeat;
+}
+
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------- Configuracao de impressoras ----------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------  Image cliente ----------*/
+.tituloBackground-impressoras{
+    -fx-background-color: linear-gradient(to right top, #0277BD , #1A237E);
+}
+.imgBackground-impressoras{
+    -fx-background-image: url("../images/icon/icoImpressora.png");
+    -fx-background-position: center;
+    -fx-background-size: 140 140;
     -fx-background-repeat: no-repeat;
 }

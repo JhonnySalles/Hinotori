@@ -85,6 +85,46 @@
 }
 
 
+/*---------- Botoes Configuracoes ----------*/
+#btnConfiguracao {
+    -fx-background-image: url("../images/btnMain_Dark/btnConfiguracao_100.png");
+    -fx-background-position: 11 0;
+    -fx-background-size: 25 26;
+    -fx-background-repeat: no-repeat;
+
+    -fx-text-fill: #ffffff;
+}
+
+#btnConfiguracao:hover {
+    -fx-background-image: url("../images/btnMain_Dark/btnConfiguracao_Hover100.png");
+    -fx-text-fill: #2ecc71;
+}
+
+#btnConfiguracao:focused{
+    -fx-background-image: url("../images/btnMain_Dark/btnConfiguracao_Select100.png");
+    -fx-text-fill: #ffffff;
+}
+
+
+/* Cadastro impressoras */
+#btnConfImpressoras {
+    -fx-background-image: url("../images/btnMain_Dark/btnImpressoras_100.png");
+    -fx-background-position: 11 0;
+    -fx-background-size: 25 26;
+    -fx-background-repeat: no-repeat;
+
+    -fx-text-fill: #ffffff;
+}
+
+#btnConfImpressoras:hover {
+    -fx-background-image: url("../images/btnMain_Dark/btnImpressoras_Hover100.png");
+    -fx-text-fill: #2ecc71;
+}
+
+#btnConfImpressoras:focused{
+    -fx-background-image: url("../images/btnMain_Dark/btnImpressoras_Select100.png");
+    -fx-text-fill: #ffffff;
+}
 
 
 /*---------- Botoes Padroes ----------*/

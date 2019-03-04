@@ -15,6 +15,7 @@ module Administrador {
 	requires javafx.fxml;
 	requires javafx.graphics;
 	requires com.jfoenix;
+	requires java.desktop;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens Administrador.gui to javafx.fxml;
