@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE hibernate-configuration PUBLIC 
+ 	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+ 	"http://hibrtnate.org/dtd/hibernate-configuration-3.0.dtd">	
+	
+ <hibernate-configuration> 
+ 	<session-factory>
+		<!-- Configuração da conexão -->
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/baseteste" />
+			<property name="hibernate.connection.user" value="admin" />
+			<property name="hibernate.connection.password" value="admin" />
+			<!-- propriedades do hibernate -->
+			<property name="hibernate.archive.autodetection" value="class" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="use_sql_comments" value="true" />
+
+			<!-- atualiza o banco, gera as tabelas se for preciso -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		 	<mapping class="Servidor.entidades.Usuarios"/> 	
+ 	</<session-factory>> 
+ </hibernate-configuration>

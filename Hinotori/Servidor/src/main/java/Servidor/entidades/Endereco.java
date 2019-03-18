@@ -57,7 +57,7 @@ public class Endereco implements Serializable{
     private TipoEndereco tipoEndereco;
     
     @ManyToOne
-    @JoinColumn(name = "cidade_codigo", referencedColumnName = "cidade_codigo", nullable = false)
+    @JoinColumn(name = "cid_codigo", referencedColumnName = "cid_codigo", nullable = false)
     @ForeignKey(name = "Enderecos_Cidades")        
     private Cidades cidade;
 

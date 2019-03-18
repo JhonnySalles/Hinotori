@@ -13,9 +13,8 @@ module Servidor {
 
 	requires java.persistence;
 	requires org.hibernate.orm.core;
+	requires java.sql;
+	requires org.hibernate.commons.annotations;
 	
-	opens Servidor.persistencia to hibernate.core;
-	opens Servidor.entidades to hibernate.core;
-	opens Servidor.enumeracao to hibernate.core;
-
+	opens Servidor.entidades to org.hibernate.orm.core;
 }

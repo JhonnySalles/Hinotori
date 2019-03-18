@@ -27,7 +27,7 @@ public class Cidades  implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="cidade_codigo", nullable=false, length=11)
+	@Column(name="Cid_codigo", nullable=false, length=11)
 	private Long id; 
 	
 	@Column(name="cid_nome", nullable=false,length=150)
@@ -38,10 +38,10 @@ public class Cidades  implements Serializable{
     @ForeignKey(name = "Cidades_Estados")
     private Estados estado;
     
-    @Column(name="cidade_ddd", nullable=false,length=2, columnDefinition="int")
+    @Column(name="cid_ddd", nullable=false,length=2, columnDefinition="int")
     private int cid_ddd;
     
-    @Column(name="cidade_codibge",length=11)
+    @Column(name="cid_codibge",length=11)
     private int cod_ibge;
     
     public Cidades() {
