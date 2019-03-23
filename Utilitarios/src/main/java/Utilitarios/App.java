@@ -14,6 +14,8 @@ public class App extends Application {
 
 	private static Scene mainScene;
 	private static DashboardController mainController;
+	
+	final static String imgUtilitarios = "/Utilitarios/resources/images/icoEncode_48.png";
 
 	@Override
 	public void start(Stage primaryStage) {
