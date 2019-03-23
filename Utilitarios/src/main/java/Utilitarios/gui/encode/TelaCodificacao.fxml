@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="350.0" prefWidth="600.0" stylesheets="@../../resources/css/Dark_Dashboard.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="Utilitarios.gui.encode.TelaCodificacaoController">
+<AnchorPane prefHeight="350.0" prefWidth="600.0" stylesheets="@../../resources/css/Dark_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Utilitarios.gui.encode.TelaCodificacaoController">
    <children>
       <Pane fx:id="paneEsquerda" layoutX="10.0" layoutY="2.0" maxHeight="-Infinity" prefHeight="350.0" prefWidth="211.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,8 +24,13 @@
                   <Font name="Sword Kanji" size="30.0" />
                </font>
             </Label>
-            <Pane fx:id="pnImgAviso" layoutX="87.0" layoutY="213.0" prefHeight="30.0" prefWidth="30.0" />
-            <Label fx:id="lblAviso" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="252.0" prefHeight="95.0" prefWidth="204.0" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true" />
+            <ImageView fitHeight="131.0" fitWidth="120.0" layoutX="40.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/images/encode/imgEncodeSimbolo.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="pnImgAviso" layoutX="3.0" layoutY="304.0" prefHeight="30.0" prefWidth="30.0" />
+            <Label fx:id="lblAviso" alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="293.0" prefHeight="52.0" prefWidth="173.0" text="Ts" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true" />
          </children>
       </Pane>
       <Pane fx:id="paneDireita" layoutX="253.0" layoutY="10.0" prefHeight="350.0" prefWidth="389.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

@@ -7,10 +7,11 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -23,35 +24,79 @@
    <children>
       <VBox layoutX="164.0" layoutY="37.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MenuBar>
-              <menus>
-                <Menu text="_Cadastros">
-                  <items>
-                    <MenuItem fx:id="mnItmCadCliente" onAction="#onBtnCadClienteAction" text="C_liente">
-                           <accelerator>
-                              <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
-                        <MenuItem fx:id="mnItmCadEmpresa" onAction="#onBtnCadEmpresaAction" text="_Empresa">
-                           <accelerator>
-                              <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
-                        <MenuItem fx:id="mnItmCadUsuario" onAction="#onBtnCadUsuarioAction" text="_Usuario">
-                           <accelerator>
-                              <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
-                  </items>
-                </Menu>
-                <Menu text="C_onfiguração">
-                  <items>
-                    <MenuItem fx:id="mnItmConfigImpressora" onAction="#onBtnConfigImpressoraAction" text="_Impressoras padrões">
-                           <accelerator>
-                              <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
-                  </items>
-                </Menu>
-                <Menu fx:id="menuAjuda" text="_Ajuda" />
-              </menus>
-            </MenuBar>
+            <HBox>
+               <children>
+                  <MenuBar HBox.hgrow="ALWAYS">
+                    <menus>
+                      <Menu text="_Cadastros">
+                        <items>
+                          <MenuItem fx:id="mnItmCadCliente" onAction="#onBtnCadClienteAction" text="C_liente">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                              <MenuItem fx:id="mnItmCadEmpresa" onAction="#onBtnCadEmpresaAction" text="_Empresa">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                              <MenuItem fx:id="mnItmCadUsuario" onAction="#onBtnCadUsuarioAction" text="_Usuario">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                        </items>
+                      </Menu>
+                      <Menu text="C_onfiguração">
+                        <items>
+                          <MenuItem fx:id="mnItmConfigImpressora" onAction="#onBtnConfigImpressoraAction" text="_Impressoras padrões">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                        </items>
+                      </Menu>
+                      <Menu fx:id="menuAjuda" text="_Ajuda" />
+                    </menus>
+                  </MenuBar>
+                  <HBox alignment="CENTER_RIGHT" maxHeight="25.0" spacing="10.0" styleClass="background-Black2">
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/images/btn/bntDataBase_48.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="lblRodape" text="Teste">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="15.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/images/btn/bntUsuario_48.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="lblRodape" text="user">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" ellipsisString="" graphicTextGap="0.0" maxHeight="25.0" maxWidth="35.0" minHeight="25.0" minWidth="35.0" prefHeight="25.0" prefWidth="35.0" ripplerFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/images/btn/btnFullScreem_100.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </HBox>
             <SplitPane fx:id="splitPane" dividerPositions="0.0, 0.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0" styleClass="splitbox" VBox.vgrow="ALWAYS">
               <items>
                   <AnchorPane fx:id="apBotoes" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" styleClass="background-Blue2" SplitPane.resizableWithParent="false">
@@ -123,43 +168,6 @@
                   </AnchorPane>
               </items>
             </SplitPane>
-            <HBox alignment="CENTER_LEFT" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" spacing="10.0" styleClass="background-Black3">
-               <children>
-                  <Label disable="true" styleClass="lblRodape" text="Versão:">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label disable="true" styleClass="lblRodape" text="1.0" />
-                  <Separator disable="true" opacity="0.2" orientation="VERTICAL" prefHeight="200.0" style="-fx-background-color: #000000;">
-                     <HBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </HBox.margin>
-                  </Separator>
-                  <Label disable="true" styleClass="lblRodape" text="Base:" />
-                  <Label disable="true" styleClass="lblRodape" text="Teste" />
-                  <Separator disable="true" opacity="0.2" orientation="VERTICAL" prefHeight="200.0" style="-fx-background-color: #000000;">
-                     <HBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </HBox.margin>
-                  </Separator>
-                  <Label disable="true" styleClass="lblRodape" text="Usuario:">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-                  <Label disable="true" styleClass="lblRodape" text="user" />
-                  <Separator disable="true" opacity="0.2" orientation="VERTICAL" prefHeight="200.0" style="-fx-background-color: #000000;">
-                     <HBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </HBox.margin>
-                  </Separator>
-                  <Label disable="true" styleClass="lblRodape" text="Time:" />
-                  <Label disable="true" styleClass="lblRodape" text="22/02/20" />
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin></HBox>
          </children>
       </VBox>
    </children>

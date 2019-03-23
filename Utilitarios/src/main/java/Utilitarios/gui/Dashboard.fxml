@@ -2,33 +2,100 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../resources/css/Dark_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Utilitarios.gui.DashboardController">
    <children>
-      <ScrollPane fx:id="background" layoutY="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <content>
-            <FlowPane columnHalignment="CENTER" hgap="5.0" prefHeight="500.0" prefWidth="600.0" styleClass="background-Black3" vgap="5.0">
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox>
                <children>
-                  <JFXButton fx:id="btnEncodDecod" onAction="#onEncodDecodAction" onMouseClicked="#onEncodDecodAction" ripplerFill="WHITE" text="Cod. Decod." textFill="#8cabff">
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/images/icoEncode_48.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
+                  <MenuBar HBox.hgrow="ALWAYS">
+                     <menus>
+                        <Menu mnemonicParsing="false" text="_Utilitarios">
+                           <items>
+                              <MenuItem fx:id="mnItmEncodDecod" onAction="#onBtnCadClienteAction" text="_Criptografia">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                           </items>
+                        </Menu>
+                        <Menu fx:id="menuAjuda" mnemonicParsing="false" text="_Ajuda" />
+                     </menus>
+                  </MenuBar>
+                  <HBox alignment="CENTER_RIGHT" maxHeight="25.0" styleClass="background-Black2">
+                     <children>
+                        <JFXButton ellipsisString="" graphicTextGap="5.0" layoutX="171.0" layoutY="10.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" ripplerFill="WHITE" text="BancoTeste" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/images/dashboard/bntDataBase_48.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton alignment="CENTER" ellipsisString="" graphicTextGap="5.0" layoutX="50.0" layoutY="10.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" ripplerFill="WHITE" text="TesteUser1" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/images/dashboard/bntUsuario_48.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" ellipsisString="" graphicTextGap="0.0" maxHeight="25.0" maxWidth="35.0" minHeight="25.0" minWidth="35.0" prefHeight="25.0" prefWidth="35.0" ripplerFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/images/dashboard/btnFullScreem_100.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </HBox>
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </FlowPane>
-         </content>
-      </ScrollPane>
+            </HBox>
+            <SplitPane VBox.vgrow="ALWAYS">
+               <items>
+                  <ScrollPane fx:id="background" prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <FlowPane columnHalignment="CENTER" hgap="5.0" prefHeight="500.0" prefWidth="600.0" styleClass="background-Black3" vgap="5.0">
+                           <children>
+                              <JFXButton fx:id="btnEncodDecod" onAction="#onEncodDecodAction" onMouseClicked="#onEncodDecodAction" ripplerFill="WHITE" text="Criptografia" textFill="#8cabff">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/icoEncode_48.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </FlowPane>
+                     </content>
+                  </ScrollPane>
+               </items>
+            </SplitPane>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
