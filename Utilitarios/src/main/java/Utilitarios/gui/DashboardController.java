@@ -6,22 +6,53 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXDialog;
+
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class DashboardController implements Initializable {
 
 	final static String EncodDecod = "encode/TelaCodificacao.fxml";
-	final static String imgEncode  = "/Utilitarios/resources/images/icoEncode_48.png";
+	final static String imgIcoEncode = "/Utilitarios/resources/images/icoEncode_48.png";
+
+	@FXML
+	ImageView imgViewBanco;
+	final Image imgBanco = new Image(
+			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/bntDataBase_48.png"));
+	final Image imgBancoHover = new Image(
+			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/bntDataBaseHover_48.png"));
+
+	@FXML
+	ImageView imgViewUsuario;
+	final Image imgUsuario = new Image(
+			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/bntUsuario_48.png"));
+	final Image imgUsuarioHover = new Image(
+			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/bntUsuarioHover_48.png"));
+
+	@FXML
+	ImageView imgViewEncode;
+	final Image imgEncode = new Image(
+			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/icoEncode_48.png"));
+	final Image imgEncodeHover = new Image(
+			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/icoEncodeHover_48.png"));
 
 	private Map<URL, Stage> telas = new HashMap<>();
 
@@ -29,24 +60,34 @@ public class DashboardController implements Initializable {
 	Button btnEncodDecod;
 
 	@FXML
+	Button btnBancoDados;
+
+	@FXML
+	Button btnUsuario;
+
+	@FXML
 	ScrollPane background;
+
+	private static JFXDialog dialog = new JFXDialog();
 
 	@FXML
 	public void onEncodDecodAction() {
-		loadTela(EncodDecod, imgEncode, "Encode Decode");
+		loadTela(EncodDecod, imgIcoEncode, "Encode Decode");
 	}
 
-	 /**
-     * Função criada para carregar as telas de forma genérica, basta apenas passar o 
-     * endereço da tela, o endereço do icone e alguma frase para o titulo.
-     * 
-     * <p> Ex:
-     * loadTela("encode/TelaCodificacao.fxml", "/Utilitarios/resources/images/icoEncode_48.png", "Encode Decode");
-     * 
-     * @param tela Parâmetro com o endereço da tela, partindo de onde o dashboard está.
-     * @param icone Endereço da imagem do icone da tela, começando pelo path java.
-     * @param titulo Um titulo que será exibido no cabeçalho da tela.
-     **/
+	/**
+	 * Função criada para carregar as telas de forma genérica, basta apenas passar o
+	 * endereço da tela, o endereço do icone e alguma frase para o titulo.
+	 * 
+	 * <p>
+	 * Ex: loadTela("encode/TelaCodificacao.fxml",
+	 * "/Utilitarios/resources/images/icoEncode_48.png", "Encode Decode");
+	 * 
+	 * @param tela   Parâmetro com o endereço da tela, partindo de onde o dashboard
+	 *               está.
+	 * @param icone  Endereço da imagem do icone da tela, começando pelo path java.
+	 * @param titulo Um titulo que será exibido no cabeçalho da tela.
+	 **/
 	public void loadTela(String tela, String icone, String titulo) {
 		try {
 			URL url = getClass().getResource(tela);
@@ -67,6 +108,7 @@ public class DashboardController implements Initializable {
 				stage.setScene(mainScene); // Seta a cena principal
 				stage.setTitle(titulo);
 				stage.initStyle(StageStyle.DECORATED);
+				stage.initModality(Modality.WINDOW_MODAL);
 				stage.setResizable(false);
 				stage.getIcons().add(new Image(getClass().getResourceAsStream(icone)));
 
@@ -81,9 +123,42 @@ public class DashboardController implements Initializable {
 		}
 	}
 
+	@FXML
+	public void onBancoDadosAction() {
+		
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		background.setFitToHeight(true);
 		background.setFitToWidth(true);
+
+		btnBancoDados.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> {
+			imgViewBanco.setImage(imgBancoHover);
+		});
+
+		btnBancoDados.addEventFilter(MouseEvent.MOUSE_EXITED, e -> {
+			imgViewBanco.setImage(imgBanco);
+			btnBancoDados.setStyle("");
+		});
+
+		btnUsuario.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> {
+			imgViewUsuario.setImage(imgUsuarioHover);
+		});
+
+		btnUsuario.addEventFilter(MouseEvent.MOUSE_EXITED, e -> {
+			imgViewUsuario.setImage(imgUsuario);
+		});
+
+		btnEncodDecod.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> {
+			imgViewEncode.setImage(imgEncodeHover);
+			btnEncodDecod.setStyle("-fx-text-fill: #A5D6A7;");
+		});
+
+		btnEncodDecod.addEventFilter(MouseEvent.MOUSE_EXITED, e -> {
+			imgViewEncode.setImage(imgEncode);
+			btnEncodDecod.setStyle("");
+		});
+
 	}
 }

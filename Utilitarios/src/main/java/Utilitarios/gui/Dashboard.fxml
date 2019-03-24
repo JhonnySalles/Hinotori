@@ -9,7 +9,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
@@ -23,13 +22,9 @@
                <children>
                   <MenuBar HBox.hgrow="ALWAYS">
                      <menus>
-                        <Menu mnemonicParsing="false" text="_Utilitarios">
+                        <Menu text="_Utilitarios">
                            <items>
-                              <MenuItem fx:id="mnItmEncodDecod" onAction="#onBtnCadClienteAction" text="_Criptografia">
-                                 <accelerator>
-                                    <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                                 </accelerator>
-                              </MenuItem>
+                              <MenuItem fx:id="mnItmEncodDecod" onAction="#onEncodDecodAction" text="_Criptografia" />
                            </items>
                         </Menu>
                         <Menu fx:id="menuAjuda" mnemonicParsing="false" text="_Ajuda" />
@@ -37,29 +32,20 @@
                   </MenuBar>
                   <HBox alignment="CENTER_RIGHT" maxHeight="25.0" styleClass="background-Black2">
                      <children>
-                        <JFXButton ellipsisString="" graphicTextGap="5.0" layoutX="171.0" layoutY="10.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" ripplerFill="WHITE" text="BancoTeste" textFill="WHITE">
+                        <JFXButton fx:id="btnBancoDados" ellipsisString="" graphicTextGap="5.0" layoutX="171.0" layoutY="10.0" maxHeight="25.0" minHeight="25.0" onAction="#onBancoDadosAction" prefHeight="25.0" ripplerFill="WHITE" text="BancoTeste" textFill="WHITE">
                            <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imgViewBanco" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../resources/images/dashboard/bntDataBase_48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton alignment="CENTER" ellipsisString="" graphicTextGap="5.0" layoutX="50.0" layoutY="10.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" ripplerFill="WHITE" text="TesteUser1" textFill="WHITE">
+                        <JFXButton fx:id="btnUsuario" alignment="CENTER" ellipsisString="" graphicTextGap="5.0" layoutX="50.0" layoutY="10.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" ripplerFill="WHITE" text="TesteUser1" textFill="WHITE">
                            <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imgViewUsuario" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../resources/images/dashboard/bntUsuario_48.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" ellipsisString="" graphicTextGap="0.0" maxHeight="25.0" maxWidth="35.0" minHeight="25.0" minWidth="35.0" prefHeight="25.0" prefWidth="35.0" ripplerFill="WHITE">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/images/dashboard/btnFullScreem_100.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -71,15 +57,15 @@
                   </HBox>
                </children>
             </HBox>
-            <SplitPane VBox.vgrow="ALWAYS">
+            <SplitPane styleClass="splitbox" VBox.vgrow="ALWAYS">
                <items>
                   <ScrollPane fx:id="background" prefHeight="200.0" prefWidth="200.0">
                      <content>
                         <FlowPane columnHalignment="CENTER" hgap="5.0" prefHeight="500.0" prefWidth="600.0" styleClass="background-Black3" vgap="5.0">
                            <children>
-                              <JFXButton fx:id="btnEncodDecod" onAction="#onEncodDecodAction" onMouseClicked="#onEncodDecodAction" ripplerFill="WHITE" text="Criptografia" textFill="#8cabff">
+                              <JFXButton fx:id="btnEncodDecod" onAction="#onEncodDecodAction" onMouseClicked="#onEncodDecodAction" ripplerFill="WHITE" styleClass="background-Blue3" text="Criptografia" textFill="#fcfcfc">
                                  <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgViewEncode" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../resources/images/icoEncode_48.png" />
                                        </image>

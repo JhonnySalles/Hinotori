@@ -2,13 +2,15 @@ package Utilitarios;
 
 import Utilitarios.gui.DashboardController;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.Dragboard;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class App extends Application {
 
@@ -18,7 +20,7 @@ public class App extends Application {
 	final static String imgUtilitarios = "/Utilitarios/resources/images/icoEncode_48.png";
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(@SuppressWarnings("exports") Stage primaryStage) {
 		try {
 			// Classe inicial
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/Dashboard.fxml"));
@@ -30,10 +32,16 @@ public class App extends Application {
 
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Utilitarios");
-			// primaryStage.getIcons().add(new
-			// Image(getClass().getResourceAsStream("resources/images/icon/Shiyoken.png")));
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Utilitarios/resources/images/icoUtilitario_48.png")));
 			primaryStage.initStyle(StageStyle.DECORATED);
 			primaryStage.setMaximized(true);
+			
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			    @Override
+			    public void handle(WindowEvent arg0) {
+			    	System.exit(0);
+			    }
+			});
 
 			primaryStage.show(); // Mostra a tela.
 
@@ -45,7 +53,7 @@ public class App extends Application {
 	public static DashboardController getMainController() {
 		return mainController;
 	}
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

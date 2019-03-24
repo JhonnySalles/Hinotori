@@ -12,6 +12,7 @@ module Utilitarios {
 	requires javafx.controls;
 	requires javafx.fxml;
 	requires javafx.graphics;
+	requires com.jfoenix;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens Utilitarios.gui to javafx.fxml;
