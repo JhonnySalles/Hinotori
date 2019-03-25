@@ -32,7 +32,7 @@
                   </MenuBar>
                   <HBox alignment="CENTER_RIGHT" maxHeight="25.0" styleClass="background-Black2">
                      <children>
-                        <JFXButton fx:id="btnBancoDados" ellipsisString="" graphicTextGap="5.0" layoutX="171.0" layoutY="10.0" maxHeight="25.0" minHeight="25.0" onAction="#onBancoDadosAction" prefHeight="25.0" ripplerFill="WHITE" text="BancoTeste" textFill="WHITE">
+                        <JFXButton fx:id="btnBancoDados" ellipsisString="" graphicTextGap="5.0" layoutX="171.0" layoutY="10.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" ripplerFill="WHITE" text="BancoTeste" textFill="WHITE">
                            <graphic>
                               <ImageView fx:id="imgViewBanco" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

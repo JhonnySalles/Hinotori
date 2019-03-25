@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.PopOver;
+
 import com.jfoenix.controls.JFXDialog;
 
 import javafx.application.Platform;
@@ -14,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -31,6 +34,7 @@ import javafx.stage.StageStyle;
 public class DashboardController implements Initializable {
 
 	final static String EncodDecod = "encode/TelaCodificacao.fxml";
+	final static String BaseChoice = "database/TelaDataBase.fxml";
 	final static String imgIcoEncode = "/Utilitarios/resources/images/icoEncode_48.png";
 
 	@FXML
@@ -123,8 +127,33 @@ public class DashboardController implements Initializable {
 		}
 	}
 
-	@FXML
-	public void onBancoDadosAction() {
+	// Utiliza a função de popup da biblioteca controlsfx.
+	public void criaPopupBancoDados() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			URL url = getClass().getResource(BaseChoice);
+			loader.setLocation(url);
+			StackPane stack = loader.load();
+			
+			PopOver popover = new PopOver(stack);
+		    popover.setArrowLocation(PopOver.ArrowLocation.RIGHT_TOP);
+		    popover.setCornerRadius(4);
+		    popover.setTitle("Seleção de banco de dados");
+
+		    btnBancoDados.setOnAction(event -> {
+
+		        if (popover.isShowing()) {
+		            popover.hide();
+		        } else if (!popover.isShowing()) {
+		        	popover.show(btnBancoDados);
+		        } else {
+		            new RuntimeException("isShowing() state not recognised.");
+		        }
+		    });
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Erro ao criar o popup do banco dedados. ");
+		}
 		
 	}
 
@@ -159,6 +188,7 @@ public class DashboardController implements Initializable {
 			imgViewEncode.setImage(imgEncode);
 			btnEncodDecod.setStyle("");
 		});
-
+		
+		criaPopupBancoDados();
 	}
 }
