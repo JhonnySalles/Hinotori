@@ -20,7 +20,7 @@ public class Clientes_Fisica extends Clientes implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="clifis_cpf", nullable=false, length=11) 
-	private int cpf;
+	private String cpf;
 	
 	@Column(name="clifis_rg", length=15)
 	private String rg;
@@ -53,11 +53,11 @@ public class Clientes_Fisica extends Clientes implements Serializable{
 	
 	}
 
-	public int getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(int cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 

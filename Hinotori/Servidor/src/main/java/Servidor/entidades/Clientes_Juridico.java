@@ -17,8 +17,8 @@ public class Clientes_Juridico extends Clientes implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="clijur_cnpj", nullable=false, length=11) 
-	private int cnpj;
+	@Column(name="clijur_cnpj", nullable=false, length=14) 
+	private String cnpj;
 	
 	@Column(name="clijur_ie", length=25)
 	private String ie;
@@ -43,11 +43,11 @@ public class Clientes_Juridico extends Clientes implements Serializable{
 	
 	}
 
-	public int getCnpj() {
+	public String getCnpj() {
 		return cnpj;
 	}
 
-	public void setCnpj(int cnpj) {
+	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
 
