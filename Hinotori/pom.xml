@@ -38,6 +38,7 @@
     <module>Administrador</module>
     <module>Config</module>
     <module>Sistema</module>
+    <module>Restaurante</module>
   </modules>
   
     <build>
