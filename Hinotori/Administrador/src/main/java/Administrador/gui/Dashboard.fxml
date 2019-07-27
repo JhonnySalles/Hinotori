@@ -4,126 +4,46 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../resources/css/Dark_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.gui.DashboardController">
    <children>
       <VBox layoutX="164.0" layoutY="37.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox>
-               <children>
-                  <MenuBar HBox.hgrow="ALWAYS">
-                    <menus>
-                      <Menu text="_Cadastros">
-                        <items>
-                          <MenuItem fx:id="mnItmCadCliente" onAction="#onBtnCadClienteAction" text="C_liente">
-                                 <accelerator>
-                                    <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                                 </accelerator>
-                              </MenuItem>
-                              <MenuItem fx:id="mnItmCadEmpresa" onAction="#onBtnCadEmpresaAction" text="_Empresa">
-                                 <accelerator>
-                                    <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                                 </accelerator>
-                              </MenuItem>
-                              <MenuItem fx:id="mnItmCadUsuario" onAction="#onBtnCadUsuarioAction" text="_Usuario">
-                                 <accelerator>
-                                    <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                                 </accelerator>
-                              </MenuItem>
-                        </items>
-                      </Menu>
-                      <Menu text="C_onfiguração">
-                        <items>
-                          <MenuItem fx:id="mnItmConfigImpressora" onAction="#onBtnConfigImpressoraAction" text="_Impressoras padrões">
-                                 <accelerator>
-                                    <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                                 </accelerator>
-                              </MenuItem>
-                        </items>
-                      </Menu>
-                      <Menu fx:id="menuAjuda" text="_Ajuda" />
-                    </menus>
-                  </MenuBar>
-                  <HBox alignment="CENTER_RIGHT" maxHeight="25.0" spacing="10.0" styleClass="background-Black2">
-                     <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/images/btn/bntDataBase_48.png" />
-                           </image>
-                        </ImageView>
-                        <Label styleClass="lblRodape" text="Teste">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="15.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/images/btn/bntUsuario_48.png" />
-                           </image>
-                        </ImageView>
-                        <Label styleClass="lblRodape" text="user">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" ellipsisString="" graphicTextGap="0.0" maxHeight="25.0" maxWidth="35.0" minHeight="25.0" minWidth="35.0" prefHeight="25.0" prefWidth="35.0" ripplerFill="WHITE">
-                           <graphic>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/images/btn/btnFullScreem_100.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                  </HBox>
-               </children>
-            </HBox>
-            <SplitPane fx:id="splitPane" dividerPositions="0.0, 0.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0" styleClass="splitbox" VBox.vgrow="ALWAYS">
+            <HBox />
+            <SplitPane fx:id="splitPane" dividerPositions="0.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0" styleClass="splitbox" VBox.vgrow="ALWAYS">
               <items>
-                  <AnchorPane fx:id="apBotoes" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" styleClass="background-Blue2" SplitPane.resizableWithParent="false">
+                  <AnchorPane fx:id="apBotoes" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" styleClass="background-Blue2" SplitPane.resizableWithParent="false">
                      <effect>
                         <DropShadow />
                      </effect>
                      <children>
                         <VBox prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <GridPane alignment="CENTER_RIGHT" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" styleClass="background-Blue4">
-                                 <columnConstraints>
-                                    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints maxHeight="40.0" minHeight="40.0" percentHeight="0.0" prefHeight="40.0" valignment="CENTER" vgrow="ALWAYS" />
-                                 </rowConstraints>
+                              <Pane prefHeight="40.0" prefWidth="150.0">
                                  <children>
-                                    <JFXHamburger fx:id="btnBurgerBotoes" alignment="CENTER_RIGHT" maxHeight="40.0" minHeight="40.0" onMouseClicked="#onBtnHanburgerAction" prefHeight="40.0">
-                                       <padding>
-                                          <Insets right="5.0" />
-                                       </padding>
-                                       <GridPane.margin>
-                                          <Insets right="2.0" />
-                                       </GridPane.margin>
-                                    </JFXHamburger>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/images/icon/ninjakoshi_400x400.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="50.0" layoutY="12.0" text="Usuário" textFill="WHITE" />
                                  </children>
-                              </GridPane>
+                              </Pane>
+                              <JFXHamburger fx:id="btnBurgerBotoes" alignment="CENTER_RIGHT" maxHeight="40.0" minHeight="40.0" onMouseClicked="#onBtnHanburgerAction" prefHeight="40.0">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding>
+                              </JFXHamburger>
                               <JFXButton fx:id="btnCadastros" maxWidth="150.0" minWidth="150.0" onAction="#onBtnCadastrosAction" onMouseClicked="#onBtnCadastrosAction" prefHeight="25.0" prefWidth="144.0" ripplerFill="WHITE" stylesheets="@../resources/css/Dark_Botoes.css" text="Cadastros">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
@@ -148,22 +68,16 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                <AnchorPane fx:id="apBotoesDetalhes" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" SplitPane.resizableWithParent="false">
-                     <children>
-                        <VBox styleClass="background-Blue4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <HBox maxHeight="40.0" minHeight="40.0" prefHeight="40.0" />
-                              <VBox fx:id="vbBotoesDetalhes" alignment="CENTER" prefHeight="526.0" styleClass="background-Black3" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0" style="-fx-border-color: #000000; -fx-border-width: 0 0 0 1;" SplitPane.resizableWithParent="false">
                      <children>
-                        <TabPane fx:id="painelAbas" prefHeight="200.0" prefWidth="200.0" styleClass="background-Black3" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TabPane fx:id="painelAbas" prefHeight="200.0" prefWidth="200.0" styleClass="background-Black3" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <tabs>
+                              <Tab text="Untitled Tab">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                </content>
+                              </Tab>
+                           </tabs></TabPane>
                      </children>
                   </AnchorPane>
               </items>
