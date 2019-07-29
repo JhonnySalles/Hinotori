@@ -164,6 +164,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0" style="-fx-border-color: #000000; -fx-border-width: 0 0 0 1;" SplitPane.resizableWithParent="false">
                      <children>
                         <TabPane fx:id="painelAbas" prefHeight="200.0" prefWidth="200.0" styleClass="background-Black3" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <JFXButton fx:id="btnCadastros1" layoutX="10.0" layoutY="10.0" maxWidth="150.0" minWidth="150.0" onAction="#onBtnTesteAction" onMouseClicked="#onBtnCadastrosAction" prefHeight="25.0" prefWidth="144.0" ripplerFill="WHITE" stylesheets="@../resources/css/Dark_Botoes.css" text="Teste" textFill="WHITE" />
                      </children>
                   </AnchorPane>
               </items>

@@ -8,6 +8,8 @@ module Administrador {
 	exports Administrador.gui;
 	exports Administrador.gui.cadastros;
 	exports Administrador.gui.menu;
+	exports Administrador.gui.frame;
+	exports Administrador.entities;
 
 	requires Comum;
 	requires javafx.base;
@@ -21,5 +23,6 @@ module Administrador {
 	opens Administrador.gui to javafx.fxml;
 	opens Administrador.gui.cadastros to javafx.fxml;
 	opens Administrador.gui.menu to javafx.fxml;
+	opens Administrador.gui.frame to javafx.fxml;
 	
 }

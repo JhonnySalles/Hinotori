@@ -1,4 +1,4 @@
-package Administrador.gui;
+package Restaurante.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,7 +37,7 @@ public class DashboardController implements Initializable  {
 	private Map<String, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
 	
 	@FXML
-	JFXHamburger btnBurgerBotoes;
+	JFXHamburger btn_BurgerBotoes;
 	
 	@FXML
 	SplitPane splitPane;
@@ -71,10 +71,16 @@ public class DashboardController implements Initializable  {
 	private Menu menuAjuda;
 	
 	@FXML
-	JFXButton btnCadastros;
+	JFXButton btn_Cadastros;
 	
 	@FXML
-	JFXButton btnConfiguracao;
+	JFXButton btn_Lancamentos;
+	
+	@FXML
+	JFXButton btn_Pedidos;
+	
+	@FXML
+	JFXButton btn_Configuracao;
 	
 	@FXML
 	private void onBtnHanburgerAction() {
@@ -154,16 +160,16 @@ public class DashboardController implements Initializable  {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		HamburgerBackArrowBasicTransition burgerBtnTask = new HamburgerBackArrowBasicTransition(btnBurgerBotoes);
+		HamburgerBackArrowBasicTransition burgerBtnTask = new HamburgerBackArrowBasicTransition(btn_BurgerBotoes);
 		burgerBtnTask.setRate(-1);
-        btnBurgerBotoes.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+        btn_BurgerBotoes.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
         	burgerBtnTask.setRate(burgerBtnTask.getRate() * -1);
         	burgerBtnTask.play();
         });
         
         /* Popup de descricao dos botoes */
         Tooltip toltCadastro = new Tooltip("Cadastros");
-        btnCadastros.setTooltip(toltCadastro);
+        btn_Cadastros.setTooltip(toltCadastro);
 	}
 	
 	private static ImageView buildImage(InputStream inputStream) { // Redimenciona a imagem para a aba

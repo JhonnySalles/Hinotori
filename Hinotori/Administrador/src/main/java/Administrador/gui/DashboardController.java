@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
@@ -29,6 +30,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.animation.DoubleTransition;
 
@@ -75,6 +80,30 @@ public class DashboardController implements Initializable  {
 	
 	@FXML
 	JFXButton btnConfiguracao;
+	
+	/*Teste*/
+	@FXML
+	public void onBtnTesteAction() throws IOException {
+		URL url = getClass().getResource("frame/PesquisaGenerica.fxml");
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(url);
+			AnchorPane newAnchorPane = loader.load();
+
+			Scene mainScene = new Scene(newAnchorPane); // Carrega a scena
+			mainScene.setFill(Color.BLACK);
+
+			Stage stage = new Stage();
+			stage.setScene(mainScene); // Seta a cena principal
+			stage.setTitle("Tela de teste");
+			stage.initStyle(StageStyle.DECORATED);
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.setResizable(true);
+			stage.setMinWidth(870);
+			stage.setMinHeight(500);
+			stage.show(); // Mostra a tela.
+	}
+	/* Fim Teste*/
+	
 	
 	@FXML
 	private void onBtnHanburgerAction() {
@@ -134,7 +163,6 @@ public class DashboardController implements Initializable  {
 	public void onBtnConfigImpressoraAction() {
 		loadView("configuracao/ConfigImpressora.fxml", "Config. Impressora", "../resources/images/icon/icoMenuImpressoras.png");
 	}
-	
 
 	private void apBotoesMovDireita() {
 		apBotoesDetalhes.setMaxWidth(150);
