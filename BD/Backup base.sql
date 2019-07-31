@@ -244,7 +244,7 @@ DROP TABLE IF EXISTS `usuarios`;
 
 CREATE TABLE `usuarios` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Loguin` char(20) NOT NULL,
+  `Login` char(20) NOT NULL,
   `Nome` varchar(255) DEFAULT NULL,
   `Senha` varchar(250) DEFAULT NULL,
   `ID_Empresa` int(11) NOT NULL,
@@ -254,12 +254,12 @@ CREATE TABLE `usuarios` (
   `Observacao` longtext,
   `Imagem` longblob,
   `Nivel` enum('USUARIO','ADMINISTRADOR','TOTAL') DEFAULT NULL,
-  PRIMARY KEY (`ID`,`Loguin`,`ID_Empresa`)
+  PRIMARY KEY (`ID`,`Login`,`ID_Empresa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `usuarios` */
 
-insert  into `usuarios`(`ID`,`Loguin`,`Nome`,`Senha`,`ID_Empresa`,`Situacao`,`Email`,`Data_Cadastro`,`Observacao`,`Imagem`,`Nivel`) values 
+insert  into `usuarios`(`ID`,`Login`,`Nome`,`Senha`,`ID_Empresa`,`Situacao`,`Email`,`Data_Cadastro`,`Observacao`,`Imagem`,`Nivel`) values 
 (1,'ADMIN','ADMIN','A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',0,'ATIVO',NULL,'2019-07-27 15:17:23',NULL,NULL,'ADMINISTRADOR'),
 (2,'SHIYOKEN',NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',0,'ATIVO',NULL,'2019-07-27 15:17:23',NULL,NULL,'TOTAL'),
 (3,'USUARIO','USUARIO','A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',0,'ATIVO',NULL,'2019-07-27 15:17:23',NULL,NULL,'USUARIO');
