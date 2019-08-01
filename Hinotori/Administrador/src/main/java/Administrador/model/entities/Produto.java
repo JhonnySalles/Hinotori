@@ -1,13 +1,18 @@
-package Administrador.entities;
+package Administrador.model.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import Administrador.enums.Situacao;
 import Administrador.enums.TipoProduto;
 
-public class Produto {
+public class Produto implements Serializable {
 
-	private Integer id;
+	// Utilizado para poder ser transformado em sequencia de bytes
+	// e poder então trafegar os dados em rede ou salvar em arquivo.
+	private static final long serialVersionUID = -2972348557775718310L;
+	
+	private Long id;
 	private String descricao;
 	private String observacao;
 	private String codigoBarras;
@@ -18,11 +23,11 @@ public class Produto {
 	private Double pesoLiquido;
 	private Enum<Situacao> situacao;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -102,8 +107,8 @@ public class Produto {
 
 	}
 
-	public Produto(Integer id, String descricao, String observacao, String codigoBarras, String unidade,
-			Date dataCadastro, Enum<TipoProduto> tipo, Double pesoBruto, Double pesoLiquido, Enum<Situacao> situacao) {
+	public Produto(Long id, String descricao, String observacao, String codigoBarras, String unidade, Date dataCadastro,
+			Enum<TipoProduto> tipo, Double pesoBruto, Double pesoLiquido, Enum<Situacao> situacao) {
 
 		this.id = id;
 		this.descricao = descricao;
@@ -115,6 +120,46 @@ public class Produto {
 		this.pesoBruto = pesoBruto;
 		this.pesoLiquido = pesoLiquido;
 		this.situacao = situacao;
+	}
+
+	// Utilizado para que possamos comparar os objetos por conteúdo e não
+	// por referência de ponteiro.
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produto other = (Produto) obj;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", descricao=" + descricao + ", observacao=" + observacao + ", codigoBarras="
+				+ codigoBarras + ", unidade=" + unidade + ", dataCadastro=" + dataCadastro + ", tipo=" + tipo
+				+ ", pesoBruto=" + pesoBruto + ", pesoLiquido=" + pesoLiquido + ", situacao=" + situacao + "]";
 	}
 
 }

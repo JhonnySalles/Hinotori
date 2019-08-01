@@ -3,7 +3,7 @@ package Administrador.gui.frame;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import Administrador.entities.PesquisaGenericaDados;
+import Administrador.model.entities.PesquisaGenericaDados;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

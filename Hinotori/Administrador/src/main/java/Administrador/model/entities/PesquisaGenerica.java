@@ -1,4 +1,4 @@
-package Administrador.entities;
+package Administrador.model.entities;
 
 public class PesquisaGenerica {
 	

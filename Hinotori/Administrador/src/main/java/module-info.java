@@ -9,7 +9,7 @@ module Administrador {
 	exports Administrador.gui.cadastros;
 	exports Administrador.gui.menu;
 	exports Administrador.gui.frame;
-	exports Administrador.entities;
+	exports Administrador.model.entities;
 	exports Administrador.enums;
 
 	requires Comum;
@@ -19,6 +19,7 @@ module Administrador {
 	requires javafx.graphics;
 	requires com.jfoenix;
 	requires java.desktop;
+	requires java.sql;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens Administrador.gui to javafx.fxml;
