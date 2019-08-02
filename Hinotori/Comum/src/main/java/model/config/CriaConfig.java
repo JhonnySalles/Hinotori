@@ -18,6 +18,7 @@ public class CriaConfig {
 		prop.setProperty("prop.server.password", "crg+SNfHXEMF7MkmtK4CdA==");
 		prop.setProperty("prop.server.database", "MySQL");
 		prop.setProperty("prop.server.base", "");
+		prop.setProperty("prop.caminho.log", "");
 
 		try {
 			FileOutputStream arquivoOut = new FileOutputStream(arquivo);

@@ -1,11 +1,12 @@
 package Administrador.model.dao;
 
 import Administrador.model.dao.impl.ClienteDaoJDBC;
+import mysql.DB;
 
 public class DaoFactory {
 
 	public static ClienteDao createClienteDao() {
-		return new ClienteDaoJDBC();
+		return new ClienteDaoJDBC(DB.getConnection());
 	}
 	
 }

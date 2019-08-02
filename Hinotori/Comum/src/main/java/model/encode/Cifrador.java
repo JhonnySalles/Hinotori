@@ -135,6 +135,6 @@ class ExemploCriptografia {
         PrivateKey pvk = ccpv.carregaChavePrivada (new File ("chave.art.pri"));  
         Decifrador dcf = new Decifrador();  
         byte[] decifrado = dcf.decifra (pvk, cifrado[0], cifrado[1]);  
-        System.out.println (new String (textoClaro, "ISO-8859-1"));  
+        System.out.println (new String (decifrado, "ISO-8859-1"));  
     }  
 }

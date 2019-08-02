@@ -8,8 +8,8 @@ public interface SaborDao {
 	
 	void insert(Sabor obj);
 	void update(Sabor obj);
-	void delete(Integer id);
-	Sabor find(Integer id);
+	void delete(Long id);
+	Sabor find(Long id);
 	List<Sabor> findAll();
 
 }

@@ -24,7 +24,6 @@ public class Mascaras {
 
 	public static void ignoreKeys(TextField textField) {
 		textField.addEventFilter(KeyEvent.KEY_PRESSED, (EventHandler) new EventHandler<KeyEvent>() {
-
 			@Override
 			public void handle(KeyEvent keyEvent) {
 				if (ignoreKeyCodes.contains(keyEvent.getCode())) {

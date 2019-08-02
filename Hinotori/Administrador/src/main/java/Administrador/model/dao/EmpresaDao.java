@@ -8,8 +8,8 @@ public interface EmpresaDao {
 
 	void insert(Empresa obj);
 	void update(Empresa obj);
-	void delete(Integer id);
-	Empresa find(Integer id);
+	void delete(Long id);
+	Empresa find(Long id);
 	List<Empresa> findAll();
 	
 }

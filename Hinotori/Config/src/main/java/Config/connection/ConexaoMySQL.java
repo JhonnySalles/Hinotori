@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLPermission;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,14 +48,14 @@ public class ConexaoMySQL {
 			connection.close();
 
 		} catch (ClassNotFoundException e) { // Driver n�o encontrado
-			System.out.println("O driver de conex�o expecificado nao foi encontrado.");
+			System.out.println("O driver de conexão expecificado nao foi encontrado.");
 			e.printStackTrace();
-			
+
 		} catch (SQLException e) {
 			System.out.println("Nao foi possivel conectar ao Banco de Dados.");
 			e.printStackTrace();
-			
-		} 
+
+		}
 		return conecta;
 	}
 }

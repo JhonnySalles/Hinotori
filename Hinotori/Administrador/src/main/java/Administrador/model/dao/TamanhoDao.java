@@ -8,8 +8,8 @@ public interface TamanhoDao {
 
 	void insert(Tamanho obj);
 	void update(Tamanho obj);
-	void delete(Integer id);
-	Tamanho find(Integer id);
+	void delete(Long id);
+	Tamanho find(Long id);
 	List<Tamanho> findAll();
 	
 }

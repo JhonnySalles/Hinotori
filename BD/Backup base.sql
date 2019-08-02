@@ -24,7 +24,9 @@ CREATE TABLE `bairros` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Id_Cidade` int(11) NOT NULL,
   `Nome` varchar(150) NOT NULL,
-  PRIMARY KEY (`Id`,`Id_Cidade`)
+  PRIMARY KEY (`Id`),
+  KEY `Bairro_Cidade` (`Id_Cidade`),
+  CONSTRAINT `Bairro_Cidade` FOREIGN KEY (`Id_Cidade`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=65536 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bairros` */
@@ -38373,7 +38375,9 @@ CREATE TABLE `cidades` (
   `Nome` varchar(150) NOT NULL,
   `Ddd` varchar(3) DEFAULT NULL,
   `Situacao` enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT NULL,
-  PRIMARY KEY (`Id`,`Id_Estado`)
+  PRIMARY KEY (`Id`),
+  KEY `Cidades_Estados` (`Id_Estado`),
+  CONSTRAINT `Cidades_Estados` FOREIGN KEY (`Id_Estado`) REFERENCES `estados` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8930 DEFAULT CHARSET=latin1;
 
 /*Data for the table `cidades` */
@@ -47328,7 +47332,9 @@ CREATE TABLE `clientes` (
   `Observacao` longtext,
   `Tipo` enum('FISICO','JURIDICO','FISICA_JURIDICA') NOT NULL,
   `Situacao` enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
-  PRIMARY KEY (`ID`,`ID_Bairro`)
+  PRIMARY KEY (`ID`),
+  KEY `Clientes_Bairros` (`ID_Bairro`),
+  CONSTRAINT `Clientes_Bairros` FOREIGN KEY (`ID_Bairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `clientes` */

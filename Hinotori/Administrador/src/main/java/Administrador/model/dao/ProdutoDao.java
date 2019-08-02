@@ -8,8 +8,8 @@ public interface ProdutoDao {
 
 	void insert(Produto obj);
 	void update(Produto obj);
-	void delete(Integer id);
-	Produto find(Integer id);
+	void delete(Long id);
+	Produto find(Long id);
 	List<Produto> findAll();
 	
 }

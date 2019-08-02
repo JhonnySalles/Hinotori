@@ -8,8 +8,8 @@ public interface BairroDao {
 
 	void insert(Bairro obj);
 	void update(Bairro obj);
-	void delete(Integer id);
-	Bairro find(Integer id);
+	void delete(Long id);
+	Bairro find(Long id);
 	List<Bairro> findAll();
 	
 }

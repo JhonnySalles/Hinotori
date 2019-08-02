@@ -8,8 +8,8 @@ public interface PaisDao {
 	
 	void insert(Pais obj);
 	void update(Pais obj);
-	void delete(Integer id);
-	Pais find(Integer id);
+	void delete(Long id);
+	Pais find(Long id);
 	List<Pais> findAll();
 
 }
