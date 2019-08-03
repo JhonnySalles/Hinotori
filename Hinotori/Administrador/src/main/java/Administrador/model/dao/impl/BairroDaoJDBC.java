@@ -2,17 +2,19 @@ package Administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
 import Administrador.model.dao.BairroDao;
 import Administrador.model.entities.Bairro;
+import log.SalvarLog;
 import mysql.DB;
 
 public class BairroDaoJDBC implements BairroDao {
 
-	final String insert = "INSERT INTO bairros (Id, Id_Cidade, Nome) VALUES (?, ?, ?);";
+	final String insert = "INSERT INTO bairros (Id_Cidade, Nome) VALUES (?, ?);";
 
 	final String update = "UPDATE bairros SET Id_Cidade = ?, Nome = ? WHERE Id = ?;";
 
@@ -35,9 +37,8 @@ public class BairroDaoJDBC implements BairroDao {
 		try {
 			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getId());
-			st.setLong(2, obj.getId_Cidade());
-			st.setString(3, obj.getNome());
+			st.setLong(1, obj.getId_Cidade());
+			st.setString(2, obj.getNome());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -99,6 +100,7 @@ public class BairroDaoJDBC implements BairroDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			SalvarLog.salvar(this.getClass(), "JDBC - DELETE", e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -106,7 +108,23 @@ public class BairroDaoJDBC implements BairroDao {
 
 	@Override
 	public Bairro find(Long id) {
-		// TODO Auto-generated method stub
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conexao.prepareStatement(select);
+			st.setLong(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				Bairro obj = new Bairro(rs.getLong("Id"), rs.getLong("Id_Cidade"), rs.getString("Nome"));
+				return obj;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 

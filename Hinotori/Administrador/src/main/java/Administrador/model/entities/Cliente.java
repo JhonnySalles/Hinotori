@@ -90,17 +90,14 @@ public class Cliente extends Pessoa implements Serializable {
 		super();
 	}
 
-	public Cliente(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
-			String celular, String email, Date dataCadastro, Long id, Long idBairro, Date ultimaAlteracao,
-			String observacao, List<ClienteContato> contatos, List<ClienteEndereco> endereco, Enum<TipoEmpresa> tipo,
-			Enum<Situacao> situacao) {
+	public Cliente(Long id, Long idBairro, String nome, String sobreNome, String dddTelefone, String telefone,
+			String dddCelular, String celular, String email, Date dataCadastro, Date ultimaAlteracao, String observacao,
+			Enum<TipoEmpresa> tipo, Enum<Situacao> situacao) {
 		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email, dataCadastro);
 		this.id = id;
 		this.idBairro = idBairro;
 		this.ultimaAlteracao = ultimaAlteracao;
 		this.observacao = observacao;
-		this.contatos = contatos;
-		this.endereco = endereco;
 		this.tipo = tipo;
 		this.situacao = situacao;
 	}

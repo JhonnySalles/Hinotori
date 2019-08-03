@@ -25,9 +25,9 @@ CREATE TABLE `bairros` (
   `Id_Cidade` int(11) NOT NULL,
   `Nome` varchar(150) NOT NULL,
   PRIMARY KEY (`Id`),
-  KEY `Bairro_Cidade` (`Id_Cidade`),
-  CONSTRAINT `Bairro_Cidade` FOREIGN KEY (`Id_Cidade`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=65536 DEFAULT CHARSET=latin1;
+  KEY `Bairros_Cidades` (`Id_Cidade`),
+  CONSTRAINT `Bairros_Cidades` FOREIGN KEY (`Id_Cidade`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=38333 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bairros` */
 
@@ -47330,8 +47330,8 @@ CREATE TABLE `clientes` (
   `Data_Cadastro` datetime DEFAULT NULL,
   `Ultima_Alteracao` datetime DEFAULT NULL,
   `Observacao` longtext,
-  `Tipo` enum('FISICO','JURIDICO','FISICA_JURIDICA') NOT NULL,
-  `Situacao` enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
+  `Tipo` enum('FISICO','JURIDICO','FISICA JURIDICA') NOT NULL DEFAULT 'FISICO',
+  `Situacao` enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   PRIMARY KEY (`ID`),
   KEY `Clientes_Bairros` (`ID_Bairro`),
   CONSTRAINT `Clientes_Bairros` FOREIGN KEY (`ID_Bairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
@@ -47393,7 +47393,9 @@ CREATE TABLE `empresas` (
   `Complemento` varchar(250) DEFAULT NULL,
   `Data_Cadastro` datetime NOT NULL,
   `Situacao` enum('ATIVO','INATIVO') DEFAULT NULL,
-  PRIMARY KEY (`ID`,`ID_Bairro`)
+  PRIMARY KEY (`ID`),
+  KEY `Empresas_Bairros` (`ID_Bairro`),
+  CONSTRAINT `Empresas_Bairros` FOREIGN KEY (`ID_Bairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `empresas` */
@@ -47423,40 +47425,43 @@ CREATE TABLE `estados` (
   `Nome` varchar(50) NOT NULL,
   `Sigla` varchar(2) NOT NULL,
   `CodigoIBGE` int(3) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
+  `Id_Pais` int(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `Estados_Cidades` (`Id_Pais`),
+  CONSTRAINT `Estados_Cidades` FOREIGN KEY (`Id_Pais`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 /*Data for the table `estados` */
 
-insert  into `estados`(`Id`,`Nome`,`Sigla`,`CodigoIBGE`) values 
-(1,'Acre','AC',12),
-(2,'Alagoas','AL',27),
-(3,'Amazonas','AM',13),
-(4,'Amapá','AP',16),
-(5,'Bahia','BA',29),
-(6,'Ceará','CE',23),
-(7,'Distrito Federal','DF',53),
-(8,'Espirito Santo','ES',32),
-(9,'Exterior','EX',99),
-(10,'Goiás','GO',52),
-(11,'Maranhão','MA',21),
-(12,'Minas Gerais','MG',31),
-(13,'Mato Grosso do Sul','MS',50),
-(14,'Mato Grosso','MT',51),
-(15,'Pará','PA',15),
-(16,'Paraíba','PB',25),
-(17,'Pernambuco','PE',26),
-(18,'Piauí','PI',22),
-(19,'Paraná','PR',41),
-(20,'Rio de Janeiro','RJ',33),
-(21,'Rio Grande do Norte','RN',24),
-(22,'Rondônia','RO',11),
-(23,'Roraima','RR',14),
-(24,'Rio Grande do Sul','RS',43),
-(25,'Santa Catarina','SC',42),
-(26,'Sergipe','SE',28),
-(27,'São Paulo','SP',35),
-(28,'Tocantins','TO',17);
+insert  into `estados`(`Id`,`Nome`,`Sigla`,`CodigoIBGE`,`Id_Pais`) values 
+(1,'Acre','AC',12,30),
+(2,'Alagoas','AL',27,30),
+(3,'Amazonas','AM',13,30),
+(4,'Amapá','AP',16,30),
+(5,'Bahia','BA',29,30),
+(6,'Ceará','CE',23,30),
+(7,'Distrito Federal','DF',53,30),
+(8,'Espirito Santo','ES',32,30),
+(9,'Exterior','EX',99,30),
+(10,'Goiás','GO',52,30),
+(11,'Maranhão','MA',21,30),
+(12,'Minas Gerais','MG',31,30),
+(13,'Mato Grosso do Sul','MS',50,30),
+(14,'Mato Grosso','MT',51,30),
+(15,'Pará','PA',15,30),
+(16,'Paraíba','PB',25,30),
+(17,'Pernambuco','PE',26,30),
+(18,'Piauí','PI',22,30),
+(19,'Paraná','PR',41,30),
+(20,'Rio de Janeiro','RJ',33,30),
+(21,'Rio Grande do Norte','RN',24,30),
+(22,'Rondônia','RO',11,30),
+(23,'Roraima','RR',14,30),
+(24,'Rio Grande do Sul','RS',43,30),
+(25,'Santa Catarina','SC',42,30),
+(26,'Sergipe','SE',28,30),
+(27,'São Paulo','SP',35,30),
+(28,'Tocantins','TO',17,30);
 
 /*Table structure for table `mesas` */
 
@@ -47840,10 +47845,8 @@ CREATE TABLE `tamanhos` (
 DROP TABLE IF EXISTS `usuarios`;
 
 CREATE TABLE `usuarios` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Id_Bairro` int(11) NOT NULL,
-  `ID_Empresa` int(11) NOT NULL,
   `Login` char(20) NOT NULL,
+  `Id_Bairro` int(11) NOT NULL,
   `Nome` varchar(60) DEFAULT NULL,
   `Sobrenome` varchar(150) DEFAULT NULL,
   `Senha` varchar(250) DEFAULT NULL,
@@ -47857,15 +47860,17 @@ CREATE TABLE `usuarios` (
   `Imagem` longblob,
   `Nivel` enum('USUARIO','ADMINISTRADOR','TOTAL') DEFAULT NULL,
   `Situacao` enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
-  PRIMARY KEY (`ID`,`Login`,`ID_Empresa`,`Id_Bairro`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`Login`),
+  KEY `Usuarios_Bairros` (`Id_Bairro`),
+  CONSTRAINT `Usuarios_Bairros` FOREIGN KEY (`Id_Bairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `usuarios` */
 
-insert  into `usuarios`(`ID`,`Id_Bairro`,`ID_Empresa`,`Login`,`Nome`,`Sobrenome`,`Senha`,`Email`,`Data_Cadastro`,`Observacao`,`Ddd_Telefone`,`Telefone`,`Ddd_Celular`,`Celular`,`Imagem`,`Nivel`,`Situacao`) values 
-(1,0,0,'ADMIN','ADMIN',NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',NULL,'2019-07-27 15:17:23',NULL,NULL,NULL,NULL,NULL,NULL,'ADMINISTRADOR','ATIVO'),
-(2,0,0,'SHIYOKEN',NULL,NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',NULL,'2019-07-27 15:17:23',NULL,NULL,NULL,NULL,NULL,NULL,'TOTAL','ATIVO'),
-(3,0,0,'USUARIO','USUARIO',NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',NULL,'2019-07-27 15:17:23',NULL,NULL,NULL,NULL,NULL,NULL,'USUARIO','ATIVO');
+insert  into `usuarios`(`Login`,`Id_Bairro`,`Nome`,`Sobrenome`,`Senha`,`Email`,`Data_Cadastro`,`Observacao`,`Ddd_Telefone`,`Telefone`,`Ddd_Celular`,`Celular`,`Imagem`,`Nivel`,`Situacao`) values 
+('ADMIN',1,'ADMIN',NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',NULL,'2019-07-27 15:17:23',NULL,NULL,NULL,NULL,NULL,NULL,'ADMINISTRADOR','ATIVO'),
+('SHIYOKEN',1,NULL,NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',NULL,'2019-07-27 15:17:23',NULL,NULL,NULL,NULL,NULL,NULL,'TOTAL','ATIVO'),
+('USUARIO',1,'USUARIO',NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',NULL,'2019-07-27 15:17:23',NULL,NULL,NULL,NULL,NULL,NULL,'USUARIO','ATIVO');
 
 /*Table structure for table `usuarios_empresas` */
 

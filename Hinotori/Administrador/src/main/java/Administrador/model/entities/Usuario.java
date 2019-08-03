@@ -11,11 +11,9 @@ public class Usuario extends Pessoa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
-	private static final long serialVersionUID = 349012166580737616L;
+	private static final long serialVersionUID = -1829885748257026644L;
 
-	private Long id;
 	private Long idBairro;
-	private Long idEmpresa;
 	private String login;
 	private String senha;
 	private Enum<Situacao> situacao;
@@ -23,28 +21,12 @@ public class Usuario extends Pessoa implements Serializable {
 	private byte[] imagem;
 	private Enum<UsuarioNivel> nivel;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public Long getIdBairro() {
 		return idBairro;
 	}
 
 	public void setIdBairro(Long idBairro) {
 		this.idBairro = idBairro;
-	}
-
-	public Long getIdEmpresa() {
-		return idEmpresa;
-	}
-
-	public void setIdEmpresa(Long idEmpresa) {
-		this.idEmpresa = idEmpresa;
 	}
 
 	public String getLogin() {
@@ -103,9 +85,7 @@ public class Usuario extends Pessoa implements Serializable {
 			String celular, String email, Date dataCadastro, Long id, Long idBairro, Long idEmpresa, String login,
 			String senha, Enum<Situacao> situacao, String observacao, byte[] imagem, Enum<UsuarioNivel> nivel) {
 		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email, dataCadastro);
-		this.id = id;
 		this.idBairro = idBairro;
-		this.idEmpresa = idEmpresa;
 		this.login = login;
 		this.senha = senha;
 		this.situacao = situacao;
@@ -118,7 +98,6 @@ public class Usuario extends Pessoa implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		return result;
 	}
@@ -132,11 +111,6 @@ public class Usuario extends Pessoa implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		if (login == null) {
 			if (other.login != null)
 				return false;
@@ -147,9 +121,8 @@ public class Usuario extends Pessoa implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", idBairro=" + idBairro + ", idEmpresa=" + idEmpresa + ", login=" + login
-				+ ", senha=" + senha + ", situacao=" + situacao + ", observacao=" + observacao + ", imagem="
-				+ Arrays.toString(imagem) + ", nivel=" + nivel + "]";
+		return "Usuario [idBairro=" + idBairro + ", login=" + login + ", senha=" + senha + ", situacao=" + situacao
+				+ ", observacao=" + observacao + ", imagem=" + Arrays.toString(imagem) + ", nivel=" + nivel + "]";
 	}
 
 }

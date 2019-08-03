@@ -10,6 +10,7 @@ module Comum {
 	exports model.encode;
 	exports model.config;
 	exports mysql;
+	exports log;
 
 	requires java.logging;
 	requires javafx.base;

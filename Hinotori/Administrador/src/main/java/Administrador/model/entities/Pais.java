@@ -2,19 +2,14 @@ package Administrador.model.entities;
 
 import java.io.Serializable;
 
-import Administrador.enums.Situacao;
-
 public class Pais implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
-	private static final long serialVersionUID = 3967766363941818908L;
-
+	private static final long serialVersionUID = -8550095243834653978L;
+	
 	private Long id;
-	private Long idEstado;
 	private String nome;
-	private Integer ddd;
-	private Enum<Situacao> situacao;
 
 	public Long getId() {
 		return id;
@@ -22,14 +17,6 @@ public class Pais implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getIdEstado() {
-		return idEstado;
-	}
-
-	public void setIdEstado(Long idEstado) {
-		this.idEstado = idEstado;
 	}
 
 	public String getNome() {
@@ -40,32 +27,13 @@ public class Pais implements Serializable {
 		this.nome = nome;
 	}
 
-	public Integer getDdd() {
-		return ddd;
-	}
-
-	public void setDdd(Integer ddd) {
-		this.ddd = ddd;
-	}
-
-	public Enum<Situacao> getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Enum<Situacao> situacao) {
-		this.situacao = situacao;
-	}
-
 	public Pais() {
 
 	}
 
-	public Pais(Long id, Long idEstado, String nome, Integer ddd, Enum<Situacao> situacao) {
+	public Pais(Long id, String nome) {
 		this.id = id;
-		this.idEstado = idEstado;
 		this.nome = nome;
-		this.ddd = ddd;
-		this.situacao = situacao;
 	}
 
 	// Utilizado para que possamos comparar os objetos por conteúdo e não
@@ -75,6 +43,7 @@ public class Pais implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
 
@@ -92,13 +61,17 @@ public class Pais implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Pais [id=" + id + ", idEstado=" + idEstado + ", nome=" + nome + ", ddd=" + ddd + ", situacao="
-				+ situacao + "]";
+		return "Pais [id=" + id + ", nome=" + nome + "]";
 	}
 
 }

@@ -2,17 +2,19 @@ package Administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import Administrador.enums.Situacao;
 import Administrador.model.dao.CidadeDao;
 import Administrador.model.entities.Cidade;
 import mysql.DB;
 
 public class CidadeDaoJDBC implements CidadeDao {
 
-	final String insert = "INSERT INTO cidades (Id, Id_Estado, Nome, Ddd, Situacao) VALUES (?, ?, ?, ?, ?);";
+	final String insert = "INSERT INTO cidades (Id_Estado, Nome, Ddd, Situacao) VALUES (?, ?, ?, ?);";
 
 	final String update = "UPDATE cidades SET Id_Estado = ?, Nome = ?, Ddd = ?, Situacao = ? WHERE Id = ?;";
 
@@ -35,11 +37,10 @@ public class CidadeDaoJDBC implements CidadeDao {
 		try {
 			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getId());
-			st.setLong(2, obj.getIdEstado());
-			st.setString(3, obj.getNome());
-			st.setString(4, obj.getDdd());
-			st.setString(5, obj.getSituacao().toString());
+			st.setLong(1, obj.getIdEstado());
+			st.setString(2, obj.getNome());
+			st.setString(3, obj.getDdd());
+			st.setString(4, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -110,7 +111,23 @@ public class CidadeDaoJDBC implements CidadeDao {
 
 	@Override
 	public Cidade find(Long id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conexao.prepareStatement(select);
+			st.setLong(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				Cidade obj = new Cidade(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
+						rs.getString("Ddd"), Situacao.getEnum(rs.getString("Situacao")));
+				return obj;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 
