@@ -6,13 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.enums.Situacao;
-import Administrador.enums.TipoEmpresa;
 import Administrador.model.dao.ClienteDao;
 import Administrador.model.entities.Cliente;
-import mysql.DB;
+import model.enums.Situacao;
+import model.enums.TipoEmpresa;
+import model.log.ManipulaLog;
+import model.mysql.DB;
 
 public class ClienteDaoJDBC implements ClienteDao {
 
@@ -68,10 +70,10 @@ public class ClienteDaoJDBC implements ClienteDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -104,10 +106,10 @@ public class ClienteDaoJDBC implements ClienteDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -125,13 +127,13 @@ public class ClienteDaoJDBC implements ClienteDao {
 			int rowsAffected = st.executeUpdate();
 
 			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
+				System.out.println("Erro ao deletar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -139,6 +141,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 	@Override
 	public Cliente find(Long id) {
+		
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -150,12 +153,13 @@ public class ClienteDaoJDBC implements ClienteDao {
 						rs.getString("Sobrenome"), rs.getString("DDD_Telefone"), rs.getString("Telefone"),
 						rs.getString("DDD_Celular"), rs.getString("Celular"), rs.getString("Email"),
 						rs.getTimestamp("Data_Cadastro"), rs.getTimestamp("Ultima_Alteracao"),
-						rs.getString("Observacao"), TipoEmpresa.getEnum(rs.getString("Tipo")),
-						Situacao.getEnum(rs.getString("Situacao")));
+						rs.getString("Observacao"), TipoEmpresa.valueOf(rs.getString("Tipo")),
+						Situacao.valueOf(rs.getString("Situacao")));
 				return obj;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -165,7 +169,33 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 	@Override
 	public List<Cliente> findAll() {
-		// TODO Auto-generated method stub
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+
+			st = conexao.prepareStatement(selectAll);
+			rs = st.executeQuery();
+
+			List<Cliente> list = new ArrayList<>();
+
+			while (rs.next()) {
+				Cliente obj = new Cliente(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
+						rs.getString("Sobrenome"), rs.getString("DDD_Telefone"), rs.getString("Telefone"),
+						rs.getString("DDD_Celular"), rs.getString("Celular"), rs.getString("Email"),
+						rs.getTimestamp("Data_Cadastro"), rs.getTimestamp("Ultima_Alteracao"),
+						rs.getString("Observacao"), TipoEmpresa.valueOf(rs.getString("Tipo")),
+						Situacao.valueOf(rs.getString("Situacao")));
+				list.add(obj);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 

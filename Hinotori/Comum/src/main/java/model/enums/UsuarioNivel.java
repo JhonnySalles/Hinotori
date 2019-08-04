@@ -1,8 +1,8 @@
-package Administrador.enums;
+package model.enums;
 
 public enum UsuarioNivel {
 
-	USUARIO("Usuário"), ADMINISTRADOR("Administrador");
+	USUARIO("Usuário"), ADMINISTRADOR("Administrador"), TOTAL("");
 
 	private String nivel;
 

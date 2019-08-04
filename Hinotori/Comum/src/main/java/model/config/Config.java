@@ -1,6 +1,7 @@
 package model.config;
 
 import java.io.File;
+import java.util.Properties;
 
 public class Config {
 	
@@ -29,6 +30,16 @@ public class Config {
 			
 			return arquivo.toString();
 		}
+	}
+	
+	public static String getCaminhoLog() {
+		Properties config = CarregaConfig.carregaConfig();
+		if (!config.isEmpty()) {
+			return config.getProperty("prop.caminho.log");
+		} else {
+			return "C:\\Logs\\LogErro.txt";
+		}
+		
 	}
 
 }

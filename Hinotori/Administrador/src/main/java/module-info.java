@@ -10,9 +10,8 @@ module Administrador {
 	exports Administrador.gui.menu;
 	exports Administrador.gui.frame;
 	exports Administrador.model.entities;
-	exports Administrador.enums;
 
-	requires Comum;
+	requires transitive Comum;
 	requires javafx.base;
 	requires javafx.controls;
 	requires javafx.fxml;

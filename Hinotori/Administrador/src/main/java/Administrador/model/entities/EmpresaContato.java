@@ -2,7 +2,7 @@ package Administrador.model.entities;
 
 import java.io.Serializable;
 
-import Administrador.enums.TipoTelefone;
+import model.enums.TipoTelefone;
 
 public class EmpresaContato implements Serializable {
 

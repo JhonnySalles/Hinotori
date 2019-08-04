@@ -3,24 +3,24 @@ package Administrador.model.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import Administrador.enums.Situacao;
-import Administrador.enums.TipoProduto;
+import model.enums.Situacao;
+import model.enums.TipoProduto;
 
 public class Produto implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -2972348557775718310L;
-	
+
 	private Long id;
 	private String descricao;
 	private String observacao;
 	private String codigoBarras;
 	private String unidade;
 	private Date dataCadastro;
-	private Enum<TipoProduto> tipo;
 	private Double pesoBruto;
 	private Double pesoLiquido;
+	private Enum<TipoProduto> tipo;
 	private Enum<Situacao> situacao;
 
 	public Long getId() {
@@ -108,7 +108,7 @@ public class Produto implements Serializable {
 	}
 
 	public Produto(Long id, String descricao, String observacao, String codigoBarras, String unidade, Date dataCadastro,
-			Enum<TipoProduto> tipo, Double pesoBruto, Double pesoLiquido, Enum<Situacao> situacao) {
+			Double pesoBruto, Double pesoLiquido, Enum<TipoProduto> tipo, Enum<Situacao> situacao) {
 
 		this.id = id;
 		this.descricao = descricao;

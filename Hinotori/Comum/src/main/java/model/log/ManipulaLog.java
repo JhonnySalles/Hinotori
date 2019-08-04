@@ -1,12 +1,12 @@
-package log;
+package model.log;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import arquivo.Arquivos;
+import model.arquivo.Arquivos;
 
-public class SalvarLog {
+public class ManipulaLog {
 
 	private static String getCaminho() {
 
@@ -20,18 +20,14 @@ public class SalvarLog {
 		return "";
 	}
 
-	public static void salvar(Class<?> tela, String tipo, String erro) {
+	public static void salvar(Class<?> tela, String tipo,  String sql, String erro) {
 		String caminho = getCaminho();
-
-		if (caminho.isEmpty()) {
-			caminho = "C:/LogErro.txt";
-		}
-
-		String texto = tela.getName().toString() + " | " + tipo + " | " + erro;
+		String texto = tela.getName().toString() + " | " + tipo + "|" + sql + " | " + erro;
 
 		try {
 			Arquivos.escritor(caminho, texto);
 		} catch (IOException e) {
+			System.out.println("Não foi possivel salvar o Log.");
 			e.printStackTrace();
 		}
 	}

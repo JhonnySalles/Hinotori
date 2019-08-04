@@ -6,12 +6,11 @@ module Config {
 
 	exports Config.connection;
 	exports Config;
-	exports Config.entitis;
 	exports Config.alerts;
 	exports Config.util;
 	exports Config.gui;
 
-	requires Comum;
+	requires transitive Comum;
 	requires java.sql;
 	requires javafx.base;
 	requires javafx.controls;

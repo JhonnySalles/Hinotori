@@ -5,12 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.enums.Situacao;
 import Administrador.model.dao.CidadeDao;
 import Administrador.model.entities.Cidade;
-import mysql.DB;
+import model.enums.Situacao;
+import model.log.ManipulaLog;
+import model.mysql.DB;
 
 public class CidadeDaoJDBC implements CidadeDao {
 
@@ -48,10 +50,10 @@ public class CidadeDaoJDBC implements CidadeDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -76,10 +78,10 @@ public class CidadeDaoJDBC implements CidadeDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -97,13 +99,13 @@ public class CidadeDaoJDBC implements CidadeDao {
 			int rowsAffected = st.executeUpdate();
 
 			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
+				System.out.println("Erro ao deletar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -111,6 +113,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 
 	@Override
 	public Cidade find(Long id) {
+		
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -119,11 +122,12 @@ public class CidadeDaoJDBC implements CidadeDao {
 			rs = st.executeQuery();
 			if (rs.next()) {
 				Cidade obj = new Cidade(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
-						rs.getString("Ddd"), Situacao.getEnum(rs.getString("Situacao")));
+						rs.getString("Ddd"), Situacao.valueOf(rs.getString("Situacao")));
 				return obj;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -133,7 +137,29 @@ public class CidadeDaoJDBC implements CidadeDao {
 
 	@Override
 	public List<Cidade> findAll() {
-		// TODO Auto-generated method stub
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+
+			st = conexao.prepareStatement(selectAll);
+			rs = st.executeQuery();
+
+			List<Cidade> list = new ArrayList<>();
+
+			while (rs.next()) {
+				Cidade obj = new Cidade(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
+						rs.getString("Ddd"), Situacao.valueOf(rs.getString("Situacao")));
+				list.add(obj);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 

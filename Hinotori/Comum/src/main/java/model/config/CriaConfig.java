@@ -5,11 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import model.alerts.Alertas;
+
 public class CriaConfig {
-	
+
 	public void criaConfig(File arquivo) {
 		Properties prop = new Properties();
-		
 
 		prop.setProperty("prop.server.host", "localhost");
 		prop.setProperty("prop.server.port", "3306");
@@ -19,6 +20,7 @@ public class CriaConfig {
 		prop.setProperty("prop.server.database", "MySQL");
 		prop.setProperty("prop.server.base", "");
 		prop.setProperty("prop.caminho.log", "");
+		prop.setProperty("prop.log.mostrar", "0");
 
 		try {
 			FileOutputStream arquivoOut = new FileOutputStream(arquivo);
@@ -26,7 +28,8 @@ public class CriaConfig {
 		} catch (IOException e) {
 			System.out.println("Não foi possivel salvar o arquivo de configuração em: " + arquivo.toString());
 			e.printStackTrace();
-		}		
+			Alertas.Erro("Erro", "Não foi possivel salvar o arquivo de configuração.", e.getMessage(), true, false);
+		}
 	}
 
 }

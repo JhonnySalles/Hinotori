@@ -3,7 +3,7 @@ package Administrador.model.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import Administrador.enums.Situacao;
+import model.enums.Situacao;
 
 public class Empresa implements Serializable {
 

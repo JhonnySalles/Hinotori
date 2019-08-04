@@ -2,7 +2,7 @@ package Administrador.model.entities;
 
 import java.io.Serializable;
 
-import Administrador.enums.Situacao;
+import model.enums.Situacao;
 
 public class Tamanho implements Serializable {
 	

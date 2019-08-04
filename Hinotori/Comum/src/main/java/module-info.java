@@ -9,8 +9,11 @@ module Comum {
 	exports model.animation;
 	exports model.encode;
 	exports model.config;
-	exports mysql;
-	exports log;
+	exports model.mysql;
+	exports model.log;
+	exports model.alerts;
+	exports model.enums;
+	exports model.entitis;
 
 	requires java.logging;
 	requires javafx.base;
@@ -18,4 +21,6 @@ module Comum {
 	requires transitive javafx.graphics;
 	requires java.naming;
 	requires transitive java.sql;
+	requires javafx.fxml;
+	requires java.desktop;
 }

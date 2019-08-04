@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
+import Administrador.model.entities.Usuario;
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +37,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.animation.DoubleTransition;
+import model.config.ProcessaConfig;
+import model.entitis.Conexao;
+import model.enums.UsuarioNivel;
 
 public class DashboardController implements Initializable  {
 
@@ -80,6 +84,23 @@ public class DashboardController implements Initializable  {
 	
 	@FXML
 	JFXButton btnConfiguracao;
+	
+	private static Usuario user;
+	private static Conexao conexao;
+	
+	public DashboardController () {
+		Usuario user = new Usuario("Teste", UsuarioNivel.ADMINISTRADOR);
+		DashboardController.user = user;
+		DashboardController.conexao = ProcessaConfig.getDadosConexao();
+	}
+	
+	public static Usuario getUser() {
+		return user;
+	}
+	
+	public static Conexao getConexao() {
+		return conexao;
+	}
 	
 	/*Teste*/
 	@FXML

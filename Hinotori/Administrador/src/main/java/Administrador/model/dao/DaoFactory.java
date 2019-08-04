@@ -1,7 +1,7 @@
 package Administrador.model.dao;
 
 import Administrador.model.dao.impl.ClienteDaoJDBC;
-import mysql.DB;
+import model.mysql.DB;
 
 public class DaoFactory {
 

@@ -5,12 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import Administrador.model.dao.BairroDao;
 import Administrador.model.entities.Bairro;
-import log.SalvarLog;
-import mysql.DB;
+import model.log.ManipulaLog;
+import model.mysql.DB;
 
 public class BairroDaoJDBC implements BairroDao {
 
@@ -46,10 +47,10 @@ public class BairroDaoJDBC implements BairroDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -72,10 +73,10 @@ public class BairroDaoJDBC implements BairroDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -93,14 +94,13 @@ public class BairroDaoJDBC implements BairroDao {
 			int rowsAffected = st.executeUpdate();
 
 			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
+				System.out.println("Erro ao deletar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			SalvarLog.salvar(this.getClass(), "JDBC - DELETE", e.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -108,7 +108,7 @@ public class BairroDaoJDBC implements BairroDao {
 
 	@Override
 	public Bairro find(Long id) {
-		
+
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -121,6 +121,7 @@ public class BairroDaoJDBC implements BairroDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -130,7 +131,28 @@ public class BairroDaoJDBC implements BairroDao {
 
 	@Override
 	public List<Bairro> findAll() {
-		// TODO Auto-generated method stub
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+
+			st = conexao.prepareStatement(selectAll);
+			rs = st.executeQuery();
+
+			List<Bairro> list = new ArrayList<>();
+
+			while (rs.next()) {
+				Bairro obj = new Bairro(rs.getLong("Id"), rs.getLong("Id_Cidade"), rs.getString("Nome"));
+				list.add(obj);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 

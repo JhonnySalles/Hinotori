@@ -2,13 +2,17 @@ package Administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import Administrador.model.dao.TamanhoDao;
 import Administrador.model.entities.Tamanho;
-import mysql.DB;
+import model.enums.Situacao;
+import model.log.ManipulaLog;
+import model.mysql.DB;
 
 public class TamanhoDaoJDBC implements TamanhoDao {
 
@@ -51,10 +55,10 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -81,10 +85,10 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -106,10 +110,10 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -118,13 +122,55 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 
 	@Override
 	public Tamanho find(Long id) {
-		// TODO Auto-generated method stub
+
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conexao.prepareStatement(select);
+			st.setLong(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				Tamanho obj = new Tamanho(rs.getLong("Id"), rs.getString("Sigla"), rs.getString("Descricao"),
+						rs.getInt("Quantidade_Pedacos"), rs.getInt("Quantidade_Sabores"),
+						Situacao.valueOf(rs.getString("Situacao")));
+				return obj;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 
 	@Override
 	public List<Tamanho> findAll() {
-		// TODO Auto-generated method stub
+
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+
+			st = conexao.prepareStatement(selectAll);
+			rs = st.executeQuery();
+
+			List<Tamanho> list = new ArrayList<>();
+
+			while (rs.next()) {
+				Tamanho obj = new Tamanho(rs.getLong("Id"), rs.getString("Sigla"), rs.getString("Descricao"),
+						rs.getInt("Quantidade_Pedacos"), rs.getInt("Quantidade_Sabores"),
+						Situacao.valueOf(rs.getString("Situacao")));
+				list.add(obj);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 

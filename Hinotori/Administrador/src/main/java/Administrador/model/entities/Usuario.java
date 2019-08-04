@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
-import Administrador.enums.Situacao;
-import Administrador.enums.UsuarioNivel;
+import model.enums.Situacao;
+import model.enums.UsuarioNivel;
 
 public class Usuario extends Pessoa implements Serializable {
 
@@ -33,16 +33,8 @@ public class Usuario extends Pessoa implements Serializable {
 		return login;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
 	public String getSenha() {
 		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 	public Enum<Situacao> getSituacao() {
@@ -73,25 +65,28 @@ public class Usuario extends Pessoa implements Serializable {
 		return nivel;
 	}
 
-	public void setNivel(Enum<UsuarioNivel> nivel) {
-		this.nivel = nivel;
-	}
-
 	public Usuario() {
 		super();
 	}
 
+	// Teste
+	public Usuario(String login, Enum<UsuarioNivel> nivel) {
+		super();
+		this.login = login;
+		this.nivel = nivel;
+	}
+
 	public Usuario(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
-			String celular, String email, Date dataCadastro, Long id, Long idBairro, Long idEmpresa, String login,
-			String senha, Enum<Situacao> situacao, String observacao, byte[] imagem, Enum<UsuarioNivel> nivel) {
+			String celular, String email, Date dataCadastro, Long idBairro, String login, String senha,
+			String observacao, byte[] imagem, Enum<UsuarioNivel> nivel, Enum<Situacao> situacao) {
 		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email, dataCadastro);
 		this.idBairro = idBairro;
 		this.login = login;
 		this.senha = senha;
-		this.situacao = situacao;
 		this.observacao = observacao;
 		this.imagem = imagem;
 		this.nivel = nivel;
+		this.situacao = situacao;
 	}
 
 	@Override

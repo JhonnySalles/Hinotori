@@ -2,14 +2,19 @@ package Administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import Administrador.model.dao.UsuarioDao;
 import Administrador.model.entities.Usuario;
-import mysql.DB;
+import model.enums.Situacao;
+import model.enums.UsuarioNivel;
+import model.log.ManipulaLog;
+import model.mysql.DB;
 
 public class UsuarioDaoJDBC implements UsuarioDao {
 
@@ -67,10 +72,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -107,10 +112,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -132,10 +137,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				System.out.println("Erro ao salvar os dados.");
 				System.out.println(st.toString());
 			}
-			;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
+			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -144,13 +149,62 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 	@Override
 	public Usuario find(Long id) {
-		// TODO Auto-generated method stub
+
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conexao.prepareStatement(select);
+			st.setLong(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+
+				Usuario obj = new Usuario(rs.getString("Nome"), rs.getString("Sobrenome"), rs.getString("Ddd_Telefone"),
+						rs.getString("Telefone"), rs.getString("Ddd_Celular"), rs.getString("Celular"),
+						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Bairro"),
+						rs.getString("Login"), rs.getString("Senha"), rs.getString("Observacao"), rs.getBytes("Imagem"),
+						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
+
+				return obj;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 
 	@Override
 	public List<Usuario> findAll() {
-		// TODO Auto-generated method stub
+
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+
+			st = conexao.prepareStatement(selectAll);
+			rs = st.executeQuery();
+
+			List<Usuario> list = new ArrayList<>();
+
+			while (rs.next()) {
+
+				Usuario obj = new Usuario(rs.getString("Nome"), rs.getString("Sobrenome"), rs.getString("Ddd_Telefone"),
+						rs.getString("Telefone"), rs.getString("Ddd_Celular"), rs.getString("Celular"),
+						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Bairro"),
+						rs.getString("Login"), rs.getString("Senha"), rs.getString("Observacao"), rs.getBytes("Imagem"),
+						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
+				list.add(obj);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 

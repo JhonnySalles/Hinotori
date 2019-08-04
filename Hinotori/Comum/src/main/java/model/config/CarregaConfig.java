@@ -12,6 +12,7 @@ public class CarregaConfig {
 			props.load(fs);
 			return props;
 		} catch (IOException e) {
+			System.out.println("Não foi possível carregar o config.");
 			e.printStackTrace();
 		}
 		return null;

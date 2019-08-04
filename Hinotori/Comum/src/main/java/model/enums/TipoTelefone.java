@@ -1,4 +1,4 @@
-package Administrador.enums;
+package model.enums;
 
 public enum TipoTelefone {
 

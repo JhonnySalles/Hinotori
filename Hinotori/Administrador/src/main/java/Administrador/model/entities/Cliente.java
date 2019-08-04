@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import Administrador.enums.Situacao;
-import Administrador.enums.TipoEmpresa;
+import model.enums.Situacao;
+import model.enums.TipoEmpresa;
 
 public class Cliente extends Pessoa implements Serializable {
 
