@@ -77,18 +77,18 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                                        <children>
-                                          <JFXTextField fx:id="txtNome" cache="true" labelFloat="true" prefHeight="25.0" prefWidth="200.0" promptText="Nome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
+                                          <JFXTextField fx:id="txtNome" labelFloat="true" prefHeight="25.0" prefWidth="300.0" promptText="Nome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
                                              <font>
                                                 <Font name="Times New Roman" size="12.0" />
                                              </font>
                                           </JFXTextField>
-                                          <JFXComboBox fx:id="cbNivel" prefWidth="170.0" promptText="Nivel" />
-                                          <JFXComboBox fx:id="cbSituacao" prefWidth="170.0" promptText="Situação" />
+                                          <JFXComboBox fx:id="cbNivel" prefWidth="200.0" promptText="Nivel" />
+                                          <JFXComboBox fx:id="cbSituacao" prefWidth="200.0" promptText="Situação" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                                        <children>
-                                          <JFXTextField fx:id="txtSobreNome" labelFloat="true" prefHeight="25.0" prefWidth="288.0" promptText="Sobrenome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
+                                          <JFXTextField fx:id="txtSobreNome" labelFloat="true" prefHeight="25.0" prefWidth="700.0" promptText="Sobrenome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
                                              <font>
                                                 <Font name="Times New Roman" size="12.0" />
                                              </font>
@@ -97,12 +97,12 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                                        <children>
-                                          <JFXTextField fx:id="txtLogin" labelFloat="true" prefHeight="25.0" prefWidth="200.0" promptText="Login" unFocusColor="BLACK">
+                                          <JFXTextField fx:id="txtLogin" labelFloat="true" prefHeight="25.0" prefWidth="300.0" promptText="Login" unFocusColor="BLACK">
                                              <font>
                                                 <Font name="Times New Roman" size="12.0" />
                                              </font>
                                           </JFXTextField>
-                                          <JFXPasswordField fx:id="pswSenha" prefHeight="25.0" prefWidth="300.0" promptText="Senha" unFocusColor="BLACK">
+                                          <JFXPasswordField fx:id="pswSenha" prefHeight="25.0" prefWidth="400.0" promptText="Senha" unFocusColor="BLACK">
                                              <font>
                                                 <Font name="Times New Roman" size="12.0" />
                                              </font>
@@ -111,7 +111,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                                        <children>
-                                          <JFXTextField fx:id="txtEmail" labelFloat="true" layoutX="10.0" layoutY="15.0" prefHeight="25.0" prefWidth="500.0" promptText="E-mail" unFocusColor="BLACK">
+                                          <JFXTextField fx:id="txtEmail" labelFloat="true" layoutX="10.0" layoutY="15.0" prefHeight="25.0" prefWidth="700.0" promptText="E-mail" unFocusColor="BLACK">
                                              <font>
                                                 <Font name="Times New Roman" size="12.0" />
                                              </font>
@@ -146,12 +146,12 @@
                         <fx:include fx:id="psqEmpresa" source="../frame/PesquisaGenerica.fxml" />
                         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                            <children>
-                              <JFXTextField fx:id="txtTelefone" labelFloat="true" layoutX="10.0" layoutY="18.0" prefHeight="25.0" prefWidth="250.0" promptText="Telefone" unFocusColor="BLACK">
+                              <JFXTextField fx:id="txtTelefone" labelFloat="true" layoutX="10.0" layoutY="18.0" prefHeight="25.0" prefWidth="350.0" promptText="Telefone" unFocusColor="BLACK">
                                  <font>
                                     <Font name="Times New Roman" size="12.0" />
                                  </font>
                               </JFXTextField>
-                              <JFXTextField fx:id="txtCelular" labelFloat="true" layoutX="357.0" layoutY="18.0" prefHeight="25.0" prefWidth="250.0" promptText="Celular" unFocusColor="BLACK">
+                              <JFXTextField fx:id="txtCelular" labelFloat="true" layoutX="357.0" layoutY="18.0" prefHeight="25.0" prefWidth="350.0" promptText="Celular" unFocusColor="BLACK">
                                  <font>
                                     <Font name="Times New Roman" size="12.0" />
                                  </font>
@@ -160,7 +160,7 @@
                         </HBox>
                         <HBox alignment="CENTER" layoutX="30.0" layoutY="205.0" prefHeight="80.0" prefWidth="388.0" spacing="5.0">
                            <children>
-                              <JFXTextArea fx:id="txtObservacao" promptText="Observação" styleClass="textArea-usuario" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
+                              <JFXTextArea fx:id="txtObservacao" prefWidth="350.0" promptText="Observação" styleClass="textArea-usuario" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font name="Times New Roman" size="12.0" />
                                  </font>
