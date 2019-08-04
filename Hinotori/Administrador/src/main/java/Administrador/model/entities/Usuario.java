@@ -13,7 +13,7 @@ public class Usuario extends Pessoa implements Serializable {
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -1829885748257026644L;
 
-	private Long idBairro;
+	private Long idEmpresa;
 	private String login;
 	private String senha;
 	private Enum<Situacao> situacao;
@@ -21,12 +21,12 @@ public class Usuario extends Pessoa implements Serializable {
 	private byte[] imagem;
 	private Enum<UsuarioNivel> nivel;
 
-	public Long getIdBairro() {
-		return idBairro;
+	public Long getIdEmpresa() {
+		return idEmpresa;
 	}
 
-	public void setIdBairro(Long idBairro) {
-		this.idBairro = idBairro;
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
 
 	public String getLogin() {
@@ -77,10 +77,23 @@ public class Usuario extends Pessoa implements Serializable {
 	}
 
 	public Usuario(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
-			String celular, String email, Date dataCadastro, Long idBairro, String login, String senha,
+			String celular, String email, Long idEmpresa, String login, String senha, String observacao, byte[] imagem,
+			Enum<UsuarioNivel> nivel, Enum<Situacao> situacao) {
+		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email);
+		this.idEmpresa = idEmpresa;
+		this.login = login;
+		this.senha = senha;
+		this.observacao = observacao;
+		this.imagem = imagem;
+		this.nivel = nivel;
+		this.situacao = situacao;
+	}
+
+	public Usuario(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
+			String celular, String email, Date dataCadastro, Long idEmpresa, String login, String senha,
 			String observacao, byte[] imagem, Enum<UsuarioNivel> nivel, Enum<Situacao> situacao) {
 		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email, dataCadastro);
-		this.idBairro = idBairro;
+		this.idEmpresa = idEmpresa;
 		this.login = login;
 		this.senha = senha;
 		this.observacao = observacao;
@@ -116,7 +129,7 @@ public class Usuario extends Pessoa implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Usuario [idBairro=" + idBairro + ", login=" + login + ", senha=" + senha + ", situacao=" + situacao
+		return "Usuario [idEmpresa=" + idEmpresa + ", login=" + login + ", senha=" + senha + ", situacao=" + situacao
 				+ ", observacao=" + observacao + ", imagem=" + Arrays.toString(imagem) + ", nivel=" + nivel + "]";
 	}
 

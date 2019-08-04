@@ -14,6 +14,7 @@ module Comum {
 	exports model.alerts;
 	exports model.enums;
 	exports model.entitis;
+	exports model.utils;
 
 	requires java.logging;
 	requires javafx.base;
@@ -23,4 +24,5 @@ module Comum {
 	requires transitive java.sql;
 	requires javafx.fxml;
 	requires java.desktop;
+	requires transitive com.jfoenix;
 }

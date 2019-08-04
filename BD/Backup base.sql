@@ -47396,9 +47396,12 @@ CREATE TABLE `empresas` (
   PRIMARY KEY (`ID`),
   KEY `Empresas_Bairros` (`ID_Bairro`),
   CONSTRAINT `Empresas_Bairros` FOREIGN KEY (`ID_Bairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `empresas` */
+
+insert  into `empresas`(`ID`,`ID_Bairro`,`Nome_Fantasia`,`Razao_Social`,`CNPJ`,`Endereco`,`Numero`,`CEP`,`Complemento`,`Data_Cadastro`,`Situacao`) values 
+(1,1,'Teste','Teste',NULL,NULL,NULL,NULL,NULL,'0000-00-00 00:00:00','ATIVO');
 
 /*Table structure for table `empresas_contatos` */
 
@@ -47846,7 +47849,7 @@ DROP TABLE IF EXISTS `usuarios`;
 
 CREATE TABLE `usuarios` (
   `Login` char(20) NOT NULL,
-  `Id_Bairro` int(11) NOT NULL,
+  `Id_Empresa` int(11) NOT NULL,
   `Nome` varchar(60) DEFAULT NULL,
   `Sobrenome` varchar(150) DEFAULT NULL,
   `Senha` varchar(250) DEFAULT NULL,
@@ -47861,13 +47864,13 @@ CREATE TABLE `usuarios` (
   `Nivel` enum('USUARIO','ADMINISTRADOR','TOTAL') DEFAULT NULL,
   `Situacao` enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
   PRIMARY KEY (`Login`),
-  KEY `Usuarios_Bairros` (`Id_Bairro`),
-  CONSTRAINT `Usuarios_Bairros` FOREIGN KEY (`Id_Bairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `Usuarios_Empresas` (`Id_Empresa`),
+  CONSTRAINT `Usuarios_Empresas` FOREIGN KEY (`Id_Empresa`) REFERENCES `empresas` (`ID`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `usuarios` */
 
-insert  into `usuarios`(`Login`,`Id_Bairro`,`Nome`,`Sobrenome`,`Senha`,`Email`,`Data_Cadastro`,`Observacao`,`Ddd_Telefone`,`Telefone`,`Ddd_Celular`,`Celular`,`Imagem`,`Nivel`,`Situacao`) values 
+insert  into `usuarios`(`Login`,`Id_Empresa`,`Nome`,`Sobrenome`,`Senha`,`Email`,`Data_Cadastro`,`Observacao`,`Ddd_Telefone`,`Telefone`,`Ddd_Celular`,`Celular`,`Imagem`,`Nivel`,`Situacao`) values 
 ('ADMIN',1,'ADMIN',NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',NULL,'2019-07-27 15:17:23',NULL,NULL,NULL,NULL,NULL,NULL,'ADMINISTRADOR','ATIVO'),
 ('SHIYOKEN',1,NULL,NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',NULL,'2019-07-27 15:17:23',NULL,NULL,NULL,NULL,NULL,NULL,'TOTAL','ATIVO'),
 ('USUARIO',1,'USUARIO',NULL,'A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3',NULL,'2019-07-27 15:17:23',NULL,NULL,NULL,NULL,NULL,NULL,'USUARIO','ATIVO');

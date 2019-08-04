@@ -183,7 +183,7 @@
 /* Estilos de botoes */
 #btnConfirmar {
     -fx-background-color: linear-gradient(to right, #58E82D 0%, #58E82D 5%, #212121 5%, #212121 35%,#58E82D 35%, #58E82D 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
+    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #000000;
 
     -fx-background-image: url("../images/btn/btnConfirma_48.png");
@@ -212,7 +212,7 @@
 /*------------------*/
 #btnCancelar {
     -fx-background-color: linear-gradient(to right, #ff1a1a 0%, #ff1a1a 5%, #212121 5%, #212121 35%,#ff1a1a 35%, #ff1a1a 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
+    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #000000;
 
     -fx-background-image: url("../images/btn/btnCancelar_48.png");
@@ -241,7 +241,7 @@
 /*------------------*/
 #btnPesquisar {
     -fx-background-color: linear-gradient(to right, #0066ff 0%, #0066ff 5%, #212121 5%, #212121 35%,#0066ff 35%, #0066ff 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
+    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #ffffff;
 
     -fx-background-image: url("../images/btn/btnPesquisar_48.png");
@@ -270,7 +270,7 @@
 /*------------------*/
 #btnExcluir {
     -fx-background-color: linear-gradient(to right, #FAB002 0%, #FAB002 5%, #212121 5%, #212121 35%,#FAB002 35%, #FAB002 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
+    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #000000;
 
     -fx-background-image: url("../images/btn/btnExcluir_48.png");
@@ -299,7 +299,7 @@
 /*------------------*/
 #btnNovo {
     -fx-background-color: linear-gradient(to right, #742FE3 0%, #742FE3 5%, #212121 5%, #212121 35%,#742FE3 35%, #742FE3 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
+    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #ffffff;
 
     -fx-background-image: url("../images/btn/bntNovo_48.png");
@@ -328,7 +328,7 @@
 /*------------------*/
 #btnVoltar {
     -fx-background-color: linear-gradient(to right, #57585C 0%, #57585C 5%, #212121 5%, #212121 35%,#57585C 35%, #57585C 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
+    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #ffffff;
 
     -fx-background-image: url("../images/btn/btnVoltar_48.png");
@@ -358,7 +358,7 @@
 /* Estilos de botoes */
 #btnFecharMesa {
     -fx-background-color: linear-gradient(to right, #58E82D 0%, #58E82D 5%, #212121 5%, #212121 31%,#58E82D 31%, #58E82D 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
+    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #000000;
 
     -fx-background-image: url("../images/btn/bntVenda_48.png");

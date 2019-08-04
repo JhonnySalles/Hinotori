@@ -13,22 +13,6 @@ public class Pessoa {
 	private String email;
 	private Date dataCadastro;
 
-	public Pessoa() {
-
-	}
-
-	public Pessoa(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular, String celular,
-			String email, Date dataCadastro) {
-		this.nome = nome;
-		this.sobreNome = sobreNome;
-		this.dddTelefone = dddTelefone;
-		this.telefone = telefone;
-		this.dddCelular = dddCelular;
-		this.celular = celular;
-		this.email = email;
-		this.dataCadastro = dataCadastro;
-	}
-
 	public String getNome() {
 		return nome;
 	}
@@ -90,6 +74,33 @@ public class Pessoa {
 	}
 
 	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+	
+	public Pessoa() {
+
+	}
+
+	public Pessoa(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular, String celular,
+			String email) {
+		this.nome = nome;
+		this.sobreNome = sobreNome;
+		this.dddTelefone = dddTelefone;
+		this.telefone = telefone;
+		this.dddCelular = dddCelular;
+		this.celular = celular;
+		this.email = email;
+	}
+
+	public Pessoa(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular, String celular,
+			String email, Date dataCadastro) {
+		this.nome = nome;
+		this.sobreNome = sobreNome;
+		this.dddTelefone = dddTelefone;
+		this.telefone = telefone;
+		this.dddCelular = dddCelular;
+		this.celular = celular;
+		this.email = email;
 		this.dataCadastro = dataCadastro;
 	}
 

@@ -18,21 +18,21 @@ import model.mysql.DB;
 
 public class UsuarioDaoJDBC implements UsuarioDao {
 
-	final String insert = "INSERT INTO usuarios (Id_Bairro, Login, Nome,"
+	final String insert = "INSERT INTO usuarios (Id_Empresa, Login, Nome,"
 			+ " Sobrenome, Senha, Email, Data_Cadastro, Observacao, Ddd_Telefone, Telefone,"
 			+ " Ddd_Celular, Celular, Imagem, Nivel, Situacao) VALUES"
 			+ " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-	final String update = "UPDATE usuarios SET Id_Bairro = ?, Nome = ?, Sobrenome = ?, Senha = ?,"
+	final String update = "UPDATE usuarios SET Id_Empresa = ?, Nome = ?, Sobrenome = ?, Senha = ?,"
 			+ " Email = ?, Observacao = ?, Ddd_Telefone = ?, Telefone = ?, Ddd_Celular = ?,"
 			+ " Celular = ?, Imagem = ?, Nivel = ?, Situacao = ? WHERE Login = ?;";
 
 	final String delete = "DELETE FROM usuarios WHERE ID = ?;";
 
-	final String selectAll = "SELECT Login, Id_Bairro, Nome, Sobrenome, Senha, Email, Data_Cadastro, Observacao,"
+	final String selectAll = "SELECT Login, Id_Empresa, Nome, Sobrenome, Senha, Email, Data_Cadastro, Observacao,"
 			+ " Ddd_Telefone, Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios;";
 
-	final String select = "SELECT Login, Id_Bairro, Nome, Sobrenome, Senha, Email, Data_Cadastro, Observacao,"
+	final String select = "SELECT Login, Id_Empresa, Nome, Sobrenome, Senha, Email, Data_Cadastro, Observacao,"
 			+ " Ddd_Telefone, Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios WHERE ID = ?;";
 
 	private Connection conexao;
@@ -48,7 +48,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		try {
 			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdBairro());
+			st.setLong(1, obj.getIdEmpresa());
 			st.setString(2, obj.getLogin());
 			st.setString(3, obj.getNome());
 			st.setString(4, obj.getSobreNome());
@@ -89,7 +89,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		try {
 			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdBairro());
+			st.setLong(1, obj.getIdEmpresa());
 			st.setString(2, obj.getNome());
 			st.setString(3, obj.getSobreNome());
 			st.setString(4, obj.getSenha());
@@ -160,7 +160,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 				Usuario obj = new Usuario(rs.getString("Nome"), rs.getString("Sobrenome"), rs.getString("Ddd_Telefone"),
 						rs.getString("Telefone"), rs.getString("Ddd_Celular"), rs.getString("Celular"),
-						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Bairro"),
+						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Empresa"),
 						rs.getString("Login"), rs.getString("Senha"), rs.getString("Observacao"), rs.getBytes("Imagem"),
 						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
 
@@ -192,7 +192,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 				Usuario obj = new Usuario(rs.getString("Nome"), rs.getString("Sobrenome"), rs.getString("Ddd_Telefone"),
 						rs.getString("Telefone"), rs.getString("Ddd_Celular"), rs.getString("Celular"),
-						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Bairro"),
+						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Empresa"),
 						rs.getString("Login"), rs.getString("Senha"), rs.getString("Observacao"), rs.getBytes("Imagem"),
 						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
 				list.add(obj);

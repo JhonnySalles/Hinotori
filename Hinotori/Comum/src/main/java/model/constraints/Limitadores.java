@@ -1,5 +1,7 @@
 package model.constraints;
 
+import com.jfoenix.controls.JFXTextField;
+
 import javafx.scene.control.TextField;
 
 /*		Constrants sao limitadores	*/
@@ -43,7 +45,7 @@ public class Limitadores {
 	}
 	
 	/*	Funcao para que seja digitado ddd e telefone	*/
-	public static void setTextFieldDDD(TextField txt) {
+	public static void setTextFieldDDD(JFXTextField txt) {
 		txt.textProperty().addListener((obs, oldValue, newValue) -> {
 			if(newValue != null && (!newValue.matches("\\d*") || newValue.length() > 2)) { // A expressao serve para validar somente numeros
 				txt.setText(oldValue); //Caso seja digitado algo diferente ir� receber o valor anterior, no caso nao tera alteracao.
@@ -51,7 +53,7 @@ public class Limitadores {
 		});
 	}
 	
-	public static void setTextFieldFone(TextField txt) {
+	public static void setTextFieldFone(JFXTextField txt) {
 		txt.textProperty().addListener((obs, oldValue, newValue) -> {
 			if(newValue != null && (!newValue.matches("\\d*") || newValue.length() > 10)) { // A expressao serve para validar somente numeros
 				txt.setText(oldValue); //Caso seja digitado algo diferente ir� receber o valor anterior, no caso nao tera alteracao.

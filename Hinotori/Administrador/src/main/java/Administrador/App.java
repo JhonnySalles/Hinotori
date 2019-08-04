@@ -1,7 +1,7 @@
 package Administrador;
 
 
-import Administrador.gui.DashboardController;
+import Administrador.controller.DashboardController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,10 +18,10 @@ public class App extends Application {
 	private static DashboardController mainController;
 
 	@Override
-	public void start(@SuppressWarnings("exports") Stage primaryStage) {
+	public void start(Stage primaryStage) {
 		try {
 			//Classe inicial
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/Dashboard.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/Dashboard.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 			mainController = loader.getController();
 			
@@ -35,7 +35,7 @@ public class App extends Application {
 			primaryStage.setTitle("Administrador");
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/images/icon/Shiyoken.png")));
 			primaryStage.initStyle(StageStyle.DECORATED);
-			primaryStage.setMaximized(true);
+			//primaryStage.setMaximized(true);  // Teste
 			
 			primaryStage.show(); // Mostra a tela.
 			
