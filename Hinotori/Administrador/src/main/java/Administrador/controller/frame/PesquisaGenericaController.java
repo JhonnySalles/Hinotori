@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.PopOver;
+import org.controlsfx.control.PopOver.ArrowLocation;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 
+import Administrador.controller.cadastros.CadClienteController;
 import Administrador.model.dao.services.PesquisaGenericaServices;
 import Administrador.model.entities.PesquisaGenerica;
 import Administrador.model.entities.PesquisaGenericaDados;
@@ -45,6 +47,7 @@ public class PesquisaGenericaController implements Initializable {
 	private PesquisaGenericaServices pesquisaService;
 	private PesquisaGenericaDados itemSelecionado;
 	private List<PesquisaGenericaDados> resultado;
+	private CadClienteController main;
 	
 	@FXML
 	private void onTxtPesquisaEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -67,57 +70,34 @@ public class PesquisaGenericaController implements Initializable {
 	@FXML
 	private void onBtnPesquisarAction() {
 		
-		URL url = getClass().getResource("PesquisaGenericaGrid.fxml");
+		URL url = getClass().getResource("/Administrador/view/frame/PesquisaGenericaGrid.fxml");
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(url);
 		PopOver pop = new PopOver();
 		VBox vbox = new VBox();
-		vbox.setPadding(new Insets(10));//10px padding todos os lados
+		vbox.setPadding(new Insets(1));//10px padding todos os lados
 
 		
 		try {
 			vbox.getChildren().add(loader.load());
 			pop.setContentNode(vbox);
-			pop.show(btn_Pesquisar);
+			pop.arrowLocationProperty().set(ArrowLocation.TOP_CENTER);
+			pop.setCornerRadius(5);
+			pop.show(txt_Pesquisa);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		
-		
-		
-		
-		//background.getIen
-		/*
-		URL url = getClass().getResource("frame/PesquisaGenericaGrid.fxml");
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(url);
-		AnchorPane newAnchorPane;
-		try {
-			newAnchorPane = loader.load();
-
-			Scene mainScene = new Scene(newAnchorPane); // Carrega a scena
-			mainScene.setFill(Color.BLACK);
-
-			Stage stage = new Stage();
-			stage.setScene(mainScene); // Seta a cena principal
-			stage.setTitle("Tela de teste");
-			stage.initStyle(StageStyle.DECORATED);
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.setResizable(true);
-			stage.setMinWidth(870);
-			stage.setMinHeight(500);
-			stage.show(); // Mostra a tela.
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 	}
 
 	public void setPesquisa(String campoID, String campoDescricao, String select, String tabela, String joins,
 			String where, String groupOrder) {
 		pesquisa = new PesquisaGenerica(campoID, campoDescricao, select, tabela, joins, where, groupOrder);
 		resultado = pesquisaService.pesquisar(pesquisa);
+	}
+	
+	public void init(CadClienteController mainController) {
+		main = mainController;
 	}
 	
 	public void setItemSelecionado(PesquisaGenericaDados item) {

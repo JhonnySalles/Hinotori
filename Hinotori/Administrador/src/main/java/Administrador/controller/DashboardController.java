@@ -105,7 +105,7 @@ public class DashboardController implements Initializable  {
 	/*Teste*/
 	@FXML
 	public void onBtnTesteAction() throws IOException {
-		URL url = getClass().getResource("/Administrador/view/cadastros/CadUsuario.fxml");
+		URL url = getClass().getResource("/Administrador/view/cadastros/CadCliente.fxml");
 
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(url);

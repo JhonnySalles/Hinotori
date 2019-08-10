@@ -15,7 +15,7 @@ module Administrador {
 	requires javafx.base;
 	requires javafx.controls;
 	requires javafx.fxml;
-	requires javafx.graphics;
+	requires transitive javafx.graphics;
 	requires com.jfoenix;
 	requires java.desktop;
 	requires java.sql;

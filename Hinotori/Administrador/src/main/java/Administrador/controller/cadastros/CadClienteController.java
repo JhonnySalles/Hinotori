@@ -6,6 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
 import Administrador.controller.frame.PesquisaGenericaController;
@@ -16,13 +18,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import model.alerts.Alertas;
-import model.constraints.Limitadores;
-import model.mask.Mascaras;
+import model.enums.Situacao;
+import model.enums.UsuarioNivel;
 
 public class CadClienteController implements Initializable {
 
 	@FXML
-	private JFXTextField txtCodigo;
+	private String Codigo;
 
 	@FXML
 	private JFXTextField txtNome;
@@ -41,24 +43,33 @@ public class CadClienteController implements Initializable {
 
 	@FXML
 	private JFXTextField txtCep;
-
-	@FXML
-	private JFXButton btnPsqCidades;
-
-	@FXML
-	private JFXTextField txtCidade;
-
-	@FXML
-	private PesquisaGenericaController frame_cidade;
-
-	@FXML
-	private PesquisaGenericaController frame_bairro;
-
+	
 	@FXML
 	private JFXTextField txtTelefone;
 
 	@FXML
 	private JFXTextField txtCelular;
+	
+	@FXML
+	private JFXTextField txtCpfCnpj;
+	
+	@FXML
+	private JFXTextField txtEmail;
+	
+	@FXML
+	private JFXDatePicker dtPicDataCadastro;
+	
+	@FXML
+	private JFXComboBox<Situacao> cbSituacao;
+	
+	@FXML
+	private JFXComboBox<UsuarioNivel> cbClienteTipo;
+	
+	@FXML
+	private PesquisaGenericaController frame_cidade;
+
+	@FXML
+	private PesquisaGenericaController frame_bairro;
 
 	@FXML
 	private Pane paneBackground;
@@ -145,24 +156,26 @@ public class CadClienteController implements Initializable {
 	public void onBtnVoltarClick() {
 
 	}
+	
+	public void setFrameCidade () {
+		
+	}
+	
+	public void setFrameBairro() {
+		
+	}
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//frame_cidade.setPesquisa("Id", "Descricao", "cidades.Id, CONCAT(cidades.Nome, '/', estados.Sigla) AS Descricao",
+			//	"cidades", "INNER JOIN estados ON cidades.Id_Estado = estados.Id", "", "ORDER BY Descricao");
 
-		frame_cidade.setPesquisa("Id", "Descricao", "cidades.Id, CONCAT(cidades.Nome, '/', estados.Sigla) AS Descricao",
-				"cidades", "INNER JOIN estados ON cidades.Id_Estado = estados.Id", "", "ORDER BY Descricao");
-
-		frame_bairro.setPesquisa("Id", "Nome", "Id, Id_Cidade, Nome", "bairros", "", "", "Id_Cidade, Nome");
-		;
+		//frame_bairro.setPesquisa("Id", "Nome", "Id, Id_Cidade, Nome", "bairros", "", "", "Id_Cidade, Nome");
+		
 
 		background.setFitToHeight(true);
 		background.setFitToWidth(true);
+		Codigo = "";
 
-		Limitadores.setTextFieldID(txtCodigo, 11);
-		Limitadores.setTextFieldInteger(txtNumero);
-
-		Mascaras.cepField(txtCep);
-		Mascaras.foneField(txtTelefone);
-		Mascaras.foneField(txtCelular);
 
 	}
 }

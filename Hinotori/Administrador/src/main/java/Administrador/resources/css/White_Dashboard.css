@@ -456,13 +456,14 @@
 
 .table-view .column-header-background{
     -fx-background-color:  #5C6BC0;
+
 }
 
 .table-view{
     -fx-background-color: #FAFAFA;
 
-    -fx-border-radius: 0 0 10 10;
-    -fx-background-radius: 0 0 10 10;
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
 }
 
 .table-view:focused{
@@ -542,11 +543,4 @@
 
 .corner {
     -fx-background-color: transparent;
-}
-
-.backgroundGrid {
-    -fx-border-color: #5C6BC0;
-    -fx-background-color: #5C6BC0;
-    -fx-border-radius: 0 0 10 10;
-    -fx-background-radius: 0 0 10 10,2,1;
 }

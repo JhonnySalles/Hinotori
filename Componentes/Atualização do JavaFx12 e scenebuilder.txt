@@ -1,0 +1,3 @@
+https://openjfx.io/openjfx-docs/#IDE-Eclipse
+https://marketplace.eclipse.org/content/gluon-plugin
+https://gluonhq.com/products/javafx/
