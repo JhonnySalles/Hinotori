@@ -19,6 +19,7 @@ module Administrador {
 	requires com.jfoenix;
 	requires java.desktop;
 	requires java.sql;
+	requires org.controlsfx.controls;
 
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens Administrador.controller to javafx.fxml;

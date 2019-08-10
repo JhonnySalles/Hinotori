@@ -183,7 +183,6 @@
 /* Estilos de botoes */
 #btnConfirmar {
     -fx-background-color: linear-gradient(to right, #58E82D 0%, #58E82D 5%, #212121 5%, #212121 35%,#58E82D 35%, #58E82D 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #000000;
 
     -fx-background-image: url("../images/btn/btnConfirma_48.png");
@@ -203,16 +202,15 @@
 }
 
 #btnConfirmar:pressed {
-    -fx-padding: 15 13 14 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0,2 0 4 0,2 0 5 0;
-    -fx-background-position: 8 2;
+    -fx-padding: 0 11 0 0;
+    -fx-background-insets: 0.5,0,0,0;
+    -fx-background-position: 12 0;
     -fx-text-fill: #b3ffb3;
 }
 
 /*------------------*/
 #btnCancelar {
     -fx-background-color: linear-gradient(to right, #ff1a1a 0%, #ff1a1a 5%, #212121 5%, #212121 35%,#ff1a1a 35%, #ff1a1a 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #000000;
 
     -fx-background-image: url("../images/btn/btnCancelar_48.png");
@@ -232,16 +230,15 @@
 }
 
 #btnCancelar:pressed {
-    -fx-padding: 15 13 14 15; /* Pading Ã© a movimentaÃ§Ã£o da descriÃ§Ã£o do botÃ£o, ele Ã© o espaÃ§amento entre os elementos. */
-    -fx-background-insets: 2 0 0 0,2 0 3 0,2 0 4 0,2 0 5 0;
-    -fx-background-position: 8 2;
+    -fx-padding: 0 11 0 0;
+    -fx-background-insets: 0.5,0,0,0;
+    -fx-background-position: 12 0;
     -fx-text-fill: #ff9999;
 }
 
 /*------------------*/
 #btnPesquisar {
     -fx-background-color: linear-gradient(to right, #0066ff 0%, #0066ff 5%, #212121 5%, #212121 35%,#0066ff 35%, #0066ff 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #ffffff;
 
     -fx-background-image: url("../images/btn/btnPesquisar_48.png");
@@ -261,16 +258,15 @@
 }
 
 #btnPesquisar:pressed {
-    -fx-padding: 15 13 14 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0,2 0 4 0,2 0 5 0;
-    -fx-background-position: 8 2;
+    -fx-padding: 0 11 0 0;
+    -fx-background-insets: 0.5,0,0,0;
+    -fx-background-position: 12 0;
     -fx-text-fill: #ccf2ff;
 }
 
 /*------------------*/
 #btnExcluir {
     -fx-background-color: linear-gradient(to right, #FAB002 0%, #FAB002 5%, #212121 5%, #212121 35%,#FAB002 35%, #FAB002 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #000000;
 
     -fx-background-image: url("../images/btn/btnExcluir_48.png");
@@ -290,16 +286,15 @@
 }
 
 #btnExcluir:pressed {
-    -fx-padding: 15 13 14 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0,2 0 4 0,2 0 5 0;
-    -fx-background-position: 8 2;
+    -fx-padding: 0 11 0 0;
+    -fx-background-insets: 0.5,0,0,0;
+    -fx-background-position: 12 0;
     -fx-text-fill: #ffe066;
 }
 
 /*------------------*/
 #btnNovo {
     -fx-background-color: linear-gradient(to right, #742FE3 0%, #742FE3 5%, #212121 5%, #212121 35%,#742FE3 35%, #742FE3 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #ffffff;
 
     -fx-background-image: url("../images/btn/bntNovo_48.png");
@@ -319,16 +314,15 @@
 }
 
 #btnNovo:pressed {
-    -fx-padding: 15 13 14 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0,2 0 4 0,2 0 5 0;
-    -fx-background-position: 8 2;
+    -fx-padding: 0 11 0 0;
+    -fx-background-insets: 0.5,0,0,0;
+    -fx-background-position: 12 0;
     -fx-text-fill: #e6b3ff;
 }
 
 /*------------------*/
 #btnVoltar {
     -fx-background-color: linear-gradient(to right, #57585C 0%, #57585C 5%, #212121 5%, #212121 35%,#57585C 35%, #57585C 100%);
-    -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #ffffff;
 
     -fx-background-image: url("../images/btn/btnVoltar_48.png");
@@ -348,9 +342,9 @@
 }
 
 #btnVoltar:pressed {
-    -fx-padding: 15 13 14 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0,2 0 4 0,2 0 5 0;
-    -fx-background-position: 8 2;
+    -fx-padding: 0 11 0 0;
+    -fx-background-insets: 0.5,0,0,0;
+    -fx-background-position: 12 0;
     -fx-text-fill: #ffffff;
 }
 

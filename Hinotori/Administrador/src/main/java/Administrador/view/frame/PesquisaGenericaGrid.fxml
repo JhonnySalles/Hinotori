@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="300.0" prefWidth="400.0" stylesheets="@../../resources/css/White_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.frame.PesquisaGenericaGridController">
+<AnchorPane prefHeight="300.0" prefWidth="400.0" styleClass="backgroundGrid" stylesheets="@../../resources/css/White_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.frame.PesquisaGenericaGridController">
    <children>
       <TableView fx:id="tabela" layoutX="14.0" layoutY="14.0" prefHeight="277.0" prefWidth="379.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
@@ -13,4 +14,7 @@
         </columns>
       </TableView>
    </children>
+   <padding>
+      <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+   </padding>
 </AnchorPane>

@@ -2,8 +2,8 @@ package Administrador.model.entities;
 
 public class PesquisaGenericaDados {
 	
-	String id;
-	String descricao;
+	private String id;
+	private String descricao;
 	
 	public String getId() {
 		return id;
@@ -18,6 +18,11 @@ public class PesquisaGenericaDados {
 	}
 	
 	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
+	public PesquisaGenericaDados(String id, String descricao) {
+		this.id = id;
 		this.descricao = descricao;
 	}
 
