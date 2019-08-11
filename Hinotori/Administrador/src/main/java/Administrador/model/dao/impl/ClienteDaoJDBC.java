@@ -12,7 +12,7 @@ import java.util.List;
 import Administrador.model.dao.ClienteDao;
 import Administrador.model.entities.Cliente;
 import model.enums.Situacao;
-import model.enums.TipoEmpresa;
+import model.enums.UsuarioNivel;
 import model.log.ManipulaLog;
 import model.mysql.DB;
 
@@ -152,8 +152,9 @@ public class ClienteDaoJDBC implements ClienteDao {
 				Cliente obj = new Cliente(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
 						rs.getString("Sobrenome"), rs.getString("DDD_Telefone"), rs.getString("Telefone"),
 						rs.getString("DDD_Celular"), rs.getString("Celular"), rs.getString("Email"),
-						rs.getTimestamp("Data_Cadastro"), rs.getTimestamp("Ultima_Alteracao"),
-						rs.getString("Observacao"), TipoEmpresa.valueOf(rs.getString("Tipo")),
+						rs.getTimestamp("Data_Cadastro"), rs.getTimestamp("Ultima_Alteracao"), rs.getString("numero"),
+						rs.getString("complemento"), rs.getString("cep"), rs.getString("cpfCnpj"),
+						rs.getString("Observacao"), UsuarioNivel.valueOf(rs.getString("Tipo")),
 						Situacao.valueOf(rs.getString("Situacao")));
 				return obj;
 			}
@@ -183,8 +184,9 @@ public class ClienteDaoJDBC implements ClienteDao {
 				Cliente obj = new Cliente(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
 						rs.getString("Sobrenome"), rs.getString("DDD_Telefone"), rs.getString("Telefone"),
 						rs.getString("DDD_Celular"), rs.getString("Celular"), rs.getString("Email"),
-						rs.getTimestamp("Data_Cadastro"), rs.getTimestamp("Ultima_Alteracao"),
-						rs.getString("Observacao"), TipoEmpresa.valueOf(rs.getString("Tipo")),
+						rs.getTimestamp("Data_Cadastro"), rs.getTimestamp("Ultima_Alteracao"),rs.getString("numero"),
+						rs.getString("complemento"), rs.getString("cep"), rs.getString("cpfCnpj"),
+						rs.getString("Observacao"), UsuarioNivel.valueOf(rs.getString("Tipo")),
 						Situacao.valueOf(rs.getString("Situacao")));
 				list.add(obj);
 			}

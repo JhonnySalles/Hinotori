@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -62,6 +63,12 @@ public class TelaConfiguracaoController implements Initializable {
 
 	@FXML
 	PasswordField pswSenha;
+	
+	@FXML
+	CheckBox cbMostrarLog;
+	
+	@FXML
+	TextField txtCaminhoLog;
 
 	@FXML
 	Pane pnImgAviso;
@@ -267,6 +274,8 @@ public class TelaConfiguracaoController implements Initializable {
 		txtUsuario.setText(dadosConexao.getUsuario());
 		pswSenha.setText(dadosConexao.getSenha());
 		chBoxDataBase.getSelectionModel().select(dadosConexao.getDatabase());
+		cbMostrarLog.setSelected(dadosConexao.getMostraErro());
+		txtCaminhoLog.setText(dadosConexao.getCaminhoLog());
 		validaCampos();
 	}
 
@@ -277,6 +286,8 @@ public class TelaConfiguracaoController implements Initializable {
 		dadosConexao.setUsuario(txtUsuario.getText());
 		dadosConexao.setSenha(pswSenha.getText());
 		dadosConexao.setDatabase(chBoxDataBase.getSelectionModel().getSelectedItem());
+		dadosConexao.setMostraErro(cbMostrarLog.isSelected());
+		dadosConexao.setCaminhoLog(txtCaminhoLog.getText());
 	}
 
 	public Boolean validaCampos() {

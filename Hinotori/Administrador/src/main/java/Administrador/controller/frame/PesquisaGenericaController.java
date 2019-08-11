@@ -11,11 +11,8 @@ import org.controlsfx.control.PopOver;
 import org.controlsfx.control.PopOver.ArrowLocation;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 
-import Administrador.controller.cadastros.CadClienteController;
 import Administrador.model.dao.services.PesquisaGenericaServices;
 import Administrador.model.entities.PesquisaGenerica;
 import Administrador.model.entities.PesquisaGenericaDados;
@@ -23,7 +20,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -32,23 +28,24 @@ import javafx.scene.layout.VBox;
 public class PesquisaGenericaController implements Initializable {
 
 	@FXML
-	private JFXTextField txt_Pesquisa;
+	public JFXTextField txt_Pesquisa;
 
 	@FXML
 	private JFXButton btn_Limpar;
 
 	@FXML
 	private JFXButton btn_Pesquisar;
-	
+
 	@FXML
-	private AnchorPane background;
+	public AnchorPane background;
 
 	private PesquisaGenerica pesquisa;
 	private PesquisaGenericaServices pesquisaService;
 	private PesquisaGenericaDados itemSelecionado;
 	private List<PesquisaGenericaDados> resultado;
-	private CadClienteController main;
-	
+	private PesquisaGenericaGridController controller;
+	private PopOver pop;
+
 	@FXML
 	private void onTxtPesquisaEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		if (e.getCode().toString().equals("ENTER")) {
@@ -69,17 +66,21 @@ public class PesquisaGenericaController implements Initializable {
 
 	@FXML
 	private void onBtnPesquisarAction() {
-		
 		URL url = getClass().getResource("/Administrador/view/frame/PesquisaGenericaGrid.fxml");
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(url);
-		PopOver pop = new PopOver();
+		pop = new PopOver();
 		VBox vbox = new VBox();
-		vbox.setPadding(new Insets(1));//10px padding todos os lados
+		vbox.setPadding(new Insets(1));// 10px padding todos os lados
 
-		
 		try {
 			vbox.getChildren().add(loader.load());
+
+			controller = loader.getController();
+			controller.setControllerPai(this);
+			if (resultado != null)
+				controller.carregaGrid(resultado);
+
 			pop.setContentNode(vbox);
 			pop.arrowLocationProperty().set(ArrowLocation.TOP_CENTER);
 			pop.setCornerRadius(5);
@@ -87,7 +88,6 @@ public class PesquisaGenericaController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	public void setPesquisa(String campoID, String campoDescricao, String select, String tabela, String joins,
@@ -95,17 +95,23 @@ public class PesquisaGenericaController implements Initializable {
 		pesquisa = new PesquisaGenerica(campoID, campoDescricao, select, tabela, joins, where, groupOrder);
 		resultado = pesquisaService.pesquisar(pesquisa);
 	}
-	
-	public void init(CadClienteController mainController) {
-		main = mainController;
-	}
-	
+
 	public void setItemSelecionado(PesquisaGenericaDados item) {
 		this.itemSelecionado = item;
+		if (itemSelecionado != null)
+			setDescricao(itemSelecionado.getDescricao());
+	}
+
+	public void duploClique(PesquisaGenericaDados item) {
+		this.itemSelecionado = item;
+		if (itemSelecionado != null)
+			setDescricao(itemSelecionado.getDescricao());
+		txt_Pesquisa.requestFocus();
+		pop.hide();
 	}
 
 	public void setDescricao(String descricao) {
-		txt_Pesquisa.setPromptText(descricao);
+		txt_Pesquisa.setText(descricao);
 	}
 
 	public String getID() {
@@ -125,13 +131,14 @@ public class PesquisaGenericaController implements Initializable {
 		itemSelecionado = null;
 		resultado = null;
 
+		pesquisaService = new PesquisaGenericaServices();
+
 		/* Popup de descricao dos botoes */
 		Tooltip toltLimpar = new Tooltip("Limpar");
 		Tooltip toltPesquisar = new Tooltip("Pesquisar");
 
 		btn_Limpar.setTooltip(toltLimpar);
-		btn_Pesquisar.setTooltip(toltPesquisar);
-
+		btn_Pesquisar.setTooltip(toltPesquisar);	
 	}
 
 }

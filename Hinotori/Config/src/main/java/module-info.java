@@ -3,7 +3,6 @@
  *
  */
 module Config {
-
 	exports Config.connection;
 	exports Config;
 	exports Config.alerts;
@@ -20,6 +19,5 @@ module Config {
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens Config.gui to javafx.fxml;
-	opens Config.alerts to javafx.fxml;
-	
+	opens Config.alerts to javafx.fxml;	
 }

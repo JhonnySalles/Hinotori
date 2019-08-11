@@ -179,7 +179,7 @@ public class Alertas {
 
 	public static void Concluido(String titulo, String texto) {
 		try {
-			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("/alerts/Concluido.fxml"));
+			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("/Config/alerts/Concluido.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 
 			// Obtem a referencia do controller para editar as label.

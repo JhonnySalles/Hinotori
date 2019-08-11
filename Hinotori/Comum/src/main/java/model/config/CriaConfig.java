@@ -14,14 +14,13 @@ public class CriaConfig {
 
 		prop.setProperty("prop.server.host", "localhost");
 		prop.setProperty("prop.server.port", "3306");
-		prop.setProperty("prop.server.base", "MySQL");
+		prop.setProperty("prop.server.base", "baseteste");
 		prop.setProperty("prop.server.login", "admin");
 		prop.setProperty("prop.server.password", "crg+SNfHXEMF7MkmtK4CdA==");
 		prop.setProperty("prop.server.database", "MySQL");
-		prop.setProperty("prop.server.base", "");
-		prop.setProperty("prop.caminho.log", "");
+		prop.setProperty("prop.caminho.log", "C:\\Log");
 		prop.setProperty("prop.log.mostrar", "0");
-
+		
 		try {
 			FileOutputStream arquivoOut = new FileOutputStream(arquivo);
 			prop.store(arquivoOut, null);

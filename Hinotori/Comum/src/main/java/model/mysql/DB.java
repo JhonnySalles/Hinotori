@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import model.encode.Encryption;
+
 public class DB {
 
 	private static Connection conn = null;
@@ -16,13 +18,22 @@ public class DB {
 	public static Connection getConnection() {
 		if (conn == null) {
 			try {
+				String driverName = "com.mysql.cj.jdbc.Driver";
+				Class.forName(driverName);
+				
 				Properties props = loadProperties();
 				props.setProperty("characterEncoding", "UTF-8");
 				props.setProperty("useUnicode", "true");
-				String url = "jdbc:mysql://" + props.getProperty("server") + ":" + props.getProperty("port") + "/"
-						+ props.getProperty("dataBase")
+				props.setProperty("user", props.getProperty("prop.server.login"));
+				props.setProperty("password", Encryption.decodifica(props.getProperty("prop.server.password")));
+				String url = "jdbc:mysql://" + props.getProperty("prop.server.host") + ":" + props.getProperty("prop.server.port") + "/"
+						+ props.getProperty("prop.server.base")
 						+ "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 				conn = DriverManager.getConnection(url, props);
+			} catch (ClassNotFoundException e) { // Driver n�o encontrado
+				System.out.println("O driver de conexão expecificado nao foi encontrado.");
+				e.printStackTrace();
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

@@ -41,9 +41,9 @@ import model.mask.Mascaras;
 import model.utils.Utils;
 
 public class CadUsuarioController implements Initializable {
-	
-	final static Image ImagemPadrao = new Image(
-			CadUsuarioController.class.getResourceAsStream("/Administrador/resources/images/icon/icoUsuarioImage_256.png"));
+
+	final static Image ImagemPadrao = new Image(CadUsuarioController.class
+			.getResourceAsStream("/Administrador/resources/images/icon/icoUsuarioImage_256.png"));
 
 	@FXML
 	private ImageView imgUsuario;
@@ -203,7 +203,7 @@ public class CadUsuarioController implements Initializable {
 
 	@FXML
 	public void onBtnProcurarImagemClick() {
-		
+
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg");
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(extFilter);
@@ -214,17 +214,17 @@ public class CadUsuarioController implements Initializable {
 			try {
 				imagem = null;
 
-		        imgUsuario.setImage(new Image(caminhoImagem.toURI().toString()));
-								
+				imgUsuario.setImage(new Image(caminhoImagem.toURI().toString()));
+
 				BufferedImage bImage = ImageIO.read(caminhoImagem);
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				ImageIO.write(bImage, Utils.getFileExtension(caminhoImagem), bos );
+				ImageIO.write(bImage, Utils.getFileExtension(caminhoImagem), bos);
 				imagem = bos.toByteArray();
 			} catch (IOException e) {
 				e.printStackTrace();
 				Alertas.Erro("Erro ao carregar imagem", "Erro ao carregar a imagem.", e.getMessage(), false, true);
-			}	
-		}		
+			}
+		}
 	}
 
 	@FXML
@@ -249,7 +249,7 @@ public class CadUsuarioController implements Initializable {
 		} else
 			return false;
 	}
-	
+
 	private void carregaCampos() {
 		txtNome.setText(usuario.getNome());
 		txtSobreNome.setText(usuario.getSobreNome());
@@ -259,12 +259,11 @@ public class CadUsuarioController implements Initializable {
 		txtCelular.setText(usuario.getDddCelular() + usuario.getCelular());
 		txtEmail.setText(usuario.getEmail());
 		txtObservacao.setText(usuario.getObservacao());
-		
+
 		if (usuario.getImagem() != null)
 			imgUsuario.setImage(new Image(new ByteArrayInputStream(usuario.getImagem())));
-		
 	}
-	
+
 	public void carregaUsuario(Usuario userLogin) {
 		usuario = userLogin;
 		carregaCampos();

@@ -2,10 +2,9 @@ package Administrador.model.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import model.enums.Situacao;
-import model.enums.TipoEmpresa;
+import model.enums.UsuarioNivel;
 
 public class Cliente extends Pessoa implements Serializable {
 
@@ -15,11 +14,16 @@ public class Cliente extends Pessoa implements Serializable {
 
 	private Long id;
 	private Long idBairro;
+
 	private Date ultimaAlteracao;
 	private String observacao;
-	private List<ClienteContato> contatos;
-	private List<ClienteEndereco> endereco;
-	private Enum<TipoEmpresa> tipo;
+	private String endereco;
+	private String numero;
+	private String complemento;
+	private String cep;
+	private String cpfCnpj;
+
+	private Enum<UsuarioNivel> tipo;
 	private Enum<Situacao> situacao;
 
 	public Long getId() {
@@ -54,28 +58,52 @@ public class Cliente extends Pessoa implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public List<ClienteContato> getContatos() {
-		return contatos;
+	public String getNumero() {
+		return numero;
 	}
 
-	public void setContatos(List<ClienteContato> contatos) {
-		this.contatos = contatos;
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 
-	public List<ClienteEndereco> getEndereco() {
+	public String getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(List<ClienteEndereco> endereco) {
+	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
 
-	public Enum<TipoEmpresa> getTipo() {
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getCpfCnpj() {
+		return cpfCnpj;
+	}
+
+	public void setCpfCnpj(String cpfCnpj) {
+		this.cpfCnpj = cpfCnpj;
+	}
+
+	public Enum<UsuarioNivel> getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Enum<TipoEmpresa> tipo) {
-		this.tipo = tipo;
+	public void setTipo(UsuarioNivel usuarioNivel) {
+		this.tipo = usuarioNivel;
 	}
 
 	public Enum<Situacao> getSituacao() {
@@ -91,8 +119,9 @@ public class Cliente extends Pessoa implements Serializable {
 	}
 
 	public Cliente(Long id, Long idBairro, String nome, String sobreNome, String dddTelefone, String telefone,
-			String dddCelular, String celular, String email, Date dataCadastro, Date ultimaAlteracao, String observacao,
-			Enum<TipoEmpresa> tipo, Enum<Situacao> situacao) {
+			String dddCelular, String celular, String email, Date dataCadastro, Date ultimaAlteracao, String numero,
+			String complemento, String cep, String cpfCnpj, String observacao, Enum<UsuarioNivel> tipo,
+			Enum<Situacao> situacao) {
 		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email, dataCadastro);
 		this.id = id;
 		this.idBairro = idBairro;
@@ -100,6 +129,10 @@ public class Cliente extends Pessoa implements Serializable {
 		this.observacao = observacao;
 		this.tipo = tipo;
 		this.situacao = situacao;
+		this.numero = numero;
+		this.complemento = complemento;
+		this.cep = cep;
+		this.cpfCnpj = cpfCnpj;
 	}
 
 	@Override
@@ -136,8 +169,8 @@ public class Cliente extends Pessoa implements Serializable {
 	@Override
 	public String toString() {
 		return "Cliente [id=" + id + ", idBairro=" + idBairro + ", ultimaAlteracao=" + ultimaAlteracao + ", observacao="
-				+ observacao + ", contatos=" + contatos + ", endereco=" + endereco + ", tipo=" + tipo + ", situacao="
-				+ situacao + "]";
+				+ observacao + ", numero=" + numero + ", endereco=" + endereco + ", tipo=" + tipo + ", situacao="
+				+ situacao + ", complemento=" + complemento + ", cep=" + cep + ", cpfCnpj=" + cpfCnpj + "]";
 	}
 
 }
