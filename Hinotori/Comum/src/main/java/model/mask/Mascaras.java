@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jfoenix.controls.JFXTextField;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -68,9 +70,8 @@ public class Mascaras {
 		});
 	}
 
-	public static void numericField(final TextField textField) {
+	public static void numericField(final JFXTextField textField) {
 		textField.lengthProperty().addListener((ChangeListener) new ChangeListener<Number>() {
-
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				char ch;
@@ -127,7 +128,7 @@ public class Mascaras {
 		return retorno;
 	}
 
-	public static void cpfCnpjField(TextField textField) {
+	public static void cpfCnpjField(JFXTextField textField) {
 		Mascaras.maxField(textField, 18);
 		textField.lengthProperty().addListener((observableValue, number, number2) -> {
 			String value = textField.getText();
@@ -159,7 +160,7 @@ public class Mascaras {
 		});
 	}
 
-	public static void foneField(TextField textField) {
+	public static void foneField(JFXTextField textField) {
 		Mascaras.maxField(textField, 14);
 		textField.lengthProperty().addListener((observableValue, number, number2) -> {
 			try {
@@ -180,7 +181,7 @@ public class Mascaras {
 		});
 	}
 
-	public static void cpfField(TextField textField) {
+	public static void cpfField(JFXTextField textField) {
 		Mascaras.maxField(textField, 14);
 		textField.lengthProperty().addListener((observableValue, number, number2) -> {
 			String value = textField.getText();
@@ -196,7 +197,7 @@ public class Mascaras {
 		});
 	}
 
-	public static void cnpjField(TextField textField) {
+	public static void cnpjField(JFXTextField textField) {
 		Mascaras.maxField(textField, 18);
 		textField.lengthProperty().addListener((observableValue, number, number2) -> {
 			String value = textField.getText();

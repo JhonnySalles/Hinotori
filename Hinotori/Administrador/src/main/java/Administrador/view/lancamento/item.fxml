@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="240.0" stylesheets="@../../resources/css/White_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 10;" styleClass="background-Blue5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Text fill="WHITE" layoutX="4.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mesa 15" wrappingWidth="108.63672299683094" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="30.0" />
+            <Text fill="WHITE" layoutX="4.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cliente fisico" wrappingWidth="215.99999701976776" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="46.0" />
+            <Text fill="WHITE" layoutX="114.82036001980305" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Itens 30" textAlignment="RIGHT" wrappingWidth="108.63672666996717" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="30.0" />
+            <JFXTextArea layoutX="5.0" layoutY="83.0" prefHeight="54.0" prefWidth="217.0" promptText="Descricao" styleClass="textArea-cliente" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="80.0" />
+            <Text fill="WHITE" layoutX="177.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" textAlignment="RIGHT" wrappingWidth="44.47266328334808" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="6.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hr 18:50" wrappingWidth="220.000004529953" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="61.0" />
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="15.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <image>
+            <Image url="@../../resources/images/btn/bntImpedimento_48.png" />
+         </image>
+      </ImageView>
+      <JFXButton buttonType="RAISED" layoutX="185.0" layoutY="26.0" styleClass="background-Black4" text="Fechar" textFill="WHITE" AnchorPane.topAnchor="5.0" />
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</AnchorPane>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
@@ -70,54 +69,31 @@
       <VBox alignment="TOP_CENTER" layoutX="20.0" layoutY="20.0" prefHeight="200.0" prefWidth="140.0" spacing="10.0" styleClass="botoesBackground-cadastroGeral" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="btnConfirmar" alignment="BASELINE_RIGHT" defaultButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Confirmar" textFill="WHITE">
+            <JFXButton fx:id="btnConfirmar" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnConfirmarClick" onKeyPressed="#onBtnConfirmarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Confirmar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-            <Button fx:id="btnCancelar" alignment="BASELINE_RIGHT" cancelButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Cancelar" textFill="WHITE">
+            </JFXButton>
+            <JFXButton fx:id="btnCancelar" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnCancelarClick" onKeyPressed="#onBtnCancelarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Cancelar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-            <Button fx:id="btnNovo" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Novo" textFill="WHITE">
+            </JFXButton>
+            <JFXButton fx:id="btnNovo" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnNovoClick" onKeyPressed="#onBtnNovoEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Novo" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-            <Button fx:id="btnExcluir" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Excluir" textFill="WHITE">
+            </JFXButton>
+            <JFXButton fx:id="btnExcluir" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnExcluirClick" onKeyPressed="#onBtnExcluirEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Excluir" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-            <Button fx:id="btnPesquisar" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Pesquisar" textFill="WHITE">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
+            </JFXButton>
+            <JFXButton fx:id="btnVoltar" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Voltar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-            </Button>
-            <Button fx:id="btnVoltar" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Voltar" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
+            </JFXButton>
          </children>
       </VBox>
    </children>

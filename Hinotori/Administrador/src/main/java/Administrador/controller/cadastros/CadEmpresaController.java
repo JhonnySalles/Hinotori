@@ -3,78 +3,112 @@ package Administrador.controller.cadastros;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
+import Administrador.controller.frame.PesquisaGenericaController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import model.enums.Situacao;
+import model.mask.Mascaras;
 
 public class CadEmpresaController implements Initializable {
 	
 	@FXML
-	JFXTextField txtCodigo;
+	private JFXTextField txtNomeFantasia;
 	
 	@FXML
-	JFXTextField txtNome;
+	private JFXTextField txtRazaoSocial;
 	
 	@FXML
-	JFXTextField txtSobreNome;
+	private JFXComboBox<Situacao> cbSituacao;
 	
 	@FXML
-	JFXTextField txtEndereco;
+	private JFXTextField txtCnpj;
 	
 	@FXML
-	JFXTextField txtNumero;
+	private JFXTextField txtEndereco;
 	
 	@FXML
-	JFXTextField txtComplemento;
+	private JFXTextField txtNumero;
 	
 	@FXML
-	JFXTextField txtCep;
+	private JFXTextField txtComplemento;
 	
 	@FXML
-	JFXButton btnPsqCidades;
-	
-	@FXML
-	JFXTextField txtCidade;
-	
-	@FXML
-	JFXComboBox cmbBoxEstado;
-	
-	@FXML
-	JFXTextField txtTelefone;
-	
-	@FXML
-	JFXTextField txtCelular;
+	private JFXTextField txtCep;
 
 	@FXML
-	Pane paneBackground;
+	private Pane paneBackground;
 	
 	@FXML
-	ScrollPane background;
+	private ScrollPane background;
+	
+	@FXML
+	private AnchorPane frameCidade;
+
+	@FXML
+	private AnchorPane frameBairro;
+
+	// Para utilizar o controlador genérico, basta colocar o nome Controller na
+	// frente do id do fxml incluido.
+	@FXML
+	private PesquisaGenericaController frameCidadeController;
+
+	@FXML
+	private PesquisaGenericaController frameBairroController;
 	
 	@FXML
 	private Button btnConfirmar;
+	
 	@FXML
 	private Button btnCancelar;
+	
 	@FXML
 	private Button btnNovo;
+	
 	@FXML
 	private Button btnExcluir;
-	@FXML
-	private Button btnPesquisar;
+
 	@FXML
 	private Button btnVoltar;
 	
-	
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		background.setFitToHeight(true);
-		background.setFitToWidth(true);
+		frameCidadeController.setPesquisa("Id", "Descricao",
+				"cidades.Id, CONCAT(cidades.Nome, '/', estados.Sigla) AS Descricao", "cidades",
+				"INNER JOIN estados ON cidades.Id_Estado = estados.Id", "", "ORDER BY Descricao");
+
+		frameCidadeController.txt_Pesquisa.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (!newValue.booleanValue()) {
+					if (frameCidadeController.getID() != "")
+						frameBairroController.setPesquisa("Id", "Nome", "Id, Id_Cidade, Nome", "bairros", "",
+								" AND Id_Cidade = " + frameCidadeController.getID(), "ORDER BY Id_Cidade, Nome");
+					else
+						frameBairroController.setPesquisa("Id", "Nome", "Id, Id_Cidade, Nome", "bairros", "", "",
+								"ORDER BY Id_Cidade, Nome");
+				}
+			}
+		});
+
+		frameBairroController.setPesquisa("Id", "Nome", "Id, Id_Cidade, Nome", "bairros", "", "",
+				"ORDER BY Id_Cidade, Nome");
+
+		frameCidadeController.txt_Pesquisa.setPromptText("Pesquisa de cidades");
+		frameBairroController.txt_Pesquisa.setPromptText("Pesquisa de bairros");
 		
+		background.setFitToHeight(true);
+		background.setFitToWidth(true);		
+		
+		Mascaras.cnpjField(txtCnpj);
+		Mascaras.numericField(txtNumero);
 	}
 
 }

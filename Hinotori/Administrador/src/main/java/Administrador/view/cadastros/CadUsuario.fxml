@@ -6,7 +6,6 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -34,14 +33,14 @@
                   </HBox>
                   <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="160.0">
                      <children>
-                        <Rectangle arcHeight="1.0" arcWidth="5.0" fill="#7cb342" height="33.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
-                        <Polygon points="-10.0, 17.0, -10.0, -16.0, 0.0, -11.0, 10.0, -16.0, 10.0, 17.0, 0.0, 13.0" stroke="TRANSPARENT" strokeType="INSIDE">
+                        <Rectangle arcHeight="1.0" arcWidth="5.0" fill="#7cb342" height="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
+                        <Polygon points="-10.0, 13.0, -10.0, -11.0, 0.0, -11.0, 10.0, -16.0, 10.0, 18.5, 0.0, 13.0" stroke="TRANSPARENT" strokeType="INSIDE">
                            <fill>
                               <LinearGradient endX="0.6714285714285715" endY="0.4285714285714286" startX="0.3" startY="0.42857142857142855">
                                  <stops>
-                                    <Stop color="#4a6e22" />
+                                    <Stop color="#7cb342" />
                                     <Stop color="#4a6e22" offset="0.44847335782280634" />
-                                    <Stop color="#558b2f" offset="1.0" />
+                                    <Stop color="#63922b" offset="1.0" />
                                  </stops>
                               </LinearGradient>
                            </fill>
@@ -55,18 +54,18 @@
                               </Label>
                            </children>
                         </HBox>
-                        <Polygon points="-10.0, 17.0, -10.0, -16.0, 0.0, -11.0, 10.0, -16.0, 10.0, 17.0, 0.0, 13.0" stroke="TRANSPARENT" strokeType="INSIDE">
+                        <Polygon points="-10.0, 18.5, -10.0, -16.0, 0.0, -11.0, 10.0, -11.0, 10.0, 13.0, 0.0, 13.0" stroke="TRANSPARENT" strokeType="INSIDE">
                            <fill>
                               <LinearGradient endX="0.6714285714285715" endY="0.4285714285714286" startX="0.3" startY="0.42857142857142855">
                                  <stops>
                                     <Stop color="#4a6e22" />
                                     <Stop color="#4a6e22" offset="0.44847335782280634" />
-                                    <Stop color="#558b2f" offset="1.0" />
+                                    <Stop color="#7cb342" offset="1.0" />
                                  </stops>
                               </LinearGradient>
                            </fill>
                         </Polygon>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7cb342" height="33.0" layoutX="125.0" layoutY="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
+                        <Rectangle arcWidth="5.0" fill="#7cb342" height="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
                      </children>
                   </HBox>
                   <VBox minHeight="304.0" minWidth="350.0" prefHeight="388.0" prefWidth="352.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="210.0">
@@ -135,8 +134,8 @@
                                     </ImageView>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <JFXButton fx:id="btnExcluirImagem" onAction="#onBtnExcluirImagemClick" onKeyPressed="#onBtnExcluirImagemEnter" styleClass="background-Red3" text="Excluir" textFill="WHITE" />
-                                          <JFXButton fx:id="btnProcurarImagem" onAction="#onBtnProcurarImagemClick" onKeyPressed="#onBtnProcurarImagemEnter" styleClass="background-Blue5" text="Procurar" textFill="WHITE" />
+                                          <JFXButton fx:id="btnExcluirImagem" buttonType="RAISED" onAction="#onBtnExcluirImagemClick" onKeyPressed="#onBtnExcluirImagemEnter" styleClass="background-Red3" text="Excluir" textFill="WHITE" />
+                                          <JFXButton fx:id="btnProcurarImagem" buttonType="RAISED" onAction="#onBtnProcurarImagemClick" onKeyPressed="#onBtnProcurarImagemEnter" styleClass="background-Blue5" text="Procurar" textFill="WHITE" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -182,46 +181,31 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin></ImageView>
-            <Button fx:id="btnConfirmar" alignment="BASELINE_RIGHT" defaultButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" onAction="#onBtnConfirmarClick" onKeyPressed="#onBtnConfirmarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Confirmar" textFill="WHITE">
+            <JFXButton fx:id="btnConfirmar" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnConfirmarClick" onKeyPressed="#onBtnConfirmarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Confirmar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-            <Button fx:id="btnCancelar" alignment="BASELINE_RIGHT" cancelButton="true" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" onAction="#onBtnCancelarClick" onKeyPressed="#onBtnCancelarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Cancelar" textFill="WHITE">
+            </JFXButton>
+            <JFXButton fx:id="btnCancelar" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnCancelarClick" onKeyPressed="#onBtnCancelarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Cancelar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-            <Button fx:id="btnNovo" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" onAction="#onBtnNovoClick" onKeyPressed="#onBtnNovoEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Novo" textFill="WHITE">
+            </JFXButton>
+            <JFXButton fx:id="btnNovo" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnNovoClick" onKeyPressed="#onBtnNovoEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Novo" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-            <Button fx:id="btnExcluir" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" onAction="#onBtnExcluirClick" onKeyPressed="#onBtnExcluirEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Excluir" textFill="WHITE">
+            </JFXButton>
+            <JFXButton fx:id="btnExcluir" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnExcluirClick" onKeyPressed="#onBtnExcluirEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Excluir" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-            <Button fx:id="btnVoltar" alignment="BASELINE_RIGHT" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" mnemonicParsing="false" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/Dark_Botoes.css" text="Voltar" textFill="WHITE">
+            </JFXButton>
+            <JFXButton fx:id="btnVoltar" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Voltar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
+            </JFXButton>
          </children>
          <padding>
             <Insets bottom="10.0" top="10.0" />

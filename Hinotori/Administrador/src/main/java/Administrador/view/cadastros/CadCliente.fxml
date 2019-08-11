@@ -37,7 +37,7 @@
                            <fill>
                               <LinearGradient endX="0.6714285714285715" endY="0.4285714285714286" startX="0.3" startY="0.42857142857142855">
                                  <stops>
-                                    <Stop color="#125d9e" />
+                                    <Stop color="DODGERBLUE" />
                                     <Stop color="#125d9e" offset="0.44847335782280645" />
                                     <Stop color="#1976d2" offset="1.0" />
                                  </stops>
@@ -59,7 +59,7 @@
                                  <stops>
                                     <Stop color="#125d9e" />
                                     <Stop color="#125d9e" offset="0.44847335782280645" />
-                                    <Stop color="#1976d2" offset="1.0" />
+                                    <Stop color="DODGERBLUE" offset="1.0" />
                                  </stops>
                               </LinearGradient>
                            </fill>
@@ -69,7 +69,7 @@
                   </HBox>
                   <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
+                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
                             
                               <JFXTextField fx:id="txtNome" cache="true" labelFloat="true" prefHeight="28.0" prefWidth="268.0" promptText="Nome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
@@ -81,7 +81,7 @@
                               <JFXComboBox fx:id="cbSituacao" minWidth="75.0" prefHeight="28.0" prefWidth="100.0" promptText="Situação" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
+                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
                               <JFXTextField fx:id="txtSobreNome" labelFloat="true" prefHeight="25.0" prefWidth="300.0" promptText="Sobrenome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
                                  <font>
@@ -89,51 +89,26 @@
                                  </font>
                               </JFXTextField>
                               <JFXComboBox fx:id="cbClienteTipo" promptText="Fisica/Jurídica" />
+                              <JFXButton fx:id="btnEndereco" alignment="CENTER" buttonType="RAISED" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" styleClass="background-Purple3" stylesheets="@../../resources/css/White_Botoes.css" text="Endereços">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXButton>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
+                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
                               <JFXTextField fx:id="txtTelefone" labelFloat="true" minWidth="75.0" prefHeight="25.0" prefWidth="150.0" promptText="Telefone" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
                               <JFXTextField fx:id="txtCelular" labelFloat="true" minWidth="75.0" prefHeight="25.0" prefWidth="150.0" promptText="Celular" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
                               <JFXTextField fx:id="txtCpfCnpj" labelFloat="true" layoutX="10.0" layoutY="13.0" minWidth="100.0" prefHeight="25.0" prefWidth="200.0" promptText="CPF/CNPJ" unFocusColor="BLACK" />
                            </children>
                         </HBox>
-                        <fx:include fx:id="frameCidade" source="../frame/PesquisaGenerica.fxml" VBox.vgrow="ALWAYS" />
-                        <fx:include fx:id="frameBairro" source="../frame/PesquisaGenerica.fxml" VBox.vgrow="ALWAYS" />
                         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                            <children>
-                              <JFXTextField fx:id="txtEndereco" labelFloat="true" prefHeight="25.0" prefWidth="288.0" promptText="Endereço" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
-                              <JFXTextField fx:id="txtNumero" labelFloat="true" prefHeight="25.0" prefWidth="100.0" promptText="Número" unFocusColor="BLACK">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
+                              <JFXTextField fx:id="txtEmail" labelFloat="true" promptText="Email" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
-                           <children>
-                              <JFXTextField fx:id="txtComplemento" labelFloat="true" prefHeight="25.0" prefWidth="251.0" promptText="Complemento" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
-                              <JFXTextField fx:id="txtCep" labelFloat="true" prefHeight="25.0" prefWidth="82.0" promptText="CEP" unFocusColor="BLACK">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
-                           <children>
-                              <JFXTextField fx:id="txtEmail" labelFloat="true" prefHeight="25.0" prefWidth="117.0" promptText="Email" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="388.0" spacing="5.0">
+                        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
                               <JFXTextArea promptText="Observação" styleClass="textArea-cliente" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
                            </children>

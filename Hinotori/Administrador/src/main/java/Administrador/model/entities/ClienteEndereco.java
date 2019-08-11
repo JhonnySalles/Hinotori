@@ -12,7 +12,7 @@ public class ClienteEndereco implements Serializable {
 	private String endereco;
 	private String numero;
 	private String cep;
-	private String referencia;
+	private String complemento;
 	private String observacao;
 	private Enum<Situacao> situacao;
 
@@ -56,12 +56,12 @@ public class ClienteEndereco implements Serializable {
 		this.cep = cep;
 	}
 
-	public String getReferencia() {
-		return referencia;
+	public String getComplemento() {
+		return complemento;
 	}
 
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
 	}
 
 	public String getObservacao() {
@@ -80,14 +80,14 @@ public class ClienteEndereco implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public ClienteEndereco(Integer id, Integer idBairro, String endereco, String numero, String cep, String referencia,
+	public ClienteEndereco(Integer id, Integer idBairro, String endereco, String numero, String cep, String complemento,
 			String observacao, Enum<Situacao> situacao) {
 		this.id = id;
 		this.idBairro = idBairro;
 		this.endereco = endereco;
 		this.numero = numero;
 		this.cep = cep;
-		this.referencia = referencia;
+		this.complemento = complemento;
 		this.observacao = observacao;
 		this.situacao = situacao;
 	}
@@ -132,7 +132,7 @@ public class ClienteEndereco implements Serializable {
 	@Override
 	public String toString() {
 		return "ClienteEndereco [id=" + id + ", idBairro=" + idBairro + ", endereco=" + endereco + ", numero=" + numero
-				+ ", cep=" + cep + ", referencia=" + referencia + ", observacao=" + observacao + ", situacao="
+				+ ", cep=" + cep + ", complemento=" + complemento + ", observacao=" + observacao + ", situacao="
 				+ situacao + "]";
 	}
 
