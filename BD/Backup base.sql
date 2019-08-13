@@ -47319,7 +47319,7 @@ DROP TABLE IF EXISTS `clientes`;
 
 CREATE TABLE `clientes` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_Bairro` int(11) NOT NULL,
+  `ID_Cidade` int(11) NOT NULL,
   `Nome` varchar(60) NOT NULL,
   `Sobrenome` varchar(150) DEFAULT NULL,
   `DDD_Telefone` varchar(2) DEFAULT NULL,
@@ -47333,8 +47333,8 @@ CREATE TABLE `clientes` (
   `Tipo` enum('FISICO','JURIDICO','FISICA JURIDICA') NOT NULL DEFAULT 'FISICO',
   `Situacao` enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   PRIMARY KEY (`ID`),
-  KEY `Clientes_Bairros` (`ID_Bairro`),
-  CONSTRAINT `Clientes_Bairros` FOREIGN KEY (`ID_Bairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `Clientes_Bairros` (`ID_Cidade`),
+  CONSTRAINT `Cliente_Cidades` FOREIGN KEY (`ID_Cidade`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `clientes` */
@@ -47369,7 +47369,7 @@ CREATE TABLE `clientes_enderecos` (
   `Endereco` varchar(150) NOT NULL,
   `Numero` varchar(10) NOT NULL,
   `CEP` varchar(10) DEFAULT NULL,
-  `Referencia` varchar(150) DEFAULT NULL,
+  `Complemento` varchar(150) DEFAULT NULL,
   `Observacao` longtext,
   `Situacao` enum('ATIVO','INATIVO') DEFAULT NULL,
   PRIMARY KEY (`ID`,`ID_Cliente`,`ID_Bairro`)
@@ -47396,7 +47396,7 @@ CREATE TABLE `empresas` (
   PRIMARY KEY (`ID`),
   KEY `Empresas_Bairros` (`ID_Bairro`),
   CONSTRAINT `Empresas_Bairros` FOREIGN KEY (`ID_Bairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `empresas` */
 
