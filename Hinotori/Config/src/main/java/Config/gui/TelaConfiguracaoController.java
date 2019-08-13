@@ -27,6 +27,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import model.config.ProcessaConfig;
+import model.constraints.Validadores;
 import model.entitis.Conexao;
 
 public class TelaConfiguracaoController implements Initializable {
@@ -63,10 +64,10 @@ public class TelaConfiguracaoController implements Initializable {
 
 	@FXML
 	PasswordField pswSenha;
-	
+
 	@FXML
 	CheckBox cbMostrarLog;
-	
+
 	@FXML
 	TextField txtCaminhoLog;
 
@@ -103,7 +104,7 @@ public class TelaConfiguracaoController implements Initializable {
 		pnImgAviso.setVisible(false);
 		chBoxBase.getItems().clear();
 
-		if (validaCampos() && Constraints.validaIp(txtIP)) {
+		if (validaCampos() && Validadores.validaIp(txtIP)) {
 
 			background.getScene().getRoot().setCursor(Cursor.WAIT);
 			Animacao.inicia(imgViewConexao);
@@ -187,7 +188,7 @@ public class TelaConfiguracaoController implements Initializable {
 
 	@FXML
 	public void onTxtPortaEventAction() {
-		Constraints.setTxtFieldPort(txtIP);
+		Validadores.setTxtFieldPort(txtIP);
 	}
 
 	@FXML
@@ -229,7 +230,7 @@ public class TelaConfiguracaoController implements Initializable {
 		if (txtIP.textProperty().get().toString().isEmpty()) {
 			txtIP.setStyle("");
 		} else {
-			if (Constraints.validaIp(txtIP)) {
+			if (Validadores.validaIp(txtIP)) {
 				txtIP.setStyle("-fx-border-color: green;");
 			} else {
 				txtIP.setStyle("-fx-border-color: red;");
@@ -346,7 +347,7 @@ public class TelaConfiguracaoController implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		Constraints.setTxtFieldPort(txtPorta);
+		Validadores.setTxtFieldPort(txtPorta);
 
 		txtIP.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override

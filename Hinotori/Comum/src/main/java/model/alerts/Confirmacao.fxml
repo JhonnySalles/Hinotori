@@ -9,13 +9,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="150.0" prefWidth="500.0" stylesheets="@../../resources/css/White_Alets.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Config.alerts.ConfirmacaoController">
+<AnchorPane prefHeight="150.0" prefWidth="500.0" stylesheets="@../../resources/css/White_Alets.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.alerts.ConfirmacaoController">
    <children>
       <Pane prefHeight="20.0" prefWidth="400.0" styleClass="paneSuperior" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fx:id="ImgVwIconeTitulo" fitHeight="18.0" fitWidth="18.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../resources/images/icoInformePergunta_48.png" />
+                  <Image url="@../../resources/alerts/icoInformePergunta_48.png" />
                </image>
             </ImageView>
             <Label fx:id="lblTitulo" layoutX="40.0" layoutY="1.0" prefHeight="20.0" prefWidth="447.0" textFill="WHITE">
@@ -29,7 +29,7 @@
          <children>
             <ImageView fx:id="ImgVwIcone" fitHeight="60.0" fitWidth="60.0" layoutX="20.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../resources/images/icoInformePergunta_48.png" />
+                  <Image url="@../../resources/alerts/icoInformePergunta_48.png" />
                </image>
             </ImageView>
          </children>

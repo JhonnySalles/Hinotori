@@ -41,9 +41,20 @@ public class Arquivos {
 			buffWrite.newLine();
 
 		} catch (IOException e) {
-			System.out.println("Erro: " + e.getMessage());
+			e.getMessage();
 		}
 
+	}
+	
+	public static String criaCaminhoPadraoLog() {
+		try {
+            File diretorio = new File("C:\\Logs");
+            diretorio.mkdir();
+            return diretorio.getPath();
+        } catch (Exception ex) {
+        	ex.printStackTrace();
+        }		
+		return "";		
 	}
 
 }

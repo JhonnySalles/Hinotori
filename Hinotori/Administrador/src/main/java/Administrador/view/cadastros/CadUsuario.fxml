@@ -142,7 +142,7 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <fx:include fx:id="psqEmpresa" source="../frame/PesquisaGenerica.fxml" />
+                        <fx:include fx:id="frameEmpresa" source="../frame/PesquisaGenerica.fxml" />
                         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                            <children>
                               <JFXTextField fx:id="txtTelefone" labelFloat="true" layoutX="10.0" layoutY="18.0" prefHeight="25.0" prefWidth="350.0" promptText="Telefone" unFocusColor="BLACK">

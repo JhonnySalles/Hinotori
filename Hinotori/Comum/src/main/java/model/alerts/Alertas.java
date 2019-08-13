@@ -89,7 +89,7 @@ public class Alertas {
 			// Faz a tela ser obrigatoria para voltar ao voltar a tela anterior
 			stageTela.setTitle(titulo);
 			stageTela.getIcons()
-					.add(new Image(Alertas.class.getResourceAsStream("/resources/images/icoInformePergunta_48.png")));
+					.add(new Image(Alertas.class.getResourceAsStream("/resources/alerts/icoInformePergunta_48.png")));
 			stageTela.initModality(Modality.APPLICATION_MODAL);
 			stageTela.initStyle(StageStyle.TRANSPARENT);
 			stageTela.showAndWait(); // Mostra a tela.
@@ -106,7 +106,7 @@ public class Alertas {
 			ManipulaLog.salvar(Alertas.class, "ERRO - ALERTA", "", erro);
 
 		try {
-			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("/alerts/Erro.fxml"));
+			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("Erro.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 
 			// Obtem a referencia do controller para editar as label.
@@ -166,7 +166,7 @@ public class Alertas {
 
 			// Faz a tela ser obrigatoria para voltar ao voltar a tela anterior
 			stageTela.setTitle(titulo);
-			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("/resources/images/icoErro_48.png")));
+			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("/resources/alerts/icoErro_48.png")));
 			stageTela.initModality(Modality.APPLICATION_MODAL);
 			stageTela.initStyle(StageStyle.TRANSPARENT);
 			stageTela.showAndWait(); // Mostra a tela.
@@ -179,7 +179,7 @@ public class Alertas {
 
 	public static void Concluido(String titulo, String texto) {
 		try {
-			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("/Config/alerts/Concluido.fxml"));
+			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("Concluido.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 
 			// Obtem a referencia do controller para editar as label.
@@ -229,7 +229,7 @@ public class Alertas {
 			// Faz a tela ser obrigatoria para voltar ao voltar a tela anterior
 			stageTela.setTitle(titulo);
 			stageTela.getIcons()
-					.add(new Image(Alertas.class.getResourceAsStream("/resources/images/icoConfimacao_48.png")));
+					.add(new Image(Alertas.class.getResourceAsStream("/resources/alerts/icoConfimacao_48.png")));
 			stageTela.initModality(Modality.APPLICATION_MODAL);
 			stageTela.initStyle(StageStyle.TRANSPARENT);
 			stageTela.showAndWait(); // Mostra a tela.
@@ -242,7 +242,7 @@ public class Alertas {
 
 	public static void Aviso(String titulo, String texto) {
 		try {
-			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("/alerts/Aviso.fxml"));
+			FXMLLoader loader = new FXMLLoader(Alertas.class.getResource("Aviso.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 
 			// Obtem a referencia do controller para editar as label.
@@ -291,7 +291,7 @@ public class Alertas {
 
 			// Faz a tela ser obrigatoria para voltar ao voltar a tela anterior
 			stageTela.setTitle(titulo);
-			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("/resources/images/icoAviso_48.png")));
+			stageTela.getIcons().add(new Image(Alertas.class.getResourceAsStream("/resources/alerts/icoAviso_48.png")));
 			stageTela.initModality(Modality.APPLICATION_MODAL);
 			stageTela.initStyle(StageStyle.TRANSPARENT);
 			stageTela.showAndWait(); // Mostra a tela.

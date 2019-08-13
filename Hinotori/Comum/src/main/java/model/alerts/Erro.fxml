@@ -9,22 +9,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" prefHeight="160.0" prefWidth="500.0" styleClass="background" stylesheets="@../../resources/css/White_Alets.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alerts.ErroController">
+<AnchorPane fx:id="background" prefHeight="160.0" prefWidth="500.0" stylesheets="@../../resources/css/White_Alets.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.alerts.ErroController">
    <children>
-      <Pane prefWidth="100.0" styleClass="paneEsquerdo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
-         <children>
-            <ImageView fx:id="ImgVwIcone" fitHeight="60.0" fitWidth="60.0" layoutX="20.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../resources/images/icoErro_48.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
       <Pane layoutY="2.0" prefHeight="20.0" prefWidth="400.0" styleClass="paneSuperior" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fx:id="ImgVwIconeTitulo" fitHeight="18.0" fitWidth="18.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../resources/images/icoErro_48.png" />
+                  <Image url="@../../resources/alerts/icoErro_48.png" />
                </image>
             </ImageView>
             <Label fx:id="lblTitulo" layoutX="40.0" layoutY="1.0" text="Erro" textFill="#eb0000">
@@ -33,6 +24,15 @@
                </font>
             </Label>
          </children></Pane>
+      <Pane prefWidth="100.0" styleClass="paneEsquerdo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <ImageView fx:id="ImgVwIcone" fitHeight="60.0" fitWidth="60.0" layoutX="20.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/alerts/icoErro_48.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
       <AnchorPane fx:id="paneDireita" layoutX="101.0" layoutY="21.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="21.0">
          <children>
             <Label fx:id="lblPrincipal" layoutX="14.0" layoutY="22.0" prefHeight="70.0" prefWidth="324.0" text="Ocorreu um erro inesperado no sistema." wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0" />

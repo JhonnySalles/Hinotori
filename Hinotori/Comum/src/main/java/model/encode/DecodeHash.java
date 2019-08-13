@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class DecodeHash {
 	
-	// Função criada para estar criptografando a senha informada.
+	// Funï¿½ï¿½o criada para estar criptografando a senha informada.
 	private static String Decode(String password ) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String senha = password;
         

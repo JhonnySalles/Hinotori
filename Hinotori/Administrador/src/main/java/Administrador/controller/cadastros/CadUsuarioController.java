@@ -12,17 +12,20 @@ import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
+import org.controlsfx.control.Notifications;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import Administrador.controller.frame.PesquisaGenericaController;
+import Administrador.model.dao.services.UsuarioServices;
 import Administrador.model.entities.Usuario;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -33,6 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import model.alerts.Alertas;
 import model.constraints.Validadores;
 import model.enums.Situacao;
@@ -85,7 +89,10 @@ public class CadUsuarioController implements Initializable {
 	private JFXButton btnProcurarImagem;
 
 	@FXML
-	private AnchorPane psqEmpresa;
+	private AnchorPane frameEmpresa;
+
+	@FXML
+	private PesquisaGenericaController frameEmpresaController;
 
 	@FXML
 	private Pane paneBackground;
@@ -113,6 +120,9 @@ public class CadUsuarioController implements Initializable {
 
 	private Usuario usuario;
 	private byte[] imagem;
+	private UsuarioServices usuarioServices;
+	private Boolean edicao;
+	private Notifications notificacao;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -123,17 +133,29 @@ public class CadUsuarioController implements Initializable {
 
 	@FXML
 	public void onBtnConfirmarClick() {
+		try {
+			if (validaCampos()) {
+				background.getScene().getRoot().setCursor(Cursor.WAIT);
+				usuario = new Usuario(txtNome.getText(), txtSobreNome.getText(),
+						(!txtTelefone.getText().isEmpty() ? txtTelefone.getText().substring(1, 3) : ""),
+						(!txtTelefone.getText().isEmpty() ? txtTelefone.getText().substring(4).replace("-", "") : ""),
+						(!txtCelular.getText().isEmpty() ? txtCelular.getText().substring(1, 3) : ""),
+						(!txtCelular.getText().isEmpty() ? txtCelular.getText().substring(4).replace("-", "") : ""),
+						txtEmail.getText(), Long.parseLong(frameEmpresaController.getID()),
+						txtLogin.getText().toUpperCase(), pswSenha.getText(), txtObservacao.getText(), imagem,
+						cbNivel.getSelectionModel().getSelectedItem(),
+						cbSituacao.getSelectionModel().getSelectedItem());
 
-		if (validaCampos()) {
-			background.getScene().getRoot().setCursor(Cursor.WAIT);
-			usuario = new Usuario(txtNome.getText(), txtSobreNome.getText(), txtTelefone.getText().substring(1, 2),
-					txtTelefone.getText().substring(4), txtCelular.getText().substring(1, 2),
-					txtCelular.getText().substring(4), txtEmail.getText(), Long.valueOf(1), txtLogin.getText(),
-					pswSenha.getText(), txtObservacao.getText(), imagem, cbNivel.getSelectionModel().getSelectedItem(),
-					cbSituacao.getSelectionModel().getSelectedItem());
+				if (usuarioServices == null)
+					setUsuarioServices(new UsuarioServices());
+
+				usuarioServices.salvar(usuario);
+				limpaCampos();
+
+			}
+		} finally {
 			background.getScene().getRoot().setCursor(null);
 		}
-
 	}
 
 	@FXML
@@ -203,7 +225,6 @@ public class CadUsuarioController implements Initializable {
 
 	@FXML
 	public void onBtnProcurarImagemClick() {
-
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg");
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(extFilter);
@@ -270,6 +291,7 @@ public class CadUsuarioController implements Initializable {
 	}
 
 	private void limpaCampos() {
+		edicao = false;
 		txtNome.setText("");
 		txtSobreNome.setText("");
 		txtLogin.setText("");
@@ -286,72 +308,73 @@ public class CadUsuarioController implements Initializable {
 	}
 
 	private Boolean validaCampos() {
-		if (!txtNome.getText().isEmpty() && !txtSobreNome.getText().isEmpty() && !txtLogin.getText().isEmpty()
-				&& !pswSenha.getText().isEmpty()) {
-			txtNome.setStyle("-fx-border-color: green;");
-			txtSobreNome.setStyle("-fx-border-color: green;");
-			txtLogin.setStyle("-fx-border-color: green;");
-			pswSenha.setStyle("-fx-border-color: green;");
-			return true;
+		if (txtNome.getText().isEmpty())
+			txtNome.setUnFocusColor(Color.RED);
+
+		if (txtSobreNome.getText().isEmpty())
+			txtSobreNome.setUnFocusColor(Color.RED);
+
+		if (txtLogin.getText().isEmpty()) {
+			txtLogin.setUnFocusColor(Color.RED);
 		} else {
-			if (txtNome.getText().isEmpty()) {
-				txtNome.setUnFocusColor(Color.RED);
-			}
-
-			if (txtSobreNome.getText().isEmpty()) {
-				txtSobreNome.setUnFocusColor(Color.RED);
-			}
-
-			if (txtLogin.getText().isEmpty()) {
+			if (!edicao && usuarioServices.validaLogin(txtLogin.getText())) {
 				txtLogin.setUnFocusColor(Color.RED);
+				notificacao = Notifications.create().title("Usuário já cadastrado")
+						.text("Favor informar outro usuário.").hideAfter(Duration.seconds(5))
+						.position(Pos.BASELINE_RIGHT).darkStyle();
+				notificacao.show();
 			}
-
-			if (pswSenha.getText().isEmpty()) {
-				pswSenha.setUnFocusColor(Color.RED);
-			}
-			return false;
 		}
 
+		if (pswSenha.getText().isEmpty())
+			pswSenha.setUnFocusColor(Color.RED);
+
+		if (frameEmpresaController.getID().isEmpty())
+			frameEmpresaController.txt_Pesquisa.setUnFocusColor(Color.RED);
+
+		if (txtNome.getText().isEmpty() || txtSobreNome.getText().isEmpty() || txtLogin.getText().isEmpty()
+				|| pswSenha.getText().isEmpty() || frameEmpresaController.getID().isEmpty()
+				|| !Validadores.validaEmail(txtEmail) || !Validadores.validaTelefone(txtTelefone)
+				|| !Validadores.validaTelefone(txtCelular)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	private void configuraCampos() {
-
-		Validadores.setTextFieldNotEmptyGreen(txtNome);
-		Validadores.setTextFieldNotEmptyGreen(txtSobreNome);
-		Validadores.setTextFieldNotEmptyGreen(txtLogin);
+		Validadores.setTextFieldChangeBlack(txtNome);
+		Validadores.setTextFieldChangeBlack(txtSobreNome);
+		Validadores.setTextFieldChangeBlack(txtLogin);
+		Validadores.setTextFieldChangeBlack(frameEmpresaController.txt_Pesquisa);
+		Validadores.setPasswordFieldChangeBlack(pswSenha);
+		Validadores.setTextFielEmailExitColor(txtEmail);
+		Validadores.setTextFielTelefoneExitColor(txtTelefone);
+		Validadores.setTextFielTelefoneExitColor(txtCelular);
 
 		Mascaras.foneField(txtTelefone);
 		Mascaras.foneField(txtCelular);
-
-		pswSenha.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-				if (newPropertyValue) { // Usado para limpar o stilo para que pinte quando entra
-					pswSenha.setUnFocusColor(Color.BLACK);
-				} else { // Após, na saida faz então a validacao.
-					if (pswSenha.textProperty().get().toString().isEmpty()) {
-						pswSenha.setUnFocusColor(Color.BLACK);
-					} else {
-						pswSenha.setUnFocusColor(Color.GREEN);
-					}
-				}
-			}
-		});
 
 		cbSituacao.getItems().addAll(Situacao.values());
 		cbNivel.getItems().addAll(UsuarioNivel.values());
 
 		cbSituacao.getSelectionModel().select(Situacao.ATIVO);
 		cbNivel.getSelectionModel().select(UsuarioNivel.USUARIO);
+	}
 
+	private void setUsuarioServices(UsuarioServices usuarioServices) {
+		this.usuarioServices = usuarioServices;
 	}
 
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		background.setFitToHeight(true);
 		background.setFitToWidth(true);
+		edicao = false;
 
+		frameEmpresaController.setPesquisa("Id", "Nome_Fantasia", "Id, Nome_Fantasia", "empresas", "", "",
+				"ORDER BY Id, Nome_Fantasia");
+		frameEmpresaController.txt_Pesquisa.setPromptText("Pesquisa de empresas");
+		setUsuarioServices(new UsuarioServices());
 		configuraCampos();
-
 	}
 }

@@ -13,15 +13,20 @@ public class ManipulaLog {
 		try (FileInputStream fs = new FileInputStream("db.properties")) {
 			Properties props = new Properties();
 			props.load(fs);
-			return props.getProperty("log");
+			return props.getProperty("prop.caminho.log");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return "";
 	}
 
-	public static void salvar(Class<?> tela, String tipo,  String sql, String erro) {
+	public static void salvar(Class<?> tela, String tipo, String sql, String erro) {
 		String caminho = getCaminho();
+
+		if ((caminho == null) || caminho.isEmpty()) {
+			caminho = Arquivos.criaCaminhoPadraoLog();
+		}
+
 		String texto = tela.getName().toString() + " | " + tipo + "|" + sql + " | " + erro;
 
 		try {

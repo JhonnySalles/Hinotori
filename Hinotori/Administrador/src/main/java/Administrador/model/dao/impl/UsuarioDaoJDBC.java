@@ -1,5 +1,7 @@
 package Administrador.model.dao.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import Administrador.model.dao.UsuarioDao;
 import Administrador.model.entities.Usuario;
+import model.encode.DecodeHash;
 import model.enums.Situacao;
 import model.enums.UsuarioNivel;
 import model.log.ManipulaLog;
@@ -27,13 +30,13 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			+ " Email = ?, Observacao = ?, Ddd_Telefone = ?, Telefone = ?, Ddd_Celular = ?,"
 			+ " Celular = ?, Imagem = ?, Nivel = ?, Situacao = ? WHERE Login = ?;";
 
-	final String delete = "DELETE FROM usuarios WHERE ID = ?;";
+	final String delete = "UPDATE Situacao = \"" + Situacao.EXCLUIDO + "\" WHERE Login ?;";
 
-	final String selectAll = "SELECT Login, Id_Empresa, Nome, Sobrenome, Senha, Email, Data_Cadastro, Observacao,"
+	final String selectAll = "SELECT Login, Id_Empresa, Nome, Sobrenome, Email, Data_Cadastro, Observacao,"
 			+ " Ddd_Telefone, Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios;";
 
-	final String select = "SELECT Login, Id_Empresa, Nome, Sobrenome, Senha, Email, Data_Cadastro, Observacao,"
-			+ " Ddd_Telefone, Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios WHERE ID = ?;";
+	final String select = "SELECT Login, Id_Empresa, Nome, Sobrenome, Email, Data_Cadastro, Observacao, Ddd_Telefone,"
+			+ " Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios WHERE Login = ?;";
 
 	private Connection conexao;
 
@@ -52,7 +55,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			st.setString(2, obj.getLogin());
 			st.setString(3, obj.getNome());
 			st.setString(4, obj.getSobreNome());
-			st.setString(5, obj.getSenha());
+			st.setString(5, DecodeHash.DecodePassword(obj.getSenha()));
 			st.setString(6, obj.getEmail());
 			st.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
 			st.setString(8, obj.getObservacao());
@@ -60,9 +63,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			st.setString(10, obj.getTelefone());
 			st.setString(11, obj.getDddCelular());
 			st.setString(12, obj.getCelular());
-
-			// st.setString(13, obj.getImagem());
-
+			st.setBytes(13, obj.getImagem());
 			st.setString(14, obj.getNivel().toString());
 			st.setString(15, obj.getSituacao().toString());
 
@@ -76,6 +77,12 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "PASSWORD", st.toString(), e.toString());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "PASSWORD", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -87,21 +94,19 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 		PreparedStatement st = null;
 		try {
-			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+			st = conexao.prepareStatement(update, Statement.RETURN_GENERATED_KEYS);
 
 			st.setLong(1, obj.getIdEmpresa());
 			st.setString(2, obj.getNome());
 			st.setString(3, obj.getSobreNome());
-			st.setString(4, obj.getSenha());
+			st.setString(4, DecodeHash.DecodePassword(obj.getSenha()));
 			st.setString(5, obj.getEmail());
 			st.setString(6, obj.getObservacao());
 			st.setString(7, obj.getDddTelefone());
 			st.setString(8, obj.getTelefone());
 			st.setString(9, obj.getDddCelular());
 			st.setString(10, obj.getCelular());
-
-			// st.setString(11, obj.getImagem());
-
+			st.setBytes(11, obj.getImagem());
 			st.setString(12, obj.getNivel().toString());
 			st.setString(13, obj.getSituacao().toString());
 			st.setString(14, obj.getLogin());
@@ -116,6 +121,12 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "PASSWORD", st.toString(), e.toString());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "PASSWORD", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -123,14 +134,12 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void delete(String login) {
 
 		PreparedStatement st = null;
 		try {
 			st = conexao.prepareStatement(delete, Statement.RETURN_GENERATED_KEYS);
-
-			st.setLong(1, id);
-
+			st.setString(1, login);
 			int rowsAffected = st.executeUpdate();
 
 			if (rowsAffected < 1) {
@@ -148,20 +157,20 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public Usuario find(Long id) {
+	public Usuario find(String login) {
 
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conexao.prepareStatement(select);
-			st.setLong(1, id);
+			st.setString(1, login);
 			rs = st.executeQuery();
 			if (rs.next()) {
 
 				Usuario obj = new Usuario(rs.getString("Nome"), rs.getString("Sobrenome"), rs.getString("Ddd_Telefone"),
 						rs.getString("Telefone"), rs.getString("Ddd_Celular"), rs.getString("Celular"),
 						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Empresa"),
-						rs.getString("Login"), rs.getString("Senha"), rs.getString("Observacao"), rs.getBytes("Imagem"),
+						rs.getString("Login"), "", rs.getString("Observacao"), rs.getBytes("Imagem"),
 						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
 
 				return obj;
@@ -193,7 +202,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				Usuario obj = new Usuario(rs.getString("Nome"), rs.getString("Sobrenome"), rs.getString("Ddd_Telefone"),
 						rs.getString("Telefone"), rs.getString("Ddd_Celular"), rs.getString("Celular"),
 						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Empresa"),
-						rs.getString("Login"), rs.getString("Senha"), rs.getString("Observacao"), rs.getBytes("Imagem"),
+						rs.getString("Login"), "", rs.getString("Observacao"), rs.getBytes("Imagem"),
 						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
 				list.add(obj);
 			}
@@ -208,4 +217,25 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		return null;
 	}
 
+	@Override
+	public Boolean validaLogin(String login) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conexao.prepareStatement(select);
+			st.setString(1, login);
+			rs = st.executeQuery();
+			if (rs.next())
+				return true;
+			else 
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ManipulaLog.salvar(this.getClass(), "JDBC - VALIDA LOGIN", st.toString(), e.toString());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+		return false;
+	}
 }

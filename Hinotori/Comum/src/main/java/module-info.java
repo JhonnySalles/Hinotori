@@ -26,4 +26,6 @@ module Comum {
 	requires java.desktop;
 	requires transitive com.jfoenix;
 	requires org.controlsfx.controls;
+	
+	opens model.alerts to javafx.fxml;
 }
