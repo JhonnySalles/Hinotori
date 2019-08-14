@@ -25,7 +25,7 @@ public class Mascaras {
 	private static List<KeyCode> ignoreKeyCodes = new ArrayList<>();
 
 	public static void ignoreKeys(TextField textField) {
-		textField.addEventFilter(KeyEvent.KEY_PRESSED, (EventHandler) new EventHandler<KeyEvent>() {
+		textField.addEventFilter(KeyEvent.KEY_PRESSED, (EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
 				if (ignoreKeyCodes.contains(keyEvent.getCode())) {
@@ -54,7 +54,7 @@ public class Mascaras {
 
 	public static void dateField(final TextField textField) {
 		Mascaras.maxField(textField, 10);
-		textField.lengthProperty().addListener((ChangeListener) new ChangeListener<Number>() {
+		textField.lengthProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -65,19 +65,6 @@ public class Mascaras {
 					value = value.replaceFirst("(\\d{2})\\/(\\d{2})(\\d)", "$1/$2/$3");
 					textField.setText(value);
 					Mascaras.positionCaret(textField);
-				}
-			}
-		});
-	}
-
-	public static void numericField(final JFXTextField textField) {
-		textField.lengthProperty().addListener((ChangeListener) new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				char ch;
-				if (newValue.intValue() > oldValue.intValue()
-						&& ((ch = textField.getText().charAt(oldValue.intValue())) < '0' || ch > '9')) {
-					textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
 				}
 			}
 		});
@@ -95,7 +82,7 @@ public class Mascaras {
 			value = value.replaceAll("([0-9]{1})([0-9]{2})$", "$1,$2");
 			textField.setText(value);
 			Mascaras.positionCaret(textField);
-			textField.textProperty().addListener((ChangeListener) new ChangeListener<String>() {
+			textField.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
 
 				public void changed(ObservableValue<? extends String> observableValue, String oldValue,
 						String newValue) {

@@ -343,6 +343,10 @@ public class CadUsuarioController implements Initializable {
 	}
 
 	private void configuraCampos() {
+		frameEmpresaController.setPesquisa("Id", "Nome_Fantasia", "Id, Nome_Fantasia", "empresas", "", "",
+				"ORDER BY Id, Nome_Fantasia");
+		frameEmpresaController.txt_Pesquisa.setPromptText("Pesquisa de empresas");
+
 		Validadores.setTextFieldChangeBlack(txtNome);
 		Validadores.setTextFieldChangeBlack(txtSobreNome);
 		Validadores.setTextFieldChangeBlack(txtLogin);
@@ -360,6 +364,7 @@ public class CadUsuarioController implements Initializable {
 
 		cbSituacao.getSelectionModel().select(Situacao.ATIVO);
 		cbNivel.getSelectionModel().select(UsuarioNivel.USUARIO);
+		setUsuarioServices(new UsuarioServices());
 	}
 
 	private void setUsuarioServices(UsuarioServices usuarioServices) {
@@ -369,12 +374,7 @@ public class CadUsuarioController implements Initializable {
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		background.setFitToHeight(true);
 		background.setFitToWidth(true);
-		edicao = false;
-
-		frameEmpresaController.setPesquisa("Id", "Nome_Fantasia", "Id, Nome_Fantasia", "empresas", "", "",
-				"ORDER BY Id, Nome_Fantasia");
-		frameEmpresaController.txt_Pesquisa.setPromptText("Pesquisa de empresas");
-		setUsuarioServices(new UsuarioServices());
 		configuraCampos();
+		edicao = false;
 	}
 }

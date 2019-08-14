@@ -27,7 +27,7 @@
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="150.0" styleClass="tituloBackground-cliente" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Pane prefHeight="130.0" prefWidth="200.0" styleClass="imgBackground-cliente" HBox.hgrow="ALWAYS" />
+                        <Pane fx:id="paneBackground" prefHeight="130.0" prefWidth="200.0" styleClass="imgBackground-cliente" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="135.0">

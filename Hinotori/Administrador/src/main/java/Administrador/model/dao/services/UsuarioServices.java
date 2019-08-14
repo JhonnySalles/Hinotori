@@ -21,6 +21,10 @@ public class UsuarioServices {
 			usuarioDao.insert(usuario);
 	}
 
+	public void deletar(String login) {
+		usuarioDao.delete(login);
+	};
+
 	public Usuario pesquisar(String login) {
 		return usuarioDao.find(login);
 	};
