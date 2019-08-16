@@ -5,8 +5,8 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------- Botoes Cadastros ----------*/
-#btnCadastros {
-    -fx-background-image: url("../images/btnMain_Dark/bntCadastros_100.png");
+/*#btnCadastros {
+    -fx-background-image: url("../white/images/btn/bntCadastros_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -22,10 +22,10 @@
 #btnCadastros:focused{
     -fx-background-image: url("../images/btnMain_Dark/bntCadastros_Select100.png");
     -fx-text-fill: #ffffff;
-}
+}*/
 
 /* Cadastro filial */
-#btnCadEmpresa {
+/*#btnCadEmpresa {
     -fx-background-image: url("../images/btnMain_Dark/bntFilial_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
@@ -42,10 +42,10 @@
 #btnCadEmpresa:focused{
     -fx-background-image: url("../images/btnMain_Dark/bntFilial_Select100.png");
     -fx-text-fill: #ffffff;
-}
+}*/
 
 /* Cadastro usuario */
-#btnCadUsuario {
+/*#btnCadUsuario {
     -fx-background-image: url("../images/btnMain_Dark/bntUsuario_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
@@ -62,10 +62,10 @@
 #btnCadUsuario:focused{
     -fx-background-image: url("../images/btnMain_Dark/bntUsuario_Select100.png");
     -fx-text-fill: #ffffff;
-}
+}*/
 
 /* Cadastro cliente */
-#btnCadCliente {
+/*#btnCadCliente {
     -fx-background-image: url("../images/btnMain_Dark/bntCliente_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
@@ -82,11 +82,11 @@
 #btnCadCliente:focused{
     -fx-background-image: url("../images/btnMain_Dark/bntCliente_Select100.png");
     -fx-text-fill: #ffffff;
-}
+}*/
 
 
 /*---------- Botoes Configuracoes ----------*/
-#btnConfiguracao {
+/*#btnConfiguracao {
     -fx-background-image: url("../images/btnMain_Dark/btnConfiguracao_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
@@ -103,11 +103,11 @@
 #btnConfiguracao:focused{
     -fx-background-image: url("../images/btnMain_Dark/btnConfiguracao_Select100.png");
     -fx-text-fill: #ffffff;
-}
+}*/
 
 
 /* Cadastro impressoras */
-#btnConfImpressoras {
+/*#btnConfImpressoras {
     -fx-background-image: url("../images/btnMain_Dark/btnImpressoras_100.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
@@ -124,60 +124,7 @@
 #btnConfImpressoras:focused{
     -fx-background-image: url("../images/btnMain_Dark/btnImpressoras_Select100.png");
     -fx-text-fill: #ffffff;
-}
-
-
-/*---------- Botoes Padroes ----------*/
-.btnPesquisa {
-    -fx-background-image: url("../images/btn/btnFramePesquisar_64.png");
-    -fx-background-position: center;
-    -fx-background-size: 25 25;
-    -fx-background-repeat: no-repeat;
-
-    -fx-text-fill: #ffffff;
-}
-
-.btnPesquisa:hover {
-    -fx-text-fill: #2ecc71;
-}
-
-.btnPesquisa:focused{
-    -fx-text-fill: #ffffff;
-}
-
-.btnPesquisa:pressed {
-    -fx-padding: 15 13 14 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0,2 0 4 0,2 0 5 0;
-    -fx-background-position: 2 2;
-}
-
-.btnClear {
-    -fx-background-image: url("../images/btn/btnFrameCancelar_60.png");
-    -fx-background-position: center;
-    -fx-background-size: 25 25;
-    -fx-background-repeat: no-repeat;
-
-    -fx-text-fill: #ffffff;
-}
-
-.btnClear:hover {
-    -fx-text-fill: #2ecc71;
-}
-
-.btnClear:focused{
-    -fx-text-fill: #ffffff;
-}
-
-.btnClear:pressed {
-    -fx-padding: 15 13 14 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0,2 0 4 0,2 0 5 0;
-    -fx-background-position: 2 2;
-}
-
-
-
-
-
+}*/
 
 
 /* Estilos de botoes */
@@ -185,7 +132,7 @@
     -fx-background-color: linear-gradient(to right, #58E82D 0%, #58E82D 5%, #212121 5%, #212121 35%,#58E82D 35%, #58E82D 100%);
     -fx-text-fill: #000000;
 
-    -fx-background-image: url("../images/btn/btnConfirma_48.png");
+    -fx-background-image: url("../white/images/btn/btnConfirma_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -213,7 +160,7 @@
     -fx-background-color: linear-gradient(to right, #ff1a1a 0%, #ff1a1a 5%, #212121 5%, #212121 35%,#ff1a1a 35%, #ff1a1a 100%);
     -fx-text-fill: #000000;
 
-    -fx-background-image: url("../images/btn/btnCancelar_48.png");
+    -fx-background-image: url("../white/images/btn/btnCancelar_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -237,39 +184,11 @@
 }
 
 /*------------------*/
-#btnPesquisar {
-    -fx-background-color: linear-gradient(to right, #0066ff 0%, #0066ff 5%, #212121 5%, #212121 35%,#0066ff 35%, #0066ff 100%);
-    -fx-text-fill: #ffffff;
-
-    -fx-background-image: url("../images/btn/btnPesquisar_48.png");
-    -fx-background-position: 11 0;
-    -fx-background-size: 25 26;
-    -fx-background-repeat: no-repeat;
-}
-
-#btnPesquisar:hover{
-    -fx-background-color: linear-gradient(to right, #212121 0%, #212121 5%, #0066ff 5%, #0066ff 35%,#212121 35%, #212121 95%, #0066ff 95%, #0066ff 100%);
-    -fx-text-fill: #ccf2ff;
-}
-
-#btnPesquisar:focused{
-    -fx-background-color: linear-gradient(to right, #0066ff 0%, #0066ff 5%,#212121 5%, #212121 95%, #0066ff 95%, #0066ff 100%);
-    -fx-text-fill: #ccf2ff;
-}
-
-#btnPesquisar:pressed {
-    -fx-padding: 0 11 0 0;
-    -fx-background-insets: 0.5,0,0,0;
-    -fx-background-position: 12 0;
-    -fx-text-fill: #ccf2ff;
-}
-
-/*------------------*/
 #btnExcluir {
     -fx-background-color: linear-gradient(to right, #FAB002 0%, #FAB002 5%, #212121 5%, #212121 35%,#FAB002 35%, #FAB002 100%);
     -fx-text-fill: #000000;
 
-    -fx-background-image: url("../images/btn/btnExcluir_48.png");
+    -fx-background-image: url("../white/images/btn/btnExcluir_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -297,7 +216,7 @@
     -fx-background-color: linear-gradient(to right, #742FE3 0%, #742FE3 5%, #212121 5%, #212121 35%,#742FE3 35%, #742FE3 100%);
     -fx-text-fill: #ffffff;
 
-    -fx-background-image: url("../images/btn/bntNovo_48.png");
+    -fx-background-image: url("../white/images/btn/bntNovo_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -325,7 +244,7 @@
     -fx-background-color: linear-gradient(to right, #57585C 0%, #57585C 5%, #212121 5%, #212121 35%,#57585C 35%, #57585C 100%);
     -fx-text-fill: #ffffff;
 
-    -fx-background-image: url("../images/btn/btnVoltar_48.png");
+    -fx-background-image: url("../white/images/btn/btnVoltar_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -355,7 +274,7 @@
     -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 1, 1);
     -fx-text-fill: #000000;
 
-    -fx-background-image: url("../images/btn/bntVenda_48.png");
+    -fx-background-image: url("../white/images/btn/bntVenda_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -384,7 +303,7 @@
     -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
     -fx-text-fill: #000000;
 
-    -fx-background-image: url("../images/btn/bntRemovDes_48.png");
+    -fx-background-image: url("../white/images/btn/bntRemovDes_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -413,7 +332,7 @@
     -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
     -fx-text-fill: #ffffff;
 
-    -fx-background-image: url("../images/btn/btnImprimir_48.png");
+    -fx-background-image: url("../white/images/btn/btnImprimir_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -442,7 +361,7 @@
     -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
     -fx-text-fill: #000000;
 
-    -fx-background-image: url("../images/btn/btnClientesMesa_48.png");
+    -fx-background-image: url("../white/images/btn/btnClientesMesa_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -471,7 +390,7 @@
     -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
     -fx-text-fill: #ffffff;
 
-    -fx-background-image: url("../images/btn/bntInserirDes_48.png");
+    -fx-background-image: url("../white/images/btn/bntInserirDes_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -500,7 +419,7 @@
     -fx-effect: dropshadow( one-pass-box , #000000, 0, 0.0 , 3, 3);
     -fx-text-fill: #ffffff;
 
-    -fx-background-image: url("../images/btn/btnVoltar_48.png");
+    -fx-background-image: url("../white/images/btn/btnVoltar_48.png");
     -fx-background-position: 11 0;
     -fx-background-size: 25 26;
     -fx-background-repeat: no-repeat;
@@ -526,14 +445,14 @@
 /*------------------*/
 #btnAjuda {
     -fx-background-color: #212121;
-    -fx-background-image: url("../images/btn/btnAjuda_48.png");
+    -fx-background-image: url("../white/images/btn/btnAjuda_48.png");
     -fx-background-position: 1 0;
     -fx-background-size: 29 29;
     -fx-background-repeat: no-repeat;
 }
 
 #btnAjuda:hover{
-    -fx-background-image: url("../images/btn/btnAjudaSelect_48.png");
+    /*-fx-background-image: url("../white/images/btn/btnAjudaSelect_48.png");*/
 }
 
 #btnAjuda:focused{

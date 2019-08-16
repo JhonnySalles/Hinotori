@@ -33,7 +33,7 @@ public class App extends Application {
 			
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Administrador");
-			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/images/icon/Shiyoken.png")));
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/geral/images/icon/Shiyoken.png")));
 			primaryStage.initStyle(StageStyle.DECORATED);
 			//primaryStage.setMaximized(true);  // Teste
 			

@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../../resources/css/White_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.cadastros.CadClienteController">
+<AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../../resources/css/White_Cadastros.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.cadastros.CadClienteController">
    <children>
       <ScrollPane fx:id="background" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="0.0">
         <content>
@@ -89,7 +89,7 @@
                                  </font>
                               </JFXTextField>
                               <JFXComboBox fx:id="cbClienteTipo" promptText="Fisica/Jurídica" />
-                              <JFXButton fx:id="btnEndereco" alignment="CENTER" buttonType="RAISED" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" styleClass="background-Purple3" stylesheets="@../../resources/css/White_Botoes.css" text="Endereços">
+                              <JFXButton fx:id="btnEndereco" alignment="CENTER" buttonType="RAISED" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" styleClass="btnEndereco-cliente" text="Endereços">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

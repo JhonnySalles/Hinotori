@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../../resources/css/White_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.cadastros.CadUsuarioController">
+<AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../../resources/css/White_Cadastros.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.cadastros.CadUsuarioController">
    <children>
       <ScrollPane fx:id="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -117,7 +117,7 @@
                                  <children>
                                     <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../resources/images/icon/icoProdutoImage_256.png" />
+                                          <Image url="@../../resources/geral/images/icon/icoUsuarioImage_256.png" />
                                        </image>
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
@@ -125,8 +125,8 @@
                                     </ImageView>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <JFXButton buttonType="RAISED" styleClass="background-Red3" text="Excluir" />
-                                          <JFXButton buttonType="RAISED" styleClass="background-Blue5" text="Procurar" />
+                                          <JFXButton buttonType="RAISED" styleClass="btnExcluir-produto" text="Excluir" />
+                                          <JFXButton buttonType="RAISED" styleClass="btnProcurar-produto" text="Procurar" />
                                        </children>
                                     </HBox>
                                  </children>

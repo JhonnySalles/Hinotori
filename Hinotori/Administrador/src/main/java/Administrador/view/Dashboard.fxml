@@ -63,7 +63,7 @@
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../resources/images/btn/bntDataBase_48.png" />
+                              <Image url="@../resources/geral/images/btn/bntDataBase_48.png" />
                            </image>
                         </ImageView>
                         <Label styleClass="lblRodape" text="Teste">
@@ -73,7 +73,7 @@
                         </Label>
                         <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="15.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../resources/images/btn/bntUsuario_48.png" />
+                              <Image url="@../resources/geral/images/btn/bntUsuario_48.png" />
                            </image>
                         </ImageView>
                         <Label styleClass="lblRodape" text="user">
@@ -85,7 +85,7 @@
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../resources/images/btn/btnFullScreem_100.png" />
+                                    <Image url="@../resources/geral/images/btn/btnFullScreem_100.png" />
                                  </image>
                               </ImageView>
                            </graphic>
