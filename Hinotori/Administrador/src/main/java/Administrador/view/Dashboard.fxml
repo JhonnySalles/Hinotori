@@ -19,6 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../resources/css/Dark_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.DashboardController">
    <children>
@@ -97,9 +98,9 @@
                   </HBox>
                </children>
             </HBox>
-            <SplitPane fx:id="splitPane" dividerPositions="0.0, 0.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0" styleClass="splitbox" VBox.vgrow="ALWAYS">
+            <SplitPane fx:id="splitPane" dividerPositions="0.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0" styleClass="splitbox" VBox.vgrow="ALWAYS">
               <items>
-                  <AnchorPane fx:id="apBotoes" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" styleClass="background-Blue2" SplitPane.resizableWithParent="false">
+                  <AnchorPane fx:id="apBotoes" maxWidth="47.0" minWidth="47.0" prefWidth="47.0" styleClass="background-Blue2" SplitPane.resizableWithParent="false">
                      <effect>
                         <DropShadow />
                      </effect>
@@ -124,22 +125,36 @@
                                     </JFXHamburger>
                                  </children>
                               </GridPane>
-                              <JFXButton fx:id="btnCadastros" maxWidth="150.0" minWidth="150.0" onAction="#onBtnCadastrosAction" onMouseClicked="#onBtnCadastrosAction" prefHeight="25.0" prefWidth="144.0" ripplerFill="WHITE" stylesheets="@../resources/css/Dark_Botoes.css" text="Cadastros">
+                              <JFXButton fx:id="btnCadastros" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" maxWidth="150.0" minWidth="150.0" onAction="#onBtnCadastrosAction" onMouseClicked="#onBtnCadastrosAction" prefWidth="150.0" ripplerFill="WHITE" stylesheets="@../resources/css/Dark_Botoes.css" text="Cadastros">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <graphic>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/geral/images/btn/bntVenda_48.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="btnConfiguracao" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" maxWidth="150.0" minWidth="150.0" onAction="#onBtnConfiguracaoAction" onMouseClicked="#onBtnConfiguracaoAction" prefWidth="150.0" stylesheets="@../resources/css/Dark_Botoes.css" text="Configuração">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <graphic>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/geral/images/btn/bntCentroConfiguracao_48.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="BASELINE_LEFT" buttonType="RAISED" maxWidth="150.0" minWidth="150.0" prefWidth="150.0">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="btnConfiguracao" maxWidth="150.0" minWidth="150.0" onAction="#onBtnConfiguracaoAction" onMouseClicked="#onBtnConfiguracaoAction" prefWidth="150.0" stylesheets="@../resources/css/Dark_Botoes.css">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </JFXButton>
-                              <JFXButton maxWidth="150.0" minWidth="150.0" prefWidth="150.0">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </JFXButton>
-                              <JFXButton maxWidth="150.0" minWidth="150.0" prefWidth="150.0">
+                              <JFXButton alignment="BASELINE_LEFT" buttonType="RAISED" maxWidth="150.0" minWidth="150.0" prefWidth="150.0">
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </VBox.margin>
@@ -147,24 +162,29 @@
                            </children>
                         </VBox>
                      </children>
-                  </AnchorPane>
-                <AnchorPane fx:id="apBotoesDetalhes" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" SplitPane.resizableWithParent="false">
-                     <children>
-                        <VBox styleClass="background-Blue4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <HBox maxHeight="40.0" minHeight="40.0" prefHeight="40.0" />
-                              <VBox fx:id="vbBotoesDetalhes" alignment="CENTER" prefHeight="526.0" styleClass="background-Black3" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <effect>
-                        <DropShadow />
-                     </effect>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0" style="-fx-border-color: #000000; -fx-border-width: 0 0 0 1;" SplitPane.resizableWithParent="false">
                      <children>
                         <TabPane fx:id="painelAbas" prefHeight="200.0" prefWidth="200.0" styleClass="background-Black3" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <JFXButton fx:id="btnCadastros1" layoutX="10.0" layoutY="10.0" maxWidth="150.0" minWidth="150.0" onAction="#onBtnTesteAction" onMouseClicked="#onBtnCadastrosAction" prefHeight="25.0" prefWidth="144.0" ripplerFill="WHITE" stylesheets="@../resources/css/Dark_Botoes.css" text="Teste" textFill="WHITE" />
+                        <AnchorPane fx:id="apBotoesDetalhes" prefHeight="200.0" prefWidth="150.0" style="-fx-background-color: white;" translateX="-150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <VBox styleClass="background-Blue4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="lblDescricaoPane" textFill="WHITE">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <VBox fx:id="vbBotoesDetalhes" alignment="CENTER" prefHeight="526.0" styleClass="background-Black3" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
               </items>

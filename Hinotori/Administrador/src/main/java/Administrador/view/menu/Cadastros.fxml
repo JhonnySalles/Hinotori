@@ -4,22 +4,45 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox minHeight="-Infinity" minWidth="150.0" prefHeight="100.0" prefWidth="150.0" spacing="5.0" styleClass="background-Black3" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.menu.CadastrosController">
+<VBox minHeight="-Infinity" minWidth="150.0" prefHeight="300.0" prefWidth="150.0" spacing="5.0" styleClass="background-Black3" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.menu.CadastrosController">
    <children>
-      <JFXButton fx:id="btnCadCliente" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnCadClienteAction" prefWidth="150.0" text="Cliente" textFill="WHITE" wrapText="true">
+      <JFXButton fx:id="btnCadCliente" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnCadClienteAction" prefWidth="150.0" text="Cliente" textFill="WHITE" wrapText="true">
          <tooltip>
             <Tooltip text="Cadastro de clientes" />
-         </tooltip></JFXButton>
-      <JFXButton fx:id="btnCadEmpresa" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnCadEmpresaAction" prefWidth="150.0" text="Empresa" textFill="WHITE" wrapText="true">
+         </tooltip>
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/geral/images/btn/bntUsuario_48.png" />
+               </image>
+            </ImageView>
+         </graphic></JFXButton>
+      <JFXButton fx:id="btnCadEmpresa" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnCadEmpresaAction" prefWidth="150.0" text="Empresa" textFill="WHITE" wrapText="true">
          <tooltip>
             <Tooltip text="Cadastro de empresas" />
-         </tooltip></JFXButton>
-      <JFXButton fx:id="btnCadUsuario" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnCadUsuarioAction" prefWidth="150.0" text="Usuário" textFill="WHITE" wrapText="true">
+         </tooltip>
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/geral/images/btn/bntHome_48.png" />
+               </image>
+            </ImageView>
+         </graphic></JFXButton>
+      <JFXButton fx:id="btnCadUsuario" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnCadUsuarioAction" prefWidth="150.0" text="Usuário" textFill="WHITE" wrapText="true">
          <tooltip>
             <Tooltip text="Cadastro de usuários" />
-         </tooltip></JFXButton>
+         </tooltip>
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/geral/images/btn/bntGraficoPizza_48.png" />
+               </image>
+            </ImageView>
+         </graphic></JFXButton>
    </children>
    <padding>
       <Insets bottom="5.0" top="5.0" />

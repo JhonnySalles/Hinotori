@@ -196,7 +196,22 @@ public class CadUsuarioController implements Initializable {
 
 	@FXML
 	public void onBtnExcluirClick() {
-
+		if ((usuario != null) && (!usuario.getLogin().isEmpty())) {
+			if (usuarioServices == null)
+				setUsuarioServices(new UsuarioServices());
+			usuarioServices.deletar(usuario.getLogin());
+			limpaCampos();
+			notificacao = Notifications.create().title("Processo concluído")
+					.text("Usuário excluido com sucesso.").hideAfter(Duration.seconds(5))
+					.position(Pos.BASELINE_RIGHT).darkStyle();
+			notificacao.show();
+		} else {
+			notificacao = Notifications.create().title("Nenhum usuário selecionado")
+					.text("Favor informar um usuário.").hideAfter(Duration.seconds(5))
+					.position(Pos.BASELINE_RIGHT).darkStyle();
+			notificacao.show();
+		}
+				
 	}
 
 	@FXML
@@ -301,6 +316,7 @@ public class CadUsuarioController implements Initializable {
 		txtEmail.setText("");
 		txtObservacao.setText("");
 		setImagemPadrao();
+		usuario = null;
 	}
 
 	private void setImagemPadrao() {
