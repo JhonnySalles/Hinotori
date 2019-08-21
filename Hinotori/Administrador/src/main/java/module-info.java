@@ -20,6 +20,7 @@ module Administrador {
 	requires java.desktop;
 	requires java.sql;
 	requires org.controlsfx.controls;
+	requires AnimateFX;
 
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens Administrador.controller to javafx.fxml;

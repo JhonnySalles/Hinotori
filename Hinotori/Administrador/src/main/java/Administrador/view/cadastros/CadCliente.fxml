@@ -67,56 +67,65 @@
                         <Rectangle arcWidth="5.0" fill="DODGERBLUE" height="24.0" layoutX="125.0" layoutY="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
                      </children>
                   </HBox>
-                  <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
+                  <VBox alignment="TOP_CENTER" layoutY="180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                        <VBox maxHeight="500.0" maxWidth="700.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                            
-                              <JFXTextField fx:id="txtNome" cache="true" labelFloat="true" prefHeight="28.0" prefWidth="268.0" promptText="Nome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
-                              <JFXDatePicker fx:id="dtPicDataCadastro" defaultColor="DODGERBLUE" minWidth="120.0" />
-                              <JFXComboBox fx:id="cbSituacao" minWidth="75.0" prefHeight="28.0" prefWidth="100.0" promptText="Situação" />
+                              <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                  
+                                    <JFXTextField fx:id="txtNome" cache="true" labelFloat="true" prefHeight="28.0" prefWidth="268.0" promptText="Nome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="Times New Roman" size="12.0" />
+                                       </font>
+                                    </JFXTextField>
+                                    <JFXDatePicker fx:id="dtPicDataCadastro" defaultColor="#4059a9" minWidth="120.0" />
+                                    <JFXComboBox fx:id="cbSituacao" minWidth="75.0" prefHeight="28.0" prefWidth="100.0" promptText="Situação" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <JFXTextField fx:id="txtSobreNome" labelFloat="true" prefHeight="25.0" prefWidth="300.0" promptText="Sobrenome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="Times New Roman" size="12.0" />
+                                       </font>
+                                    </JFXTextField>
+                                    <JFXComboBox fx:id="cbClienteTipo" minWidth="100.0" promptText="Fisica/Jurídica" />
+                                    <JFXButton fx:id="btnEndereco" alignment="CENTER" buttonType="RAISED" maxWidth="85.0" minWidth="85.0" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" prefWidth="85.0" styleClass="btnEndereco-cliente" text="Endereços">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnContato" alignment="CENTER" buttonType="RAISED" maxWidth="70.0" minWidth="70.0" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" prefWidth="70.0" styleClass="btnEndereco-cliente" text="Contato">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <JFXTextField fx:id="txtTelefone" labelFloat="true" minWidth="75.0" prefHeight="25.0" prefWidth="150.0" promptText="Telefone" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
+                                    <JFXTextField fx:id="txtCelular" labelFloat="true" minWidth="75.0" prefHeight="25.0" prefWidth="150.0" promptText="Celular" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
+                                    <JFXTextField fx:id="txtCpfCnpj" labelFloat="true" layoutX="10.0" layoutY="13.0" minWidth="100.0" prefHeight="25.0" prefWidth="200.0" promptText="CPF/CNPJ" unFocusColor="BLACK" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
+                                 <children>
+                                    <JFXTextField fx:id="txtEmail" labelFloat="true" promptText="Email" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <JFXTextArea promptText="Observação" styleClass="textArea-cliente" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <JFXTextField fx:id="txtSobreNome" labelFloat="true" prefHeight="25.0" prefWidth="300.0" promptText="Sobrenome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
-                              <JFXComboBox fx:id="cbClienteTipo" promptText="Fisica/Jurídica" />
-                              <JFXButton fx:id="btnEndereco" alignment="CENTER" buttonType="RAISED" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" styleClass="btnEndereco-cliente" text="Endereços">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXButton>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <JFXTextField fx:id="txtTelefone" labelFloat="true" minWidth="75.0" prefHeight="25.0" prefWidth="150.0" promptText="Telefone" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
-                              <JFXTextField fx:id="txtCelular" labelFloat="true" minWidth="75.0" prefHeight="25.0" prefWidth="150.0" promptText="Celular" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
-                              <JFXTextField fx:id="txtCpfCnpj" labelFloat="true" layoutX="10.0" layoutY="13.0" minWidth="100.0" prefHeight="25.0" prefWidth="200.0" promptText="CPF/CNPJ" unFocusColor="BLACK" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
-                           <children>
-                              <JFXTextField fx:id="txtEmail" labelFloat="true" promptText="Email" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0" spacing="5.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <JFXTextArea promptText="Observação" styleClass="textArea-cliente" unFocusColor="BLACK" HBox.hgrow="ALWAYS" />
-                           </children>
-                        </HBox>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" />
+                           </padding>
+                        </VBox>
                      </children>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" />
-                     </padding>
                   </VBox>
                </children>
             </AnchorPane>

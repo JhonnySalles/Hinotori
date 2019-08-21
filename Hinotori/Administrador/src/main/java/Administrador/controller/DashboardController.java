@@ -14,12 +14,13 @@ import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import Administrador.model.entities.Usuario;
-import javafx.beans.property.DoubleProperty;
+import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
@@ -31,113 +32,95 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import model.animation.DoubleTransition;
 import model.config.ProcessaConfig;
 import model.entitis.Conexao;
 import model.enums.UsuarioNivel;
 
-public class DashboardController implements Initializable  {
+public class DashboardController implements Initializable {
 
 	private Map<String, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
-	
+
 	@FXML
-	JFXHamburger btnBurgerBotoes;
-	
+	private JFXHamburger btnBurgerBotoes;
+
 	@FXML
-	SplitPane splitPane;
-	Boolean btnPaneAberto = false;
-	
+	private SplitPane splitPane;
+
 	@FXML
-	AnchorPane apBotoes;
-	
+	private AnchorPane apBotoes;
+
 	@FXML
-	AnchorPane apBotoesDetalhes;
-	
+	private AnchorPane apBotoesDetalhes;
+
 	@FXML
-	VBox vbBotoesDetalhes;
-	
+	private VBox vbBotoesDetalhes;
+
 	@FXML
 	private TabPane painelAbas;
-	
+
 	@FXML
 	private MenuItem mnItmCadCliente;
-	
+
 	@FXML
 	private MenuItem mnItmCadEmpresa;
-	
+
 	@FXML
 	private MenuItem mnItmCadUsuario;
-	
+
 	@FXML
 	private MenuItem mnItmConfigImpressora;
-	
+
 	@FXML
 	private Menu menuAjuda;
-	
+
 	@FXML
-	JFXButton btnCadastros;
-	
+	private JFXButton btnCadastros;
+
 	@FXML
-	JFXButton btnConfiguracao;
-	
+	private JFXButton btnConfiguracao;
+
 	private static Usuario user;
 	private static Conexao conexao;
-	
-	public DashboardController () {
+
+	public DashboardController() {
 		Usuario user = new Usuario("Teste", UsuarioNivel.ADMINISTRADOR);
 		DashboardController.user = user;
 		DashboardController.conexao = ProcessaConfig.getDadosConexao();
 	}
-	
+
 	public static Usuario getUser() {
 		return user;
 	}
-	
+
 	public static Conexao getConexao() {
 		return conexao;
 	}
-	
-	/*Teste*/
-	@FXML
+
+	/* Teste */
+	/*@FXML
 	public void onBtnTesteAction() throws IOException {
 		URL url = getClass().getResource("/Administrador/view/cadastros/CadEmpresa.fxml");
 
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(url);
-			AnchorPane newAnchorPane = loader.load();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(url);
+		AnchorPane newAnchorPane = loader.load();
 
-			Scene mainScene = new Scene(newAnchorPane); // Carrega a scena
-			mainScene.setFill(Color.BLACK);
+		Scene mainScene = new Scene(newAnchorPane); // Carrega a scena
+		mainScene.setFill(Color.BLACK);
 
-			Stage stage = new Stage();
-			stage.setScene(mainScene); // Seta a cena principal
-			stage.setTitle("Tela de teste");
-			stage.initStyle(StageStyle.DECORATED);
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.setResizable(true);
-			stage.setMinWidth(870);
-			stage.setMinHeight(500);
-			stage.show(); // Mostra a tela.
-	}
-	/* Fim Teste*/
-	
-	
-	@FXML
-	private void onBtnHanburgerAction() {
-		if (btnPaneAberto) {
-			apBotoesMovEsquerda();
-			btnPaneAberto = false;
-		} else {
-			apBotoesMovDireita();
-			btnPaneAberto = true;
-		}
-	}
-	
+		Stage stage = new Stage();
+		stage.setScene(mainScene); // Seta a cena principal
+		stage.setTitle("Tela de teste");
+		stage.initStyle(StageStyle.DECORATED);
+		stage.initModality(Modality.WINDOW_MODAL);
+		stage.setResizable(true);
+		stage.setMinWidth(870);
+		stage.setMinHeight(500);
+		stage.show(); // Mostra a tela.
+	}*/
+	/* Fim Teste */
+
 	@FXML
 	private void onBtnCadastrosAction() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Administrador/view/menu/Cadastros.fxml"));
@@ -146,12 +129,13 @@ public class DashboardController implements Initializable  {
 			vbBotoesDetalhes.getChildren().clear();
 			vbBotoesDetalhes.getChildren().add(vbCadastros);
 			vbBotoesDetalhes.setFillWidth(true);
-			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);			
+			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
+			abrirPaneBotoesDetalhe();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void onBtnConfiguracaoAction() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Administrador/view/menu/Configuracao.fxml"));
@@ -160,79 +144,97 @@ public class DashboardController implements Initializable  {
 			vbBotoesDetalhes.getChildren().clear();
 			vbBotoesDetalhes.getChildren().add(vbCadastros);
 			vbBotoesDetalhes.setFillWidth(true);
-			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);			
+			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
+			abrirPaneBotoesDetalhe();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	public void onBtnCadClienteAction() {
-		loadView("/Administrador/view/cadastros/CadCliente.fxml", "Cadastro Cliente", "../resources/images/icon/icoMenuCliente.png");
-	}
-	
-	@FXML
-	public void onBtnCadEmpresaAction() {
-		loadView("/Administrador/view/cadastros/CadEmpresa.fxml", "Cadastro Empresa", "../resources/images/icon/icoMenuEmpresa.png");
-	}
-	
-	@FXML
-	public void onBtnCadUsuarioAction() {
-		loadView("/Administrador/view/cadastros/CadUsuario.fxml", "Cadastro Usuario", "../resources/images/icon/icoMenuUsuario.png");
-	}
-	
-	@FXML
-	public void onBtnConfigImpressoraAction() {
-		loadView("/Administrador/view/configuracao/ConfigImpressora.fxml", "Config. Impressora", "../resources/images/icon/icoMenuImpressoras.png");
+		loadView("/Administrador/view/cadastros/CadCliente.fxml", "Cadastro Cliente",
+				"../resources/geral/images/btn/bntUsuario_48.png");
 	}
 
-	private void apBotoesMovDireita() {
-		apBotoesDetalhes.setMaxWidth(150);
-		DoubleProperty dprop = splitPane.getDividers().get(1).positionProperty();
-		DoubleTransition dt = new DoubleTransition(Duration.millis(600), dprop);
-		dt.setToValue(1); dt.play();	
-		SplitPane.setResizableWithParent(splitPane, Boolean.FALSE);
+	@FXML
+	public void onBtnCadEmpresaAction() {
+		loadView("/Administrador/view/cadastros/CadEmpresa.fxml", "Cadastro Empresa",
+				"../resources/images/icon/icoMenuEmpresa.png");
+	}
+
+	@FXML
+	public void onBtnCadUsuarioAction() {
+		loadView("/Administrador/view/cadastros/CadUsuario.fxml", "Cadastro Usuario",
+				"../resources/images/icon/icoMenuUsuario.png");
+	}
+
+	@FXML
+	public void onBtnConfigImpressoraAction() {
+		loadView("/Administrador/view/configuracao/ConfigImpressora.fxml", "Config. Impressora",
+				"../resources/images/icon/icoMenuImpressoras.png");
 	}
 	
-	private void apBotoesMovEsquerda() {
-		DoubleProperty dprop = splitPane.getDividers().get(1).positionProperty();
-		DoubleTransition dt = new DoubleTransition(Duration.millis(600), dprop);
-		
-		dt.setToValue(0); dt.play();
-		SplitPane.setResizableWithParent(splitPane, Boolean.FALSE);
+	private void abrirPaneBotoesDetalhe() {
+		if(apBotoesDetalhes.getTranslateX() != 0) {
+			
+		}
 	}
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		HamburgerBackArrowBasicTransition burgerBtnTask = new HamburgerBackArrowBasicTransition(btnBurgerBotoes);
-		burgerBtnTask.setRate(-1);
-        btnBurgerBotoes.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-        	burgerBtnTask.setRate(burgerBtnTask.getRate() * -1);
-        	burgerBtnTask.play();
-        });
-        
-        /* Popup de descricao dos botoes */
-        Tooltip toltCadastro = new Tooltip("Cadastros");
-        btnCadastros.setTooltip(toltCadastro);
+
+		/* Popup de descricao dos botoes */
+		Tooltip toltCadastro = new Tooltip("Cadastros");
+		btnCadastros.setTooltip(toltCadastro);
+		prepareSlideMenuAnimation();
 	}
-	
+
 	private static ImageView buildImage(InputStream inputStream) { // Redimenciona a imagem para a aba
 		if (inputStream == null) {
 			return null;
 		}
 		Image i = new Image(inputStream);
 		ImageView imageView = new ImageView();
-	
+
 		imageView.setFitHeight(16);
 		imageView.setFitWidth(16);
 		imageView.setImage(i);
 		return imageView;
 	}
-	
+
+	private void prepareSlideMenuAnimation() {
+		TranslateTransition openSlidePane = new TranslateTransition(new Duration(350), apBotoesDetalhes);
+		TranslateTransition closeSlidePane = new TranslateTransition(new Duration(350), apBotoesDetalhes);
+		HamburgerBackArrowBasicTransition burgerBtnTask = new HamburgerBackArrowBasicTransition(btnBurgerBotoes);
+		burgerBtnTask.setRate(-1);
+		btnBurgerBotoes.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+			burgerBtnTask.setRate(burgerBtnTask.getRate() * -1);
+			burgerBtnTask.play();
+			if (apBotoesDetalhes.getTranslateX() != 0) {
+				openSlidePane.setToX(0);
+				openSlidePane.play();
+				openSlidePane.setOnFinished(new EventHandler<ActionEvent>() { // validar se o botão está correto.
+					@Override
+					public void handle(ActionEvent event) {
+						if (burgerBtnTask.getRate() != 1) {
+							burgerBtnTask.setRate(burgerBtnTask.getRate() * -1);
+							burgerBtnTask.play();
+						}
+					}
+				});
+			} else {
+				closeSlidePane.setToX(-(apBotoesDetalhes.getWidth()));
+				closeSlidePane.play();
+			}
+		});
+	}
+
 	// Comando synchronized irá fazer com que a tela carregue por primeiro, não
 	// esperando outros processamentos que possam ter.
-	private synchronized void loadView(String absoluteName, String tela, String icon) { // Irá ser passado o nome da tela para que o
-																			// mesmo carregue
+	private synchronized void loadView(String absoluteName, String tela, String icon) { // Irá ser passado o nome da
+																						// tela para que o
+		// mesmo carregue
 		try {
 			if (painelAbas == null) {
 				painelAbas = new TabPane();
@@ -245,7 +247,9 @@ public class DashboardController implements Initializable  {
 				Tab aba = new Tab(tela);
 
 				if (icon != "") { // Irá chamar a função para redimencionar e colocar a imagem.
-					File initialFile = new File(getClass().getResource("").getPath()+icon); // Coloca o caminho do arquivo com o caminho da imagem.
+					File initialFile = new File(getClass().getResource("").getPath() + icon); // Coloca o caminho do
+																								// arquivo com o caminho
+																								// da imagem.
 					aba.setGraphic(buildImage(new FileInputStream(initialFile)));
 				}
 				FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));

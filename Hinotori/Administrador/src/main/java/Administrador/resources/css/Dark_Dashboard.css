@@ -4,111 +4,6 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-/*---------- Estilos de background ----------*/
-
-.background-Black1 {
-     -fx-background-color:  #000000;
- }
-
-.background-Black2 {
-    -fx-background-color:  #212121;
-}
-
-.background-Black3 {
-    -fx-background-color:  #333333;
-}
-
-.background-Black4 {
-    -fx-background-color:  #3c3c3c;
-}
-
-.background-Black5 {
-    -fx-background-color:  #666666;
-}
-
-.background-Blue1 {
-    -fx-background-color:  #004578;
-}
-
-.background-Blue2 {
-    -fx-background-color:  #005a9e;
-}
-
-.background-Blue3 {
-    -fx-background-color:  #106ebe;
-}
-
-.background-Blue4 {
-    -fx-background-color:  #0078d4;
-}
-
-.background-Blue5 {
-    -fx-background-color:  #71afe5;
-}
-
-.background-White1 {
-    -fx-background-color:  #ffffff;
-}
-
-.background-White2 {
-    -fx-background-color:  #eaeaea;
-}
-
-.background-White3 {
-    -fx-background-color:  #dadada;
-}
-
-.background-White4 {
-    -fx-background-color:  #d0d0d0;
-}
-
-.background-Red1 {
-    -fx-background-color:  #a4262c;
-}
-
-.background-Red2 {
-    -fx-background-color:  #f44336;
-}
-
-.background-Red3 {
-    -fx-background-color:  #ef6950;
-}
-
-.background-Green1 {
-        -fx-background-color:  #407855;
-}
-
-.background-Green2 {
-    -fx-background-color:  #7cb342;
-}
-
-.background-Purple1 {
-    -fx-background-color:  #854085;
-}
-
-.background-Purple2 {
-    -fx-background-color:  #8764b8;
-}
-
-.background-Purple3 {
-    -fx-background-color:  #b4a0ff;
-}
-
-
-.background-Orange1 {
-    -fx-background-color:  #ca5010;
-}
-
-.background-Indigo1 {
-    -fx-background-color:  #4052ab;
-}
-
-
-.background-Yellow1 {
-    -fx-background-color:  #ffc83d;
-}
-
-
 /*---------- Estilos de fonte ----------*/
 .texto-titulo{
     -fx-text-fill: white;
@@ -121,7 +16,6 @@
 .texto-stilo-2 {
     -fx-background-color:  #ffffff;
 }
-
 
 /*---------- Estilos do menu ----------*/
 .menu-bar {
@@ -152,12 +46,16 @@
     -fx-stroke: #ffffff;
 }
 
+.menuBotoes{
+    -fx-background-color:  #212121;
+}
+
 /*----------  Panels de rolagens ----------*/
 .split-pane:horizontal > .split-pane-divider {
-	-fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 .split-pane:vertical > .split-pane-divider {
-	-fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 
 .split-pane *.split-pane-divider {
@@ -168,7 +66,6 @@
     -fx-box-border: #000000;
     -fx-padding: 1;
 }
-
 
 /*----------  Tab panels ----------*/
 
@@ -223,7 +120,6 @@
     -fx-text-fill: #96b946;
 }
 
-
 /*---------- Estilos do scroll ----------*/
 .scroll-pane {
     -fx-background-color: black;
@@ -269,81 +165,45 @@
     -fx-background-color: black;
 }
 
-
-
 /*---------- Estilos do rodape ----------*/
 .lblRodape {
     -fx-text-fill: #eee;
 }
 
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Clientes ------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-/*----------  Image cliente ----------*/
-.tituloBackground-clientes{
-    -fx-background-color: linear-gradient(to right top, #0277BD , #1A237E);
-}
-.imgBackground-clientes{
-    -fx-background-image: url("../images/icon/icoCliente.png");
-    -fx-background-position: center;
-    -fx-background-size: 200 200;
-    -fx-background-repeat: no-repeat;
+/*----------  Estilo pane botões ----------*/
+.backgroundBotoes{
+    -fx-background-color:  #005a9e;
 }
 
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Empresas ------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-/*----------  Image empresa ----------*/
-.tituloBackground-empresa{
-    -fx-background-color: linear-gradient(to right top, #C2185B , #b71c1c);
-}
-.imgBackground-empresa{
-    -fx-background-image: url("../images/icon/icoEmpresa.png");
-    -fx-background-position: bottom center;
-
-    -fx-background-size: 300 130;
-    -fx-background-repeat: no-repeat;
+.backgroundHaburguerButton{
+    -fx-background-color:  #0078d4;
 }
 
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Usuarios ------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-/*----------  Image usuario ----------*/
-.tituloBackground-usuario{
-    -fx-background-color: linear-gradient(to right top, #689F38 , #1B5E20);
-}
-.imgBackground-usuario{
-    -fx-background-image: url("../images/icon/icoUsuario.png");
-    -fx-background-position: bottom center;
-
-    -fx-background-size: 180 165;
-    -fx-background-repeat: no-repeat;
+.anchorPaneBotoesDetalhe{
+    -fx-border-color: #000000;
+    -fx-border-width:  0 2 0 0;
 }
 
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------- Configuracao de impressoras ----------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-/*----------  Image cliente ----------*/
-.tituloBackground-impressoras{
-    -fx-background-color: linear-gradient(to right top, #0277BD , #1A237E);
+.backgroundSlipPane{
+    -fx-background-color:  #333333;
 }
-.imgBackground-impressoras{
-    -fx-background-image: url("../images/icon/icoImpressora.png");
-    -fx-background-position: center;
-    -fx-background-size: 140 140;
-    -fx-background-repeat: no-repeat;
+
+.backgroundAnchorPaneTab{
+    -fx-border-color: #000000;
+    -fx-border-width:  0 0 0 1;
+}
+
+.backgroundTabPane{
+    -fx-background-color:  #333333;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Estilos de menu -----------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*---------- Estilos de fonte ----------*/
+.background-menuSplit{
+    -fx-background-color:  #333333;
 }

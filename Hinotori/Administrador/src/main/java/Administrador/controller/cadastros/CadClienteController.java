@@ -67,6 +67,12 @@ public class CadClienteController implements Initializable {
 	private ScrollPane background;
 
 	@FXML
+	private JFXButton btnEndereco;
+
+	@FXML
+	private JFXButton btnContato;
+
+	@FXML
 	private ImageView imgLogo;
 
 	@FXML
