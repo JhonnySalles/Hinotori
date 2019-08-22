@@ -3,15 +3,12 @@ package Administrador.controller.cadastros;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
-import Administrador.model.dao.services.CidadeServices;
-import Administrador.model.entities.ClienteEndereco;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
@@ -21,7 +18,7 @@ import javafx.scene.layout.Pane;
 import model.enums.Situacao;
 import model.enums.TipoCliente;
 
-public class CadClienteEnderecoController implements Initializable {
+public class CadClienteContatoController implements Initializable  {
 
 	@FXML
 	private JFXTextField txtNome;
@@ -37,10 +34,10 @@ public class CadClienteEnderecoController implements Initializable {
 
 	@FXML
 	private JFXTextField txtCpfCnpj;
-	
+
 	@FXML
 	private JFXComboBox<Situacao> cbSituacao;
-	
+
 	@FXML
 	private JFXComboBox<TipoCliente> cbClienteTipo;
 
@@ -49,7 +46,7 @@ public class CadClienteEnderecoController implements Initializable {
 
 	@FXML
 	private ScrollPane background;
-	
+
 	@FXML
 	private AnchorPane rootPane;
 
@@ -65,9 +62,6 @@ public class CadClienteEnderecoController implements Initializable {
 	@FXML
 	private JFXButton btnVoltar;
 
-	private List<ClienteEndereco> enderecos;
-	private ClienteEndereco endereco;
-	private CidadeServices cidadeServices;
 	private CadClienteController cadCliente;
 
 	@FXML
@@ -123,7 +117,7 @@ public class CadClienteEnderecoController implements Initializable {
 	}
 
 	private Boolean validaCampos() {
-			return true;
+		return true;
 	}
 
 	private void limpaCampos() {
@@ -138,14 +132,6 @@ public class CadClienteEnderecoController implements Initializable {
 
 	}
 
-	private void configuraCampos() {
-		setCidadeServices(new CidadeServices());
-	}
-
-	private void setCidadeServices(CidadeServices cidadeServices) {
-		this.cidadeServices = cidadeServices;
-	}
-	
 	public CadClienteController getCadCliente() {
 		return cadCliente;
 	}
@@ -153,12 +139,11 @@ public class CadClienteEnderecoController implements Initializable {
 	public void setCadCliente(CadClienteController cadCliente) {
 		this.cadCliente = cadCliente;
 	}
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		background.setFitToHeight(true);
 		background.setFitToWidth(true);
-		configuraCampos();
 		
 	}
 

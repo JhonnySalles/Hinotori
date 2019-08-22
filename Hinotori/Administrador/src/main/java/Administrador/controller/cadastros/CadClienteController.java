@@ -1,5 +1,6 @@
 package Administrador.controller.cadastros;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -16,13 +17,24 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
 import Administrador.model.entities.Cliente;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import model.constraints.Validadores;
 import model.enums.Situacao;
 import model.enums.UsuarioNivel;
@@ -67,6 +79,12 @@ public class CadClienteController implements Initializable {
 	private ScrollPane background;
 
 	@FXML
+	private StackPane stackPane;
+
+	@FXML
+	private AnchorPane rootPane;
+
+	@FXML
 	private JFXButton btnEndereco;
 
 	@FXML
@@ -91,6 +109,7 @@ public class CadClienteController implements Initializable {
 	private JFXButton btnVoltar;
 
 	private Cliente cliente;
+	private FXMLLoader loader;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -156,6 +175,34 @@ public class CadClienteController implements Initializable {
 
 	}
 
+	@FXML
+	public void onBtnEnderecosEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		if (e.getCode().toString().equals("ENTER")) {
+			btnEndereco.fire();
+		}
+	}
+
+	@FXML
+	public void onBtnEnderecosClick() {
+		loadSecondView("/Administrador/view/cadastros/CadClienteEndereco.fxml");
+		CadClienteEnderecoController endereco = loader.getController();
+		endereco.setCadCliente(this);
+	}
+
+	@FXML
+	public void onBtnContatosEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		if (e.getCode().toString().equals("ENTER")) {
+			btnContato.fire();
+		}
+	}
+
+	@FXML
+	public void onBtnContatosClick() {
+		loadSecondView("/Administrador/view/cadastros/CadClienteContato.fxml");
+		CadClienteContatoController contato = loader.getController();
+		contato.setCadCliente(this);
+	}
+
 	private Boolean validaCampos() {
 		if (!txtNome.getText().isEmpty()) {
 			txtNome.setUnFocusColor(Color.RED);
@@ -213,6 +260,64 @@ public class CadClienteController implements Initializable {
 		atualizaTela();
 	}
 
+	public void loadSecondView(String tela) {
+		try {
+			loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource(tela));
+			Parent root = loader.load();
+			Scene scene = rootPane.getScene();
+			root.translateXProperty().set(scene.getWidth());
+			stackPane.getChildren().add(root);
+
+			Timeline timeline = new Timeline();
+			KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
+			KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+			timeline.getKeyFrames().add(kf);
+			timeline.play();
+
+			desabilitaBotoes();
+		} catch (IOException e) {
+			e.printStackTrace();
+			habilitaBotoes();
+		}
+	}
+
+	public void loadPrimaryView() {
+		Scene scene = rootPane.getScene();
+		Node node = stackPane.getChildren().get(stackPane.getChildren().size() - 1);
+		node.translateXProperty().set(0);
+		Timeline timeline = new Timeline();
+		KeyValue kv = new KeyValue(node.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
+		KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+		timeline.getKeyFrames().add(kf);
+		timeline.setOnFinished(t -> {
+			stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
+		});
+		timeline.play();
+		habilitaBotoes();
+	}
+
+	private void desabilitaBotoes() {
+		btnEndereco.setDisable(true);
+		btnContato.setDisable(true);
+		btnConfirmar.setDisable(true);
+		btnCancelar.setDisable(true);
+		btnNovo.setDisable(true);
+		btnExcluir.setDisable(true);
+		btnVoltar.setDisable(true);
+	}
+
+	private void habilitaBotoes() {
+		btnEndereco.setDisable(false);
+		btnContato.setDisable(false);
+		btnConfirmar.setDisable(false);
+		btnCancelar.setDisable(false);
+		btnNovo.setDisable(false);
+		btnExcluir.setDisable(false);
+		btnVoltar.setDisable(false);
+	}
+
+	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Validadores.setTextFieldNotEmptyGreen(txtNome);
 		Mascaras.cpfCnpjField(txtCpfCnpj);

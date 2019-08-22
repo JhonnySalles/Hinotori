@@ -166,7 +166,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0" styleClass="backgroundAnchorPaneTab" SplitPane.resizableWithParent="false">
                      <children>
                         <TabPane fx:id="painelAbas" prefHeight="200.0" prefWidth="200.0" styleClass="backgroundTabPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <AnchorPane fx:id="apBotoesDetalhes" prefHeight="200.0" prefWidth="150.0" styleClass="anchorPaneBotoesDetalhe" translateX="-150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="apBotoesDetalhes" prefHeight="200.0" prefWidth="150.0" styleClass="anchorPaneBotoesDetalhe" translateX="-152.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <VBox styleClass="backgroundHaburguerButton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
