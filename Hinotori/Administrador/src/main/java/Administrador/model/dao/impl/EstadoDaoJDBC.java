@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Administrador.model.dao.EstadoDao;
+import Administrador.model.dao.services.PaisServices;
 import Administrador.model.entities.Estado;
 import model.log.ManipulaLog;
 import model.mysql.DB;
@@ -26,6 +27,7 @@ public class EstadoDaoJDBC implements EstadoDao {
 	final String select = "SELECT Id, Nome, Sigla, CodigoIBGE, Id_Pais FROM estados WHERE ID = ?;";
 
 	private Connection conexao;
+	private PaisServices paisService;
 
 	public EstadoDaoJDBC(Connection conexao) {
 		this.conexao = conexao;
@@ -41,7 +43,7 @@ public class EstadoDaoJDBC implements EstadoDao {
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getSigla());
 			st.setInt(3, obj.getCodigoIBGE());
-			st.setLong(4, obj.getIdPais());
+			st.setLong(4, obj.getPais().getId());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -69,7 +71,7 @@ public class EstadoDaoJDBC implements EstadoDao {
 			st.setString(1, obj.getNome());
 			st.setString(2, obj.getSigla());
 			st.setInt(3, obj.getCodigoIBGE());
-			st.setLong(4, obj.getIdPais());
+			st.setLong(4, obj.getPais().getId());
 			st.setLong(5, obj.getId());
 
 			int rowsAffected = st.executeUpdate();
@@ -123,8 +125,12 @@ public class EstadoDaoJDBC implements EstadoDao {
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
+				if (paisService == null) {
+					setPaisServices(new PaisServices());
+				}
+
 				Estado obj = new Estado(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Sigla"),
-						rs.getInt("CodigoIBGE"), rs.getLong("Id_Pais"));
+						rs.getInt("CodigoIBGE"), paisService.pesquisar(rs.getLong("Id_Pais")));
 				return obj;
 			}
 		} catch (SQLException e) {
@@ -149,9 +155,13 @@ public class EstadoDaoJDBC implements EstadoDao {
 
 			List<Estado> list = new ArrayList<>();
 
+			if (paisService == null) {
+				setPaisServices(new PaisServices());
+			}
+
 			while (rs.next()) {
 				Estado obj = new Estado(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Sigla"),
-						rs.getInt("CodigoIBGE"), rs.getLong("Id_Pais"));
+						rs.getInt("CodigoIBGE"), paisService.pesquisar(rs.getLong("Id_Pais")));
 				list.add(obj);
 			}
 			return list;
@@ -163,6 +173,10 @@ public class EstadoDaoJDBC implements EstadoDao {
 			DB.closeResultSet(rs);
 		}
 		return null;
+	}
+
+	private void setPaisServices(PaisServices paisService) {
+		this.paisService = paisService;
 	}
 
 }

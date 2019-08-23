@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Administrador.model.dao.CidadeDao;
+import Administrador.model.dao.services.EstadoServices;
 import Administrador.model.entities.Cidade;
 import model.enums.Situacao;
 import model.log.ManipulaLog;
@@ -27,6 +28,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 	final String select = "SELECT Id, Id_Estado, Nome, Ddd, Situacao FROM cidades WHERE ID = ?;";
 
 	private Connection conexao;
+	private EstadoServices estadoService;
 
 	public CidadeDaoJDBC(Connection conexao) {
 		this.conexao = conexao;
@@ -39,7 +41,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 		try {
 			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdEstado());
+			st.setLong(1, obj.getEstado().getId());
 			st.setString(2, obj.getNome());
 			st.setString(3, obj.getDdd());
 			st.setString(4, obj.getSituacao().toString());
@@ -66,7 +68,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 		try {
 			st = conexao.prepareStatement(update, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdEstado());
+			st.setLong(1, obj.getEstado().getId());
 			st.setString(2, obj.getNome());
 			st.setString(3, obj.getDdd());
 			st.setString(4, obj.getSituacao().toString());
@@ -113,7 +115,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 
 	@Override
 	public Cidade find(Long id) {
-		
+
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -121,8 +123,13 @@ public class CidadeDaoJDBC implements CidadeDao {
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Cidade obj = new Cidade(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
-						rs.getString("Ddd"), Situacao.valueOf(rs.getString("Situacao")));
+
+				if (estadoService == null) {
+					setEstadoServices(new EstadoServices());
+				}
+
+				Cidade obj = new Cidade(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Ddd"),
+						Situacao.valueOf(rs.getString("Situacao")), estadoService.pesquisar(rs.getLong("Id_Estado")));
 				return obj;
 			}
 		} catch (SQLException e) {
@@ -137,7 +144,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 
 	@Override
 	public List<Cidade> findAll() {
-		
+
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -147,9 +154,13 @@ public class CidadeDaoJDBC implements CidadeDao {
 
 			List<Cidade> list = new ArrayList<>();
 
+			if (estadoService == null) {
+				setEstadoServices(new EstadoServices());
+			}
+
 			while (rs.next()) {
-				Cidade obj = new Cidade(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
-						rs.getString("Ddd"), Situacao.valueOf(rs.getString("Situacao")));
+				Cidade obj = new Cidade(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Ddd"),
+						Situacao.valueOf(rs.getString("Situacao")), estadoService.pesquisar(rs.getLong("Id_Estado")));
 				list.add(obj);
 			}
 			return list;
@@ -161,6 +172,10 @@ public class CidadeDaoJDBC implements CidadeDao {
 			DB.closeResultSet(rs);
 		}
 		return null;
+	}
+
+	private void setEstadoServices(EstadoServices estadoService) {
+		this.estadoService = estadoService;
 	}
 
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Administrador.model.dao.BairroDao;
+import Administrador.model.dao.services.CidadeServices;
 import Administrador.model.entities.Bairro;
 import model.log.ManipulaLog;
 import model.mysql.DB;
@@ -26,6 +27,7 @@ public class BairroDaoJDBC implements BairroDao {
 	final String select = "SELECT Id, Id_Cidade, Nome FROM bairros WHERE Id = ?;";
 
 	private Connection conexao;
+	private CidadeServices cidadeService;
 
 	public BairroDaoJDBC(Connection conexao) {
 		this.conexao = conexao;
@@ -38,7 +40,7 @@ public class BairroDaoJDBC implements BairroDao {
 		try {
 			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getId_Cidade());
+			st.setLong(1, obj.getCidade().getId());
 			st.setString(2, obj.getNome());
 
 			int rowsAffected = st.executeUpdate();
@@ -63,7 +65,7 @@ public class BairroDaoJDBC implements BairroDao {
 		try {
 			st = conexao.prepareStatement(update, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getId_Cidade());
+			st.setLong(1, obj.getCidade().getId());
 			st.setString(2, obj.getNome());
 			st.setLong(3, obj.getId());
 
@@ -116,7 +118,11 @@ public class BairroDaoJDBC implements BairroDao {
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Bairro obj = new Bairro(rs.getLong("Id"), rs.getLong("Id_Cidade"), rs.getString("Nome"));
+				if (cidadeService == null) {
+					setCidadeServices(new CidadeServices());
+				}
+				Bairro obj = new Bairro(rs.getLong("Id"), rs.getString("Nome"),
+						cidadeService.pesquisar(rs.getLong("Id_Cidade")));
 				return obj;
 			}
 		} catch (SQLException e) {
@@ -131,7 +137,7 @@ public class BairroDaoJDBC implements BairroDao {
 
 	@Override
 	public List<Bairro> findAll() {
-		
+
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -141,8 +147,13 @@ public class BairroDaoJDBC implements BairroDao {
 
 			List<Bairro> list = new ArrayList<>();
 
+			if (cidadeService == null) {
+				setCidadeServices(new CidadeServices());
+			}
+
 			while (rs.next()) {
-				Bairro obj = new Bairro(rs.getLong("Id"), rs.getLong("Id_Cidade"), rs.getString("Nome"));
+				Bairro obj = new Bairro(rs.getLong("Id"), rs.getString("Nome"),
+						cidadeService.pesquisar(rs.getLong("Id_Cidade")));
 				list.add(obj);
 			}
 			return list;
@@ -154,6 +165,10 @@ public class BairroDaoJDBC implements BairroDao {
 			DB.closeResultSet(rs);
 		}
 		return null;
+	}
+
+	private void setCidadeServices(CidadeServices cidadeService) {
+		this.cidadeService = cidadeService;
 	}
 
 }

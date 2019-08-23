@@ -8,7 +8,7 @@ public class ClienteEndereco implements Serializable {
 
 	private static final long serialVersionUID = -6097222127900777434L;
 	private Integer id;
-	private Integer idBairro;
+	private Bairro bairro;
 	private String endereco;
 	private String numero;
 	private String cep;
@@ -24,12 +24,12 @@ public class ClienteEndereco implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getIdBairro() {
-		return idBairro;
+	public Bairro getBairro() {
+		return bairro;
 	}
 
-	public void setIdBairro(Integer idBairro) {
-		this.idBairro = idBairro;
+	public void setBairro(Bairro bairro) {
+		this.bairro = bairro;
 	}
 
 	public String getEndereco() {
@@ -80,10 +80,10 @@ public class ClienteEndereco implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public ClienteEndereco(Integer id, Integer idBairro, String endereco, String numero, String cep, String complemento,
-			String observacao, Enum<Situacao> situacao) {
+	public ClienteEndereco(Integer id, String endereco, String numero, String cep, String complemento,
+			String observacao, Enum<Situacao> situacao, Bairro bairro) {
 		this.id = id;
-		this.idBairro = idBairro;
+		this.bairro = bairro;
 		this.endereco = endereco;
 		this.numero = numero;
 		this.cep = cep;
@@ -96,9 +96,9 @@ public class ClienteEndereco implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((idBairro == null) ? 0 : idBairro.hashCode());
 		return result;
 	}
 
@@ -111,6 +111,11 @@ public class ClienteEndereco implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ClienteEndereco other = (ClienteEndereco) obj;
+		if (bairro == null) {
+			if (other.bairro != null)
+				return false;
+		} else if (!bairro.equals(other.bairro))
+			return false;
 		if (endereco == null) {
 			if (other.endereco != null)
 				return false;
@@ -121,19 +126,14 @@ public class ClienteEndereco implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (idBairro == null) {
-			if (other.idBairro != null)
-				return false;
-		} else if (!idBairro.equals(other.idBairro))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "ClienteEndereco [id=" + id + ", idBairro=" + idBairro + ", endereco=" + endereco + ", numero=" + numero
-				+ ", cep=" + cep + ", complemento=" + complemento + ", observacao=" + observacao + ", situacao="
-				+ situacao + "]";
+		return "ClienteEndereco [id=" + id + ", endereco=" + endereco + ", numero=" + numero + ", cep=" + cep
+				+ ", complemento=" + complemento + ", observacao=" + observacao + ", situacao=" + situacao + ", bairro="
+				+ bairro + "]";
 	}
 
 }

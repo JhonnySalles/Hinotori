@@ -9,7 +9,7 @@ public class Bairro implements Serializable {
 	private static final long serialVersionUID = 6407704915654886503L;
 
 	private Long id;
-	private Long idCidade;
+	private Cidade cidade;
 	private String nome;
 
 	public Long getId() {
@@ -20,12 +20,12 @@ public class Bairro implements Serializable {
 		this.id = id;
 	}
 
-	public Long getId_Cidade() {
-		return idCidade;
+	public Cidade getCidade() {
+		return cidade;
 	}
 
-	public void setId_Cidade(Long idCidade) {
-		this.idCidade = idCidade;
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
 	}
 
 	public String getNome() {
@@ -40,9 +40,9 @@ public class Bairro implements Serializable {
 
 	}
 
-	public Bairro(Long id, Long idCidade, String nome) {
+	public Bairro(Long id, String nome, Cidade cidade) {
 		this.id = id;
-		this.idCidade = idCidade;
+		this.cidade = cidade;
 		this.nome = nome;
 	}
 
@@ -52,8 +52,9 @@ public class Bairro implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((idCidade == null) ? 0 : idCidade.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
 
@@ -66,22 +67,27 @@ public class Bairro implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Bairro other = (Bairro) obj;
+		if (cidade == null) {
+			if (other.cidade != null)
+				return false;
+		} else if (!cidade.equals(other.cidade))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (idCidade == null) {
-			if (other.idCidade != null)
+		if (nome == null) {
+			if (other.nome != null)
 				return false;
-		} else if (!idCidade.equals(other.idCidade))
+		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Bairro [id=" + id + ", idCidade=" + idCidade + ", nome=" + nome + "]";
+		return "Bairro [id=" + id + ", nome=" + nome + ", cidade=" + cidade + "]";
 	}
 
 }

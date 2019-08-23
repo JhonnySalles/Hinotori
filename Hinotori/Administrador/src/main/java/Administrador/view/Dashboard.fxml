@@ -183,6 +183,9 @@
                                  </children>
                               </VBox>
                            </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
                         </AnchorPane>
                      </children>
                   </AnchorPane>

@@ -11,7 +11,7 @@ public class Cidade implements Serializable {
 	private static final long serialVersionUID = 8936948944326503399L;
 
 	private Long id;
-	private Long idEstado;
+	private Estado estado;
 	private String nome;
 	private String ddd;
 	private Enum<Situacao> situacao;
@@ -24,12 +24,12 @@ public class Cidade implements Serializable {
 		this.id = id;
 	}
 
-	public Long getIdEstado() {
-		return idEstado;
+	public Estado getEstado() {
+		return estado;
 	}
 
-	public void setIdEstado(Long idEstado) {
-		this.idEstado = idEstado;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	public String getNome() {
@@ -60,9 +60,9 @@ public class Cidade implements Serializable {
 
 	}
 
-	public Cidade(Long id, Long idEstado, String nome, String ddd, Enum<Situacao> situacao) {
+	public Cidade(Long id, String nome, String ddd, Enum<Situacao> situacao, Estado estado) {
 		this.id = id;
-		this.idEstado = idEstado;
+		this.estado = estado;
 		this.nome = nome;
 		this.ddd = ddd;
 		this.situacao = situacao;
@@ -75,7 +75,7 @@ public class Cidade implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((idEstado == null) ? 0 : idEstado.hashCode());
+		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		return result;
 	}
 
@@ -93,18 +93,18 @@ public class Cidade implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (idEstado == null) {
-			if (other.idEstado != null)
+		if (estado == null) {
+			if (other.estado != null)
 				return false;
-		} else if (!idEstado.equals(other.idEstado))
+		} else if (!estado.equals(other.estado))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Cidade [id=" + id + ", idEstado=" + idEstado + ", nome=" + nome + ", ddd=" + ddd + ", situacao="
-				+ situacao + "]";
+		return "Cidade [id=" + id + ", nome=" + nome + ", ddd=" + ddd + ", situacao=" + situacao + ", estado=" + estado
+				+ "]";
 	}
 
 }

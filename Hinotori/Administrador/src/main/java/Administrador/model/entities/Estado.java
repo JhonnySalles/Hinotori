@@ -12,7 +12,7 @@ public class Estado implements Serializable {
 	private String nome;
 	private String sigla;
 	private Integer codigoIBGE;
-	private Long idPais;
+	private Pais pais;
 
 	public Long getId() {
 		return id;
@@ -46,24 +46,24 @@ public class Estado implements Serializable {
 		this.codigoIBGE = codigoIBGE;
 	}
 
-	public Long getIdPais() {
-		return idPais;
+	public Pais getPais() {
+		return pais;
 	}
 
-	public void setIdPais(Long idPais) {
-		this.idPais = idPais;
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 
 	public Estado() {
 
 	}
 
-	public Estado(Long id, String nome, String sigla, Integer codigoIBGE, Long idPais) {
+	public Estado(Long id, String nome, String sigla, Integer codigoIBGE, Pais pais) {
 		this.id = id;
 		this.nome = nome;
 		this.sigla = sigla;
 		this.codigoIBGE = codigoIBGE;
-		this.idPais = idPais;
+		this.pais = pais;
 	}
 
 	// Utilizado para que possamos comparar os objetos por conteúdo e não
@@ -74,7 +74,7 @@ public class Estado implements Serializable {
 		int result = 1;
 		result = prime * result + ((codigoIBGE == null) ? 0 : codigoIBGE.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((idPais == null) ? 0 : idPais.hashCode());
+		result = prime * result + ((pais == null) ? 0 : pais.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((sigla == null) ? 0 : sigla.hashCode());
 		return result;
@@ -99,10 +99,10 @@ public class Estado implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (idPais == null) {
-			if (other.idPais != null)
+		if (pais == null) {
+			if (other.pais != null)
 				return false;
-		} else if (!idPais.equals(other.idPais))
+		} else if (!pais.equals(other.pais))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
@@ -119,8 +119,8 @@ public class Estado implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Estado [id=" + id + ", nome=" + nome + ", sigla=" + sigla + ", codigoIBGE=" + codigoIBGE + ", idPais="
-				+ idPais + "]";
+		return "Estado [id=" + id + ", nome=" + nome + ", sigla=" + sigla + ", codigoIBGE=" + codigoIBGE + ", pais="
+				+ pais + "]";
 	}
 
 }

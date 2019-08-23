@@ -220,7 +220,7 @@ public class DashboardController implements Initializable {
 					}
 				});
 			} else {
-				closeSlidePane.setToX(-(apBotoesDetalhes.getWidth()));
+				closeSlidePane.setToX(-(apBotoesDetalhes.getWidth() + 2));
 				closeSlidePane.play();
 				closeSlidePane.setOnFinished(new EventHandler<ActionEvent>() { // validar se o botão está correto.
 					@Override
