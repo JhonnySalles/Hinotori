@@ -12,6 +12,19 @@ import javafx.scene.paint.Color;
 
 public class Validadores {
 
+	
+	public static void setTextFieldNotEmpty(JFXTextField TextField) {
+		TextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
+					Boolean newPropertyValue) {
+				if (newPropertyValue) {
+					TextField.setUnFocusColor(Color.BLACK);
+				}
+			}
+		});
+	}
+	
 	public static void setTextFieldNotEmptyGreen(JFXTextField TextField) {
 		TextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override

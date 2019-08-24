@@ -16,7 +16,6 @@ import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import Administrador.model.entities.Usuario;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -156,13 +155,13 @@ public class DashboardController implements Initializable {
 	@FXML
 	public void onBtnCadEmpresaAction() {
 		loadView("/Administrador/view/cadastros/CadEmpresa.fxml", "Cadastro Empresa",
-				"../resources/images/icon/icoMenuEmpresa.png");
+				"../resources/geral/images/btn/bntHome_48.png");
 	}
 
 	@FXML
 	public void onBtnCadUsuarioAction() {
 		loadView("/Administrador/view/cadastros/CadUsuario.fxml", "Cadastro Usuario",
-				"../resources/images/icon/icoMenuUsuario.png");
+				"../resources/geral/images/btn/bntGraficoPizza_48.png");
 	}
 
 	@FXML
@@ -202,35 +201,19 @@ public class DashboardController implements Initializable {
 		TranslateTransition closeSlidePane = new TranslateTransition(new Duration(350), apBotoesDetalhes);
 		HamburgerBackArrowBasicTransition btnBurgerTask = new HamburgerBackArrowBasicTransition(btnBurgerBotoes);
 		btnBurgerTask.setRate(-1);
-		
+
 		// Evento para abrir e fechar via programacao.
 		btnBurgerBotoes.addEventHandler(ActionEvent.ACTION, e -> {
-			btnBurgerTask.setRate(btnBurgerTask.getRate() * -1);
-			btnBurgerTask.play();
 			if (apBotoesDetalhes.getTranslateX() != 0) {
 				openSlidePane.setToX(0);
 				openSlidePane.play();
-				openSlidePane.setOnFinished(new EventHandler<ActionEvent>() { // validar se o botão está correto.
-					@Override
-					public void handle(ActionEvent event) {
-						if (btnBurgerTask.getRate() != 1) {
-							btnBurgerTask.setRate(1);
-							btnBurgerTask.play();
-						}
-					}
-				});
+				btnBurgerTask.setRate(1);
+				btnBurgerTask.play();
 			} else {
 				closeSlidePane.setToX(-(apBotoesDetalhes.getWidth() + 2));
 				closeSlidePane.play();
-				closeSlidePane.setOnFinished(new EventHandler<ActionEvent>() { // validar se o botão está correto.
-					@Override
-					public void handle(ActionEvent event) {
-						if (btnBurgerTask.getRate() == 1) {
-							btnBurgerTask.setRate(-1);
-							btnBurgerTask.play();
-						}
-					}
-				});
+				btnBurgerTask.setRate(-1);
+				btnBurgerTask.play();
 			}
 		});
 

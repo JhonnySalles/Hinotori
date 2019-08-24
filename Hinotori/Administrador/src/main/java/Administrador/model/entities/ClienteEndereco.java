@@ -7,7 +7,7 @@ import model.enums.Situacao;
 public class ClienteEndereco implements Serializable {
 
 	private static final long serialVersionUID = -6097222127900777434L;
-	private Integer id;
+	private Long id;
 	private Bairro bairro;
 	private String endereco;
 	private String numero;
@@ -16,11 +16,11 @@ public class ClienteEndereco implements Serializable {
 	private String observacao;
 	private Enum<Situacao> situacao;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -80,7 +80,7 @@ public class ClienteEndereco implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public ClienteEndereco(Integer id, String endereco, String numero, String cep, String complemento,
+	public ClienteEndereco(Long id, String endereco, String numero, String cep, String complemento,
 			String observacao, Enum<Situacao> situacao, Bairro bairro) {
 		this.id = id;
 		this.bairro = bairro;

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Administrador.model.dao.ClienteDao;
+import Administrador.model.dao.services.ClienteEnderecoServices;
 import Administrador.model.entities.Cliente;
 import model.enums.Situacao;
 import model.enums.UsuarioNivel;
@@ -18,26 +19,26 @@ import model.mysql.DB;
 
 public class ClienteDaoJDBC implements ClienteDao {
 
-	final String insert = "INSERT INTO clientes (ID_Bairro, Nome, Sobrenome, DDD_Telefone,"
-			+ " Telefone, DDD_Celular, Celular, Email, Data_Cadastro, Ultima_Alteracao, "
-			+ " Observacao, Tipo, Situacao ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?');";
+	final String insert = "INSERT INTO clientes (Nome, Sobrenome, dddTelefone,"
+			+ " Telefone, dddCelular, Celular, Email, DataCadastro, UltimaAlteracao, "
+			+ " Observacao, Tipo, Situacao ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?');";
 
-	final String update = "UPDATE clientes SET ID_Bairro = ?, Nome = ?,"
-			+ " Sobrenome = ?, DDD_Telefone = ?, Telefone = ?, DDD_Celular = ?,"
-			+ " Celular = ?, Email = ?, Ultima_Alteracao = ?,"
+	final String update = "UPDATE clientes SET Nome = ?, Sobrenome = ?, "
+			+ " dddTelefone = ?, Telefone = ?, dddCelular = ?," + " Celular = ?, Email = ?, UltimaAlteracao = ?,"
 			+ " Observacao = ?, Tipo = ?, Situacao = ? WHERE ID = ?;";
 
 	final String delete = "DELETE FROM clientes WHERE ID = ?;";
 
-	final String selectAll = "SELECT ID, ID_Bairro, Nome, Sobrenome, DDD_Telefone,"
-			+ " Telefone, DDD_Celular, Celular, Email, Data_Cadastro, Ultima_Alteracao,"
+	final String selectAll = "SELECT ID, Nome, Sobrenome, dddTelefone,"
+			+ " Telefone, dddCelular, Celular, Email, DataCadastro, UltimaAlteracao,"
 			+ " Observacao, Tipo, Situacao FROM clientes;";
 
-	final String select = "SELECT ID, ID_Bairro, Nome, Sobrenome, DDD_Telefone,"
-			+ " Telefone, DDD_Celular, Celular, Email, Data_Cadastro, Ultima_Alteracao,"
+	final String select = "SELECT ID, Nome, Sobrenome, dddTelefone,"
+			+ " Telefone, dddCelular, Celular, Email, DataCadastro, UltimaAlteracao,"
 			+ " Observacao, Tipo, Situacao FROM clientes WHERE ID = ?;";
 
 	private Connection conexao;
+	private ClienteEnderecoServices clienteEnderecoService;
 
 	public ClienteDaoJDBC(Connection conexao) {
 		this.conexao = conexao;
@@ -50,19 +51,18 @@ public class ClienteDaoJDBC implements ClienteDao {
 		try {
 			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdBairro());
-			st.setString(2, obj.getNome());
-			st.setString(3, obj.getSobreNome());
-			st.setString(4, obj.getDddTelefone());
-			st.setString(5, obj.getTelefone());
-			st.setString(6, obj.getDddCelular());
-			st.setString(7, obj.getCelular());
-			st.setString(8, obj.getEmail());
+			st.setString(1, obj.getNome());
+			st.setString(2, obj.getSobreNome());
+			st.setString(3, obj.getDddTelefone());
+			st.setString(4, obj.getTelefone());
+			st.setString(5, obj.getDddCelular());
+			st.setString(6, obj.getCelular());
+			st.setString(7, obj.getEmail());
+			st.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
 			st.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
-			st.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
-			st.setString(11, obj.getObservacao());
-			st.setString(12, obj.getTipo().toString());
-			st.setString(13, obj.getSituacao().toString());
+			st.setString(10, obj.getObservacao());
+			st.setString(11, obj.getTipo().toString());
+			st.setString(12, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -86,19 +86,18 @@ public class ClienteDaoJDBC implements ClienteDao {
 		try {
 			st = conexao.prepareStatement(update, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdBairro());
-			st.setString(2, obj.getNome());
-			st.setString(3, obj.getSobreNome());
-			st.setString(4, obj.getDddTelefone());
-			st.setString(5, obj.getTelefone());
-			st.setString(6, obj.getDddCelular());
-			st.setString(7, obj.getCelular());
-			st.setString(8, obj.getEmail());
-			st.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
-			st.setString(10, obj.getObservacao());
-			st.setString(11, obj.getTipo().toString());
-			st.setString(12, obj.getSituacao().toString());
-			st.setLong(13, obj.getId());
+			st.setString(1, obj.getNome());
+			st.setString(2, obj.getSobreNome());
+			st.setString(3, obj.getDddTelefone());
+			st.setString(4, obj.getTelefone());
+			st.setString(5, obj.getDddCelular());
+			st.setString(6, obj.getCelular());
+			st.setString(7, obj.getEmail());
+			st.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+			st.setString(9, obj.getObservacao());
+			st.setString(10, obj.getTipo().toString());
+			st.setString(11, obj.getSituacao().toString());
+			st.setLong(12, obj.getId());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -141,7 +140,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 	@Override
 	public Cliente find(Long id) {
-		
+
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -149,13 +148,17 @@ public class ClienteDaoJDBC implements ClienteDao {
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Cliente obj = new Cliente(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
-						rs.getString("Sobrenome"), rs.getString("DDD_Telefone"), rs.getString("Telefone"),
-						rs.getString("DDD_Celular"), rs.getString("Celular"), rs.getString("Email"),
-						rs.getTimestamp("Data_Cadastro"), rs.getTimestamp("Ultima_Alteracao"), rs.getString("numero"),
-						rs.getString("complemento"), rs.getString("cep"), rs.getString("cpfCnpj"),
+
+				if (clienteEnderecoService == null) {
+					setClienteEnderecoServices(new ClienteEnderecoServices());
+				}
+
+				Cliente obj = new Cliente(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Sobrenome"),
+						rs.getString("dddTelefone"), rs.getString("Telefone"), rs.getString("dddCelular"),
+						rs.getString("Celular"), rs.getString("Email"), rs.getString("cpfCnpj"),
 						rs.getString("Observacao"), UsuarioNivel.valueOf(rs.getString("Tipo")),
-						Situacao.valueOf(rs.getString("Situacao")));
+						Situacao.valueOf(rs.getString("Situacao")),
+						clienteEnderecoService.pesquisarTodos(rs.getLong("Id")));
 				return obj;
 			}
 		} catch (SQLException e) {
@@ -170,7 +173,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 	@Override
 	public List<Cliente> findAll() {
-		
+
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -180,14 +183,17 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 			List<Cliente> list = new ArrayList<>();
 
+			if (clienteEnderecoService == null) {
+				setClienteEnderecoServices(new ClienteEnderecoServices());
+			}
+
 			while (rs.next()) {
-				Cliente obj = new Cliente(rs.getLong("Id"), rs.getLong("Id_Estado"), rs.getString("Nome"),
-						rs.getString("Sobrenome"), rs.getString("DDD_Telefone"), rs.getString("Telefone"),
-						rs.getString("DDD_Celular"), rs.getString("Celular"), rs.getString("Email"),
-						rs.getTimestamp("Data_Cadastro"), rs.getTimestamp("Ultima_Alteracao"),rs.getString("numero"),
-						rs.getString("complemento"), rs.getString("cep"), rs.getString("cpfCnpj"),
+				Cliente obj = new Cliente(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Sobrenome"),
+						rs.getString("dddTelefone"), rs.getString("Telefone"), rs.getString("dddCelular"),
+						rs.getString("Celular"), rs.getString("Email"), rs.getString("cpfCnpj"),
 						rs.getString("Observacao"), UsuarioNivel.valueOf(rs.getString("Tipo")),
-						Situacao.valueOf(rs.getString("Situacao")));
+						Situacao.valueOf(rs.getString("Situacao")),
+						clienteEnderecoService.pesquisarTodos(rs.getLong("Id")));
 				list.add(obj);
 			}
 			return list;
@@ -199,6 +205,10 @@ public class ClienteDaoJDBC implements ClienteDao {
 			DB.closeResultSet(rs);
 		}
 		return null;
+	}
+
+	private void setClienteEnderecoServices(ClienteEnderecoServices clienteEnderecoService) {
+		this.clienteEnderecoService = clienteEnderecoService;
 	}
 
 }

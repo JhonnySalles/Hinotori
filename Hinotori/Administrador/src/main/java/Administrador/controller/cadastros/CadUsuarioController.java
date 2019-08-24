@@ -47,7 +47,7 @@ import model.utils.Utils;
 public class CadUsuarioController implements Initializable {
 
 	final static Image ImagemPadrao = new Image(CadUsuarioController.class
-			.getResourceAsStream("/Administrador/resources/images/icon/icoUsuarioImage_256.png"));
+			.getResourceAsStream("/Administrador/resources/geral/images/icon/icoUsuarioImage_256.png"));
 
 	@FXML
 	private ImageView imgUsuario;

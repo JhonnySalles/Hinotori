@@ -3,6 +3,7 @@ package Administrador.model.dao;
 import Administrador.model.dao.impl.BairroDaoJDBC;
 import Administrador.model.dao.impl.CidadeDaoJDBC;
 import Administrador.model.dao.impl.ClienteDaoJDBC;
+import Administrador.model.dao.impl.ClienteEnderecoJDBC;
 import Administrador.model.dao.impl.EmpresaDaoJDBC;
 import Administrador.model.dao.impl.EstadoDaoJDBC;
 import Administrador.model.dao.impl.PaisDaoJDBC;
@@ -25,6 +26,10 @@ public class DaoFactory {
 
 	public static ClienteDao createClienteDao() {
 		return new ClienteDaoJDBC(DB.getConnection());
+	}
+	
+	public static ClienteEnderecoDao createClienteEnderecoDao() {
+		return new ClienteEnderecoJDBC(DB.getConnection());
 	}
 
 	public static EmpresaDao createEmpresaDao() {

@@ -16,15 +16,15 @@ import model.mysql.DB;
 
 public class BairroDaoJDBC implements BairroDao {
 
-	final String insert = "INSERT INTO bairros (Id_Cidade, Nome) VALUES (?, ?);";
+	final String insert = "INSERT INTO bairros (IdCidade, Nome) VALUES (?, ?);";
 
-	final String update = "UPDATE bairros SET Id_Cidade = ?, Nome = ? WHERE Id = ?;";
+	final String update = "UPDATE bairros SET IdCidade = ?, Nome = ? WHERE Id = ?;";
 
 	final String delete = "DELETE FROM bairros WHERE Id = ?;";
 
-	final String selectAll = "SELECT Id, Id_Cidade, Nome FROM bairros ";
+	final String selectAll = "SELECT Id, IdCidade, Nome FROM bairros ";
 
-	final String select = "SELECT Id, Id_Cidade, Nome FROM bairros WHERE Id = ?;";
+	final String select = "SELECT Id, IdCidade, Nome FROM bairros WHERE Id = ?;";
 
 	private Connection conexao;
 	private CidadeServices cidadeService;
@@ -122,7 +122,7 @@ public class BairroDaoJDBC implements BairroDao {
 					setCidadeServices(new CidadeServices());
 				}
 				Bairro obj = new Bairro(rs.getLong("Id"), rs.getString("Nome"),
-						cidadeService.pesquisar(rs.getLong("Id_Cidade")));
+						cidadeService.pesquisar(rs.getLong("IdCidade")));
 				return obj;
 			}
 		} catch (SQLException e) {
@@ -153,7 +153,7 @@ public class BairroDaoJDBC implements BairroDao {
 
 			while (rs.next()) {
 				Bairro obj = new Bairro(rs.getLong("Id"), rs.getString("Nome"),
-						cidadeService.pesquisar(rs.getLong("Id_Cidade")));
+						cidadeService.pesquisar(rs.getLong("IdCidade")));
 				list.add(obj);
 			}
 			return list;

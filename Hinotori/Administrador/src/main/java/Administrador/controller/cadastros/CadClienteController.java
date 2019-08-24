@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import Administrador.model.entities.Cliente;
@@ -64,6 +65,9 @@ public class CadClienteController implements Initializable {
 	private JFXTextField txtEmail;
 
 	@FXML
+	private JFXTextArea txtAreaObservacao;
+
+	@FXML
 	private JFXDatePicker dtPicDataCadastro;
 
 	@FXML
@@ -86,9 +90,6 @@ public class CadClienteController implements Initializable {
 
 	@FXML
 	private JFXButton btnEndereco;
-
-	@FXML
-	private JFXButton btnContato;
 
 	@FXML
 	private ImageView imgLogo;
@@ -189,20 +190,6 @@ public class CadClienteController implements Initializable {
 		endereco.setCadCliente(this);
 	}
 
-	@FXML
-	public void onBtnContatosEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			btnContato.fire();
-		}
-	}
-
-	@FXML
-	public void onBtnContatosClick() {
-		loadSecondView("/Administrador/view/cadastros/CadClienteContato.fxml");
-		CadClienteContatoController contato = loader.getController();
-		contato.setCadCliente(this);
-	}
-
 	private Boolean validaCampos() {
 		if (!txtNome.getText().isEmpty()) {
 			txtNome.setUnFocusColor(Color.RED);
@@ -225,6 +212,8 @@ public class CadClienteController implements Initializable {
 	}
 
 	private void atualizaEntidade() {
+		cliente = new Cliente();
+
 		cliente.setNome(txtNome.getText());
 		cliente.setSobreNome(txtSobreNome.getText());
 		cliente.setDddTelefone(txtTelefone.getText().substring(0, 1));
@@ -299,7 +288,6 @@ public class CadClienteController implements Initializable {
 
 	private void desabilitaBotoes() {
 		btnEndereco.setDisable(true);
-		btnContato.setDisable(true);
 		btnConfirmar.setDisable(true);
 		btnCancelar.setDisable(true);
 		btnNovo.setDisable(true);
@@ -309,7 +297,6 @@ public class CadClienteController implements Initializable {
 
 	private void habilitaBotoes() {
 		btnEndereco.setDisable(false);
-		btnContato.setDisable(false);
 		btnConfirmar.setDisable(false);
 		btnCancelar.setDisable(false);
 		btnNovo.setDisable(false);
@@ -319,7 +306,7 @@ public class CadClienteController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Validadores.setTextFieldNotEmptyGreen(txtNome);
+		Validadores.setTextFieldNotEmpty(txtNome);
 		Mascaras.cpfCnpjField(txtCpfCnpj);
 		Mascaras.foneField(txtTelefone);
 		Mascaras.foneField(txtCelular);

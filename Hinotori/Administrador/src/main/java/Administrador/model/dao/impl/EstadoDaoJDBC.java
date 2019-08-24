@@ -16,15 +16,15 @@ import model.mysql.DB;
 
 public class EstadoDaoJDBC implements EstadoDao {
 
-	final String insert = "INSERT INTO estados (Nome, Sigla, CodigoIBGE, Id_Pais) VALUES (?, ?, ?, ?);";
+	final String insert = "INSERT INTO estados (Nome, Sigla, CodigoIBGE, IdPais) VALUES (?, ?, ?, ?);";
 
-	final String update = "UPDATE estados SET Nome = ?, Sigla = ?, CodigoIBGE = ?, Id_Pais = ? WHERE Id = ?;";
+	final String update = "UPDATE estados SET Nome = ?, Sigla = ?, CodigoIBGE = ?, IdPais = ? WHERE Id = ?;";
 
 	final String delete = "DELETE FROM estados WHERE ID = ?;";
 
-	final String selectAll = "SELECT Id, Nome, Sigla, CodigoIBGE, Id_Pais FROM estados;";
+	final String selectAll = "SELECT Id, Nome, Sigla, CodigoIBGE, IdPais FROM estados;";
 
-	final String select = "SELECT Id, Nome, Sigla, CodigoIBGE, Id_Pais FROM estados WHERE ID = ?;";
+	final String select = "SELECT Id, Nome, Sigla, CodigoIBGE, IdPais FROM estados WHERE ID = ?;";
 
 	private Connection conexao;
 	private PaisServices paisService;
@@ -130,7 +130,7 @@ public class EstadoDaoJDBC implements EstadoDao {
 				}
 
 				Estado obj = new Estado(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Sigla"),
-						rs.getInt("CodigoIBGE"), paisService.pesquisar(rs.getLong("Id_Pais")));
+						rs.getInt("CodigoIBGE"), paisService.pesquisar(rs.getLong("IdPais")));
 				return obj;
 			}
 		} catch (SQLException e) {
@@ -161,7 +161,7 @@ public class EstadoDaoJDBC implements EstadoDao {
 
 			while (rs.next()) {
 				Estado obj = new Estado(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Sigla"),
-						rs.getInt("CodigoIBGE"), paisService.pesquisar(rs.getLong("Id_Pais")));
+						rs.getInt("CodigoIBGE"), paisService.pesquisar(rs.getLong("IdPais")));
 				list.add(obj);
 			}
 			return list;

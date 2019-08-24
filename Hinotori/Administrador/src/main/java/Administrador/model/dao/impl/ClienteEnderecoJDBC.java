@@ -8,43 +8,50 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.CidadeDao;
-import Administrador.model.dao.services.EstadoServices;
-import Administrador.model.entities.Cidade;
+import Administrador.model.dao.ClienteEnderecoDao;
+import Administrador.model.dao.services.BairroServices;
+import Administrador.model.entities.ClienteEndereco;
 import model.enums.Situacao;
 import model.log.ManipulaLog;
 import model.mysql.DB;
 
-public class CidadeDaoJDBC implements CidadeDao {
+public class ClienteEnderecoJDBC implements ClienteEnderecoDao {
 
-	final String insert = "INSERT INTO cidades (IdEstado, Nome, Ddd, Situacao) VALUES (?, ?, ?, ?);";
+	final String insert = "INSERT INTO Clientes_Enderecos (IdCliente, IdBairro, Endereco,"
+			+ " Numero, CEP, Complemento, Observacao, Situacao) VALUES (?,?,?,?,?,?,?,?');";
 
-	final String update = "UPDATE cidades SET IdEstado = ?, Nome = ?, Ddd = ?, Situacao = ? WHERE Id = ?;";
+	final String update = "UPDATE Clientes_Enderecos SET IdCliente = ?, IdBairro = ?, "
+			+ " Endereco = ?, Numero = ?, CEP = ?, Observacao = ?, Situacao = ? WHERE ID = ?;";
 
-	final String delete = "DELETE FROM cidades WHERE Id = ?;";
+	final String delete = "DELETE FROM Clientes_Enderecos WHERE ID = ?;";
 
-	final String selectAll = "SELECT Id, IdEstado, Nome, Ddd, Situacao FROM cidades;";
+	final String selectAll = "SELECT ID, IdCliente, IdBairro, Endereco, Numero, CEP, "
+			+ " Complemento, Observacao, Situacao FROM Clientes_Enderecos;";
 
-	final String select = "SELECT Id, IdEstado, Nome, Ddd, Situacao FROM cidades WHERE ID = ?;";
+	final String select = "SELECT ID, IdCliente, IdBairro, Endereco, Numero, CEP, Complemento, "
+			+ " Observacao, Situacao FROM Clientes_Enderecos WHERE ID = ?;";
 
 	private Connection conexao;
-	private EstadoServices estadoService;
+	private BairroServices bairroService;
 
-	public CidadeDaoJDBC(Connection conexao) {
+	public ClienteEnderecoJDBC(Connection conexao) {
 		this.conexao = conexao;
 	}
 
 	@Override
-	public void insert(Cidade obj) {
-
+	public void insert(Long cliente, ClienteEndereco obj) {
 		PreparedStatement st = null;
 		try {
 			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getEstado().getId());
-			st.setString(2, obj.getNome());
-			st.setString(3, obj.getDdd());
-			st.setString(4, obj.getSituacao().toString());
+			st.setLong(1, cliente);
+			st.setLong(2, obj.getBairro().getId());
+			st.setString(3, obj.getEndereco());
+			st.setString(4, obj.getNumero());
+			st.setString(5, obj.getCep());
+			st.setString(6, obj.getComplemento());
+			st.setString(7, obj.getObservacao());
+			st.setString(8, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -62,17 +69,20 @@ public class CidadeDaoJDBC implements CidadeDao {
 	}
 
 	@Override
-	public void update(Cidade obj) {
-
+	public void update(Long cliente, ClienteEndereco obj) {
 		PreparedStatement st = null;
 		try {
 			st = conexao.prepareStatement(update, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getEstado().getId());
-			st.setString(2, obj.getNome());
-			st.setString(3, obj.getDdd());
-			st.setString(4, obj.getSituacao().toString());
-			st.setLong(5, obj.getId());
+			st.setLong(1, cliente);
+			st.setLong(2, obj.getBairro().getId());
+			st.setString(3, obj.getEndereco());
+			st.setString(4, obj.getNumero());
+			st.setString(5, obj.getCep());
+			st.setString(6, obj.getComplemento());
+			st.setString(7, obj.getObservacao());
+			st.setString(8, obj.getSituacao().toString());
+			st.setLong(9, obj.getId());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -87,11 +97,11 @@ public class CidadeDaoJDBC implements CidadeDao {
 		} finally {
 			DB.closeStatement(st);
 		}
+
 	}
 
 	@Override
 	public void delete(Long id) {
-
 		PreparedStatement st = null;
 		try {
 			st = conexao.prepareStatement(delete, Statement.RETURN_GENERATED_KEYS);
@@ -111,11 +121,11 @@ public class CidadeDaoJDBC implements CidadeDao {
 		} finally {
 			DB.closeStatement(st);
 		}
+
 	}
 
 	@Override
-	public Cidade find(Long id) {
-
+	public ClienteEndereco find(Long cliente, Long id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -123,13 +133,13 @@ public class CidadeDaoJDBC implements CidadeDao {
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-
-				if (estadoService == null) {
-					setEstadoServices(new EstadoServices());
+				if (bairroService == null) {
+					setBairroServices(new BairroServices());
 				}
-
-				Cidade obj = new Cidade(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Ddd"),
-						Situacao.valueOf(rs.getString("Situacao")), estadoService.pesquisar(rs.getLong("IdEstado")));
+				ClienteEndereco obj = new ClienteEndereco(rs.getLong("Id"), rs.getString("endereco"),
+						rs.getString("numero"), rs.getString("cep"), rs.getString("complemento"),
+						rs.getString("observacao"), Situacao.valueOf(rs.getString("Situacao")),
+						bairroService.pesquisar(rs.getLong("IdBairro")));
 				return obj;
 			}
 		} catch (SQLException e) {
@@ -143,8 +153,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 	}
 
 	@Override
-	public List<Cidade> findAll() {
-
+	public List<ClienteEndereco> findAll(Long cliente) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -152,15 +161,16 @@ public class CidadeDaoJDBC implements CidadeDao {
 			st = conexao.prepareStatement(selectAll);
 			rs = st.executeQuery();
 
-			List<Cidade> list = new ArrayList<>();
-
-			if (estadoService == null) {
-				setEstadoServices(new EstadoServices());
+			List<ClienteEndereco> list = new ArrayList<>();
+			if (bairroService == null) {
+				setBairroServices(new BairroServices());
 			}
 
 			while (rs.next()) {
-				Cidade obj = new Cidade(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Ddd"),
-						Situacao.valueOf(rs.getString("Situacao")), estadoService.pesquisar(rs.getLong("IdEstado")));
+				ClienteEndereco obj = new ClienteEndereco(rs.getLong("Id"), rs.getString("endereco"),
+						rs.getString("numero"), rs.getString("cep"), rs.getString("complemento"),
+						rs.getString("observacao"), Situacao.valueOf(rs.getString("Situacao")),
+						bairroService.pesquisar(rs.getLong("IdBairro")));
 				list.add(obj);
 			}
 			return list;
@@ -174,8 +184,8 @@ public class CidadeDaoJDBC implements CidadeDao {
 		return null;
 	}
 
-	private void setEstadoServices(EstadoServices estadoService) {
-		this.estadoService = estadoService;
+	private void setBairroServices(BairroServices bairroService) {
+		this.bairroService = bairroService;
 	}
 
 }

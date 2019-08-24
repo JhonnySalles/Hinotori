@@ -94,6 +94,7 @@ public class PesquisaGenericaController implements Initializable {
 			String where, String groupOrder) {
 		pesquisa = new PesquisaGenerica(campoID, campoDescricao, select, tabela, joins, where, groupOrder);
 		resultado = pesquisaService.pesquisar(pesquisa);
+		limpaCampos();
 	}
 
 	public void setItemSelecionado(PesquisaGenericaDados item) {
