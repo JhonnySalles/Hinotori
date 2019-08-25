@@ -10,7 +10,7 @@ public class CidadeServices {
 	private CidadeDao cidadeDao = DaoFactory.createCidadeDao();
 
 	public void salvar(Cidade cidade) {
-		if (cidade.getId() == 0)
+		if (cidade.getId() != null && cidade.getId() != 0)
 			cidadeDao.update(cidade);
 		else
 			cidadeDao.insert(cidade);

@@ -11,7 +11,7 @@ public class TamanhoServices {
 	private TamanhoDao tamanhoDao = DaoFactory.createTamanhoDao();
 
 	public void salvar(Tamanho tamanho) {
-		if (tamanho.getId() == 0)
+		if (tamanho.getId() != null && tamanho.getId() != 0)
 			tamanhoDao.update(tamanho);
 		else
 			tamanhoDao.insert(tamanho);

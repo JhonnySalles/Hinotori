@@ -12,4 +12,9 @@ public enum TipoCliente {
 	public String getDescricao() {
 		return tipoCliente;
 	}
+	
+	@Override      
+	public String toString(){
+	    return this.tipoCliente;
+	}  
 }

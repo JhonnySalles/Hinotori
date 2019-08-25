@@ -18,15 +18,15 @@ import model.mysql.DB;
 public class ClienteEnderecoJDBC implements ClienteEnderecoDao {
 
 	final String insert = "INSERT INTO Clientes_Enderecos (IdCliente, IdBairro, Endereco,"
-			+ " Numero, CEP, Complemento, Observacao, Situacao) VALUES (?,?,?,?,?,?,?,?');";
+			+ " Numero, CEP, Complemento, Observacao, Situacao) VALUES (?,?,?,?,?,?,?,?);";
 
 	final String update = "UPDATE Clientes_Enderecos SET IdCliente = ?, IdBairro = ?, "
 			+ " Endereco = ?, Numero = ?, CEP = ?, Observacao = ?, Situacao = ? WHERE ID = ?;";
 
-	final String delete = "DELETE FROM Clientes_Enderecos WHERE ID = ?;";
+	final String delete = "UPDATE Clientes_Enderecos SET Situacao = 'Excluído' WHERE ID = ?;";
 
 	final String selectAll = "SELECT ID, IdCliente, IdBairro, Endereco, Numero, CEP, "
-			+ " Complemento, Observacao, Situacao FROM Clientes_Enderecos;";
+			+ " Complemento, Observacao, Situacao FROM Clientes_Enderecos WHERE Situacao <> 'Excluído' ;";
 
 	final String select = "SELECT ID, IdCliente, IdBairro, Endereco, Numero, CEP, Complemento, "
 			+ " Observacao, Situacao FROM Clientes_Enderecos WHERE ID = ?;";
@@ -97,7 +97,6 @@ public class ClienteEnderecoJDBC implements ClienteEnderecoDao {
 		} finally {
 			DB.closeStatement(st);
 		}
-
 	}
 
 	@Override

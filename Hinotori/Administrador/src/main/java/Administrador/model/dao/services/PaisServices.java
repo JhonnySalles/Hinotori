@@ -10,7 +10,7 @@ public class PaisServices {
 	private PaisDao paisDao = DaoFactory.createPaisDao();
 
 	public void salvar(Pais pais) {
-		if (pais.getId() == 0)
+		if (pais.getId() != null && pais.getId() != 0)
 			paisDao.update(pais);
 		else
 			paisDao.insert(pais);

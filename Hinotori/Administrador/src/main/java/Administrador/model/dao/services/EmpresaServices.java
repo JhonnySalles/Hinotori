@@ -11,7 +11,7 @@ public class EmpresaServices {
 	private EmpresaDao empresaDao = DaoFactory.createEmpresaDao();
 
 	public void salvar(Empresa empresa) {
-		if (empresa.getId() == 0)
+		if (empresa.getId() != null && empresa.getId() != 0)
 			empresaDao.update(empresa);
 		else
 			empresaDao.insert(empresa);

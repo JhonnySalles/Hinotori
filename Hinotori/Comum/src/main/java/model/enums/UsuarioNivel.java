@@ -13,4 +13,9 @@ public enum UsuarioNivel {
 	public String getDescricao() {
 		return nivel;
 	}
+	
+	@Override      
+	public String toString(){
+	    return this.nivel;
+	} 
 }

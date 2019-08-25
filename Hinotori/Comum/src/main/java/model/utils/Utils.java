@@ -13,4 +13,8 @@ public class Utils {
 	    return name.substring(lastIndexOf);
 	}
 	
+	public static String removeMascaras(String texto) {
+		return texto.replaceAll("[.-/()]", "");
+	}
+	
 }

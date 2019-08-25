@@ -15,7 +15,8 @@ module Comum {
 	exports model.enums;
 	exports model.entitis;
 	exports model.utils;
-
+	exports model.notification;
+	
 	requires java.logging;
 	requires javafx.base;
 	requires transitive javafx.controls;

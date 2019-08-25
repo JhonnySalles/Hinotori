@@ -31,11 +31,6 @@ public class PesquisaGenericaGridController implements Initializable {
 	private ObservableList<PesquisaGenericaDados> lista;
 
 	@FXML
-	public void duploClique() {
-		controller.duploClique(tabela.getSelectionModel().getSelectedItem());
-	}
-
-	@FXML
 	public void clique() {
 		controller.setItemSelecionado(tabela.getSelectionModel().getSelectedItem());
 	}
@@ -72,6 +67,11 @@ public class PesquisaGenericaGridController implements Initializable {
 	public void setControllerPai(PesquisaGenericaController controller) {
 		this.controller = controller;
 	}
+	
+	public void setIdInvisivel(Boolean valor) {
+		this.id.setVisible(!valor);
+		this.descricao.setMinWidth(385);
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -81,12 +81,8 @@ public class PesquisaGenericaGridController implements Initializable {
 		tabela.setRowFactory(tv -> {
 			TableRow<PesquisaGenericaDados> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
-				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					duploClique();
-				} else {
-					if (event.getClickCount() == 1 && (!row.isEmpty()))
+				if (event.getClickCount() == 1 && (!row.isEmpty()))
 						clique();
-				}
 			});
 			return row;
 		});

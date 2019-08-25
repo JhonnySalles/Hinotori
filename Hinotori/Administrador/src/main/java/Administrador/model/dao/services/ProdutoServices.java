@@ -10,7 +10,7 @@ public class ProdutoServices {
 	private ProdutoDao produtoDao = DaoFactory.createProdutoDao();
 
 	public void salvar(Produto produto) {
-		if (produto.getId() == 0)
+		if (produto.getId() != null && produto.getId() != 0)
 			produtoDao.update(produto);
 		else
 			produtoDao.insert(produto);

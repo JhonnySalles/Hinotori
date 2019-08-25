@@ -10,7 +10,7 @@ public class SaborServices {
 	private SaborDao saborDao = DaoFactory.createSaborDao();
 
 	public void salvar(Sabor sabor) {
-		if (sabor.getId() == 0)
+		if (sabor.getId() != null && sabor.getId() != 0)
 			saborDao.update(sabor);
 		else
 			saborDao.insert(sabor);

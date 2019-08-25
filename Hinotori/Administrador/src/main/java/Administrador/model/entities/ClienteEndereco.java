@@ -80,8 +80,23 @@ public class ClienteEndereco implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public ClienteEndereco(Long id, String endereco, String numero, String cep, String complemento,
-			String observacao, Enum<Situacao> situacao, Bairro bairro) {
+	public ClienteEndereco() {
+
+	}
+
+	public ClienteEndereco(String endereco, String numero, String cep, String complemento, String observacao,
+			Enum<Situacao> situacao, Bairro bairro) {
+		this.bairro = bairro;
+		this.endereco = endereco;
+		this.numero = numero;
+		this.cep = cep;
+		this.complemento = complemento;
+		this.observacao = observacao;
+		this.situacao = situacao;
+	}
+
+	public ClienteEndereco(Long id, String endereco, String numero, String cep, String complemento, String observacao,
+			Enum<Situacao> situacao, Bairro bairro) {
 		this.id = id;
 		this.bairro = bairro;
 		this.endereco = endereco;

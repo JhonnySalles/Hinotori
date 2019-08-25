@@ -12,26 +12,27 @@ import java.util.List;
 import Administrador.model.dao.ClienteDao;
 import Administrador.model.dao.services.ClienteEnderecoServices;
 import Administrador.model.entities.Cliente;
+import Administrador.model.entities.ClienteEndereco;
 import model.enums.Situacao;
-import model.enums.UsuarioNivel;
+import model.enums.TipoCliente;
 import model.log.ManipulaLog;
 import model.mysql.DB;
 
 public class ClienteDaoJDBC implements ClienteDao {
 
 	final String insert = "INSERT INTO clientes (Nome, Sobrenome, dddTelefone,"
-			+ " Telefone, dddCelular, Celular, Email, DataCadastro, UltimaAlteracao, "
-			+ " Observacao, Tipo, Situacao ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?');";
+			+ " Telefone, dddCelular, Celular, Email, CpfCnpj, DataCadastro, UltimaAlteracao, "
+			+ " Observacao, Tipo, Situacao ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
 	final String update = "UPDATE clientes SET Nome = ?, Sobrenome = ?, "
-			+ " dddTelefone = ?, Telefone = ?, dddCelular = ?," + " Celular = ?, Email = ?, UltimaAlteracao = ?,"
-			+ " Observacao = ?, Tipo = ?, Situacao = ? WHERE ID = ?;";
+			+ " dddTelefone = ?, Telefone = ?, dddCelular = ?," + " Celular = ?, Email = ?, CpfCnpj = ?, "
+			+ " UltimaAlteracao = ?, Observacao = ?, Tipo = ?, Situacao = ? WHERE ID = ?;";
 
-	final String delete = "DELETE FROM clientes WHERE ID = ?;";
+	final String delete = "UPDATE clientes SET Situacao = 'Excluído' WHERE ID = ?;";
 
 	final String selectAll = "SELECT ID, Nome, Sobrenome, dddTelefone,"
 			+ " Telefone, dddCelular, Celular, Email, DataCadastro, UltimaAlteracao,"
-			+ " Observacao, Tipo, Situacao FROM clientes;";
+			+ " Observacao, Tipo, Situacao FROM clientes WHERE Situacao <> 'Excluído';";
 
 	final String select = "SELECT ID, Nome, Sobrenome, dddTelefone,"
 			+ " Telefone, dddCelular, Celular, Email, DataCadastro, UltimaAlteracao,"
@@ -58,13 +59,21 @@ public class ClienteDaoJDBC implements ClienteDao {
 			st.setString(5, obj.getDddCelular());
 			st.setString(6, obj.getCelular());
 			st.setString(7, obj.getEmail());
-			st.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+			st.setString(8, obj.getCpfCnpj());
 			st.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
-			st.setString(10, obj.getObservacao());
-			st.setString(11, obj.getTipo().toString());
-			st.setString(12, obj.getSituacao().toString());
+			st.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
+			st.setString(11, obj.getObservacao());
+			st.setString(12, obj.getTipo().toString());
+			st.setString(13, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
+			ResultSet rs = st.getGeneratedKeys();
+
+			if (rs.next()) {
+				obj.setId(rs.getLong(1));
+				if (!obj.getEnderecos().isEmpty())
+					salvaEnderecos(obj);
+			}
 
 			if (rowsAffected < 1) {
 				System.out.println("Erro ao salvar os dados.");
@@ -93,13 +102,17 @@ public class ClienteDaoJDBC implements ClienteDao {
 			st.setString(5, obj.getDddCelular());
 			st.setString(6, obj.getCelular());
 			st.setString(7, obj.getEmail());
-			st.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
-			st.setString(9, obj.getObservacao());
-			st.setString(10, obj.getTipo().toString());
-			st.setString(11, obj.getSituacao().toString());
-			st.setLong(12, obj.getId());
+			st.setString(8, obj.getCpfCnpj());
+			st.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
+			st.setString(10, obj.getObservacao());
+			st.setString(11, obj.getTipo().toString());
+			st.setString(12, obj.getSituacao().toString());
+			st.setLong(13, obj.getId());
 
 			int rowsAffected = st.executeUpdate();
+
+			if (!obj.getEnderecos().isEmpty())
+				salvaEnderecos(obj);
 
 			if (rowsAffected < 1) {
 				System.out.println("Erro ao salvar os dados.");
@@ -148,15 +161,13 @@ public class ClienteDaoJDBC implements ClienteDao {
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-
-				if (clienteEnderecoService == null) {
+				if (clienteEnderecoService == null)
 					setClienteEnderecoServices(new ClienteEnderecoServices());
-				}
 
 				Cliente obj = new Cliente(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Sobrenome"),
 						rs.getString("dddTelefone"), rs.getString("Telefone"), rs.getString("dddCelular"),
 						rs.getString("Celular"), rs.getString("Email"), rs.getString("cpfCnpj"),
-						rs.getString("Observacao"), UsuarioNivel.valueOf(rs.getString("Tipo")),
+						rs.getString("Observacao"), TipoCliente.valueOf(rs.getString("Tipo")),
 						Situacao.valueOf(rs.getString("Situacao")),
 						clienteEnderecoService.pesquisarTodos(rs.getLong("Id")));
 				return obj;
@@ -183,17 +194,12 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 			List<Cliente> list = new ArrayList<>();
 
-			if (clienteEnderecoService == null) {
-				setClienteEnderecoServices(new ClienteEnderecoServices());
-			}
-
 			while (rs.next()) {
 				Cliente obj = new Cliente(rs.getLong("Id"), rs.getString("Nome"), rs.getString("Sobrenome"),
 						rs.getString("dddTelefone"), rs.getString("Telefone"), rs.getString("dddCelular"),
 						rs.getString("Celular"), rs.getString("Email"), rs.getString("cpfCnpj"),
-						rs.getString("Observacao"), UsuarioNivel.valueOf(rs.getString("Tipo")),
-						Situacao.valueOf(rs.getString("Situacao")),
-						clienteEnderecoService.pesquisarTodos(rs.getLong("Id")));
+						rs.getString("Observacao"), TipoCliente.valueOf(rs.getString("Tipo")),
+						Situacao.valueOf(rs.getString("Situacao")));
 				list.add(obj);
 			}
 			return list;
@@ -205,6 +211,15 @@ public class ClienteDaoJDBC implements ClienteDao {
 			DB.closeResultSet(rs);
 		}
 		return null;
+	}
+
+	private void salvaEnderecos(Cliente obj) {
+		if (clienteEnderecoService == null)
+			setClienteEnderecoServices(new ClienteEnderecoServices());
+
+		List<ClienteEndereco> list = obj.getEnderecos();
+		for (ClienteEndereco l : list)
+			clienteEnderecoService.salvar(obj.getId(), l);
 	}
 
 	private void setClienteEnderecoServices(ClienteEnderecoServices clienteEnderecoService) {

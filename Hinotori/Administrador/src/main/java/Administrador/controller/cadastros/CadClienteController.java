@@ -4,19 +4,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import Administrador.model.dao.services.ClienteServices;
 import Administrador.model.entities.Cliente;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -25,6 +20,8 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -38,13 +35,12 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import model.constraints.Validadores;
 import model.enums.Situacao;
-import model.enums.UsuarioNivel;
+import model.enums.TipoCliente;
 import model.mask.Mascaras;
+import model.notification.Notificacao;
+import model.utils.Utils;
 
 public class CadClienteController implements Initializable {
-
-	@FXML
-	private String Codigo;
 
 	@FXML
 	private JFXTextField txtNome;
@@ -68,13 +64,10 @@ public class CadClienteController implements Initializable {
 	private JFXTextArea txtAreaObservacao;
 
 	@FXML
-	private JFXDatePicker dtPicDataCadastro;
-
-	@FXML
 	private JFXComboBox<Situacao> cbSituacao;
 
 	@FXML
-	private JFXComboBox<UsuarioNivel> cbClienteTipo;
+	private JFXComboBox<TipoCliente> cbClienteTipo;
 
 	@FXML
 	private Pane paneBackground;
@@ -111,6 +104,7 @@ public class CadClienteController implements Initializable {
 
 	private Cliente cliente;
 	private FXMLLoader loader;
+	private ClienteServices clienteService;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -122,9 +116,12 @@ public class CadClienteController implements Initializable {
 	@FXML
 	public void onBtnConfirmarClick() {
 		if (validaCampos()) {
+			rootPane.cursorProperty().set(Cursor.WAIT);
 			atualizaEntidade();
-
+			salvar();
+			Notificacao.Dark("Processo concluído", "Cliente salvo com sucesso.", 3.0, Pos.BASELINE_RIGHT);
 			limpaCampos();
+			rootPane.cursorProperty().set(null);
 		}
 	}
 
@@ -185,13 +182,18 @@ public class CadClienteController implements Initializable {
 
 	@FXML
 	public void onBtnEnderecosClick() {
+		atualizaEntidade();
 		loadSecondView("/Administrador/view/cadastros/CadClienteEndereco.fxml");
 		CadClienteEnderecoController endereco = loader.getController();
 		endereco.setCadCliente(this);
 	}
 
+	public Cliente getCliente() {
+		return cliente;
+	}
+
 	private Boolean validaCampos() {
-		if (!txtNome.getText().isEmpty()) {
+		if (txtNome.getText().isEmpty()) {
 			txtNome.setUnFocusColor(Color.RED);
 			return false;
 		} else
@@ -206,28 +208,39 @@ public class CadClienteController implements Initializable {
 		txtCelular.setText("");
 		txtCpfCnpj.setText("");
 		txtEmail.setText("");
-		dtPicDataCadastro.setValue(null);
-		cbSituacao.getSelectionModel().select(0);
-		cbClienteTipo.getSelectionModel().select(0);
+		txtAreaObservacao.setText("");
+		cbSituacao.getSelectionModel().selectFirst();
+		cbClienteTipo.getSelectionModel().selectFirst();
 	}
 
 	private void atualizaEntidade() {
-		cliente = new Cliente();
+		if (cliente == null)
+			cliente = new Cliente();
 
 		cliente.setNome(txtNome.getText());
 		cliente.setSobreNome(txtSobreNome.getText());
-		cliente.setDddTelefone(txtTelefone.getText().substring(0, 1));
-		cliente.setTelefone(txtTelefone.getText().substring(2));
-		cliente.setDddCelular(txtCelular.getText().substring(0, 1));
-		cliente.setCelular(txtCelular.getText().substring(2));
-		cliente.setCpfCnpj(txtCpfCnpj.getText());
+
+		if (!txtTelefone.getText().isEmpty()) {
+			cliente.setDddTelefone(Utils.removeMascaras(txtTelefone.getText()).substring(0, 2));
+			cliente.setTelefone(Utils.removeMascaras(txtTelefone.getText()).substring(2));
+		}
+
+		if (!txtCelular.getText().isEmpty()) {
+			cliente.setDddCelular(Utils.removeMascaras(txtCelular.getText()).substring(0, 1));
+			cliente.setCelular(Utils.removeMascaras(txtCelular.getText()).substring(2));
+		}
+
+		cliente.setCpfCnpj(Utils.removeMascaras(txtCpfCnpj.getText()));
 		cliente.setEmail(txtEmail.getText());
+		cliente.setObservacao(txtAreaObservacao.getText());
 		cliente.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 		cliente.setTipo(cbClienteTipo.getSelectionModel().getSelectedItem());
 
-		LocalDate ld = dtPicDataCadastro.getValue();
-		Instant instant = ld.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-		cliente.setDataCadastro(Date.from(instant));
+		/*
+		 * LocalDate ld = dtPicDataCadastro.getValue(); // DatePicker Instant instant =
+		 * ld.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+		 * cliente.setDataCadastro(Date.from(instant));
+		 */
 	}
 
 	private void atualizaTela() {
@@ -240,8 +253,17 @@ public class CadClienteController implements Initializable {
 		cbSituacao.getSelectionModel().getSelectedItem().equals(cliente.getSituacao());
 		cbClienteTipo.getSelectionModel().getSelectedItem().equals(cliente.getTipo());
 
-		Instant instant = Instant.ofEpochMilli(cliente.getDataCadastro().getTime());
-		dtPicDataCadastro.setValue(LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate());
+		/*
+		 * Instant instant = Instant.ofEpochMilli(cliente.getDataCadastro().getTime());
+		 * // DatePicker dtPicDataCadastro.setValue(LocalDateTime.ofInstant(instant,
+		 * ZoneId.systemDefault()).toLocalDate());
+		 */
+	}
+	
+	private void salvar() {
+		if (clienteService == null)
+			clienteService = new ClienteServices();
+		clienteService.salvar(cliente);
 	}
 
 	public void carregarCliente(Cliente cliente) {
@@ -310,8 +332,12 @@ public class CadClienteController implements Initializable {
 		Mascaras.cpfCnpjField(txtCpfCnpj);
 		Mascaras.foneField(txtTelefone);
 		Mascaras.foneField(txtCelular);
+		cbSituacao.getItems().addAll(Situacao.values());
+		cbSituacao.getSelectionModel().selectFirst();
+		cbClienteTipo.getItems().addAll(TipoCliente.values());
+		cbClienteTipo.getSelectionModel().selectFirst();
 		background.setFitToHeight(true);
 		background.setFitToWidth(true);
-		Codigo = "";
+		cliente = new Cliente();
 	}
 }

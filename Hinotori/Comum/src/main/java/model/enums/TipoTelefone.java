@@ -13,5 +13,10 @@ public enum TipoTelefone {
 	public String getDescricao() {
 		return tipoTelefone;
 	}
+	
+	@Override      
+	public String toString(){
+	    return this.tipoTelefone;
+	} 
 
 }

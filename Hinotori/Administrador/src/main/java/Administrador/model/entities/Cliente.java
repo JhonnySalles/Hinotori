@@ -1,11 +1,12 @@
 package Administrador.model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import model.enums.Situacao;
-import model.enums.UsuarioNivel;
+import model.enums.TipoCliente;
 
 public class Cliente extends Pessoa implements Serializable {
 
@@ -19,7 +20,7 @@ public class Cliente extends Pessoa implements Serializable {
 	private String cpfCnpj;
 	private String observacao;
 
-	private Enum<UsuarioNivel> tipo;
+	private Enum<TipoCliente> tipo;
 	private Enum<Situacao> situacao;
 
 	private List<ClienteEndereco> enderecos;
@@ -56,11 +57,11 @@ public class Cliente extends Pessoa implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public Enum<UsuarioNivel> getTipo() {
+	public Enum<TipoCliente> getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Enum<UsuarioNivel> tipo) {
+	public void setTipo(Enum<TipoCliente> tipo) {
 		this.tipo = tipo;
 	}
 
@@ -82,10 +83,22 @@ public class Cliente extends Pessoa implements Serializable {
 
 	public Cliente() {
 		super();
+		enderecos = new ArrayList<>();
 	}
 
 	public Cliente(Long id, String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
-			String celular, String email, String cpfCnpj, String observacao, Enum<UsuarioNivel> tipo,
+			String celular, String email, String cpfCnpj, String observacao, Enum<TipoCliente> tipo,
+			Enum<Situacao> situacao) {
+		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email);
+		this.id = id;
+		this.cpfCnpj = cpfCnpj;
+		this.observacao = observacao;
+		this.tipo = tipo;
+		this.situacao = situacao;
+	}
+
+	public Cliente(Long id, String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
+			String celular, String email, String cpfCnpj, String observacao, Enum<TipoCliente> tipo,
 			Enum<Situacao> situacao, List<ClienteEndereco> enderecos) {
 		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email);
 		this.id = id;
@@ -98,7 +111,7 @@ public class Cliente extends Pessoa implements Serializable {
 
 	public Cliente(Long id, String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
 			String celular, String email, Date dataCadastro, Date ultimaAlteracao, String cpfCnpj, String observacao,
-			Enum<UsuarioNivel> tipo, Enum<Situacao> situacao, List<ClienteEndereco> enderecos) {
+			Enum<TipoCliente> tipo, Enum<Situacao> situacao, List<ClienteEndereco> enderecos) {
 		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email, dataCadastro);
 		this.id = id;
 		this.ultimaAlteracao = ultimaAlteracao;

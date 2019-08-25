@@ -37,7 +37,7 @@ public class PesquisaGenericaController implements Initializable {
 	private JFXButton btn_Pesquisar;
 
 	@FXML
-	public AnchorPane background;
+	private AnchorPane background;
 
 	private PesquisaGenerica pesquisa;
 	private PesquisaGenericaServices pesquisaService;
@@ -45,6 +45,8 @@ public class PesquisaGenericaController implements Initializable {
 	private List<PesquisaGenericaDados> resultado;
 	private PesquisaGenericaGridController controller;
 	private PopOver pop;
+	private String titulo;
+	private Boolean idInvisivel;
 
 	@FXML
 	private void onTxtPesquisaEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -62,6 +64,7 @@ public class PesquisaGenericaController implements Initializable {
 	private void onBtnLimparAction() {
 		txt_Pesquisa.setText("");
 		itemSelecionado = null;
+		pop.hide();
 	}
 
 	@FXML
@@ -69,19 +72,26 @@ public class PesquisaGenericaController implements Initializable {
 		URL url = getClass().getResource("/Administrador/view/frame/PesquisaGenericaGrid.fxml");
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(url);
-		pop = new PopOver();
 		VBox vbox = new VBox();
-		vbox.setPadding(new Insets(1));// 10px padding todos os lados
+		vbox.setPadding(new Insets(3));// 10px padding todos os lados
+		
+		if (pop == null)
+			pop = new PopOver();
 
 		try {
 			vbox.getChildren().add(loader.load());
 
 			controller = loader.getController();
 			controller.setControllerPai(this);
+
+			if (idInvisivel)
+				controller.setIdInvisivel(idInvisivel);
+
 			if (resultado != null)
 				controller.carregaGrid(resultado);
 
 			pop.setContentNode(vbox);
+			pop.setTitle(titulo);
 			pop.arrowLocationProperty().set(ArrowLocation.TOP_CENTER);
 			pop.setCornerRadius(5);
 			pop.show(txt_Pesquisa);
@@ -99,16 +109,10 @@ public class PesquisaGenericaController implements Initializable {
 
 	public void setItemSelecionado(PesquisaGenericaDados item) {
 		this.itemSelecionado = item;
-		if (itemSelecionado != null)
+		if (itemSelecionado != null) {
 			setDescricao(itemSelecionado.getDescricao());
-	}
-
-	public void duploClique(PesquisaGenericaDados item) {
-		this.itemSelecionado = item;
-		if (itemSelecionado != null)
-			setDescricao(itemSelecionado.getDescricao());
-		txt_Pesquisa.requestFocus();
-		pop.hide();
+			pop.hide();
+		}
 	}
 
 	public void setDescricao(String descricao) {
@@ -127,19 +131,34 @@ public class PesquisaGenericaController implements Initializable {
 		btn_Limpar.fire();
 	}
 
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+		this.txt_Pesquisa.setPromptText(titulo);
+	}
+
+	public void setIdInvisivel(Boolean idInvisivel) {
+		this.idInvisivel = idInvisivel;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		itemSelecionado = null;
 		resultado = null;
+		idInvisivel = false;
 
 		pesquisaService = new PesquisaGenericaServices();
 
 		/* Popup de descricao dos botoes */
 		Tooltip toltLimpar = new Tooltip("Limpar");
 		Tooltip toltPesquisar = new Tooltip("Pesquisar");
-
+		titulo = "Pesquisa";
 		btn_Limpar.setTooltip(toltLimpar);
-		btn_Pesquisar.setTooltip(toltPesquisar);	
+		btn_Pesquisar.setTooltip(toltPesquisar);
+		pop = new PopOver();
 	}
 
 }

@@ -8,8 +8,8 @@
    <children>
       <TableView fx:id="tabela" layoutX="14.0" layoutY="14.0" prefHeight="277.0" prefWidth="379.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn fx:id="id" editable="false" prefWidth="75.0" resizable="false" text="Id" />
-          <TableColumn fx:id="descricao" editable="false" maxWidth="-1.0" minWidth="310.0" prefWidth="-1.0" resizable="false" text="Descrição" />
+          <TableColumn fx:id="id" editable="false" maxWidth="-1.0" minWidth="75.0" prefWidth="-1.0" resizable="false" text="Id" />
+          <TableColumn fx:id="descricao" editable="false" maxWidth="-1.0" minWidth="308.0" prefWidth="-1.0" resizable="false" text="Descrição" />
         </columns>
       </TableView>
    </children>

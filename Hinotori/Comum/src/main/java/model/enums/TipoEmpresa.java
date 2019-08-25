@@ -13,5 +13,10 @@ public enum TipoEmpresa {
 	public String getDescricao() {
 		return tipoEmpresa;
 	}
+	
+	@Override      
+	public String toString(){
+	    return this.tipoEmpresa;
+	} 
 
 }

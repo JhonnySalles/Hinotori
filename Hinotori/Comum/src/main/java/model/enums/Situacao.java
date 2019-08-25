@@ -2,7 +2,7 @@ package model.enums;
 
 public enum Situacao {
 
-	ATIVO("Ativo"), INATIVO("Inativo"), EXCLUIDO("Excluído");
+	ATIVO("Ativo"), INATIVO("Inativo");
 
 	private String situacao;
 
@@ -13,5 +13,11 @@ public enum Situacao {
 	public String getDescricao() {
 		return situacao;
 	}
+	
+	// Necessário para que a escrita do combo seja Ativo e não ATIVO (nome do enum)
+	@Override      
+	public String toString(){
+	    return this.situacao;
+	}  
 
 }

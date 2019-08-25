@@ -60,15 +60,7 @@ public class Limitadores {
 			}
 		});
 	}
-	
-	public static void setTextFieldCep(TextField txt) {
-		txt.textProperty().addListener((obs, oldValue, newValue) -> {
-			if(newValue != null && (!newValue.matches("\\d*") || newValue.length() > 8)) { // A expressao serve para validar somente numeros
-				txt.setText(oldValue); //Caso seja digitado algo diferente ira receber o valor anterior, no caso nao tera alteracao.
-			}
-		});
-	}
-	
+		
 	/*	Funcao para que seja digitado estado	*/
 	public static void setTextFieldUF(TextField txt) {
 		txt.textProperty().addListener((obs, oldValue, newValue) -> {

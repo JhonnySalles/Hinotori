@@ -22,16 +22,16 @@ DROP TABLE IF EXISTS `bairros`;
 
 CREATE TABLE `bairros` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Id_Cidade` int(11) NOT NULL,
+  `IdCidade` int(11) NOT NULL,
   `Nome` varchar(150) NOT NULL,
   PRIMARY KEY (`Id`),
-  KEY `Bairros_Cidades` (`Id_Cidade`),
-  CONSTRAINT `Bairros_Cidades` FOREIGN KEY (`Id_Cidade`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `Bairros_Cidades` (`IdCidade`),
+  CONSTRAINT `Bairros_Cidades` FOREIGN KEY (`IdCidade`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=38333 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bairros` */
 
-insert  into `bairros`(`Id`,`Id_Cidade`,`Nome`) values 
+insert  into `bairros`(`Id`,`IdCidade`,`Nome`) values 
 (1,1,'Centro'),
 (2,2,'Centro'),
 (3,3,'Centro'),
@@ -38371,18 +38371,18 @@ DROP TABLE IF EXISTS `cidades`;
 
 CREATE TABLE `cidades` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Id_Estado` int(11) NOT NULL,
+  `IdEstado` int(11) NOT NULL,
   `Nome` varchar(150) NOT NULL,
   `Ddd` varchar(3) DEFAULT NULL,
   `Situacao` enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `Cidades_Estados` (`Id_Estado`),
-  CONSTRAINT `Cidades_Estados` FOREIGN KEY (`Id_Estado`) REFERENCES `estados` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `Cidades_Estados` (`IdEstado`),
+  CONSTRAINT `Cidades_Estados` FOREIGN KEY (`IdEstado`) REFERENCES `estados` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8930 DEFAULT CHARSET=latin1;
 
 /*Data for the table `cidades` */
 
-insert  into `cidades`(`Id`,`Id_Estado`,`Nome`,`Ddd`,`Situacao`) values 
+insert  into `cidades`(`Id`,`IdEstado`,`Nome`,`Ddd`,`Situacao`) values 
 (1,1,'ACRELANDIA','68','ATIVO'),
 (2,1,'ASSIS BRASIL','68','ATIVO'),
 (3,1,'BRASILEIA','68','ATIVO'),
@@ -47319,25 +47319,31 @@ DROP TABLE IF EXISTS `clientes`;
 
 CREATE TABLE `clientes` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_Cidade` int(11) NOT NULL,
   `Nome` varchar(60) NOT NULL,
   `Sobrenome` varchar(150) DEFAULT NULL,
-  `DDD_Telefone` varchar(2) DEFAULT NULL,
+  `dddTelefone` varchar(2) DEFAULT NULL,
   `Telefone` varchar(25) DEFAULT NULL,
-  `DDD_Celular` varchar(2) DEFAULT NULL,
+  `dddCelular` varchar(2) DEFAULT NULL,
   `Celular` varchar(20) DEFAULT NULL,
   `Email` varchar(150) DEFAULT NULL,
-  `Data_Cadastro` datetime DEFAULT NULL,
-  `Ultima_Alteracao` datetime DEFAULT NULL,
+  `CpfCnpj` varchar(20) DEFAULT NULL,
+  `DataCadastro` datetime DEFAULT NULL,
+  `UltimaAlteracao` datetime DEFAULT NULL,
   `Observacao` longtext,
-  `Tipo` enum('FISICO','JURIDICO','FISICA JURIDICA') NOT NULL DEFAULT 'FISICO',
-  `Situacao` enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
-  PRIMARY KEY (`ID`),
-  KEY `Clientes_Bairros` (`ID_Cidade`),
-  CONSTRAINT `Cliente_Cidades` FOREIGN KEY (`ID_Cidade`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `Tipo` enum('Físico','Júridico','Físico Júridico') DEFAULT 'Físico',
+  `Situacao` enum('Ativo','Inativo','Excluído') DEFAULT 'Ativo',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `clientes` */
+
+insert  into `clientes`(`ID`,`Nome`,`Sobrenome`,`dddTelefone`,`Telefone`,`dddCelular`,`Celular`,`Email`,`CpfCnpj`,`DataCadastro`,`UltimaAlteracao`,`Observacao`,`Tipo`,`Situacao`) values 
+(1,'TESTE','TESTE',NULL,NULL,NULL,NULL,'','','2019-08-25 16:41:24','2019-08-25 16:41:24',NULL,'Físico','Ativo'),
+(2,'Teste','teste','45','4545-4545','4','45454-5454','184811asdfsa@gasdfasd','454548484818-18','2019-08-25 16:47:07','2019-08-25 16:47:07',NULL,'Júridico','Ativo'),
+(3,'teste','teste','15','15151-5151','5','51515-1515','5151515151','515151515151-5','2019-08-25 17:00:05','2019-08-25 17:00:05','515151515151a5s1dfa sdfasdfasdf','Júridico','Ativo'),
+(4,'teste','asdfasdf',NULL,NULL,NULL,NULL,'','','2019-08-25 17:11:06','2019-08-25 17:11:06','','Físico','Ativo'),
+(5,'fasdfasdf','',NULL,NULL,NULL,NULL,'','','2019-08-25 17:11:20','2019-08-25 17:11:20','','Físico','Ativo'),
+(6,'asdfasdf','',NULL,NULL,NULL,NULL,'','','2019-08-25 17:13:14','2019-08-25 17:13:14','','Físico','Ativo');
 
 /*Table structure for table `clientes_contatos` */
 
@@ -47363,19 +47369,35 @@ CREATE TABLE `clientes_contatos` (
 DROP TABLE IF EXISTS `clientes_enderecos`;
 
 CREATE TABLE `clientes_enderecos` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_Cliente` int(11) NOT NULL,
-  `ID_Bairro` int(11) NOT NULL,
-  `Endereco` varchar(150) NOT NULL,
-  `Numero` varchar(10) NOT NULL,
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `IdCliente` int(11) NOT NULL,
+  `IdBairro` int(11) NOT NULL,
+  `Endereco` varchar(150) DEFAULT NULL,
+  `Numero` varchar(10) DEFAULT NULL,
   `CEP` varchar(10) DEFAULT NULL,
   `Complemento` varchar(150) DEFAULT NULL,
   `Observacao` longtext,
-  `Situacao` enum('ATIVO','INATIVO') DEFAULT NULL,
-  PRIMARY KEY (`ID`,`ID_Cliente`,`ID_Bairro`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `Situacao` enum('Ativo','Inativo') DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `ClientesEnderecos_Clientes` (`IdCliente`),
+  KEY `ClientesEnderecos_Bairros` (`IdBairro`),
+  CONSTRAINT `ClientesEnderecos_Bairros` FOREIGN KEY (`IdBairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `ClientesEnderecos_Clientes` FOREIGN KEY (`IdCliente`) REFERENCES `clientes` (`ID`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 /*Data for the table `clientes_enderecos` */
+
+insert  into `clientes_enderecos`(`Id`,`IdCliente`,`IdBairro`,`Endereco`,`Numero`,`CEP`,`Complemento`,`Observacao`,`Situacao`) values 
+(1,3,4457,'teste','456345','45324-534','453453453','453453453435','Ativo'),
+(2,3,11113,'teste','453245324','45234-524','453245','','Ativo'),
+(3,3,11113,'teste','453245324','45234-524','453245','','Ativo'),
+(4,3,11113,'teste','453245324','45234-524','453245','','Ativo'),
+(5,4,4459,'asdfasdfasdf','','','','','Ativo'),
+(6,4,4458,'qwerqwer','','','','','Ativo'),
+(7,6,29734,'asdfasd','','','','','Ativo'),
+(8,6,29735,'asdfasd','','','','','Ativo'),
+(9,6,4458,'asdfasdf','','','','','Ativo'),
+(10,6,32210,'asdfasd','','','','','Ativo');
 
 /*Table structure for table `empresas` */
 
@@ -47428,15 +47450,15 @@ CREATE TABLE `estados` (
   `Nome` varchar(50) NOT NULL,
   `Sigla` varchar(2) NOT NULL,
   `CodigoIBGE` int(3) DEFAULT NULL,
-  `Id_Pais` int(11) NOT NULL,
+  `IdPais` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
-  KEY `Estados_Cidades` (`Id_Pais`),
-  CONSTRAINT `Estados_Cidades` FOREIGN KEY (`Id_Pais`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `Estados_Cidades` (`IdPais`),
+  CONSTRAINT `Estados_Cidades` FOREIGN KEY (`IdPais`) REFERENCES `cidades` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 /*Data for the table `estados` */
 
-insert  into `estados`(`Id`,`Nome`,`Sigla`,`CodigoIBGE`,`Id_Pais`) values 
+insert  into `estados`(`Id`,`Nome`,`Sigla`,`CodigoIBGE`,`IdPais`) values 
 (1,'Acre','AC',12,30),
 (2,'Alagoas','AL',27,30),
 (3,'Amazonas','AM',13,30),

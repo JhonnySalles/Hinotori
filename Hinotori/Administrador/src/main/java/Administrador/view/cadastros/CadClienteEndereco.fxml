@@ -76,8 +76,8 @@
                            <children>
                               <HBox spacing="10.0">
                                  <children>
-                                    <JFXTextField fx:id="txtCliente" editable="false" promptText="Cliente" HBox.hgrow="ALWAYS" />
-                                    <JFXButton fx:id="btnVoltar" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="40.0" maxWidth="60.0" minHeight="40.0" minWidth="60.0" onAction="#onBtnVoltarClick" prefHeight="40.0" prefWidth="60.0" ripplerFill="#c8abff" text="Voltar">
+                                    <JFXTextField fx:id="txtCliente" editable="false" labelFloat="true" promptText="Cliente" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="btnVoltar" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="40.0" maxWidth="60.0" minHeight="40.0" minWidth="60.0" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" prefHeight="40.0" prefWidth="60.0" ripplerFill="#c8abff" text="Voltar">
                                        <graphic>
                                           <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -106,8 +106,8 @@
                               <fx:include fx:id="frameBairro" maxHeight="50.0" source="../frame/PesquisaGenerica.fxml" VBox.vgrow="ALWAYS" />
                               <HBox alignment="CENTER_LEFT" maxHeight="50.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <JFXTextField fx:id="txtEndereco" prefHeight="28.0" promptText="Endereço" HBox.hgrow="ALWAYS" />
-                                    <JFXTextField fx:id="txtNumero" prefHeight="28.0" promptText="Número" />
+                                    <JFXTextField fx:id="txtEndereco" labelFloat="true" prefHeight="28.0" promptText="Endereço" HBox.hgrow="ALWAYS" />
+                                    <JFXTextField fx:id="txtNumero" labelFloat="true" prefHeight="28.0" promptText="Número" />
                                     <JFXComboBox fx:id="cbSituacao" minWidth="75.0" prefHeight="28.0" prefWidth="100.0" promptText="Situação" />
                                  </children>
                                  <VBox.margin>
@@ -116,8 +116,8 @@
                               </HBox>
                               <HBox alignment="CENTER_LEFT" maxHeight="50.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <JFXTextField fx:id="txtCep" promptText="CEP" />
-                                    <JFXTextField fx:id="txtComplemento" promptText="Complemento" HBox.hgrow="ALWAYS" />
+                                    <JFXTextField fx:id="txtCep" labelFloat="true" promptText="CEP" />
+                                    <JFXTextField fx:id="txtComplemento" labelFloat="true" promptText="Complemento" HBox.hgrow="ALWAYS" />
                                  </children>
                                  <VBox.margin>
                                     <Insets />
@@ -130,7 +130,7 @@
                               </HBox>
                               <HBox alignment="CENTER" maxHeight="50.0" spacing="60.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <JFXButton fx:id="btnExcluir" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="40.0" maxWidth="60.0" minHeight="40.0" minWidth="60.0" prefHeight="40.0" prefWidth="60.0" ripplerFill="#8ecdf5" text="Excluir" textFill="WHITE">
+                                    <JFXButton fx:id="btnExcluir" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="40.0" maxWidth="60.0" minHeight="40.0" minWidth="60.0" onAction="#onBtnExcluirClick" onKeyPressed="#onBtnExcluirEnter" prefHeight="40.0" prefWidth="60.0" ripplerFill="#8ecdf5" text="Excluir" textFill="WHITE">
                                        <graphic>
                                           <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -138,7 +138,7 @@
                                              </image>
                                           </ImageView>
                                        </graphic></JFXButton>
-                                    <JFXButton fx:id="btnNovo" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="40.0" maxWidth="60.0" minHeight="40.0" minWidth="60.0" prefHeight="40.0" prefWidth="60.0" ripplerFill="#ffaeae" text="Novo" textFill="WHITE">
+                                    <JFXButton fx:id="btnNovo" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="40.0" maxWidth="60.0" minHeight="40.0" minWidth="60.0" onAction="#onBtnNovoClick" onKeyPressed="#onBtnNovoEnter" prefHeight="40.0" prefWidth="60.0" ripplerFill="#ffaeae" text="Novo" textFill="WHITE">
                                        <graphic>
                                           <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -146,7 +146,7 @@
                                              </image>
                                           </ImageView>
                                        </graphic></JFXButton>
-                                    <JFXButton fx:id="btnConfirmar" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="40.0" maxWidth="60.0" minHeight="40.0" minWidth="60.0" prefHeight="40.0" prefWidth="60.0" ripplerFill="#aaff8e" text="Confirmar" textFill="WHITE">
+                                    <JFXButton fx:id="btnConfirmar" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="40.0" maxWidth="60.0" minHeight="40.0" minWidth="60.0" onAction="#onBtnConfirmarClick" onKeyPressed="#onBtnConfirmarEnter" prefHeight="40.0" prefWidth="60.0" ripplerFill="#aaff8e" text="Confirmar" textFill="WHITE">
                                        <graphic>
                                           <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                              <image>

@@ -13,4 +13,9 @@ public enum TipoProduto {
 	public String getDescricao() {
 		return tipoProduto;
 	}
+	
+	@Override      
+	public String toString(){
+	    return this.tipoProduto;
+	} 
 }

@@ -7,11 +7,11 @@ import Administrador.model.dao.DaoFactory;
 import Administrador.model.entities.Cliente;
 
 public class ClienteServices {
-	
+
 	private ClienteDao clienteDao = DaoFactory.createClienteDao();
 
 	public void salvar(Cliente cliente) {
-		if (cliente.getId() == 0)
+		if (cliente.getId() != null && cliente.getId() != 0)
 			clienteDao.update(cliente);
 		else
 			clienteDao.insert(cliente);
@@ -20,7 +20,7 @@ public class ClienteServices {
 	public void deletar(Long id) {
 		clienteDao.delete(id);
 	};
-	
+
 	public Cliente pesquisar(Long id) {
 		return clienteDao.find(id);
 	};

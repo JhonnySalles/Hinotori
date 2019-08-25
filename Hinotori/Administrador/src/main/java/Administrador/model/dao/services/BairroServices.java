@@ -10,7 +10,7 @@ public class BairroServices {
 	private BairroDao bairroDao = DaoFactory.createBairroDao();
 
 	public void salvar(Bairro bairro) {
-		if (bairro.getId() == 0)
+		if (bairro.getId() != null && bairro.getId() != 0)
 			bairroDao.update(bairro);
 		else
 			bairroDao.insert(bairro);

@@ -175,7 +175,6 @@ public class CadEmpresaController implements Initializable {
 		Mascaras.cnpjField(txtCnpj);
 		Mascaras.cepField(txtCep);
 		Limitadores.setTextFieldInteger(txtNumero);
-		Limitadores.setTextFieldCep(txtCep);
 
 		setEmpresaServices(new EmpresaServices());
 	}

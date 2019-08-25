@@ -11,7 +11,7 @@ public class ClienteEnderecoServices {
 	private ClienteEnderecoDao clienteEnderecoDao = DaoFactory.createClienteEnderecoDao();
 
 	public void salvar(Long cliente, ClienteEndereco endereco) {
-		if (endereco.getId() == 0)
+		if (endereco.getId() != null && endereco.getId() != 0)
 			clienteEnderecoDao.update(cliente, endereco);
 		else
 			clienteEnderecoDao.insert(cliente, endereco);

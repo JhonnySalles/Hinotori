@@ -10,7 +10,7 @@ public class EstadoServices {
 	private EstadoDao estadoDao = DaoFactory.createEstadoDao();
 
 	public void salvar(Estado estado) {
-		if (estado.getId() == 0)
+		if (estado.getId() != null && estado.getId() != 0)
 			estadoDao.update(estado);
 		else
 			estadoDao.insert(estado);

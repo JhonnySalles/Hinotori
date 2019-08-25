@@ -12,8 +12,6 @@ import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
-import org.controlsfx.control.Notifications;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -36,12 +34,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.util.Duration;
 import model.alerts.Alertas;
 import model.constraints.Validadores;
 import model.enums.Situacao;
 import model.enums.UsuarioNivel;
 import model.mask.Mascaras;
+import model.notification.Notificacao;
 import model.utils.Utils;
 
 public class CadUsuarioController implements Initializable {
@@ -122,7 +120,6 @@ public class CadUsuarioController implements Initializable {
 	private byte[] imagem;
 	private UsuarioServices usuarioServices;
 	private Boolean edicao;
-	private Notifications notificacao;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -201,17 +198,11 @@ public class CadUsuarioController implements Initializable {
 				setUsuarioServices(new UsuarioServices());
 			usuarioServices.deletar(usuario.getLogin());
 			limpaCampos();
-			notificacao = Notifications.create().title("Processo concluído")
-					.text("Usuário excluido com sucesso.").hideAfter(Duration.seconds(5))
-					.position(Pos.BASELINE_RIGHT).darkStyle();
-			notificacao.show();
+			Notificacao.Dark("Processo concluído", "Usuário excluido com sucesso.", 5.0, Pos.BASELINE_RIGHT);
 		} else {
-			notificacao = Notifications.create().title("Nenhum usuário selecionado")
-					.text("Favor informar um usuário.").hideAfter(Duration.seconds(5))
-					.position(Pos.BASELINE_RIGHT).darkStyle();
-			notificacao.show();
+			Notificacao.Dark("Nenhum usuário selecionado", "Favor informar um usuário.", 5.0, Pos.BASELINE_RIGHT);
 		}
-				
+
 	}
 
 	@FXML
@@ -335,10 +326,7 @@ public class CadUsuarioController implements Initializable {
 		} else {
 			if (!edicao && usuarioServices.validaLogin(txtLogin.getText())) {
 				txtLogin.setUnFocusColor(Color.RED);
-				notificacao = Notifications.create().title("Usuário já cadastrado")
-						.text("Favor informar outro usuário.").hideAfter(Duration.seconds(5))
-						.position(Pos.BASELINE_RIGHT).darkStyle();
-				notificacao.show();
+				Notificacao.Dark("Usuário já cadastrado", "Favor informar outro usuário.", 5.0, Pos.BASELINE_RIGHT);
 			}
 		}
 

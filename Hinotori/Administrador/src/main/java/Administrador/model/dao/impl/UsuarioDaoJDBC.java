@@ -30,10 +30,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			+ " Email = ?, Observacao = ?, Ddd_Telefone = ?, Telefone = ?, Ddd_Celular = ?,"
 			+ " Celular = ?, Imagem = ?, Nivel = ?, Situacao = ? WHERE Login = ?;";
 
-	final String delete = "UPDATE Situacao = \"" + Situacao.EXCLUIDO + "\" WHERE Login ?;";
+	final String delete = "UPDATE Situacao = \"EXCLUIDO\" WHERE Login ?;";
 
 	final String selectAll = "SELECT Login, Id_Empresa, Nome, Sobrenome, Email, Data_Cadastro, Observacao,"
-			+ " Ddd_Telefone, Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios;";
+			+ " Ddd_Telefone, Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios WHERE Situacao <> \"EXCLUIDO\";";
 
 	final String select = "SELECT Login, Id_Empresa, Nome, Sobrenome, Email, Data_Cadastro, Observacao, Ddd_Telefone,"
 			+ " Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios WHERE Login = ?;";
