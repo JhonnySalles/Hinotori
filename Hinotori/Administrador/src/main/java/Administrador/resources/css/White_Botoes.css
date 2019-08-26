@@ -89,34 +89,6 @@
 }
 
 /*------------------*/
-#btnNovo {
-    -fx-background-color: linear-gradient(to right, #742FE3 0%, #742FE3 5%, #212121 5%, #212121 35%,#742FE3 35%, #742FE3 100%);
-    -fx-text-fill: #ffffff;
-
-    -fx-background-image: url("../white/images/btn/bntNovo_48.png");
-    -fx-background-position: 11 0;
-    -fx-background-size: 25 26;
-    -fx-background-repeat: no-repeat;
-}
-
-#btnNovo:hover{
-    -fx-background-color: linear-gradient(to right, #212121 0%, #212121 5%, #742FE3 5%, #742FE3 35%,#212121 35%, #212121 95%, #742FE3 95%, #742FE3 100%);
-    -fx-text-fill: #e6b3ff;
-}
-
-#btnNovo:focused{
-    -fx-background-color: linear-gradient(to right, #742FE3 0%, #742FE3 5%,#212121 5%, #212121 95%, #742FE3 95%, #742FE3 100%);
-    -fx-text-fill: #e6b3ff;
-}
-
-#btnNovo:pressed {
-    -fx-padding: 0 11 0 0;
-    -fx-background-insets: 0.5,0,0,0;
-    -fx-background-position: 12 0;
-    -fx-text-fill: #e6b3ff;
-}
-
-/*------------------*/
 #btnVoltar {
     -fx-background-color: linear-gradient(to right, #57585C 0%, #57585C 5%, #212121 5%, #212121 35%,#57585C 35%, #57585C 100%);
     -fx-text-fill: #ffffff;
@@ -142,6 +114,73 @@
     -fx-background-insets: 0.5,0,0,0;
     -fx-background-position: 12 0;
     -fx-text-fill: #ffffff;
+}
+
+
+/*------------------*/
+#btnNovo{
+    -fx-background-color: linear-gradient(to top right, #558B2F 0%, #1B5E20 75%, #004D40 100%);
+    -fx-background-radius : 20;
+    -fx-text-fill: #ffffff;
+
+    -fx-background-image: url("../white/images/btn/bntNovo_48.png");
+    -fx-background-position: 11 0;
+    -fx-background-size: 25 26;
+    -fx-background-repeat: no-repeat;
+}
+
+#btnNovo:hover{
+    -fx-background-color: linear-gradient(to bottom right, #558B2F 0%, #1B5E20 50%, #004D40 100%);
+}
+
+#btnNovo:pressed {
+    -fx-padding: 0 11 0 0;
+    -fx-background-insets: 0.5,0,0,0;
+    -fx-background-position: 12 0;
+}
+
+/*------------------*/
+#btnEditar{
+    -fx-background-color: linear-gradient(to top right, #3F51B5 0%, #283593 75%, #311B92 100%);
+    -fx-background-radius : 20;
+    -fx-text-fill: #ffffff;
+
+    -fx-background-image: url("../white/images/btn/bntNovo_48.png");
+    -fx-background-position: 11 0;
+    -fx-background-size: 25 26;
+    -fx-background-repeat: no-repeat;
+}
+
+#btnEditar:hover{
+    -fx-background-color: linear-gradient(to bottom right, #3F51B5 0%, #283593 50%, #311B92 100%);
+}
+
+#btnEditar:pressed {
+    -fx-padding: 0 11 0 0;
+    -fx-background-insets: 0.5,0,0,0;
+    -fx-background-position: 12 0;
+}
+
+/*------------------*/
+#btnSair{
+    -fx-background-color: linear-gradient(to top right, #546E7A 0%, #37474F 75%, #212121 100%);
+    -fx-background-radius : 20;
+    -fx-text-fill: #ffffff;
+
+    -fx-background-image: url("../white/images/btn/bntNovo_48.png");
+    -fx-background-position: 11 0;
+    -fx-background-size: 25 26;
+    -fx-background-repeat: no-repeat;
+}
+
+#btnSair:hover{
+    -fx-background-color: linear-gradient(to bottom right, #546E7A 0%, #37474F 50%, #212121 100%);
+}
+
+#btnSair:pressed {
+    -fx-padding: 0 11 0 0;
+    -fx-background-insets: 0.5,0,0,0;
+    -fx-background-position: 12 0;
 }
 
 
