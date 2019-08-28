@@ -1,7 +1,7 @@
 package model.enums;
 
 public enum TipoCliente {
-	FISICO("Físico"), JURIDICO("Júridico");
+	FISICO("Físico"), JURIDICO("Júridico"), FISICO_JURIDICO("Físico/Júridico");
 
 	private String tipoCliente;
 

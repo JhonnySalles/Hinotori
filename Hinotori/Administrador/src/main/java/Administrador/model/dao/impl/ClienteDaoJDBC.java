@@ -31,12 +31,13 @@ public class ClienteDaoJDBC implements ClienteDao {
 	final String delete = "UPDATE clientes SET Situacao = 'Excluído' WHERE ID = ?;";
 
 	final String selectAll = "SELECT ID, Nome, Sobrenome, dddTelefone,"
-			+ " Telefone, dddCelular, Celular, Email, DataCadastro, UltimaAlteracao,"
-			+ " Observacao, Tipo, Situacao FROM clientes WHERE Situacao <> 'Excluído';";
+			+ " Telefone, dddCelular, Celular, Email, CpfCnpj, DataCadastro, "
+			+ " UltimaAlteracao, Observacao, Tipo, Situacao FROM clientes "
+			+ " WHERE Situacao <> 'Excluído';";
 
 	final String select = "SELECT ID, Nome, Sobrenome, dddTelefone,"
-			+ " Telefone, dddCelular, Celular, Email, DataCadastro, UltimaAlteracao,"
-			+ " Observacao, Tipo, Situacao FROM clientes WHERE ID = ?;";
+			+ " Telefone, dddCelular, Celular, Email, CpfCnpj, DataCadastro, "
+			+ " UltimaAlteracao, Observacao, Tipo, Situacao FROM clientes WHERE ID = ?;";
 
 	private Connection conexao;
 	private ClienteEnderecoServices clienteEnderecoService;

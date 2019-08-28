@@ -184,7 +184,7 @@ public class CadClienteEnderecoController implements Initializable {
 	@FXML
 	public void onBtnVoltarClick() {
 		cadCliente.getCliente().setEnderecos(enderecos);
-		cadCliente.loadPrimaryView();
+		cadCliente.returnView();
 	}
 
 	private Boolean validaCampos() {

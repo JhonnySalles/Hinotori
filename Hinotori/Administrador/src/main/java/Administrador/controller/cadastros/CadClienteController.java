@@ -1,6 +1,5 @@
 package Administrador.controller.cadastros;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -11,28 +10,19 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import Administrador.controller.pesquisas.PsqClienteController;
 import Administrador.model.dao.services.ClienteServices;
 import Administrador.model.entities.Cliente;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import model.constraints.Validadores;
 import model.enums.Situacao;
 import model.enums.TipoCliente;
@@ -76,9 +66,6 @@ public class CadClienteController implements Initializable {
 	private ScrollPane background;
 
 	@FXML
-	private StackPane stackPane;
-
-	@FXML
 	private AnchorPane rootPane;
 
 	@FXML
@@ -94,17 +81,14 @@ public class CadClienteController implements Initializable {
 	private JFXButton btnCancelar;
 
 	@FXML
-	private JFXButton btnNovo;
-
-	@FXML
 	private JFXButton btnExcluir;
 
 	@FXML
 	private JFXButton btnVoltar;
 
 	private Cliente cliente;
-	private FXMLLoader loader;
 	private ClienteServices clienteService;
+	private PsqClienteController PsqCliente;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -138,18 +122,6 @@ public class CadClienteController implements Initializable {
 	}
 
 	@FXML
-	public void onBtnNovoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			btnNovo.fire();
-		}
-	}
-
-	@FXML
-	public void onBtnNovoClick() {
-		limpaCampos();
-	}
-
-	@FXML
 	public void onBtnExcluirEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		if (e.getCode().toString().equals("ENTER")) {
 			btnExcluir.fire();
@@ -158,7 +130,17 @@ public class CadClienteController implements Initializable {
 
 	@FXML
 	public void onBtnExcluirClick() {
-
+		if (cliente.getId() == null) {
+			Notificacao.Dark("Aviso", "Não foi possivel realizar a exclusão, nenhum cliente selecionado.", 5.0,
+					Pos.BASELINE_RIGHT);
+			return;
+		} else {
+			if (clienteService == null)
+				clienteService = new ClienteServices();
+			clienteService.deletar(cliente.getId());
+			Notificacao.Dark("Processamento concluído", "Item excluído com sucesso.", 5.0, Pos.BASELINE_RIGHT);
+			limpaCampos();
+		}
 	}
 
 	@FXML
@@ -170,7 +152,7 @@ public class CadClienteController implements Initializable {
 
 	@FXML
 	public void onBtnVoltarClick() {
-
+		PsqCliente.returnView();
 	}
 
 	@FXML
@@ -183,9 +165,19 @@ public class CadClienteController implements Initializable {
 	@FXML
 	public void onBtnEnderecosClick() {
 		atualizaEntidade();
-		loadSecondView("/Administrador/view/cadastros/CadClienteEndereco.fxml");
-		CadClienteEnderecoController endereco = loader.getController();
+		desabilitaBotoes();
+		loadView("/Administrador/view/cadastros/CadClienteEndereco.fxml");
+		CadClienteEnderecoController endereco = PsqCliente.getLoader().getController();
 		endereco.setCadCliente(this);
+		habilitaBotoes();
+	}
+
+	public PsqClienteController getPsqCliente() {
+		return PsqCliente;
+	}
+
+	public void setPsqCliente(PsqClienteController PsqCliente) {
+		this.PsqCliente = PsqCliente;
 	}
 
 	public Cliente getCliente() {
@@ -235,12 +227,6 @@ public class CadClienteController implements Initializable {
 		cliente.setObservacao(txtAreaObservacao.getText());
 		cliente.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 		cliente.setTipo(cbClienteTipo.getSelectionModel().getSelectedItem());
-
-		/*
-		 * LocalDate ld = dtPicDataCadastro.getValue(); // DatePicker Instant instant =
-		 * ld.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-		 * cliente.setDataCadastro(Date.from(instant));
-		 */
 	}
 
 	private void atualizaTela() {
@@ -252,14 +238,8 @@ public class CadClienteController implements Initializable {
 		txtEmail.setText(cliente.getEmail());
 		cbSituacao.getSelectionModel().getSelectedItem().equals(cliente.getSituacao());
 		cbClienteTipo.getSelectionModel().getSelectedItem().equals(cliente.getTipo());
-
-		/*
-		 * Instant instant = Instant.ofEpochMilli(cliente.getDataCadastro().getTime());
-		 * // DatePicker dtPicDataCadastro.setValue(LocalDateTime.ofInstant(instant,
-		 * ZoneId.systemDefault()).toLocalDate());
-		 */
 	}
-	
+
 	private void salvar() {
 		if (clienteService == null)
 			clienteService = new ClienteServices();
@@ -271,48 +251,18 @@ public class CadClienteController implements Initializable {
 		atualizaTela();
 	}
 
-	public void loadSecondView(String tela) {
-		try {
-			loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource(tela));
-			Parent root = loader.load();
-			Scene scene = rootPane.getScene();
-			root.translateXProperty().set(scene.getWidth());
-			stackPane.getChildren().add(root);
-
-			Timeline timeline = new Timeline();
-			KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
-			KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
-			timeline.getKeyFrames().add(kf);
-			timeline.play();
-
-			desabilitaBotoes();
-		} catch (IOException e) {
-			e.printStackTrace();
-			habilitaBotoes();
-		}
+	public void loadView(String tela) {
+		PsqCliente.loadSecondView(tela);
 	}
 
-	public void loadPrimaryView() {
-		Scene scene = rootPane.getScene();
-		Node node = stackPane.getChildren().get(stackPane.getChildren().size() - 1);
-		node.translateXProperty().set(0);
-		Timeline timeline = new Timeline();
-		KeyValue kv = new KeyValue(node.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
-		KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
-		timeline.getKeyFrames().add(kf);
-		timeline.setOnFinished(t -> {
-			stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
-		});
-		timeline.play();
-		habilitaBotoes();
+	public void returnView() {
+		PsqCliente.returnView();
 	}
 
 	private void desabilitaBotoes() {
 		btnEndereco.setDisable(true);
 		btnConfirmar.setDisable(true);
 		btnCancelar.setDisable(true);
-		btnNovo.setDisable(true);
 		btnExcluir.setDisable(true);
 		btnVoltar.setDisable(true);
 	}
@@ -321,7 +271,6 @@ public class CadClienteController implements Initializable {
 		btnEndereco.setDisable(false);
 		btnConfirmar.setDisable(false);
 		btnCancelar.setDisable(false);
-		btnNovo.setDisable(false);
 		btnExcluir.setDisable(false);
 		btnVoltar.setDisable(false);
 	}

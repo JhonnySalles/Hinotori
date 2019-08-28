@@ -7,6 +7,7 @@ module Administrador {
 	exports Administrador;
 	exports Administrador.controller;
 	exports Administrador.controller.cadastros;
+	exports Administrador.controller.pesquisas;
 	exports Administrador.controller.menu;
 	exports Administrador.controller.frame;
 	exports Administrador.model.entities;
@@ -14,7 +15,7 @@ module Administrador {
 	requires transitive Comum;
 	requires javafx.base;
 	requires javafx.controls;
-	requires javafx.fxml;
+	requires transitive javafx.fxml;
 	requires transitive javafx.graphics;
 	requires com.jfoenix;
 	requires java.desktop;
@@ -27,5 +28,6 @@ module Administrador {
 	opens Administrador.controller.cadastros to javafx.fxml;
 	opens Administrador.controller.menu to javafx.fxml;
 	opens Administrador.controller.frame to javafx.fxml;
+	opens Administrador.controller.pesquisas to javafx.fxml;
 
 }

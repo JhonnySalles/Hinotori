@@ -148,7 +148,7 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	public void onBtnCadClienteAction() {
-		loadView("/Administrador/view/cadastros/CadCliente.fxml", "Cadastro Cliente",
+		loadView("/Administrador/view/pesquisas/PsqCliente.fxml", "Cadastro Cliente",
 				"../resources/geral/images/btn/bntUsuario_48.png");
 	}
 
@@ -265,7 +265,6 @@ public class DashboardController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
 		/* Popup de descricao dos botoes */
 		Tooltip toltCadastro = new Tooltip("Cadastros");
 		btnCadastros.setTooltip(toltCadastro);

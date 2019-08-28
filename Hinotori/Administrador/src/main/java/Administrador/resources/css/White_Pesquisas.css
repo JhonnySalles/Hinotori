@@ -245,10 +245,12 @@
 
 .table-view .column-header-background{
     -fx-background-color:  #5C6BC0;
-
 }
 
 .table-view{
+    -fx-border-color: #5C6BC0;
+    -fx-border-width: 1;
+
     -fx-background-color: #FAFAFA;
 
     -fx-border-radius: 0;
@@ -267,7 +269,6 @@
     -fx-background-color: -fx-table-cell-border-color, #FAFAFA;
     -fx-table-border-color: #5C6BC0;
     -fx-table-cell-border-color: #5C6BC0;
-
 }
 
 .table-row-cell:odd{
@@ -276,6 +277,8 @@
 
 .table-row-cell:selected {
     -fx-background-color: #C5CAE9;
+    -fx-border-color: #5C6BC0;
+    -fx-border-width: 0 0 1 0;
 }
 
 .table-view > .virtual-flow > .scroll-bar > .increment-button,
@@ -289,7 +292,6 @@
 .table-view .increment-button ,.table-view .decrement-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-
 }
 
 /* The main scrollbar **track** CSS class  */
@@ -332,10 +334,4 @@
 
 .corner {
     -fx-background-color: transparent;
-}
-
-/*----------  Image cliente ----------*/
-.table-border{
-    -fx-border-color:  #5C6BC0;
-    -fx-border-radius: 0 0 10 10;
 }

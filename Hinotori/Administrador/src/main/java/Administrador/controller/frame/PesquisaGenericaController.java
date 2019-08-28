@@ -20,10 +20,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 
 public class PesquisaGenericaController implements Initializable {
 
@@ -74,7 +78,7 @@ public class PesquisaGenericaController implements Initializable {
 		loader.setLocation(url);
 		VBox vbox = new VBox();
 		vbox.setPadding(new Insets(3));// 10px padding todos os lados
-		
+
 		if (pop == null)
 			pop = new PopOver();
 
@@ -92,8 +96,25 @@ public class PesquisaGenericaController implements Initializable {
 
 			pop.setContentNode(vbox);
 			pop.setTitle(titulo);
-			pop.arrowLocationProperty().set(ArrowLocation.TOP_CENTER);
+
+			Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+			Scene scene = txt_Pesquisa.getScene();
+			Point2D windowCoord = new Point2D(scene.getWindow().getX(), scene.getWindow().getY());
+			Point2D sceneCoord = new Point2D(scene.getX(), scene.getY());
+			Point2D nodeCoord = txt_Pesquisa.localToScene(0.0, 0.0);
+			// Explicacao em: https://blog.crisp.se/2012/08/29/perlundholm/window-scene-and-node-coordinates-in-javafx
+			//double cordenadaX = Math.round(windowCoord.getX() + sceneCoord.getX() + nodeCoord.getX());
+			double cordenadaY = Math.round(windowCoord.getY() + sceneCoord.getY() + nodeCoord.getY());
+			
+			if (cordenadaY < screenBounds.getHeight() / 2)
+				pop.arrowLocationProperty().set(ArrowLocation.TOP_CENTER);
+			else
+				pop.arrowLocationProperty().set(ArrowLocation.BOTTOM_CENTER);
+
 			pop.setCornerRadius(5);
+			pop.setHideOnEscape(true);
+			pop.setAutoFix(true);
+			pop.setAutoHide(true);
 			pop.show(txt_Pesquisa);
 		} catch (IOException e) {
 			e.printStackTrace();

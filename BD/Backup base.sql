@@ -47330,20 +47330,26 @@ CREATE TABLE `clientes` (
   `DataCadastro` datetime DEFAULT NULL,
   `UltimaAlteracao` datetime DEFAULT NULL,
   `Observacao` longtext,
-  `Tipo` enum('Físico','Júridico','Físico Júridico') DEFAULT 'Físico',
-  `Situacao` enum('Ativo','Inativo','Excluído') DEFAULT 'Ativo',
+  `Tipo` enum('FISICO','JURIDICO','FISICO_JURIDICO') DEFAULT 'FISICO',
+  `Situacao` enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 /*Data for the table `clientes` */
 
 insert  into `clientes`(`ID`,`Nome`,`Sobrenome`,`dddTelefone`,`Telefone`,`dddCelular`,`Celular`,`Email`,`CpfCnpj`,`DataCadastro`,`UltimaAlteracao`,`Observacao`,`Tipo`,`Situacao`) values 
-(1,'TESTE','TESTE',NULL,NULL,NULL,NULL,'','','2019-08-25 16:41:24','2019-08-25 16:41:24',NULL,'Físico','Ativo'),
-(2,'Teste','teste','45','4545-4545','4','45454-5454','184811asdfsa@gasdfasd','454548484818-18','2019-08-25 16:47:07','2019-08-25 16:47:07',NULL,'Júridico','Ativo'),
-(3,'teste','teste','15','15151-5151','5','51515-1515','5151515151','515151515151-5','2019-08-25 17:00:05','2019-08-25 17:00:05','515151515151a5s1dfa sdfasdfasdf','Júridico','Ativo'),
-(4,'teste','asdfasdf',NULL,NULL,NULL,NULL,'','','2019-08-25 17:11:06','2019-08-25 17:11:06','','Físico','Ativo'),
-(5,'fasdfasdf','',NULL,NULL,NULL,NULL,'','','2019-08-25 17:11:20','2019-08-25 17:11:20','','Físico','Ativo'),
-(6,'asdfasdf','',NULL,NULL,NULL,NULL,'','','2019-08-25 17:13:14','2019-08-25 17:13:14','','Físico','Ativo');
+(1,'TESTE','TESTE',NULL,NULL,NULL,NULL,'','','2019-08-25 16:41:24','2019-08-25 16:41:24',NULL,'FISICO','ATIVO'),
+(2,'Teste','teste','45','4545-4545','4','45454-5454','184811asdfsa@gasdfasd','454548484818-18','2019-08-25 16:47:07','2019-08-25 16:47:07',NULL,'JURIDICO','ATIVO'),
+(3,'teste','teste','15','15151-5151','5','51515-1515','5151515151','515151515151-5','2019-08-25 17:00:05','2019-08-25 17:00:05','515151515151a5s1dfa sdfasdfasdf','JURIDICO','ATIVO'),
+(4,'teste','asdfasdf',NULL,NULL,NULL,NULL,'','','2019-08-25 17:11:06','2019-08-25 17:11:06','','FISICO','EXCLUIDO'),
+(5,'fasdfasdf','',NULL,NULL,NULL,NULL,'','','2019-08-25 17:11:20','2019-08-25 17:11:20','','FISICO','EXCLUIDO'),
+(6,'asdfasdf','',NULL,NULL,NULL,NULL,'','','2019-08-25 17:13:14','2019-08-25 17:13:14','','FISICO','EXCLUIDO'),
+(7,'testesdfas','teste',NULL,NULL,NULL,NULL,'','','2019-08-28 01:26:20','2019-08-28 01:26:20','','FISICO','EXCLUIDO'),
+(8,'testea205151','asdfas',NULL,NULL,NULL,NULL,'','','2019-08-28 01:27:05','2019-08-28 01:27:05','','FISICO','EXCLUIDO'),
+(9,'asdfas2626','asdfasd',NULL,NULL,NULL,NULL,'','','2019-08-28 01:28:47','2019-08-28 01:28:47','','FISICO','EXCLUIDO'),
+(10,'asdfasd','asdfasdf',NULL,NULL,NULL,NULL,'','','2019-08-28 01:31:15','2019-08-28 01:31:15','','FISICO','EXCLUIDO'),
+(11,'4534534','',NULL,NULL,NULL,NULL,'','','2019-08-28 01:31:28','2019-08-28 01:31:28','','FISICO','EXCLUIDO'),
+(12,'452452','',NULL,NULL,NULL,NULL,'','','2019-08-28 01:33:04','2019-08-28 01:33:04','','FISICO','EXCLUIDO');
 
 /*Table structure for table `clientes_contatos` */
 
@@ -47377,7 +47383,7 @@ CREATE TABLE `clientes_enderecos` (
   `CEP` varchar(10) DEFAULT NULL,
   `Complemento` varchar(150) DEFAULT NULL,
   `Observacao` longtext,
-  `Situacao` enum('Ativo','Inativo') DEFAULT NULL,
+  `Situacao` enum('ATIVO','INATIVO') DEFAULT 'ATIVO',
   PRIMARY KEY (`Id`),
   KEY `ClientesEnderecos_Clientes` (`IdCliente`),
   KEY `ClientesEnderecos_Bairros` (`IdBairro`),
@@ -47388,16 +47394,16 @@ CREATE TABLE `clientes_enderecos` (
 /*Data for the table `clientes_enderecos` */
 
 insert  into `clientes_enderecos`(`Id`,`IdCliente`,`IdBairro`,`Endereco`,`Numero`,`CEP`,`Complemento`,`Observacao`,`Situacao`) values 
-(1,3,4457,'teste','456345','45324-534','453453453','453453453435','Ativo'),
-(2,3,11113,'teste','453245324','45234-524','453245','','Ativo'),
-(3,3,11113,'teste','453245324','45234-524','453245','','Ativo'),
-(4,3,11113,'teste','453245324','45234-524','453245','','Ativo'),
-(5,4,4459,'asdfasdfasdf','','','','','Ativo'),
-(6,4,4458,'qwerqwer','','','','','Ativo'),
-(7,6,29734,'asdfasd','','','','','Ativo'),
-(8,6,29735,'asdfasd','','','','','Ativo'),
-(9,6,4458,'asdfasdf','','','','','Ativo'),
-(10,6,32210,'asdfasd','','','','','Ativo');
+(1,3,4457,'teste','456345','45324-534','453453453','453453453435','ATIVO'),
+(2,3,11113,'teste','453245324','45234-524','453245','','ATIVO'),
+(3,3,11113,'teste','453245324','45234-524','453245','','ATIVO'),
+(4,3,11113,'teste','453245324','45234-524','453245','','ATIVO'),
+(5,4,4459,'asdfasdfasdf','','','','','ATIVO'),
+(6,4,4458,'qwerqwer','','','','','ATIVO'),
+(7,6,29734,'asdfasd','','','','','ATIVO'),
+(8,6,29735,'asdfasd','','','','','ATIVO'),
+(9,6,4458,'asdfasdf','','','','','ATIVO'),
+(10,6,32210,'asdfasd','','','','','ATIVO');
 
 /*Table structure for table `empresas` */
 

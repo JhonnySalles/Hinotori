@@ -9,43 +9,40 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 
+import Administrador.controller.cadastros.CadClienteController;
 import Administrador.model.dao.services.ClienteServices;
 import Administrador.model.entities.Cliente;
-import Administrador.model.entities.PesquisaGenericaDados;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import javafx.util.Duration;
-import model.constraints.Validadores;
 import model.enums.Situacao;
 import model.enums.TipoCliente;
-import model.mask.Mascaras;
 import model.notification.Notificacao;
-import model.utils.Utils;
 
 public class PsqClienteController implements Initializable {
 
@@ -57,22 +54,21 @@ public class PsqClienteController implements Initializable {
 
 	@FXML
 	private TableColumn<Cliente, String> telefone;
-	
+
 	@FXML
 	private TableColumn<Cliente, String> celular;
-	
+
 	@FXML
 	private TableColumn<Cliente, String> email;
-	
+
 	@FXML
 	private TableColumn<Cliente, TipoCliente> tipo;
-	
+
 	@FXML
 	private TableColumn<Cliente, Date> dataCadastro;
-	
+
 	@FXML
 	private TableColumn<Cliente, Situacao> situacao;
-	
 
 	@FXML
 	private Pane paneBackground;
@@ -93,9 +89,9 @@ public class PsqClienteController implements Initializable {
 	private JFXButton btnEditar;
 
 	@FXML
-	private JFXButton btnSair;
+	private JFXButton btnAtualizar;
 
-	private List<Cliente> clientes;
+	private ObservableList<Cliente> obsLClientes;
 	private FXMLLoader loader;
 	private ClienteServices clienteService;
 
@@ -108,7 +104,9 @@ public class PsqClienteController implements Initializable {
 
 	@FXML
 	public void onBtnNovoClick() {
-
+		loadSecondView("/Administrador/view/cadastros/CadCliente.fxml");
+		CadClienteController endereco = loader.getController();
+		endereco.setPsqCliente(this);
 	}
 
 	@FXML
@@ -120,26 +118,29 @@ public class PsqClienteController implements Initializable {
 
 	@FXML
 	public void onBtnEditarClick() {
-
+		if (tabela.getSelectionModel().isEmpty()) {
+			Notificacao.Dark("Nenhum item selecionado", "Favor selecionar algum item.", 5.0, Pos.BASELINE_RIGHT);
+			return;
+		}
+		
+		desabilitaBotoes();
+		loadSecondView("/Administrador/view/cadastros/CadCliente.fxml");
+		CadClienteController endereco = loader.getController();
+		endereco.setPsqCliente(this);
+		endereco.carregarCliente(clienteService.pesquisar(tabela.getSelectionModel().getSelectedItem().getId()));
+		habilitaBotoes();
 	}
 
 	@FXML
-	public void onBtnSairEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onBtnAtualizarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		if (e.getCode().toString().equals("ENTER")) {
-			btnSair.fire();
+			btnAtualizar.fire();
 		}
 	}
 
 	@FXML
-	public void onBtnSairClick() {
-
-	}
-
-	@FXML
-	public void onBtnEnderecosClick() {
-		loadSecondView("/Administrador/view/cadastros/CadClienteEndereco.fxml");
-		//CadClienteEnderecoController endereco = loader.getController();
-		//endereco.setCadCliente(this);
+	public void onBtnAtualizarClick() {
+		carregaGrid();
 	}
 
 	public void loadSecondView(String tela) {
@@ -156,15 +157,16 @@ public class PsqClienteController implements Initializable {
 			KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 			timeline.getKeyFrames().add(kf);
 			timeline.play();
-
-			desabilitaBotoes();
 		} catch (IOException e) {
 			e.printStackTrace();
-			habilitaBotoes();
 		}
 	}
+	
+	public FXMLLoader getLoader() {
+		return loader;
+	}
 
-	public void loadPrimaryView() {
+	public void returnView() {
 		Scene scene = rootPane.getScene();
 		Node node = stackPane.getChildren().get(stackPane.getChildren().size() - 1);
 		node.translateXProperty().set(0);
@@ -174,31 +176,63 @@ public class PsqClienteController implements Initializable {
 		timeline.getKeyFrames().add(kf);
 		timeline.setOnFinished(t -> {
 			stackPane.getChildren().remove(stackPane.getChildren().size() - 1);
+			if (stackPane.getChildren().size() <= 1)
+				carregaGrid();
 		});
-		timeline.play();
-		habilitaBotoes();
+		timeline.play();	
 	}
 
 	private void desabilitaBotoes() {
 		btnNovo.setDisable(true);
 		btnEditar.setDisable(true);
-		btnSair.setDisable(true);
+		btnAtualizar.setDisable(true);
 	}
 
 	private void habilitaBotoes() {
 		btnNovo.setDisable(false);
 		btnEditar.setDisable(false);
-		btnSair.setDisable(false);
+		btnAtualizar.setDisable(false);
+	}
+
+	private void carregaGrid() {
+		if (clienteService == null)
+			clienteService = new ClienteServices();
+
+		List<Cliente> lista = clienteService.pesquisarTodos();
+		obsLClientes = FXCollections.observableArrayList(lista);
+		tabela.setItems(obsLClientes);
 	}
 
 	private void inicializaGrid() {
 		nome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		telefone.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-		celular.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-		email.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-		tipo.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-		dataCadastro.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-		situacao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+		telefone.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
+				// p.getValue() returns the PersonType instance for a particular TableView row
+				if (p.getValue() != null && p.getValue().getTelefone() != null) {
+					return new SimpleStringProperty(
+							"(" + p.getValue().getDddTelefone() + ")" + p.getValue().getTelefone());
+				} else {
+					return new SimpleStringProperty("");
+				}
+			}
+		});
+
+		celular.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
+				// p.getValue() returns the PersonType instance for a particular TableView row
+				if (p.getValue() != null && p.getValue().getTelefone() != null) {
+					return new SimpleStringProperty(
+							"(" + p.getValue().getDddCelular() + ")" + p.getValue().getCelular());
+				} else {
+					return new SimpleStringProperty("");
+				}
+			}
+		});
+
+		email.setCellValueFactory(new PropertyValueFactory<>("email"));
+		tipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+		dataCadastro.setCellValueFactory(new PropertyValueFactory<>("dataCadastro"));
+		situacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
 
 		tabela.setRowFactory(tv -> {
 			TableRow<Cliente> row = new TableRow<>();
@@ -208,8 +242,10 @@ public class PsqClienteController implements Initializable {
 			});
 			return row;
 		});
+
+		carregaGrid();
 	}
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		background.setFitToHeight(true);

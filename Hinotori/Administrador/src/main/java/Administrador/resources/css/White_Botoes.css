@@ -162,7 +162,7 @@
 }
 
 /*------------------*/
-#btnSair{
+#btnAtualizar{
     -fx-background-color: linear-gradient(to top right, #546E7A 0%, #37474F 75%, #212121 100%);
     -fx-background-radius : 20;
     -fx-text-fill: #ffffff;
@@ -173,11 +173,11 @@
     -fx-background-repeat: no-repeat;
 }
 
-#btnSair:hover{
+#btnAtualizar:hover{
     -fx-background-color: linear-gradient(to bottom right, #546E7A 0%, #37474F 50%, #212121 100%);
 }
 
-#btnSair:pressed {
+#btnAtualizar:pressed {
     -fx-padding: 0 11 0 0;
     -fx-background-insets: 0.5,0,0,0;
     -fx-background-position: 12 0;
