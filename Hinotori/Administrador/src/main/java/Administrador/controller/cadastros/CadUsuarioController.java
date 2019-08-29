@@ -19,6 +19,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import Administrador.controller.frame.PesquisaGenericaController;
+import Administrador.controller.pesquisas.PsqUsuarioController;
 import Administrador.model.dao.services.UsuarioServices;
 import Administrador.model.entities.Usuario;
 import javafx.fxml.FXML;
@@ -99,6 +100,9 @@ public class CadUsuarioController implements Initializable {
 	private ScrollPane background;
 
 	@FXML
+	private AnchorPane rootPane;
+
+	@FXML
 	private ImageView imgLogo;
 
 	@FXML
@@ -118,8 +122,9 @@ public class CadUsuarioController implements Initializable {
 
 	private Usuario usuario;
 	private byte[] imagem;
-	private UsuarioServices usuarioServices;
+	private UsuarioServices usuarioService;
 	private Boolean edicao;
+	private PsqUsuarioController PsqUsuario;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -133,22 +138,10 @@ public class CadUsuarioController implements Initializable {
 		try {
 			if (validaCampos()) {
 				background.getScene().getRoot().setCursor(Cursor.WAIT);
-				usuario = new Usuario(txtNome.getText(), txtSobreNome.getText(),
-						(!txtTelefone.getText().isEmpty() ? txtTelefone.getText().substring(1, 3) : ""),
-						(!txtTelefone.getText().isEmpty() ? txtTelefone.getText().substring(4).replace("-", "") : ""),
-						(!txtCelular.getText().isEmpty() ? txtCelular.getText().substring(1, 3) : ""),
-						(!txtCelular.getText().isEmpty() ? txtCelular.getText().substring(4).replace("-", "") : ""),
-						txtEmail.getText(), Long.parseLong(frameEmpresaController.getID()),
-						txtLogin.getText().toUpperCase(), pswSenha.getText(), txtObservacao.getText(), imagem,
-						cbNivel.getSelectionModel().getSelectedItem(),
-						cbSituacao.getSelectionModel().getSelectedItem());
-
-				if (usuarioServices == null)
-					setUsuarioServices(new UsuarioServices());
-
-				usuarioServices.salvar(usuario);
+				atualizaEntidade();
+				salvar();
+				Notificacao.Dark("Processo concluído", "Cliente salvo com sucesso.", 3.0, Pos.BASELINE_RIGHT);
 				limpaCampos();
-
 			}
 		} finally {
 			background.getScene().getRoot().setCursor(null);
@@ -164,12 +157,7 @@ public class CadUsuarioController implements Initializable {
 
 	@FXML
 	public void onBtnCancelarClick() {
-		if (verificaAlteracao()) {
-			if (Alertas.Confirmacao("Cancelar", "Deseja realmente cancelar? \nToda a alteração será descartada.")) {
-				limpaCampos();
-			}
-		} else
-			limpaCampos();
+		limpaCampos();
 	}
 
 	@FXML
@@ -194,9 +182,9 @@ public class CadUsuarioController implements Initializable {
 	@FXML
 	public void onBtnExcluirClick() {
 		if ((usuario != null) && (!usuario.getLogin().isEmpty())) {
-			if (usuarioServices == null)
+			if (usuarioService == null)
 				setUsuarioServices(new UsuarioServices());
-			usuarioServices.deletar(usuario.getLogin());
+			usuarioService.deletar(usuario.getLogin());
 			limpaCampos();
 			Notificacao.Dark("Processo concluído", "Usuário excluido com sucesso.", 5.0, Pos.BASELINE_RIGHT);
 		} else {
@@ -214,12 +202,7 @@ public class CadUsuarioController implements Initializable {
 
 	@FXML
 	public void onBtnVoltarClick() {
-		if (verificaAlteracao()) {
-			if (Alertas.Confirmacao("Sair", "Deseja realmente sair? \nToda a alteração será descartada.")) {
-				System.exit(0);
-			}
-		} else
-			System.exit(0);
+		PsqUsuario.returnView();
 	}
 
 	@FXML
@@ -267,17 +250,35 @@ public class CadUsuarioController implements Initializable {
 		setImagemPadrao();
 	}
 
-	private Boolean verificaAlteracao() {
-
-		if (!txtNome.getText().isEmpty() || !txtSobreNome.getText().isEmpty() || !txtLogin.getText().isEmpty()
-				|| !pswSenha.getText().isEmpty() || !txtTelefone.getText().isEmpty() || !txtCelular.getText().isEmpty()
-				|| !txtEmail.getText().isEmpty() || !txtObservacao.getText().isEmpty()) {
-			return true;
-		} else
-			return false;
+	public PsqUsuarioController getPsqUsuario() {
+		return PsqUsuario;
 	}
 
-	private void carregaCampos() {
+	public void setPsqUsuario(PsqUsuarioController PsqUsuario) {
+		this.PsqUsuario = PsqUsuario;
+	}
+
+	public void carregaUsuario(Usuario userLogin) {
+		this.usuario = userLogin;
+		atualizaTela();
+	}
+
+	private void salvar() {
+		if (usuarioService == null)
+			setUsuarioServices(new UsuarioServices());
+		usuarioService.salvar(usuario);
+	}
+
+	public void loadView(String tela) {
+		PsqUsuario.loadView(tela);
+	}
+
+	public void returnView() {
+		PsqUsuario.returnView();
+	}
+
+	private void atualizaTela() {
+		edicao = true;
 		txtNome.setText(usuario.getNome());
 		txtSobreNome.setText(usuario.getSobreNome());
 		txtLogin.setText(usuario.getLogin());
@@ -289,11 +290,6 @@ public class CadUsuarioController implements Initializable {
 
 		if (usuario.getImagem() != null)
 			imgUsuario.setImage(new Image(new ByteArrayInputStream(usuario.getImagem())));
-	}
-
-	public void carregaUsuario(Usuario userLogin) {
-		usuario = userLogin;
-		carregaCampos();
 	}
 
 	private void limpaCampos() {
@@ -310,6 +306,17 @@ public class CadUsuarioController implements Initializable {
 		usuario = null;
 	}
 
+	private void atualizaEntidade() {
+		usuario = new Usuario(txtNome.getText(), txtSobreNome.getText(),
+				(!txtTelefone.getText().isEmpty() ? txtTelefone.getText().substring(1, 3) : ""),
+				(!txtTelefone.getText().isEmpty() ? txtTelefone.getText().substring(4).replace("-", "") : ""),
+				(!txtCelular.getText().isEmpty() ? txtCelular.getText().substring(1, 3) : ""),
+				(!txtCelular.getText().isEmpty() ? txtCelular.getText().substring(4).replace("-", "") : ""),
+				txtEmail.getText(), Long.parseLong(frameEmpresaController.getID()), txtLogin.getText().toUpperCase(),
+				pswSenha.getText(), txtObservacao.getText(), imagem, cbNivel.getSelectionModel().getSelectedItem(),
+				cbSituacao.getSelectionModel().getSelectedItem());
+	}
+
 	private void setImagemPadrao() {
 		imgUsuario.setImage(ImagemPadrao);
 	}
@@ -324,7 +331,7 @@ public class CadUsuarioController implements Initializable {
 		if (txtLogin.getText().isEmpty()) {
 			txtLogin.setUnFocusColor(Color.RED);
 		} else {
-			if (!edicao && usuarioServices.validaLogin(txtLogin.getText())) {
+			if (!edicao && usuarioService.validaLogin(txtLogin.getText())) {
 				txtLogin.setUnFocusColor(Color.RED);
 				Notificacao.Dark("Usuário já cadastrado", "Favor informar outro usuário.", 5.0, Pos.BASELINE_RIGHT);
 			}
@@ -371,10 +378,11 @@ public class CadUsuarioController implements Initializable {
 		setUsuarioServices(new UsuarioServices());
 	}
 
-	private void setUsuarioServices(UsuarioServices usuarioServices) {
-		this.usuarioServices = usuarioServices;
+	private void setUsuarioServices(UsuarioServices usuarioService) {
+		this.usuarioService = usuarioService;
 	}
 
+	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		background.setFitToHeight(true);
 		background.setFitToWidth(true);

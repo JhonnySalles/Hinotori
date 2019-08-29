@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import model.enums.Situacao;
 import model.enums.TipoCliente;
@@ -46,6 +47,9 @@ public class CadTamanhoController implements Initializable {
 
 	@FXML
 	private ScrollPane background;
+	
+	@FXML
+	private AnchorPane rootPane;
 
 	@FXML
 	private JFXButton btnConfirmar;

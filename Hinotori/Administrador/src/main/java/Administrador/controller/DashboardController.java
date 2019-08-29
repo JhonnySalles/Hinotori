@@ -160,7 +160,7 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	public void onBtnCadUsuarioAction() {
-		loadView("/Administrador/view/cadastros/CadUsuario.fxml", "Cadastro Usuario",
+		loadView("/Administrador/view/pesquisas/PsqUsuario.fxml", "Cadastro Usuario",
 				"../resources/geral/images/btn/bntGraficoPizza_48.png");
 	}
 

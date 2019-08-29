@@ -100,12 +100,15 @@ public class CadClienteController implements Initializable {
 	@FXML
 	public void onBtnConfirmarClick() {
 		if (validaCampos()) {
-			rootPane.cursorProperty().set(Cursor.WAIT);
-			atualizaEntidade();
-			salvar();
-			Notificacao.Dark("Processo concluído", "Cliente salvo com sucesso.", 3.0, Pos.BASELINE_RIGHT);
-			limpaCampos();
-			rootPane.cursorProperty().set(null);
+			try {
+				rootPane.cursorProperty().set(Cursor.WAIT);
+				atualizaEntidade();
+				salvar();
+				Notificacao.Dark("Processo concluído", "Cliente salvo com sucesso.", 3.0, Pos.BASELINE_RIGHT);
+				limpaCampos();
+			} finally {
+				rootPane.cursorProperty().set(null);
+			}
 		}
 	}
 
@@ -136,7 +139,7 @@ public class CadClienteController implements Initializable {
 			return;
 		} else {
 			if (clienteService == null)
-				clienteService = new ClienteServices();
+				setClienteServices(new ClienteServices());
 			clienteService.deletar(cliente.getId());
 			Notificacao.Dark("Processamento concluído", "Item excluído com sucesso.", 5.0, Pos.BASELINE_RIGHT);
 			limpaCampos();
@@ -182,6 +185,11 @@ public class CadClienteController implements Initializable {
 
 	public Cliente getCliente() {
 		return cliente;
+	}
+
+	public void carregarCliente(Cliente cliente) {
+		this.cliente = cliente;
+		atualizaTela();
 	}
 
 	private Boolean validaCampos() {
@@ -242,17 +250,12 @@ public class CadClienteController implements Initializable {
 
 	private void salvar() {
 		if (clienteService == null)
-			clienteService = new ClienteServices();
+			setClienteServices(new ClienteServices());
 		clienteService.salvar(cliente);
 	}
 
-	public void carregarCliente(Cliente cliente) {
-		this.cliente = cliente;
-		atualizaTela();
-	}
-
 	public void loadView(String tela) {
-		PsqCliente.loadSecondView(tela);
+		PsqCliente.loadView(tela);
 	}
 
 	public void returnView() {
@@ -275,8 +278,13 @@ public class CadClienteController implements Initializable {
 		btnVoltar.setDisable(false);
 	}
 
+	private void setClienteServices(ClienteServices clienteService) {
+		this.clienteService = clienteService;
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		setClienteServices(new ClienteServices());
 		Validadores.setTextFieldNotEmpty(txtNome);
 		Mascaras.cpfCnpjField(txtCpfCnpj);
 		Mascaras.foneField(txtTelefone);

@@ -19,11 +19,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../../resources/css/White_Cadastros.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.cadastros.CadUsuarioController">
+<AnchorPane stylesheets="@../../resources/css/White_Cadastros.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.cadastros.CadUsuarioController">
    <children>
       <ScrollPane fx:id="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="0.0">
          <content>
-            <AnchorPane minHeight="500.0" minWidth="350.0" prefHeight="595.0" prefWidth="555.0">
+            <AnchorPane minHeight="500.0" minWidth="400.0" prefHeight="595.0" prefWidth="555.0">
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="190.0" prefWidth="200.0" styleClass="tituloBackground-produto" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-20.0">
                      <children>

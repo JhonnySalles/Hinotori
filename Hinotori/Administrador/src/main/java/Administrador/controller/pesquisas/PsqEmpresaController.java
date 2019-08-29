@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 
 import Administrador.controller.cadastros.CadClienteController;
+import Administrador.controller.cadastros.CadEmpresaController;
 import Administrador.model.dao.services.ClienteServices;
 import Administrador.model.entities.Cliente;
 import javafx.beans.property.SimpleStringProperty;
@@ -38,7 +39,7 @@ import model.enums.Situacao;
 import model.enums.TipoCliente;
 import model.notification.Notificacao;
 
-public class PsqClienteController implements Initializable {
+public class PsqEmpresaController implements Initializable {
 
 	@FXML
 	private TableView<Cliente> tabela;
@@ -99,8 +100,8 @@ public class PsqClienteController implements Initializable {
 	@FXML
 	public void onBtnNovoClick() {
 		loadView("/Administrador/view/cadastros/CadCliente.fxml");
-		CadClienteController cadCliente = loader.getController();
-		cadCliente.setPsqCliente(this);
+		CadEmpresaController cadEmpresa = loader.getController();
+		cadEmpresa.setPsqEmpresa(this);
 	}
 
 	@FXML
@@ -119,9 +120,9 @@ public class PsqClienteController implements Initializable {
 
 		desabilitaBotoes();
 		loadView("/Administrador/view/cadastros/CadCliente.fxml");
-		CadClienteController cadCliente = loader.getController();
-		cadCliente.setPsqCliente(this);
-		cadCliente.carregarCliente(clienteService.pesquisar(tabela.getSelectionModel().getSelectedItem().getId()));
+		CadClienteController endereco = loader.getController();
+		// endereco.setPsqCliente(this);
+		endereco.carregarCliente(clienteService.pesquisar(tabela.getSelectionModel().getSelectedItem().getId()));
 		habilitaBotoes();
 	}
 
@@ -184,17 +185,7 @@ public class PsqClienteController implements Initializable {
 	}
 
 	private void inicializaGrid() {
-		nome.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
-			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
-				// p.getValue() returns the PersonType instance for a particular TableView row
-				if (p.getValue() != null && p.getValue().getNome() != null) {
-					return new SimpleStringProperty(p.getValue().getNome() + " " + p.getValue().getSobreNome());
-				} else {
-					return new SimpleStringProperty("");
-				}
-			}
-		});
-
+		nome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		telefone.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row

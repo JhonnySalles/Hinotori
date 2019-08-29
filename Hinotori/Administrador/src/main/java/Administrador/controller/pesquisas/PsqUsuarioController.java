@@ -4,15 +4,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
-import Administrador.controller.cadastros.CadClienteController;
-import Administrador.model.dao.services.ClienteServices;
-import Administrador.model.entities.Cliente;
+import Administrador.controller.cadastros.CadUsuarioController;
+import Administrador.model.dao.services.UsuarioServices;
+import Administrador.model.entities.Usuario;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -35,34 +34,34 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 import model.animation.ClienteTranslate;
 import model.enums.Situacao;
-import model.enums.TipoCliente;
+import model.enums.UsuarioNivel;
 import model.notification.Notificacao;
 
-public class PsqClienteController implements Initializable {
+public class PsqUsuarioController implements Initializable {
 
 	@FXML
-	private TableView<Cliente> tabela;
+	private TableView<Usuario> tabela;
 
 	@FXML
-	private TableColumn<Cliente, String> nome;
+	private TableColumn<Usuario, String> nome;
 
 	@FXML
-	private TableColumn<Cliente, String> telefone;
+	private TableColumn<Usuario, String> telefone;
 
 	@FXML
-	private TableColumn<Cliente, String> celular;
+	private TableColumn<Usuario, String> celular;
 
 	@FXML
-	private TableColumn<Cliente, String> email;
+	private TableColumn<Usuario, String> email;
 
 	@FXML
-	private TableColumn<Cliente, TipoCliente> tipo;
+	private TableColumn<Usuario, String> empresa;
 
 	@FXML
-	private TableColumn<Cliente, Date> dataCadastro;
+	private TableColumn<Usuario, UsuarioNivel> nivel;
 
 	@FXML
-	private TableColumn<Cliente, Situacao> situacao;
+	private TableColumn<Usuario, Situacao> situacao;
 
 	@FXML
 	private Pane paneBackground;
@@ -85,9 +84,9 @@ public class PsqClienteController implements Initializable {
 	@FXML
 	private JFXButton btnAtualizar;
 
-	private ObservableList<Cliente> obsLClientes;
+	private ObservableList<Usuario> obsLClientes;
 	private FXMLLoader loader;
-	private ClienteServices clienteService;
+	private UsuarioServices usuarioService;
 
 	@FXML
 	public void onBtnNovoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -98,9 +97,9 @@ public class PsqClienteController implements Initializable {
 
 	@FXML
 	public void onBtnNovoClick() {
-		loadView("/Administrador/view/cadastros/CadCliente.fxml");
-		CadClienteController cadCliente = loader.getController();
-		cadCliente.setPsqCliente(this);
+		loadView("/Administrador/view/cadastros/CadUsuario.fxml");
+		CadUsuarioController cadUsuario = loader.getController();
+		cadUsuario.setPsqUsuario(this);
 	}
 
 	@FXML
@@ -118,10 +117,10 @@ public class PsqClienteController implements Initializable {
 		}
 
 		desabilitaBotoes();
-		loadView("/Administrador/view/cadastros/CadCliente.fxml");
-		CadClienteController cadCliente = loader.getController();
-		cadCliente.setPsqCliente(this);
-		cadCliente.carregarCliente(clienteService.pesquisar(tabela.getSelectionModel().getSelectedItem().getId()));
+		loadView("/Administrador/view/cadastros/CadUsuario.fxml");
+		CadUsuarioController cadUsuario = loader.getController();
+		cadUsuario.setPsqUsuario(this);
+		cadUsuario.carregaUsuario(usuarioService.pesquisar(tabela.getSelectionModel().getSelectedItem().getNome()));
 		habilitaBotoes();
 	}
 
@@ -175,17 +174,17 @@ public class PsqClienteController implements Initializable {
 	}
 
 	private void carregaGrid() {
-		if (clienteService == null)
-			clienteService = new ClienteServices();
+		if (usuarioService == null)
+			usuarioService = new UsuarioServices();
 
-		List<Cliente> lista = clienteService.pesquisarTodos();
+		List<Usuario> lista = usuarioService.pesquisarTodos();
 		obsLClientes = FXCollections.observableArrayList(lista);
 		tabela.setItems(obsLClientes);
 	}
 
 	private void inicializaGrid() {
-		nome.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
-			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
+		nome.setCellValueFactory(new Callback<CellDataFeatures<Usuario, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(CellDataFeatures<Usuario, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
 				if (p.getValue() != null && p.getValue().getNome() != null) {
 					return new SimpleStringProperty(p.getValue().getNome() + " " + p.getValue().getSobreNome());
@@ -195,8 +194,8 @@ public class PsqClienteController implements Initializable {
 			}
 		});
 
-		telefone.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
-			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
+		telefone.setCellValueFactory(new Callback<CellDataFeatures<Usuario, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(CellDataFeatures<Usuario, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
 				if (p.getValue() != null && p.getValue().getTelefone() != null) {
 					return new SimpleStringProperty(
@@ -207,8 +206,8 @@ public class PsqClienteController implements Initializable {
 			}
 		});
 
-		celular.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
-			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
+		celular.setCellValueFactory(new Callback<CellDataFeatures<Usuario, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(CellDataFeatures<Usuario, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
 				if (p.getValue() != null && p.getValue().getTelefone() != null) {
 					return new SimpleStringProperty(
@@ -220,12 +219,22 @@ public class PsqClienteController implements Initializable {
 		});
 
 		email.setCellValueFactory(new PropertyValueFactory<>("email"));
-		tipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
-		dataCadastro.setCellValueFactory(new PropertyValueFactory<>("dataCadastro"));
+		empresa.setCellValueFactory(new Callback<CellDataFeatures<Usuario, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(CellDataFeatures<Usuario, String> p) {
+				// p.getValue() returns the PersonType instance for a particular TableView row
+				if (p.getValue() != null && p.getValue().getIdEmpresa() != null) {
+					return new SimpleStringProperty(p.getValue().getIdEmpresa().toString());
+				} else {
+					return new SimpleStringProperty("");
+				}
+			}
+		});
+
+		nivel.setCellValueFactory(new PropertyValueFactory<>("nivel"));
 		situacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
 
 		tabela.setRowFactory(tv -> {
-			TableRow<Cliente> row = new TableRow<>();
+			TableRow<Usuario> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty()))
 					onBtnEditarClick();

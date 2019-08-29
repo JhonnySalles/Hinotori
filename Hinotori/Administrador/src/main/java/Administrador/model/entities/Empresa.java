@@ -12,7 +12,7 @@ public class Empresa implements Serializable {
 	private static final long serialVersionUID = 5585811158914792352L;
 
 	private Long id;
-	private Long idBairro;
+	private Bairro bairro;
 	private String nomeFantasia;
 	private String razaoSocial;
 	private String cnpj;
@@ -32,12 +32,12 @@ public class Empresa implements Serializable {
 		this.id = id;
 	}
 
-	public Long getIdBairro() {
-		return idBairro;
+	public Bairro getBairro() {
+		return bairro;
 	}
 
-	public void setIdBairro(Long idBairro) {
-		this.idBairro = idBairro;
+	public void setBairro(Bairro bairro) {
+		this.bairro = bairro;
 	}
 
 	public String getNomeFantasia() {
@@ -124,10 +124,10 @@ public class Empresa implements Serializable {
 
 	}
 
-	public Empresa(Long id, Long idBairro, String nomeFantasia, String razaoSocial, String cnpj, String endereco,
-			String numero, String cep, String complemento, Date dataCadastro, Enum<Situacao> situacao) {
+	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, String endereco, String numero,
+			String cep, String complemento, Date dataCadastro, Enum<Situacao> situacao, Bairro bairro) {
 		this.id = id;
-		this.idBairro = idBairro;
+		this.bairro = bairro;
 		this.nomeFantasia = nomeFantasia;
 		this.razaoSocial = razaoSocial;
 		this.cnpj = cnpj;
@@ -142,12 +142,20 @@ public class Empresa implements Serializable {
 	// Utilizado para que possamos comparar os objetos por conteúdo e não
 	// por referência de ponteiro.
 	@Override
+	public String toString() {
+		return "Empresa [id=" + id + ", nomeFantasia=" + nomeFantasia + ", razaoSocial=" + razaoSocial + ", cnpj="
+				+ cnpj + ", endereco=" + endereco + ", numero=" + numero + ", cep=" + cep + ", complemento="
+				+ complemento + ", dataCadastro=" + dataCadastro + ", situacao=" + situacao + ", bairro=" + bairro
+				+ "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cnpj == null) ? 0 : cnpj.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((idBairro == null) ? 0 : idBairro.hashCode());
+		result = prime * result + ((nomeFantasia == null) ? 0 : nomeFantasia.hashCode());
 		return result;
 	}
 
@@ -170,19 +178,12 @@ public class Empresa implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (idBairro == null) {
-			if (other.idBairro != null)
+		if (nomeFantasia == null) {
+			if (other.nomeFantasia != null)
 				return false;
-		} else if (!idBairro.equals(other.idBairro))
+		} else if (!nomeFantasia.equals(other.nomeFantasia))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Empresa [id=" + id + ", idBairro=" + idBairro + ", nomeFantasia=" + nomeFantasia + ", razaoSocial="
-				+ razaoSocial + ", cnpj=" + cnpj + ", endereco=" + endereco + ", numero=" + numero + ", cep=" + cep
-				+ ", complemento=" + complemento + ", dataCadastro=" + dataCadastro + ", situacao=" + situacao + "]";
 	}
 
 }

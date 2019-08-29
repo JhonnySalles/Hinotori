@@ -20,11 +20,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="650.0" prefWidth="700.0" stylesheets="@../../resources/css/White_Cadastros.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.cadastros.CadUsuarioController">
+<AnchorPane fx:id="rootPane" stylesheets="@../../resources/css/White_Cadastros.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.cadastros.CadUsuarioController">
    <children>
       <ScrollPane fx:id="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="0.0">
          <content>
-            <AnchorPane minHeight="600.0" minWidth="500.0" prefHeight="595.0" prefWidth="555.0">
+            <AnchorPane minHeight="600.0" minWidth="500.0" prefHeight="700.0" prefWidth="600.0">
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="189.0" prefWidth="200.0" styleClass="tituloBackground-usuario" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-20.0">
                      <children>
@@ -70,7 +70,7 @@
                   </HBox>
                   <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="210.0">
                      <children>
-                        <VBox minHeight="450.0" minWidth="550.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                        <VBox maxHeight="600.0" maxWidth="800.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
                               <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
                                  <children>
@@ -137,7 +137,7 @@
                               </HBox>
                               <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <JFXTextField fx:id="txtEmail" labelFloat="true" layoutX="10.0" layoutY="15.0" prefHeight="25.0" prefWidth="700.0" promptText="E-mail" unFocusColor="BLACK">
+                                    <JFXTextField fx:id="txtEmail" labelFloat="true" layoutX="10.0" layoutY="15.0" prefHeight="25.0" prefWidth="700.0" promptText="E-mail" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Times New Roman" size="12.0" />
                                        </font>
@@ -154,12 +154,12 @@
                               </HBox>
                               <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <JFXTextField fx:id="txtTelefone" labelFloat="true" layoutX="10.0" layoutY="18.0" prefHeight="25.0" prefWidth="350.0" promptText="Telefone" unFocusColor="BLACK">
+                                    <JFXTextField fx:id="txtTelefone" labelFloat="true" layoutX="10.0" layoutY="18.0" prefHeight="25.0" prefWidth="350.0" promptText="Telefone" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Times New Roman" size="12.0" />
                                        </font>
                                     </JFXTextField>
-                                    <JFXTextField fx:id="txtCelular" labelFloat="true" layoutX="357.0" layoutY="18.0" prefHeight="25.0" prefWidth="350.0" promptText="Celular" unFocusColor="BLACK">
+                                    <JFXTextField fx:id="txtCelular" labelFloat="true" layoutX="357.0" layoutY="18.0" prefHeight="25.0" prefWidth="350.0" promptText="Celular" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Times New Roman" size="12.0" />
                                        </font>

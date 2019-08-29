@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Administrador.model.dao.EmpresaDao;
+import Administrador.model.dao.services.BairroServices;
 import Administrador.model.entities.Empresa;
 import model.enums.Situacao;
 import model.log.ManipulaLog;
@@ -34,6 +35,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			+ " Numero, CEP, Complemento, Data_Cadastro, Situacao FROM empresas WHERE ID = ?;";
 
 	private Connection conexao;
+	private BairroServices bairroService;
 
 	public EmpresaDaoJDBC(Connection conexao) {
 		this.conexao = conexao;
@@ -46,7 +48,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		try {
 			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdBairro());
+			st.setLong(1, obj.getBairro().getId());
 			st.setString(2, obj.getNomeFantasia());
 			st.setString(3, obj.getRazaoSocial());
 			st.setString(4, obj.getCnpj());
@@ -80,7 +82,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		try {
 			st = conexao.prepareStatement(update, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdBairro());
+			st.setLong(1, obj.getBairro().getId());
 			st.setString(2, obj.getNomeFantasia());
 			st.setString(3, obj.getRazaoSocial());
 			st.setString(4, obj.getCnpj());
@@ -133,7 +135,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 
 	@Override
 	public Empresa find(Long id) {
-		
+
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -141,10 +143,13 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Empresa obj = new Empresa(rs.getLong("Id"), rs.getLong("ID_Bairro"), rs.getString("Nome_Fantasia"),
-						rs.getString("Razao_Social"), rs.getString("CNPJ"), rs.getString("Endereco"),
-						rs.getString("Numero"), rs.getString("CEP"), rs.getString("Complemento"),
-						rs.getTimestamp("Data_Cadastro"), Situacao.valueOf(rs.getString("Situacao")));
+				if (bairroService == null) {
+					setBairroServices(new BairroServices());
+				}
+				Empresa obj = new Empresa(rs.getLong("Id"), rs.getString("Nome_Fantasia"), rs.getString("Razao_Social"),
+						rs.getString("CNPJ"), rs.getString("Endereco"), rs.getString("Numero"), rs.getString("CEP"),
+						rs.getString("Complemento"), rs.getTimestamp("Data_Cadastro"),
+						Situacao.valueOf(rs.getString("Situacao")), bairroService.pesquisar(rs.getLong("IdBairro")));
 				return obj;
 			}
 		} catch (SQLException e) {
@@ -159,7 +164,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 
 	@Override
 	public List<Empresa> findAll() {
-		
+
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -168,12 +173,15 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			rs = st.executeQuery();
 
 			List<Empresa> list = new ArrayList<>();
+			if (bairroService == null) {
+				setBairroServices(new BairroServices());
+			}
 
 			while (rs.next()) {
-				Empresa obj = new Empresa(rs.getLong("Id"), rs.getLong("ID_Bairro"), rs.getString("Nome_Fantasia"),
-						rs.getString("Razao_Social"), rs.getString("CNPJ"), rs.getString("Endereco"),
-						rs.getString("Numero"), rs.getString("CEP"), rs.getString("Complemento"),
-						rs.getTimestamp("Data_Cadastro"), Situacao.valueOf(rs.getString("Situacao")));
+				Empresa obj = new Empresa(rs.getLong("Id"), rs.getString("Nome_Fantasia"), rs.getString("Razao_Social"),
+						rs.getString("CNPJ"), rs.getString("Endereco"), rs.getString("Numero"), rs.getString("CEP"),
+						rs.getString("Complemento"), rs.getTimestamp("Data_Cadastro"),
+						Situacao.valueOf(rs.getString("Situacao")), bairroService.pesquisar(rs.getLong("IdBairro")));
 				list.add(obj);
 			}
 			return list;
@@ -185,6 +193,10 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			DB.closeResultSet(rs);
 		}
 		return null;
+	}
+
+	private void setBairroServices(BairroServices bairroService) {
+		this.bairroService = bairroService;
 	}
 
 }
