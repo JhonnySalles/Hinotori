@@ -63,7 +63,7 @@ public class CadProdutoController implements Initializable {
 	@FXML
 	private JFXButton btnVoltar;
 
-	private ProdutoServices produtoServices;
+	private ProdutoServices produtoService;
 	private Boolean edicao;
 
 	@FXML
@@ -139,8 +139,8 @@ public class CadProdutoController implements Initializable {
 		setProdutoServices(new ProdutoServices());
 	}
 
-	private void setProdutoServices(ProdutoServices produtoServices) {
-		this.produtoServices = produtoServices;
+	private void setProdutoServices(ProdutoServices produtoService) {
+		this.produtoService = produtoService;
 	}
 
 	@Override

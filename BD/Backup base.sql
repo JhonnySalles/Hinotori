@@ -47357,15 +47357,15 @@ DROP TABLE IF EXISTS `clientes_contatos`;
 
 CREATE TABLE `clientes_contatos` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_Cliente` int(11) NOT NULL,
+  `IdCliente` int(11) NOT NULL,
   `Nome` varchar(150) DEFAULT NULL,
-  `DDD_Telefone` varchar(2) DEFAULT NULL,
+  `dddTelefone` varchar(2) DEFAULT NULL,
   `Telefone` varchar(10) DEFAULT NULL,
-  `DDD_Celular` varchar(2) DEFAULT NULL,
+  `dddCelular` varchar(2) DEFAULT NULL,
   `Celular` varchar(10) DEFAULT NULL,
   `Observacao` longtext,
   `Situacao` enum('ATIVO') DEFAULT NULL,
-  PRIMARY KEY (`ID`,`ID_Cliente`)
+  PRIMARY KEY (`ID`,`IdCliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `clientes_contatos` */
@@ -47411,25 +47411,25 @@ DROP TABLE IF EXISTS `empresas`;
 
 CREATE TABLE `empresas` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_Bairro` int(11) NOT NULL,
-  `Nome_Fantasia` varchar(150) NOT NULL,
-  `Razao_Social` varchar(150) DEFAULT NULL,
+  `IdBairro` int(11) NOT NULL,
+  `NomeFantasia` varchar(150) NOT NULL,
+  `RazaoSocial` varchar(150) DEFAULT NULL,
   `CNPJ` varchar(15) DEFAULT NULL,
   `Endereco` varchar(150) DEFAULT NULL,
   `Numero` varchar(5) DEFAULT NULL,
   `CEP` varchar(10) DEFAULT NULL,
   `Complemento` varchar(250) DEFAULT NULL,
-  `Data_Cadastro` datetime NOT NULL,
+  `DataCadastro` datetime NOT NULL,
   `Situacao` enum('ATIVO','INATIVO') DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  KEY `Empresas_Bairros` (`ID_Bairro`),
-  CONSTRAINT `Empresas_Bairros` FOREIGN KEY (`ID_Bairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `Empresas_Bairros` (`IdBairro`),
+  CONSTRAINT `Empresas_Bairros` FOREIGN KEY (`IdBairro`) REFERENCES `bairros` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `empresas` */
 
-insert  into `empresas`(`ID`,`ID_Bairro`,`Nome_Fantasia`,`Razao_Social`,`CNPJ`,`Endereco`,`Numero`,`CEP`,`Complemento`,`Data_Cadastro`,`Situacao`) values 
-(1,1,'Teste','Teste',NULL,NULL,NULL,NULL,NULL,'0000-00-00 00:00:00','ATIVO');
+insert  into `empresas`(`ID`,`IdBairro`,`NomeFantasia`,`RazaoSocial`,`CNPJ`,`Endereco`,`Numero`,`CEP`,`Complemento`,`DataCadastro`,`Situacao`) values 
+(1,1,'Teste','Teste',NULL,NULL,NULL,NULL,NULL,'2019-08-29 20:38:56','ATIVO');
 
 /*Table structure for table `empresas_contatos` */
 
@@ -47437,12 +47437,12 @@ DROP TABLE IF EXISTS `empresas_contatos`;
 
 CREATE TABLE `empresas_contatos` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_Empresa` int(11) NOT NULL,
-  `DDD_Telefone` varchar(2) DEFAULT NULL,
+  `IdEmpresa` int(11) NOT NULL,
+  `dddTelefone` varchar(2) DEFAULT NULL,
   `Telefone` varchar(10) DEFAULT NULL,
   `Observacao` text,
   `Tipo` enum('TELEFONE','CELULAR','FAX') DEFAULT NULL,
-  PRIMARY KEY (`ID`,`ID_Empresa`)
+  PRIMARY KEY (`ID`,`IdEmpresa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `empresas_contatos` */

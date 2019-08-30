@@ -354,8 +354,8 @@ public class CadUsuarioController implements Initializable {
 	}
 
 	private void configuraCampos() {
-		frameEmpresaController.setPesquisa("Id", "Nome_Fantasia", "Id, Nome_Fantasia", "empresas", "", "",
-				"ORDER BY Id, Nome_Fantasia");
+		frameEmpresaController.setPesquisa("Id", "NomeFantasia", "Id, NomeFantasia", "empresas", "", "",
+				"ORDER BY Id, NomeFantasia");
 		frameEmpresaController.txt_Pesquisa.setPromptText("Pesquisa de empresas");
 
 		Validadores.setTextFieldChangeBlack(txtNome);

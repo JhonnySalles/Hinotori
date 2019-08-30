@@ -148,13 +148,4 @@ public class Validadores {
 		});
 	}
 
-	/* Funcao para que seja digitado apenas um limite de caracteres */
-	public static void setTextFieldMaxLenght(TextField txt, int max) {
-		txt.textProperty().addListener((obs, oldValue, newValue) -> {
-			if (newValue != null && newValue.length() > max) {
-				txt.setText(oldValue);
-			}
-		});
-	}
-
 }

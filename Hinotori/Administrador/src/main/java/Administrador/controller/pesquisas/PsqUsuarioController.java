@@ -84,7 +84,7 @@ public class PsqUsuarioController implements Initializable {
 	@FXML
 	private JFXButton btnAtualizar;
 
-	private ObservableList<Usuario> obsLClientes;
+	private ObservableList<Usuario> obsLUsuario;
 	private FXMLLoader loader;
 	private UsuarioServices usuarioService;
 
@@ -178,15 +178,15 @@ public class PsqUsuarioController implements Initializable {
 			usuarioService = new UsuarioServices();
 
 		List<Usuario> lista = usuarioService.pesquisarTodos();
-		obsLClientes = FXCollections.observableArrayList(lista);
-		tabela.setItems(obsLClientes);
+		obsLUsuario = FXCollections.observableArrayList(lista);
+		tabela.setItems(obsLUsuario);
 	}
 
 	private void inicializaGrid() {
 		nome.setCellValueFactory(new Callback<CellDataFeatures<Usuario, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Usuario, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
-				if (p.getValue() != null && p.getValue().getNome() != null) {
+				if (p.getValue() != null && p.getValue().getNome() != null && !p.getValue().getNome().isEmpty()) {
 					return new SimpleStringProperty(p.getValue().getNome() + " " + p.getValue().getSobreNome());
 				} else {
 					return new SimpleStringProperty("");
@@ -197,7 +197,8 @@ public class PsqUsuarioController implements Initializable {
 		telefone.setCellValueFactory(new Callback<CellDataFeatures<Usuario, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Usuario, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
-				if (p.getValue() != null && p.getValue().getTelefone() != null) {
+				if (p.getValue() != null && p.getValue().getTelefone() != null
+						&& !p.getValue().getTelefone().isEmpty()) {
 					return new SimpleStringProperty(
 							"(" + p.getValue().getDddTelefone() + ")" + p.getValue().getTelefone());
 				} else {
@@ -209,7 +210,7 @@ public class PsqUsuarioController implements Initializable {
 		celular.setCellValueFactory(new Callback<CellDataFeatures<Usuario, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Usuario, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
-				if (p.getValue() != null && p.getValue().getTelefone() != null) {
+				if (p.getValue() != null && p.getValue().getCelular() != null && !p.getValue().getCelular().isEmpty()) {
 					return new SimpleStringProperty(
 							"(" + p.getValue().getDddCelular() + ")" + p.getValue().getCelular());
 				} else {

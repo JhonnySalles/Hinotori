@@ -18,21 +18,21 @@ import model.mysql.DB;
 
 public class EmpresaDaoJDBC implements EmpresaDao {
 
-	final String insert = "INSERT INTO empresas ( ID_Bairro, Nome_Fantasia,"
-			+ " Razao_Social, CNPJ, Endereco, Numero, CEP, Complemento,"
-			+ " Data_Cadastro, Situacao ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	final String insert = "INSERT INTO empresas (IdBairro, NomeFantasia,"
+			+ " RazaoSocial, CNPJ, Endereco, Numero, CEP, Complemento,"
+			+ " DataCadastro, Situacao ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-	final String update = "UPDATE empresas SET ID_Bairro = ?, Nome_Fantasia = ?,"
-			+ " Razao_Social = ?, CNPJ = ?, Endereco = ?, Numero = ?, CEP = ?,"
+	final String update = "UPDATE empresas SET IdBairro = ?, NomeFantasia = ?,"
+			+ " RazaoSocial = ?, CNPJ = ?, Endereco = ?, Numero = ?, CEP = ?,"
 			+ " Complemento = ?, Situacao = ? WHERE ID = ?;";
 
 	final String delete = "DELETE FROM empresas WHERE ID = ?;";
 
-	final String selectAll = "SELECT ID, ID_Bairro, Nome_Fantasia, Razao_Social, CNPJ,"
-			+ " Endereco, Numero, CEP, Complemento, Data_Cadastro, Situacao FROM empresas";
+	final String selectAll = "SELECT ID, IdBairro, NomeFantasia, RazaoSocial, CNPJ,"
+			+ " Endereco, Numero, CEP, Complemento, DataCadastro, Situacao FROM empresas";
 
-	final String select = "SELECT ID, ID_Bairro, Nome_Fantasia, Razao_Social, CNPJ, Endereco,"
-			+ " Numero, CEP, Complemento, Data_Cadastro, Situacao FROM empresas WHERE ID = ?;";
+	final String select = "SELECT ID, IdBairro, NomeFantasia, RazaoSocial, CNPJ, Endereco,"
+			+ " Numero, CEP, Complemento, DataCadastro, Situacao FROM empresas WHERE ID = ?;";
 
 	private Connection conexao;
 	private BairroServices bairroService;
@@ -146,9 +146,9 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 				if (bairroService == null) {
 					setBairroServices(new BairroServices());
 				}
-				Empresa obj = new Empresa(rs.getLong("Id"), rs.getString("Nome_Fantasia"), rs.getString("Razao_Social"),
+				Empresa obj = new Empresa(rs.getLong("Id"), rs.getString("NomeFantasia"), rs.getString("RazaoSocial"),
 						rs.getString("CNPJ"), rs.getString("Endereco"), rs.getString("Numero"), rs.getString("CEP"),
-						rs.getString("Complemento"), rs.getTimestamp("Data_Cadastro"),
+						rs.getString("Complemento"), rs.getTimestamp("DataCadastro"),
 						Situacao.valueOf(rs.getString("Situacao")), bairroService.pesquisar(rs.getLong("IdBairro")));
 				return obj;
 			}
@@ -178,9 +178,9 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			}
 
 			while (rs.next()) {
-				Empresa obj = new Empresa(rs.getLong("Id"), rs.getString("Nome_Fantasia"), rs.getString("Razao_Social"),
+				Empresa obj = new Empresa(rs.getLong("Id"), rs.getString("NomeFantasia"), rs.getString("RazaoSocial"),
 						rs.getString("CNPJ"), rs.getString("Endereco"), rs.getString("Numero"), rs.getString("CEP"),
-						rs.getString("Complemento"), rs.getTimestamp("Data_Cadastro"),
+						rs.getString("Complemento"), rs.getTimestamp("DataCadastro"),
 						Situacao.valueOf(rs.getString("Situacao")), bairroService.pesquisar(rs.getLong("IdBairro")));
 				list.add(obj);
 			}

@@ -187,7 +187,7 @@ public class PsqClienteController implements Initializable {
 		nome.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
-				if (p.getValue() != null && p.getValue().getNome() != null) {
+				if (p.getValue() != null && !p.getValue().getNome().isEmpty()) {
 					return new SimpleStringProperty(p.getValue().getNome() + " " + p.getValue().getSobreNome());
 				} else {
 					return new SimpleStringProperty("");
@@ -198,7 +198,8 @@ public class PsqClienteController implements Initializable {
 		telefone.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
-				if (p.getValue() != null && p.getValue().getTelefone() != null) {
+				if (p.getValue() != null && p.getValue().getTelefone() != null
+						&& !p.getValue().getTelefone().isEmpty()) {
 					return new SimpleStringProperty(
 							"(" + p.getValue().getDddTelefone() + ")" + p.getValue().getTelefone());
 				} else {

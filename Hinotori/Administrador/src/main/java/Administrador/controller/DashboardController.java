@@ -14,6 +14,9 @@ import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import Administrador.model.entities.Usuario;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import model.animation.DashboardAnimation;
 import model.config.ProcessaConfig;
 import model.entitis.Conexao;
 import model.enums.UsuarioNivel;
@@ -50,7 +54,7 @@ public class DashboardController implements Initializable {
 	private AnchorPane apBotoes;
 
 	@FXML
-	private AnchorPane apBotoesDetalhes;
+	private AnchorPane apSlipPaneBotoes;
 
 	@FXML
 	private VBox vbBotoesDetalhes;
@@ -81,6 +85,7 @@ public class DashboardController implements Initializable {
 
 	private static Usuario user;
 	private static Conexao conexao;
+	private static Timeline timeSlidePaneBotoes;
 
 	public DashboardController() {
 		Usuario user = new Usuario("Teste", UsuarioNivel.ADMINISTRADOR);
@@ -96,26 +101,6 @@ public class DashboardController implements Initializable {
 		return conexao;
 	}
 
-	/* Teste */
-	/*
-	 * @FXML public void onBtnTesteAction() throws IOException { URL url =
-	 * getClass().getResource("/Administrador/view/cadastros/CadEmpresa.fxml");
-	 * 
-	 * FXMLLoader loader = new FXMLLoader(); loader.setLocation(url); AnchorPane
-	 * newAnchorPane = loader.load();
-	 * 
-	 * Scene mainScene = new Scene(newAnchorPane); // Carrega a scena
-	 * mainScene.setFill(Color.BLACK);
-	 * 
-	 * Stage stage = new Stage(); stage.setScene(mainScene); // Seta a cena
-	 * principal stage.setTitle("Tela de teste");
-	 * stage.initStyle(StageStyle.DECORATED);
-	 * stage.initModality(Modality.WINDOW_MODAL); stage.setResizable(true);
-	 * stage.setMinWidth(870); stage.setMinHeight(500); stage.show(); // Mostra a
-	 * tela. }
-	 */
-	/* Fim Teste */
-
 	@FXML
 	private void onBtnCadastrosAction() {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Administrador/view/menu/Cadastros.fxml"));
@@ -125,7 +110,7 @@ public class DashboardController implements Initializable {
 			vbBotoesDetalhes.getChildren().add(vbCadastros);
 			vbBotoesDetalhes.setFillWidth(true);
 			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
-			abrirPaneBotoesDetalhe();
+			abrirSlipPaneBotoes();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -140,7 +125,7 @@ public class DashboardController implements Initializable {
 			vbBotoesDetalhes.getChildren().add(vbCadastros);
 			vbBotoesDetalhes.setFillWidth(true);
 			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
-			abrirPaneBotoesDetalhe();
+			abrirSlipPaneBotoes();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -154,7 +139,7 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	public void onBtnCadEmpresaAction() {
-		loadView("/Administrador/view/cadastros/CadEmpresa.fxml", "Cadastro Empresa",
+		loadView("/Administrador/view/pesquisas/PsqEmpresa.fxml", "Cadastro Empresa",
 				"../resources/geral/images/btn/bntHome_48.png");
 	}
 
@@ -170,14 +155,30 @@ public class DashboardController implements Initializable {
 				"../resources/images/icon/icoMenuImpressoras.png");
 	}
 
-	private void abrirPaneBotoesDetalhe() {
-		if (apBotoesDetalhes.getTranslateX() != 0) {
+	@FXML
+	private void botoesPaneMouseEnter() {
+		DashboardAnimation.abrirPaneBotao(splitPane, apBotoes);
+	}
+
+	@FXML
+	private void botoesPaneMouseExit() {
+		DashboardAnimation.fecharPaneBotao(splitPane, apBotoes);
+	}
+	
+	@FXML
+	private void onMouseEnterPaneConteudo() {
+		if (apSlipPaneBotoes.getTranslateX() == 0)
+			fecharSlipPaneBotoes();
+	}
+
+	private void abrirSlipPaneBotoes() {
+		if (apSlipPaneBotoes.getTranslateX() != 0) {
 			btnBurgerBotoes.fireEvent(new ActionEvent());
 		}
 	}
-
-	private void fecharPaneBotoesDetalhe() {
-		if (apBotoesDetalhes.getTranslateX() == 0) {
+	
+	private void fecharSlipPaneBotoes() {
+		if (apSlipPaneBotoes.getTranslateX() == 0) {
 			btnBurgerBotoes.fireEvent(new ActionEvent());
 		}
 	}
@@ -197,21 +198,25 @@ public class DashboardController implements Initializable {
 	}
 
 	private void prepareSlideMenuAnimation() {
-		TranslateTransition openSlidePane = new TranslateTransition(new Duration(350), apBotoesDetalhes);
-		TranslateTransition closeSlidePane = new TranslateTransition(new Duration(350), apBotoesDetalhes);
+		TranslateTransition openSlidePane = new TranslateTransition(new Duration(350), apSlipPaneBotoes);
+		TranslateTransition closeSlidePane = new TranslateTransition(new Duration(350), apSlipPaneBotoes);
 		HamburgerBackArrowBasicTransition btnBurgerTask = new HamburgerBackArrowBasicTransition(btnBurgerBotoes);
 		btnBurgerTask.setRate(-1);
 
 		// Evento para abrir e fechar via programacao.
 		btnBurgerBotoes.addEventHandler(ActionEvent.ACTION, e -> {
-			if (apBotoesDetalhes.getTranslateX() != 0) {
+			if (apSlipPaneBotoes.getTranslateX() != 0) {
+				closeSlidePane.stop();
 				openSlidePane.setToX(0);
 				openSlidePane.play();
+				btnBurgerTask.stop();
 				btnBurgerTask.setRate(1);
 				btnBurgerTask.play();
 			} else {
-				closeSlidePane.setToX(-(apBotoesDetalhes.getWidth() + 2));
+				openSlidePane.stop();
+				closeSlidePane.setToX(-(apSlipPaneBotoes.getWidth() + 2));
 				closeSlidePane.play();
+				btnBurgerTask.stop();
 				btnBurgerTask.setRate(-1);
 				btnBurgerTask.play();
 			}
@@ -260,7 +265,7 @@ public class DashboardController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		fecharPaneBotoesDetalhe();
+		fecharSlipPaneBotoes();
 	}
 
 	@Override

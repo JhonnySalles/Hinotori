@@ -86,9 +86,6 @@ public class CadEmpresaController implements Initializable {
 	private Button btnCancelar;
 
 	@FXML
-	private Button btnNovo;
-
-	@FXML
 	private Button btnExcluir;
 
 	@FXML
@@ -133,18 +130,6 @@ public class CadEmpresaController implements Initializable {
 	}
 
 	@FXML
-	public void onBtnNovoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			btnNovo.fire();
-		}
-	}
-
-	@FXML
-	public void onBtnNovoClick() {
-
-	}
-
-	@FXML
 	public void onBtnExcluirEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		if (e.getCode().toString().equals("ENTER")) {
 			btnExcluir.fire();
@@ -165,7 +150,7 @@ public class CadEmpresaController implements Initializable {
 
 	@FXML
 	public void onBtnVoltarClick() {
-
+		PsqEmpresa.returnView();
 	}
 
 	public PsqEmpresaController getPsqEmpresa() {
@@ -257,24 +242,24 @@ public class CadEmpresaController implements Initializable {
 	private void configuraCampos() {
 		frameCidadeController.setPesquisa("Id", "Descricao",
 				"cidades.Id, CONCAT(cidades.Nome, '/', estados.Sigla) AS Descricao", "cidades",
-				"INNER JOIN estados ON cidades.Id_Estado = estados.Id", "", "ORDER BY Descricao");
+				"INNER JOIN estados ON cidades.IdEstado = estados.Id", "", "ORDER BY Descricao");
 
 		frameCidadeController.txt_Pesquisa.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if (!newValue.booleanValue()) {
 					if (frameCidadeController.getID() != "")
-						frameBairroController.setPesquisa("Id", "Nome", "Id, Id_Cidade, Nome", "bairros", "",
-								" AND Id_Cidade = " + frameCidadeController.getID(), "ORDER BY Id_Cidade, Nome");
+						frameBairroController.setPesquisa("Id", "Nome", "Id, IdCidade, Nome", "bairros", "",
+								" AND IdCidade = " + frameCidadeController.getID(), "ORDER BY Id_Cidade, Nome");
 					else
-						frameBairroController.setPesquisa("Id", "Nome", "Id, Id_Cidade, Nome", "bairros", "", "",
-								"ORDER BY Id_Cidade, Nome");
+						frameBairroController.setPesquisa("Id", "Nome", "Id, IdCidade, Nome", "bairros", "", "",
+								"ORDER BY IdCidade, Nome");
 				}
 			}
 		});
 
-		frameBairroController.setPesquisa("Id", "Nome", "Id, Id_Cidade, Nome", "bairros", "", "",
-				"ORDER BY Id_Cidade, Nome");
+		frameBairroController.setPesquisa("Id", "Nome", "Id, IdCidade, Nome", "bairros", "", "",
+				"ORDER BY IdCidade, Nome");
 
 		frameCidadeController.txt_Pesquisa.setPromptText("Pesquisa de cidades");
 		frameBairroController.txt_Pesquisa.setPromptText("Pesquisa de bairros");
@@ -294,6 +279,8 @@ public class CadEmpresaController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		background.setFitToHeight(true);
 		background.setFitToWidth(true);
+		cbSituacao.getItems().addAll(Situacao.values());
+		cbSituacao.getSelectionModel().select(Situacao.ATIVO);
 		configuraCampos();
 	}
 
