@@ -14,7 +14,7 @@ public class Utils {
 	}
 	
 	public static String removeMascaras(String texto) {
-		return texto.replaceAll("[.-/()]", "");
+		return texto.replaceAll("[.-/-()]", "");
 	}
 	
 }

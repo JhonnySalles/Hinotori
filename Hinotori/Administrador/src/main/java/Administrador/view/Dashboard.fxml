@@ -96,21 +96,18 @@
                   </HBox>
                </children>
             </HBox>
-            <SplitPane fx:id="splitPane" dividerPositions="0.0" minHeight="160.0" minWidth="200.0" prefHeight="160.0" prefWidth="200.0" styleClass="splitbox" VBox.vgrow="ALWAYS">
+            <SplitPane fx:id="splitPane" dividerPositions="0.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" styleClass="splitbox" VBox.vgrow="ALWAYS">
               <items>
-                  <AnchorPane fx:id="apBotoes" maxWidth="47.0" minHeight="0.0" minWidth="47.0" prefWidth="47.0" styleClass="backgroundBotoes" SplitPane.resizableWithParent="false">
-                     <effect>
-                        <DropShadow />
-                     </effect>
+                  <AnchorPane fx:id="apBotoes" maxWidth="47.0" minWidth="47.0" prefWidth="47.0" styleClass="backgroundBotoes" SplitPane.resizableWithParent="false">
                      <children>
                         <Pane maxHeight="40.0" maxWidth="150.0" minHeight="40.0" minWidth="150.0" prefHeight="40.0" prefWidth="150.0" styleClass="backgroundHaburguerButton" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <JFXHamburger fx:id="btnBurgerBotoes" alignment="CENTER" maxHeight="40.0" maxWidth="47.0" minHeight="40.0" minWidth="47.0" prefHeight="40.0" prefWidth="47.0" />
                            </children>
                         </Pane>
-                        <VBox onMouseEntered="#botoesPaneMouseEnter" onMouseExited="#botoesPaneMouseExit" prefWidth="150.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
+                        <VBox prefWidth="150.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
                            <children>
-                              <JFXButton fx:id="btnCadastros" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" maxWidth="150.0" minWidth="150.0" onAction="#onBtnCadastrosAction" onMouseClicked="#onBtnCadastrosAction" prefWidth="150.0" ripplerFill="WHITE" text="Cadastros">
+                              <JFXButton fx:id="btnCadastros" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" maxWidth="150.0" minWidth="150.0" onAction="#onBtnCadastrosAction" onMouseClicked="#onBtnCadastrosAction" prefWidth="150.0" ripplerFill="WHITE" text="Cadastros" textFill="WHITE">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -122,7 +119,7 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnConfiguracao" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" maxWidth="150.0" minWidth="150.0" onAction="#onBtnConfiguracaoAction" onMouseClicked="#onBtnConfiguracaoAction" prefWidth="150.0" text="Configuração">
+                              <JFXButton fx:id="btnConfiguracao" alignment="BASELINE_LEFT" buttonType="RAISED" graphicTextGap="10.0" maxWidth="150.0" minWidth="150.0" onAction="#onBtnConfiguracaoAction" onMouseClicked="#onBtnConfiguracaoAction" prefWidth="150.0" text="Configuração" textFill="WHITE">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -148,9 +145,9 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0" styleClass="backgroundAnchorPaneTab" SplitPane.resizableWithParent="false">
+                <AnchorPane minHeight="500.0" minWidth="500.0" prefWidth="500.0" styleClass="backgroundAnchorPaneTab">
                      <children>
-                        <TabPane fx:id="painelAbas" onMouseEntered="#onMouseEnterPaneConteudo" prefHeight="200.0" prefWidth="200.0" styleClass="backgroundTabPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TabPane fx:id="painelAbas" onMouseEntered="#onMouseEnterPaneConteudo" prefHeight="200.0" prefWidth="200.0" styleClass="backgroundTabPane" tabMinHeight="500.0" tabMinWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <AnchorPane fx:id="apSlipPaneBotoes" prefHeight="200.0" prefWidth="150.0" styleClass="anchorPaneBotoesDetalhe" translateX="-152.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <VBox styleClass="backgroundHaburguerButton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

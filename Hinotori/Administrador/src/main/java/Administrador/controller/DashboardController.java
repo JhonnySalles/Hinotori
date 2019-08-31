@@ -14,9 +14,7 @@ import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import Administrador.model.entities.Usuario;
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
+import animatefx.animation.Pulse;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +33,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import model.animation.DashboardAnimation;
 import model.config.ProcessaConfig;
 import model.entitis.Conexao;
 import model.enums.UsuarioNivel;
@@ -85,7 +82,6 @@ public class DashboardController implements Initializable {
 
 	private static Usuario user;
 	private static Conexao conexao;
-	private static Timeline timeSlidePaneBotoes;
 
 	public DashboardController() {
 		Usuario user = new Usuario("Teste", UsuarioNivel.ADMINISTRADOR);
@@ -103,32 +99,12 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	private void onBtnCadastrosAction() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Administrador/view/menu/Cadastros.fxml"));
-		try {
-			VBox vbCadastros = loader.load();
-			vbBotoesDetalhes.getChildren().clear();
-			vbBotoesDetalhes.getChildren().add(vbCadastros);
-			vbBotoesDetalhes.setFillWidth(true);
-			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
-			abrirSlipPaneBotoes();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		loadSlipPaneBotoes("/Administrador/view/menu/Cadastros.fxml");
 	}
 
 	@FXML
 	private void onBtnConfiguracaoAction() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Administrador/view/menu/Configuracao.fxml"));
-		try {
-			VBox vbCadastros = loader.load();
-			vbBotoesDetalhes.getChildren().clear();
-			vbBotoesDetalhes.getChildren().add(vbCadastros);
-			vbBotoesDetalhes.setFillWidth(true);
-			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
-			abrirSlipPaneBotoes();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		loadSlipPaneBotoes("/Administrador/view/menu/Configuracao.fxml");
 	}
 
 	@FXML
@@ -157,14 +133,14 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	private void botoesPaneMouseEnter() {
-		DashboardAnimation.abrirPaneBotao(splitPane, apBotoes);
+		//DashboardAnimation.abrirPaneBotao(splitPane, apBotoes);
 	}
 
-	@FXML
+	@FXML	
 	private void botoesPaneMouseExit() {
-		DashboardAnimation.fecharPaneBotao(splitPane, apBotoes);
+		//DashboardAnimation.fecharPaneBotao(splitPane, apBotoes);
 	}
-	
+
 	@FXML
 	private void onMouseEnterPaneConteudo() {
 		if (apSlipPaneBotoes.getTranslateX() == 0)
@@ -176,7 +152,7 @@ public class DashboardController implements Initializable {
 			btnBurgerBotoes.fireEvent(new ActionEvent());
 		}
 	}
-	
+
 	private void fecharSlipPaneBotoes() {
 		if (apSlipPaneBotoes.getTranslateX() == 0) {
 			btnBurgerBotoes.fireEvent(new ActionEvent());
@@ -197,7 +173,7 @@ public class DashboardController implements Initializable {
 		return imageView;
 	}
 
-	private void prepareSlideMenuAnimation() {
+	private synchronized void prepareSlideMenuAnimation() {
 		TranslateTransition openSlidePane = new TranslateTransition(new Duration(350), apSlipPaneBotoes);
 		TranslateTransition closeSlidePane = new TranslateTransition(new Duration(350), apSlipPaneBotoes);
 		HamburgerBackArrowBasicTransition btnBurgerTask = new HamburgerBackArrowBasicTransition(btnBurgerBotoes);
@@ -226,6 +202,27 @@ public class DashboardController implements Initializable {
 		btnBurgerBotoes.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			btnBurgerBotoes.fireEvent(new ActionEvent());
 		});
+	}
+
+	private synchronized void loadSlipPaneBotoes(String absoluteName) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+		try {
+			VBox vbBotoes = loader.load();
+			vbBotoesDetalhes.getChildren().clear();
+			vbBotoesDetalhes.getChildren().add(vbBotoes);
+			vbBotoesDetalhes.setFillWidth(true);
+			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
+
+			if (apSlipPaneBotoes.getTranslateX() != 0) {
+				abrirSlipPaneBotoes();
+			} else {
+				new Pulse(vbBotoes).play();
+			}
+
+			abrirSlipPaneBotoes();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// Comando synchronized irá fazer com que a tela carregue por primeiro, não

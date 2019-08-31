@@ -13,19 +13,19 @@ import javafx.util.Duration;
 public class ClienteTranslate {
 
 	public void abrirPane(StackPane stackPane) {
-		Node nodeCima = stackPane.getChildren().get(stackPane.getChildren().size() - 1);
 		Node nodeBaixo = stackPane.getChildren().get(stackPane.getChildren().size() - 2);
+		Node nodeCima = stackPane.getChildren().get(stackPane.getChildren().size() - 1);
 
 		nodeCima.translateXProperty().set(stackPane.getWidth());
 		KeyValue kvCimat = new KeyValue(nodeCima.translateXProperty(), 0, Interpolator.EASE_IN);
 		KeyFrame kfCima = new KeyFrame(Duration.millis(700), kvCimat);
 
-		nodeBaixo.translateXProperty().set(0);
 		KeyValue kvBaixo = new KeyValue(nodeBaixo.translateXProperty(), -nodeBaixo.getBoundsInParent().getWidth(),
 				Interpolator.EASE_IN);
 		KeyFrame kfBaixo = new KeyFrame(Duration.millis(700), kvBaixo);
 
 		Timeline timeline = new Timeline();
+		timeline.setDelay(Duration.seconds(0));
 		timeline.getKeyFrames().add(kfBaixo);
 		timeline.getKeyFrames().add(kfCima);
 
@@ -34,13 +34,12 @@ public class ClienteTranslate {
 
 	public void fecharPane(StackPane stackPane, EventHandler<ActionEvent> eventoOnFinished) {
 		Node nodeBaixo = stackPane.getChildren().get(stackPane.getChildren().size() - 2);
+		Node nodeCima = stackPane.getChildren().get(stackPane.getChildren().size() - 1);
+		
 		nodeBaixo.translateXProperty().set(-nodeBaixo.getBoundsInParent().getWidth());
-
 		KeyValue kvBaixo = new KeyValue(nodeBaixo.translateXProperty(), 0, Interpolator.EASE_IN);
 		KeyFrame kfBaixo = new KeyFrame(Duration.millis(700), kvBaixo);
 
-		Node nodeCima = stackPane.getChildren().get(stackPane.getChildren().size() - 1);
-		nodeCima.translateXProperty().set(0);
 		KeyValue kvCima = new KeyValue(nodeCima.translateXProperty(), nodeCima.getBoundsInParent().getWidth(),
 				Interpolator.EASE_IN);
 		KeyFrame kfCima = new KeyFrame(Duration.millis(700), kvCima);

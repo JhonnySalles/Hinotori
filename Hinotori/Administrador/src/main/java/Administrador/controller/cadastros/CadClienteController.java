@@ -193,8 +193,18 @@ public class CadClienteController implements Initializable {
 	}
 
 	private Boolean validaCampos() {
-		if (txtNome.getText().isEmpty()) {
-			txtNome.setUnFocusColor(Color.RED);
+		if (txtNome.getText().isEmpty() || !Validadores.validaTelefone(txtTelefone)
+				|| !Validadores.validaTelefone(txtCelular)) {
+
+			if (txtNome.getText().isEmpty())
+				txtNome.setUnFocusColor(Color.RED);
+
+			if (!Validadores.validaTelefone(txtTelefone))
+				txtTelefone.setUnFocusColor(Color.RED);
+
+			if (!Validadores.validaTelefone(txtCelular))
+				txtCelular.setUnFocusColor(Color.RED);
+
 			return false;
 		} else
 			return true;
@@ -223,11 +233,17 @@ public class CadClienteController implements Initializable {
 		if (!txtTelefone.getText().isEmpty()) {
 			cliente.setDddTelefone(Utils.removeMascaras(txtTelefone.getText()).substring(0, 2));
 			cliente.setTelefone(Utils.removeMascaras(txtTelefone.getText()).substring(2));
+		} else {
+			cliente.setDddTelefone(null);
+			cliente.setTelefone(null);
 		}
 
 		if (!txtCelular.getText().isEmpty()) {
-			cliente.setDddCelular(Utils.removeMascaras(txtCelular.getText()).substring(0, 1));
+			cliente.setDddCelular(Utils.removeMascaras(txtCelular.getText()).substring(0, 2));
 			cliente.setCelular(Utils.removeMascaras(txtCelular.getText()).substring(2));
+		} else {
+			cliente.setDddCelular(null);
+			cliente.setCelular(null);
 		}
 
 		cliente.setCpfCnpj(Utils.removeMascaras(txtCpfCnpj.getText()));
@@ -288,7 +304,10 @@ public class CadClienteController implements Initializable {
 		Validadores.setTextFieldNotEmpty(txtNome);
 		Mascaras.cpfCnpjField(txtCpfCnpj);
 		Mascaras.foneField(txtTelefone);
+		Validadores.setTextFielTelefoneExitColor(txtTelefone);
 		Mascaras.foneField(txtCelular);
+		Validadores.setTextFielTelefoneExitColor(txtCelular);
+		Validadores.setTextFieldNotEmpty(txtNome);
 		cbSituacao.getItems().addAll(Situacao.values());
 		cbSituacao.getSelectionModel().selectFirst();
 		cbClienteTipo.getItems().addAll(TipoCliente.values());

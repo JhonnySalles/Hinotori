@@ -36,6 +36,7 @@ import javafx.util.Callback;
 import model.animation.ClienteTranslate;
 import model.enums.Situacao;
 import model.enums.TipoCliente;
+import model.mask.ConverterMascaras;
 import model.notification.Notificacao;
 
 public class PsqClienteController implements Initializable {
@@ -181,6 +182,7 @@ public class PsqClienteController implements Initializable {
 		List<Cliente> lista = clienteService.pesquisarTodos();
 		obsLClientes = FXCollections.observableArrayList(lista);
 		tabela.setItems(obsLClientes);
+		tabela.refresh();
 	}
 
 	private void inicializaGrid() {
@@ -198,10 +200,9 @@ public class PsqClienteController implements Initializable {
 		telefone.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
-				if (p.getValue() != null && p.getValue().getTelefone() != null
-						&& !p.getValue().getTelefone().isEmpty()) {
+				if (p.getValue() != null && p.getValue().getTelefone() != null) {
 					return new SimpleStringProperty(
-							"(" + p.getValue().getDddTelefone() + ")" + p.getValue().getTelefone());
+							ConverterMascaras.formataFone(p.getValue().getDddTelefone() + p.getValue().getTelefone()));
 				} else {
 					return new SimpleStringProperty("");
 				}
@@ -211,9 +212,9 @@ public class PsqClienteController implements Initializable {
 		celular.setCellValueFactory(new Callback<CellDataFeatures<Cliente, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Cliente, String> p) {
 				// p.getValue() returns the PersonType instance for a particular TableView row
-				if (p.getValue() != null && p.getValue().getTelefone() != null) {
+				if (p.getValue() != null && p.getValue().getCelular() != null) {
 					return new SimpleStringProperty(
-							"(" + p.getValue().getDddCelular() + ")" + p.getValue().getCelular());
+							ConverterMascaras.formataFone(p.getValue().getDddCelular() + p.getValue().getCelular()));
 				} else {
 					return new SimpleStringProperty("");
 				}

@@ -18,7 +18,7 @@ public class App extends Application {
 	private static DashboardController mainController;
 
 	@Override
-	public void start(Stage primaryStage) {
+	public synchronized void start(Stage primaryStage) {
 		try {
 			// Classe inicial
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/Dashboard.fxml"));

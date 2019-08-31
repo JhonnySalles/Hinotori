@@ -106,8 +106,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 			st.setString(8, obj.getCpfCnpj());
 			st.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
 			st.setString(10, obj.getObservacao());
-			st.setString(11, obj.getTipo().toString());
-			st.setString(12, obj.getSituacao().toString());
+			st.setString(11, obj.getTipo().name());
+			st.setString(12, obj.getSituacao().name());
 			st.setLong(13, obj.getId());
 
 			int rowsAffected = st.executeUpdate();

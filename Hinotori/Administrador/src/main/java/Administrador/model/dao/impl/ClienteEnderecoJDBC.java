@@ -21,7 +21,8 @@ public class ClienteEnderecoJDBC implements ClienteEnderecoDao {
 			+ " Numero, CEP, Complemento, Observacao, Situacao) VALUES (?,?,?,?,?,?,?,?);";
 
 	final String update = "UPDATE Clientes_Enderecos SET IdCliente = ?, IdBairro = ?, "
-			+ " Endereco = ?, Numero = ?, CEP = ?, Observacao = ?, Situacao = ? WHERE ID = ?;";
+			+ " Endereco = ?, Numero = ?, CEP = ?, Complemento = ?, Observacao = ?, " 
+			+ " Situacao = ? WHERE ID = ?;";
 
 	final String delete = "UPDATE Clientes_Enderecos SET Situacao = 'Excluído' WHERE ID = ?;";
 

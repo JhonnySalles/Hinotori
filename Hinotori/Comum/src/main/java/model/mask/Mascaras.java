@@ -154,7 +154,7 @@ public class Mascaras {
 				String value = textField.getText();
 				value = value.replaceAll("[^0-9]", "");
 				int tam = value.length();
-				value = value.replaceFirst("(\\d{2})(\\d)", "($1)$2");
+				value = value.replaceFirst("(\\d{2})(\\d)", "($1) $2");
 				value = value.replaceFirst("(\\d{4})(\\d)", "$1-$2");
 				if (tam > 10) {
 					value = value.replaceAll("-", "");
