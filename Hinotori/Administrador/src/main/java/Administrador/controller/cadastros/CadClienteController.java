@@ -1,57 +1,79 @@
-package Administrador.controller.cadastros;
+package administrador.controller.cadastros;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import Administrador.controller.pesquisas.PsqClienteController;
-import Administrador.model.dao.services.ClienteServices;
-import Administrador.model.entities.Cliente;
+import comum.model.constraints.Limitadores;
+import comum.model.constraints.TecladoUtils;
+import comum.model.constraints.Validadores;
+import comum.model.enums.Notificacao;
+import comum.model.enums.Situacao;
+import comum.model.enums.TipoCliente;
+import comum.model.enums.TipoPessoa;
+import comum.model.exceptions.ExcessaoBd;
+import comum.model.mask.Mascaras;
+import comum.model.notification.Notificacoes;
+import comum.model.utils.Utils;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import model.constraints.Validadores;
-import model.enums.Situacao;
-import model.enums.TipoCliente;
-import model.mask.Mascaras;
-import model.notification.Notificacao;
-import model.utils.Utils;
+import administrador.App;
+import administrador.controller.DashboardController;
+import administrador.model.dao.services.ClienteServices;
+import administrador.model.entities.Cliente;
 
 public class CadClienteController implements Initializable {
+
+	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
+
+	@FXML
+	private ScrollPane background;
+
+	@FXML
+	private StackPane spTelas;
+
+	@FXML
+	private AnchorPane rootCliente;
+
+	@FXML
+	private JFXTextField txtId;
 
 	@FXML
 	private JFXTextField txtNome;
 
 	@FXML
-	private JFXTextField txtSobreNome;
+	private JFXTextField txtCpf;
 
 	@FXML
-	private JFXTextField txtTelefone;
-
-	@FXML
-	private JFXTextField txtCelular;
-
-	@FXML
-	private JFXTextField txtCpfCnpj;
-
-	@FXML
-	private JFXTextField txtEmail;
+	private JFXTextField txtCnpj;
 
 	@FXML
 	private JFXTextArea txtAreaObservacao;
+
+	@FXML
+	private JFXDatePicker dtPkCadastro;
 
 	@FXML
 	private JFXComboBox<Situacao> cbSituacao;
@@ -60,19 +82,16 @@ public class CadClienteController implements Initializable {
 	private JFXComboBox<TipoCliente> cbClienteTipo;
 
 	@FXML
-	private Pane paneBackground;
+	private JFXComboBox<TipoPessoa> cbPessoaTipo;
 
 	@FXML
-	private ScrollPane background;
-
-	@FXML
-	private AnchorPane rootPane;
+	private JFXButton btnContato;
 
 	@FXML
 	private JFXButton btnEndereco;
 
 	@FXML
-	private ImageView imgLogo;
+	private JFXButton btnPesquisar;
 
 	@FXML
 	private JFXButton btnConfirmar;
@@ -83,12 +102,9 @@ public class CadClienteController implements Initializable {
 	@FXML
 	private JFXButton btnExcluir;
 
-	@FXML
-	private JFXButton btnVoltar;
-
 	private Cliente cliente;
 	private ClienteServices clienteService;
-	private PsqClienteController PsqCliente;
+	private String id;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -101,13 +117,11 @@ public class CadClienteController implements Initializable {
 	public void onBtnConfirmarClick() {
 		if (validaCampos()) {
 			try {
-				rootPane.cursorProperty().set(Cursor.WAIT);
-				atualizaEntidade();
-				salvar();
-				Notificacao.Dark("Processo concluído", "Cliente salvo com sucesso.", 3.0, Pos.BASELINE_RIGHT);
-				limpaCampos();
+				spTelas.cursorProperty().set(Cursor.WAIT);
+				desabilitaBotoes().atualizaEntidade().salvar(cliente);
 			} finally {
-				rootPane.cursorProperty().set(null);
+				spTelas.cursorProperty().set(null);
+				habilitaBotoes();
 			}
 		}
 	}
@@ -133,187 +147,325 @@ public class CadClienteController implements Initializable {
 
 	@FXML
 	public void onBtnExcluirClick() {
-		if (cliente.getId() == null) {
-			Notificacao.Dark("Aviso", "Não foi possivel realizar a exclusão, nenhum cliente selecionado.", 5.0,
-					Pos.BASELINE_RIGHT);
-			return;
-		} else {
-			if (clienteService == null)
-				setClienteServices(new ClienteServices());
-			clienteService.deletar(cliente.getId());
-			Notificacao.Dark("Processamento concluído", "Item excluído com sucesso.", 5.0, Pos.BASELINE_RIGHT);
-			limpaCampos();
+		if ((cliente == null) || (cliente.getId() == null) || txtId.getText().isEmpty()
+				|| txtId.getText().equalsIgnoreCase("0"))
+			Notificacoes.notificacao(Notificacao.AVISO, "Aviso",
+					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
+		else {
+			try {
+				spTelas.cursorProperty().set(Cursor.WAIT);
+				desabilitaBotoes().atualizaEntidade().excluir(cliente);
+			} finally {
+				spTelas.cursorProperty().set(null);
+				habilitaBotoes();
+			}
 		}
 	}
 
 	@FXML
-	public void onBtnVoltarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onBtnPesquisarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		if (e.getCode().toString().equals("ENTER")) {
-			btnVoltar.fire();
+			btnPesquisar.fire();
 		}
 	}
 
 	@FXML
-	public void onBtnVoltarClick() {
-		PsqCliente.returnView();
+	public void onBtnPesquisarClick() {
+		// limpaCampos();
 	}
 
 	@FXML
-	public void onBtnEnderecosEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onTxtIdClick() {
+		txtId.getSelectedText();
+	}
+
+	@FXML
+	public void onTxtIdEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		if (e.getCode().toString().equals("ENTER")) {
+			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
+				onTxtIdExit();
+			else
+				limpaCampos();
+
+			Utils.clickTab();
+		}
+	}
+
+	@FXML
+	public void onBtnEnderecoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		if (e.getCode().toString().equals("ENTER")) {
 			btnEndereco.fire();
 		}
 	}
 
 	@FXML
-	public void onBtnEnderecosClick() {
-		atualizaEntidade();
-		desabilitaBotoes();
-		loadView("/Administrador/view/cadastros/CadClienteEndereco.fxml");
-		CadClienteEnderecoController endereco = PsqCliente.getLoader().getController();
-		endereco.setCadCliente(this);
-		habilitaBotoes();
+	public void onBtnEnderecoClick() {
+		CadEnderecoDadosController ctn = (CadEnderecoDadosController) DashboardController
+				.loadView("/pdv/view/cadastros/CadEnderecoDados.fxml", spTelas);
+		ctn.initData(txtNome.getText(), cliente.getEnderecos(), spTelas);
 	}
 
-	public PsqClienteController getPsqCliente() {
-		return PsqCliente;
+	@FXML
+	public void onBtnContatoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		if (e.getCode().toString().equals("ENTER")) {
+			btnContato.fire();
+		}
 	}
 
-	public void setPsqCliente(PsqClienteController PsqCliente) {
-		this.PsqCliente = PsqCliente;
+	@FXML
+	public void onBtnContatoClick() {
+		CadContatoDadosController ctn = (CadContatoDadosController) DashboardController
+				.loadView("/pdv/view/cadastros/CadContatoDados.fxml", spTelas);
+		ctn.initData(txtNome.getText(), cliente.getContatos(), spTelas);
+	}
+
+	public void onTxtIdExit() {
+		if (!txtId.getText().isEmpty() && !txtId.getText().equalsIgnoreCase("0")) {
+			try {
+				carregarCliente(clienteService.pesquisar(Long.valueOf(txtId.getText())));
+			} catch (ExcessaoBd e) {
+				e.printStackTrace();
+			}
+		} else {
+			if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+				limpaCampos();
+		}
 	}
 
 	public Cliente getCliente() {
 		return cliente;
 	}
 
-	public void carregarCliente(Cliente cliente) {
+	public CadClienteController carregarCliente(Cliente cliente) {
+		limpaCampos();
 		this.cliente = cliente;
-		atualizaTela();
+		if (cliente != null)
+			atualizaTela(cliente);
+		return this;
 	}
 
 	private Boolean validaCampos() {
-		if (txtNome.getText().isEmpty() || !Validadores.validaTelefone(txtTelefone)
-				|| !Validadores.validaTelefone(txtCelular)) {
+		Boolean valida = true;
 
-			if (txtNome.getText().isEmpty())
-				txtNome.setUnFocusColor(Color.RED);
+		if (txtNome.getText().isEmpty()) {
+			txtNome.setUnFocusColor(Color.RED);
+			valida = false;
+		}
 
-			if (!Validadores.validaTelefone(txtTelefone))
-				txtTelefone.setUnFocusColor(Color.RED);
+		switch (cbPessoaTipo.getSelectionModel().getSelectedItem()) {
+		case FISICO:
+			if (!Validadores.validaCpfCnpj(txtCpf.getText())) {
+				txtCpf.setUnFocusColor(Color.RED);
+				valida = false;
+			}
+			break;
+		case JURIDICO:
+			if (!Validadores.validaCpfCnpj(txtCnpj.getText())) {
+				txtCnpj.setUnFocusColor(Color.RED);
+				valida = false;
+			}
+			break;
+		default:
+			break;
+		}
 
-			if (!Validadores.validaTelefone(txtCelular))
-				txtCelular.setUnFocusColor(Color.RED);
-
-			return false;
-		} else
-			return true;
+		return valida;
 	}
 
-	private void limpaCampos() {
+	private CadClienteController limpaCampos() {
 		cliente = new Cliente();
+		txtId.setText("0");
 		txtNome.setText("");
-		txtSobreNome.setText("");
-		txtTelefone.setText("");
-		txtCelular.setText("");
-		txtCpfCnpj.setText("");
-		txtEmail.setText("");
+		txtCpf.setText("");
+		txtCnpj.setText("");
 		txtAreaObservacao.setText("");
 		cbSituacao.getSelectionModel().selectFirst();
 		cbClienteTipo.getSelectionModel().selectFirst();
+		dtPkCadastro.setValue(LocalDate.now());
+		return this;
 	}
 
-	private void atualizaEntidade() {
+	private CadClienteController atualizaEntidade() {
 		if (cliente == null)
 			cliente = new Cliente();
 
-		cliente.setNome(txtNome.getText());
-		cliente.setSobreNome(txtSobreNome.getText());
+		if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+			cliente.setId(Long.valueOf(0));
+		else
+			cliente.setId(Long.valueOf(txtId.getText()));
 
-		if (!txtTelefone.getText().isEmpty()) {
-			cliente.setDddTelefone(Utils.removeMascaras(txtTelefone.getText()).substring(0, 2));
-			cliente.setTelefone(Utils.removeMascaras(txtTelefone.getText()).substring(2));
-		} else {
-			cliente.setDddTelefone(null);
-			cliente.setTelefone(null);
-		}
-
-		if (!txtCelular.getText().isEmpty()) {
-			cliente.setDddCelular(Utils.removeMascaras(txtCelular.getText()).substring(0, 2));
-			cliente.setCelular(Utils.removeMascaras(txtCelular.getText()).substring(2));
-		} else {
-			cliente.setDddCelular(null);
-			cliente.setCelular(null);
-		}
-
-		cliente.setCpfCnpj(Utils.removeMascaras(txtCpfCnpj.getText()));
-		cliente.setEmail(txtEmail.getText());
+		cliente.setNomeSobrenome(txtNome.getText());
+		cliente.setDataCadastro(Timestamp.valueOf(dtPkCadastro.getValue().atTime(LocalTime.MIDNIGHT)));
+		cliente.setCpf(Utils.removeMascaras(txtCpf.getText()));
+		cliente.setCnpj(Utils.removeMascaras(txtCnpj.getText()));
 		cliente.setObservacao(txtAreaObservacao.getText());
 		cliente.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-		cliente.setTipo(cbClienteTipo.getSelectionModel().getSelectedItem());
+		cliente.setTipoCliente(cbClienteTipo.getSelectionModel().getSelectedItem());
+		cliente.setTipoPessoa(cbPessoaTipo.getSelectionModel().getSelectedItem());
+
+		return this;
 	}
 
-	private void atualizaTela() {
-		txtNome.setText(cliente.getNome());
-		txtSobreNome.setText(cliente.getSobreNome());
-		txtTelefone.setText(cliente.getDddTelefone() + cliente.getTelefone());
-		txtCelular.setText(cliente.getDddCelular() + cliente.getCelular());
-		txtCpfCnpj.setText(cliente.getCpfCnpj());
-		txtEmail.setText(cliente.getEmail());
-		cbSituacao.getSelectionModel().getSelectedItem().equals(cliente.getSituacao());
-		cbClienteTipo.getSelectionModel().getSelectedItem().equals(cliente.getTipo());
+	// Devido a um erro no componente, caso venha do banco o valor null, estoura
+	// erro na edição do campo.
+	// Necessário a validação para casos em que ouve problemas com o registro no
+	// banco.
+	private CadClienteController atualizaTela(Cliente cliente) {
+		limpaCampos();
+
+		this.cliente = cliente;
+
+		txtId.setText(cliente.getId().toString());
+
+		if (cliente.getNomeSobrenome() != null && !cliente.getNomeSobrenome().isEmpty())
+			txtNome.setText(cliente.getNomeSobrenome());
+		if (cliente.getCpf() != null && !cliente.getCpf().isEmpty())
+			txtCpf.setText(cliente.getCpf());
+
+		if (cliente.getCnpj() != null && !cliente.getCnpj().isEmpty())
+			txtCnpj.setText(cliente.getCnpj());
+
+		if (cliente.getObservacao() != null && !cliente.getObservacao().isEmpty())
+			txtAreaObservacao.setText(cliente.getObservacao());
+
+		cbSituacao.getSelectionModel().select(cliente.getSituacao().ordinal());
+		cbClienteTipo.getSelectionModel().select(cliente.getTipoCliente().ordinal());
+		cbPessoaTipo.getSelectionModel().select(cliente.getTipoPessoa().ordinal());
+
+		// Necessário por um bug na tela ao carregar ela.
+		App.getMainController().atualizaTabPane();
+
+		return this;
 	}
 
-	private void salvar() {
+	private void salvar(Cliente cliente) {
 		if (clienteService == null)
 			setClienteServices(new ClienteServices());
-		clienteService.salvar(cliente);
+
+		try {
+			clienteService.salvar(cliente);
+			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Cliente salvo com sucesso.");
+			limpaCampos();
+		} catch (ExcessaoBd e) {
+			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+		}
 	}
 
-	public void loadView(String tela) {
-		PsqCliente.loadView(tela);
+	private void excluir(Cliente cliente) {
+		if (clienteService == null)
+			setClienteServices(new ClienteServices());
+
+		try {
+			clienteService.deletar(cliente.getId());
+			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Cliente excluído com sucesso.");
+			limpaCampos();
+		} catch (ExcessaoBd e) {
+			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+		}
 	}
 
-	public void returnView() {
-		PsqCliente.returnView();
-	}
-
-	private void desabilitaBotoes() {
-		btnEndereco.setDisable(true);
+	private CadClienteController desabilitaBotoes() {
+		spTelas.setDisable(true);
 		btnConfirmar.setDisable(true);
 		btnCancelar.setDisable(true);
 		btnExcluir.setDisable(true);
-		btnVoltar.setDisable(true);
+		return this;
 	}
 
-	private void habilitaBotoes() {
-		btnEndereco.setDisable(false);
+	private CadClienteController habilitaBotoes() {
+		spTelas.setDisable(false);
 		btnConfirmar.setDisable(false);
 		btnCancelar.setDisable(false);
 		btnExcluir.setDisable(false);
-		btnVoltar.setDisable(false);
+		return this;
 	}
 
-	private void setClienteServices(ClienteServices clienteService) {
+	private CadClienteController setClienteServices(ClienteServices clienteService) {
 		this.clienteService = clienteService;
+		return this;
+	}
+
+	private CadClienteController configuraExitId() {
+		txtId.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
+					Boolean newPropertyValue) {
+				if (newPropertyValue)
+					id = txtId.getText();
+
+				if (oldPropertyValue && !id.equalsIgnoreCase(txtId.getText()))
+					onTxtIdExit();
+			}
+		});
+
+		return this;
+	}
+
+	// Será necessário verificar uma forma de configurar o scene após a exibição,
+	// pois é ele que adiciona os atalhos do teclado, porém na construção a scene
+	// não existe, somente na exibição.
+	public void ativaAtalhos() {
+		rootCliente.getScene().getAccelerators().clear();
+		rootCliente.getScene().getAccelerators().putAll(atalhosTecla);
+	}
+
+	private CadClienteController configuraAtalhosTeclado() {
+		atalhosTecla.put(new KeyCodeCombination(KeyCode.F2), new Runnable() {
+			@FXML
+			public void run() {
+				btnConfirmar.fire();
+			}
+		});
+		atalhosTecla.put(new KeyCodeCombination(KeyCode.F3), new Runnable() {
+			@FXML
+			public void run() {
+				btnCancelar.fire();
+			}
+		});
+		atalhosTecla.put(new KeyCodeCombination(KeyCode.F4), new Runnable() {
+			@FXML
+			public void run() {
+				btnExcluir.fire();
+			}
+		});
+		atalhosTecla.put(new KeyCodeCombination(KeyCode.F5), new Runnable() {
+			@FXML
+			public void run() {
+				btnPesquisar.fire();
+			}
+		});
+		return this;
 	}
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		setClienteServices(new ClienteServices());
+		Limitadores.setTextFieldInteger(txtId);
+
 		Validadores.setTextFieldNotEmpty(txtNome);
-		Mascaras.cpfCnpjField(txtCpfCnpj);
-		Mascaras.foneField(txtTelefone);
-		Validadores.setTextFielTelefoneExitColor(txtTelefone);
-		Mascaras.foneField(txtCelular);
-		Validadores.setTextFielTelefoneExitColor(txtCelular);
-		Validadores.setTextFieldNotEmpty(txtNome);
+		Validadores.setTextFieldCpnfCnpjExit(txtCpf);
+		Validadores.setTextFieldCpnfCnpjExit(txtCnpj);
+
+		Mascaras.cpfField(txtCpf);
+		Mascaras.cnpjField(txtCnpj);
+
+		TecladoUtils.onEnterConfigureTab(txtCpf);
+		TecladoUtils.onEnterConfigureTab(txtCnpj);
+		TecladoUtils.onEnterConfigureTab(cbSituacao);
+		TecladoUtils.onEnterConfigureTab(cbClienteTipo);
+		TecladoUtils.onEnterConfigureTab(cbPessoaTipo);
+
+		configuraAtalhosTeclado().configuraExitId();
+
 		cbSituacao.getItems().addAll(Situacao.values());
 		cbSituacao.getSelectionModel().selectFirst();
+		cbPessoaTipo.getItems().addAll(TipoPessoa.values());
+		cbPessoaTipo.getSelectionModel().selectFirst();
 		cbClienteTipo.getItems().addAll(TipoCliente.values());
 		cbClienteTipo.getSelectionModel().selectFirst();
-		background.setFitToHeight(true);
-		background.setFitToWidth(true);
+		dtPkCadastro.setValue(LocalDate.now());
+		txtId.setText("0");
+
 		cliente = new Cliente();
 	}
 }

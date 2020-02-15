@@ -1,8 +1,8 @@
-package Config.util;
+package config.util;
 
-import Config.gui.TelaConfiguracaoController;
-import model.config.ProcessaConfig;
-import model.entitis.Conexao;
+import comum.model.config.ProcessaConfig;
+import comum.model.entities.Conexao;
+import config.gui.TelaConfiguracaoController;
 
 public class CarregaConfig {
 

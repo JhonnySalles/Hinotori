@@ -1,6 +1,6 @@
-package Config.util;
+package config.util;
 
-import Config.App;
+import config.App;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

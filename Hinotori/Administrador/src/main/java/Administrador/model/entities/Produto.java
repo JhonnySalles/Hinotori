@@ -1,10 +1,10 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import model.enums.Situacao;
-import model.enums.TipoProduto;
+import comum.model.enums.Situacao;
+import comum.model.enums.TipoProduto;
 
 public class Produto implements Serializable {
 
@@ -104,7 +104,15 @@ public class Produto implements Serializable {
 	}
 
 	public Produto() {
-
+		this.id = Long.valueOf(0);
+		this.descricao = "";
+		this.observacao = "";
+		this.codigoBarras = "";
+		this.unidade = "";
+		this.tipo = TipoProduto.PRODUTOFINAL;
+		this.pesoBruto = 0.0;
+		this.pesoLiquido = 0.0;
+		this.situacao = Situacao.ATIVO;
 	}
 
 	public Produto(Long id, String descricao, String observacao, String codigoBarras, String unidade, Date dataCadastro,

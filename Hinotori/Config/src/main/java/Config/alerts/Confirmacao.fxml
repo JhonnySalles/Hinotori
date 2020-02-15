@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="150.0" prefWidth="500.0" style="-fx-effect: dropshadow( one-pass-box , #333333, 0, 0.0 , 3, 3); -fx-border-color: black; -fx-border-width: 1px;" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Config.alerts.ConfirmacaoController">
+<AnchorPane prefHeight="150.0" prefWidth="500.0" style="-fx-effect: dropshadow( one-pass-box , #333333, 0, 0.0 , 3, 3); -fx-border-color: black; -fx-border-width: 1px;" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.alerts.ConfirmacaoController">
    <children>
       <Pane prefHeight="20.0" prefWidth="400.0" style="-fx-background-color: #000000; -fx-opacity: 0.7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

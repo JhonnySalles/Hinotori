@@ -1,14 +1,19 @@
-package Config.gui;
+package config.gui;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
-import Config.App;
-import Config.alerts.Alertas;
-import Config.connection.ConexaoMySQL;
-import Config.util.Animacao;
+import com.jfoenix.controls.JFXCheckBox;
+
+import comum.model.config.ProcessaConfig;
+import comum.model.constraints.Validadores;
+import comum.model.entities.Conexao;
+import config.App;
+import config.alerts.Alertas;
+import config.connection.ConexaoMySQL;
+import config.util.Animacao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -16,7 +21,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -26,9 +30,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import model.config.ProcessaConfig;
-import model.constraints.Validadores;
-import model.entitis.Conexao;
 
 public class TelaConfiguracaoController implements Initializable {
 
@@ -66,7 +67,7 @@ public class TelaConfiguracaoController implements Initializable {
 	PasswordField pswSenha;
 
 	@FXML
-	CheckBox cbMostrarLog;
+	JFXCheckBox cbMostrarLog;
 
 	@FXML
 	TextField txtCaminhoLog;

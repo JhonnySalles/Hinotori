@@ -1,4 +1,4 @@
-package Administrador.model.dao.impl;
+package administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,11 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.SaborDao;
-import Administrador.model.entities.Sabor;
-import model.enums.Situacao;
-import model.log.ManipulaLog;
-import model.mysql.DB;
+import administrador.model.dao.SaborDao;
+import administrador.model.entities.Sabor;
+import comum.model.enums.Situacao;
+import comum.model.mysql.DB;
 
 public class SaborDaoJDBC implements SaborDao {
 
@@ -41,7 +40,7 @@ public class SaborDaoJDBC implements SaborDao {
 
 			st.setString(1, obj.getDescricao());
 			st.setString(2, obj.getObservacao());
-			st.setString(3, obj.getSituacao().toString());
+			//st.setString(3, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -52,7 +51,6 @@ public class SaborDaoJDBC implements SaborDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -68,7 +66,7 @@ public class SaborDaoJDBC implements SaborDao {
 
 			st.setString(1, obj.getDescricao());
 			st.setString(2, obj.getObservacao());
-			st.setString(3, obj.getSituacao().toString());
+			//st.setString(3, obj.getSituacao().toString());
 			st.setLong(4, obj.getId());
 
 			int rowsAffected = st.executeUpdate();
@@ -80,7 +78,6 @@ public class SaborDaoJDBC implements SaborDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -105,7 +102,6 @@ public class SaborDaoJDBC implements SaborDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -128,7 +124,6 @@ public class SaborDaoJDBC implements SaborDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -156,7 +151,6 @@ public class SaborDaoJDBC implements SaborDao {
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);

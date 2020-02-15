@@ -1,8 +1,8 @@
-package Administrador.model.dao;
+package administrador.model.dao;
 
 import java.util.List;
 
-import Administrador.model.entities.Bairro;
+import administrador.model.entities.Bairro;
 
 public interface BairroDao {
 

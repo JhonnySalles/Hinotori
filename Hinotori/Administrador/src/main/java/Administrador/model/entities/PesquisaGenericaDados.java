@@ -1,29 +1,35 @@
-package Administrador.model.entities;
+package administrador.model.entities;
+
+import java.util.List;
 
 public class PesquisaGenericaDados {
 	
-	private String id;
-	private String descricao;
+	private final List<String> columnNames ;
+    private final List<List<Object>> data ;
 	
-	public String getId() {
-		return id;
-	}
+    public int getNumColumns() {
+        return columnNames.size();
+    }
+
+    public String getColumnName(int index) {
+        return columnNames.get(index);
+    }
+
+    public int getNumRows() {
+        return data.size();
+    }
+
+    public Object getData(int column, int row) {
+        return data.get(row).get(column);
+    }
+
+    public List<List<Object>> getData() {
+        return data ;
+    }
 	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public String getDescricao() {
-		return descricao;
-	}
-	
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	
-	public PesquisaGenericaDados(String id, String descricao) {
-		this.id = id;
-		this.descricao = descricao;
+	public PesquisaGenericaDados(List<String> columnNames, List<List<Object>> data) {
+		this.columnNames = columnNames ;
+        this.data = data ;
 	}
 
 }

@@ -1,4 +1,4 @@
-package Administrador.model.dao.impl;
+package administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,11 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.BairroDao;
-import Administrador.model.dao.services.CidadeServices;
-import Administrador.model.entities.Bairro;
-import model.log.ManipulaLog;
-import model.mysql.DB;
+import administrador.model.dao.BairroDao;
+import administrador.model.dao.services.CidadeServices;
+import administrador.model.entities.Bairro;
+import comum.model.mysql.DB;
 
 public class BairroDaoJDBC implements BairroDao {
 
@@ -52,7 +51,6 @@ public class BairroDaoJDBC implements BairroDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -69,16 +67,11 @@ public class BairroDaoJDBC implements BairroDao {
 			st.setString(2, obj.getNome());
 			st.setLong(3, obj.getId());
 
-			int rowsAffected = st.executeUpdate();
-
-			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
-			}
+			st.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -102,7 +95,6 @@ public class BairroDaoJDBC implements BairroDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -127,7 +119,6 @@ public class BairroDaoJDBC implements BairroDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -159,7 +150,6 @@ public class BairroDaoJDBC implements BairroDao {
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);

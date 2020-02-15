@@ -1,10 +1,10 @@
-package Administrador.model.dao.services;
+package administrador.model.dao.services;
 
 import java.util.List;
 
-import Administrador.model.dao.DaoFactory;
-import Administrador.model.dao.TamanhoDao;
-import Administrador.model.entities.Tamanho;
+import administrador.model.dao.DaoFactory;
+import administrador.model.dao.TamanhoDao;
+import administrador.model.entities.Tamanho;
 
 public class TamanhoServices {
 

@@ -1,4 +1,4 @@
-package Administrador.model.dao.impl;
+package administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,11 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.PesquisaGenericaDao;
-import Administrador.model.entities.PesquisaGenerica;
-import Administrador.model.entities.PesquisaGenericaDados;
-import model.log.ManipulaLog;
-import model.mysql.DB;
+import administrador.model.dao.PesquisaGenericaDao;
+import administrador.model.entities.PesquisaGenerica;
+import administrador.model.entities.PesquisaGenericaDados;
+import comum.model.mysql.DB;
 
 public class PesquisaGenericaDaoJDBC implements PesquisaGenericaDao {
 
@@ -22,25 +21,35 @@ public class PesquisaGenericaDaoJDBC implements PesquisaGenericaDao {
 	}
 
 	@Override
-	public List<PesquisaGenericaDados> pesquisar(PesquisaGenerica pesquisa, String sql) {
+	public PesquisaGenericaDados pesquisar(PesquisaGenerica pesquisa, String sql) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
+		
+		List<List<Object>> dados = new ArrayList<>();
+        List<String> colunasDescricao = new ArrayList<>();
 
 		try {
 			st = conexao.prepareStatement(sql);
 			rs = st.executeQuery();
 
-			List<PesquisaGenericaDados> list = new ArrayList<>();
+			int qtdColunas = rs.getMetaData().getColumnCount();
 
-			while (rs.next()) {
-				PesquisaGenericaDados obj = new PesquisaGenericaDados(rs.getString(pesquisa.getCampoID()),
-						rs.getString(pesquisa.getCampoDescricao()));
-				list.add(obj);
-			}
-			return list;
+            for (int i = 1 ; i <= qtdColunas ; i++) {
+            	colunasDescricao.add(rs.getMetaData().getColumnLabel(i));
+            }
+
+            while (rs.next()) {
+                List<Object> row = new ArrayList<>();
+                for (int i = 1 ; i <= qtdColunas ; i++) {
+                    row.add(rs.getObject(i));
+                }
+                dados.add(row);
+            }
+            
+            return new PesquisaGenericaDados(colunasDescricao, dados);
+            
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);

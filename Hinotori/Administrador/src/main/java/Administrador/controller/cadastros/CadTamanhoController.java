@@ -1,4 +1,4 @@
-package Administrador.controller.cadastros;
+package administrador.controller.cadastros;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -9,15 +9,15 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
-import Administrador.model.dao.services.TamanhoServices;
+import administrador.model.dao.services.TamanhoServices;
+import comum.model.enums.Situacao;
+import comum.model.enums.TipoCliente;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import model.enums.Situacao;
-import model.enums.TipoCliente;
 
 public class CadTamanhoController implements Initializable {
 

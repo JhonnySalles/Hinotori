@@ -1,8 +1,8 @@
-package Administrador.model.dao;
+package administrador.model.dao;
 
 import java.util.List;
 
-import Administrador.model.entities.Estado;
+import administrador.model.entities.Estado;
 
 public interface EstadoDao {
 

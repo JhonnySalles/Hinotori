@@ -1,4 +1,4 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 public class Impressoras {
 	

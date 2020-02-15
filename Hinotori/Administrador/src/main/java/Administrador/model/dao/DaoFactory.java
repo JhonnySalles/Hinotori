@@ -1,20 +1,23 @@
-package Administrador.model.dao;
+package administrador.model.dao;
 
-import Administrador.model.dao.impl.BairroDaoJDBC;
-import Administrador.model.dao.impl.CidadeDaoJDBC;
-import Administrador.model.dao.impl.ClienteDaoJDBC;
-import Administrador.model.dao.impl.ClienteEnderecoJDBC;
-import Administrador.model.dao.impl.EmpresaDaoJDBC;
-import Administrador.model.dao.impl.EstadoDaoJDBC;
-import Administrador.model.dao.impl.PaisDaoJDBC;
-import Administrador.model.dao.impl.PesquisaGenericaDaoJDBC;
-import Administrador.model.dao.impl.ProdutoDaoJDBC;
-import Administrador.model.dao.impl.SaborDaoJDBC;
-import Administrador.model.dao.impl.TamanhoDaoJDBC;
-import Administrador.model.dao.impl.UsuarioDaoJDBC;
-import model.mysql.DB;
+import administrador.model.dao.impl.BairroDaoJDBC;
+import administrador.model.dao.impl.CidadeDaoJDBC;
+import administrador.model.dao.impl.ClienteDaoJDBC;
+import administrador.model.dao.impl.EmpresaDaoJDBC;
+import administrador.model.dao.impl.EstadoDaoJDBC;
+import administrador.model.dao.impl.PaisDaoJDBC;
+import administrador.model.dao.impl.PesquisaGenericaDaoJDBC;
+import administrador.model.dao.impl.ProdutoDaoJDBC;
+import administrador.model.dao.impl.SaborDaoJDBC;
+import administrador.model.dao.impl.TamanhoDaoJDBC;
+import administrador.model.dao.impl.UsuarioDaoJDBC;
+import comum.model.mysql.DB;
 
 public class DaoFactory {
+
+	public static PesquisaGenericaDao createPesquisaGenericaDao() {
+		return new PesquisaGenericaDaoJDBC(DB.getConnection());
+	}
 
 	public static BairroDao createBairroDao() {
 		return new BairroDaoJDBC(DB.getConnection());
@@ -27,10 +30,6 @@ public class DaoFactory {
 	public static ClienteDao createClienteDao() {
 		return new ClienteDaoJDBC(DB.getConnection());
 	}
-	
-	public static ClienteEnderecoDao createClienteEnderecoDao() {
-		return new ClienteEnderecoJDBC(DB.getConnection());
-	}
 
 	public static EmpresaDao createEmpresaDao() {
 		return new EmpresaDaoJDBC(DB.getConnection());
@@ -42,10 +41,6 @@ public class DaoFactory {
 
 	public static PaisDao createPaisDao() {
 		return new PaisDaoJDBC(DB.getConnection());
-	}
-
-	public static PesquisaGenericaDao createPesquisaGenericaDao() {
-		return new PesquisaGenericaDaoJDBC(DB.getConnection());
 	}
 
 	public static ProdutoDao createProdutoDao() {

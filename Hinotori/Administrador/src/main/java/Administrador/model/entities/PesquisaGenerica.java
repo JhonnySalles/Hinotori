@@ -1,9 +1,9 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 public class PesquisaGenerica {
 
 	String campoId;
-	String campoDescricao;
+	String campoFiltrar;
 	String select;
 	String tabela;
 	String joins;
@@ -13,9 +13,9 @@ public class PesquisaGenerica {
 	public String getCampoID() {
 		return campoId;
 	}
-
-	public String getCampoDescricao() {
-		return campoDescricao;
+	
+	public String getCampoFiltrar() {
+		return campoFiltrar;
 	}
 
 	public String getSelect() {
@@ -38,10 +38,10 @@ public class PesquisaGenerica {
 		return groupOrder;
 	}
 
-	public PesquisaGenerica(String campoId, String campoDescricao, String select, String tabela, String joins,
+	public PesquisaGenerica(String campoId, String campoFiltrar, String select, String tabela, String joins,
 			String where, String groupOrder) {
 		this.campoId = campoId;
-		this.campoDescricao = campoDescricao;
+		this.campoFiltrar = campoFiltrar;
 		this.select = select;
 		this.tabela = tabela;
 		this.joins = joins;

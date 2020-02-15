@@ -4,6 +4,116 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
+/*---------- Estilos dos botoes ----------*/
+#btnConfirmar {
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #43A047;
+    -fx-border-color :#43A047;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
+
+#btnConfirmar:hover {
+    -fx-background-color: #43A047;
+    -fx-text-fill:  #ffffff;
+}
+
+#btnConfirmar:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+#btnCancelar {
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #a4262c;
+    -fx-border-color :#a4262c;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
+
+#btnCancelar:hover {
+    -fx-background-color: #a4262c;
+    -fx-text-fill:  #ffffff;
+}
+
+#btnCancelar:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+#btnExcluir {
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #4052ab;
+    -fx-border-color :#4052ab;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
+
+#btnExcluir:hover {
+    -fx-background-color: #4052ab;
+    -fx-text-fill:  #ffffff;
+}
+
+#btnExcluir:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+#btnPesquisar {
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #333333;
+    -fx-border-color :#333333;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
+
+#btnPesquisar:hover {
+    -fx-background-color: #333333;
+    -fx-text-fill: #ffffff;
+}
+
+#btnPesquisar:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+
+#btnAtualizar {
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #4052ab;
+    -fx-border-color :#4052ab;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
+
+#btnAtualizar:hover {
+    -fx-background-color: #4052ab;
+    -fx-text-fill:  #ffffff;
+}
+
+#btnAtualizar:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+#btnVoltar {
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #333333;
+    -fx-border-color :#333333;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
+
+#btnVoltar:hover {
+    -fx-background-color: #333333;
+    -fx-text-fill: #ffffff;
+}
+
+#btnVoltar:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
 /*---------- Estilos do scroll ----------*/
 .scroll-pane {
     -fx-background-color: black;
@@ -38,195 +148,14 @@
 }
 .scroll-bar:horizontal .thumb:pressed,
 .scroll-bar:vertical .thumb:pressed {
-    -fx-background-color: #666666;
-
+    -fx-background-color: #1e90ff;
     -fx-background-insets: 3.0;
-    -fx-effect: dropshadow( one-pass-box , #1e90ff, 4, 4, 0, 0);
 }
 
 /* Quina */
 .scroll-pane > .corner {
     -fx-background-color: black;
 }
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Clientes  -----------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-/*----------  Image clientes ----------*/
-.tituloBackground-cliente{
-    -fx-background-color: linear-gradient(to right top, #0277BD , #1A237E);
-}
-.imgBackground-cliente{
-    -fx-background-image: url("../white/images/cad/icoCliente.png");
-    -fx-background-position: center;
-    -fx-background-size: 200 200;
-    -fx-background-repeat: no-repeat;
-}
-.botoesBackground-cliente{
-    -fx-border-color:  black;
-    -fx-border-width:  1 1 1 0;
-    -fx-background-color:  #005a9e;
-}
-.textArea-cliente {
-    -fx-background-color: #005a9e;
-}
-
-.textArea-cliente .scroll-pane {
-    -fx-background-color: #eaeaea;
-}
-
-.btnEndereco-cliente {
-    -fx-background-color:  #71afe5;
-    -fx-text-fill: white;
-}
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Empresas ------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-/*----------  Image empresa ----------*/
-.tituloBackground-empresa{
-    -fx-background-color: linear-gradient(to right top, #d32f2f , #b71c1c);
-}
-.imgBackground-empresa{
-    -fx-background-image: url("../white/images/cad/icoEmpresa.png");
-    -fx-background-position: center 10;
-
-    -fx-background-size: 300 130;
-    -fx-background-repeat: no-repeat;
-}
-
-.botoesBackground-empresa{
-    -fx-border-color:  black;
-    -fx-border-width:  1 1 1 0;
-    -fx-background-color:  #b01c1c;
-}
-
-.btnContatos-empresa {
-    -fx-background-color:  #ef6950;
-    -fx-text-fill: white;
-}
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Usuarios ------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-/*----------  Image usuario ----------*/
-.tituloBackground-usuario{
-    -fx-background-color: linear-gradient(to right top, #689F38 , #1B5E20);
-}
-.imgBackground-usuario{
-    -fx-background-image: url("../white/images/cad/icoUsuario.png");
-    -fx-background-position: bottom center;
-
-    -fx-background-size: 180 165;
-    -fx-background-repeat: no-repeat;
-}
-.botoesBackground-usuario{
-    -fx-border-color:  black;
-    -fx-border-width:  1 1 1 0;
-    -fx-background-color:  #7cb342;
-}
-.textArea-usuario {
-    -fx-background-color: #7cb342;
-}
-
-.textArea-usuario .scroll-pane {
-    -fx-background-color: #eaeaea;
-}
-
-.btnExcluir-usuario{
-    -fx-background-color:  #ef6950;
-    -fx-text-fill: white;
-}
-
-.btnProcurar-usuario{
-    -fx-background-color:  #71afe5;
-    -fx-text-fill: white;
-}
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Produtos ------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-/*----------  Image usuario ----------*/
-.tituloBackground-produto{
-    -fx-background-color: linear-gradient(to right top, #FF8A65 , #BF360C);
-}
-.imgBackground-produto{
-    -fx-background-image: url("../white/images/cad/icoProduto.png");
-    -fx-background-position: bottom center;
-
-    -fx-background-size: auto 165;
-    -fx-background-repeat: no-repeat;
-}
-.botoesBackground-produto{
-    -fx-border-color:  black;
-    -fx-border-width:  1 1 1 0;
-    -fx-background-color:  #F57C00;
-}
-.textArea-produto{
-    -fx-background-color: #F57C00;
-}
-
-.textArea-produto .scroll-pane{
-    -fx-background-color: #eaeaea;
-}
-
-.btnExcluir-produto{
-    -fx-background-color:  #ef6950;
-    -fx-text-fill: white;
-}
-
-.btnProcurar-produto{
-    -fx-background-color:  #71afe5;
-    -fx-text-fill: white;
-}
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Geral ---------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-
-/*----------  Image usuario ----------*/
-.tituloBackground-cadastroGeral{
-    -fx-background-color: linear-gradient(to right top, #9E9E9E , #212121);
-}
-.imgBackground-cadastroGeral{
-    -fx-background-image: url("../white/images/cad/icoGeral.png");
-    -fx-background-position: bottom center;
-
-    -fx-background-size: auto 165;
-    -fx-background-repeat: no-repeat;
-}
-.botoesBackground-cadastroGeral{
-    -fx-border-color:  black;
-    -fx-border-width:  1 1 1 0;
-    -fx-background-color:  #757575;
-}
-.textArea-cadastroGeral {
-    -fx-background-color: #757575;
-}
-
-.textArea-cadastroGeral .scroll-pane {
-    -fx-background-color: #eaeaea;
-}
-
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------- Cadastro de endereço de Clientes -----------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------- Table view ----------*/
 .table-view .column-header,
@@ -278,6 +207,14 @@
     -fx-background-color: #C5CAE9;
 }
 
+.table-row-cell:excluido {
+    -fx-background-color: #ff6666;
+}
+
+.table-row-cell:excluido:odd {
+    -fx-background-color: #ff9999;
+}
+
 .table-view > .virtual-flow > .scroll-bar > .increment-button,
 .table-view > .virtual-flow > .scroll-bar > .decrement-button {
     -fx-opacity: 0;
@@ -304,19 +241,19 @@
 .table-view .scroll-bar:vertical .thumb {
     -fx-background-color: #3c3c3c;
     -fx-background-radius: 1em;
+    -fx-background-insets: 3;
 }
 
 .table-view .scroll-bar:horizontal .thumb:hover,
 .table-view .scroll-bar:vertical .thumb:hover {
+    -fx-background-insets: 2;
     -fx-background-color: #757575;
-    -fx-effect: dropshadow( one-pass-box , #000000, 4, 4, 0, 0);
 }
 
 .table-view .scroll-bar:horizontal .thumb:pressed,
 .table-view .scroll-bar:vertical .thumb:pressed {
-    -fx-background-insets: 1.0;
-    -fx-effect: dropshadow( one-pass-box , #000000, 4, 4, 0, 0);
-    -fx-background-color: #a6a6a6;
+    -fx-background-insets: 2.2;
+    -fx-background-color: #1e90ff;
 }
 
 /*  Tamanho da barra */
@@ -334,8 +271,300 @@
     -fx-background-color: transparent;
 }
 
-/*----------  Image cliente ----------*/
 .table-border{
     -fx-border-color:  #5C6BC0;
     -fx-border-radius: 0 0 10 10;
+}
+
+/*---------- Estilo básico da tela ----------*/
+.background-cartao {
+    -fx-background-color:  #eaeaea;
+}
+
+.background-dados {
+    -fx-background-color:  #ffffff;
+    -fx-background-radius: 10px;
+}
+
+.background-imagens {
+    -fx-border-color: #000000;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Clientes  -----------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+.paneBotoes-cliente {
+    -fx-background-color: transparent;
+    -fx-border-color:  #1A237E;
+    -fx-border-width: 2 0 0 0;
+    -fx-effect: dropshadow( three-pass-box, #000000, 1, 0.3, 0, 0);
+}
+
+.titBackound-cliente {
+    -fx-background-color: linear-gradient(to right top, #0277BD , #1A237E);
+    -fx-background-image: url("../imagens/white/cadastros/icoCliente_400.png"); /* Imagem já otimizada. */
+    -fx-background-position: left -60;
+
+    -fx-background-size: 300 300;
+    -fx-background-repeat: no-repeat;
+}
+
+.textArea-cliente {
+    -fx-background-color: #005a9e;
+}
+
+.textArea-cliente .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+.btnContatos-cliente {
+    -fx-background-color:  #005a9e;
+    -fx-text-fill: white;
+}
+
+.btnEndereco-cliente {
+    -fx-background-color:  #005a9e;
+    -fx-text-fill: white;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Empresas ------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------  Image empresa ----------*/
+.titBackound-empresa {
+    -fx-background-color: linear-gradient(to right top, #d32f2f , #b71c1c);
+
+    -fx-background-image: url("../imagens/white/cadastros/icoEmpresa_400.png"); /* Já otimizada a imagem.*/
+    -fx-background-position: left 0;
+
+    -fx-background-size: 468 200;
+    -fx-background-repeat: no-repeat;
+}
+
+.paneBotoes-empresa {
+    -fx-background-color: transparent;
+    -fx-border-color:  #b71c1c;
+    -fx-border-width: 3 0 0 0;
+    -fx-effect: dropshadow( three-pass-box, #000000, 1, 0.3, 0, 0);
+}
+
+.btnContatos-empresa {
+    -fx-background-color:  #d32f2f;
+    -fx-text-fill: white;
+}
+
+.btnEndereco-empresa {
+    -fx-background-color:  #d32f2f;
+    -fx-text-fill: white;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Usuarios ------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------  Image usuario ----------*/
+.tituloBackground-usuario{
+    -fx-background-color:  #7cb342;
+    -fx-background-image: url("../imagens/white/cadastros/icoUsuario_270.png"); /* Imagem já otimizada para o tamanho correto. */
+    -fx-background-position: left -60;
+
+    -fx-background-size: 270 297;
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: linear-gradient(to right top, #689F38 , #1B5E20);
+}
+
+.paneBotoes-usuario {
+    -fx-background-color: transparent;
+    -fx-border-color:  #1B5E20;
+    -fx-border-width: 2 0 0 0;
+    -fx-effect: dropshadow( three-pass-box, #000000, 1, 0.3, 0, 0);
+}
+
+.textArea-usuario {
+    -fx-background-color: #7cb342;
+}
+
+.textArea-usuario .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+.btnExcluir-usuario{
+    -fx-background-color:  #ef6950;
+    -fx-text-fill: white;
+}
+
+.btnProcurar-usuario{
+    -fx-background-color:  #71afe5;
+    -fx-text-fill: white;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Produtos ------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------  Image usuario ----------*/
+.tituloBackground-produto {
+    -fx-background-color: linear-gradient(to right top, #F57C00 , #BF360C);
+    -fx-background-image: url("../imagens/white/cadastros/icoProduto_400.png");
+    -fx-background-position: left -50;
+
+    -fx-background-size: 406 230;
+    -fx-background-repeat: no-repeat;
+}
+
+
+.paneBotoes-produto {
+    -fx-background-color: transparent;
+    -fx-border-color:  #F57C00;
+    -fx-border-width: 2 0 0 0;
+    -fx-effect: dropshadow( three-pass-box, #000000, 1, 0.3, 0, 0);
+}
+
+.textArea-produto {
+    -fx-background-color: #F57C00;
+}
+
+.textArea-produto .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+.btnExcluir-produto {
+    -fx-background-color:  #ef6950;
+    -fx-text-fill: white;
+}
+
+.btnProcurar-produto {
+    -fx-background-color:  #71afe5;
+    -fx-text-fill: white;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Geral ---------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------  Image usuario ----------*/
+.tituloBackground-cadastroGeral{
+    -fx-background-color: linear-gradient(to right top, #9E9E9E , #212121);
+}
+.imgBackground-cadastroGeral{
+    -fx-background-image: url("../imagens/white/cadastros/icoGeral.png");
+    -fx-background-position: bottom center;
+
+    -fx-background-size: auto 165;
+    -fx-background-repeat: no-repeat;
+}
+.botoesBackground-cadastroGeral{
+    -fx-border-color:  black;
+    -fx-border-width:  1 1 1 0;
+    -fx-background-color:  #757575;
+}
+.textArea-cadastroGeral {
+    -fx-background-color: #757575;
+}
+
+.textArea-cadastroGeral .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------- Cadastro de endereço -----------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------  Image endereço ----------*/
+.tituloBackground-CadastroEndereco {
+    -fx-background-color: linear-gradient(to right top, #9C27B0 , #4A148C);
+    -fx-background-image: url("../imagens/white/cadastros/icoEndereco_400.png");
+    -fx-background-position: left+20 top;
+
+    -fx-background-size: 300 289;
+    -fx-background-repeat: no-repeat;
+}
+
+/*----------  Botoes ----------*/
+.btnCadastraEndereco {
+    -fx-background-color:  #7cb342;
+}
+
+.btnRemoveEndereco {
+    -fx-background-color:  #e53935;
+}
+
+
+/*----------  Cadastro endereço ----------*/
+.textArea-endereco {
+    -fx-background-color: #4A148C;
+}
+
+.textArea-endereco .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+.backoground-CadastrosEndereco {
+    -fx-background-color:  #ffffff;
+}
+
+/*----------  Cadastro endereço ----------*/
+.textArea-contato {
+    -fx-background-color: #00277B;
+}
+
+.textArea-contato .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+.backoground-CadastrosContato {
+    -fx-background-color:  #ffffff;
+}
+
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------- Cadastro de contatos -----------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------  Image contatos ----------*/
+.tituloBackground-CadastroContatos {
+    -fx-background-color: linear-gradient(to right top, #0277BD , #00277B);
+    -fx-background-image: url("../imagens/white/cadastros/icoContato_500.png");
+    -fx-background-position: left+10 top;
+
+    -fx-background-size: 400 250;
+    -fx-background-repeat: no-repeat;
+}
+
+/*----------  Botoes ----------*/
+.btnCadastraContatos {
+    -fx-background-color:  #7cb342;
+}
+
+.btnRemoveContatos {
+    -fx-background-color:  #e53935;
+}
+
+
+/*----------  Cadastro endereço ----------*/
+.textArea-endereco {
+    -fx-background-color: #4A148C;
+}
+
+.textArea-endereco .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+.backoground-CadastrosEndereco {
+    -fx-background-color:  #ffffff;
 }

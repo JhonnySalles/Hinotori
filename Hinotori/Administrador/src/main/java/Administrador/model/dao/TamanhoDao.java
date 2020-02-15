@@ -1,8 +1,8 @@
-package Administrador.model.dao;
+package administrador.model.dao;
 
 import java.util.List;
 
-import Administrador.model.entities.Tamanho;
+import administrador.model.entities.Tamanho;
 
 public interface TamanhoDao {
 

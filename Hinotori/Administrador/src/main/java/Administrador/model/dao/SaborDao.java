@@ -1,8 +1,8 @@
-package Administrador.model.dao;
+package administrador.model.dao;
 
 import java.util.List;
 
-import Administrador.model.entities.Sabor;
+import administrador.model.entities.Sabor;
 
 public interface SaborDao {
 	

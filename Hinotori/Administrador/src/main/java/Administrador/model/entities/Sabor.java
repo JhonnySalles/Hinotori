@@ -1,8 +1,8 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 import java.io.Serializable;
 
-import model.enums.Situacao;
+import comum.model.enums.Situacao;
 
 public class Sabor implements Serializable {
 
@@ -13,7 +13,7 @@ public class Sabor implements Serializable {
 	private Long id;
 	private String descricao;
 	private String observacao;
-	private Enum<Situacao> situacao;
+	//private Enum<Situacao> situacao;
 
 	public Long getId() {
 		return id;
@@ -39,13 +39,13 @@ public class Sabor implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public Enum<Situacao> getSituacao() {
+	/*public Enum<Situacao> getSituacao() {
 		return situacao;
 	}
 
 	public void setSituacao(Enum<Situacao> situacao) {
 		this.situacao = situacao;
-	}
+	}*/
 
 	public Sabor() {
 
@@ -56,7 +56,7 @@ public class Sabor implements Serializable {
 		this.id = id;
 		this.descricao = descricao;
 		this.observacao = observacao;
-		this.situacao = situacao;
+		//this.situacao = situacao;
 	}
 
 	// Utilizado para que possamos comparar os objetos por conteúdo e não
@@ -94,7 +94,7 @@ public class Sabor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Sabor [id=" + id + ", descricao=" + descricao + ", observacao=" + observacao + ", situacao=" + situacao
+		return "Sabor [id=" + id + ", descricao=" + descricao + ", observacao=" + observacao + ", situacao=" //+ situacao
 				+ "]";
 	}
 

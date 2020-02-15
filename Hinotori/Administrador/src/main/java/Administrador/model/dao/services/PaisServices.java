@@ -1,10 +1,10 @@
-package Administrador.model.dao.services;
+package administrador.model.dao.services;
 
 import java.util.List;
 
-import Administrador.model.dao.DaoFactory;
-import Administrador.model.dao.PaisDao;
-import Administrador.model.entities.Pais;
+import administrador.model.dao.DaoFactory;
+import administrador.model.dao.PaisDao;
+import administrador.model.entities.Pais;
 
 public class PaisServices {
 	private PaisDao paisDao = DaoFactory.createPaisDao();

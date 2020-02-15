@@ -1,4 +1,4 @@
-package Config.alerts;
+package config.alerts;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

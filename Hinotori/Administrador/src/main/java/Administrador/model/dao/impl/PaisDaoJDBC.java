@@ -1,4 +1,4 @@
-package Administrador.model.dao.impl;
+package administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,10 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.PaisDao;
-import Administrador.model.entities.Pais;
-import model.log.ManipulaLog;
-import model.mysql.DB;
+import administrador.model.dao.PaisDao;
+import administrador.model.entities.Pais;
+import comum.model.mysql.DB;
 
 public class PaisDaoJDBC implements PaisDao {
 
@@ -49,7 +48,6 @@ public class PaisDaoJDBC implements PaisDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -66,16 +64,11 @@ public class PaisDaoJDBC implements PaisDao {
 			st.setString(1, obj.getNome());
 			st.setLong(2, obj.getId());
 
-			int rowsAffected = st.executeUpdate();
-
-			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
-			}
+			st.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -100,7 +93,6 @@ public class PaisDaoJDBC implements PaisDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -122,7 +114,6 @@ public class PaisDaoJDBC implements PaisDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -149,7 +140,6 @@ public class PaisDaoJDBC implements PaisDao {
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);

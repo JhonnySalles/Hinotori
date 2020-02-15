@@ -1,4 +1,4 @@
-package Administrador.model.dao.impl;
+package administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,11 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.EstadoDao;
-import Administrador.model.dao.services.PaisServices;
-import Administrador.model.entities.Estado;
-import model.log.ManipulaLog;
-import model.mysql.DB;
+import administrador.model.dao.EstadoDao;
+import administrador.model.dao.services.PaisServices;
+import administrador.model.entities.Estado;
+import comum.model.mysql.DB;
 
 public class EstadoDaoJDBC implements EstadoDao {
 
@@ -54,7 +53,6 @@ public class EstadoDaoJDBC implements EstadoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -74,16 +72,11 @@ public class EstadoDaoJDBC implements EstadoDao {
 			st.setLong(4, obj.getPais().getId());
 			st.setLong(5, obj.getId());
 
-			int rowsAffected = st.executeUpdate();
+			st.executeUpdate();
 
-			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -108,7 +101,6 @@ public class EstadoDaoJDBC implements EstadoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -135,7 +127,6 @@ public class EstadoDaoJDBC implements EstadoDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -167,7 +158,6 @@ public class EstadoDaoJDBC implements EstadoDao {
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);

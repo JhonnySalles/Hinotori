@@ -1,12 +1,13 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import model.enums.Situacao;
-import model.enums.TipoCliente;
+import comum.model.enums.Situacao;
+import comum.model.enums.TipoCliente;
+import comum.model.enums.TipoPessoa;
 
 public class Cliente extends Pessoa implements Serializable {
 
@@ -14,39 +15,30 @@ public class Cliente extends Pessoa implements Serializable {
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6989181117327049412L;
 
-	private Long id;
-
-	private Date ultimaAlteracao;
-	private String cpfCnpj;
+	private String cpf;
+	private String cnpj;
 	private String observacao;
 
-	private Enum<TipoCliente> tipo;
+	private Enum<TipoPessoa> tipoPessoa;
+	private Enum<TipoCliente> tipoCliente;
 	private Enum<Situacao> situacao;
 
-	private List<ClienteEndereco> enderecos;
+	private List<Endereco> enderecos;
 
-	public Long getId() {
-		return id;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
-	public Date getUltimaAlteracao() {
-		return ultimaAlteracao;
+	public String getCnpj() {
+		return cnpj;
 	}
 
-	public void setUltimaAlteracao(Date ultimaAlteracao) {
-		this.ultimaAlteracao = ultimaAlteracao;
-	}
-
-	public String getCpfCnpj() {
-		return cpfCnpj;
-	}
-
-	public void setCpfCnpj(String cpfCnpj) {
-		this.cpfCnpj = cpfCnpj;
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 
 	public String getObservacao() {
@@ -57,12 +49,20 @@ public class Cliente extends Pessoa implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public Enum<TipoCliente> getTipo() {
-		return tipo;
+	public Enum<TipoPessoa> getTipoPessoa() {
+		return tipoPessoa;
 	}
 
-	public void setTipo(Enum<TipoCliente> tipo) {
-		this.tipo = tipo;
+	public void setTipoPessoa(Enum<TipoPessoa> tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
+	}
+
+	public Enum<TipoCliente> getTipoCliente() {
+		return tipoCliente;
+	}
+
+	public void setTipoCliente(Enum<TipoCliente> tipoCliente) {
+		this.tipoCliente = tipoCliente;
 	}
 
 	public Enum<Situacao> getSituacao() {
@@ -73,78 +73,46 @@ public class Cliente extends Pessoa implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public List<ClienteEndereco> getEnderecos() {
+	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
 
-	public void setEnderecos(List<ClienteEndereco> enderecos) {
+	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public Cliente() {
 		super();
-		enderecos = new ArrayList<>();
+		this.cpf = "";
+		this.cnpj = "";
+		this.observacao = "";
+		this.tipoPessoa = TipoPessoa.FISICO;
+		this.tipoCliente = TipoCliente.CLIENTE;
+		this.situacao = Situacao.ATIVO;
+		this.enderecos = new ArrayList<>();
+
 	}
 
-	public Cliente(Long id, String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
-			String celular, String email, String cpfCnpj, String observacao, Enum<TipoCliente> tipo,
-			Enum<Situacao> situacao) {
-		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email);
-		this.id = id;
-		this.cpfCnpj = cpfCnpj;
+	public Cliente(Long id, String nomeSobrenome, Timestamp dataCadastro, String cpf, String cnpj, String observacao,
+			Enum<TipoPessoa> tipoPessoa, Enum<TipoCliente> tipoCliente, Enum<Situacao> situacao) {
+		super(id, nomeSobrenome, dataCadastro);
+		this.cpf = cpf;
+		this.cnpj = cnpj;
 		this.observacao = observacao;
-		this.tipo = tipo;
+		this.tipoPessoa = tipoPessoa;
+		this.tipoCliente = tipoCliente;
 		this.situacao = situacao;
-	}
-
-	public Cliente(Long id, String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
-			String celular, String email, String cpfCnpj, String observacao, Enum<TipoCliente> tipo,
-			Enum<Situacao> situacao, List<ClienteEndereco> enderecos) {
-		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email);
-		this.id = id;
-		this.cpfCnpj = cpfCnpj;
-		this.observacao = observacao;
-		this.tipo = tipo;
-		this.situacao = situacao;
-		this.enderecos = enderecos;
-	}
-
-	public Cliente(Long id, String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
-			String celular, String email, Date dataCadastro, Date ultimaAlteracao, String cpfCnpj, String observacao,
-			Enum<TipoCliente> tipo, Enum<Situacao> situacao, List<ClienteEndereco> enderecos) {
-		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email, dataCadastro);
-		this.id = id;
-		this.ultimaAlteracao = ultimaAlteracao;
-		this.cpfCnpj = cpfCnpj;
-		this.observacao = observacao;
-		this.tipo = tipo;
-		this.situacao = situacao;
-		this.enderecos = enderecos;
+		this.enderecos = new ArrayList<>();
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Cliente other = (Cliente) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	public String toString() {
+		return "Cliente [cpf=" + cpf + ", cnpj=" + cnpj + ", observacao=" + observacao + ", tipoPessoa=" + tipoPessoa
+				+ ", tipoCliente=" + tipoCliente + ", situacao=" + situacao + "]";
 	}
 
 }

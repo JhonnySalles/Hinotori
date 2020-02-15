@@ -1,7 +1,7 @@
-package Config;
+package config;
 
-import Config.gui.TelaConfiguracaoController;
-import Config.util.CarregaConfig;
+import config.gui.TelaConfiguracaoController;
+import config.util.CarregaConfig;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -22,12 +22,6 @@ public class App extends Application {
 
 	public static String arquivo;
 
-	// Metodo para fazer a tela se movimentar
-	@SuppressWarnings("unused")
-	private double xOffset = 0;
-	@SuppressWarnings("unused")
-	private double yOffset = 0;
-
 	private static class Delta {
 		double x, y;
 	}
@@ -39,7 +33,6 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/TelaConfiguracao.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 
@@ -52,8 +45,6 @@ public class App extends Application {
 				public void handle(MouseEvent event) {
 					dragDelta.x = primaryStage.getX() - event.getScreenX();
 					dragDelta.y = primaryStage.getY() - event.getScreenY();
-					xOffset = event.getSceneX();
-					yOffset = event.getSceneY();
 				}
 			});
 
@@ -72,8 +63,8 @@ public class App extends Application {
 			}); // Fim do evento.
 
 			primaryStage.setScene(mainScene); // Seta a cena principal
-			primaryStage.setTitle("Shiyoken");
-			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/Shiyoken.png")));
+			primaryStage.setTitle("Config");
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/icoConfiguracao.png")));
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.show(); // Mostra a tela.
 

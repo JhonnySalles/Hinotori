@@ -1,11 +1,11 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
-import model.enums.Situacao;
-import model.enums.UsuarioNivel;
+import comum.model.enums.Situacao;
+import comum.model.enums.UsuarioNivel;
 
 public class Usuario extends Pessoa implements Serializable {
 
@@ -13,28 +13,27 @@ public class Usuario extends Pessoa implements Serializable {
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -1829885748257026644L;
 
-	private Long idEmpresa;
 	private String login;
 	private String senha;
-	private Enum<Situacao> situacao;
 	private String observacao;
-	private byte[] imagem;
+	private List<Imagem> imagens;
+	private Enum<Situacao> situacao;
 	private Enum<UsuarioNivel> nivel;
-
-	public Long getIdEmpresa() {
-		return idEmpresa;
-	}
-
-	public void setIdEmpresa(Long idEmpresa) {
-		this.idEmpresa = idEmpresa;
-	}
 
 	public String getLogin() {
 		return login;
 	}
 
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
 	public String getSenha() {
 		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public Enum<Situacao> getSituacao() {
@@ -53,84 +52,47 @@ public class Usuario extends Pessoa implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public byte[] getImagem() {
-		return imagem;
+	public List<Imagem> getImagens() {
+		return imagens;
 	}
 
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
+	public void setImagem(List<Imagem> imagens) {
+		this.imagens = imagens;
 	}
 
 	public Enum<UsuarioNivel> getNivel() {
 		return nivel;
 	}
 
+	public void setNivel(Enum<UsuarioNivel> nivel) {
+		this.nivel = nivel;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public Usuario() {
 		super();
 	}
 
-	// Teste
-	public Usuario(String login, Enum<UsuarioNivel> nivel) {
-		super();
-		this.login = login;
-		this.nivel = nivel;
-	}
-
-	public Usuario(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
-			String celular, String email, Long idEmpresa, String login, String senha, String observacao, byte[] imagem,
+	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, String login, String observacao,
 			Enum<UsuarioNivel> nivel, Enum<Situacao> situacao) {
-		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email);
-		this.idEmpresa = idEmpresa;
+		super(id, nomeSobrenome, dataCadastro);
 		this.login = login;
-		this.senha = senha;
-		this.observacao = observacao;
-		this.imagem = imagem;
 		this.nivel = nivel;
+		this.observacao = observacao;
 		this.situacao = situacao;
 	}
 
-	public Usuario(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular,
-			String celular, String email, Date dataCadastro, Long idEmpresa, String login, String senha,
-			String observacao, byte[] imagem, Enum<UsuarioNivel> nivel, Enum<Situacao> situacao) {
-		super(nome, sobreNome, dddTelefone, telefone, dddCelular, celular, email, dataCadastro);
-		this.idEmpresa = idEmpresa;
+	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, String login, String observacao,
+			Enum<UsuarioNivel> nivel, Enum<Situacao> situacao, List<Imagem> imagens) {
+		super(id, nomeSobrenome, dataCadastro);
 		this.login = login;
-		this.senha = senha;
-		this.observacao = observacao;
-		this.imagem = imagem;
-		this.nivel = nivel;
 		this.situacao = situacao;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Usuario other = (Usuario) obj;
-		if (login == null) {
-			if (other.login != null)
-				return false;
-		} else if (!login.equals(other.login))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [idEmpresa=" + idEmpresa + ", login=" + login + ", senha=" + senha + ", situacao=" + situacao
-				+ ", observacao=" + observacao + ", imagem=" + Arrays.toString(imagem) + ", nivel=" + nivel + "]";
+		this.observacao = observacao;
+		this.imagens = imagens;
+		this.nivel = nivel;
 	}
 
 }

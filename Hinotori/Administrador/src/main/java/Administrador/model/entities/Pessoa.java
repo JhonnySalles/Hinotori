@@ -1,139 +1,70 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Pessoa {
+public class Pessoa implements Serializable {
 
-	private String nome;
-	private String sobreNome;
-	private String dddTelefone;
-	private String telefone;
-	private String dddCelular;
-	private String celular;
-	private String email;
-	private Date dataCadastro;
+	// Utilizado para poder ser transformado em sequencia de bytes
+	// e poder então trafegar os dados em rede ou salvar em arquivo.
+	private static final long serialVersionUID = 7073086540992937921L;
+	private Long id;
+	private String nomeSobrenome;
+	private Timestamp dataCadastro;
 
-	public String getNome() {
-		return nome;
+	private List<Contato> contatos;
+
+	public Long getId() {
+		return id;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getSobreNome() {
-		return sobreNome;
+	public String getNomeSobrenome() {
+		return nomeSobrenome;
 	}
 
-	public void setSobreNome(String sobreNome) {
-		this.sobreNome = sobreNome;
-	}
-
-	public String getDddTelefone() {
-		return dddTelefone;
-	}
-
-	public void setDddTelefone(String dddTelefone) {
-		this.dddTelefone = dddTelefone;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-	public String getDddCelular() {
-		return dddCelular;
-	}
-
-	public void setDddCelular(String dddCelular) {
-		this.dddCelular = dddCelular;
-	}
-
-	public String getCelular() {
-		return celular;
-	}
-
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setNomeSobrenome(String nomeSobrenome) {
+		this.nomeSobrenome = nomeSobrenome;
 	}
 
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(Timestamp dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
-	
+
+	public List<Contato> getContatos() {
+		return contatos;
+	}
+
+	public void setContatos(List<Contato> contatos) {
+		this.contatos = contatos;
+	}
+
 	public Pessoa() {
-
+		this.id = Long.valueOf(0);
+		this.nomeSobrenome = "";
+		this.contatos = new ArrayList<>();
 	}
 
-	public Pessoa(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular, String celular,
-			String email) {
-		this.nome = nome;
-		this.sobreNome = sobreNome;
-		this.dddTelefone = dddTelefone;
-		this.telefone = telefone;
-		this.dddCelular = dddCelular;
-		this.celular = celular;
-		this.email = email;
-	}
-
-	public Pessoa(String nome, String sobreNome, String dddTelefone, String telefone, String dddCelular, String celular,
-			String email, Date dataCadastro) {
-		this.nome = nome;
-		this.sobreNome = sobreNome;
-		this.dddTelefone = dddTelefone;
-		this.telefone = telefone;
-		this.dddCelular = dddCelular;
-		this.celular = celular;
-		this.email = email;
+	public Pessoa(Long id, String nomeSobrenome, Timestamp dataCadastro) {
+		this.id = id;
+		this.nomeSobrenome = nomeSobrenome;
 		this.dataCadastro = dataCadastro;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pessoa other = (Pessoa) obj;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		return true;
+		this.contatos = new ArrayList<>();
 	}
 
 	@Override
 	public String toString() {
-		return "Pessoa [nome=" + nome + ", sobreNome=" + sobreNome + ", dddTelefone=" + dddTelefone + ", telefone="
-				+ telefone + ", dddCelular=" + dddCelular + "celular=" + celular + ", email=" + email
-				+ ", dataCadastro=" + dataCadastro + "]";
+		return "Pessoa [id=" + id + ", nomeSobrenome=" + nomeSobrenome + ", dataCadastro=" + dataCadastro + "]";
 	}
 
 }

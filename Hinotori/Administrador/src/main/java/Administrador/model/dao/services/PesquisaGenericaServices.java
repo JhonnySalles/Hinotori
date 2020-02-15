@@ -1,18 +1,16 @@
-package Administrador.model.dao.services;
+package administrador.model.dao.services;
 
-import java.util.List;
-
-import Administrador.model.dao.DaoFactory;
-import Administrador.model.dao.PesquisaGenericaDao;
-import Administrador.model.entities.PesquisaGenerica;
-import Administrador.model.entities.PesquisaGenericaDados;
+import administrador.model.dao.DaoFactory;
+import administrador.model.dao.PesquisaGenericaDao;
+import administrador.model.entities.PesquisaGenerica;
+import administrador.model.entities.PesquisaGenericaDados;
 
 public class PesquisaGenericaServices {
 
 	private String sql;
 	private PesquisaGenericaDao pesquisaDao = DaoFactory.createPesquisaGenericaDao();
 
-	public List<PesquisaGenericaDados> pesquisar(PesquisaGenerica pesquisa) {
+	public PesquisaGenericaDados pesquisar(PesquisaGenerica pesquisa) {
 		sql = "SELECT " + pesquisa.getSelect() + " FROM " + pesquisa.getTabela() + " " + pesquisa.getJoins()
 				+ " WHERE 1 > 0 " + pesquisa.getWhere() + " " + pesquisa.getGroupOrder();
 

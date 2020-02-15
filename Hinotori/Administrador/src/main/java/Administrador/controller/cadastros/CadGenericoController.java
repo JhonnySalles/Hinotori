@@ -1,4 +1,4 @@
-package Administrador.controller.cadastros;
+package administrador.controller.cadastros;
 
 public class CadGenericoController {
 

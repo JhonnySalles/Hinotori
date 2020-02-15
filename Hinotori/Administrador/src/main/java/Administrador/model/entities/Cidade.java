@@ -1,8 +1,8 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 import java.io.Serializable;
 
-import model.enums.Situacao;
+import comum.model.enums.Situacao;
 
 public class Cidade implements Serializable {
 

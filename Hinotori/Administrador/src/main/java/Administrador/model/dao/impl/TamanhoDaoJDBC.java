@@ -1,4 +1,4 @@
-package Administrador.model.dao.impl;
+package administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,11 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.TamanhoDao;
-import Administrador.model.entities.Tamanho;
-import model.enums.Situacao;
-import model.log.ManipulaLog;
-import model.mysql.DB;
+import administrador.model.dao.TamanhoDao;
+import administrador.model.entities.Tamanho;
+import comum.model.mysql.DB;
 
 public class TamanhoDaoJDBC implements TamanhoDao {
 
@@ -47,7 +45,7 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 			st.setString(2, obj.getDescricao());
 			st.setInt(3, obj.getQtdPedacos());
 			st.setInt(4, obj.getQtdSabores());
-			st.setString(5, obj.getSituacao().toString());
+			//st.setString(5, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -58,7 +56,6 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -76,7 +73,7 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 			st.setString(2, obj.getDescricao());
 			st.setInt(3, obj.getQtdPedacos());
 			st.setInt(4, obj.getQtdSabores());
-			st.setString(5, obj.getSituacao().toString());
+			//st.setString(5, obj.getSituacao().toString());
 			st.setLong(6, obj.getId());
 
 			int rowsAffected = st.executeUpdate();
@@ -88,7 +85,6 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -113,7 +109,6 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -131,13 +126,13 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 			rs = st.executeQuery();
 			if (rs.next()) {
 				Tamanho obj = new Tamanho(rs.getLong("Id"), rs.getString("Sigla"), rs.getString("Descricao"),
-						rs.getInt("Quantidade_Pedacos"), rs.getInt("Quantidade_Sabores"),
-						Situacao.valueOf(rs.getString("Situacao")));
+						rs.getInt("Quantidade_Pedacos"), rs.getInt("Quantidade_Sabores")
+					//	Situacao.valueOf(rs.getString("Situacao"))
+						);
 				return obj;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -159,14 +154,14 @@ public class TamanhoDaoJDBC implements TamanhoDao {
 
 			while (rs.next()) {
 				Tamanho obj = new Tamanho(rs.getLong("Id"), rs.getString("Sigla"), rs.getString("Descricao"),
-						rs.getInt("Quantidade_Pedacos"), rs.getInt("Quantidade_Sabores"),
-						Situacao.valueOf(rs.getString("Situacao")));
+						rs.getInt("Quantidade_Pedacos"), rs.getInt("Quantidade_Sabores")
+						//Situacao.valueOf(rs.getString("Situacao"))
+						);
 				list.add(obj);
 			}
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);

@@ -1,9 +1,11 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import model.enums.Situacao;
+import comum.model.enums.Situacao;
 
 public class Empresa implements Serializable {
 
@@ -12,17 +14,14 @@ public class Empresa implements Serializable {
 	private static final long serialVersionUID = 5585811158914792352L;
 
 	private Long id;
-	private Bairro bairro;
 	private String nomeFantasia;
 	private String razaoSocial;
 	private String cnpj;
-	private String endereco;
-	private String numero;
-	private String cep;
-	private String complemento;
 	private Date dataCadastro;
 	private Enum<Situacao> situacao;
-	private EmpresaContato contato;
+
+	private List<Endereco> enderecos;
+	private List<Contato> contatos;
 
 	public Long getId() {
 		return id;
@@ -30,14 +29,6 @@ public class Empresa implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Bairro getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(Bairro bairro) {
-		this.bairro = bairro;
 	}
 
 	public String getNomeFantasia() {
@@ -64,38 +55,6 @@ public class Empresa implements Serializable {
 		this.cnpj = cnpj;
 	}
 
-	public String getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public String getComplemento() {
-		return complemento;
-	}
-
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
@@ -112,31 +71,42 @@ public class Empresa implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public EmpresaContato getContato() {
-		return contato;
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
 
-	public void setContato(EmpresaContato contato) {
-		this.contato = contato;
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
+	public List<Contato> getContatos() {
+		return contatos;
+	}
+
+	public void setContatos(List<Contato> contatos) {
+		this.contatos = contatos;
 	}
 
 	public Empresa() {
-
+		this.id = Long.valueOf(0);
+		this.nomeFantasia = "";
+		this.razaoSocial = "";
+		this.cnpj = "";
+		this.situacao = Situacao.ATIVO;
+		this.enderecos = new ArrayList<>();
+		this.contatos = new ArrayList<>();
 	}
 
-	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, String endereco, String numero,
-			String cep, String complemento, Date dataCadastro, Enum<Situacao> situacao, Bairro bairro) {
+	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Date dataCadastro,
+			Enum<Situacao> situacao) {
 		this.id = id;
-		this.bairro = bairro;
 		this.nomeFantasia = nomeFantasia;
 		this.razaoSocial = razaoSocial;
 		this.cnpj = cnpj;
-		this.endereco = endereco;
-		this.numero = numero;
-		this.cep = cep;
-		this.complemento = complemento;
 		this.dataCadastro = dataCadastro;
 		this.situacao = situacao;
+		this.enderecos = new ArrayList<>();
+		this.contatos = new ArrayList<>();
 	}
 
 	// Utilizado para que possamos comparar os objetos por conteúdo e não
@@ -144,9 +114,7 @@ public class Empresa implements Serializable {
 	@Override
 	public String toString() {
 		return "Empresa [id=" + id + ", nomeFantasia=" + nomeFantasia + ", razaoSocial=" + razaoSocial + ", cnpj="
-				+ cnpj + ", endereco=" + endereco + ", numero=" + numero + ", cep=" + cep + ", complemento="
-				+ complemento + ", dataCadastro=" + dataCadastro + ", situacao=" + situacao + ", bairro=" + bairro
-				+ "]";
+				+ cnpj + ", dataCadastro=" + dataCadastro + ", situacao=" + situacao + "]";
 	}
 
 	@Override

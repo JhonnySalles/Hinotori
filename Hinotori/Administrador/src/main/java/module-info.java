@@ -2,15 +2,14 @@
  * @author Jhonny
  *
  */
-module Administrador {
+module administrador {
 
-	exports Administrador;
-	exports Administrador.controller;
-	exports Administrador.controller.cadastros;
-	exports Administrador.controller.pesquisas;
-	exports Administrador.controller.menu;
-	exports Administrador.controller.frame;
-	exports Administrador.model.entities;
+	exports administrador;
+	exports administrador.controller;
+	exports administrador.controller.cadastros;
+	exports administrador.controller.pesquisas;
+	exports administrador.controller.frame;
+	exports administrador.model.entities;
 
 	requires transitive Comum;
 	requires javafx.base;
@@ -24,10 +23,9 @@ module Administrador {
 	requires AnimateFX;
 
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
-	opens Administrador.controller to javafx.fxml;
-	opens Administrador.controller.cadastros to javafx.fxml;
-	opens Administrador.controller.menu to javafx.fxml;
-	opens Administrador.controller.frame to javafx.fxml;
-	opens Administrador.controller.pesquisas to javafx.fxml;
+	opens administrador.controller to javafx.fxml;
+	opens administrador.controller.cadastros to javafx.fxml;
+	opens administrador.controller.frame to javafx.fxml;
+	opens administrador.controller.metricas to javafx.fxml;
 
 }

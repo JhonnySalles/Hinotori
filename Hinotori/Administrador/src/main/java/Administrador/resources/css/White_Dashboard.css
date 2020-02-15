@@ -17,33 +17,38 @@
     -fx-background-color:  #ffffff;
 }
 
-/*---------- Estilos do menu ----------*/
-.menu-bar {
-    -fx-background-color: #212121;
+/*---------- Barra botões ----------*/
+.panelBotoes {
+    -fx-background-color: linear-gradient(to right top, #212121, #333333);
+    -fx-border-color:  black;
+    -fx-border-width:  0 1 0 0;
 }
 
-.menu .label, .menu-item .label {
-    -fx-text-fill: #eee;
-}
-.menu:hover, .menu:focused, .menu:pressed {
-    -fx-background-color: #005a9e;
-}
-.menu-item:hover {
-    -fx-background-color: #005a9e;
-}
-.context-menu {
-    -fx-fill: white;
-    -fx-background-color: linear-gradient(#212121 0%, #212121  100%);
-    -fx-effect: dropshadow( one-pass-box , rgba(75,75,75,0.8) , 0, 0.0 , 2, 2);
+.panelLogo {
+    -fx-background-color: #1A1918;
 }
 
-/* Cor da letra de atalho do teclado */
-.context-menu .accelerator-text {
-    -fx-text-fill: #42A5F5;
+.panelTabPane {
+    -fx-background-color: linear-gradient(to right top, #212121, #333333);
 }
 
-.mnemonic-underline {
-    -fx-stroke: #ffffff;
+.panelSubBotoes {
+    -fx-background-color: linear-gradient(to right top, #3c3c3c, #666666);
+    -fx-border-color:  black;
+    -fx-border-width:  0 1 0 0;
+}
+
+.painelbackuground {
+    -fx-background-color: linear-gradient(to right top, #eaeaea, #EEEEEE, #eaeaea);
+}
+
+#cbBoxFilial {
+    -fx-background-color:  #dadada;
+}
+
+#cbBoxFilial .jfx-combo-box .label {
+    -fx-background-color:  WHITE;
+    -fx-text: Black;
 }
 
 /*----------  Panels de rolagens ----------*/
@@ -58,50 +63,72 @@
     -fx-padding: 0;
 }
 
-.splitbox {
-    -fx-box-border: #000000;
-    -fx-padding: 1;
-}
-
 /*----------  Tab panels ----------*/
-
 /* Remove a borda de selecao da tab */
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
 
-.tab-header-area .tab-header-background {
-    -fx-background-color: #0078d4;
+
+.tab-pane .tab-content-area {
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #000000;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #0f9b0f;
+    -fx-background-color: linear-gradient(to top right, #15d115, #10a210, #12ba12, #0f9b0f, #10a210);
+    -fx-padding: 0;
+}
+
+.tab-pane .tab-header-area .control-buttons-tab {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 -5;
+}
+
+
+.tab-pane .tab-header-area .control-buttons-tab .tab-down-button {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0.0;
+}
+
+.tab-pane .tab-header-area .control-buttons-tab .tab-down-button:hover {
+    -fx-background-color: #dafd9c;
+}
+
+.tab-pane .tab-header-area .control-buttons-tab .tab-down-button .arrow {
+    -fx-background-color: #000000;
+    -fx-pref-height: 10px;
+    -fx-shape: "M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12 c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265 c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z";
+    -fx-rotate: 90;
+}
+
+.tab-pane .tab-header-area .control-buttons-tab .tab-down-button .arrow:hover {
+    -fx-background-color: #1b3104;
 }
 
 .tab-pane {
     -fx-tab-min-height: 3em;
     -fx-tab-max-height: 3em;
     -fx-tab-min-width: 4em;
-    -fx-padding: 0 0 0 0;
 }
 
-.tab-pane:top *.tab-header-area
-{
+.tab-pane:top *.tab-header-area {
     -fx-background-insets: 0, 0 0 10;
-    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
+    -fx-padding: 5 0 0 135px;
 }
 
-.tab{
+.tab {
     -fx-background-color: #FFFFFF;
-    -fx-background-insets: 0.0 0.5 0.0 0.5;
-    -fx-background-radius: 0.0;
+    -fx-background-insets: 0.0;
+    -fx-background-radius: 7 7 0 0;
+    /*-fx-border-width: 0.5;
+    -fx-border-color: #6A8347;
+    -fx-border-radius: 7 7 0 0;*/
     -fx-padding: 0 10 0 10;
-}
-
-.tab:selected
-{
-    -fx-background-color: #F2FEFA;
-    -fx-background-radius: 0;
-    -fx-background-insets: 0;
-    -fx-border-width: 3 0 0 0;
-    -fx-border-color: #000000;
+    -fx-pref-height: 35px;
 }
 
 .tab .tab-label {
@@ -109,11 +136,71 @@
     -fx-text-fill: #828282;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
+
+}
+
+.tab:selected {
+    -fx-pref-height: 40px;
+    /*-fx-border-color: #000000;
+    -fx-border-width: 0 0 2 0;*/
 }
 
 .tab:selected .tab-label {
-    -fx-alignment: CENTER;
-    -fx-text-fill: #96b946;
+    -fx-text-fill: #000000;
+}
+
+.tab:hover {
+
+}
+
+.tab:hover .tab-label {
+    -fx-text-fill: #0a7800;
+}
+/*
+.tab .tab-close-button {
+    -fx-background-color: #ff3333;
+}
+
+
+.jfx-tab-pane .control-buttons-tab .tab-down-button{
+    -fx-background-color: #000000;
+    -fx-padding: 0 0 0 0;
+}
+
+.jfx-tab-pane .control-buttons-tab {
+    -fx-padding: 0 0 0 0;
+}*/
+
+.jfx-tab-pane .control-buttons-tab .jfx-rippler{
+    -jfx-rippler-fill: #0a7800;
+}
+
+.jfx-tab-pane .tab-header-area .jfx-rippler {
+    -jfx-rippler-fill: #0a7800;
+}
+
+.jfx-tab-pane .tab-selected-line {
+    -fx-background-color: #0a7800;
+    -fx-pref-height: 3;
+}
+
+.jfx-tab-pane .headers-region .tab .tab-container .tab-close-button > .jfx-svg-glyph {
+    -fx-background-color: red;
+}
+
+.jfx-tab-pane .headers-region {
+    -fx-background-color: transparent;
+}
+
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: #0f9b0f;
+    -fx-background-color: linear-gradient(to top right, #15d115, #10a210, #12ba12, #0f9b0f, #10a210);
+}
+
+/*----------  SplitBox - Pane divisor ----------*/
+.splitbox { /* Remove as bordas grossas e coloca um realce em preto */
+    -fx-box-border: #000000;
+    -fx-padding: 1;
 }
 
 /*---------- Estilos do scroll ----------*/
@@ -150,10 +237,8 @@
 }
 .scroll-bar:horizontal .thumb:pressed,
 .scroll-bar:vertical .thumb:pressed {
-    -fx-background-color: #666666;
-
+    -fx-background-color: #1e90ff;
     -fx-background-insets: 3.0;
-    -fx-effect: dropshadow( one-pass-box , #1e90ff, 4, 4, 0, 0);
 }
 
 /* Quina */
@@ -168,11 +253,107 @@
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Estilos de menu -----------------------------------------------------------*/
+/*------------------------------------------------ Estilos de Botoes ---------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-/*---------- Estilos de fonte ----------*/
-.background-menuSplit{
-    -fx-background-color:  #333333;
+/*---------- Hamburger ----------*/
+#btnBurgerBotao StackPane {
+    -fx-background-color: white;
+}
+
+/*---------- Botoes Cadastros ----------*/
+#btnCadastros {
+    -fx-background-image: url("../imagens/white/dashBoard/bntCadastros_128.png");
+    -fx-background-position: 10 center;
+    -fx-background-size: 35 35;
+    -fx-background-repeat: no-repeat;
+
+    -fx-text-fill: #ffffff;
+}
+
+#btnCadastros:hover {
+    -fx-background-image: url("../imagens/white/dashBoard/bntCadastros_Hover128.png");
+    -fx-text-fill: #7AB547;
+}
+
+#btnCadastros:focused{
+    -fx-background-image: url("../imagens/white/dashBoard/bntCadastros_Select128.png");
+    -fx-text-fill: #1e90ff;
+}
+
+/*---------- Botoes Lançamentos ----------*/
+#btnLancamentos {
+    -fx-background-image: url("../imagens/white/dashBoard/btnLancamento_128.png");
+    -fx-background-position: 10 center;
+    -fx-background-size: 35 35;
+    -fx-background-repeat: no-repeat;
+
+    -fx-text-fill: #ffffff;
+}
+
+#btnLancamentos:hover {
+    -fx-background-image: url("../imagens/white/dashBoard/btnLancamento_Hover128.png");
+    -fx-text-fill: #7AB547;
+}
+
+#btnLancamentos:focused{
+    -fx-background-image: url("../imagens/white/dashBoard/btnLancamento_Select128.png");
+    -fx-text-fill: #1e90ff;
+}
+
+/*---------- Botoes Pedidos ----------*/
+#btnPesquisas {
+    -fx-background-image: url("../imagens/white/dashBoard/btnPesquisas_128.png");
+    -fx-background-position: 10 center;
+    -fx-background-size: 35 35;
+    -fx-background-repeat: no-repeat;
+
+    -fx-text-fill: #ffffff;
+}
+
+#btnPesquisas:hover {
+    -fx-background-image: url("../imagens/white/dashBoard/btnPesquisas_Hover128.png");
+    -fx-text-fill: #7AB547;
+}
+
+#btnPesquisas:focused{
+    -fx-background-image: url("../imagens/white/dashBoard/btnPesquisas_Select128.png");
+    -fx-text-fill: #1e90ff;
+}
+
+/*---------- Botoes Configuracoes ----------*/
+#btnConfiguracoes {
+    -fx-background-image: url("../imagens/white/dashBoard/btnConfiguracao_128.png");
+    -fx-background-position: 10 center;
+    -fx-background-size: 35 35;
+    -fx-background-repeat: no-repeat;
+
+    -fx-text-fill: #ffffff;
+}
+
+#btnConfiguracoes:hover {
+    -fx-background-image: url("../imagens/white/dashBoard/btnConfiguracao_Hover128.png");
+    -fx-text-fill: #7AB547;
+}
+
+#btnConfiguracoes:focused{
+    -fx-background-image: url("../imagens/white/dashBoard/btnConfiguracao_Select128.png");
+    -fx-text-fill: #1e90ff;
+}
+
+/*---------- Botão filial ----------*/
+#btnEmpresa {
+    -fx-background-image: url("../imagens/white/dashBoard/btnEmpresa_128.png");
+    -fx-background-position: 10 center;
+    -fx-background-size: 35 35;
+    -fx-background-repeat: no-repeat;
+}
+
+#btnEmpresa:hover {
+    -fx-background-image: url("../imagens/white/dashBoard/btnEmpresa_Hover128.png");
+}
+
+#btnEmpresa:focused{
+    -fx-background-image: url("../imagens/white/dashBoard/btnEmpresa_Select128.png");
 }

@@ -1,4 +1,4 @@
-package Administrador.model.dao.impl;
+package administrador.model.dao.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -11,32 +11,42 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.UsuarioDao;
-import Administrador.model.entities.Usuario;
-import model.encode.DecodeHash;
-import model.enums.Situacao;
-import model.enums.UsuarioNivel;
-import model.log.ManipulaLog;
-import model.mysql.DB;
+import administrador.model.dao.UsuarioDao;
+import administrador.model.entities.Imagem;
+import administrador.model.entities.Usuario;
+import comum.model.encode.DecodeHash;
+import comum.model.enums.Padrao;
+import comum.model.enums.Situacao;
+import comum.model.enums.TamanhoImagem;
+import comum.model.enums.UsuarioNivel;
+import comum.model.exceptions.ExcessaoBd;
+import comum.model.messages.Mensagens;
+import comum.model.mysql.DB;
 
 public class UsuarioDaoJDBC implements UsuarioDao {
 
-	final String insert = "INSERT INTO usuarios (Id_Empresa, Login, Nome,"
-			+ " Sobrenome, Senha, Email, Data_Cadastro, Observacao, Ddd_Telefone, Telefone,"
-			+ " Ddd_Celular, Celular, Imagem, Nivel, Situacao) VALUES"
-			+ " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	final String INSERT = "INSERT INTO usuarios (NomeSobrenome, Login,"
+			+ " Senha, DataCadastro, Observacao, Nivel, Situacao) VALUES" + " (?, ?, ?, ?, ?, ?, ?);";
 
-	final String update = "UPDATE usuarios SET Id_Empresa = ?, Nome = ?, Sobrenome = ?, Senha = ?,"
-			+ " Email = ?, Observacao = ?, Ddd_Telefone = ?, Telefone = ?, Ddd_Celular = ?,"
-			+ " Celular = ?, Imagem = ?, Nivel = ?, Situacao = ? WHERE Login = ?;";
+	final String UPDATE = "UPDATE usuarios SET NomeSobrenome = ?, Login = ?, Senha = ?, "
+			+ " Observacao = ?,  Nivel = ?, Situacao = ? WHERE id = ?;";
 
-	final String delete = "UPDATE Situacao = \"EXCLUIDO\" WHERE Login ?;";
+	final String DELETE = "UPDATE Situacao = 'EXCLUIDO' WHERE id = ?;";
 
-	final String selectAll = "SELECT Login, Id_Empresa, Nome, Sobrenome, Email, Data_Cadastro, Observacao,"
-			+ " Ddd_Telefone, Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios WHERE Situacao <> \"EXCLUIDO\";";
+	final String SELECT_ALL = "SELECT Id, NomeSobrenome, Login, DataCadastro, Observacao,"
+			+ " Nivel, Situacao FROM usuarios WHERE Situacao <> 'EXCLUIDO';";
 
-	final String select = "SELECT Login, Id_Empresa, Nome, Sobrenome, Email, Data_Cadastro, Observacao, Ddd_Telefone,"
-			+ " Telefone, Ddd_Celular, Celular, Imagem, Nivel, Situacao FROM usuarios WHERE Login = ?;";
+	final String SELECT = "SELECT Id, NomeSobrenome, Login, DataCadastro, Observacao, "
+			+ " Nivel, Situacao FROM usuarios WHERE Id = ?;";
+
+	final String SELECT_LOGIN = "SELECT * FROM usuarios WHERE Login = ?;";
+
+	final String INSERT_IMAGEM = "INSERT INTO usuarios_imagens (IdUsuario, IdSequencial, Nome, Extenssao, Imagem, Tamanho, Padrao) "
+			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM usuarios_imagens img WHERE img.IdUsuario = ?),?,?,?,?,?)";
+	final String UPDATE_IMAGEM = "UPDATE usuarios_imagens SET Nome = ?, Extenssao = ?, Imagem = ?, "
+			+ " Tamanho = ?, Padrao = ? WHERE IdUsuario = ? AND IdSequencial = ?;";
+	final String SELECT_IMAGEM = "SELECT IdSequencial, Nome, Extenssao, Imagem, "
+			+ " Tamanho, Padrao FROM usuarios_imagens WHERE IdUsuario = ?;";
 
 	private Connection conexao;
 
@@ -45,44 +55,35 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public void insert(Usuario obj) {
+	public void insert(Usuario obj) throws ExcessaoBd {
 
 		PreparedStatement st = null;
 		try {
-			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+			st = conexao.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdEmpresa());
+			st.setString(1, obj.getNomeSobrenome());
 			st.setString(2, obj.getLogin());
-			st.setString(3, obj.getNome());
-			st.setString(4, obj.getSobreNome());
-			st.setString(5, DecodeHash.DecodePassword(obj.getSenha()));
-			st.setString(6, obj.getEmail());
-			st.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
-			st.setString(8, obj.getObservacao());
-			st.setString(9, obj.getDddTelefone());
-			st.setString(10, obj.getTelefone());
-			st.setString(11, obj.getDddCelular());
-			st.setString(12, obj.getCelular());
-			st.setBytes(13, obj.getImagem());
-			st.setString(14, obj.getNivel().toString());
-			st.setString(15, obj.getSituacao().toString());
+			st.setString(3, DecodeHash.DecodePassword(obj.getSenha()));
+			st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+			st.setString(5, obj.getObservacao());
+			st.setString(6, obj.getNivel().toString());
+			st.setString(7, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 
+			updateImagens(obj.getId(), obj.getImagens());
+
 			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
+				System.out.println("Erro ao salvar os dados.\n" + st.toString());
+				throw new ExcessaoBd(Mensagens.BD_ERRO_INSERT);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
-		} catch (NoSuchAlgorithmException e) {
+			throw new ExcessaoBd(Mensagens.BD_ERRO_INSERT);
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "PASSWORD", st.toString(), e.toString());
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "PASSWORD", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.USR_ERRO_SENHA);
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -90,43 +91,31 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public void update(Usuario obj) {
+	public void update(Usuario obj) throws ExcessaoBd {
 
 		PreparedStatement st = null;
 		try {
-			st = conexao.prepareStatement(update, Statement.RETURN_GENERATED_KEYS);
+			st = conexao.prepareStatement(UPDATE, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdEmpresa());
-			st.setString(2, obj.getNome());
-			st.setString(3, obj.getSobreNome());
-			st.setString(4, DecodeHash.DecodePassword(obj.getSenha()));
-			st.setString(5, obj.getEmail());
-			st.setString(6, obj.getObservacao());
-			st.setString(7, obj.getDddTelefone());
-			st.setString(8, obj.getTelefone());
-			st.setString(9, obj.getDddCelular());
-			st.setString(10, obj.getCelular());
-			st.setBytes(11, obj.getImagem());
-			st.setString(12, obj.getNivel().toString());
-			st.setString(13, obj.getSituacao().toString());
-			st.setString(14, obj.getLogin());
+			st.setString(1, obj.getNomeSobrenome());
+			st.setString(2, obj.getLogin());
+			st.setString(3, DecodeHash.DecodePassword(obj.getSenha()));
+			st.setString(4, obj.getObservacao());
+			st.setString(5, obj.getNivel().toString());
+			st.setString(6, obj.getSituacao().toString());
+			st.setLong(7, obj.getId());
 
-			int rowsAffected = st.executeUpdate();
+			st.executeUpdate();
 
-			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
-			}
+			updateImagens(obj.getId(), obj.getImagens());
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
-		} catch (NoSuchAlgorithmException e) {
+			throw new ExcessaoBd(Mensagens.BD_ERRO_UPDATE);
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "PASSWORD", st.toString(), e.toString());
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "PASSWORD", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.USR_ERRO_SENHA);
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -134,22 +123,22 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public void delete(String login) {
+	public void delete(Long id) throws ExcessaoBd {
 
 		PreparedStatement st = null;
 		try {
-			st = conexao.prepareStatement(delete, Statement.RETURN_GENERATED_KEYS);
-			st.setString(1, login);
+			st = conexao.prepareStatement(DELETE, Statement.RETURN_GENERATED_KEYS);
+			st.setLong(1, id);
 			int rowsAffected = st.executeUpdate();
 
 			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
+				System.out.println("Erro ao salvar os dados.\n" + st.toString());
+				throw new ExcessaoBd(Mensagens.BD_ERRO_DELETE);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_DELETE);
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -157,27 +146,23 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public Usuario find(String login) {
-
+	public Usuario find(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conexao.prepareStatement(select);
-			st.setString(1, login);
+			st = conexao.prepareStatement(SELECT);
+			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-
-				Usuario obj = new Usuario(rs.getString("Nome"), rs.getString("Sobrenome"), rs.getString("Ddd_Telefone"),
-						rs.getString("Telefone"), rs.getString("Ddd_Celular"), rs.getString("Celular"),
-						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Empresa"),
-						rs.getString("Login"), "", rs.getString("Observacao"), rs.getBytes("Imagem"),
+				Usuario obj = new Usuario(rs.getLong("Id"), rs.getString("NomeSobrenome"),
+						rs.getTimestamp("DataCadastro"), rs.getString("Login"), rs.getString("Observacao"),
 						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
-
+				obj.setImagem(selectImagens(rs.getLong("Id"), tamanho));
 				return obj;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT);
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -186,56 +171,162 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public List<Usuario> findAll() {
-
+	public List<Usuario> findAll(TamanhoImagem tamanho) throws ExcessaoBd {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 
-			st = conexao.prepareStatement(selectAll);
+			st = conexao.prepareStatement(SELECT_ALL);
 			rs = st.executeQuery();
 
 			List<Usuario> list = new ArrayList<>();
 
 			while (rs.next()) {
-
-				Usuario obj = new Usuario(rs.getString("Nome"), rs.getString("Sobrenome"), rs.getString("Ddd_Telefone"),
-						rs.getString("Telefone"), rs.getString("Ddd_Celular"), rs.getString("Celular"),
-						rs.getString("Email"), rs.getDate("Data_Cadastro"), rs.getLong("Id_Empresa"),
-						rs.getString("Login"), "", rs.getString("Observacao"), rs.getBytes("Imagem"),
+				Usuario obj = new Usuario(rs.getLong("Id"), rs.getString("NomeSobrenome"),
+						rs.getTimestamp("DataCadastro"), rs.getString("Login"), rs.getString("Observacao"),
 						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
+				obj.setImagem(selectImagens(rs.getLong("Id"), tamanho));
 				list.add(obj);
 			}
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT_ALL);
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
-		return null;
+	}
+
+	private void updateImagens(Long id, List<Imagem> lista) throws ExcessaoBd {
+		if (lista == null || lista.size() == 0)
+			return;
+
+		PreparedStatement stImg = null;
+		try {
+
+			for (Imagem ls : lista) {
+				if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+					stImg = conexao.prepareStatement(UPDATE_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+
+					stImg.setString(1, ls.getNome());
+					stImg.setString(2, ls.getExtenssao());
+					stImg.setBytes(3, ls.getImagem());
+
+					switch ((TamanhoImagem) ls.getTamanho()) {
+					case ORIGINAL:
+						stImg.setString(4, "ORIGINAL");
+						break;
+					case MEDIA:
+						stImg.setString(4, "MEDIA");
+						break;
+					case PEQUENA:
+						stImg.setString(4, "PEQUENA");
+						break;
+					default:
+						stImg.setString(4, "");
+					}
+
+					stImg.setString(5, ls.getPadrao().toString());
+					stImg.setLong(6, id);
+					stImg.setLong(7, ls.getIdSequencial());
+
+					stImg.executeUpdate();
+
+				} else {
+					stImg = conexao.prepareStatement(INSERT_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+					stImg.setLong(1, id);
+					stImg.setLong(2, id);
+					stImg.setString(3, ls.getNome());
+					stImg.setString(4, ls.getExtenssao());
+					stImg.setBytes(5, ls.getImagem());
+
+					switch ((TamanhoImagem) ls.getTamanho()) {
+					case ORIGINAL:
+						stImg.setString(6, "ORIGINAL");
+						break;
+					case MEDIA:
+						stImg.setString(6, "MEDIA");
+						break;
+					case PEQUENA:
+						stImg.setString(6, "PEQUENA");
+						break;
+					default:
+						stImg.setString(6, "");
+					}
+
+					stImg.setString(7, ls.getPadrao().toString());
+
+					int rowsAffected = stImg.executeUpdate();
+
+					if (rowsAffected < 1) {
+						System.out.println("Erro ao salvar os imagem.\n" + stImg.toString());
+						throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_IMAGEM);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(stImg.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_IMAGEM);
+		} finally {
+			DB.closeStatement(stImg);
+		}
+	}
+
+	private List<Imagem> selectImagens(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
+		if (tamanho == null || tamanho == TamanhoImagem.NENHUMA)
+			return null;
+
+		PreparedStatement stImg = null;
+		ResultSet rsImg = null;
+		try {
+			String select = SELECT_IMAGEM;
+
+			if (tamanho == TamanhoImagem.ORIGINAL || tamanho == TamanhoImagem.MEDIA || tamanho == TamanhoImagem.PEQUENA)
+				select += " AND Tamanho = \"" + tamanho.toString() + "\"";
+
+			stImg = conexao.prepareStatement(select);
+			stImg.setLong(1, id);
+			rsImg = stImg.executeQuery();
+
+			List<Imagem> list = new ArrayList<>();
+
+			while (rsImg.next()) {
+				Imagem obj = new Imagem(rsImg.getLong("IdSequencial"), rsImg.getString("Nome"),
+						rsImg.getString("Extenssao"), rsImg.getBytes("Imagem"),
+						Padrao.valueOf(rsImg.getString("Padrao")), TamanhoImagem.valueOf(rsImg.getString("Tamanho")));
+
+				list.add(obj);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcessaoBd(Mensagens.BD_ERRO_CARREGAR_IMAGEM);
+		} finally {
+			DB.closeStatement(stImg);
+			DB.closeResultSet(rsImg);
+		}
 	}
 
 	@Override
-	public Boolean validaLogin(String login) {
+	public Boolean validaLogin(String login) throws ExcessaoBd {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conexao.prepareStatement(select);
+			st = conexao.prepareStatement(SELECT_LOGIN);
 			st.setString(1, login);
 			rs = st.executeQuery();
 			if (rs.next())
 				return true;
-			else 
+			else
 				return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - VALIDA LOGIN", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.USR_ERRO_AO_VALIDAR_LOGIN);
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
-		return false;
 	}
 }

@@ -1,4 +1,4 @@
-package Administrador.controller.configuracao;
+package administrador.controller.configuracao;
 
 import java.net.URL;
 import java.util.HashMap;

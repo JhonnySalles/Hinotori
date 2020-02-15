@@ -1,10 +1,10 @@
-package Administrador.model.dao.services;
+package administrador.model.dao.services;
 
 import java.util.List;
 
-import Administrador.model.dao.DaoFactory;
-import Administrador.model.dao.SaborDao;
-import Administrador.model.entities.Sabor;
+import administrador.model.dao.DaoFactory;
+import administrador.model.dao.SaborDao;
+import administrador.model.entities.Sabor;
 
 public class SaborServices {
 	private SaborDao saborDao = DaoFactory.createSaborDao();

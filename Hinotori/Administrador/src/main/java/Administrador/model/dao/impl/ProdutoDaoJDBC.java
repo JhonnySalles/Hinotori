@@ -1,4 +1,4 @@
-package Administrador.model.dao.impl;
+package administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,27 +9,28 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.ProdutoDao;
-import Administrador.model.entities.Produto;
-import model.enums.Situacao;
-import model.enums.TipoProduto;
-import model.log.ManipulaLog;
-import model.mysql.DB;
+import administrador.model.dao.ProdutoDao;
+import administrador.model.entities.Produto;
+import comum.model.enums.Situacao;
+import comum.model.enums.TipoProduto;
+import comum.model.exceptions.ExcessaoBd;
+import comum.model.messages.Mensagens;
+import comum.model.mysql.DB;
 
 public class ProdutoDaoJDBC implements ProdutoDao {
 
-	final String insert = "INSERT INTO produtos (Descricao, Observacao, Codigo_Barras, Unidade,"
+	final String INSERT = "INSERT INTO produtos (Descricao, Observacao, Codigo_Barras, Unidade,"
 			+ " Data_Cadastro, Tipo, Peso_Bruto, Peso_Liquido, Situacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-	final String update = "UPDATE produtos SET Descricao = ?, Observacao = ?, Codigo_Barras = ?, Unidade = ?,"
+	final String UPDATE = "UPDATE produtos SET Descricao = ?, Observacao = ?, Codigo_Barras = ?, Unidade = ?,"
 			+ " Tipo = ?, Peso_Bruto = ?, Peso_Liquido = ?, Situacao = ? WHERE ID = ?;";
 
-	final String delete = "DELETE FROM produtos WHERE ID = ?;";
+	final String DELETE = "DELETE FROM produtos WHERE ID = ?;";
 
-	final String selectAll = "SELECT ID, Descricao, Observacao, Codigo_Barras, Unidade, Data_Cadastro,"
+	final String SELECT_ALL = "SELECT ID, Descricao, Observacao, Codigo_Barras, Unidade, Data_Cadastro,"
 			+ " Tipo, Peso_Bruto, Peso_Liquido, Situacao FROM produtos;";
 
-	final String select = "SELECT ID, Descricao, Observacao, Codigo_Barras, Unidade, Data_Cadastro,"
+	final String SELECT = "SELECT ID, Descricao, Observacao, Codigo_Barras, Unidade, Data_Cadastro,"
 			+ " Tipo, Peso_Bruto, Peso_Liquido, Situacao FROM produtos WHERE ID = ?;";
 
 	private Connection conexao;
@@ -39,11 +40,10 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 	}
 
 	@Override
-	public void insert(Produto obj) {
-
+	public void insert(Produto obj) throws ExcessaoBd {
 		PreparedStatement st = null;
 		try {
-			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+			st = conexao.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, obj.getDescricao());
 			st.setString(2, obj.getObservacao());
@@ -58,13 +58,13 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			int rowsAffected = st.executeUpdate();
 
 			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
+				System.out.println("Erro ao salvar os dados. \n" + st.toString());
+				throw new ExcessaoBd(Mensagens.BD_ERRO_INSERT);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_INSERT);
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -72,11 +72,10 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 	}
 
 	@Override
-	public void update(Produto obj) {
-
+	public void update(Produto obj) throws ExcessaoBd {
 		PreparedStatement st = null;
 		try {
-			st = conexao.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+			st = conexao.prepareStatement(UPDATE, Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, obj.getDescricao());
 			st.setString(2, obj.getObservacao());
@@ -88,16 +87,12 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setString(8, obj.getSituacao().toString());
 			st.setLong(9, obj.getId());
 
-			int rowsAffected = st.executeUpdate();
+			st.executeUpdate();
 
-			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_UPDATE);
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -105,24 +100,24 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void delete(Long id) throws ExcessaoBd {
 
 		PreparedStatement st = null;
 		try {
-			st = conexao.prepareStatement(delete, Statement.RETURN_GENERATED_KEYS);
+			st = conexao.prepareStatement(DELETE, Statement.RETURN_GENERATED_KEYS);
 
 			st.setLong(1, id);
 
 			int rowsAffected = st.executeUpdate();
 
 			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
+				System.out.println("Erro ao salvar os dados. \n" + st.toString());
+				throw new ExcessaoBd(Mensagens.BD_ERRO_DELETE);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_DELETE);
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -130,12 +125,11 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 	}
 
 	@Override
-	public Produto find(Long id) {
-
+	public Produto find(Long id) throws ExcessaoBd {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conexao.prepareStatement(select);
+			st = conexao.prepareStatement(SELECT);
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
@@ -147,7 +141,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT);
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -156,13 +150,12 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 	}
 
 	@Override
-	public List<Produto> findAll() {
-
+	public List<Produto> findAll() throws ExcessaoBd {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 
-			st = conexao.prepareStatement(selectAll);
+			st = conexao.prepareStatement(SELECT_ALL);
 			rs = st.executeQuery();
 
 			List<Produto> list = new ArrayList<>();
@@ -177,12 +170,11 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT_ALL);
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
-		return null;
 	}
 
 }

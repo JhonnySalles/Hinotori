@@ -1,4 +1,4 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 import java.io.Serializable;
 

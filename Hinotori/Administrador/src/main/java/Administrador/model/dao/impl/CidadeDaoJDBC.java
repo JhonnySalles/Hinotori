@@ -1,4 +1,4 @@
-package Administrador.model.dao.impl;
+package administrador.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,12 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Administrador.model.dao.CidadeDao;
-import Administrador.model.dao.services.EstadoServices;
-import Administrador.model.entities.Cidade;
-import model.enums.Situacao;
-import model.log.ManipulaLog;
-import model.mysql.DB;
+import administrador.model.dao.CidadeDao;
+import administrador.model.dao.services.EstadoServices;
+import administrador.model.entities.Cidade;
+import comum.model.enums.Situacao;
+import comum.model.mysql.DB;
 
 public class CidadeDaoJDBC implements CidadeDao {
 
@@ -55,7 +54,6 @@ public class CidadeDaoJDBC implements CidadeDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - INSERT", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -74,16 +72,11 @@ public class CidadeDaoJDBC implements CidadeDao {
 			st.setString(4, obj.getSituacao().toString());
 			st.setLong(5, obj.getId());
 
-			int rowsAffected = st.executeUpdate();
+			st.executeUpdate();
 
-			if (rowsAffected < 1) {
-				System.out.println("Erro ao salvar os dados.");
-				System.out.println(st.toString());
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - UPDATE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -107,7 +100,6 @@ public class CidadeDaoJDBC implements CidadeDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
-			ManipulaLog.salvar(this.getClass(), "JDBC - DELETE", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -134,7 +126,6 @@ public class CidadeDaoJDBC implements CidadeDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
@@ -166,7 +157,6 @@ public class CidadeDaoJDBC implements CidadeDao {
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ManipulaLog.salvar(this.getClass(), "JDBC - FIND ALL", st.toString(), e.toString());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);

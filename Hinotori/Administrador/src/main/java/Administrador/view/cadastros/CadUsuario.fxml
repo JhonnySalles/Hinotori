@@ -5,105 +5,75 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Polygon?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" stylesheets="@../../resources/css/White_Cadastros.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Administrador.controller.cadastros.CadUsuarioController">
-   <children>
-      <ScrollPane fx:id="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="0.0">
-         <content>
-            <AnchorPane minHeight="600.0" minWidth="500.0" prefHeight="700.0" prefWidth="600.0">
+<ScrollPane fx:id="background" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administrador.controller.cadastros.CadUsuarioController">
+  <content>
+      <StackPane fx:id="spTelas" alignment="TOP_CENTER">
+         <children>
+          <AnchorPane fx:id="rootUsuario" styleClass="background-cartao">
                <children>
-                  <HBox alignment="TOP_CENTER" prefHeight="189.0" prefWidth="200.0" styleClass="tituloBackground-usuario" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-20.0">
+                  <HBox alignment="CENTER" prefHeight="200.0" styleClass="tituloBackground-usuario" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Pane fx:id="paneBackground" prefHeight="166.0" prefWidth="225.0" styleClass="imgBackground-usuario" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Cadastro de Cliente" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <effect>
+                              <DropShadow spread="0.5" />
+                           </effect>
+                        </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="160.0">
+                  <VBox alignment="TOP_CENTER" maxHeight="500.0" maxWidth="500.0" minHeight="400.0" minWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
                      <children>
-                        <Rectangle arcHeight="1.0" arcWidth="5.0" fill="#7cb342" height="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
-                        <Polygon points="-10.0, 13.0, -10.0, -11.0, 0.0, -11.0, 10.0, -16.0, 10.0, 18.5, 0.0, 13.0" stroke="TRANSPARENT" strokeType="INSIDE">
-                           <fill>
-                              <LinearGradient endX="0.6714285714285715" endY="0.4285714285714286" startX="0.3" startY="0.42857142857142855">
-                                 <stops>
-                                    <Stop color="#7cb342" />
-                                    <Stop color="#4a6e22" offset="0.44847335782280634" />
-                                    <Stop color="#63922b" offset="1.0" />
-                                 </stops>
-                              </LinearGradient>
-                           </fill>
-                        </Polygon>
-                        <HBox alignment="CENTER" prefHeight="33.0" prefWidth="200.0" style="-fx-background-color: #7cb342;" HBox.hgrow="ALWAYS">
+                        <VBox alignment="TOP_CENTER" maxHeight="800.0" maxWidth="1000.0" minHeight="300.0" minWidth="450.0" spacing="20.0" styleClass="background-dados">
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                           <effect>
+                              <DropShadow height="15.0" offsetX="1.0" offsetY="1.0" radius="7.0" width="15.0" />
+                           </effect>
                            <children>
-                              <Label contentDisplay="CENTER" text="Cadastro de Usuário" textFill="WHITE">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <Polygon points="-10.0, 18.5, -10.0, -16.0, 0.0, -11.0, 10.0, -11.0, 10.0, 13.0, 0.0, 13.0" stroke="TRANSPARENT" strokeType="INSIDE">
-                           <fill>
-                              <LinearGradient endX="0.6714285714285715" endY="0.4285714285714286" startX="0.3" startY="0.42857142857142855">
-                                 <stops>
-                                    <Stop color="#4a6e22" />
-                                    <Stop color="#4a6e22" offset="0.44847335782280634" />
-                                    <Stop color="#7cb342" offset="1.0" />
-                                 </stops>
-                              </LinearGradient>
-                           </fill>
-                        </Polygon>
-                        <Rectangle arcWidth="5.0" fill="#7cb342" height="24.0" stroke="#1e90ff00" strokeType="INSIDE" width="50.0" />
-                     </children>
-                  </HBox>
-                  <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="210.0">
-                     <children>
-                        <VBox maxHeight="600.0" maxWidth="800.0" spacing="10.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
+                              <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <VBox alignment="BOTTOM_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                                          <HBox alignment="CENTER" minHeight="35.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <JFXTextField fx:id="txtNome" labelFloat="true" prefHeight="25.0" promptText="Nome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
+                                                <JFXTextField fx:id="txtId" labelFloat="true" minHeight="30.0" onKeyPressed="#onTxtIdEnter" onMouseClicked="#onTxtIdClick" prefWidth="100.0" promptText="Id">
                                                    <font>
                                                       <Font name="Times New Roman" size="12.0" />
                                                    </font>
                                                 </JFXTextField>
-                                                <JFXComboBox fx:id="cbNivel" minWidth="70.0" promptText="Nivel" />
-                                                <JFXComboBox fx:id="cbSituacao" minWidth="80.0" promptText="Situação" />
+                                                <HBox alignment="CENTER_RIGHT" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <JFXComboBox fx:id="cbNivel" minHeight="30.0" minWidth="70.0" promptText="Nivel" />
+                                                      <JFXComboBox fx:id="cbSituacao" minHeight="30.0" minWidth="80.0" promptText="Situação" />
+                                                   </children>
+                                                </HBox>
                                              </children>
                                           </HBox>
-                                          <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                                          <fx:include fx:id="frameTxtNome" source="../frame/PesquisaGenerica.fxml" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+                                          <HBox alignment="CENTER" minHeight="35.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <JFXTextField fx:id="txtSobreNome" labelFloat="true" prefHeight="25.0" prefWidth="700.0" promptText="Sobrenome" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
+                                                <JFXTextField fx:id="txtLogin" labelFloat="true" promptText="Login" HBox.hgrow="ALWAYS">
                                                    <font>
                                                       <Font name="Times New Roman" size="12.0" />
                                                    </font>
                                                 </JFXTextField>
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
-                                             <children>
-                                                <JFXTextField fx:id="txtLogin" labelFloat="true" prefHeight="25.0" prefWidth="300.0" promptText="Login" unFocusColor="BLACK">
-                                                   <font>
-                                                      <Font name="Times New Roman" size="12.0" />
-                                                   </font>
-                                                </JFXTextField>
-                                                <JFXPasswordField fx:id="pswSenha" prefHeight="25.0" prefWidth="400.0" promptText="Senha" unFocusColor="BLACK">
+                                                <JFXPasswordField fx:id="pswSenha" labelFloat="true" promptText="Senha" HBox.hgrow="ALWAYS">
                                                    <font>
                                                       <Font name="Times New Roman" size="12.0" />
                                                    </font>
@@ -112,19 +82,26 @@
                                           </HBox>
                                        </children>
                                        <padding>
-                                          <Insets top="40.0" />
+                                          <Insets top="10.0" />
                                        </padding>
                                     </VBox>
-                                    <VBox alignment="CENTER" spacing="5.0">
+                                    <VBox alignment="CENTER" spacing="10.0">
                                        <children>
-                                          <ImageView fx:id="imgUsuario" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../resources/geral/images/icon/icoUsuarioImage_256.png" />
-                                             </image>
+                                          <HBox alignment="CENTER" styleClass="background-imagens">
                                              <VBox.margin>
-                                                <Insets left="5.0" right="5.0" />
+                                                <Insets />
                                              </VBox.margin>
-                                          </ImageView>
+                                             <children>
+                                                <ImageView fx:id="imgUsuario" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../resources/imagens/white/geral/icoUsuarioImage_256.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </HBox>
                                           <HBox alignment="CENTER" spacing="10.0">
                                              <children>
                                                 <JFXButton fx:id="btnExcluirImagem" buttonType="RAISED" onAction="#onBtnExcluirImagemClick" onKeyPressed="#onBtnExcluirImagemEnter" styleClass="btnExcluir-usuario" text="Excluir" textFill="WHITE" />
@@ -135,40 +112,9 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                              <HBox alignment="CENTER" prefHeight="80.0">
                                  <children>
-                                    <JFXTextField fx:id="txtEmail" labelFloat="true" layoutX="10.0" layoutY="15.0" prefHeight="25.0" prefWidth="700.0" promptText="E-mail" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font name="Times New Roman" size="12.0" />
-                                       </font>
-                                    </JFXTextField>
-                                 </children>
-                              </HBox>
-                              <HBox VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <fx:include fx:id="frameEmpresa" source="../frame/PesquisaGenerica.fxml" HBox.hgrow="ALWAYS" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <JFXTextField fx:id="txtTelefone" labelFloat="true" layoutX="10.0" layoutY="18.0" prefHeight="25.0" prefWidth="350.0" promptText="Telefone" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font name="Times New Roman" size="12.0" />
-                                       </font>
-                                    </JFXTextField>
-                                    <JFXTextField fx:id="txtCelular" labelFloat="true" layoutX="357.0" layoutY="18.0" prefHeight="25.0" prefWidth="350.0" promptText="Celular" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font name="Times New Roman" size="12.0" />
-                                       </font>
-                                    </JFXTextField>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" layoutX="30.0" layoutY="205.0" prefHeight="100.0" prefWidth="388.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <JFXTextArea fx:id="txtObservacao" prefWidth="350.0" promptText="Observação" styleClass="textArea-usuario" unFocusColor="BLACK" HBox.hgrow="ALWAYS">
+                                    <JFXTextArea fx:id="txtObservacao" labelFloat="true" promptText="Observação" styleClass="textArea-usuario" wrapText="true" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Times New Roman" size="12.0" />
                                        </font>
@@ -176,51 +122,49 @@
                                  </children>
                               </HBox>
                            </children>
-                           <padding>
+                           <VBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" />
-                           </padding>
+                           </VBox.margin>
                         </VBox>
+                        <HBox alignment="TOP_CENTER" fillHeight="false" maxWidth="880.0" minWidth="400.0" spacing="10.0" styleClass="paneBotoes-usuario" VBox.vgrow="ALWAYS">
+                           <children>
+                              <JFXButton fx:id="btnConfirmar" alignment="CENTER" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnConfirmarClick" onKeyPressed="#onBtnConfirmarEnter" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Confirmar" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="btnCancelar" alignment="CENTER" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnCancelarClick" onKeyPressed="#onBtnCancelarEnter" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Cancelar" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="btnExcluir" alignment="CENTER" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnExcluirClick" onKeyPressed="#onBtnExcluirEnter" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Excluir" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="btnPesquisar" alignment="CENTER" graphicTextGap="10.0" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnPesquisarClick" onKeyPressed="#onBtnPesquisarEnter" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Pesquisar" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                           <padding>
+                              <Insets bottom="40.0" left="10.0" right="10.0" top="30.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="60.0" right="60.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
             </AnchorPane>
-         </content>
-      </ScrollPane>
-      <VBox alignment="TOP_CENTER" layoutX="560.0" layoutY="-30.0" prefHeight="200.0" prefWidth="140.0" spacing="10.0" styleClass="botoesBackground-usuario" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fx:id="imgLogo" fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin></ImageView>
-            <JFXButton fx:id="btnConfirmar" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnConfirmarClick" onKeyPressed="#onBtnConfirmarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Confirmar" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="btnCancelar" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnCancelarClick" onKeyPressed="#onBtnCancelarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Cancelar" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="btnNovo" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnNovoClick" onKeyPressed="#onBtnNovoEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Novo" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="btnExcluir" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnExcluirClick" onKeyPressed="#onBtnExcluirEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Excluir" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="btnVoltar" alignment="CENTER_RIGHT" buttonType="RAISED" maxHeight="28.0" maxWidth="120.0" minHeight="28.0" minWidth="120.0" onAction="#onBtnVoltarClick" onKeyPressed="#onBtnVoltarEnter" prefHeight="28.0" prefWidth="120.0" stylesheets="@../../resources/css/White_Botoes.css" text="Voltar" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </JFXButton>
          </children>
-         <padding>
-            <Insets bottom="10.0" top="10.0" />
-         </padding>
-      </VBox>
-   </children>
-</AnchorPane>
+      </StackPane>
+  </content>
+   <stylesheets>
+      <URL value="@../../resources/css/White_Cadastros.css" />
+      <URL value="@../../resources/css/Paleta_Cores.css" />
+   </stylesheets>
+</ScrollPane>

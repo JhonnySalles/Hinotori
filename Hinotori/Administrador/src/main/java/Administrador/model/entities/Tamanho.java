@@ -1,8 +1,6 @@
-package Administrador.model.entities;
+package administrador.model.entities;
 
 import java.io.Serializable;
-
-import model.enums.Situacao;
 
 public class Tamanho implements Serializable {
 	
@@ -15,7 +13,7 @@ public class Tamanho implements Serializable {
 	private String descricao;
 	private Integer qtdPedacos;
 	private Integer qtdSabores;
-	private Enum<Situacao> situacao;
+	//private Enum<Situacao> situacao;
 
 	public Long getId() {
 		return id;
@@ -57,26 +55,27 @@ public class Tamanho implements Serializable {
 		this.qtdSabores = qtdSabores;
 	}
 
-	public Enum<Situacao> getSituacao() {
+	/*public Enum<Situacao> getSituacao() {
 		return situacao;
 	}
 
 	public void setSituacao(Enum<Situacao> situacao) {
 		this.situacao = situacao;
-	}
+	}*/
 
 	public Tamanho() {
 
 	}
 
-	public Tamanho(Long id, String sigla, String descricao, Integer qtdPedacos, Integer qtdSabores,
-			Enum<Situacao> situacao) {
+	public Tamanho(Long id, String sigla, String descricao, Integer qtdPedacos, Integer qtdSabores
+			//,	Enum<Situacao> situacao
+			) {
 		this.id = id;
 		this.sigla = sigla;
 		this.descricao = descricao;
 		this.qtdPedacos = qtdPedacos;
 		this.qtdSabores = qtdSabores;
-		this.situacao = situacao;
+		//this.situacao = situacao;
 	}
 
 	// Utilizado para que possamos comparar os objetos por conteúdo e não
@@ -115,7 +114,8 @@ public class Tamanho implements Serializable {
 	@Override
 	public String toString() {
 		return "Tamanho [id=" + id + ", sigla=" + sigla + ", descricao=" + descricao + ", qtdPedacos=" + qtdPedacos
-				+ ", qtdSabores=" + qtdSabores + ", situacao=" + situacao + "]";
+				+ ", qtdSabores=" + qtdSabores + ", situacao=" //+ situacao 
+				+ "]";
 	}
 
 }
