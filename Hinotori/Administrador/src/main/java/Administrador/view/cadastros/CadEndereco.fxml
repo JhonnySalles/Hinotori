@@ -4,14 +4,14 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.svg.SVGGlyph?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="rootPane" cache="true" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administrador.controller.cadastros.CadEnderecoController">
@@ -32,11 +32,11 @@
                      <children>
                         <JFXButton fx:id="btnVoltar" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="30.0" maxWidth="60.0" minHeight="30.0" minWidth="60.0" prefHeight="30.0" prefWidth="60.0" ripplerFill="WHITE" text="Voltar" textFill="WHITE">
                            <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../resources/imagens/white/cadastros/btnVoltar_512.png" />
-                                 </image>
-                              </ImageView>
+                              <SVGGlyph>
+                                 <children>
+                                    <SVGPath content="M98.18,179.2c-2.67,0-5.19-1.04-7.08-2.93l-35.51-35.51c-1.88-1.89-2.92-4.4-2.92-7.07s1.04-5.19,2.92-7.07L91.1,91.1     c0.01,0,0.01,0,0.02,0c1.88-1.89,4.39-2.92,7.06-2.92s5.18,1.04,7.07,2.93c3.9,3.89,3.9,10.24,0,14.14l-28.44,28.44l28.44,28.44     c3.9,3.9,3.9,10.24,0,14.14C103.36,178.16,100.85,179.2,98.18,179.2z M287.56,423.83c-5.51,0-10-4.49-10-10.011c0-5.51,4.49-10,10-10h94.721c22.149,0,42.489-13.01,51.819-33.149v-0.01     c1.63-3.521,5.19-5.79,9.08-5.79c1.45,0,2.86,0.31,4.19,0.92c3.51,1.62,5.79,5.18,5.8,9.05c0.01,1.46-0.3,2.89-0.92,4.229     c-6.08,13.16-15.74,24.33-27.94,32.28c-12.51,8.16-27.05,12.47-42.05,12.47L287.56,423.83z M449.33,335.77     c-5.511,0-10-4.489-10-10c0-5.52,4.489-10,10-10c5.52,0,10,4.48,10,10C459.33,331.28,454.85,335.77,449.33,335.77z      M449.33,285.77c-5.511,0-10-4.489-10-10v-75.01c0-15.23-5.94-29.56-16.71-40.36c-10.801-10.77-25.13-16.71-40.36-16.71H62.67     c-5.52,0-10-4.49-10-10c0-5.52,4.48-10,10-10h319.59c10.41,0,20.5,2.04,30,6.06c9.18,3.88,17.42,9.44,24.5,16.51     c7.07,7.08,12.63,15.32,16.51,24.5c4.021,9.5,6.061,19.6,6.061,30v75.01C459.33,281.28,454.85,285.77,449.33,285.77z" layoutX="-237.0" layoutY="-247.0" scaleX="0.1" scaleY="0.06" stroke="BLACK" strokeWidth="10.0" />
+                                 </children>
+                              </SVGGlyph>
                            </graphic>
                         </JFXButton>
                      </children>
