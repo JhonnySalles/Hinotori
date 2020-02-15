@@ -3,11 +3,11 @@
  * @author Jhonny
  *
  */
-module Sistema {
+module Menu {
 
-	exports sistema.guiMain;
-	exports sistema.util;
-	exports sistema;
+	exports menu.model.util;
+	exports menu.controller;
+	exports menu;
 
 	requires Comum;
 	requires Servidor;
