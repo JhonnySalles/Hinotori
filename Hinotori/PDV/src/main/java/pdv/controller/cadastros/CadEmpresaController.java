@@ -43,9 +43,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import pdv.App;
 import pdv.controller.DashboardController;
-import pdv.model.dao.services.EmpresaServices;
-import pdv.model.entities.Empresa;
-import pdv.model.entities.Imagem;
+import servidor.dao.services.EmpresaServices;
+import servidor.entities.Empresa;
+import servidor.entities.Imagem;
 
 public class CadEmpresaController implements Initializable {
 

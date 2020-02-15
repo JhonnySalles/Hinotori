@@ -27,9 +27,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import pdv.App;
 import pdv.controller.frame.PesquisaGenericaController;
-import pdv.model.dao.services.BairroServices;
-import pdv.model.entities.Bairro;
-import pdv.model.entities.Endereco;
+import servidor.dao.services.BairroServices;
+import servidor.entities.Bairro;
+import servidor.entities.Endereco;
 
 public class CadEnderecoController implements Initializable {
 

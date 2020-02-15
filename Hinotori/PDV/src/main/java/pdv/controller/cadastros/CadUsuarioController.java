@@ -49,9 +49,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import pdv.App;
 import pdv.controller.frame.PesquisaGenericaController;
-import pdv.model.dao.services.UsuarioServices;
-import pdv.model.entities.Imagem;
-import pdv.model.entities.Usuario;
+import servidor.dao.services.UsuarioServices;
+import servidor.entities.Imagem;
+import servidor.entities.Usuario;
 
 public class CadUsuarioController implements Initializable {
 

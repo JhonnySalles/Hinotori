@@ -41,8 +41,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import pdv.App;
 import pdv.controller.DashboardController;
-import pdv.model.dao.services.ClienteServices;
-import pdv.model.entities.Cliente;
+import servidor.dao.services.ClienteServices;
+import servidor.entities.Cliente;
 
 public class CadClienteController implements Initializable {
 

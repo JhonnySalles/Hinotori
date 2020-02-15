@@ -41,7 +41,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import pdv.App;
-import pdv.model.entities.Endereco;
+import servidor.entities.Endereco;
 
 public class CadEnderecoDadosController implements Initializable {
 

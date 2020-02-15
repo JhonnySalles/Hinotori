@@ -24,7 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import pdv.App;
-import pdv.model.entities.Contato;
+import servidor.entities.Contato;
 
 public class CadContatoController implements Initializable {
 

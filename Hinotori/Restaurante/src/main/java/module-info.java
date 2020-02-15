@@ -5,17 +5,26 @@
 module Administrador {
 	
 	exports restaurante;
-	exports restaurante.gui;
+	exports restaurante.controller;
+	exports restaurante.controller.cadastros;
+	exports restaurante.controller.frame;
+	exports restaurante.controller.metricas;
 
-	requires Comum;
+	requires transitive Comum;
+	requires transitive Servidor;
+	requires transitive javafx.fxml;
+	requires transitive javafx.graphics;
 	requires javafx.base;
 	requires javafx.controls;
-	requires javafx.fxml;
-	requires javafx.graphics;
 	requires com.jfoenix;
+	requires org.controlsfx.controls;
+	requires AnimateFX;
 	requires java.desktop;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
-	opens restaurante.gui to javafx.fxml;
+	opens restaurante.controller to javafx.fxml;
+	opens restaurante.controller.cadastros to javafx.fxml;
+	opens restaurante.controller.frame to javafx.fxml;
+	opens restaurante.controller.metricas to javafx.fxml;
 	
 }

@@ -35,9 +35,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.robot.Robot;
 import javafx.stage.Screen;
-import pdv.model.dao.services.PesquisaGenericaServices;
-import pdv.model.entities.PesquisaGenerica;
-import pdv.model.entities.PesquisaGenericaDados;
+import servidor.dao.services.PesquisaGenericaServices;
+import servidor.entities.PesquisaGenerica;
+import servidor.entities.PesquisaGenericaDados;
 
 /**
  * <p>

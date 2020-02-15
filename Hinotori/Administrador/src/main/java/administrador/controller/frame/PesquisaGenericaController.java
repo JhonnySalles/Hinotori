@@ -15,9 +15,6 @@ import org.controlsfx.control.PopOver.ArrowLocation;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
-import administrador.model.dao.services.PesquisaGenericaServices;
-import administrador.model.entities.PesquisaGenerica;
-import administrador.model.entities.PesquisaGenericaDados;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -38,6 +35,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.robot.Robot;
 import javafx.stage.Screen;
+import servidor.dao.services.PesquisaGenericaServices;
+import servidor.entities.PesquisaGenerica;
+import servidor.entities.PesquisaGenericaDados;
 
 /**
  * <p>
@@ -366,7 +366,7 @@ public class PesquisaGenericaController implements Initializable {
 	}
 
 	private PesquisaGenericaController iniciaGrid() {
-		URL url = getClass().getResource("/administrador/view/frame/PesquisaGenericaGrid.fxml");
+		URL url = getClass().getResource("/pdv/view/frame/PesquisaGenericaGrid.fxml");
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(url);
 		VBox vbox = new VBox();

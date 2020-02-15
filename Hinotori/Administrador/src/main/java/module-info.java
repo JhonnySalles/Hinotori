@@ -9,13 +9,13 @@ module administrador {
 	exports administrador.controller.cadastros;
 	exports administrador.controller.pesquisas;
 	exports administrador.controller.frame;
-	exports administrador.model.entities;
 
 	requires transitive Comum;
-	requires javafx.base;
-	requires javafx.controls;
 	requires transitive javafx.fxml;
 	requires transitive javafx.graphics;
+	requires transitive Servidor;
+	requires javafx.base;
+	requires javafx.controls;
 	requires com.jfoenix;
 	requires java.desktop;
 	requires java.sql;

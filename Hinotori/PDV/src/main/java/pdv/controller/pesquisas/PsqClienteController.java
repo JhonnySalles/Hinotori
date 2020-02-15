@@ -32,8 +32,8 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import pdv.model.dao.services.ClienteServices;
-import pdv.model.entities.Cliente;
+import servidor.dao.services.ClienteServices;
+import servidor.entities.Cliente;
 
 public class PsqClienteController implements Initializable {
 

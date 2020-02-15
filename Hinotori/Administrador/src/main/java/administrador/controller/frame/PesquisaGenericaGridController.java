@@ -6,8 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import administrador.model.entities.PesquisaGenerica;
-import administrador.model.entities.PesquisaGenericaDados;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -22,6 +20,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
+import servidor.entities.PesquisaGenerica;
+import servidor.entities.PesquisaGenericaDados;
 
 public class PesquisaGenericaGridController implements Initializable {
 

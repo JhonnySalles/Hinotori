@@ -28,6 +28,13 @@
     	<artifactId>Comum</artifactId>
     	<version>0.0.1-SNAPSHOT</version>  	
   	</dependency>
+  	
+  	<!-- Dependencia para o funções do banco -->
+		<dependency>
+			<groupId>br.com.Hinotori</groupId>
+			<artifactId>Servidor</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
   </dependencies>
   
 </project>

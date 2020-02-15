@@ -20,8 +20,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
-import pdv.model.entities.PesquisaGenerica;
-import pdv.model.entities.PesquisaGenericaDados;
+import servidor.entities.PesquisaGenerica;
+import servidor.entities.PesquisaGenericaDados;
 
 public class PesquisaGenericaGridController implements Initializable {
 

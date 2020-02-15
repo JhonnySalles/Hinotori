@@ -44,9 +44,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import pdv.App;
 import pdv.controller.frame.PesquisaGenericaController;
-import pdv.model.dao.services.ProdutoServices;
-import pdv.model.entities.Imagem;
-import pdv.model.entities.Produto;
+import servidor.dao.services.ProdutoServices;
+import servidor.entities.Imagem;
+import servidor.entities.Produto;
 
 public class CadProdutoController implements Initializable {
 

@@ -4,14 +4,14 @@ module PDV {
 	exports pdv.controller.cadastros;
 	exports pdv.controller.frame;
 	exports pdv.controller.metricas;
-	exports pdv.model.entities;
 
 	requires transitive Comum;
+	requires transitive Servidor;
+	requires transitive javafx.fxml;
+	requires transitive javafx.graphics;
 	requires com.jfoenix;
 	requires javafx.base;
 	requires javafx.controls;
-	requires transitive javafx.fxml;
-	requires transitive javafx.graphics;
 	requires java.desktop;
 	requires org.controlsfx.controls;
 	requires AnimateFX;
