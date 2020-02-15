@@ -5,14 +5,13 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import servidor.persistencia.Controlador;
 
 public class App extends Application {
 	
@@ -32,18 +31,11 @@ public class App extends Application {
 	// Fim do metodo.
 	
 	@Override
-	public void start(@SuppressWarnings("exports") Stage primaryStage) {
+	public void start(Stage primaryStage) {
 		try {
 			//Comentar esta linha para teste.
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("guiMain/Login.fxml"));
-			AnchorPane scPnTelaPrincipal = loader.load();
-			
-		 //Usado para teste, setar o fxml da tela que est� testando apra abrir ela ao invez da tela de usuario.
-		//FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Main.fxml"));
-		//	AnchorPane scPnTelaPrincipal = loader.load();
-			
-			//FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Entregas.fxml"));
-			//AnchorPane scPnTelaPrincipal = loader.load();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/Login.fxml"));
+			Parent scPnTelaPrincipal = loader.load();
 
 			mainScene = new Scene(scPnTelaPrincipal); // Carrega a scena
 			mainScene.setFill(Color.TRANSPARENT);
@@ -74,8 +66,8 @@ public class App extends Application {
 		    }); // Fim do evento.
 			
 			primaryStage.setScene(mainScene); // Seta a cena principal
-			primaryStage.setTitle("Shiyoken");
-			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/images/login/Shiyoken.png")));
+			primaryStage.setTitle("Hinotori");
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/images/ico/icoPrincipal_100.png")));
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.show(); // Mostra a tela.
 		} catch(Exception e) {
@@ -84,7 +76,7 @@ public class App extends Application {
 	}
 	
 	public static void main(String[] args) {
-		Controlador com = new Controlador();
+		//Controlador com = new Controlador();
 		launch(args);
 	}
 }

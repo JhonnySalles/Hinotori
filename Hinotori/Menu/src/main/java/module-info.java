@@ -5,7 +5,6 @@
  */
 module Menu {
 
-	exports menu.model.util;
 	exports menu.controller;
 	exports menu;
 
@@ -14,6 +13,9 @@ module Menu {
 	requires javafx.base;
 	requires javafx.controls;
 	requires javafx.fxml;
-	requires javafx.graphics;
+	requires transitive javafx.graphics;
+	
+	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
+	opens menu.controller to javafx.fxml;
 
 }

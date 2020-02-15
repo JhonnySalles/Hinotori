@@ -1,75 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="800.0" styleClass="LayoutLogin" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Sistema.guiMain.LoginController">
+<AnchorPane maxHeight="530.0" maxWidth="750.0" minHeight="530.0" minWidth="750.0" prefHeight="530.0" prefWidth="750.0" styleClass="LayoutLogin" stylesheets="@../resources/css/Login.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.controller.LoginController">
    <children>
-      <Pane fx:id="paneLogin" layoutX="200.0" layoutY="117.0" prefHeight="200.0" prefWidth="591.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0">
+      <AnchorPane fx:id="paneLogin" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <children>
-            <Button fx:id="btnExit" cancelButton="true" layoutX="759.0" layoutY="14.0" maxHeight="20.0" maxWidth="20.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" onAction="#onBtExitAction" prefHeight="20.0" prefWidth="20.0" />
-            <Label layoutX="499.0" layoutY="118.0" text="Usuario">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="cbBoxUsuario" layoutX="499.0" layoutY="138.0" onKeyPressed="#onUserEnter" prefHeight="25.0" prefWidth="260.0" styleClass="choice-box" />
-            <Label layoutX="499.0" layoutY="180.0" text="Senha">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <PasswordField fx:id="pswFieldPassword" layoutX="499.0" layoutY="200.0" maxHeight="25.0" maxWidth="260.0" minHeight="25.0" minWidth="260.0" onKeyPressed="#onPasswordEnter" prefHeight="25.0" prefWidth="260.0" promptText="Digite a senha" />
-            <Button fx:id="btnLogin" defaultButton="true" layoutX="499.0" layoutY="248.0" maxHeight="25.0" maxWidth="260.0" minHeight="25.0" minWidth="260.0" mnemonicParsing="false" onKeyPressed="#onBtLoginAction" onMouseClicked="#onBtLoginAction" prefHeight="25.0" prefWidth="260.0" styleClass="loginSombra" text="Login" />
-            <ImageView fx:id="imgViewAviso" fitHeight="20.0" fitWidth="20.0" layoutX="467.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="lblAviso" layoutX="499.0" layoutY="319.0" prefHeight="38.0" prefWidth="208.0" />
-            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="720.0" layoutY="319.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/images/login/Shiyoken.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="625.0" layoutY="359.0" text="Shiyoken 2019" />
-         </children>
-      </Pane>
-      <Pane fx:id="paneLogo" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <GridPane alignment="CENTER" layoutY="70.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="150.0" prefWidth="420.0">
-              <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints vgrow="SOMETIMES" />
-              </rowConstraints>
+            <StackPane fx:id="stPaneLogin" layoutY="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fx:id="imgVwLogoEmpresa" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox fx:id="vbLogin" alignment="CENTER" spacing="20.0">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label text="Login" textFill="#757575">
+                                 <font>
+                                    <Font name="Times New Roman" size="40.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox alignment="CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <JFXComboBox fx:id="cbBoxUsuario" maxWidth="200.0" minWidth="200.0" onKeyPressed="#onUserEnter" prefWidth="200.0" promptText="Usuário" />
+                              <JFXPasswordField fx:id="pswFieldPassword" maxWidth="200.0" minWidth="200.0" onKeyPressed="#onPasswordEnter" prefWidth="200.0" promptText="Senha" />
+                              <JFXButton fx:id="btnLogin" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" minWidth="200.0" onAction="#onBtLoginAction" prefHeight="35.0" prefWidth="200.0" text="Login" />
+                              <JFXButton fx:id="btnSair" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" minWidth="200.0" onAction="#onBtSairAction" prefHeight="35.0" prefWidth="200.0" text="Sair" />
+                           </children>
+                        </VBox>
+                        <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
+                           <children>
+                              <Label text="Hinotori 2020" />
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/images/ico/icoPrincipal_100.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets left="70.0" />
+                     </padding>
+                  </VBox>
                </children>
-            </GridPane>
-            <Label alignment="CENTER" layoutY="229.0" prefHeight="100.0" prefWidth="420.0" styleClass="logoTexto" text="Empresa">
-               <font>
-                  <Font size="64.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutY="328.0" prefHeight="57.0" prefWidth="420.0" styleClass="logoTexto" text="SubDescricao">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutY="382.0" prefHeight="20.0" prefWidth="420.0" styleClass="logoTexto" text="Bem vindo">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
+            </StackPane>
          </children>
-      </Pane>
+      </AnchorPane>
+      <AnchorPane fx:id="paneLogo" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imgVwLogoEmpresa" fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/images/logo/icoLogoPrincipal_1000.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <Label alignment="CENTER" styleClass="logoTexto" text="Demonstração">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" styleClass="logoTexto" text="Bem vindo">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

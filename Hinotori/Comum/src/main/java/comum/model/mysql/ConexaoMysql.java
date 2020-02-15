@@ -2,7 +2,11 @@ package comum.model.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import comum.model.animation.BDAnimacao;
 import comum.model.config.ProcessaConfig;
@@ -29,9 +33,12 @@ public class ConexaoMysql {
 	public static Conexao DADOS_CONEXAO;
 
 	/**
-	 * <p>Método testar a conexão, método pode travar até que consiga testar.</p>
+	 * <p>
+	 * Método testar a conexão, método pode travar até que consiga testar.
+	 * </p>
 	 * 
-	 * @return Retorna uma <b>String</b> contendo o nome do host ou vazio, caso não consiga conectar.
+	 * @return Retorna uma <b>String</b> contendo o nome do host ou vazio, caso não
+	 *         consiga conectar.
 	 * @author Jhonny de Salles Noschang
 	 */
 	public static String testaConexaoMySQL() {
@@ -66,12 +73,20 @@ public class ConexaoMysql {
 	}
 
 	/**
-	 * <p>Método utilizado para fazer o teste de conexão e animar uma imagem, tooltip opcional.</p>
-	 * <p>A função aplica método de task para que seja executado sem travar a aplicação.</p>
+	 * <p>
+	 * Método utilizado para fazer o teste de conexão e animar uma imagem, tooltip
+	 * opcional.
+	 * </p>
+	 * <p>
+	 * A função aplica método de task para que seja executado sem travar a
+	 * aplicação.
+	 * </p>
 	 * 
-	 * @param imgBd    referência da imagem utilizada para a animação.
-	 * @param tootBd   referência ao tooltip da imagem ou botão que irá informar o banco ao conecatar e uma mensagem de erro caso não consiga.
-	 * Mensagem: "Não foi possível conectar na base, verifique a configuração ou clique aqui para realizar nova tentativa."
+	 * @param imgBd  referência da imagem utilizada para a animação.
+	 * @param tootBd referência ao tooltip da imagem ou botão que irá informar o
+	 *               banco ao conecatar e uma mensagem de erro caso não consiga.
+	 *               Mensagem: "Não foi possível conectar na base, verifique a
+	 *               configuração ou clique aqui para realizar nova tentativa."
 	 * @return Retorna a <b>Classe Conexao</b>
 	 * @author Jhonny de Salles Noschang
 	 */
@@ -136,6 +151,65 @@ public class ConexaoMysql {
 		t.setDaemon(true);
 		t.start();
 		return DADOS_CONEXAO;
+	}
+
+	final static String SELECT_USER = "SELECT Login FROM usuarios WHERE Situacao <> 'EXCLUIDO' AND id <> 0;";
+
+	/**
+	 * <p>
+	 * Função para listar e retornar todos os usuarios.
+	 * </p>
+	 * 
+	 * @return Retorna uma <b>Lista de String</b> contendo todos os usuários
+	 *         cadastrados.
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static List<String> getDBUsuarios() {
+		Connection conexao = DB.getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conexao.prepareStatement(SELECT_USER);
+			rs = st.executeQuery();
+			List<String> lista = new ArrayList<>();
+
+			while (rs.next()) {
+				lista.add(rs.getString("Login"));
+			}
+
+			return lista;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+		return null;
+	}
+
+	final static String SELECT_PSW = "SELECT senha FROM usuarios WHERE Login = ?;";
+
+	public static String getDBPassword(String user) {
+		Connection conexao = DB.getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conexao.prepareStatement(SELECT_PSW);
+			st.setString(1, user);
+			rs = st.executeQuery();
+
+			if (rs.next()) {
+				return rs.getString("senha");
+			}
+
+			return "";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+		return "";
 	}
 
 }
