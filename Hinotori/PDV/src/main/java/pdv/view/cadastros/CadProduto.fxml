@@ -76,7 +76,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" minHeight="35.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <JFXTextField fx:id="txtCodigoBarras" editable="false" labelFloat="true" promptText="Cod. Barras" HBox.hgrow="ALWAYS">
+                                          <JFXTextField fx:id="txtCodigoBarras" labelFloat="true" promptText="Cod. Barras" HBox.hgrow="ALWAYS">
                                              <font>
                                                 <Font name="Times New Roman" size="12.0" />
                                              </font>
@@ -95,7 +95,7 @@
                                           <Insets />
                                        </VBox.margin>
                                        <children>
-                                          <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="imgProduto" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../../resources/imagens/white/geral/icoProdutoImage_256.png" />
                                              </image>

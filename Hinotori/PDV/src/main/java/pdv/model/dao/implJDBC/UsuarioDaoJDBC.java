@@ -43,8 +43,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 	final String INSERT_IMAGEM = "INSERT INTO usuarios_imagens (IdUsuario, IdSequencial, Nome, Extenssao, Imagem, Tamanho, Padrao) "
 			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM usuarios_imagens img WHERE img.IdUsuario = ?),?,?,?,?,?)";
+	
 	final String UPDATE_IMAGEM = "UPDATE usuarios_imagens SET Nome = ?, Extenssao = ?, Imagem = ?, "
 			+ " Tamanho = ?, Padrao = ? WHERE IdUsuario = ? AND IdSequencial = ?;";
+	
 	final String SELECT_IMAGEM = "SELECT IdSequencial, Nome, Extenssao, Imagem, "
 			+ " Tamanho, Padrao FROM usuarios_imagens WHERE IdUsuario = ?;";
 
@@ -70,6 +72,11 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			st.setString(7, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
+			ResultSet rs = st.getGeneratedKeys();
+
+			if (rs.next()) {
+				obj.setId(rs.getLong(1));
+			}
 
 			updateImagens(obj.getId(), obj.getImagens());
 
@@ -157,7 +164,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				Usuario obj = new Usuario(rs.getLong("Id"), rs.getString("NomeSobrenome"),
 						rs.getTimestamp("DataCadastro"), rs.getString("Login"), rs.getString("Observacao"),
 						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
-				obj.setImagem(selectImagens(rs.getLong("Id"), tamanho));
+				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				return obj;
 			}
 		} catch (SQLException e) {
@@ -185,7 +192,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				Usuario obj = new Usuario(rs.getLong("Id"), rs.getString("NomeSobrenome"),
 						rs.getTimestamp("DataCadastro"), rs.getString("Login"), rs.getString("Observacao"),
 						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
-				obj.setImagem(selectImagens(rs.getLong("Id"), tamanho));
+				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				list.add(obj);
 			}
 			return list;

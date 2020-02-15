@@ -2,6 +2,7 @@ package pdv.model.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoProduto;
@@ -13,6 +14,7 @@ public class Produto implements Serializable {
 	private static final long serialVersionUID = -2972348557775718310L;
 
 	private Long id;
+	private Long idNcm;
 	private String descricao;
 	private String observacao;
 	private String codigoBarras;
@@ -20,8 +22,11 @@ public class Produto implements Serializable {
 	private Date dataCadastro;
 	private Double pesoBruto;
 	private Double pesoLiquido;
+	private Double volume;
+	private Double qtdeVolume;
 	private Enum<TipoProduto> tipo;
 	private Enum<Situacao> situacao;
+	private List<Imagem> imagens;
 
 	public Long getId() {
 		return id;
@@ -29,6 +34,14 @@ public class Produto implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getIdNcm() {
+		return idNcm;
+	}
+
+	public void setIdNcm(Long idNcm) {
+		this.idNcm = idNcm;
 	}
 
 	public String getDescricao() {
@@ -95,12 +108,36 @@ public class Produto implements Serializable {
 		this.pesoLiquido = pesoLiquido;
 	}
 
+	public Double getVolume() {
+		return volume;
+	}
+
+	public void setVolume(Double volume) {
+		this.volume = volume;
+	}
+
+	public Double getQtdeVolume() {
+		return qtdeVolume;
+	}
+
+	public void setQtdeVolume(Double qtdeVolume) {
+		this.qtdeVolume = qtdeVolume;
+	}
+
 	public Enum<Situacao> getSituacao() {
 		return situacao;
 	}
 
 	public void setSituacao(Enum<Situacao> situacao) {
 		this.situacao = situacao;
+	}
+
+	public List<Imagem> getImagens() {
+		return imagens;
+	}
+
+	public void setImagens(List<Imagem> imagens) {
+		this.imagens = imagens;
 	}
 
 	public Produto() {

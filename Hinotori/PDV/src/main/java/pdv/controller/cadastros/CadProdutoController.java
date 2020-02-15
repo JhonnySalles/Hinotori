@@ -1,6 +1,7 @@
 package pdv.controller.cadastros;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +42,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import pdv.App;
 import pdv.controller.frame.PesquisaGenericaController;
 import pdv.model.dao.services.ProdutoServices;
 import pdv.model.entities.Imagem;
@@ -49,7 +51,7 @@ import pdv.model.entities.Produto;
 public class CadProdutoController implements Initializable {
 
 	final static Image ImagemPadrao = new Image(CadUsuarioController.class
-			.getResourceAsStream("/pdv/resources/imagens/white/geral/icoUsuarioImage_256.png"));
+			.getResourceAsStream("/pdv/resources/imagens/white/geral/icoProdutoImage_256.png"));
 
 	@FXML
 	private Pane paneBackground;
@@ -278,7 +280,7 @@ public class CadProdutoController implements Initializable {
 
 		if (!txtId.getText().isEmpty()) {
 			try {
-				carregarProduto(produtoService.pesquisar(Long.valueOf(txtId.getText())));
+				carregarProduto(produtoService.pesquisar(Long.valueOf(txtId.getText()), TamanhoImagem.TODOS));
 			} catch (ExcessaoBd e) {
 				e.printStackTrace();
 			}
@@ -317,6 +319,8 @@ public class CadProdutoController implements Initializable {
 	}
 
 	private CadProdutoController limpaCampos() {
+		setImagemPadrao();
+		
 		produto = new Produto();
 		txtId.setText("0");
 		txtDescricao.setText("");
@@ -339,11 +343,85 @@ public class CadProdutoController implements Initializable {
 	}
 
 	private CadProdutoController atualizaEntidade() {
+		if (produto == null)
+			produto = new Produto();
+
+		if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+			produto.setId(Long.valueOf(0));
+		else
+			produto.setId(Long.valueOf(txtId.getText()));
+
+		produto.setDescricao(txtDescricao.getText());
+		produto.setCodigoBarras(txtCodigoBarras.getText());
+
+		if (!txtPesoLiquido.getText().isEmpty())
+			produto.setPesoLiquido(Double.valueOf(txtPesoLiquido.getText()));
+
+		if (!txtPesoBruto.getText().isEmpty())
+			produto.setPesoBruto(Double.valueOf(txtPesoBruto.getText()));
+
+		if (!txtVolume.getText().isEmpty())
+			produto.setVolume(Double.valueOf(txtVolume.getText()));
+
+		if (!txtQtdVolume.getText().isEmpty())
+			produto.setQtdeVolume(Double.valueOf(txtQtdVolume.getText()));
+
+		produto.setObservacao(txtAreaObservacao.getText());
+		
+		if (frameNCMController.getId() != null)
+			produto.setIdNcm(Long.valueOf(frameNCMController.getId()));
+		
+		produto.setTipo(cbTipoProduto.getSelectionModel().getSelectedItem());
+		produto.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
+		produto.setImagens(imagens);
 
 		return this;
 	}
 
 	private CadProdutoController atualizaTela(Produto produto) {
+		limpaCampos();
+
+		this.produto = produto;
+
+		txtId.setText(produto.getId().toString());
+
+		if (produto.getDescricao() != null && !produto.getDescricao().isEmpty())
+			txtDescricao.setText(produto.getDescricao());
+
+		if (produto.getCodigoBarras() != null && !produto.getCodigoBarras().isEmpty())
+			txtCodigoBarras.setText(produto.getCodigoBarras());
+
+		if (produto.getPesoLiquido() != null)
+			txtPesoLiquido.setText(produto.getPesoLiquido().toString());
+
+		if (produto.getPesoBruto() != null)
+			txtPesoBruto.setText(produto.getPesoBruto().toString());
+
+		if (produto.getVolume() != null)
+			txtVolume.setText(produto.getVolume().toString());
+
+		if (produto.getQtdeVolume() != null)
+			txtQtdVolume.setText(produto.getQtdeVolume().toString());
+
+		if (produto.getObservacao() != null && !produto.getObservacao().isEmpty())
+			txtAreaObservacao.setText(produto.getObservacao());
+
+		cbSituacao.getSelectionModel().select(produto.getSituacao().ordinal());
+		cbTipoProduto.getSelectionModel().select(produto.getTipo().ordinal());
+		
+		
+		if (frameNCMController.getId() != null)
+			frameNCMController.locateId(frameNCMController.getId());
+		
+		if (produto.getImagens() != null && produto.getImagens().size() > 0) {
+			imagens = produto.getImagens();
+			imgProduto.setImage(new Image(new ByteArrayInputStream(produto.getImagens().get(0).getImagem())));
+		} else {
+			setImagemPadrao();
+		}
+
+		// Necessário por um bug na tela ao carregar ela.
+		App.getMainController().atualizaTabPane();
 
 		return this;
 	}

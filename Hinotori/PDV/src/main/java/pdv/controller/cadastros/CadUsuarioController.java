@@ -392,7 +392,7 @@ public class CadUsuarioController implements Initializable {
 		usuario.setObservacao(txtObservacao.getText());
 		usuario.setNivel(cbNivel.getSelectionModel().getSelectedItem());
 		usuario.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-		usuario.setImagem(imagens);
+		usuario.setImagens(imagens);
 
 		return this;
 	}

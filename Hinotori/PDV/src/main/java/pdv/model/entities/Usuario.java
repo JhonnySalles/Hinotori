@@ -56,7 +56,7 @@ public class Usuario extends Pessoa implements Serializable {
 		return imagens;
 	}
 
-	public void setImagem(List<Imagem> imagens) {
+	public void setImagens(List<Imagem> imagens) {
 		this.imagens = imagens;
 	}
 
