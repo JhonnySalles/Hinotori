@@ -1,4 +1,4 @@
-package Servidor.enumeracao;
+package servidor.enumeracao;
 
 public enum EnumPais {
 

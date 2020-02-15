@@ -4,10 +4,10 @@
  *
  */
 module Sistema {
-	
-	exports Sistema.guiMain;
-	exports Sistema.util;
-	exports Sistema;
+
+	exports sistema.guiMain;
+	exports sistema.util;
+	exports sistema;
 
 	requires Comum;
 	requires Servidor;

@@ -6,15 +6,15 @@
  *
  */
 module Servidor {
-	exports Servidor.persistencia;
-	exports Servidor.entidades;
-	exports Servidor.enumeracao;
-	exports Servidor;
+	exports servidor.persistencia;
+	exports servidor.entidades;
+	exports servidor.enumeracao;
+	exports servidor;
 
 	requires java.persistence;
 	requires org.hibernate.orm.core;
 	requires java.sql;
 	requires org.hibernate.commons.annotations;
-	
-	opens Servidor.entidades to org.hibernate.orm.core;
+
+	opens servidor.entidades to org.hibernate.orm.core;
 }

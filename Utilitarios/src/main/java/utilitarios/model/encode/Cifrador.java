@@ -1,4 +1,4 @@
-package Utilitarios.model.encode;
+package utilitarios.model.encode;
 
 import java.io.*;  
 import javax.crypto.*;  

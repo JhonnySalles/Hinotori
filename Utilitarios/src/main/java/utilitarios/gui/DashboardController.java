@@ -1,4 +1,4 @@
-package Utilitarios.gui;
+package utilitarios.gui;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,28 +35,28 @@ public class DashboardController implements Initializable {
 
 	final static String EncodDecod = "encode/TelaCodificacao.fxml";
 	final static String BaseChoice = "database/TelaDataBase.fxml";
-	final static String imgIcoEncode = "/Utilitarios/resources/images/icoEncode_48.png";
+	final static String imgIcoEncode = "/utilitarios/resources/images/icoEncode_48.png";
 
 	@FXML
 	ImageView imgViewBanco;
 	final Image imgBanco = new Image(
-			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/bntDataBase_48.png"));
+			getClass().getResourceAsStream("/utilitarios/resources/images/dashboard/bntDataBase_48.png"));
 	final Image imgBancoHover = new Image(
-			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/bntDataBaseHover_48.png"));
+			getClass().getResourceAsStream("/utilitarios/resources/images/dashboard/bntDataBaseHover_48.png"));
 
 	@FXML
 	ImageView imgViewUsuario;
 	final Image imgUsuario = new Image(
-			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/bntUsuario_48.png"));
+			getClass().getResourceAsStream("/utilitarios/resources/images/dashboard/bntUsuario_48.png"));
 	final Image imgUsuarioHover = new Image(
-			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/bntUsuarioHover_48.png"));
+			getClass().getResourceAsStream("/utilitarios/resources/images/dashboard/bntUsuarioHover_48.png"));
 
 	@FXML
 	ImageView imgViewEncode;
 	final Image imgEncode = new Image(
-			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/icoEncode_48.png"));
+			getClass().getResourceAsStream("/utilitarios/resources/images/dashboard/icoEncode_48.png"));
 	final Image imgEncodeHover = new Image(
-			getClass().getResourceAsStream("/Utilitarios/resources/images/dashboard/icoEncodeHover_48.png"));
+			getClass().getResourceAsStream("/utilitarios/resources/images/dashboard/icoEncodeHover_48.png"));
 
 	private Map<URL, Stage> telas = new HashMap<>();
 
@@ -85,7 +85,7 @@ public class DashboardController implements Initializable {
 	 * 
 	 * <p>
 	 * Ex: loadTela("encode/TelaCodificacao.fxml",
-	 * "/Utilitarios/resources/images/icoEncode_48.png", "Encode Decode");
+	 * "/utilitarios/resources/images/icoEncode_48.png", "Encode Decode");
 	 * 
 	 * @param tela   Parâmetro com o endereço da tela, partindo de onde o dashboard
 	 *               está.

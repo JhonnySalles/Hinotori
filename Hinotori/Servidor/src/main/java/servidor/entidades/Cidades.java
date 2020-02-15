@@ -1,4 +1,4 @@
-package Servidor.entidades;
+package servidor.entidades;
 
 import java.io.Serializable;
 
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
 
-import Servidor.entidades.Estados;
+import servidor.entidades.Estados;
 
 @SuppressWarnings("deprecation")
 @Entity

@@ -1,4 +1,4 @@
-package Sistema.guiMain;
+package sistema.guiMain;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;

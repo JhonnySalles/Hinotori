@@ -1,6 +1,5 @@
-package Sistema;
+package sistema;
 
-import Servidor.persistencia.Controlador;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -13,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import servidor.persistencia.Controlador;
 
 public class App extends Application {
 	

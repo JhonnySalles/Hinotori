@@ -1,4 +1,4 @@
-package Servidor.utils;
+package servidor.utils;
 
 
 import java.lang.reflect.ParameterizedType;

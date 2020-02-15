@@ -1,4 +1,4 @@
-package Servidor.entidades;
+package servidor.entidades;
 
 import java.io.Serializable;
 import javax.persistence.Column;

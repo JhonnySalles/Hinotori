@@ -1,4 +1,4 @@
-package Utilitarios.gui.encode;
+package utilitarios.gui.encode;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -11,8 +11,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import Utilitarios.model.encode.DecodeHash;
-import Utilitarios.model.encode.Encryption;
+import utilitarios.model.encode.DecodeHash;
+import utilitarios.model.encode.Encryption;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -30,19 +30,19 @@ public class TelaCodificacaoController implements Initializable {
 	final static double imgIcoWidth = 24;
 	final static double imgIcoHeight = 24;
 
-	final static String imgDecript = "/Utilitarios/resources/images/encode/icoDescriptografa_48.png";
-	final static String imgDecriptErro = "/Utilitarios/resources/images/encode/icoDescriptografaErro_48.png";
-	final static String imgDecriptAtivo = "/Utilitarios/resources/images/encode/icoDescriptografaAtivo_48.png";
+	final static String imgDecript = "/utilitarios/resources/images/encode/icoDescriptografa_48.png";
+	final static String imgDecriptErro = "/utilitarios/resources/images/encode/icoDescriptografaErro_48.png";
+	final static String imgDecriptAtivo = "/utilitarios/resources/images/encode/icoDescriptografaAtivo_48.png";
 
-	final static String imgEncript = "/Utilitarios/resources/images/encode/icoCriptografa_48.png";
-	final static String imgEncriptErro = "/Utilitarios/resources/images/encode/icoCriptografaErro_48.png";
-	final static String imgEncriptAtivo = "/Utilitarios/resources/images/encode/icoCriptografaAtivo_48.png";
+	final static String imgEncript = "/utilitarios/resources/images/encode/icoCriptografa_48.png";
+	final static String imgEncriptErro = "/utilitarios/resources/images/encode/icoCriptografaErro_48.png";
+	final static String imgEncriptAtivo = "/utilitarios/resources/images/encode/icoCriptografaAtivo_48.png";
 
 	final static double imgAvisoWidth = 24;
 	final static double imgAvisoHeight = 24;
 
-	final static String imgAviso = "/Utilitarios/resources/images/icoAviso_48.png";
-	final static String imgErro = "/Utilitarios/resources/images/icoErro_48.png";
+	final static String imgAviso = "/utilitarios/resources/images/icoAviso_48.png";
+	final static String imgErro = "/utilitarios/resources/images/icoErro_48.png";
 
 	@FXML
 	Button btnCriptografia;

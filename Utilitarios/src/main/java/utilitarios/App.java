@@ -1,6 +1,6 @@
-package Utilitarios;
+package utilitarios;
 
-import Utilitarios.gui.DashboardController;
+import utilitarios.gui.DashboardController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class App extends Application {
 	private static Scene mainScene;
 	private static DashboardController mainController;
 	
-	final static String imgUtilitarios = "/Utilitarios/resources/images/icoEncode_48.png";
+	final static String imgutilitarios = "/utilitarios/resources/images/icoEncode_48.png";
 
 	@Override
 	public void start(@SuppressWarnings("exports") Stage primaryStage) {
@@ -31,8 +31,8 @@ public class App extends Application {
 			mainScene.setFill(Color.BLACK);
 
 			primaryStage.setScene(mainScene); // Seta a cena principal
-			primaryStage.setTitle("Utilitarios");
-			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Utilitarios/resources/images/icoUtilitario_48.png")));
+			primaryStage.setTitle("utilitarios");
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/utilitarios/resources/images/icoUtilitario_48.png")));
 			primaryStage.initStyle(StageStyle.DECORATED);
 			primaryStage.setMaximized(true);
 			

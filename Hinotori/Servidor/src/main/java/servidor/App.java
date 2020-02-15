@@ -1,6 +1,6 @@
-package Servidor;
+package servidor;
 
-import Servidor.persistencia.Controlador;
+import servidor.persistencia.Controlador;
 
 /**
  * Hello world!
