@@ -4,28 +4,49 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-/*--------  Botao de login ----------*/
+/*---------- Estilos dos botoes ----------*/
 #btnLogin {
-    -fx-background-color: radial-gradient(center 80% 10% , radius 180% , #58E82D 0%, #212121 100%);
-    -fx-text-fill: #ffffff;
-    -fx-text-stroke: black;
-    -fx-stroke-width: 1;
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #43A047;
+    -fx-border-color :#43A047;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
 }
 
 #btnLogin:hover {
-    -fx-background-color: linear-gradient(to top, #58E82D 0%, #212121 100%);
-    -fx-text-fill: #ffffff;
+    -fx-background-color: #43A047;
+    -fx-text-fill:  #ffffff;
 }
 
-#btnLogin:pressed {
-    -fx-background-color: linear-gradient(to right, #212121 0%, #212121 100%);
-    -fx-text-fill: #ffffff;
+#btnLogin:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
 }
+
+#btnSair {
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #a4262c;
+    -fx-border-color :#a4262c;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
+
+#btnSair:hover {
+    -fx-background-color: #a4262c;
+    -fx-text-fill:  #ffffff;
+}
+
+#btnSair:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+
+
 
 #paneLogin{
     -fx-background-color: linear-gradient(to bottom right, #f2f2f2 0%, #ffffff 50%, #d9d9d9 100%);
     -fx-background-radius: 5px;
-    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.25) , 0, 0.2 , 5, 5);
 }
 
 
