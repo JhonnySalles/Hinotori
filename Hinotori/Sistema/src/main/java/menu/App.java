@@ -1,4 +1,4 @@
-package sistema;
+package menu;
 
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
