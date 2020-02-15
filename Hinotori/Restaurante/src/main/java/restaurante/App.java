@@ -1,4 +1,4 @@
-package Restaurante;
+package restaurante;
 
 /**
  * Hello world!

@@ -4,8 +4,8 @@
  */
 module Administrador {
 	
-	exports Restaurante;
-	exports Restaurante.gui;
+	exports restaurante;
+	exports restaurante.gui;
 
 	requires Comum;
 	requires javafx.base;
@@ -16,6 +16,6 @@ module Administrador {
 	requires java.desktop;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
-	opens Restaurante.gui to javafx.fxml;
+	opens restaurante.gui to javafx.fxml;
 	
 }

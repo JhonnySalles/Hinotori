@@ -1,4 +1,4 @@
-package Restaurante.gui;
+package restaurante.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
