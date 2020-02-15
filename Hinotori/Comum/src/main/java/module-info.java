@@ -1,32 +1,28 @@
-/**
- * @author Jhonny
- *
- */
 module Comum {
-	exports model.mask;
-	exports model.constraints;
-	exports model.cliping;
-	exports model.animation;
-	exports model.encode;
-	exports model.config;
-	exports model.mysql;
-	exports model.log;
-	exports model.alerts;
-	exports model.enums;
-	exports model.entitis;
-	exports model.utils;
-	exports model.notification;
-	
+	exports comum.model.animation;
+	exports comum.model.config;
+	exports comum.model.constraints;
+	exports comum.model.encode;
+	exports comum.model.entities;
+	exports comum.model.enums;
+	exports comum.model.exceptions;
+	exports comum.model.mask;
+	exports comum.model.messages;
+	exports comum.model.mysql;
+	exports comum.model.notification;
+	exports comum.model.utils;
+	exports comum.controller.alerts;
+
 	requires java.logging;
 	requires javafx.base;
+	requires javafx.fxml;
+	requires org.controlsfx.controls;
+	requires transitive com.jfoenix;
+	requires transitive java.sql;
 	requires transitive javafx.controls;
 	requires transitive javafx.graphics;
-	requires java.naming;
-	requires transitive java.sql;
-	requires javafx.fxml;
-	requires java.desktop;
-	requires transitive com.jfoenix;
-	requires org.controlsfx.controls;
+	requires transitive java.desktop;
+	requires AnimateFX;
 	
-	opens model.alerts to javafx.fxml;
+	opens comum.controller.alerts to javafx.fxml;
 }
