@@ -34,7 +34,7 @@
                                        <graphic>
                                           <ImageView fx:id="imgLogo" fitHeight="41.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../resources/imagens/icon/icoRestaurante_400.png" />
+                                                <Image url="@../resources/imagens/icon/icoRestaurante_100.png" />
                                              </image>
                                              <viewport>
                                                 <Rectangle2D />

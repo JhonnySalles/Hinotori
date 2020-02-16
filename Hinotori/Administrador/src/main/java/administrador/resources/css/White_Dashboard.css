@@ -77,8 +77,8 @@
 }
 
 .tab-pane .tab-header-area .tab-header-background {
-    -fx-background-color: #0f9b0f;
-    -fx-background-color: linear-gradient(to top right, #15d115, #10a210, #12ba12, #0f9b0f, #10a210);
+    -fx-background-color: #FFEB3B;
+    -fx-background-color: linear-gradient(to top right, #FFEE58, #FFEB3B, #FDD835, #FFCA28, #FFC107);
     -fx-padding: 0;
 }
 
@@ -154,7 +154,7 @@
 }
 
 .tab:hover .tab-label {
-    -fx-text-fill: #0a7800;
+    -fx-text-fill: #F9A825;
 }
 /*
 .tab .tab-close-button {
@@ -172,15 +172,15 @@
 }*/
 
 .jfx-tab-pane .control-buttons-tab .jfx-rippler{
-    -jfx-rippler-fill: #0a7800;
+    -jfx-rippler-fill: #F9A825;
 }
 
 .jfx-tab-pane .tab-header-area .jfx-rippler {
-    -jfx-rippler-fill: #0a7800;
+    -jfx-rippler-fill: #F9A825;
 }
 
 .jfx-tab-pane .tab-selected-line {
-    -fx-background-color: #0a7800;
+    -fx-background-color: #F9A825;
     -fx-pref-height: 3;
 }
 
@@ -193,8 +193,8 @@
 }
 
 .jfx-tab-pane .tab-header-background {
-    -fx-background-color: #0f9b0f;
-    -fx-background-color: linear-gradient(to top right, #15d115, #10a210, #12ba12, #0f9b0f, #10a210);
+    -fx-background-color: #FFEB3B;
+    -fx-background-color: linear-gradient(to top right, #FFEE58, #FFEB3B, #FDD835, #FFCA28, #FFC107);
 }
 
 /*----------  SplitBox - Pane divisor ----------*/

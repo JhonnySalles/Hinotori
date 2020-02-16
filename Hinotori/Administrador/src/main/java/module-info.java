@@ -7,7 +7,6 @@ module administrador {
 	exports administrador;
 	exports administrador.controller;
 	exports administrador.controller.cadastros;
-	exports administrador.controller.pesquisas;
 	exports administrador.controller.frame;
 
 	requires transitive Comum;
