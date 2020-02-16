@@ -29,22 +29,22 @@ public class CadastrosController implements Initializable {
 	
 	@FXML
 	public void onBtnCadClienteAction() {
-		main.loadView("/pdv/view/cadastros/CadCliente.fxml", "Cadastros de clientes", "");
+		main.loadView("/pdv/view/cadastros/CadCliente.fxml", "Cadastro de clientes", "");
 	}
 	
 	@FXML
 	public void onBtnCadEmpresaAction() {
-		main.loadView("/pdv/view/cadastros/CadEmpresa.fxml", "Cadastros de empresas", "");
+		main.loadView("/pdv/view/cadastros/CadEmpresa.fxml", "Cadastro de empresas", "");
 	}
 	
 	@FXML
 	public void onBtnCadUsuarioAction() {
-		main.loadView("/pdv/view/cadastros/CadUsuario.fxml", "Cadastros de usuários", "");
+		main.loadView("/pdv/view/cadastros/CadUsuario.fxml", "Cadastro de usuários", "");
 	}
 
 	@FXML
 	public void onBtnCadProdutoAction() {
-		main.loadView("/pdv/view/cadastros/CadProduto.fxml", "Cadastros de produtos", "");
+		main.loadView("/pdv/view/cadastros/CadProduto.fxml", "Cadastro de produtos", "");
 	}
 	
 	

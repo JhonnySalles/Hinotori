@@ -2,6 +2,7 @@ module PDV {
 	exports pdv;
 	exports pdv.controller;
 	exports pdv.controller.cadastros;
+	exports pdv.controller.pesquisas;
 	exports pdv.controller.frame;
 	exports pdv.controller.metricas;
 
@@ -20,6 +21,7 @@ module PDV {
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens pdv.controller to javafx.fxml;
 	opens pdv.controller.cadastros to javafx.fxml;
+	opens pdv.controller.pesquisas to javafx.fxml;
 	opens pdv.controller.frame to javafx.fxml;
 	opens pdv.controller.metricas to javafx.fxml;
 }

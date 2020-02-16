@@ -3,7 +3,6 @@ package servidor.entities;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Pessoa implements Serializable {
@@ -33,7 +32,7 @@ public class Pessoa implements Serializable {
 		this.nomeSobrenome = nomeSobrenome;
 	}
 
-	public Date getDataCadastro() {
+	public Timestamp getDataCadastro() {
 		return dataCadastro;
 	}
 

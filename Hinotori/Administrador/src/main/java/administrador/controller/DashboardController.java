@@ -137,7 +137,7 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	private void onBtnCadastrosAction() {
-		loadView("/administrador/view/cadastros/Cadastros.fxml");
+		loadView("/pdv/view/cadastros/Cadastros.fxml");
 	}
 
 	@FXML
@@ -147,7 +147,7 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	private void onBtnPesquisasAction() {
-
+		loadView("/pdv/view/pesquisas/Pesquisas.fxml");
 	}
 
 	@FXML
@@ -278,9 +278,9 @@ public class DashboardController implements Initializable {
 	private synchronized void loadView(String absoluteName) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 		try {
-			VBox vbCadastros = loader.load();
+			VBox vbPainelBotoes = loader.load();
 			vbBotoesDetalhes.getChildren().clear();
-			vbBotoesDetalhes.getChildren().add(vbCadastros);
+			vbBotoesDetalhes.getChildren().add(vbPainelBotoes);
 			vbBotoesDetalhes.setFillWidth(true);
 			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
 			if (apBotoesDetalhes.getTranslateX() != 0)
@@ -489,7 +489,7 @@ public class DashboardController implements Initializable {
 
 		try {
 			FXMLLoader loaderMeio = new FXMLLoader(
-					getClass().getResource("/administrador/view/metricas/DashBoardGraficosTituloMeio.fxml"));
+					getClass().getResource("/pdv/view/metricas/DashBoardGraficosTituloMeio.fxml"));
 			StackPane spMeio = loaderMeio.load();
 			scPaneDashGraficos.getMidBar().getChildren().add(spMeio);
 			StackPane.setMargin(spMeio, new Insets(0, 0, 0, 80));
@@ -501,7 +501,7 @@ public class DashboardController implements Initializable {
 
 		try {
 			FXMLLoader loaderBase = new FXMLLoader(
-					getClass().getResource("/administrador/view/metricas/DashBoardGraficosTituloBase.fxml"));
+					getClass().getResource("/pdv/view/metricas/DashBoardGraficosTituloBase.fxml"));
 			StackPane spBase = loaderBase.load();
 			scPaneDashGraficos.getBottomBar().getChildren().add(spBase);
 			StackPane.setMargin(spBase, new Insets(0, 0, 0, 80));
@@ -513,7 +513,7 @@ public class DashboardController implements Initializable {
 
 		try {
 			FXMLLoader loaderConteudo = new FXMLLoader(
-					getClass().getResource("/administrador/view/metricas/DashBoardGraficos.fxml"));
+					getClass().getResource("/pdv/view/metricas/DashBoardGraficos.fxml"));
 			StackPane spConteudo = loaderConteudo.load();
 			spConteudo.setPadding(new Insets(24));
 			scPaneDashGraficos.setContent(spConteudo);

@@ -147,7 +147,7 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	private void onBtnPesquisasAction() {
-
+		loadView("/pdv/view/pesquisas/Pesquisas.fxml");
 	}
 
 	@FXML
@@ -278,9 +278,9 @@ public class DashboardController implements Initializable {
 	private synchronized void loadView(String absoluteName) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 		try {
-			VBox vbCadastros = loader.load();
+			VBox vbPainelBotoes = loader.load();
 			vbBotoesDetalhes.getChildren().clear();
-			vbBotoesDetalhes.getChildren().add(vbCadastros);
+			vbBotoesDetalhes.getChildren().add(vbPainelBotoes);
 			vbBotoesDetalhes.setFillWidth(true);
 			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
 			if (apBotoesDetalhes.getTranslateX() != 0)

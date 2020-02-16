@@ -118,8 +118,7 @@ public class PesquisaGenericaGridController implements Initializable {
 					return true;
 				}
 
-				String lowerCaseFilter = newValue.toLowerCase();
-				if (person.get(indexFiltrar).toString().toLowerCase().contains(lowerCaseFilter))
+				if (person.get(indexFiltrar).toString().toLowerCase().contains(newValue.toLowerCase()))
 					return true;
 				else
 					return false;
