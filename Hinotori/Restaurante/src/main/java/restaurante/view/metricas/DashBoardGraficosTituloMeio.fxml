@@ -8,12 +8,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="spRootMeio" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administrador.controller.metricas.DashBoardGraficosBase">
+<StackPane fx:id="spRootMeio" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurante.controller.metricas.DashBoardGraficosBase">
    <children>
       <HBox prefHeight="50.0" prefWidth="600.0" spacing="10.0" StackPane.alignment="CENTER_LEFT">
          <children>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-            <Label text="Zanella Plásticos" textFill="WHITE" HBox.hgrow="ALWAYS">
+            <Label text="Empresa demonstração" textFill="WHITE" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="30.0" />
                </font>

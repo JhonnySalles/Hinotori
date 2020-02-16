@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="frameBackground" prefHeight="40.0" prefWidth="400.0" stylesheets="@../../resources/css/White_Frame.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administrador.controller.frame.PesquisaGenericaController">
+<AnchorPane fx:id="frameBackground" prefHeight="40.0" prefWidth="400.0" stylesheets="@../../resources/css/White_Frame.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurante.controller.frame.PesquisaGenericaController">
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="42.0" layoutY="-34.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

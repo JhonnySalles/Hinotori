@@ -35,9 +35,9 @@ public class App extends Application {
 			mainScene.setFill(Color.BLACK);
 
 			primaryStage.setScene(mainScene); // Seta a cena principal
-			primaryStage.setTitle("Ponto de venda");
+			primaryStage.setTitle("Restaurante");
 			primaryStage.getIcons()
-					.add(new Image(getClass().getResourceAsStream("resources/imagens/icon/icoPDV_400.png")));
+					.add(new Image(getClass().getResourceAsStream("resources/imagens/icon/icoRestaurante_ComFundo_400.png")));
 			primaryStage.setMinHeight(600);
 			primaryStage.setMinWidth(600);
 			primaryStage.initStyle(StageStyle.DECORATED);

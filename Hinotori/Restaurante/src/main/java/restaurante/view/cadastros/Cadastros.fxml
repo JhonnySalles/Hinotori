@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox minHeight="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administrador.controller.cadastros.CadastrosController">
+<VBox minHeight="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurante.controller.cadastros.CadastrosController">
    <children>
       <AnchorPane prefHeight="10.0" styleClass="background-Blue5" />
       <JFXButton fx:id="btnCadCliente" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnCadClienteAction" prefWidth="150.0" text="Cliente" textFill="WHITE" wrapText="true">

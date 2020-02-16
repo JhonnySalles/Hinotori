@@ -137,7 +137,7 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	private void onBtnCadastrosAction() {
-		loadView("/administrador/view/cadastros/Cadastros.fxml");
+		loadView("/restaurante/view/cadastros/Cadastros.fxml");
 	}
 
 	@FXML
@@ -489,7 +489,7 @@ public class DashboardController implements Initializable {
 
 		try {
 			FXMLLoader loaderMeio = new FXMLLoader(
-					getClass().getResource("/administrador/view/metricas/DashBoardGraficosTituloMeio.fxml"));
+					getClass().getResource("/restaurante/view/metricas/DashBoardGraficosTituloMeio.fxml"));
 			StackPane spMeio = loaderMeio.load();
 			scPaneDashGraficos.getMidBar().getChildren().add(spMeio);
 			StackPane.setMargin(spMeio, new Insets(0, 0, 0, 80));
@@ -501,7 +501,7 @@ public class DashboardController implements Initializable {
 
 		try {
 			FXMLLoader loaderBase = new FXMLLoader(
-					getClass().getResource("/administrador/view/metricas/DashBoardGraficosTituloBase.fxml"));
+					getClass().getResource("/restaurante/view/metricas/DashBoardGraficosTituloBase.fxml"));
 			StackPane spBase = loaderBase.load();
 			scPaneDashGraficos.getBottomBar().getChildren().add(spBase);
 			StackPane.setMargin(spBase, new Insets(0, 0, 0, 80));
@@ -513,7 +513,7 @@ public class DashboardController implements Initializable {
 
 		try {
 			FXMLLoader loaderConteudo = new FXMLLoader(
-					getClass().getResource("/administrador/view/metricas/DashBoardGraficos.fxml"));
+					getClass().getResource("/restaurante/view/metricas/DashBoardGraficos.fxml"));
 			StackPane spConteudo = loaderConteudo.load();
 			spConteudo.setPadding(new Insets(24));
 			scPaneDashGraficos.setContent(spConteudo);

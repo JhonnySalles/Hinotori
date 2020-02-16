@@ -16,9 +16,7 @@ public class ViewGerenciador {
 	private static final HashMap<String, Node> TELA_PRE_CARREGADA = new HashMap<>();
 
 	public static ObservableList<String> stylesheets = FXCollections.observableArrayList("");
-	private static String[] PRE_CARREGAMENTO = { "/administrador/view/cadastros/CadCliente.fxml",
-			"/administrador/view/cadastros/CadEmpresa.fxml", "/administrador/view/cadastros/CadUsuario.fxml",
-			"/administrador/view/cadastros/CadProduto.fxml" };
+	private static String[] PRE_CARREGAMENTO = {  };
 
 	public static ViewGerenciador getInstance() {
 		if (instancia == null) {
