@@ -22,6 +22,7 @@ public class Empresa implements Serializable {
 
 	private List<Endereco> enderecos;
 	private List<Contato> contatos;
+	private List<Imagem> imagens;
 
 	public Long getId() {
 		return id;
@@ -85,6 +86,14 @@ public class Empresa implements Serializable {
 
 	public void setContatos(List<Contato> contatos) {
 		this.contatos = contatos;
+	}
+	
+	public List<Imagem> getImagens() {
+		return imagens;
+	}
+
+	public void setImagens(List<Imagem> imagens) {
+		this.imagens = imagens;
 	}
 
 	public Empresa() {

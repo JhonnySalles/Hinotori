@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comum.model.enums.Situacao;
+import comum.model.enums.TamanhoImagem;
 import comum.model.enums.TipoContato;
 import comum.model.enums.TipoEndereco;
 import comum.model.exceptions.ExcessaoBd;
@@ -20,6 +21,7 @@ import servidor.dao.services.BairroServices;
 import servidor.entities.Contato;
 import servidor.entities.Empresa;
 import servidor.entities.Endereco;
+import servidor.entities.Imagem;
 
 public class EmpresaDaoJDBC implements EmpresaDao {
 
@@ -61,6 +63,17 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 	final String UPDATE_CONTATO = "UPDATE empresas_contatos SET Nome = ?, Telefone = ?, Celular = ?, Email = ?, "
 			+ " Observacao = ?, Tipo = ?, Situacao = ?, Padrao = ? WHERE IdEmpresa = ? AND IdSequencial = ?;";
 
+	final String INSERT_IMAGEM = "INSERT INTO empresas_imagens (IdEmpresa, IdSequencial, Nome, Extenssao, Imagem, Tamanho) "
+			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM empresas_imagens img WHERE img.IdEmpresa = ?),?,?,?,?)";
+
+	final String UPDATE_IMAGEM = "UPDATE empresas_imagens SET Nome = ?, Extenssao = ?, Imagem = ?, "
+			+ " Tamanho = ? WHERE IdEmpresa = ? AND IdSequencial = ?;";
+
+	final String SELECT_IMAGEM = "SELECT IdSequencial, Nome, Extenssao, Imagem, "
+			+ " Tamanho FROM empresas_imagens WHERE IdEmpresa = ?;";
+
+	final String DELETE_IMAGEM = "DELETE FROM empresas_imagens WHERE IdEmpresa = ? AND IdSequencial = ?;";
+	
 	private Connection conexao;
 	private BairroServices bairroService;
 
@@ -94,6 +107,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 
 			updateContatos(obj.getId(), obj.getContatos());
 			updateEnderecos(obj.getId(), obj.getEnderecos());
+			updateImagens(obj.getId(), obj.getImagens());
 
 			if (rowsAffected < 1) {
 				System.out.println("Erro ao salvar os dados.\n" + st.toString());
@@ -126,6 +140,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 
 			updateContatos(obj.getId(), obj.getContatos());
 			updateEnderecos(obj.getId(), obj.getEnderecos());
+			updateImagens(obj.getId(), obj.getImagens());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -162,7 +177,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 	}
 
 	@Override
-	public Empresa find(Long id) throws ExcessaoBd {
+	public Empresa find(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
 
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -178,6 +193,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 
 				obj.setContatos(selectContato(rs.getLong("Id")));
 				obj.setEnderecos(selectEndereco(rs.getLong("Id")));
+				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 
 				return obj;
 			}
@@ -192,7 +208,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 	}
 
 	@Override
-	public List<Empresa> findAll() throws ExcessaoBd {
+	public List<Empresa> findAll(TamanhoImagem tamanho) throws ExcessaoBd {
 
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -210,6 +226,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 
 				obj.setContatos(selectContato(rs.getLong("Id")));
 				obj.setEnderecos(selectEndereco(rs.getLong("Id")));
+				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 
 				list.add(obj);
 			}
@@ -401,6 +418,126 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		} finally {
 			DB.closeStatement(stCont);
 			DB.closeResultSet(rsCont);
+		}
+	}
+	
+	private void updateImagens(Long id, List<Imagem> lista) throws ExcessaoBd {
+		if (lista == null || lista.size() == 0)
+			return;
+
+		PreparedStatement stImg = null;
+		try {
+
+			for (Imagem ls : lista) {
+				if (ls.getExcluir()) {
+					stImg = conexao.prepareStatement(DELETE, Statement.RETURN_GENERATED_KEYS);
+					stImg.setLong(1, id);
+					stImg.setLong(2, ls.getIdSequencial());
+					int rowsAffected = stImg.executeUpdate();
+
+					if (rowsAffected < 1) {
+						System.out.println("Erro ao excluir a imagem.\n" + stImg.toString());
+						throw new ExcessaoBd(Mensagens.BD_ERRO_APAGAR_IMAGEM);
+					}
+				} else {
+					if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+						stImg = conexao.prepareStatement(UPDATE_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+
+						stImg.setString(1, ls.getNome());
+						stImg.setString(2, ls.getExtenssao());
+						stImg.setBytes(3, ls.getImagem());
+
+						switch ((TamanhoImagem) ls.getTamanho()) {
+						case ORIGINAL:
+							stImg.setString(4, "ORIGINAL");
+							break;
+						case MEDIA:
+							stImg.setString(4, "MEDIA");
+							break;
+						case PEQUENA:
+							stImg.setString(4, "PEQUENA");
+							break;
+						default:
+							stImg.setString(4, "");
+						}
+
+						stImg.setLong(5, id);
+						stImg.setLong(6, ls.getIdSequencial());
+
+						stImg.executeUpdate();
+
+					} else {
+						stImg = conexao.prepareStatement(INSERT_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+						stImg.setLong(1, id);
+						stImg.setLong(2, id);
+						stImg.setString(3, ls.getNome());
+						stImg.setString(4, ls.getExtenssao());
+						stImg.setBytes(5, ls.getImagem());
+
+						switch ((TamanhoImagem) ls.getTamanho()) {
+						case ORIGINAL:
+							stImg.setString(6, "ORIGINAL");
+							break;
+						case MEDIA:
+							stImg.setString(6, "MEDIA");
+							break;
+						case PEQUENA:
+							stImg.setString(6, "PEQUENA");
+							break;
+						default:
+							stImg.setString(6, "");
+						}
+
+						int rowsAffected = stImg.executeUpdate();
+
+						if (rowsAffected < 1) {
+							System.out.println("Erro ao salvar os imagem.\n" + stImg.toString());
+							throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_IMAGEM);
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(stImg.toString());
+			throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_IMAGEM);
+		} finally {
+			DB.closeStatement(stImg);
+		}
+	}
+
+	private List<Imagem> selectImagens(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
+		if (tamanho == null || tamanho == TamanhoImagem.NENHUMA)
+			return null;
+
+		PreparedStatement stImg = null;
+		ResultSet rsImg = null;
+		try {
+			String select = SELECT_IMAGEM;
+
+			if (tamanho == TamanhoImagem.ORIGINAL || tamanho == TamanhoImagem.MEDIA || tamanho == TamanhoImagem.PEQUENA)
+				select += " AND Tamanho = \"" + tamanho.toString() + "\"";
+
+			stImg = conexao.prepareStatement(select);
+			stImg.setLong(1, id);
+			rsImg = stImg.executeQuery();
+
+			List<Imagem> list = new ArrayList<>();
+
+			while (rsImg.next()) {
+				Imagem obj = new Imagem(rsImg.getLong("IdSequencial"), rsImg.getString("Nome"),
+						rsImg.getString("Extenssao"), rsImg.getBytes("Imagem"),
+						TamanhoImagem.valueOf(rsImg.getString("Tamanho")));
+
+				list.add(obj);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcessaoBd(Mensagens.BD_ERRO_CARREGAR_IMAGEM);
+		} finally {
+			DB.closeStatement(stImg);
+			DB.closeResultSet(rsImg);
 		}
 	}
 }

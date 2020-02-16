@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import comum.model.enums.Padrao;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.TipoProduto;
@@ -22,29 +21,31 @@ import servidor.entities.Produto;
 
 public class ProdutoDaoJDBC implements ProdutoDao {
 
-	final String INSERT = "INSERT INTO produtos (Descricao, Observacao, CodigoBarras, Unidade,"
-			+ " DataCadastro, Tipo, PesoBruto, PesoLiquido, Situacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	final String INSERT = "INSERT INTO produtos (IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade,"
+			+ " Marca, Peso, Volume, qtdVolume, DataCadastro, Tipo, Situacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-	final String UPDATE = "UPDATE produtos SET Descricao = ?, Observacao = ?, CodigoBarras = ?, Unidade = ?,"
-			+ " Tipo = ?, PesoBruto = ?, PesoLiquido = ?, Situacao = ? WHERE ID = ?;";
+	final String UPDATE = "UPDATE produtos SET IdNcm = ?, IdGrupo = ?, Descricao = ?, Observacao = ?, CodigoBarras = ?, "
+			+ " Unidade = ?, Marca = ?, Peso = ?, Volume = ?, qtdVolume = ?, Tipo = ?, Situacao = ? WHERE ID = ?;";
 
 	final String DELETE = "DELETE FROM produtos WHERE ID = ?;";
 
-	final String SELECT_ALL = "SELECT ID, Descricao, Observacao, CodigoBarras, Unidade, DataCadastro,"
-			+ " Tipo, PesoBruto, PesoLiquido, Situacao FROM produtos;";
+	final String SELECT = "SELECT Id, IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade, Marca, Peso, Volume, qtdVolume,"
+			+ " DataCadastro, Tipo, Situacao FROM produtos WHERE ID = ?;";
 
-	final String SELECT = "SELECT ID, Descricao, Observacao, CodigoBarras, Unidade, DataCadastro,"
-			+ " Tipo, PesoBruto, PesoLiquido, Situacao FROM produtos WHERE ID = ?;";
+	final String SELECT_ALL = "SELECT Id, IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade, Marca, Peso, Volume, "
+			+ " qtdVolume, DataCadastro, Tipo, Situacao FROM produtos;";
 
-	final String INSERT_IMAGEM = "INSERT INTO produtos_imagens (IdProduto, IdSequencial, Nome, Extenssao, Imagem, Tamanho, Padrao) "
-			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM produtos_imagens img WHERE img.IdProduto = ?),?,?,?,?,?)";
-	
+	final String INSERT_IMAGEM = "INSERT INTO produtos_imagens (IdProduto, IdSequencial, Nome, Extenssao, Imagem, Tamanho) "
+			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM produtos_imagens img WHERE img.IdProduto = ?),?,?,?,?)";
+
 	final String UPDATE_IMAGEM = "UPDATE produtos_imagens SET Nome = ?, Extenssao = ?, Imagem = ?, "
-			+ " Tamanho = ?, Padrao = ? WHERE IdProduto = ? AND IdSequencial = ?;";
-	
+			+ " Tamanho = ? WHERE IdProduto = ? AND IdSequencial = ?;";
+
 	final String SELECT_IMAGEM = "SELECT IdSequencial, Nome, Extenssao, Imagem, "
-			+ " Tamanho, Padrao FROM produtos_imagens WHERE IdProduto = ?;";
-	
+			+ " Tamanho FROM produtos_imagens WHERE IdProduto = ?;";
+
+	final String DELETE_IMAGEM = "DELETE FROM produtos_imagens WHERE IdUsuario = ? AND IdSequencial = ?;";
+
 	private Connection conexao;
 
 	public ProdutoDaoJDBC(Connection conexao) {
@@ -57,32 +58,36 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		try {
 			st = conexao.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 
-			st.setString(1, obj.getDescricao());
-			st.setString(2, obj.getObservacao());
-			st.setString(3, obj.getCodigoBarras());
-			st.setString(4, obj.getUnidade());
-			st.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-			
+			st.setLong(1, obj.getIdNcm());
+			st.setLong(2, obj.getIdGrupo());
+			st.setString(3, obj.getDescricao());
+			st.setString(4, obj.getObservacao());
+			st.setString(5, obj.getCodigoBarras());
+			st.setString(6, obj.getUnidade());
+			st.setString(7, obj.getMarca());
+			st.setDouble(8, obj.getPeso());
+			st.setDouble(9, obj.getVolume());
+			st.setDouble(10, obj.getQtdeVolume());
+			st.setTimestamp(11, new Timestamp(System.currentTimeMillis()));
+
 			switch ((TipoProduto) obj.getTipo()) {
 			case PRODUTOFINAL:
-				st.setString(6, "PRODUTOFINAL");
+				st.setString(12, "PRODUTOFINAL");
 				break;
 			case PRODUZIDO:
-				st.setString(6, "PRODUZIDO");
+				st.setString(12, "PRODUZIDO");
 				break;
 			case MATERIAPRIMA:
-				st.setString(6, "MATERIAPRIMA");
+				st.setString(12, "MATERIAPRIMA");
 				break;
 			case SERVICO:
-				st.setString(6, "SERVICO");
+				st.setString(12, "SERVICO");
 				break;
 			default:
-				st.setString(6, "");
+				st.setString(12, "");
 			}
-			
-			st.setDouble(7, obj.getPesoBruto());
-			st.setDouble(8, obj.getPesoLiquido());
-			st.setString(9, obj.getSituacao().toString());
+
+			st.setString(13, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 			ResultSet rs = st.getGeneratedKeys();
@@ -90,7 +95,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			if (rs.next()) {
 				obj.setId(rs.getLong(1));
 			}
-			
+
 			updateImagens(obj.getId(), obj.getImagens());
 
 			if (rowsAffected < 1) {
@@ -113,35 +118,39 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		try {
 			st = conexao.prepareStatement(UPDATE, Statement.RETURN_GENERATED_KEYS);
 
-			st.setString(1, obj.getDescricao());
-			st.setString(2, obj.getObservacao());
-			st.setString(3, obj.getCodigoBarras());
-			st.setString(4, obj.getUnidade());
-			
+			st.setLong(1, obj.getIdNcm());
+			st.setLong(2, obj.getIdGrupo());
+			st.setString(3, obj.getDescricao());
+			st.setString(4, obj.getObservacao());
+			st.setString(5, obj.getCodigoBarras());
+			st.setString(6, obj.getUnidade());
+			st.setString(7, obj.getMarca());
+			st.setDouble(8, obj.getPeso());
+			st.setDouble(9, obj.getVolume());
+			st.setDouble(10, obj.getQtdeVolume());
+
 			switch ((TipoProduto) obj.getTipo()) {
 			case PRODUTOFINAL:
-				st.setString(5, "PRODUTOFINAL");
+				st.setString(11, "PRODUTOFINAL");
 				break;
 			case PRODUZIDO:
-				st.setString(5, "PRODUZIDO");
+				st.setString(11, "PRODUZIDO");
 				break;
 			case MATERIAPRIMA:
-				st.setString(5, "MATERIAPRIMA");
+				st.setString(11, "MATERIAPRIMA");
 				break;
 			case SERVICO:
-				st.setString(5, "SERVICO");
+				st.setString(11, "SERVICO");
 				break;
 			default:
-				st.setString(5, "");
+				st.setString(11, "");
 			}
-			
-			st.setDouble(6, obj.getPesoBruto());
-			st.setDouble(7, obj.getPesoLiquido());
-			st.setString(8, obj.getSituacao().toString());
-			st.setLong(9, obj.getId());
+
+			st.setString(12, obj.getSituacao().toString());
+			st.setLong(13, obj.getId());
 
 			st.executeUpdate();
-			
+
 			updateImagens(obj.getId(), obj.getImagens());
 
 		} catch (SQLException e) {
@@ -188,10 +197,12 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Produto obj = new Produto(rs.getLong("Id"), rs.getString("Descricao"), rs.getString("Observacao"),
-						rs.getString("CodigoBarras"), rs.getString("Unidade"), rs.getDate("DataCadastro"),
-						rs.getDouble("PesoBruto"), rs.getDouble("PesoLiquido"),
-						TipoProduto.valueOf(rs.getString("Tipo")), Situacao.valueOf(rs.getString("Situacao")));
+				Produto obj = new Produto(rs.getLong("Id"), rs.getLong("IdNcm"), rs.getLong("IdGrupo"),
+						rs.getString("Descricao"), rs.getString("Observacao"), rs.getString("CodigoBarras"),
+						rs.getString("Unidade"), rs.getString("Marca"), rs.getDouble("Peso"), rs.getDouble("Volume"),
+						rs.getDate("DataCadastro"), TipoProduto.valueOf(rs.getString("Tipo")),
+						Situacao.valueOf(rs.getString("Situacao")));
+				obj.setQtdeVolume(rs.getDouble("qtdVolume"));
 				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				return obj;
 			}
@@ -217,10 +228,12 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			List<Produto> list = new ArrayList<>();
 
 			while (rs.next()) {
-				Produto obj = new Produto(rs.getLong("Id"), rs.getString("Descricao"), rs.getString("Observacao"),
-						rs.getString("CodigoBarras"), rs.getString("Unidade"), rs.getDate("DataCadastro"),
-						rs.getDouble("PesoBruto"), rs.getDouble("PesoLiquido"),
-						TipoProduto.valueOf(rs.getString("Tipo")), Situacao.valueOf(rs.getString("Situacao")));
+				Produto obj = new Produto(rs.getLong("Id"), rs.getLong("IdNcm"), rs.getLong("IdGrupo"),
+						rs.getString("Descricao"), rs.getString("Observacao"), rs.getString("CodigoBarras"),
+						rs.getString("Unidade"), rs.getString("Marca"), rs.getDouble("Peso"), rs.getDouble("Volume"),
+						rs.getDate("DataCadastro"), TipoProduto.valueOf(rs.getString("Tipo")),
+						Situacao.valueOf(rs.getString("Situacao")));
+				obj.setQtdeVolume(rs.getDouble("qtdVolume"));
 				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				list.add(obj);
 			}
@@ -233,7 +246,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			DB.closeResultSet(rs);
 		}
 	}
-	
+
 	private void updateImagens(Long id, List<Imagem> lista) throws ExcessaoBd {
 		if (lista == null || lista.size() == 0)
 			return;
@@ -242,64 +255,74 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		try {
 
 			for (Imagem ls : lista) {
-				if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
-					stImg = conexao.prepareStatement(UPDATE_IMAGEM, Statement.RETURN_GENERATED_KEYS);
-
-					stImg.setString(1, ls.getNome());
-					stImg.setString(2, ls.getExtenssao());
-					stImg.setBytes(3, ls.getImagem());
-
-					switch ((TamanhoImagem) ls.getTamanho()) {
-					case ORIGINAL:
-						stImg.setString(4, "ORIGINAL");
-						break;
-					case MEDIA:
-						stImg.setString(4, "MEDIA");
-						break;
-					case PEQUENA:
-						stImg.setString(4, "PEQUENA");
-						break;
-					default:
-						stImg.setString(4, "");
-					}
-
-					stImg.setString(5, ls.getPadrao().toString());
-					stImg.setLong(6, id);
-					stImg.setLong(7, ls.getIdSequencial());
-
-					stImg.executeUpdate();
-
-				} else {
-					stImg = conexao.prepareStatement(INSERT_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+				if (ls.getExcluir()) {
+					stImg = conexao.prepareStatement(DELETE, Statement.RETURN_GENERATED_KEYS);
 					stImg.setLong(1, id);
-					stImg.setLong(2, id);
-					stImg.setString(3, ls.getNome());
-					stImg.setString(4, ls.getExtenssao());
-					stImg.setBytes(5, ls.getImagem());
-
-					switch ((TamanhoImagem) ls.getTamanho()) {
-					case ORIGINAL:
-						stImg.setString(6, "ORIGINAL");
-						break;
-					case MEDIA:
-						stImg.setString(6, "MEDIA");
-						break;
-					case PEQUENA:
-						stImg.setString(6, "PEQUENA");
-						break;
-					default:
-						stImg.setString(6, "");
-					}
-
-					stImg.setString(7, ls.getPadrao().toString());
-
+					stImg.setLong(2, ls.getIdSequencial());
 					int rowsAffected = stImg.executeUpdate();
 
 					if (rowsAffected < 1) {
-						System.out.println("Erro ao salvar os imagem.\n" + stImg.toString());
-						throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_IMAGEM);
+						System.out.println("Erro ao excluir a imagem.\n" + stImg.toString());
+						throw new ExcessaoBd(Mensagens.BD_ERRO_APAGAR_IMAGEM);
+					}
+				} else {
+					if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+						stImg = conexao.prepareStatement(UPDATE_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+
+						stImg.setString(1, ls.getNome());
+						stImg.setString(2, ls.getExtenssao());
+						stImg.setBytes(3, ls.getImagem());
+
+						switch ((TamanhoImagem) ls.getTamanho()) {
+						case ORIGINAL:
+							stImg.setString(4, "ORIGINAL");
+							break;
+						case MEDIA:
+							stImg.setString(4, "MEDIA");
+							break;
+						case PEQUENA:
+							stImg.setString(4, "PEQUENA");
+							break;
+						default:
+							stImg.setString(4, "");
+						}
+
+						stImg.setLong(5, id);
+						stImg.setLong(6, ls.getIdSequencial());
+
+						stImg.executeUpdate();
+
+					} else {
+						stImg = conexao.prepareStatement(INSERT_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+						stImg.setLong(1, id);
+						stImg.setLong(2, id);
+						stImg.setString(3, ls.getNome());
+						stImg.setString(4, ls.getExtenssao());
+						stImg.setBytes(5, ls.getImagem());
+
+						switch ((TamanhoImagem) ls.getTamanho()) {
+						case ORIGINAL:
+							stImg.setString(6, "ORIGINAL");
+							break;
+						case MEDIA:
+							stImg.setString(6, "MEDIA");
+							break;
+						case PEQUENA:
+							stImg.setString(6, "PEQUENA");
+							break;
+						default:
+							stImg.setString(6, "");
+						}
+
+						int rowsAffected = stImg.executeUpdate();
+
+						if (rowsAffected < 1) {
+							System.out.println("Erro ao salvar os imagem.\n" + stImg.toString());
+							throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_IMAGEM);
+						}
 					}
 				}
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -331,7 +354,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			while (rsImg.next()) {
 				Imagem obj = new Imagem(rsImg.getLong("IdSequencial"), rsImg.getString("Nome"),
 						rsImg.getString("Extenssao"), rsImg.getBytes("Imagem"),
-						Padrao.valueOf(rsImg.getString("Padrao")), TamanhoImagem.valueOf(rsImg.getString("Tamanho")));
+						TamanhoImagem.valueOf(rsImg.getString("Tamanho")));
 
 				list.add(obj);
 			}

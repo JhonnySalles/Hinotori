@@ -15,17 +15,20 @@ public class Produto implements Serializable {
 
 	private Long id;
 	private Long idNcm;
+	private Long idGrupo;
 	private String descricao;
 	private String observacao;
 	private String codigoBarras;
+	private String marca;
 	private String unidade;
-	private Date dataCadastro;
-	private Double pesoBruto;
-	private Double pesoLiquido;
+	private Double peso;
 	private Double volume;
 	private Double qtdeVolume;
+	private Date dataCadastro;
+
 	private Enum<TipoProduto> tipo;
 	private Enum<Situacao> situacao;
+
 	private List<Imagem> imagens;
 
 	public Long getId() {
@@ -42,6 +45,14 @@ public class Produto implements Serializable {
 
 	public void setIdNcm(Long idNcm) {
 		this.idNcm = idNcm;
+	}
+
+	public Long getIdGrupo() {
+		return idGrupo;
+	}
+
+	public void setIdGrupo(Long idGrupo) {
+		this.idGrupo = idGrupo;
 	}
 
 	public String getDescricao() {
@@ -76,6 +87,14 @@ public class Produto implements Serializable {
 		this.unidade = unidade;
 	}
 
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
@@ -92,20 +111,12 @@ public class Produto implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public Double getPesoBruto() {
-		return pesoBruto;
+	public Double getPeso() {
+		return peso;
 	}
 
-	public void setPesoBruto(Double pesoBruto) {
-		this.pesoBruto = pesoBruto;
-	}
-
-	public Double getPesoLiquido() {
-		return pesoLiquido;
-	}
-
-	public void setPesoLiquido(Double pesoLiquido) {
-		this.pesoLiquido = pesoLiquido;
+	public void setPeso(Double peso) {
+		this.peso = peso;
 	}
 
 	public Double getVolume() {
@@ -146,24 +157,44 @@ public class Produto implements Serializable {
 		this.observacao = "";
 		this.codigoBarras = "";
 		this.unidade = "";
+		this.marca = "";
+		this.peso = 0.0;
 		this.tipo = TipoProduto.PRODUTOFINAL;
-		this.pesoBruto = 0.0;
-		this.pesoLiquido = 0.0;
 		this.situacao = Situacao.ATIVO;
 	}
 
-	public Produto(Long id, String descricao, String observacao, String codigoBarras, String unidade, Date dataCadastro,
-			Double pesoBruto, Double pesoLiquido, Enum<TipoProduto> tipo, Enum<Situacao> situacao) {
-
+	public Produto(Long id, String descricao, String observacao, String codigoBarras, String unidade, String marca,
+			Double peso, Double volume, Date dataCadastro, Enum<TipoProduto> tipo, Enum<Situacao> situacao) {
 		this.id = id;
 		this.descricao = descricao;
 		this.observacao = observacao;
 		this.codigoBarras = codigoBarras;
 		this.unidade = unidade;
+		this.marca = marca;
+		this.peso = peso;
+		this.volume = volume;
+		this.qtdeVolume = 0.0;
 		this.dataCadastro = dataCadastro;
 		this.tipo = tipo;
-		this.pesoBruto = pesoBruto;
-		this.pesoLiquido = pesoLiquido;
+		this.situacao = situacao;
+	}
+
+	public Produto(Long id, Long idNcm, Long idGrupo, String descricao, String observacao, String codigoBarras,
+			String unidade, String marca, Double peso, Double volume, Date dataCadastro, Enum<TipoProduto> tipo,
+			Enum<Situacao> situacao) {
+		this.id = id;
+		this.idNcm = idNcm;
+		this.idGrupo = idGrupo;
+		this.descricao = descricao;
+		this.observacao = observacao;
+		this.codigoBarras = codigoBarras;
+		this.unidade = unidade;
+		this.marca = marca;
+		this.peso = peso;
+		this.volume = volume;
+		this.qtdeVolume = 0.0;
+		this.dataCadastro = dataCadastro;
+		this.tipo = tipo;
 		this.situacao = situacao;
 	}
 
@@ -203,8 +234,8 @@ public class Produto implements Serializable {
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", descricao=" + descricao + ", observacao=" + observacao + ", codigoBarras="
-				+ codigoBarras + ", unidade=" + unidade + ", dataCadastro=" + dataCadastro + ", tipo=" + tipo
-				+ ", pesoBruto=" + pesoBruto + ", pesoLiquido=" + pesoLiquido + ", situacao=" + situacao + "]";
+				+ codigoBarras + ", unidade=" + unidade + ", marca=" + marca + ", dataCadastro=" + dataCadastro
+				+ ", tipo=" + tipo + ", peso=" + peso + ", situacao=" + situacao + "]";
 	}
 
 }

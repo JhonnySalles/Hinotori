@@ -26,7 +26,6 @@ import com.jfoenix.controls.JFXTextField;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Notificacao;
-import comum.model.enums.Padrao;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
@@ -234,18 +233,15 @@ public class CadUsuarioController implements Initializable {
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 				ImageIO.write(bImage, imagemExtenssao, bos);
 
-				imagens.add(
-						new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), Padrao.NAO, TamanhoImagem.ORIGINAL));
+				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.ORIGINAL));
 
 				BufferedImage bImg100 = Utils.resizeImage(bImage, 100, 100);
 				ImageIO.write(bImg100, imagemExtenssao, bos);
-				imagens.add(
-						new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), Padrao.NAO, TamanhoImagem.PEQUENA));
+				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.PEQUENA));
 
 				BufferedImage bImg600 = Utils.resizeImage(bImage, 600, 600);
 				ImageIO.write(bImg600, imagemExtenssao, bos);
-				imagens.add(
-						new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), Padrao.NAO, TamanhoImagem.MEDIA));
+				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.MEDIA));
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -264,6 +260,9 @@ public class CadUsuarioController implements Initializable {
 
 	@FXML
 	public void onBtnExcluirImagemClick() {
+		for (Imagem img : imagens) {
+			img.setExcluir(true);
+		}
 		setImagemPadrao();
 	}
 

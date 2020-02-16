@@ -2,7 +2,6 @@ package servidor.entities;
 
 import java.io.Serializable;
 
-import comum.model.enums.Padrao;
 import comum.model.enums.TamanhoImagem;
 
 public class Imagem implements Serializable {
@@ -17,8 +16,8 @@ public class Imagem implements Serializable {
 
 	private byte[] imagem;
 
-	private Enum<Padrao> padrao;
 	private Enum<TamanhoImagem> tamanho;
+	private Boolean excluir;
 
 	public Long getIdSequencial() {
 		return idSequencial;
@@ -52,14 +51,6 @@ public class Imagem implements Serializable {
 		this.imagem = imagem;
 	}
 
-	public Enum<Padrao> getPadrao() {
-		return padrao;
-	}
-
-	public void setPadrao(Enum<Padrao> padrao) {
-		this.padrao = padrao;
-	}
-
 	public Enum<TamanhoImagem> getTamanho() {
 		return tamanho;
 	}
@@ -68,32 +59,40 @@ public class Imagem implements Serializable {
 		this.tamanho = tamanho;
 	}
 
-	public Imagem() {
-		this.idSequencial = Long.valueOf(0);
+	public Boolean getExcluir() {
+		return excluir;
 	}
 
-	public Imagem(String nome, String extenssao, byte[] imagem, Enum<Padrao> padrao, Enum<TamanhoImagem> tamanho) {
+	public void setExcluir(Boolean excluir) {
+		this.excluir = excluir;
+	}
+
+	public Imagem() {
+		this.idSequencial = Long.valueOf(0);
+		this.excluir = false;
+	}
+
+	public Imagem(String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
 		this.nome = nome;
 		this.extenssao = extenssao;
 		this.imagem = imagem;
-		this.padrao = padrao;
 		this.tamanho = tamanho;
+		this.excluir = false;
 	}
 
-	public Imagem(Long idSequencial, String nome, String extenssao, byte[] imagem, Enum<Padrao> padrao,
-			Enum<TamanhoImagem> tamanho) {
+	public Imagem(Long idSequencial, String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
 		this.idSequencial = idSequencial;
 		this.nome = nome;
 		this.extenssao = extenssao;
 		this.imagem = imagem;
-		this.padrao = padrao;
 		this.tamanho = tamanho;
+		this.excluir = false;
 	}
 
 	@Override
 	public String toString() {
-		return "Imagem [idSequencial=" + idSequencial + ", nome=" + nome + ", extenssao=" + extenssao + ", padrao="
-				+ padrao + ", tamanho=" + tamanho + "]";
+		return "Imagem [idSequencial=" + idSequencial + ", nome=" + nome + ", extenssao=" + extenssao + ", tamanho="
+				+ tamanho + "]";
 	}
 
 }

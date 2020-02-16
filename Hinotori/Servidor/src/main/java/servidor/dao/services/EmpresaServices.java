@@ -2,6 +2,7 @@ package servidor.dao.services;
 
 import java.util.List;
 
+import comum.model.enums.TamanhoImagem;
 import comum.model.exceptions.ExcessaoBd;
 import servidor.dao.DaoFactory;
 import servidor.dao.EmpresaDao;
@@ -22,12 +23,12 @@ public class EmpresaServices {
 		empresaDao.delete(id);
 	};
 
-	public Empresa pesquisar(Long id) throws ExcessaoBd {
-		return empresaDao.find(id);
+	public Empresa pesquisar(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
+		return empresaDao.find(id, tamanho);
 	};
 
-	public List<Empresa> pesquisarTodos() throws ExcessaoBd {
-		return empresaDao.findAll();
+	public List<Empresa> pesquisarTodos(TamanhoImagem tamanho) throws ExcessaoBd {
+		return empresaDao.findAll(tamanho);
 	};
 
 }

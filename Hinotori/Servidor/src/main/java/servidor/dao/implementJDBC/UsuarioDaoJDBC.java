@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comum.model.encode.DecodeHash;
-import comum.model.enums.Padrao;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
@@ -41,14 +40,16 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 	final String SELECT_LOGIN = "SELECT * FROM usuarios WHERE Login = ?;";
 
-	final String INSERT_IMAGEM = "INSERT INTO usuarios_imagens (IdUsuario, IdSequencial, Nome, Extenssao, Imagem, Tamanho, Padrao) "
-			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM usuarios_imagens img WHERE img.IdUsuario = ?),?,?,?,?,?)";
-	
+	final String INSERT_IMAGEM = "INSERT INTO usuarios_imagens (IdUsuario, IdSequencial, Nome, Extenssao, Imagem, Tamanho) "
+			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM usuarios_imagens img WHERE img.IdUsuario = ?),?,?,?,?)";
+
 	final String UPDATE_IMAGEM = "UPDATE usuarios_imagens SET Nome = ?, Extenssao = ?, Imagem = ?, "
-			+ " Tamanho = ?, Padrao = ? WHERE IdUsuario = ? AND IdSequencial = ?;";
-	
+			+ " Tamanho = ? WHERE IdUsuario = ? AND IdSequencial = ?;";
+
 	final String SELECT_IMAGEM = "SELECT IdSequencial, Nome, Extenssao, Imagem, "
-			+ " Tamanho, Padrao FROM usuarios_imagens WHERE IdUsuario = ?;";
+			+ " Tamanho FROM usuarios_imagens WHERE IdUsuario = ?;";
+
+	final String DELETE_IMAGEM = "DELETE FROM usuarios_imagens WHERE IdUsuario = ? AND IdSequencial = ?;";
 
 	private Connection conexao;
 
@@ -213,62 +214,71 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		try {
 
 			for (Imagem ls : lista) {
-				if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
-					stImg = conexao.prepareStatement(UPDATE_IMAGEM, Statement.RETURN_GENERATED_KEYS);
-
-					stImg.setString(1, ls.getNome());
-					stImg.setString(2, ls.getExtenssao());
-					stImg.setBytes(3, ls.getImagem());
-
-					switch ((TamanhoImagem) ls.getTamanho()) {
-					case ORIGINAL:
-						stImg.setString(4, "ORIGINAL");
-						break;
-					case MEDIA:
-						stImg.setString(4, "MEDIA");
-						break;
-					case PEQUENA:
-						stImg.setString(4, "PEQUENA");
-						break;
-					default:
-						stImg.setString(4, "");
-					}
-
-					stImg.setString(5, ls.getPadrao().toString());
-					stImg.setLong(6, id);
-					stImg.setLong(7, ls.getIdSequencial());
-
-					stImg.executeUpdate();
-
-				} else {
-					stImg = conexao.prepareStatement(INSERT_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+				if (ls.getExcluir()) {
+					stImg = conexao.prepareStatement(DELETE, Statement.RETURN_GENERATED_KEYS);
 					stImg.setLong(1, id);
-					stImg.setLong(2, id);
-					stImg.setString(3, ls.getNome());
-					stImg.setString(4, ls.getExtenssao());
-					stImg.setBytes(5, ls.getImagem());
-
-					switch ((TamanhoImagem) ls.getTamanho()) {
-					case ORIGINAL:
-						stImg.setString(6, "ORIGINAL");
-						break;
-					case MEDIA:
-						stImg.setString(6, "MEDIA");
-						break;
-					case PEQUENA:
-						stImg.setString(6, "PEQUENA");
-						break;
-					default:
-						stImg.setString(6, "");
-					}
-
-					stImg.setString(7, ls.getPadrao().toString());
-
+					stImg.setLong(2, ls.getIdSequencial());
 					int rowsAffected = stImg.executeUpdate();
 
 					if (rowsAffected < 1) {
-						System.out.println("Erro ao salvar os imagem.\n" + stImg.toString());
-						throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_IMAGEM);
+						System.out.println("Erro ao excluir a imagem.\n" + stImg.toString());
+						throw new ExcessaoBd(Mensagens.BD_ERRO_APAGAR_IMAGEM);
+					}
+				} else {
+					if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+						stImg = conexao.prepareStatement(UPDATE_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+
+						stImg.setString(1, ls.getNome());
+						stImg.setString(2, ls.getExtenssao());
+						stImg.setBytes(3, ls.getImagem());
+
+						switch ((TamanhoImagem) ls.getTamanho()) {
+						case ORIGINAL:
+							stImg.setString(4, "ORIGINAL");
+							break;
+						case MEDIA:
+							stImg.setString(4, "MEDIA");
+							break;
+						case PEQUENA:
+							stImg.setString(4, "PEQUENA");
+							break;
+						default:
+							stImg.setString(4, "");
+						}
+
+						stImg.setLong(5, id);
+						stImg.setLong(6, ls.getIdSequencial());
+
+						stImg.executeUpdate();
+
+					} else {
+						stImg = conexao.prepareStatement(INSERT_IMAGEM, Statement.RETURN_GENERATED_KEYS);
+						stImg.setLong(1, id);
+						stImg.setLong(2, id);
+						stImg.setString(3, ls.getNome());
+						stImg.setString(4, ls.getExtenssao());
+						stImg.setBytes(5, ls.getImagem());
+
+						switch ((TamanhoImagem) ls.getTamanho()) {
+						case ORIGINAL:
+							stImg.setString(6, "ORIGINAL");
+							break;
+						case MEDIA:
+							stImg.setString(6, "MEDIA");
+							break;
+						case PEQUENA:
+							stImg.setString(6, "PEQUENA");
+							break;
+						default:
+							stImg.setString(6, "");
+						}
+
+						int rowsAffected = stImg.executeUpdate();
+
+						if (rowsAffected < 1) {
+							System.out.println("Erro ao salvar os imagem.\n" + stImg.toString());
+							throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_IMAGEM);
+						}
 					}
 				}
 			}
@@ -302,7 +312,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			while (rsImg.next()) {
 				Imagem obj = new Imagem(rsImg.getLong("IdSequencial"), rsImg.getString("Nome"),
 						rsImg.getString("Extenssao"), rsImg.getBytes("Imagem"),
-						Padrao.valueOf(rsImg.getString("Padrao")), TamanhoImagem.valueOf(rsImg.getString("Tamanho")));
+						TamanhoImagem.valueOf(rsImg.getString("Tamanho")));
 
 				list.add(obj);
 			}

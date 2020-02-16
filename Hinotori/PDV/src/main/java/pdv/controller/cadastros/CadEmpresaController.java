@@ -21,7 +21,6 @@ import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Notificacao;
-import comum.model.enums.Padrao;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.exceptions.ExcessaoBd;
@@ -49,9 +48,9 @@ import servidor.entities.Imagem;
 
 public class CadEmpresaController implements Initializable {
 
-	final static Image LogoPadrao = new Image(CadEmpresaController.class
-			.getResourceAsStream("/pdv/resources/imagens/icon/icoPedidosVenda_1000.png"));
-	
+	final static Image LogoPadrao = new Image(
+			CadEmpresaController.class.getResourceAsStream("/pdv/resources/imagens/icon/icoPedidosVenda_1000.png"));
+
 	@FXML
 	private ScrollPane background;
 
@@ -81,7 +80,7 @@ public class CadEmpresaController implements Initializable {
 
 	@FXML
 	private JFXButton btnEndereco;
-	
+
 	@FXML
 	private ImageView imgLogo;
 
@@ -106,10 +105,10 @@ public class CadEmpresaController implements Initializable {
 	@FXML
 	private JFXButton btnVoltar;
 
-	private EmpresaServices empresaService;
-	private Empresa empresa;
-	private String id;
 	private List<Imagem> imagens;
+	private Empresa empresa;
+	private EmpresaServices empresaService;
+	private String id;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -222,14 +221,14 @@ public class CadEmpresaController implements Initializable {
 				.loadView("/pdv/view/cadastros/CadContatoDados.fxml", spTelas);
 		ctn.initData(txtRazaoSocial.getText(), empresa.getContatos(), spTelas);
 	}
-	
+
 	@FXML
 	public void onBtnProcurarImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		if (e.getCode().toString().equals("ENTER")) {
 			btnProcurarImagem.fire();
 		}
 	}
-	
+
 	@FXML
 	public void onBtnProcurarImagemClick() {
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg");
@@ -252,18 +251,15 @@ public class CadEmpresaController implements Initializable {
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 				ImageIO.write(bImage, imagemExtenssao, bos);
 
-				imagens.add(
-						new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), Padrao.NAO, TamanhoImagem.ORIGINAL));
+				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.ORIGINAL));
 
 				BufferedImage bImg100 = Utils.resizeImage(bImage, 100, 100);
 				ImageIO.write(bImg100, imagemExtenssao, bos);
-				imagens.add(
-						new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), Padrao.NAO, TamanhoImagem.PEQUENA));
+				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.PEQUENA));
 
 				BufferedImage bImg600 = Utils.resizeImage(bImage, 600, 600);
 				ImageIO.write(bImg600, imagemExtenssao, bos);
-				imagens.add(
-						new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), Padrao.NAO, TamanhoImagem.MEDIA));
+				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.MEDIA));
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -288,7 +284,7 @@ public class CadEmpresaController implements Initializable {
 	public void onTxtIdExit() {
 		if (!txtId.getText().isEmpty()) {
 			try {
-				carregaEmpresa(empresaService.pesquisar(Long.valueOf(txtId.getText())));
+				carregaEmpresa(empresaService.pesquisar(Long.valueOf(txtId.getText()), TamanhoImagem.TODOS));
 			} catch (ExcessaoBd e) {
 				e.printStackTrace();
 			}
@@ -359,7 +355,7 @@ public class CadEmpresaController implements Initializable {
 		setImagemPadrao();
 		return this;
 	}
-	
+
 	private CadEmpresaController setImagemPadrao() {
 		imagens = null;
 		imgLogo.setImage(LogoPadrao);

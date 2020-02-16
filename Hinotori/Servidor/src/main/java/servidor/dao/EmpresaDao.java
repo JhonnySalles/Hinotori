@@ -2,6 +2,7 @@ package servidor.dao;
 
 import java.util.List;
 
+import comum.model.enums.TamanhoImagem;
 import comum.model.exceptions.ExcessaoBd;
 import servidor.entities.Empresa;
 
@@ -13,8 +14,8 @@ public interface EmpresaDao {
 
 	void delete(Long id) throws ExcessaoBd;
 
-	Empresa find(Long id) throws ExcessaoBd;
+	Empresa find(Long id, TamanhoImagem tamanho) throws ExcessaoBd;
 
-	List<Empresa> findAll() throws ExcessaoBd;
+	List<Empresa> findAll(TamanhoImagem tamanho) throws ExcessaoBd;
 
 }

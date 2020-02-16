@@ -8,6 +8,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -35,7 +37,7 @@
             </HBox>
             <VBox alignment="TOP_CENTER" layoutX="15.0" layoutY="145.0" minHeight="530.0" minWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
                <children>
-                  <VBox alignment="TOP_CENTER" maxHeight="700.0" maxWidth="1000.0" minHeight="400.0" minWidth="500.0" spacing="20.0" styleClass="background-dados">
+                  <VBox alignment="TOP_CENTER" maxHeight="700.0" maxWidth="1000.0" minHeight="420.0" minWidth="500.0" spacing="20.0" styleClass="background-dados">
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
@@ -120,28 +122,49 @@
                               <fx:include fx:id="frameNCM" source="../frame/PesquisaGenerica.fxml" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" minHeight="35.0" spacing="5.0">
+                        <HBox alignment="CENTER" minHeight="50.0" spacing="10.0" stylesheets="@../../resources/css/White_SpinnerHorizontal.css">
                            <children>
-                              <JFXTextField fx:id="txtPesoLiquido" labelFloat="true" prefWidth="100.0" promptText="Peso líquido" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
-                              <JFXTextField fx:id="txtPesoBruto" labelFloat="true" prefWidth="100.0" promptText="Peso bruto" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
-                              <JFXTextField fx:id="txtVolume" labelFloat="true" prefWidth="100.0" promptText="Volume" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
-                              <JFXTextField fx:id="txtQtdVolume" labelFloat="true" prefWidth="100.0" promptText="Qtd. no volume" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Times New Roman" size="12.0" />
-                                 </font>
-                              </JFXTextField>
+                              <JFXTextField fx:id="txtUnidade" prefHeight="35.0" promptText="Unidade" HBox.hgrow="ALWAYS" />
+                              <JFXTextField fx:id="txtMarca" prefHeight="35.0" promptText="Marca" HBox.hgrow="ALWAYS" />
+                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Peso" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin></Label>
+                                    <Spinner fx:id="spnPeso" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
+                                   		<valueFactory>
+                							<SpinnerValueFactory.DoubleSpinnerValueFactory amountToStepBy="1" initialValue="0" max="1000000000.0" min="0.0" />
+            							</valueFactory>
+            						</Spinner>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Volume" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin></Label>
+                                    <Spinner fx:id="spnVolume" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
+                                   		<valueFactory>
+                							<SpinnerValueFactory.DoubleSpinnerValueFactory amountToStepBy="1" initialValue="0" max="1000000000.0" min="0.0" />
+            							</valueFactory>
+            						</Spinner>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Qtd. no volume" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin></Label>
+                                    <Spinner fx:id="spnQtdVolume" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
+                                   		<valueFactory>
+                							<SpinnerValueFactory.DoubleSpinnerValueFactory amountToStepBy="1" initialValue="0" max="1000000000.0" min="0.0" />
+            							</valueFactory>
+            						</Spinner>
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="80.0">

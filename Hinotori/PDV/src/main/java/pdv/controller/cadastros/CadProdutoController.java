@@ -22,7 +22,6 @@ import com.jfoenix.controls.JFXTextField;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Notificacao;
-import comum.model.enums.Padrao;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.TipoProduto;
@@ -35,6 +34,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -72,16 +72,19 @@ public class CadProdutoController implements Initializable {
 	private JFXTextField txtCodigoBarras;
 
 	@FXML
-	private JFXTextField txtPesoLiquido;
+	private JFXTextField txtUnidade;
 
 	@FXML
-	private JFXTextField txtPesoBruto;
+	private JFXTextField txtMarca;
 
 	@FXML
-	private JFXTextField txtVolume;
+	private Spinner<Double> spnPeso;
 
 	@FXML
-	private JFXTextField txtQtdVolume;
+	private Spinner<Double> spnVolume;
+
+	@FXML
+	private Spinner<Double> spnQtdVolume;
 
 	@FXML
 	private JFXTextArea txtAreaObservacao;
@@ -226,18 +229,15 @@ public class CadProdutoController implements Initializable {
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 				ImageIO.write(bImage, imagemExtenssao, bos);
 
-				imagens.add(
-						new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), Padrao.NAO, TamanhoImagem.ORIGINAL));
+				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.ORIGINAL));
 
 				BufferedImage bImg100 = Utils.resizeImage(bImage, 100, 100);
 				ImageIO.write(bImg100, imagemExtenssao, bos);
-				imagens.add(
-						new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), Padrao.NAO, TamanhoImagem.PEQUENA));
+				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.PEQUENA));
 
 				BufferedImage bImg600 = Utils.resizeImage(bImage, 600, 600);
 				ImageIO.write(bImg600, imagemExtenssao, bos);
-				imagens.add(
-						new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), Padrao.NAO, TamanhoImagem.MEDIA));
+				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.MEDIA));
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -256,6 +256,9 @@ public class CadProdutoController implements Initializable {
 
 	@FXML
 	public void onBtnExcluirImagemClick() {
+		for (Imagem img : imagens) {
+			img.setExcluir(true);
+		}
 		setImagemPadrao();
 	}
 
@@ -320,15 +323,16 @@ public class CadProdutoController implements Initializable {
 
 	private CadProdutoController limpaCampos() {
 		setImagemPadrao();
-		
+
 		produto = new Produto();
 		txtId.setText("0");
 		txtDescricao.setText("");
 		txtCodigoBarras.setText("");
-		txtPesoLiquido.setText("");
-		txtPesoBruto.setText("");
-		txtVolume.setText("");
-		txtQtdVolume.setText("");
+		txtUnidade.setText("");
+		txtMarca.setText("");
+		spnPeso.getEditor().setText("0");
+		spnVolume.getEditor().setText("0");
+		spnQtdVolume.getEditor().setText("0");
 		txtAreaObservacao.setText("");
 		cbSituacao.getSelectionModel().selectFirst();
 		cbTipoProduto.getSelectionModel().selectFirst();
@@ -353,24 +357,16 @@ public class CadProdutoController implements Initializable {
 
 		produto.setDescricao(txtDescricao.getText());
 		produto.setCodigoBarras(txtCodigoBarras.getText());
-
-		if (!txtPesoLiquido.getText().isEmpty())
-			produto.setPesoLiquido(Double.valueOf(txtPesoLiquido.getText()));
-
-		if (!txtPesoBruto.getText().isEmpty())
-			produto.setPesoBruto(Double.valueOf(txtPesoBruto.getText()));
-
-		if (!txtVolume.getText().isEmpty())
-			produto.setVolume(Double.valueOf(txtVolume.getText()));
-
-		if (!txtQtdVolume.getText().isEmpty())
-			produto.setQtdeVolume(Double.valueOf(txtQtdVolume.getText()));
-
+		produto.setMarca(txtUnidade.getText());
+		produto.setUnidade(txtUnidade.getText());
+		produto.setPeso(spnPeso.getValue());
+		produto.setVolume(spnVolume.getValue());
+		produto.setQtdeVolume(spnQtdVolume.getValue());
 		produto.setObservacao(txtAreaObservacao.getText());
-		
+
 		if (frameNCMController.getId() != null)
 			produto.setIdNcm(Long.valueOf(frameNCMController.getId()));
-		
+
 		produto.setTipo(cbTipoProduto.getSelectionModel().getSelectedItem());
 		produto.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 		produto.setImagens(imagens);
@@ -391,28 +387,30 @@ public class CadProdutoController implements Initializable {
 		if (produto.getCodigoBarras() != null && !produto.getCodigoBarras().isEmpty())
 			txtCodigoBarras.setText(produto.getCodigoBarras());
 
-		if (produto.getPesoLiquido() != null)
-			txtPesoLiquido.setText(produto.getPesoLiquido().toString());
+		if (produto.getUnidade() != null && !produto.getUnidade().isEmpty())
+			txtUnidade.setText(produto.getUnidade());
 
-		if (produto.getPesoBruto() != null)
-			txtPesoBruto.setText(produto.getPesoBruto().toString());
+		if (produto.getMarca() != null && !produto.getMarca().isEmpty())
+			txtMarca.setText(produto.getMarca());
+
+		if (produto.getPeso() != null)
+			spnPeso.getEditor().setText(produto.getPeso().toString());
 
 		if (produto.getVolume() != null)
-			txtVolume.setText(produto.getVolume().toString());
+			spnVolume.getEditor().setText(produto.getVolume().toString());
 
 		if (produto.getQtdeVolume() != null)
-			txtQtdVolume.setText(produto.getQtdeVolume().toString());
+			spnQtdVolume.getEditor().setText(produto.getQtdeVolume().toString());
 
 		if (produto.getObservacao() != null && !produto.getObservacao().isEmpty())
 			txtAreaObservacao.setText(produto.getObservacao());
 
 		cbSituacao.getSelectionModel().select(produto.getSituacao().ordinal());
 		cbTipoProduto.getSelectionModel().select(produto.getTipo().ordinal());
-		
-		
+
 		if (frameNCMController.getId() != null)
 			frameNCMController.locateId(frameNCMController.getId());
-		
+
 		if (produto.getImagens() != null && produto.getImagens().size() > 0) {
 			imagens = produto.getImagens();
 			imgProduto.setImage(new Image(new ByteArrayInputStream(produto.getImagens().get(0).getImagem())));
@@ -496,7 +494,6 @@ public class CadProdutoController implements Initializable {
 		setProdutoServices(new ProdutoServices());
 
 		Limitadores.setTextFieldInteger(txtId);
-
 		Validadores.setTextFieldNotEmpty(txtDescricao);
 
 		cbSituacao.getItems().addAll(Situacao.values());

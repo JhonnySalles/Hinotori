@@ -9,6 +9,7 @@ public class Mensagens {
 	public final static String BD_ERRO_SELECT_ALL = "Erro ao carregar os registros.";
 	public final static String BD_ERRO_SALVAR_IMAGEM = "Erro ao salvar a imagem.";
 	public final static String BD_ERRO_CARREGAR_IMAGEM = "Erro ao carregar a imagens.";
+	public final static String BD_ERRO_APAGAR_IMAGEM = "Erro ao apagar a imagem.";
 	public final static String BD_ERRO_CARREGAR_ENDERECO = "Erro ao carregar o endereço.";
 	public final static String BD_ERRO_SALVAR_ENDERECO = "Erro ao salvar o endereço.";
 	public final static String BD_ERRO_CARREGAR_CONTATO = "Erro ao carregar o contato.";
