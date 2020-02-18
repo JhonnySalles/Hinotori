@@ -26,18 +26,18 @@ import servidor.entities.Imagem;
 public class EmpresaDaoJDBC implements EmpresaDao {
 
 	final String INSERT = "INSERT INTO empresas (NomeFantasia, RazaoSocial, "
-			+ " CNPJ, DataCadastro, Situacao ) VALUES ( ?, ?, ?, ?, ? );";
+			+ " CNPJ, DataCadastro, Situacao ) VALUES ( ?, ?, ?, ?, ? )";
 
 	final String UPDATE = "UPDATE empresas SET NomeFantasia = ?,"
-			+ " RazaoSocial = ?, CNPJ = ?, Situacao = ? WHERE ID = ?;";
+			+ " RazaoSocial = ?, CNPJ = ?, Situacao = ? WHERE ID = ?";
 
-	final String DELETE = "DELETE FROM empresas WHERE ID = ?;";
+	final String DELETE = "DELETE FROM empresas WHERE ID = ?";
 
 	final String SELECT_ALL = "SELECT ID, NomeFantasia, RazaoSocial, CNPJ,"
-			+ " DataCadastro, Situacao FROM empresas WHERE Situacao <> 'Excluído';";
+			+ " DataCadastro, Situacao FROM empresas WHERE Situacao <> 'Excluído'";
 
 	final String SELECT = "SELECT ID, NomeFantasia, RazaoSocial, CNPJ, "
-			+ " DataCadastro, Situacao FROM empresas WHERE ID = ?;";
+			+ " DataCadastro, Situacao FROM empresas WHERE ID = ?";
 
 	final String SELECT_ENDERECO = "SELECT IdSequencial, IdBairro, Endereco, Numero, CEP, "
 			+ " Complemento, Observacao, Tipo, Situacao, Padrao FROM empresas_enderecos "
@@ -50,7 +50,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 
 	final String UPDATE_ENDERECO = "UPDATE empresas_enderecos SET IdBairro = ?,"
 			+ " Endereco = ?, Numero = ?, CEP = ?, Complemento = ?, Observacao = ?,"
-			+ " Tipo = ?, Situacao = ?, Padrao = ? WHERE IdEmpresa = ? AND IdSequencial = ?;";
+			+ " Tipo = ?, Situacao = ?, Padrao = ? WHERE IdEmpresa = ? AND IdSequencial = ?";
 
 	final String SELECT_CONTATO = "SELECT IdSequencial, Nome, Telefone, Celular, Email, Observacao, Tipo, "
 			+ " Situacao, Padrao FROM empresas_contatos WHERE IdEmpresa = ? AND Situacao <> 'Excluído' ";
@@ -61,19 +61,19 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			+ " ?,?,?,?,?,?,?,?)";
 
 	final String UPDATE_CONTATO = "UPDATE empresas_contatos SET Nome = ?, Telefone = ?, Celular = ?, Email = ?, "
-			+ " Observacao = ?, Tipo = ?, Situacao = ?, Padrao = ? WHERE IdEmpresa = ? AND IdSequencial = ?;";
+			+ " Observacao = ?, Tipo = ?, Situacao = ?, Padrao = ? WHERE IdEmpresa = ? AND IdSequencial = ?";
 
 	final String INSERT_IMAGEM = "INSERT INTO empresas_imagens (IdEmpresa, IdSequencial, Nome, Extenssao, Imagem, Tamanho) "
 			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM empresas_imagens img WHERE img.IdEmpresa = ?),?,?,?,?)";
 
 	final String UPDATE_IMAGEM = "UPDATE empresas_imagens SET Nome = ?, Extenssao = ?, Imagem = ?, "
-			+ " Tamanho = ? WHERE IdEmpresa = ? AND IdSequencial = ?;";
+			+ " Tamanho = ? WHERE IdEmpresa = ? AND IdSequencial = ?";
 
 	final String SELECT_IMAGEM = "SELECT IdSequencial, Nome, Extenssao, Imagem, "
-			+ " Tamanho FROM empresas_imagens WHERE IdEmpresa = ?;";
+			+ " Tamanho FROM empresas_imagens WHERE IdEmpresa = ?";
 
-	final String DELETE_IMAGEM = "DELETE FROM empresas_imagens WHERE IdEmpresa = ? AND IdSequencial = ?;";
-	
+	final String DELETE_IMAGEM = "DELETE FROM empresas_imagens WHERE IdEmpresa = ? AND IdSequencial = ?";
+
 	private Connection conexao;
 	private BairroServices bairroService;
 
@@ -420,7 +420,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			DB.closeResultSet(rsCont);
 		}
 	}
-	
+
 	private void updateImagens(Long id, List<Imagem> lista) throws ExcessaoBd {
 		if (lista == null || lista.size() == 0)
 			return;
@@ -515,8 +515,22 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		try {
 			String select = SELECT_IMAGEM;
 
-			if (tamanho == TamanhoImagem.ORIGINAL || tamanho == TamanhoImagem.MEDIA || tamanho == TamanhoImagem.PEQUENA)
-				select += " AND Tamanho = \"" + tamanho.toString() + "\"";
+			if (tamanho == TamanhoImagem.ORIGINAL || tamanho == TamanhoImagem.MEDIA
+					|| tamanho == TamanhoImagem.PEQUENA) {
+				switch ((TamanhoImagem) tamanho) {
+				case ORIGINAL:
+					select += " AND Tamanho = 'ORIGINAL'";
+					break;
+				case MEDIA:
+					select += " AND Tamanho = 'MEDIA'";
+					break;
+				case PEQUENA:
+					select += " AND Tamanho = 'PEQUENA'";
+					break;
+				default:
+					select += " AND Tamanho = 'ORIGINAL'";
+				}
+			}
 
 			stImg = conexao.prepareStatement(select);
 			stImg.setLong(1, id);

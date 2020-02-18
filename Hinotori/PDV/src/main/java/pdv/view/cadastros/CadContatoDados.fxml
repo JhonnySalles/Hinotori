@@ -108,10 +108,11 @@
                </padding>
             </VBox>
          </children>
-         <stylesheets>
-            <URL value="@../../resources/css/White_Cadastros.css" />
-            <URL value="@../../resources/css/Paleta_Cores.css" />
-         </stylesheets>
       </AnchorPane>
    </children>
+   <stylesheets>
+      <URL value="@../../resources/css/Paleta_Cores.css" />
+      <URL value="@../../resources/css/White_Geral.css" />
+      <URL value="@../../resources/css/White_Cadastros.css" />
+   </stylesheets>
 </StackPane>

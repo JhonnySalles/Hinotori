@@ -25,31 +25,31 @@ import servidor.entities.Usuario;
 public class UsuarioDaoJDBC implements UsuarioDao {
 
 	final String INSERT = "INSERT INTO usuarios (NomeSobrenome, Login,"
-			+ " Senha, DataCadastro, Observacao, Nivel, Situacao) VALUES" + " (?, ?, ?, ?, ?, ?, ?);";
+			+ " Senha, DataCadastro, Observacao, Nivel, Situacao) VALUES" + " (?, ?, ?, ?, ?, ?, ?)";
 
 	final String UPDATE = "UPDATE usuarios SET NomeSobrenome = ?, Login = ?, Senha = ?, "
-			+ " Observacao = ?,  Nivel = ?, Situacao = ? WHERE id = ?;";
+			+ " Observacao = ?,  Nivel = ?, Situacao = ? WHERE id = ?";
 
-	final String DELETE = "UPDATE Situacao = 'EXCLUIDO' WHERE id = ?;";
+	final String DELETE = "UPDATE Situacao = 'EXCLUIDO' WHERE id = ?";
 
 	final String SELECT_ALL = "SELECT Id, NomeSobrenome, Login, DataCadastro, Observacao,"
-			+ " Nivel, Situacao FROM usuarios WHERE Situacao <> 'EXCLUIDO';";
+			+ " Nivel, Situacao FROM usuarios WHERE Situacao <> 'EXCLUIDO'";
 
 	final String SELECT = "SELECT Id, NomeSobrenome, Login, DataCadastro, Observacao, "
-			+ " Nivel, Situacao FROM usuarios WHERE Id = ?;";
+			+ " Nivel, Situacao FROM usuarios WHERE Id = ?";
 
-	final String SELECT_LOGIN = "SELECT * FROM usuarios WHERE Login = ?;";
+	final String SELECT_LOGIN = "SELECT * FROM usuarios WHERE Login = ?";
 
 	final String INSERT_IMAGEM = "INSERT INTO usuarios_imagens (IdUsuario, IdSequencial, Nome, Extenssao, Imagem, Tamanho) "
 			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM usuarios_imagens img WHERE img.IdUsuario = ?),?,?,?,?)";
 
 	final String UPDATE_IMAGEM = "UPDATE usuarios_imagens SET Nome = ?, Extenssao = ?, Imagem = ?, "
-			+ " Tamanho = ? WHERE IdUsuario = ? AND IdSequencial = ?;";
+			+ " Tamanho = ? WHERE IdUsuario = ? AND IdSequencial = ?";
 
 	final String SELECT_IMAGEM = "SELECT IdSequencial, Nome, Extenssao, Imagem, "
-			+ " Tamanho FROM usuarios_imagens WHERE IdUsuario = ?;";
+			+ " Tamanho FROM usuarios_imagens WHERE IdUsuario = ?";
 
-	final String DELETE_IMAGEM = "DELETE FROM usuarios_imagens WHERE IdUsuario = ? AND IdSequencial = ?;";
+	final String DELETE_IMAGEM = "DELETE FROM usuarios_imagens WHERE IdUsuario = ? AND IdSequencial = ?";
 
 	private Connection conexao;
 
@@ -300,8 +300,22 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		try {
 			String select = SELECT_IMAGEM;
 
-			if (tamanho == TamanhoImagem.ORIGINAL || tamanho == TamanhoImagem.MEDIA || tamanho == TamanhoImagem.PEQUENA)
-				select += " AND Tamanho = \"" + tamanho.toString() + "\"";
+			if (tamanho == TamanhoImagem.ORIGINAL || tamanho == TamanhoImagem.MEDIA
+					|| tamanho == TamanhoImagem.PEQUENA) {
+				switch ((TamanhoImagem) tamanho) {
+				case ORIGINAL:
+					select += " AND Tamanho = 'ORIGINAL'";
+					break;
+				case MEDIA:
+					select += " AND Tamanho = 'MEDIA'";
+					break;
+				case PEQUENA:
+					select += " AND Tamanho = 'PEQUENA'";
+					break;
+				default:
+					select += " AND Tamanho = 'ORIGINAL'";
+				}
+			}
 
 			stImg = conexao.prepareStatement(select);
 			stImg.setLong(1, id);

@@ -31,15 +31,15 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 	final String UPDATE = "UPDATE clientes SET NomeSobrenome = ?, "
 			+ " Cpf = ?, Cnpj = ?, UltimaAlteracao = ?, Observacao = ?, Tipo = ?, "
-			+ " Enquadramento = ?, Situacao = ? WHERE ID = ?;";
+			+ " Enquadramento = ?, Situacao = ? WHERE ID = ?";
 
-	final String DELETE = "UPDATE clientes SET Situacao = 'Excluído' WHERE ID = ?;";
+	final String DELETE = "UPDATE clientes SET Situacao = 'Excluído' WHERE ID = ?";
 
 	final String SELECT_ALL = "SELECT ID, NomeSobrenome, Cpf, Cnpj, DataCadastro, "
-			+ " Observacao, Tipo, Enquadramento, Situacao FROM clientes " + " WHERE Situacao <> 'Excluído';";
+			+ " Observacao, Tipo, Enquadramento, Situacao FROM clientes WHERE Situacao <> 'Excluído'";
 
 	final String SELECT = "SELECT ID, NomeSobrenome, Cpf, Cnpj, DataCadastro, Observacao, "
-			+ " Tipo, Enquadramento, Situacao FROM clientes WHERE ID = ?;";
+			+ " Tipo, Enquadramento, Situacao FROM clientes WHERE ID = ?";
 
 	final String SELECT_ENDERECO = "SELECT IdSequencial, IdBairro, Endereco, Numero, CEP, "
 			+ " Complemento, Observacao, Tipo, Situacao, Padrao FROM clientes_enderecos "
@@ -52,7 +52,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 	final String UPDATE_ENDERECO = "UPDATE clientes_enderecos SET IdBairro = ?,"
 			+ " Endereco = ?, Numero = ?, CEP = ?, Complemento = ?, Observacao = ?,"
-			+ " Tipo = ?, Situacao = ?, Padrao = ? WHERE IdCliente = ? AND IdSequencial = ?;";
+			+ " Tipo = ?, Situacao = ?, Padrao = ? WHERE IdCliente = ? AND IdSequencial = ?";
 
 	final String SELECT_CONTATO = "SELECT IdSequencial, Nome, Telefone, Celular, Email, Observacao, Tipo, "
 			+ " Situacao, Padrao FROM clientes_contatos WHERE IdCliente = ? AND Situacao <> 'Excluído' ";
@@ -63,7 +63,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 			+ " ?,?,?,?,?,?,?,?)";
 
 	final String UPDATE_CONTATO = "UPDATE clientes_contatos SET Nome = ?, Telefone = ?, Celular = ?, Email = ?, "
-			+ " Observacao = ?, Tipo = ?, Situacao = ?, Padrao = ? WHERE IdCliente = ? AND IdSequencial = ?;";
+			+ " Observacao = ?, Tipo = ?, Situacao = ?, Padrao = ? WHERE IdCliente = ? AND IdSequencial = ?";
 
 	private Connection conexao;
 	private BairroServices bairroService;

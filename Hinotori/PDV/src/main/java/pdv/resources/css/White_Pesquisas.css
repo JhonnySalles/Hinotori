@@ -1,116 +1,83 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Clientes  -----------------------------------------------------*/
+/*------------------------------------------------ Pesquisa de Clientes  -----------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
-.paneBotoes-cliente {
-    -fx-background-color: transparent;
-    -fx-border-color:  #1A237E;
-    -fx-border-width: 2 0 0 0;
-    -fx-effect: dropshadow( three-pass-box, #000000, 1, 0.3, 0, 0);
+
+.dtPk-PsqCliente {
+    -jfx-default-color: #005a9e;
 }
 
-.titBackound-cliente {
-    -fx-background-color: linear-gradient(to right top, #0277BD , #1A237E);
-    -fx-background-image: url("../imagens/white/cadastros/icoCliente_400.png"); /* Imagem já otimizada. */
-    -fx-background-position: left -60;
-
-    -fx-background-size: 300 300;
-    -fx-background-repeat: no-repeat;
+.dtPk-PsqCliente .jfx-text-field {
+    -jfx-focus-color: #4059a9;
 }
 
-.textArea-cliente {
-    -fx-background-color: #005a9e;
+.tb-PsqCliente {
+    -fx-border-color:  #005a9e;
 }
 
-.textArea-cliente .scroll-pane {
-    -fx-background-color: #eaeaea;
-}
-
-.btnContatos-cliente {
+.tb-PsqCliente .column-header,
+.tb-PsqCliente .column-header-background .filler {
     -fx-background-color:  #005a9e;
-    -fx-text-fill: white;
 }
 
-.btnEndereco-cliente {
+.tb-PsqCliente .column-header-background{
     -fx-background-color:  #005a9e;
-    -fx-text-fill: white;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Empresas ------------------------------------------------------*/
+/*------------------------------------------------ Pesquisa de Empresas ------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-/*----------  Image empresa ----------*/
-.titBackound-empresa {
-    -fx-background-color: linear-gradient(to right top, #d32f2f , #b71c1c);
-
-    -fx-background-image: url("../imagens/white/cadastros/icoEmpresa_400.png"); /* Já otimizada a imagem.*/
-    -fx-background-position: left 0;
-
-    -fx-background-size: 468 200;
-    -fx-background-repeat: no-repeat;
+.dtPk-PsqEmpresa {
+    -jfx-default-color: #b71c1c;
 }
 
-.paneBotoes-empresa {
-    -fx-background-color: transparent;
+.dtPk-PsqEmpresa .jfx-text-field {
+    -jfx-focus-color: #4059a9;
+}
+
+.tb-PsqEmpresa {
     -fx-border-color:  #b71c1c;
-    -fx-border-width: 3 0 0 0;
-    -fx-effect: dropshadow( three-pass-box, #000000, 1, 0.3, 0, 0);
 }
 
-.btnContatos-empresa {
-    -fx-background-color:  #d32f2f;
-    -fx-text-fill: white;
+.tb-PsqEmpresa .column-header,
+.tb-PsqEmpresa .column-header-background .filler {
+    -fx-background-color:  #b71c1c;
 }
 
-.btnEndereco-empresa {
-    -fx-background-color:  #d32f2f;
-    -fx-text-fill: white;
+.tb-PsqEmpresa .column-header-background{
+    -fx-background-color:  #b71c1c;
 }
+
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------------ Cadastro de Usuarios ------------------------------------------------------*/
+/*------------------------------------------------ Pesquisa de Usuarios ------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-/*----------  Image usuario ----------*/
-.tituloBackground-usuario{
-    -fx-background-color:  #7cb342;
-    -fx-background-image: url("../imagens/white/cadastros/icoUsuario_270.png"); /* Imagem já otimizada para o tamanho correto. */
-    -fx-background-position: left -60;
-
-    -fx-background-size: 270 297;
-    -fx-background-repeat: no-repeat;
-    -fx-background-color: linear-gradient(to right top, #689F38 , #1B5E20);
+.dtPk-PsqUsuario {
+    -jfx-default-color: #689F38;
 }
 
-.paneBotoes-usuario {
-    -fx-background-color: transparent;
-    -fx-border-color:  #1B5E20;
-    -fx-border-width: 2 0 0 0;
-    -fx-effect: dropshadow( three-pass-box, #000000, 1, 0.3, 0, 0);
+.dtPk-PsqUsuario .jfx-text-field {
+    -jfx-focus-color: #4059a9;
 }
 
-.textArea-usuario {
-    -fx-background-color: #7cb342;
+.tb-PsqUsuario {
+    -fx-border-color:  #689F38;
 }
 
-.textArea-usuario .scroll-pane {
-    -fx-background-color: #eaeaea;
+.tb-PsqUsuario .column-header,
+.tb-PsqUsuario .column-header-background .filler {
+    -fx-background-color:  #689F38;
 }
 
-.btnExcluir-usuario{
-    -fx-background-color:  #ef6950;
-    -fx-text-fill: white;
-}
-
-.btnProcurar-usuario{
-    -fx-background-color:  #71afe5;
-    -fx-text-fill: white;
+.tb-PsqUsuario .column-header-background{
+    -fx-background-color:  #689F38;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
@@ -119,40 +86,25 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-/*----------  Image usuario ----------*/
-.tituloBackground-produto {
-    -fx-background-color: linear-gradient(to right top, #F57C00 , #BF360C);
-    -fx-background-image: url("../imagens/white/cadastros/icoProduto_400.png");
-    -fx-background-position: left -50;
-
-    -fx-background-size: 406 230;
-    -fx-background-repeat: no-repeat;
+.dtPk-PsqProduto {
+    -jfx-default-color: #BF360C;
 }
 
-
-.paneBotoes-produto {
-    -fx-background-color: transparent;
-    -fx-border-color:  #F57C00;
-    -fx-border-width: 2 0 0 0;
-    -fx-effect: dropshadow( three-pass-box, #000000, 1, 0.3, 0, 0);
+.dtPk-PsqProduto .jfx-text-field {
+    -jfx-focus-color: #4059a9;
 }
 
-.textArea-produto {
-    -fx-background-color: #F57C00;
+.tb-PsqProduto {
+    -fx-border-color:  #BF360C;
 }
 
-.textArea-produto .scroll-pane {
-    -fx-background-color: #eaeaea;
+.tb-PsqProduto .column-header,
+.tb-PsqProduto .column-header-background .filler {
+    -fx-background-color:  #BF360C;
 }
 
-.btnExcluir-produto {
-    -fx-background-color:  #ef6950;
-    -fx-text-fill: white;
-}
-
-.btnProcurar-produto {
-    -fx-background-color:  #71afe5;
-    -fx-text-fill: white;
+.tb-PsqProduto .column-header-background{
+    -fx-background-color:  #BF360C;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------*/

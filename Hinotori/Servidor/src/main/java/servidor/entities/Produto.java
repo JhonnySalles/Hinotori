@@ -103,11 +103,11 @@ public class Produto implements Serializable {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public Enum<TipoProduto> getTipo() {
+	public Enum<TipoProduto> getTipoProduto() {
 		return tipo;
 	}
 
-	public void setTipo(Enum<TipoProduto> tipo) {
+	public void setTipoProduto(Enum<TipoProduto> tipo) {
 		this.tipo = tipo;
 	}
 

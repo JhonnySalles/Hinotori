@@ -59,7 +59,7 @@
                                                 </JFXTextField>
                                                 <HBox alignment="CENTER_RIGHT" spacing="5.0" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <JFXComboBox fx:id="cbNivel" minHeight="30.0" minWidth="70.0" promptText="Nivel" />
+                                                      <JFXComboBox fx:id="cbNivel" minHeight="30.0" minWidth="70.0" promptText="Nível" />
                                                       <JFXComboBox fx:id="cbSituacao" minHeight="30.0" minWidth="80.0" promptText="Situação" />
                                                    </children>
                                                 </HBox>
@@ -164,7 +164,8 @@
       </StackPane>
   </content>
    <stylesheets>
-      <URL value="@../../resources/css/White_Cadastros.css" />
       <URL value="@../../resources/css/Paleta_Cores.css" />
+      <URL value="@../../resources/css/White_Geral.css" />
+      <URL value="@../../resources/css/White_Cadastros.css" />
    </stylesheets>
 </ScrollPane>

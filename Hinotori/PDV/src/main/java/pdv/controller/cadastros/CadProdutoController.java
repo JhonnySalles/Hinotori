@@ -367,7 +367,7 @@ public class CadProdutoController implements Initializable {
 		if (frameNCMController.getId() != null)
 			produto.setIdNcm(Long.valueOf(frameNCMController.getId()));
 
-		produto.setTipo(cbTipoProduto.getSelectionModel().getSelectedItem());
+		produto.setTipoProduto(cbTipoProduto.getSelectionModel().getSelectedItem());
 		produto.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 		produto.setImagens(imagens);
 
@@ -406,7 +406,7 @@ public class CadProdutoController implements Initializable {
 			txtAreaObservacao.setText(produto.getObservacao());
 
 		cbSituacao.getSelectionModel().select(produto.getSituacao().ordinal());
-		cbTipoProduto.getSelectionModel().select(produto.getTipo().ordinal());
+		cbTipoProduto.getSelectionModel().select(produto.getTipoProduto().ordinal());
 
 		if (frameNCMController.getId() != null)
 			frameNCMController.locateId(frameNCMController.getId());

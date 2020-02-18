@@ -22,29 +22,29 @@ import servidor.entities.Produto;
 public class ProdutoDaoJDBC implements ProdutoDao {
 
 	final String INSERT = "INSERT INTO produtos (IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade,"
-			+ " Marca, Peso, Volume, qtdVolume, DataCadastro, Tipo, Situacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			+ " Marca, Peso, Volume, qtdVolume, DataCadastro, Tipo, Situacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	final String UPDATE = "UPDATE produtos SET IdNcm = ?, IdGrupo = ?, Descricao = ?, Observacao = ?, CodigoBarras = ?, "
-			+ " Unidade = ?, Marca = ?, Peso = ?, Volume = ?, qtdVolume = ?, Tipo = ?, Situacao = ? WHERE ID = ?;";
+			+ " Unidade = ?, Marca = ?, Peso = ?, Volume = ?, qtdVolume = ?, Tipo = ?, Situacao = ? WHERE ID = ?";
 
-	final String DELETE = "DELETE FROM produtos WHERE ID = ?;";
+	final String DELETE = "DELETE FROM produtos WHERE ID = ?";
 
 	final String SELECT = "SELECT Id, IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade, Marca, Peso, Volume, qtdVolume,"
-			+ " DataCadastro, Tipo, Situacao FROM produtos WHERE ID = ?;";
+			+ " DataCadastro, Tipo, Situacao FROM produtos WHERE ID = ?";
 
 	final String SELECT_ALL = "SELECT Id, IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade, Marca, Peso, Volume, "
-			+ " qtdVolume, DataCadastro, Tipo, Situacao FROM produtos;";
+			+ " qtdVolume, DataCadastro, Tipo, Situacao FROM produtos";
 
 	final String INSERT_IMAGEM = "INSERT INTO produtos_imagens (IdProduto, IdSequencial, Nome, Extenssao, Imagem, Tamanho) "
 			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM produtos_imagens img WHERE img.IdProduto = ?),?,?,?,?)";
 
 	final String UPDATE_IMAGEM = "UPDATE produtos_imagens SET Nome = ?, Extenssao = ?, Imagem = ?, "
-			+ " Tamanho = ? WHERE IdProduto = ? AND IdSequencial = ?;";
+			+ " Tamanho = ? WHERE IdProduto = ? AND IdSequencial = ?";
 
 	final String SELECT_IMAGEM = "SELECT IdSequencial, Nome, Extenssao, Imagem, "
-			+ " Tamanho FROM produtos_imagens WHERE IdProduto = ?;";
+			+ " Tamanho FROM produtos_imagens WHERE IdProduto = ?";
 
-	final String DELETE_IMAGEM = "DELETE FROM produtos_imagens WHERE IdUsuario = ? AND IdSequencial = ?;";
+	final String DELETE_IMAGEM = "DELETE FROM produtos_imagens WHERE IdUsuario = ? AND IdSequencial = ?";
 
 	private Connection conexao;
 
@@ -70,7 +70,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setDouble(10, obj.getQtdeVolume());
 			st.setTimestamp(11, new Timestamp(System.currentTimeMillis()));
 
-			switch ((TipoProduto) obj.getTipo()) {
+			switch ((TipoProduto) obj.getTipoProduto()) {
 			case PRODUTOFINAL:
 				st.setString(12, "PRODUTOFINAL");
 				break;
@@ -129,7 +129,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setDouble(9, obj.getVolume());
 			st.setDouble(10, obj.getQtdeVolume());
 
-			switch ((TipoProduto) obj.getTipo()) {
+			switch ((TipoProduto) obj.getTipoProduto()) {
 			case PRODUTOFINAL:
 				st.setString(11, "PRODUTOFINAL");
 				break;
@@ -342,8 +342,22 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		try {
 			String select = SELECT_IMAGEM;
 
-			if (tamanho == TamanhoImagem.ORIGINAL || tamanho == TamanhoImagem.MEDIA || tamanho == TamanhoImagem.PEQUENA)
-				select += " AND Tamanho = \"" + tamanho.toString() + "\"";
+			if (tamanho == TamanhoImagem.ORIGINAL || tamanho == TamanhoImagem.MEDIA
+					|| tamanho == TamanhoImagem.PEQUENA) {
+				switch ((TamanhoImagem) tamanho) {
+				case ORIGINAL:
+					select += " AND Tamanho = 'ORIGINAL'";
+					break;
+				case MEDIA:
+					select += " AND Tamanho = 'MEDIA'";
+					break;
+				case PEQUENA:
+					select += " AND Tamanho = 'PEQUENA'";
+					break;
+				default:
+					select += " AND Tamanho = 'ORIGINAL'";
+				}
+			}
 
 			stImg = conexao.prepareStatement(select);
 			stImg.setLong(1, id);

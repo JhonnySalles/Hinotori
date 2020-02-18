@@ -20,8 +20,7 @@ import com.jfoenix.controls.JFXTextField;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.enums.Situacao;
-import comum.model.enums.TipoCliente;
-import comum.model.enums.TipoPessoa;
+import comum.model.enums.TamanhoImagem;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.mask.ConverterMascaras;
 import comum.model.mask.Mascaras;
@@ -47,11 +46,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import pdv.App;
-import servidor.dao.services.ClienteServices;
-import servidor.entities.Cliente;
+import servidor.dao.services.EmpresaServices;
+import servidor.entities.Empresa;
 import servidor.entities.Endereco;
 
-public class PsqClienteController implements Initializable {
+public class PsqEmpresaController implements Initializable {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
 
@@ -68,7 +67,7 @@ public class PsqClienteController implements Initializable {
 	private HBox fundoBotoes;
 
 	@FXML
-	private AnchorPane rootCliente;
+	private AnchorPane rootEmpresa;
 
 	@FXML
 	private JFXTextField txtIdInicial;
@@ -77,10 +76,10 @@ public class PsqClienteController implements Initializable {
 	private JFXTextField txtIdFinal;
 
 	@FXML
-	private JFXTextField txtNome;
+	private JFXTextField txtRazaoSocial;
 
 	@FXML
-	private JFXTextField txtCpf;
+	private JFXTextField txtNomeFantasia;
 
 	@FXML
 	private JFXTextField txtCnpj;
@@ -95,31 +94,28 @@ public class PsqClienteController implements Initializable {
 	private JFXComboBox<Situacao> cbSituacao;
 
 	@FXML
-	private JFXComboBox<TipoCliente> cbClienteTipo;
+	private TableView<Empresa> tbEmpresas;
 
 	@FXML
-	private JFXComboBox<TipoPessoa> cbPessoaTipo;
+	private TableColumn<Empresa, String> tbClId;
 
 	@FXML
-	private TableView<Cliente> tbClientes;
+	private TableColumn<Empresa, String> tbClLogo;
 
 	@FXML
-	private TableColumn<Cliente, String> tbClId;
+	private TableColumn<Empresa, String> tbClRazaoSocial;
 
 	@FXML
-	private TableColumn<Cliente, String> tbClNome;
+	private TableColumn<Empresa, String> tbClNomeFantasia;
 
 	@FXML
-	private TableColumn<Cliente, String> tbClCpf;
+	private TableColumn<Empresa, String> tbClCnpj;
 
 	@FXML
-	private TableColumn<Cliente, String> tbClCnpj;
+	private TableColumn<Empresa, String> tbClDataCadastro;
 
 	@FXML
-	private TableColumn<Cliente, String> tbClDataCadastro;
-
-	@FXML
-	private TableColumn<Cliente, String> tbClEnderecoPadrao;
+	private TableColumn<Empresa, String> tbClEnderecoPadrao;
 
 	@FXML
 	private JFXButton btnAtualizar;
@@ -133,10 +129,10 @@ public class PsqClienteController implements Initializable {
 	@FXML
 	private JFXButton btnVoltar;
 
-	private List<Cliente> clientes;
-	private ObservableList<Cliente> obsClientes;
-	private FilteredList<Cliente> filteredData;
-	private ClienteServices clienteService;
+	private List<Empresa> empresas;
+	private ObservableList<Empresa> obsEmpresas;
+	private FilteredList<Empresa> filteredData;
+	private EmpresaServices empresaService;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -173,7 +169,7 @@ public class PsqClienteController implements Initializable {
 	public void onBtnAtualizarClick() {
 		try {
 			spRoot.cursorProperty().set(Cursor.WAIT);
-			carregarClientes();
+			carregarEmpresas();
 			// Necessário por um bug na tela ao carregar ela.
 			App.getMainController().atualizaTabPane();
 		} catch (ExcessaoBd e) {
@@ -200,52 +196,46 @@ public class PsqClienteController implements Initializable {
 	public void onBtnLimparClick() {
 		txtIdInicial.setText("0");
 		txtIdFinal.setText("0");
-		txtNome.setText("");
-		txtCpf.setText("");
+		txtRazaoSocial.setText("");
+		txtNomeFantasia.setText("");
 		txtCnpj.setText("");
 		dtPkCadastroInicial.setValue(null);
 		dtPkCadastroFinal.setValue(null);
-		cbPessoaTipo.getSelectionModel().clearSelection();
-		cbClienteTipo.getSelectionModel().clearSelection();
 		cbSituacao.getSelectionModel().clearSelection();
 		if (filteredData != null)
 			filteredData.setPredicate(null);
 		App.getMainController().atualizaTabPane();
 	}
 
-	public PsqClienteController carregarClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
+	public PsqEmpresaController carregarEmpresas(List<Empresa> empresas) {
+		this.empresas = empresas;
 		return this;
 	}
 
-	public PsqClienteController carregarClientes() throws ExcessaoBd {
-		this.clientes = clienteService.pesquisarTodos();
-		obsClientes = FXCollections.observableArrayList(this.clientes);
-		tbClientes.setItems(obsClientes);
-		tbClientes.refresh();
+	public PsqEmpresaController carregarEmpresas() throws ExcessaoBd {
+		this.empresas = empresaService.pesquisarTodos(TamanhoImagem.PEQUENA);
+		obsEmpresas = FXCollections.observableArrayList(this.empresas);
+		tbEmpresas.setItems(obsEmpresas);
+		tbEmpresas.refresh();
 		configuraGrid();
 		// Necessário por um bug na tela ao carregar ela.
 		App.getMainController().atualizaTabPane();
 		return this;
 	}
 
-	private Boolean validaPredicate(Cliente obj) {
+	private Boolean validaPredicate(Empresa obj) {
 		if ((txtIdInicial.getText().isEmpty() || obj.getId() >= Long.valueOf(txtIdInicial.getText()))
 				&& (txtIdFinal.getText().isEmpty() || obj.getId() <= Long.valueOf(txtIdFinal.getText()))
-				&& (txtNome.getText().isEmpty()
-						|| obj.getNomeSobrenome().toString().toLowerCase().contains(txtNome.getText().toLowerCase()))
+				&& (txtRazaoSocial.getText().isEmpty() || obj.getRazaoSocial().toString().toLowerCase()
+						.contains(txtRazaoSocial.getText().toLowerCase()))
+				&& (txtNomeFantasia.getText().isEmpty() || obj.getNomeFantasia().contains(txtNomeFantasia.getText()))
 				&& (txtCnpj.getText().isEmpty() || obj.getCnpj().contains(Utils.removeMascaras(txtCnpj.getText())))
-				&& (txtCpf.getText().isEmpty() || obj.getCpf().contains(Utils.removeMascaras(txtCpf.getText())))
 
 				&& (dtPkCadastroInicial.getValue() == null || obj.getDataCadastro()
 						.after(Timestamp.valueOf(dtPkCadastroInicial.getValue().atStartOfDay())))
 				&& (dtPkCadastroFinal.getValue() == null
 						|| obj.getDataCadastro().after(Timestamp.valueOf(dtPkCadastroFinal.getValue().atStartOfDay())))
 
-				&& (cbPessoaTipo.getSelectionModel().getSelectedIndex() < 0
-						|| obj.getTipoPessoa() == cbPessoaTipo.getSelectionModel().getSelectedItem())
-				&& (cbClienteTipo.getSelectionModel().getSelectedIndex() < 0
-						|| obj.getTipoCliente() == cbClienteTipo.getSelectionModel().getSelectedItem())
 				&& (cbSituacao.getSelectionModel().getSelectedIndex() < 0
 						|| obj.getSituacao() == cbSituacao.getSelectionModel().getSelectedItem()))
 			return true;
@@ -254,8 +244,8 @@ public class PsqClienteController implements Initializable {
 
 	}
 
-	private PsqClienteController configuraGrid() {
-		filteredData = new FilteredList<>(obsClientes, p -> true);
+	private PsqEmpresaController configuraGrid() {
+		filteredData = new FilteredList<>(obsEmpresas, p -> true);
 
 		txtIdInicial.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(person -> validaPredicate(person));
@@ -265,15 +255,15 @@ public class PsqClienteController implements Initializable {
 			filteredData.setPredicate(person -> validaPredicate(person));
 		});
 
-		txtNome.textProperty().addListener((observable, oldValue, newValue) -> {
+		txtRazaoSocial.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(person -> validaPredicate(person));
+		});
+
+		txtNomeFantasia.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(person -> validaPredicate(person));
 		});
 
 		txtCnpj.textProperty().addListener((observable, oldValue, newValue) -> {
-			filteredData.setPredicate(person -> validaPredicate(person));
-		});
-
-		txtCpf.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(person -> validaPredicate(person));
 		});
 
@@ -285,121 +275,26 @@ public class PsqClienteController implements Initializable {
 			filteredData.setPredicate(person -> validaPredicate(person));
 		});
 
-		cbPessoaTipo.setOnAction(filtrar -> {
-			filteredData.setPredicate(person -> validaPredicate(person));
-		});
-
-		cbClienteTipo.setOnAction(filtrar -> {
-			filteredData.setPredicate(person -> validaPredicate(person));
-		});
-
 		cbSituacao.setOnAction(filtrar -> {
 			filteredData.setPredicate(person -> validaPredicate(person));
 		});
 
-		SortedList<Cliente> sortedData = new SortedList<>(filteredData);
-		sortedData.comparatorProperty().bind(tbClientes.comparatorProperty());
-		tbClientes.setItems(sortedData);
+		SortedList<Empresa> sortedData = new SortedList<>(filteredData);
+		sortedData.comparatorProperty().bind(tbEmpresas.comparatorProperty());
+		tbEmpresas.setItems(sortedData);
 
 		return this;
 	}
-
-	/*
-	 * private PsqClienteController configuraGrid() { FilteredList<Cliente>
-	 * filteredData = new FilteredList<>(obsClientes, p -> true);
-	 * 
-	 * txtIdInicial.textProperty().addListener((observable, oldValue, newValue) -> {
-	 * filteredData.setPredicate(person -> { if (newValue == null ||
-	 * newValue.isEmpty()) { return true; }
-	 * 
-	 * if (person.getId() >= Long.valueOf(newValue)) return true; else return false;
-	 * }); });
-	 * 
-	 * txtIdFinal.textProperty().addListener((observable, oldValue, newValue) -> {
-	 * filteredData.setPredicate(person -> { if (newValue == null ||
-	 * newValue.isEmpty()) { return true; }
-	 * 
-	 * if (person.getId() <= Long.valueOf(newValue)) return true; else return false;
-	 * }); });
-	 * 
-	 * txtNome.textProperty().addListener((observable, oldValue, newValue) -> {
-	 * filteredData.setPredicate(person -> { if (newValue == null ||
-	 * newValue.isEmpty()) { return true; }
-	 * 
-	 * if (person.getNomeSobrenome().toString().toLowerCase().contains(newValue.
-	 * toLowerCase())) return true; else return false; }); });
-	 * 
-	 * txtCnpj.textProperty().addListener((observable, oldValue, newValue) -> {
-	 * filteredData.setPredicate(person -> { if (newValue == null ||
-	 * newValue.isEmpty()) { return true; }
-	 * 
-	 * if (person.getCnpj().toString().toLowerCase().contains(Utils.removeMascaras(
-	 * newValue.toLowerCase()))) return true; else return false; }); });
-	 * 
-	 * txtCpf.textProperty().addListener((observable, oldValue, newValue) -> {
-	 * filteredData.setPredicate(person -> { if (newValue == null ||
-	 * newValue.isEmpty()) { return true; }
-	 * 
-	 * if (person.getCpf().toString().toLowerCase().contains(Utils.removeMascaras(
-	 * newValue.toLowerCase()))) return true; else return false; }); });
-	 * 
-	 * dtPkCadastroInicial.valueProperty().addListener((observable, oldValue,
-	 * newValue) -> { filteredData.setPredicate(person -> { if (newValue == null) {
-	 * return true; }
-	 * 
-	 * Timestamp timestamp = Timestamp.valueOf(newValue.atStartOfDay()); if
-	 * (person.getDataCadastro().after(timestamp)) return true; else return false;
-	 * });
-	 * 
-	 * });
-	 * 
-	 * dtPkCadastroFinal.valueProperty().addListener((observable, oldValue,
-	 * newValue) -> { filteredData.setPredicate(person -> { if (newValue == null) {
-	 * return true; }
-	 * 
-	 * Timestamp timestamp = Timestamp.valueOf(newValue.atStartOfDay()); if
-	 * (person.getDataCadastro().before(timestamp)) { return true; } else return
-	 * false; });
-	 * 
-	 * });
-	 * 
-	 * cbPessoaTipo.setOnAction(filtrar -> { filteredData.setPredicate(person -> {
-	 * if (cbPessoaTipo.getSelectionModel().getSelectedIndex() > 0) { if
-	 * (person.getSituacao().equals(cbPessoaTipo.getSelectionModel().getSelectedItem
-	 * ())) return true; else return false; } else return true; });
-	 * 
-	 * });
-	 * 
-	 * cbClienteTipo.setOnAction(filtrar -> { filteredData.setPredicate(person -> {
-	 * if (cbClienteTipo.getSelectionModel().getSelectedIndex() > 0) { if
-	 * (person.getSituacao().equals(cbClienteTipo.getSelectionModel().
-	 * getSelectedItem())) return true; else return false; } else return true; });
-	 * 
-	 * });
-	 * 
-	 * cbSituacao.setOnAction(filtrar -> { filteredData.setPredicate(person -> { if
-	 * (cbSituacao.getSelectionModel().getSelectedIndex() > 0) { if
-	 * (person.getSituacao().equals(cbSituacao.getSelectionModel().getSelectedItem()
-	 * )) return true; else return false; } else return true; });
-	 * 
-	 * });
-	 * 
-	 * SortedList<Cliente> sortedData = new SortedList<>(filteredData);
-	 * sortedData.comparatorProperty().bind(tbClientes.comparatorProperty());
-	 * tbClientes.setItems(sortedData);
-	 * 
-	 * return this; }
-	 */
 
 	// Será necessário verificar uma forma de configurar o scene após a exibição,
 	// pois é ele que adiciona os atalhos do teclado, porém na construção a scene
 	// não existe, somente na exibição.
 	public void ativaAtalhos() {
-		rootCliente.getScene().getAccelerators().clear();
-		rootCliente.getScene().getAccelerators().putAll(atalhosTecla);
+		rootEmpresa.getScene().getAccelerators().clear();
+		rootEmpresa.getScene().getAccelerators().putAll(atalhosTecla);
 	}
 
-	private PsqClienteController configuraAtalhosTeclado() {
+	private PsqEmpresaController configuraAtalhosTeclado() {
 		atalhosTecla.put(new KeyCodeCombination(KeyCode.F2), new Runnable() {
 			@FXML
 			public void run() {
@@ -433,8 +328,8 @@ public class PsqClienteController implements Initializable {
 		return this;
 	}
 
-	private PsqClienteController setClienteServices(ClienteServices clienteService) {
-		this.clienteService = clienteService;
+	private PsqEmpresaController setEmpresaServices(EmpresaServices empresaService) {
+		this.empresaService = empresaService;
 		return this;
 	}
 
@@ -444,7 +339,7 @@ public class PsqClienteController implements Initializable {
 	private final Scale scale = new Scale(1, 1, 0, 0);
 	private Transform oldSceneTransform = null;
 
-	private PsqClienteController configureScroll() {
+	private PsqEmpresaController configureScroll() {
 
 		fundoBotoes.localToSceneTransformProperty().addListener((o, oldVal, newVal) -> oldSceneTransform = oldVal);
 		background.vvalueProperty().addListener((o, oldVal, newVal) -> {
@@ -453,7 +348,7 @@ public class PsqClienteController implements Initializable {
 			}
 
 			// translation
-			double ty = rootCliente.getLocalToSceneTransform().getTy();
+			double ty = rootEmpresa.getLocalToSceneTransform().getTy();
 			double opacity = Math.abs(ty - initY) / 100;
 			opacity = opacity > 1 ? 1 : (opacity < 0) ? 0 : opacity;
 
@@ -471,13 +366,11 @@ public class PsqClienteController implements Initializable {
 		return min2 + (max2 - min2) * ((val - min1) / (max1 - min1));
 	}
 
-	private PsqClienteController linkaCelulas() {
+	private PsqEmpresaController linkaCelulas() {
 		tbClId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tbClNome.setCellValueFactory(new PropertyValueFactory<>("nomeSobrenome"));
-
-		tbClCpf.setCellValueFactory(data -> {
-			return new SimpleStringProperty(ConverterMascaras.formataCPF(data.getValue().getCpf()));
-		});
+		tbClLogo.setCellValueFactory(new PropertyValueFactory<>(""));
+		tbClRazaoSocial.setCellValueFactory(new PropertyValueFactory<>("nomeSobrenome"));
+		tbClNomeFantasia.setCellValueFactory(new PropertyValueFactory<>("nomeSobrenome"));
 
 		tbClCnpj.setCellValueFactory(data -> {
 			return new SimpleStringProperty(ConverterMascaras.formataCNPJ(data.getValue().getCnpj()));
@@ -507,25 +400,21 @@ public class PsqClienteController implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		setClienteServices(new ClienteServices());
+		setEmpresaServices(new EmpresaServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
 		Limitadores.setTextFieldInteger(txtIdFinal);
 
-		Mascaras.cpfField(txtCpf);
 		Mascaras.cnpjField(txtCnpj);
 
-		TecladoUtils.onEnterConfigureTab(txtCpf);
+		TecladoUtils.onEnterConfigureTab(txtRazaoSocial);
+		TecladoUtils.onEnterConfigureTab(txtNomeFantasia);
 		TecladoUtils.onEnterConfigureTab(txtCnpj);
 		TecladoUtils.onEnterConfigureTab(cbSituacao);
-		TecladoUtils.onEnterConfigureTab(cbClienteTipo);
-		TecladoUtils.onEnterConfigureTab(cbPessoaTipo);
 
 		configuraAtalhosTeclado().configureScroll();
 		linkaCelulas();
 
 		cbSituacao.getItems().addAll(Situacao.values());
-		cbPessoaTipo.getItems().addAll(TipoPessoa.values());
-		cbClienteTipo.getItems().addAll(TipoCliente.values());
 	}
 }
