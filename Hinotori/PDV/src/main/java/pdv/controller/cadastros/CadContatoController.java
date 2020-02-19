@@ -129,7 +129,7 @@ public class CadContatoController implements Initializable {
 		contato.setEmail(txtEmail.getText());
 		contato.setObservacao(txtAreaObservacao.getText());
 		contato.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-		contato.setTipo(cbTipo.getSelectionModel().getSelectedItem());
+		contato.setTipoContato(cbTipo.getSelectionModel().getSelectedItem());
 
 		return this;
 	}
@@ -170,7 +170,7 @@ public class CadContatoController implements Initializable {
 			txtAreaObservacao.setText(contato.getObservacao());
 
 		cbSituacao.getSelectionModel().select(contato.getSituacao().ordinal());
-		cbTipo.getSelectionModel().select(contato.getTipo().ordinal());
+		cbTipo.getSelectionModel().select(contato.getTipoContato().ordinal());
 
 		App.getMainController().atualizaTabPane();
 

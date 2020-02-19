@@ -2,18 +2,33 @@ package servidor.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import comum.model.enums.Situacao;
 
+@Entity
 public class Cidade implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 8936948944326503399L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Estado estado;
+
+	@Column(name = "Nome")
 	private String nome;
+
+	@Column(name = "Ddd")
 	private String ddd;
+
+	@Column(name = "Situacao")
 	private Enum<Situacao> situacao;
 
 	public Long getId() {

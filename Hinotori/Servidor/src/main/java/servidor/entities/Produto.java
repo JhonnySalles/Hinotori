@@ -4,26 +4,51 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoProduto;
 
+@Entity
 public class Produto implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -2972348557775718310L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Long idNcm;
 	private Long idGrupo;
+
+	@Column(name = "Descricao")
 	private String descricao;
+
+	@Column(name = "Observacao")
 	private String observacao;
+
+	@Column(name = "CodigoBarras")
 	private String codigoBarras;
+
+	@Column(name = "Marca")
 	private String marca;
+
+	@Column(name = "Unidade")
 	private String unidade;
+
+	@Column(name = "Peso")
 	private Double peso;
+
+	@Column(name = "Volume")
 	private Double volume;
 	private Double qtdeVolume;
+
+	@Column(name = "DataCadastro")
 	private Date dataCadastro;
 
 	private Enum<TipoProduto> tipo;

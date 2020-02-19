@@ -2,6 +2,9 @@ package servidor.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import comum.model.enums.TamanhoImagem;
 
 public class Imagem implements Serializable {
@@ -11,11 +14,17 @@ public class Imagem implements Serializable {
 	private static final long serialVersionUID = 6407704915654886503L;
 
 	private Long idSequencial;
+
+	@Column(name = "Nome")
 	private String nome;
+
+	@Column(name = "Extenssao")
 	private String extenssao;
 
+	@Column(name = "Imagem")
 	private byte[] imagem;
 
+	@Column(name = "Tamanho	")
 	private Enum<TamanhoImagem> tamanho;
 	private Boolean excluir;
 

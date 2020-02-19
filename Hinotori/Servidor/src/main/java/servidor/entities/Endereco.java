@@ -2,10 +2,14 @@ package servidor.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoEndereco;
 import javafx.beans.property.SimpleBooleanProperty;
 
+@Entity
 public class Endereco implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -13,13 +17,29 @@ public class Endereco implements Serializable {
 	private static final long serialVersionUID = -7050982212146652850L;
 	private Long idSequencial;
 	private Bairro bairro;
+
+	@Column(name = "Endereco")
 	private String endereco;
+
+	@Column(name = "Numero")
 	private String numero;
+
+	@Column(name = "CEP")
 	private String cep;
+
+	@Column(name = "Complemento")
 	private String complemento;
+
+	@Column(name = "Observacao")
 	private String observacao;
+
+	@Column(name = "Tipo")
+	private Enum<TipoEndereco> tipoEndereco;
+
+	@Column(name = "Situacao")
 	private Enum<Situacao> situacao;
-	private Enum<TipoEndereco> tipo;
+
+	@Column(name = "Padrao")
 	private SimpleBooleanProperty padrao = new SimpleBooleanProperty(false);
 
 	public Long getIdSequencial() {
@@ -86,12 +106,12 @@ public class Endereco implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public Enum<TipoEndereco> getTipo() {
-		return tipo;
+	public Enum<TipoEndereco> getTipoEndereco() {
+		return tipoEndereco;
 	}
 
-	public void setTipo(Enum<TipoEndereco> tipo) {
-		this.tipo = tipo;
+	public void setTipoEndereco(Enum<TipoEndereco> tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
 	}
 
 	public boolean isPadrao() {
@@ -113,13 +133,13 @@ public class Endereco implements Serializable {
 		this.cep = "";
 		this.complemento = "";
 		this.observacao = "";
-		this.tipo = TipoEndereco.COBRANCA;
+		this.tipoEndereco = TipoEndereco.COBRANCA;
 		this.situacao = Situacao.ATIVO;
 		this.padrao.set(false);
 	}
 
 	public Endereco(Bairro bairro, String endereco, String numero, String cep, String complemento, String observacao,
-			Enum<TipoEndereco> tipo, Enum<Situacao> situacao, Boolean padrao) {
+			Enum<TipoEndereco> tipoEndereco, Enum<Situacao> situacao, Boolean padrao) {
 		this.idSequencial = Long.valueOf(0);
 		this.bairro = bairro;
 		this.endereco = endereco;
@@ -128,12 +148,12 @@ public class Endereco implements Serializable {
 		this.complemento = complemento;
 		this.observacao = observacao;
 		this.padrao.set(padrao);
-		this.tipo = tipo;
+		this.tipoEndereco = tipoEndereco;
 		this.situacao = situacao;
 	}
 
 	public Endereco(Long idSequencial, Bairro bairro, String endereco, String numero, String cep, String complemento,
-			String observacao, Enum<TipoEndereco> tipo, Enum<Situacao> situacao, Boolean padrao) {
+			String observacao, Enum<TipoEndereco> tipoEndereco, Enum<Situacao> situacao, Boolean padrao) {
 		this.idSequencial = idSequencial;
 		this.bairro = bairro;
 		this.endereco = endereco;
@@ -142,7 +162,7 @@ public class Endereco implements Serializable {
 		this.complemento = complemento;
 		this.observacao = observacao;
 		this.padrao.set(padrao);
-		this.tipo = tipo;
+		this.tipoEndereco = tipoEndereco;
 		this.situacao = situacao;
 	}
 
@@ -193,7 +213,7 @@ public class Endereco implements Serializable {
 	public String toString() {
 		return "Endereco [idSequencial=" + idSequencial + ", bairro=" + bairro + ", endereco=" + endereco + ", numero="
 				+ numero + ", cep=" + cep + ", complemento=" + complemento + ", observacao=" + observacao
-				+ ", situacao=" + situacao + "]";
+				+ ", tipoEndereco=" + tipoEndereco + ", situacao=" + situacao + ", padrao=" + padrao + "]";
 	}
 
 }

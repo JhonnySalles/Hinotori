@@ -260,7 +260,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 					stEnd.setString(4, ls.getCep());
 					stEnd.setString(5, ls.getComplemento());
 					stEnd.setString(6, ls.getObservacao());
-					stEnd.setString(7, ls.getTipo().toString());
+					stEnd.setString(7, ls.getTipoEndereco().toString());
 					stEnd.setString(8, ls.getSituacao().toString());
 					stEnd.setBoolean(9, ls.isPadrao());
 					stEnd.setLong(10, id);
@@ -284,7 +284,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 					stEnd.setString(6, ls.getCep());
 					stEnd.setString(7, ls.getComplemento());
 					stEnd.setString(8, ls.getObservacao());
-					stEnd.setString(9, ls.getTipo().toString());
+					stEnd.setString(9, ls.getTipoEndereco().toString());
 					stEnd.setString(10, ls.getSituacao().toString());
 					stEnd.setBoolean(11, ls.isPadrao());
 
@@ -354,7 +354,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 					stCont.setString(3, ls.getCelular());
 					stCont.setString(4, ls.getEmail());
 					stCont.setString(5, ls.getObservacao());
-					stCont.setString(6, ls.getTipo().toString());
+					stCont.setString(6, ls.getTipoContato().toString());
 					stCont.setString(7, ls.getSituacao().toString());
 					stCont.setBoolean(8, ls.isPadrao());
 					stCont.setLong(9, id);
@@ -371,7 +371,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 					stCont.setString(5, ls.getCelular());
 					stCont.setString(6, ls.getEmail());
 					stCont.setString(7, ls.getObservacao());
-					stCont.setString(8, ls.getTipo().toString());
+					stCont.setString(8, ls.getTipoContato().toString());
 					stCont.setString(9, ls.getSituacao().toString());
 					stCont.setBoolean(10, ls.isPadrao());
 

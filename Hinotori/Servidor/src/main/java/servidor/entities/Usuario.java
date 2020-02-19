@@ -4,21 +4,34 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import comum.model.enums.Situacao;
 import comum.model.enums.UsuarioNivel;
 
+@Entity
 public class Usuario extends Pessoa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -1829885748257026644L;
 
+	@Column(name = "Login")
 	private String login;
+
+	@Column(name = "Senha")
 	private String senha;
+
+	@Column(name = "Observacao")
 	private String observacao;
 	private List<Imagem> imagens;
-	private Enum<Situacao> situacao;
+
+	@Column(name = "Nivel")
 	private Enum<UsuarioNivel> nivel;
+
+	@Column(name = "Situacao")
+	private Enum<Situacao> situacao;
 
 	public String getLogin() {
 		return login;

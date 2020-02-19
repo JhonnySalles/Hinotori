@@ -5,19 +5,38 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import comum.model.enums.Situacao;
 
+@Entity
 public class Empresa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 5585811158914792352L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column(name = "NomeFantasia")
 	private String nomeFantasia;
+
+	@Column(name = "RazaoSocial")
 	private String razaoSocial;
+
+	@Column(name = "CNPJ")
 	private String cnpj;
+
+	@Column(name = "DataCadastro")
 	private Date dataCadastro;
+
+	@Column(name = "Situacao")
 	private Enum<Situacao> situacao;
 
 	private List<Endereco> enderecos;
@@ -87,7 +106,7 @@ public class Empresa implements Serializable {
 	public void setContatos(List<Contato> contatos) {
 		this.contatos = contatos;
 	}
-	
+
 	public List<Imagem> getImagens() {
 		return imagens;
 	}

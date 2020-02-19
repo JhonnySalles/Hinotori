@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
  <!DOCTYPE hibernate-configuration PUBLIC 
  	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
- 	"http://hibrtnate.org/dtd/hibernate-configuration-3.0.dtd">	
+ 	"http://www.hibrtnate.org/dtd/hibernate-configuration-3.0.dtd">
 	
  <hibernate-configuration> 
  	<session-factory>

@@ -155,7 +155,7 @@ public class CadEnderecoController implements Initializable {
 		endereco.setCep(txtCep.getText());
 		endereco.setObservacao(txtAreaObservacao.getText());
 		endereco.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-		endereco.setTipo(cbTipo.getSelectionModel().getSelectedItem());
+		endereco.setTipoEndereco(cbTipo.getSelectionModel().getSelectedItem());
 
 		if (frameBairroController.getId() != null)
 			endereco.setBairro(new BairroServices().pesquisar(Long.parseLong(frameBairroController.getId())));
@@ -206,7 +206,7 @@ public class CadEnderecoController implements Initializable {
 			txtAreaObservacao.setText(endereco.getObservacao());
 
 		cbSituacao.getSelectionModel().select(endereco.getSituacao().ordinal());
-		cbTipo.getSelectionModel().select(endereco.getTipo().ordinal());
+		cbTipo.getSelectionModel().select(endereco.getTipoEndereco().ordinal());
 
 		App.getMainController().atualizaTabPane();
 

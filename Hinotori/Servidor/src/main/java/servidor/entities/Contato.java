@@ -2,23 +2,44 @@ package servidor.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoContato;
 import javafx.beans.property.SimpleBooleanProperty;
 
+@Entity
 public class Contato implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -1562578455627883930L;
+
 	private Long idSequencial;
+
+	@Column(name = "Nome")
 	private String nome;
+
+	@Column(name = "Telefone")
 	private String telefone;
+
+	@Column(name = "Celular")
 	private String celular;
+
+	@Column(name = "Email")
 	private String email;
+
+	@Column(name = "Observacao")
 	private String observacao;
-	private Enum<TipoContato> tipo;
+
+	@Column(name = "Tipo")
+	private Enum<TipoContato> tipoContato;
+
+	@Column(name = "Situacao")
 	private Enum<Situacao> situacao;
+
+	@Column(name = "Padrao")
 	private SimpleBooleanProperty padrao = new SimpleBooleanProperty(false);
 
 	public Long getIdSequencial() {
@@ -69,12 +90,12 @@ public class Contato implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public Enum<TipoContato> getTipo() {
-		return tipo;
+	public Enum<TipoContato> getTipoContato() {
+		return tipoContato;
 	}
 
-	public void setTipo(Enum<TipoContato> tipo) {
-		this.tipo = tipo;
+	public void setTipoContato(Enum<TipoContato> tipo) {
+		this.tipoContato = tipo;
 	}
 
 	public Enum<Situacao> getSituacao() {
@@ -104,20 +125,20 @@ public class Contato implements Serializable {
 		this.celular = "";
 		this.email = "";
 		this.observacao = "";
-		this.tipo = TipoContato.RESIDENCIAL;
+		this.tipoContato = TipoContato.RESIDENCIAL;
 		this.situacao = Situacao.ATIVO;
 		this.padrao.set(false);
 	}
 
 	public Contato(Long idSequencial, String nome, String telefone, String celular, String email, String observacao,
-			Enum<TipoContato> tipo, Enum<Situacao> situacao, Boolean padrao) {
+			Enum<TipoContato> tipoContato, Enum<Situacao> situacao, Boolean padrao) {
 		this.idSequencial = idSequencial;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.celular = celular;
 		this.email = email;
 		this.observacao = observacao;
-		this.tipo = tipo;
+		this.tipoContato = tipoContato;
 		this.situacao = situacao;
 		this.padrao.set(padrao);
 	}
@@ -125,8 +146,8 @@ public class Contato implements Serializable {
 	@Override
 	public String toString() {
 		return "Contato [idSequencial=" + idSequencial + ", nome=" + nome + ", telefone=" + telefone + ", celular="
-				+ celular + ", email=" + email + ", observacao=" + observacao + ", tipo=" + tipo + ", situacao="
-				+ situacao + ", padrao=" + padrao + "]";
+				+ celular + ", email=" + email + ", observacao=" + observacao + ", tipoContato=" + tipoContato
+				+ ", situacao=" + situacao + ", padrao=" + padrao + "]";
 	}
 
 	@Override

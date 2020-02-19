@@ -5,22 +5,36 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoCliente;
 import comum.model.enums.TipoPessoa;
 
+@Entity
 public class Cliente extends Pessoa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6989181117327049412L;
 
+	@Column(name = "CPF")
 	private String cpf;
+
+	@Column(name = "CNPJ")
 	private String cnpj;
+
+	@Column(name = "Observacao")
 	private String observacao;
 
+	@Column(name = "Tipo")
 	private Enum<TipoPessoa> tipoPessoa;
+
+	@Column(name = "Enquadramento")
 	private Enum<TipoCliente> tipoCliente;
+
+	@Column(name = "Situacao")
 	private Enum<Situacao> situacao;
 
 	private List<Endereco> enderecos;
