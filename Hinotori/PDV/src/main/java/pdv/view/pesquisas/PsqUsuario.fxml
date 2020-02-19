@@ -92,14 +92,15 @@
                               <JFXDatePicker fx:id="dtPkCadastroFinal" defaultColor="#4059a9" promptText="Data final" styleClass="dtPk-PsqUsuario" />
                            </children>
                         </HBox>
-                        <TableView fx:id="tbUsuarios">
+                        <TableView fx:id="tbUsuarios" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="tbClId" minWidth="40.0" prefWidth="43.0" text="Id" />
                               <TableColumn fx:id="tbClImagem" minWidth="60.0" prefWidth="60.0" text="Imagem" />
                               <TableColumn fx:id="tbClNome" minWidth="100.0" prefWidth="150.0" text="Nome e sobrenome" />
                               <TableColumn fx:id="tbClLogin" minWidth="100.0" prefWidth="100.0" text="Login" />
-                              <TableColumn fx:id="tbClObservacao" minWidth="200.0" prefWidth="200.0" text="Observação" />
                               <TableColumn fx:id="tbClNivel" minWidth="100.0" prefWidth="100.0" text="Nível" />
+                              <TableColumn fx:id="tbClContatoPadrao" minWidth="100.0" prefWidth="100.0" text="Contato Padrão" />
+                              <TableColumn fx:id="tbClObservacao" minWidth="200.0" prefWidth="200.0" text="Observação" />
                               <TableColumn fx:id="tbClDataCadastro" minWidth="100.0" prefWidth="100.0" text="Data cadastro" />
                            </columns>
                            <styleClass>

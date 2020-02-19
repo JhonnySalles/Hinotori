@@ -94,7 +94,7 @@
                               <JFXDatePicker fx:id="dtPkCadastroFinal" defaultColor="#4059a9" promptText="Data final" styleClass="dtPk-PsqProduto" />
                            </children>
                         </HBox>
-                        <TableView fx:id="tbProdutos">
+                        <TableView fx:id="tbProdutos" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="tbClId" minWidth="40.0" prefWidth="43.0" text="Id" />
                               <TableColumn fx:id="tbClImagem" minWidth="50.0" prefWidth="60.0" text="Imagem" />

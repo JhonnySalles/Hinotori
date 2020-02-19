@@ -1,5 +1,6 @@
 package pdv.controller.pesquisas;
 
+import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -34,9 +35,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
@@ -45,10 +49,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
+import javafx.util.Callback;
 import pdv.App;
 import servidor.dao.services.EmpresaServices;
+import servidor.entities.Contato;
 import servidor.entities.Empresa;
 import servidor.entities.Endereco;
+import servidor.entities.Imagem;
 
 public class PsqEmpresaController implements Initializable {
 
@@ -100,7 +107,7 @@ public class PsqEmpresaController implements Initializable {
 	private TableColumn<Empresa, String> tbClId;
 
 	@FXML
-	private TableColumn<Empresa, String> tbClLogo;
+	private TableColumn<Empresa, List<Imagem>> tbClLogo;
 
 	@FXML
 	private TableColumn<Empresa, String> tbClRazaoSocial;
@@ -114,6 +121,9 @@ public class PsqEmpresaController implements Initializable {
 	@FXML
 	private TableColumn<Empresa, String> tbClDataCadastro;
 
+	@FXML
+	private TableColumn<Empresa, String> tbClContatoPadrao;
+	
 	@FXML
 	private TableColumn<Empresa, String> tbClEnderecoPadrao;
 
@@ -368,9 +378,31 @@ public class PsqEmpresaController implements Initializable {
 
 	private PsqEmpresaController linkaCelulas() {
 		tbClId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tbClLogo.setCellValueFactory(new PropertyValueFactory<>(""));
-		tbClRazaoSocial.setCellValueFactory(new PropertyValueFactory<>("nomeSobrenome"));
-		tbClNomeFantasia.setCellValueFactory(new PropertyValueFactory<>("nomeSobrenome"));
+
+		tbClLogo.setCellValueFactory(new PropertyValueFactory<>("imagens"));
+		tbClLogo.setCellFactory(new Callback<TableColumn<Empresa, List<Imagem>>, TableCell<Empresa, List<Imagem>>>() {
+			@Override
+			public TableCell<Empresa, List<Imagem>> call(TableColumn<Empresa, List<Imagem>> param) {
+				TableCell<Empresa, List<Imagem>> cell = new TableCell<Empresa, List<Imagem>>() {
+					final ImageView img = new ImageView();
+
+					@Override
+					public void updateItem(List<Imagem> item, boolean empty) {
+						if (item != null && item.size() > 0) {
+							img.setImage(new Image(new ByteArrayInputStream(item.get(0).getImagem())));
+							img.setFitHeight(25);
+							img.setFitWidth(25);
+							setGraphic(img);
+						}
+					}
+				};
+				return cell;
+			}
+		});
+		tbClLogo.setPrefWidth(60);
+
+		tbClRazaoSocial.setCellValueFactory(new PropertyValueFactory<>("nomeFantasia"));
+		tbClNomeFantasia.setCellValueFactory(new PropertyValueFactory<>("razaoSocial"));
 
 		tbClCnpj.setCellValueFactory(data -> {
 			return new SimpleStringProperty(ConverterMascaras.formataCNPJ(data.getValue().getCnpj()));
@@ -381,6 +413,18 @@ public class PsqEmpresaController implements Initializable {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			property.setValue(dateFormat.format(data.getValue().getDataCadastro()));
 			return property;
+		});
+		
+		tbClContatoPadrao.setCellValueFactory(data -> {
+			List<Contato> psq = data.getValue().getContatos().stream().filter(item -> item.isPadrao())
+					.collect(Collectors.toList());
+			SimpleStringProperty contato = new SimpleStringProperty();
+			if (psq != null && psq.size() > 0)
+				contato.setValue(ConverterMascaras.formataFone(psq.get(0).getTelefone()) + " / " + ConverterMascaras.formataFone(psq.get(0).getCelular()));
+			else
+				contato.setValue("");
+			
+			return contato;
 		});
 
 		tbClEnderecoPadrao.setCellValueFactory(data -> {

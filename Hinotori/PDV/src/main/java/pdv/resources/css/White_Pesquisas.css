@@ -16,6 +16,10 @@
     -fx-border-color:  #005a9e;
 }
 
+.tb-PsqCliente .table-cell {
+    -fx-alignment: CENTER-LEFT;
+}
+
 .tb-PsqCliente .column-header,
 .tb-PsqCliente .column-header-background .filler {
     -fx-background-color:  #005a9e;
@@ -41,6 +45,10 @@
 
 .tb-PsqEmpresa {
     -fx-border-color:  #b71c1c;
+}
+
+.tb-PsqEmpresa .table-cell {
+    -fx-alignment: CENTER-LEFT;
 }
 
 .tb-PsqEmpresa .column-header,
@@ -71,6 +79,10 @@
     -fx-border-color:  #689F38;
 }
 
+.tb-PsqUsuario .table-cell {
+    -fx-alignment: CENTER-LEFT;
+}
+
 .tb-PsqUsuario .column-header,
 .tb-PsqUsuario .column-header-background .filler {
     -fx-background-color:  #689F38;
@@ -96,6 +108,10 @@
 
 .tb-PsqProduto {
     -fx-border-color:  #BF360C;
+}
+
+.tb-PsqProduto .table-cell {
+    -fx-alignment: CENTER-LEFT;
 }
 
 .tb-PsqProduto .column-header,

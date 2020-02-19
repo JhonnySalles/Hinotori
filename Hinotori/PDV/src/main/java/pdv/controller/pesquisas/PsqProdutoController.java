@@ -1,5 +1,6 @@
 package pdv.controller.pesquisas;
 
+import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -31,9 +32,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
@@ -42,8 +46,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
+import javafx.util.Callback;
 import pdv.App;
 import servidor.dao.services.ProdutoServices;
+import servidor.entities.Imagem;
 import servidor.entities.Produto;
 
 public class PsqProdutoController implements Initializable {
@@ -102,7 +108,7 @@ public class PsqProdutoController implements Initializable {
 	private TableColumn<Produto, String> tbClId;
 
 	@FXML
-	private TableColumn<Produto, String> tbClImagem;
+	private TableColumn<Produto, List<Imagem>> tbClImagem;
 
 	@FXML
 	private TableColumn<Produto, String> tbClDescricao;
@@ -392,7 +398,29 @@ public class PsqProdutoController implements Initializable {
 
 	private PsqProdutoController linkaCelulas() {
 		tbClId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tbClImagem.setCellValueFactory(new PropertyValueFactory<>(""));
+
+		tbClImagem.setCellValueFactory(new PropertyValueFactory<>("imagens"));
+		tbClImagem.setCellFactory(new Callback<TableColumn<Produto, List<Imagem>>, TableCell<Produto, List<Imagem>>>() {
+			@Override
+			public TableCell<Produto, List<Imagem>> call(TableColumn<Produto, List<Imagem>> param) {
+				TableCell<Produto, List<Imagem>> cell = new TableCell<Produto, List<Imagem>>() {
+					final ImageView img = new ImageView();
+
+					@Override
+					public void updateItem(List<Imagem> item, boolean empty) {
+						if (item != null && item.size() > 0) {
+							img.setImage(new Image(new ByteArrayInputStream(item.get(0).getImagem())));
+							img.setFitHeight(25);
+							img.setFitWidth(25);
+							setGraphic(img);
+						}
+					}
+				};
+				return cell;
+			}
+		});
+		tbClImagem.setPrefWidth(60);
+
 		tbClDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
 		tbClCodigoBarras.setCellValueFactory(new PropertyValueFactory<>("codigoBarras"));
 		tbClUnidade.setCellValueFactory(new PropertyValueFactory<>("unidade"));

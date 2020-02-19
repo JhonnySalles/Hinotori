@@ -54,7 +54,7 @@ import servidor.entities.Usuario;
 
 public class CadUsuarioController implements Initializable {
 
-	final static Image ImagemPadrao = new Image(CadUsuarioController.class
+	public final static Image ImagemPadrao = new Image(CadUsuarioController.class
 			.getResourceAsStream("/pdv/resources/imagens/white/geral/icoUsuarioImage_256.png"));
 
 	@FXML

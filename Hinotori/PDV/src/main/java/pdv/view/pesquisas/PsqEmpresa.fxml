@@ -88,7 +88,7 @@
                               <JFXDatePicker fx:id="dtPkCadastroFinal" defaultColor="#4059a9" promptText="Data final" styleClass="dtPk-PsqEmpresa" />
                            </children>
                         </HBox>
-                        <TableView fx:id="tbEmpresas">
+                        <TableView fx:id="tbEmpresas" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="tbClId" minWidth="40.0" prefWidth="43.0" text="Id" />
                               <TableColumn fx:id="tbClLogo" minWidth="60.0" prefWidth="60.0" text="Logo" />
@@ -96,6 +96,7 @@
                               <TableColumn fx:id="tbClNomeFantasia" minWidth="100.0" prefWidth="150.0" text="Nome Fantasia" />
                               <TableColumn fx:id="tbClCnpj" minWidth="100.0" prefWidth="120.0" text="CNPJ" />
                               <TableColumn fx:id="tbClDataCadastro" minWidth="100.0" prefWidth="100.0" text="Data cadastro" />
+                              <TableColumn fx:id="tbClContatoPadrao" minWidth="100.0" prefWidth="100.0" text="Contato Padrão" />
                               <TableColumn fx:id="tbClEnderecoPadrao" minWidth="200.0" prefWidth="200.0" text="Endereço padrão" />
                            </columns>
                            <styleClass>

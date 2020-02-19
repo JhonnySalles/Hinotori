@@ -41,7 +41,7 @@
                   </HBox>
                   <VBox alignment="TOP_CENTER" cache="true" layoutX="20.0" layoutY="150.0" maxHeight="800.0" maxWidth="1000.0" minHeight="600.0" minWidth="700.0" spacing="20.0" styleClass="background-dados" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="150.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" minHeight="30.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" minHeight="30.0" spacing="5.0">
                            <children>
                               <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#onBtnLimparClick" prefHeight="50.0" prefWidth="50.0">
                                  <graphic>
@@ -85,7 +85,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" minHeight="35.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" minHeight="35.0" spacing="5.0">
                            <children>
                               <JFXTextField fx:id="txtNome" labelFloat="true" promptText="Nome e sobrenome" HBox.hgrow="ALWAYS" />
                               <JFXTextField fx:id="txtCpf" labelFloat="true" promptText="CPF" HBox.hgrow="ALWAYS" />
@@ -98,13 +98,14 @@
                               <JFXDatePicker fx:id="dtPkCadastroFinal" defaultColor="#4059a9" promptText="Data final" styleClass="dtPk-PsqCliente" />
                            </children>
                         </HBox>
-                        <TableView fx:id="tbClientes">
+                        <TableView fx:id="tbClientes" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="tbClId" minWidth="40.0" prefWidth="43.0" text="Id" />
                               <TableColumn fx:id="tbClNome" minWidth="100.0" prefWidth="150.0" text="Nome e sobrenome" />
                               <TableColumn fx:id="tbClCpf" minWidth="100.0" prefWidth="100.0" text="CPF" />
                               <TableColumn fx:id="tbClCnpj" minWidth="100.0" prefWidth="120.0" text="CNPJ" />
                               <TableColumn fx:id="tbClDataCadastro" minWidth="100.0" prefWidth="100.0" text="Data cadastro" />
+                              <TableColumn fx:id="tbClContatoPadrao" minWidth="100.0" prefWidth="100.0" text="Contato Padrão" />
                               <TableColumn fx:id="tbClEnderecoPadrao" minWidth="200.0" prefWidth="200.0" text="Endereço padrão" />
                            </columns>
                            <styleClass>

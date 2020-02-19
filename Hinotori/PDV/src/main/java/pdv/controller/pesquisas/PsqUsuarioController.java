@@ -1,5 +1,6 @@
 package pdv.controller.pesquisas;
 
+import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -22,6 +24,7 @@ import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
 import comum.model.exceptions.ExcessaoBd;
+import comum.model.mask.ConverterMascaras;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,9 +34,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
@@ -42,8 +48,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
+import javafx.util.Callback;
 import pdv.App;
 import servidor.dao.services.UsuarioServices;
+import servidor.entities.Contato;
+import servidor.entities.Imagem;
 import servidor.entities.Usuario;
 
 public class PsqUsuarioController implements Initializable {
@@ -94,9 +103,9 @@ public class PsqUsuarioController implements Initializable {
 
 	@FXML
 	private TableColumn<Usuario, String> tbClId;
-	
+
 	@FXML
-	private TableColumn<Usuario, String> tbClImagem;
+	private TableColumn<Usuario, List<Imagem>> tbClImagem;
 
 	@FXML
 	private TableColumn<Usuario, String> tbClNome;
@@ -105,11 +114,14 @@ public class PsqUsuarioController implements Initializable {
 	private TableColumn<Usuario, String> tbClLogin;
 
 	@FXML
+	private TableColumn<Usuario, String> tbClContatoPadrao;
+	
+	@FXML
 	private TableColumn<Usuario, String> tbClObservacao;
 
 	@FXML
 	private TableColumn<Usuario, UsuarioNivel> tbClNivel;
-	
+
 	@FXML
 	private TableColumn<Usuario, String> tbClDataCadastro;
 
@@ -188,7 +200,6 @@ public class PsqUsuarioController implements Initializable {
 
 	}
 
-
 	@FXML
 	public void onBtnLimparClick() {
 		txtIdInicial.setText("0");
@@ -196,7 +207,7 @@ public class PsqUsuarioController implements Initializable {
 		txtNome.setText("");
 		txtLogin.setText("");
 		dtPkCadastroInicial.setValue(null);
-		dtPkCadastroFinal.setValue(null);		
+		dtPkCadastroFinal.setValue(null);
 		cbNivel.getSelectionModel().clearSelection();
 		cbSituacao.getSelectionModel().clearSelection();
 		if (filteredData != null)
@@ -242,7 +253,7 @@ public class PsqUsuarioController implements Initializable {
 
 	}
 
-	private PsqUsuarioController configuraGrid() {		
+	private PsqUsuarioController configuraGrid() {
 		filteredData = new FilteredList<>(obsUsuarios, p -> true);
 
 		txtIdInicial.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -366,9 +377,45 @@ public class PsqUsuarioController implements Initializable {
 
 	private PsqUsuarioController linkaCelulas() {
 		tbClId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tbClImagem.setCellValueFactory(new PropertyValueFactory<>(""));
+
+		tbClImagem.setCellValueFactory(new PropertyValueFactory<>("imagens"));
+		tbClImagem.setCellFactory(new Callback<TableColumn<Usuario, List<Imagem>>, TableCell<Usuario, List<Imagem>>>() {
+			@Override
+			public TableCell<Usuario, List<Imagem>> call(TableColumn<Usuario, List<Imagem>> param) {
+				TableCell<Usuario, List<Imagem>> cell = new TableCell<Usuario, List<Imagem>>() {
+					final ImageView img = new ImageView();
+
+					@Override
+					public void updateItem(List<Imagem> item, boolean empty) {
+						if (item != null && item.size() > 0) {
+							img.setImage(new Image(new ByteArrayInputStream(item.get(0).getImagem())));
+							img.setFitHeight(25);
+							img.setFitWidth(25);
+							setGraphic(img);
+						}
+					}
+				};
+				return cell;
+			}
+		});
+
+		tbClImagem.setPrefWidth(60);
+
 		tbClNome.setCellValueFactory(new PropertyValueFactory<>("nomeSobrenome"));
 		tbClLogin.setCellValueFactory(new PropertyValueFactory<>("login"));
+		
+		tbClContatoPadrao.setCellValueFactory(data -> {
+			List<Contato> psq = data.getValue().getContatos().stream().filter(item -> item.isPadrao())
+					.collect(Collectors.toList());
+			SimpleStringProperty contato = new SimpleStringProperty();
+			if (psq != null && psq.size() > 0)
+				contato.setValue(ConverterMascaras.formataFone(psq.get(0).getTelefone()) + " / " + ConverterMascaras.formataFone(psq.get(0).getCelular()));
+			else
+				contato.setValue("");
+			
+			return contato;
+		});
+		
 		tbClObservacao.setCellValueFactory(new PropertyValueFactory<>("observacao"));
 		tbClNivel.setCellValueFactory(new PropertyValueFactory<>("nivel"));
 
@@ -388,7 +435,7 @@ public class PsqUsuarioController implements Initializable {
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
 		Limitadores.setTextFieldInteger(txtIdFinal);
-		
+
 		TecladoUtils.onEnterConfigureTab(txtNome);
 		TecladoUtils.onEnterConfigureTab(txtLogin);
 		TecladoUtils.onEnterConfigureTab(cbSituacao);

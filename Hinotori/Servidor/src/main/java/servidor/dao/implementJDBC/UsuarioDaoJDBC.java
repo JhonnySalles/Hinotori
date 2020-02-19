@@ -33,7 +33,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	final String DELETE = "UPDATE Situacao = 'EXCLUIDO' WHERE id = ?";
 
 	final String SELECT_ALL = "SELECT Id, NomeSobrenome, Login, DataCadastro, Observacao,"
-			+ " Nivel, Situacao FROM usuarios WHERE Situacao <> 'EXCLUIDO'";
+			+ " Nivel, Situacao FROM usuarios WHERE Situacao <> 'EXCLUIDO' AND Id <> 0";
 
 	final String SELECT = "SELECT Id, NomeSobrenome, Login, DataCadastro, Observacao, "
 			+ " Nivel, Situacao FROM usuarios WHERE Id = ?";

@@ -49,6 +49,7 @@ import javafx.scene.transform.Transform;
 import pdv.App;
 import servidor.dao.services.ClienteServices;
 import servidor.entities.Cliente;
+import servidor.entities.Contato;
 import servidor.entities.Endereco;
 
 public class PsqClienteController implements Initializable {
@@ -118,6 +119,9 @@ public class PsqClienteController implements Initializable {
 	@FXML
 	private TableColumn<Cliente, String> tbClDataCadastro;
 
+	@FXML
+	private TableColumn<Cliente, String> tbClContatoPadrao;
+	
 	@FXML
 	private TableColumn<Cliente, String> tbClEnderecoPadrao;
 
@@ -488,6 +492,18 @@ public class PsqClienteController implements Initializable {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			property.setValue(dateFormat.format(data.getValue().getDataCadastro()));
 			return property;
+		});
+		
+		tbClContatoPadrao.setCellValueFactory(data -> {
+			List<Contato> psq = data.getValue().getContatos().stream().filter(item -> item.isPadrao())
+					.collect(Collectors.toList());
+			SimpleStringProperty contato = new SimpleStringProperty();
+			if (psq != null && psq.size() > 0)
+				contato.setValue(ConverterMascaras.formataFone(psq.get(0).getTelefone()) + " / " + ConverterMascaras.formataFone(psq.get(0).getCelular()));
+			else
+				contato.setValue("");
+			
+			return contato;
 		});
 
 		tbClEnderecoPadrao.setCellValueFactory(data -> {
