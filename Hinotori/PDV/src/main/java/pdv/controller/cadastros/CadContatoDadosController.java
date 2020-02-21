@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -87,7 +87,7 @@ public class CadContatoDadosController implements Initializable {
 	private CadContatoController controller;
 
 	private ObservableList<Contato> obsContatos;
-	private List<Contato> contatos;
+	private Set<Contato> contatos;
 	private StackPane spRoot;
 	private ToggleGroup tgGroup;
 
@@ -259,7 +259,7 @@ public class CadContatoDadosController implements Initializable {
 		linkaCelulas().iniciaCadContato();
 	}
 
-	public void initData(String pessoa, List<Contato> contatos, StackPane spRoot) {
+	public void initData(String pessoa, Set<Contato> contatos, StackPane spRoot) {
 		txtTitulo.setText(pessoa);
 		this.spRoot = spRoot;
 		this.contatos = contatos;

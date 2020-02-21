@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
@@ -22,14 +24,14 @@ import servidor.entities.Produto;
 public class ProdutoDaoJDBC implements ProdutoDao {
 
 	final String INSERT = "INSERT INTO produtos (IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade,"
-			+ " Marca, Peso, Volume, qtdVolume, DataCadastro, Tipo, Situacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ " Marca, Peso, Volume, DataCadastro, Tipo, Situacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	final String UPDATE = "UPDATE produtos SET IdNcm = ?, IdGrupo = ?, Descricao = ?, Observacao = ?, CodigoBarras = ?, "
-			+ " Unidade = ?, Marca = ?, Peso = ?, Volume = ?, qtdVolume = ?, Tipo = ?, Situacao = ? WHERE ID = ?";
+			+ " Unidade = ?, Marca = ?, Peso = ?, Volume = ?, Tipo = ?, Situacao = ? WHERE ID = ?";
 
 	final String DELETE = "DELETE FROM produtos WHERE ID = ?";
 
-	final String SELECT = "SELECT Id, IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade, Marca, Peso, Volume, qtdVolume,"
+	final String SELECT = "SELECT Id, IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade, Marca, Peso, Volume, "
 			+ " DataCadastro, Tipo, Situacao FROM produtos WHERE ID = ?";
 
 	final String SELECT_ALL = "SELECT Id, IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade, Marca, Peso, Volume, "
@@ -67,27 +69,26 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setString(7, obj.getMarca());
 			st.setDouble(8, obj.getPeso());
 			st.setDouble(9, obj.getVolume());
-			st.setDouble(10, obj.getQtdeVolume());
-			st.setTimestamp(11, new Timestamp(System.currentTimeMillis()));
+			st.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
 
 			switch ((TipoProduto) obj.getTipoProduto()) {
 			case PRODUTOFINAL:
-				st.setString(12, "PRODUTOFINAL");
+				st.setString(11, "PRODUTOFINAL");
 				break;
 			case PRODUZIDO:
-				st.setString(12, "PRODUZIDO");
+				st.setString(11, "PRODUZIDO");
 				break;
 			case MATERIAPRIMA:
-				st.setString(12, "MATERIAPRIMA");
+				st.setString(11, "MATERIAPRIMA");
 				break;
 			case SERVICO:
-				st.setString(12, "SERVICO");
+				st.setString(11, "SERVICO");
 				break;
 			default:
-				st.setString(12, "");
+				st.setString(11, "");
 			}
 
-			st.setString(13, obj.getSituacao().toString());
+			st.setString(12, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 			ResultSet rs = st.getGeneratedKeys();
@@ -127,27 +128,26 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setString(7, obj.getMarca());
 			st.setDouble(8, obj.getPeso());
 			st.setDouble(9, obj.getVolume());
-			st.setDouble(10, obj.getQtdeVolume());
 
 			switch ((TipoProduto) obj.getTipoProduto()) {
 			case PRODUTOFINAL:
-				st.setString(11, "PRODUTOFINAL");
+				st.setString(10, "PRODUTOFINAL");
 				break;
 			case PRODUZIDO:
-				st.setString(11, "PRODUZIDO");
+				st.setString(10, "PRODUZIDO");
 				break;
 			case MATERIAPRIMA:
-				st.setString(11, "MATERIAPRIMA");
+				st.setString(10, "MATERIAPRIMA");
 				break;
 			case SERVICO:
-				st.setString(11, "SERVICO");
+				st.setString(10, "SERVICO");
 				break;
 			default:
-				st.setString(11, "");
+				st.setString(10, "");
 			}
 
-			st.setString(12, obj.getSituacao().toString());
-			st.setLong(13, obj.getId());
+			st.setString(11, obj.getSituacao().toString());
+			st.setLong(12, obj.getId());
 
 			st.executeUpdate();
 
@@ -202,7 +202,6 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 						rs.getString("Unidade"), rs.getString("Marca"), rs.getDouble("Peso"), rs.getDouble("Volume"),
 						rs.getDate("DataCadastro"), TipoProduto.valueOf(rs.getString("Tipo")),
 						Situacao.valueOf(rs.getString("Situacao")));
-				obj.setQtdeVolume(rs.getDouble("qtdVolume"));
 				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				return obj;
 			}
@@ -233,7 +232,6 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 						rs.getString("Unidade"), rs.getString("Marca"), rs.getDouble("Peso"), rs.getDouble("Volume"),
 						rs.getDate("DataCadastro"), TipoProduto.valueOf(rs.getString("Tipo")),
 						Situacao.valueOf(rs.getString("Situacao")));
-				obj.setQtdeVolume(rs.getDouble("qtdVolume"));
 				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				list.add(obj);
 			}
@@ -247,7 +245,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		}
 	}
 
-	private void updateImagens(Long id, List<Imagem> lista) throws ExcessaoBd {
+	private void updateImagens(Long id, Set<Imagem> lista) throws ExcessaoBd {
 		if (lista == null || lista.size() == 0)
 			return;
 
@@ -258,7 +256,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 				if (ls.getExcluir()) {
 					stImg = conexao.prepareStatement(DELETE, Statement.RETURN_GENERATED_KEYS);
 					stImg.setLong(1, id);
-					stImg.setLong(2, ls.getIdSequencial());
+					stImg.setLong(2, ls.getId());
 					int rowsAffected = stImg.executeUpdate();
 
 					if (rowsAffected < 1) {
@@ -266,7 +264,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 						throw new ExcessaoBd(Mensagens.BD_ERRO_APAGAR_IMAGEM);
 					}
 				} else {
-					if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+					if (ls.getId() != null && ls.getId() != 0) {
 						stImg = conexao.prepareStatement(UPDATE_IMAGEM, Statement.RETURN_GENERATED_KEYS);
 
 						stImg.setString(1, ls.getNome());
@@ -288,7 +286,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 						}
 
 						stImg.setLong(5, id);
-						stImg.setLong(6, ls.getIdSequencial());
+						stImg.setLong(6, ls.getId());
 
 						stImg.executeUpdate();
 
@@ -333,7 +331,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		}
 	}
 
-	private List<Imagem> selectImagens(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
+	private Set<Imagem> selectImagens(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
 		if (tamanho == null || tamanho == TamanhoImagem.NENHUMA)
 			return null;
 
@@ -363,7 +361,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			stImg.setLong(1, id);
 			rsImg = stImg.executeQuery();
 
-			List<Imagem> list = new ArrayList<>();
+			Set<Imagem> list = new HashSet<Imagem>();
 
 			while (rsImg.next()) {
 				Imagem obj = new Imagem(rsImg.getLong("IdSequencial"), rsImg.getString("Nome"),

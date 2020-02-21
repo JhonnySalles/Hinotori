@@ -11,9 +11,9 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -115,7 +115,7 @@ public class CadUsuarioController implements Initializable {
 	@FXML
 	private Button btnPesquisar;
 
-	private List<Imagem> imagens;
+	private Set<Imagem> imagens;
 	private Usuario usuario;
 	private UsuarioServices usuarioService;
 	private String id;
@@ -227,7 +227,7 @@ public class CadUsuarioController implements Initializable {
 				imgUsuario.setImage(new Image(caminhoImagem.toURI().toString()));
 
 				if (imagens == null)
-					imagens = new ArrayList<Imagem>();
+					imagens = new HashSet<Imagem>();
 
 				BufferedImage bImage = ImageIO.read(caminhoImagem);
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -364,7 +364,7 @@ public class CadUsuarioController implements Initializable {
 
 		if (usuario.getImagens() != null && usuario.getImagens().size() > 0) {
 			imagens = usuario.getImagens();
-			imgUsuario.setImage(new Image(new ByteArrayInputStream(usuario.getImagens().get(0).getImagem())));
+			imgUsuario.setImage(new Image(new ByteArrayInputStream(usuario.getImagens().iterator().next().getImagem())));
 		} else {
 			setImagemPadrao();
 		}

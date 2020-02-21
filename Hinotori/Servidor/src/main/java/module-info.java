@@ -13,11 +13,11 @@ module Servidor {
 	exports servidor.entities;
 	exports servidor.persistencia;
 
+	requires transitive Comum;
 	requires java.persistence;
 	requires org.hibernate.orm.core;
-	requires java.sql;
 	requires org.hibernate.commons.annotations;
-	requires transitive Comum;
+
 
 	opens servidor.entities to org.hibernate.orm.core;
 }

@@ -4,11 +4,16 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "estados", schema = "baseteste")
 public class Estado implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -27,6 +32,9 @@ public class Estado implements Serializable {
 
 	@Column(name = "codigoIBGE")
 	private Integer codigoIBGE;
+	
+	@OneToOne(targetEntity = Pais.class, fetch = FetchType.LAZY)
+	@JoinColumn(name="IdPais")
 	private Pais pais;
 
 	public Long getId() {

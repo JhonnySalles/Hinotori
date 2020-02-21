@@ -4,50 +4,66 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoEndereco;
 import javafx.beans.property.SimpleBooleanProperty;
 
 @Entity
+@Table(name = "Endereco", schema = "baseteste")
 public class Endereco implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -7050982212146652850L;
-	private Long idSequencial;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
+
+	@OneToOne(targetEntity = Bairro.class)
+	@JoinColumn(name = "id")
 	private Bairro bairro;
 
-	@Column(name = "Endereco")
+	@Column(name = "Endereco", columnDefinition = "varchar(150)")
 	private String endereco;
 
-	@Column(name = "Numero")
+	@Column(name = "Numero", columnDefinition = "varchar(10)")
 	private String numero;
 
-	@Column(name = "CEP")
+	@Column(name = "CEP", columnDefinition = "varchar(10)")
 	private String cep;
 
-	@Column(name = "Complemento")
+	@Column(name = "Complemento", columnDefinition = "varchar(150)")
 	private String complemento;
 
-	@Column(name = "Observacao")
+	@Column(name = "Observacao", columnDefinition = "longtext")
 	private String observacao;
 
-	@Column(name = "Tipo")
+	@Column(name = "Tipo", columnDefinition = "enum('COMERCIAL','COBRANÇA','ENTREGA','OUTROS')")
 	private Enum<TipoEndereco> tipoEndereco;
 
-	@Column(name = "Situacao")
+	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
 
-	@Column(name = "Padrao")
+	@Column(name = "Padrao", columnDefinition = "tinyint(1)")
 	private SimpleBooleanProperty padrao = new SimpleBooleanProperty(false);
 
-	public Long getIdSequencial() {
-		return idSequencial;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdSequencial(Long idSequencial) {
-		this.idSequencial = idSequencial;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Bairro getBairro() {
@@ -98,6 +114,7 @@ public class Endereco implements Serializable {
 		this.observacao = observacao;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public Enum<Situacao> getSituacao() {
 		return situacao;
 	}
@@ -106,6 +123,7 @@ public class Endereco implements Serializable {
 		this.situacao = situacao;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public Enum<TipoEndereco> getTipoEndereco() {
 		return tipoEndereco;
 	}
@@ -127,7 +145,7 @@ public class Endereco implements Serializable {
 	}
 
 	public Endereco() {
-		this.idSequencial = Long.valueOf(0);
+		this.id = Long.valueOf(0);
 		this.endereco = "";
 		this.numero = "";
 		this.cep = "";
@@ -140,7 +158,7 @@ public class Endereco implements Serializable {
 
 	public Endereco(Bairro bairro, String endereco, String numero, String cep, String complemento, String observacao,
 			Enum<TipoEndereco> tipoEndereco, Enum<Situacao> situacao, Boolean padrao) {
-		this.idSequencial = Long.valueOf(0);
+		this.id = Long.valueOf(0);
 		this.bairro = bairro;
 		this.endereco = endereco;
 		this.numero = numero;
@@ -152,9 +170,9 @@ public class Endereco implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public Endereco(Long idSequencial, Bairro bairro, String endereco, String numero, String cep, String complemento,
+	public Endereco(Long id, Bairro bairro, String endereco, String numero, String cep, String complemento,
 			String observacao, Enum<TipoEndereco> tipoEndereco, Enum<Situacao> situacao, Boolean padrao) {
-		this.idSequencial = idSequencial;
+		this.id = id;
 		this.bairro = bairro;
 		this.endereco = endereco;
 		this.numero = numero;
@@ -173,7 +191,9 @@ public class Endereco implements Serializable {
 		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
 		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
+		result = prime * result + ((tipoEndereco == null) ? 0 : tipoEndereco.hashCode());
 		return result;
 	}
 
@@ -201,19 +221,29 @@ public class Endereco implements Serializable {
 				return false;
 		} else if (!endereco.equals(other.endereco))
 			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (numero == null) {
 			if (other.numero != null)
 				return false;
 		} else if (!numero.equals(other.numero))
+			return false;
+		if (tipoEndereco == null) {
+			if (other.tipoEndereco != null)
+				return false;
+		} else if (!tipoEndereco.equals(other.tipoEndereco))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Endereco [idSequencial=" + idSequencial + ", bairro=" + bairro + ", endereco=" + endereco + ", numero="
-				+ numero + ", cep=" + cep + ", complemento=" + complemento + ", observacao=" + observacao
-				+ ", tipoEndereco=" + tipoEndereco + ", situacao=" + situacao + ", padrao=" + padrao + "]";
+		return "Endereco [id=" + id + ", bairro=" + bairro + ", endereco=" + endereco + ", numero=" + numero + ", cep="
+				+ cep + ", complemento=" + complemento + ", observacao=" + observacao + ", tipoEndereco=" + tipoEndereco
+				+ ", situacao=" + situacao + ", padrao=" + padrao + "]";
 	}
 
 }

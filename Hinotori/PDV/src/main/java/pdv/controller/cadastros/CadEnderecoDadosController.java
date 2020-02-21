@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -88,7 +88,7 @@ public class CadEnderecoDadosController implements Initializable {
 	private CadEnderecoController controller;
 
 	private ObservableList<Endereco> obsEnderecos;
-	private List<Endereco> enderecos;
+	private Set<Endereco> enderecos;
 	private StackPane spRoot;
 	private ToggleGroup tgGroup;
 
@@ -280,7 +280,7 @@ public class CadEnderecoDadosController implements Initializable {
 		linkaCelulas().iniciaCadEndereco();
 	}
 
-	public void initData(String pessoa, List<Endereco> enderecos, StackPane spRoot) {
+	public void initData(String pessoa, Set<Endereco> enderecos, StackPane spRoot) {
 		txtTitulo.setText(pessoa);
 		this.spRoot = spRoot;
 		this.enderecos = enderecos;

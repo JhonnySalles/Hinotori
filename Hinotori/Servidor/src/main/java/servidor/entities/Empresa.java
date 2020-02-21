@@ -1,19 +1,30 @@
 package servidor.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
 
 @Entity
+@Table(name = "empresas", schema = "baseteste")
 public class Empresa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -36,12 +47,23 @@ public class Empresa implements Serializable {
 	@Column(name = "DataCadastro")
 	private Date dataCadastro;
 
-	@Column(name = "Situacao")
+	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
 
-	private List<Endereco> enderecos;
-	private List<Contato> contatos;
-	private List<Imagem> imagens;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "empresas_enderecos", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Usuarios_Enderecos"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "Enderecos_Empresas"), uniqueConstraints = {
+			@UniqueConstraint(name = "empresa_endereco", columnNames = { "idEmpresa", "idEndereco" }) })
+	private Set<Endereco> enderecos;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "empresas_contatos", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Usuarios_Contatos"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "Contatos_Empresas"), uniqueConstraints = {
+			@UniqueConstraint(name = "empresa_contato", columnNames = { "idEmpresa", "idContato" }) })
+	private Set<Contato> contatos;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "empresas_imagens", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Usuarios_Imagens"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "Imagens_Empresas"), uniqueConstraints = {
+			@UniqueConstraint(name = "empresa_imagem", columnNames = { "idEmpresa", "idImagem" }) })
+	private Set<Imagem> imagens;
 
 	public Long getId() {
 		return id;
@@ -83,6 +105,7 @@ public class Empresa implements Serializable {
 		this.dataCadastro = dataCadastro;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public Enum<Situacao> getSituacao() {
 		return situacao;
 	}
@@ -91,27 +114,27 @@ public class Empresa implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public List<Endereco> getEnderecos() {
+	public Set<Endereco> getEnderecos() {
 		return enderecos;
 	}
 
-	public void setEnderecos(List<Endereco> enderecos) {
+	public void setEnderecos(Set<Endereco> enderecos) {
 		this.enderecos = enderecos;
 	}
 
-	public List<Contato> getContatos() {
+	public Set<Contato> getContatos() {
 		return contatos;
 	}
 
-	public void setContatos(List<Contato> contatos) {
+	public void setContatos(Set<Contato> contatos) {
 		this.contatos = contatos;
 	}
 
-	public List<Imagem> getImagens() {
+	public Set<Imagem> getImagens() {
 		return imagens;
 	}
 
-	public void setImagens(List<Imagem> imagens) {
+	public void setImagens(Set<Imagem> imagens) {
 		this.imagens = imagens;
 	}
 
@@ -121,8 +144,9 @@ public class Empresa implements Serializable {
 		this.razaoSocial = "";
 		this.cnpj = "";
 		this.situacao = Situacao.ATIVO;
-		this.enderecos = new ArrayList<>();
-		this.contatos = new ArrayList<>();
+		this.enderecos = new HashSet<>();
+		this.contatos = new HashSet<>();
+		this.imagens = new HashSet<>();
 	}
 
 	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Date dataCadastro,
@@ -133,8 +157,9 @@ public class Empresa implements Serializable {
 		this.cnpj = cnpj;
 		this.dataCadastro = dataCadastro;
 		this.situacao = situacao;
-		this.enderecos = new ArrayList<>();
-		this.contatos = new ArrayList<>();
+		this.enderecos = new HashSet<>();
+		this.contatos = new HashSet<>();
+		this.imagens = new HashSet<>();
 	}
 
 	// Utilizado para que possamos comparar os objetos por conteúdo e não

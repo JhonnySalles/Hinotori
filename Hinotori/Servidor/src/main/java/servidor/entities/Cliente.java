@@ -2,42 +2,62 @@ package servidor.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoCliente;
 import comum.model.enums.TipoPessoa;
 
 @Entity
+@Table(name = "clientes", schema = "baseteste")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Cliente extends Pessoa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6989181117327049412L;
 
-	@Column(name = "CPF")
+	@Column(name = "CPF", unique = true, nullable = true, insertable = true, updatable = true, length = 15)
 	private String cpf;
 
-	@Column(name = "CNPJ")
+	@Column(name = "CNPJ", unique = true, nullable = true, insertable = true, updatable = true, length = 15)
 	private String cnpj;
 
-	@Column(name = "Observacao")
+	@Column(name = "Observacao", columnDefinition = "longtext")
 	private String observacao;
 
-	@Column(name = "Tipo")
+	@Column(name = "Tipo", columnDefinition = "enum('FISICO','JURIDICO','AMBOS')")
 	private Enum<TipoPessoa> tipoPessoa;
 
-	@Column(name = "Enquadramento")
+	@Column(name = "Enquadramento", columnDefinition = "enum('CLIENTE','FORNECEDOR','AMBOS')")
 	private Enum<TipoCliente> tipoCliente;
 
-	@Column(name = "Situacao")
+	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
 
-	private List<Endereco> enderecos;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "clientes_contatos", schema = "baseteste", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "Clientes_Contatos"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "Contatos_Clientes"), uniqueConstraints = {
+			@UniqueConstraint(name = "cliente_contato", columnNames = { "idCliente", "idContato" }) })
+	private Set<Contato> contatos;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "clientes_enderecos", schema = "baseteste", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "Clientes_Enderecos"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "Enderecos_Clientes"), uniqueConstraints = {
+			@UniqueConstraint(name = "cliente_endereco", columnNames = { "idCliente", "idEndereco" }) })
+	private Set<Endereco> enderecos;
 
 	public String getCpf() {
 		return cpf;
@@ -87,12 +107,20 @@ public class Cliente extends Pessoa implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public List<Endereco> getEnderecos() {
+	public Set<Endereco> getEnderecos() {
 		return enderecos;
 	}
 
-	public void setEnderecos(List<Endereco> enderecos) {
+	public void setEnderecos(Set<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	public Set<Contato> getContatos() {
+		return contatos;
+	}
+
+	public void setContatos(Set<Contato> contatos) {
+		this.contatos = contatos;
 	}
 
 	public static long getSerialversionuid() {
@@ -107,7 +135,8 @@ public class Cliente extends Pessoa implements Serializable {
 		this.tipoPessoa = TipoPessoa.FISICO;
 		this.tipoCliente = TipoCliente.CLIENTE;
 		this.situacao = Situacao.ATIVO;
-		this.enderecos = new ArrayList<>();
+		this.enderecos = new HashSet<>();
+		this.contatos = new HashSet<>();
 
 	}
 
@@ -120,7 +149,8 @@ public class Cliente extends Pessoa implements Serializable {
 		this.tipoPessoa = tipoPessoa;
 		this.tipoCliente = tipoCliente;
 		this.situacao = situacao;
-		this.enderecos = new ArrayList<>();
+		this.enderecos = new HashSet<>();
+		this.contatos = new HashSet<>();
 	}
 
 	@Override

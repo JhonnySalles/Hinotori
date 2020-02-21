@@ -3,9 +3,9 @@ package pdv.controller.cadastros;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -61,7 +61,7 @@ public class CadContatoController implements Initializable {
 	@FXML
 	public JFXButton btnVoltar;
 
-	private List<Contato> contatos;
+	private Set<Contato> contatos;
 	private Contato contato;
 
 	@FXML
@@ -108,7 +108,7 @@ public class CadContatoController implements Initializable {
 
 	private void salvar(Contato contato) {
 		if (contatos == null)
-			contatos = new ArrayList<>();
+			contatos = new HashSet<>();
 
 		if (contatos.size() < 1)
 			contato.setPadrao(true);
@@ -177,7 +177,7 @@ public class CadContatoController implements Initializable {
 		return this;
 	}
 
-	public CadContatoController setContatos(List<Contato> contatos) {
+	public CadContatoController setContatos(Set<Contato> contatos) {
 		this.contatos = contatos;
 		return this;
 	}

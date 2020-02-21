@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -129,7 +129,7 @@ public class CadProdutoController implements Initializable {
 	@FXML
 	private JFXButton btnVoltar;
 
-	private List<Imagem> imagens;
+	private Set<Imagem> imagens;
 	private Produto produto;
 	private ProdutoServices produtoService;
 
@@ -223,7 +223,7 @@ public class CadProdutoController implements Initializable {
 				imgProduto.setImage(new Image(caminhoImagem.toURI().toString()));
 
 				if (imagens == null)
-					imagens = new ArrayList<Imagem>();
+					imagens = new HashSet<Imagem>();
 
 				BufferedImage bImage = ImageIO.read(caminhoImagem);
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -361,7 +361,6 @@ public class CadProdutoController implements Initializable {
 		produto.setUnidade(txtUnidade.getText());
 		produto.setPeso(spnPeso.getValue());
 		produto.setVolume(spnVolume.getValue());
-		produto.setQtdeVolume(spnQtdVolume.getValue());
 		produto.setObservacao(txtAreaObservacao.getText());
 
 		if (frameNCMController.getId() != null)
@@ -399,9 +398,6 @@ public class CadProdutoController implements Initializable {
 		if (produto.getVolume() != null)
 			spnVolume.getEditor().setText(produto.getVolume().toString());
 
-		if (produto.getQtdeVolume() != null)
-			spnQtdVolume.getEditor().setText(produto.getQtdeVolume().toString());
-
 		if (produto.getObservacao() != null && !produto.getObservacao().isEmpty())
 			txtAreaObservacao.setText(produto.getObservacao());
 
@@ -413,7 +409,7 @@ public class CadProdutoController implements Initializable {
 
 		if (produto.getImagens() != null && produto.getImagens().size() > 0) {
 			imagens = produto.getImagens();
-			imgProduto.setImage(new Image(new ByteArrayInputStream(produto.getImagens().get(0).getImagem())));
+			imgProduto.setImage(new Image(new ByteArrayInputStream(produto.getImagens().iterator().next().getImagem())));
 		} else {
 			setImagemPadrao();
 		}

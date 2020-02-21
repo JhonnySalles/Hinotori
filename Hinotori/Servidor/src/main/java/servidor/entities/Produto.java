@@ -2,18 +2,27 @@ package servidor.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoProduto;
 
 @Entity
+@Table(name = "produtos", schema = "baseteste")
 public class Produto implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -22,39 +31,48 @@ public class Produto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
+
+	@Column(name = "idNcm")
 	private Long idNcm;
+
 	private Long idGrupo;
 
-	@Column(name = "Descricao")
+	@Column(name = "Descricao", nullable = false, insertable = true, updatable = true, length = 250)
 	private String descricao;
+
+	@Column(name = "CodigoBarras", length = 35)
+	private String codigoBarras;
+
+	@Column(name = "Marca", length = 250)
+	private String marca;
+
+	@Column(name = "Unidade", length = 4)
+	private String unidade;
+
+	@Column(name = "Peso", precision = 4)
+	private Double peso;
+
+	@Column(name = "Volume", precision = 4)
+	private Double volume;
 
 	@Column(name = "Observacao")
 	private String observacao;
 
-	@Column(name = "CodigoBarras")
-	private String codigoBarras;
-
-	@Column(name = "Marca")
-	private String marca;
-
-	@Column(name = "Unidade")
-	private String unidade;
-
-	@Column(name = "Peso")
-	private Double peso;
-
-	@Column(name = "Volume")
-	private Double volume;
-	private Double qtdeVolume;
-
 	@Column(name = "DataCadastro")
 	private Date dataCadastro;
 
+	@Column(name = "Tipo", columnDefinition = "enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL')")
 	private Enum<TipoProduto> tipo;
+
+	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
 
-	private List<Imagem> imagens;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "produtos_imagens", schema = "baseteste", joinColumns = @JoinColumn(name = "idProduto"), foreignKey = @ForeignKey(name = "Produtos_Imagens"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "Imagens_Produtos"), uniqueConstraints = {
+			@UniqueConstraint(name = "produto_imagem", columnNames = { "idProduto", "idImagem" }) })
+	private Set<Imagem> imagens;
 
 	public Long getId() {
 		return id;
@@ -152,14 +170,6 @@ public class Produto implements Serializable {
 		this.volume = volume;
 	}
 
-	public Double getQtdeVolume() {
-		return qtdeVolume;
-	}
-
-	public void setQtdeVolume(Double qtdeVolume) {
-		this.qtdeVolume = qtdeVolume;
-	}
-
 	public Enum<Situacao> getSituacao() {
 		return situacao;
 	}
@@ -168,11 +178,11 @@ public class Produto implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public List<Imagem> getImagens() {
+	public Set<Imagem> getImagens() {
 		return imagens;
 	}
 
-	public void setImagens(List<Imagem> imagens) {
+	public void setImagens(Set<Imagem> imagens) {
 		this.imagens = imagens;
 	}
 
@@ -188,9 +198,9 @@ public class Produto implements Serializable {
 		this.situacao = Situacao.ATIVO;
 	}
 
-	public Produto(Long id, String descricao, String observacao, String codigoBarras, String unidade, String marca,
-			Double peso, Double volume, Date dataCadastro, Enum<TipoProduto> tipo, Enum<Situacao> situacao) {
-		this.id = id;
+	public Produto(String descricao, String observacao, String codigoBarras, String unidade, String marca, Double peso,
+			Double volume, Date dataCadastro, Enum<TipoProduto> tipo, Enum<Situacao> situacao) {
+		this.id = Long.valueOf(0);
 		this.descricao = descricao;
 		this.observacao = observacao;
 		this.codigoBarras = codigoBarras;
@@ -198,7 +208,6 @@ public class Produto implements Serializable {
 		this.marca = marca;
 		this.peso = peso;
 		this.volume = volume;
-		this.qtdeVolume = 0.0;
 		this.dataCadastro = dataCadastro;
 		this.tipo = tipo;
 		this.situacao = situacao;
@@ -217,19 +226,15 @@ public class Produto implements Serializable {
 		this.marca = marca;
 		this.peso = peso;
 		this.volume = volume;
-		this.qtdeVolume = 0.0;
 		this.dataCadastro = dataCadastro;
 		this.tipo = tipo;
 		this.situacao = situacao;
 	}
 
-	// Utilizado para que possamos comparar os objetos por conteúdo e não
-	// por referência de ponteiro.
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -243,11 +248,6 @@ public class Produto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Produto other = (Produto) obj;
-		if (descricao == null) {
-			if (other.descricao != null)
-				return false;
-		} else if (!descricao.equals(other.descricao))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;

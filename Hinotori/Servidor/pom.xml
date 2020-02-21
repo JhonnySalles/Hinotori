@@ -21,7 +21,17 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<java.version>11</java.version>
 	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -38,6 +48,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
+		<!-- Dependencia para o hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -69,6 +80,4 @@
 			<version>8.0.19</version>
 		</dependency>
 	</dependencies>
-
-
 </project>

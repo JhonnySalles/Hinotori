@@ -4,50 +4,60 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoContato;
 import javafx.beans.property.SimpleBooleanProperty;
 
 @Entity
+@Table(name = "Contato", schema = "baseteste")
 public class Contato implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -1562578455627883930L;
 
-	private Long idSequencial;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-	@Column(name = "Nome")
+	@Column(name = "Nome", columnDefinition = "varchar(150)")
 	private String nome;
 
-	@Column(name = "Telefone")
+	@Column(name = "Telefone", columnDefinition = "varchar(15)")
 	private String telefone;
 
-	@Column(name = "Celular")
+	@Column(name = "Celular", columnDefinition = "varchar(15)")
 	private String celular;
 
-	@Column(name = "Email")
+	@Column(name = "Email", columnDefinition = "varchar(250)")
 	private String email;
 
-	@Column(name = "Observacao")
+	@Column(name = "Observacao", columnDefinition = "longtext")
 	private String observacao;
 
-	@Column(name = "Tipo")
+	@Column(name = "Tipo", columnDefinition = "enum('RESIDENCIAL','COMERCIAL')")
 	private Enum<TipoContato> tipoContato;
 
-	@Column(name = "Situacao")
+	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
 
-	@Column(name = "Padrao")
+	@Column(name = "Padrao", columnDefinition = "tinyint")
 	private SimpleBooleanProperty padrao = new SimpleBooleanProperty(false);
 
-	public Long getIdSequencial() {
-		return idSequencial;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdSequencial(Long idSequencial) {
-		this.idSequencial = idSequencial;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -90,6 +100,7 @@ public class Contato implements Serializable {
 		this.observacao = observacao;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public Enum<TipoContato> getTipoContato() {
 		return tipoContato;
 	}
@@ -98,6 +109,7 @@ public class Contato implements Serializable {
 		this.tipoContato = tipo;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public Enum<Situacao> getSituacao() {
 		return situacao;
 	}
@@ -106,6 +118,14 @@ public class Contato implements Serializable {
 		this.situacao = situacao;
 	}
 
+	public final boolean getPadrao() {
+		return padrao.get();
+	}
+	
+	public final void setPadrao(boolean padrao) {
+		this.padrao.set(padrao);
+	}
+	
 	public boolean isPadrao() {
 		return padrao.get();
 	}
@@ -114,12 +134,8 @@ public class Contato implements Serializable {
 		return padrao;
 	}
 
-	public void setPadrao(boolean padrao) {
-		this.padrao.set(padrao);
-	}
-
 	public Contato() {
-		this.idSequencial = Long.valueOf(0);
+		this.id = Long.valueOf(0);
 		this.nome = "";
 		this.telefone = "";
 		this.celular = "";
@@ -130,9 +146,9 @@ public class Contato implements Serializable {
 		this.padrao.set(false);
 	}
 
-	public Contato(Long idSequencial, String nome, String telefone, String celular, String email, String observacao,
+	public Contato(Long id, String nome, String telefone, String celular, String email, String observacao,
 			Enum<TipoContato> tipoContato, Enum<Situacao> situacao, Boolean padrao) {
-		this.idSequencial = idSequencial;
+		this.id = id;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.celular = celular;
@@ -144,18 +160,12 @@ public class Contato implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "Contato [idSequencial=" + idSequencial + ", nome=" + nome + ", telefone=" + telefone + ", celular="
-				+ celular + ", email=" + email + ", observacao=" + observacao + ", tipoContato=" + tipoContato
-				+ ", situacao=" + situacao + ", padrao=" + padrao + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((celular == null) ? 0 : celular.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
 		return result;
@@ -180,6 +190,11 @@ public class Contato implements Serializable {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
@@ -191,6 +206,13 @@ public class Contato implements Serializable {
 		} else if (!telefone.equals(other.telefone))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Contato [id=" + id + ", nome=" + nome + ", telefone=" + telefone + ", celular=" + celular + ", email="
+				+ email + ", observacao=" + observacao + ", tipoContato=" + tipoContato + ", situacao=" + situacao
+				+ ", padrao=" + padrao + "]";
 	}
 
 }

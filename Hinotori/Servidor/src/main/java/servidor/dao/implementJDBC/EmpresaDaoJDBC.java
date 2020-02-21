@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
@@ -240,14 +242,14 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		}
 	}
 
-	private void updateEnderecos(Long id, List<Endereco> lista) throws ExcessaoBd {
+	private void updateEnderecos(Long id, Set<Endereco> lista) throws ExcessaoBd {
 		if (lista == null || lista.size() == 0)
 			return;
 
 		PreparedStatement stEnd = null;
 		try {
 			for (Endereco ls : lista) {
-				if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+				if (ls.getId() != null && ls.getId() != 0) {
 					stEnd = conexao.prepareStatement(UPDATE_ENDERECO, Statement.RETURN_GENERATED_KEYS);
 
 					if (ls.getBairro() == null || ls.getBairro().getId() == 0)
@@ -264,7 +266,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 					stEnd.setString(8, ls.getSituacao().toString());
 					stEnd.setBoolean(9, ls.isPadrao());
 					stEnd.setLong(10, id);
-					stEnd.setLong(11, ls.getIdSequencial());
+					stEnd.setLong(11, ls.getId());
 
 					stEnd.executeUpdate();
 
@@ -305,7 +307,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		}
 	}
 
-	private List<Endereco> selectEndereco(Long id) throws ExcessaoBd {
+	private Set<Endereco> selectEndereco(Long id) throws ExcessaoBd {
 		PreparedStatement stEnd = null;
 		ResultSet rsEnd = null;
 		try {
@@ -313,7 +315,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			stEnd.setLong(1, id);
 			rsEnd = stEnd.executeQuery();
 
-			List<Endereco> list = new ArrayList<>();
+			Set<Endereco> list = new HashSet<>();
 
 			if (bairroService == null) {
 				setBairroServices(new BairroServices());
@@ -339,14 +341,14 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		}
 	}
 
-	private void updateContatos(Long id, List<Contato> lista) throws ExcessaoBd {
+	private void updateContatos(Long id, Set<Contato> lista) throws ExcessaoBd {
 		if (lista == null || lista.size() == 0)
 			return;
 
 		PreparedStatement stCont = null;
 		try {
 			for (Contato ls : lista) {
-				if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+				if (ls.getId() != null && ls.getId() != 0) {
 					stCont = conexao.prepareStatement(UPDATE_CONTATO, Statement.RETURN_GENERATED_KEYS);
 
 					stCont.setString(1, ls.getNome());
@@ -358,7 +360,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 					stCont.setString(7, ls.getSituacao().toString());
 					stCont.setBoolean(8, ls.isPadrao());
 					stCont.setLong(9, id);
-					stCont.setLong(10, ls.getIdSequencial());
+					stCont.setLong(10, ls.getId());
 					stCont.executeUpdate();
 
 				} else {
@@ -392,7 +394,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		}
 	}
 
-	private List<Contato> selectContato(Long id) throws ExcessaoBd {
+	private Set<Contato> selectContato(Long id) throws ExcessaoBd {
 		PreparedStatement stCont = null;
 		ResultSet rsCont = null;
 		try {
@@ -400,7 +402,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			stCont.setLong(1, id);
 			rsCont = stCont.executeQuery();
 
-			List<Contato> list = new ArrayList<>();
+			Set<Contato> list = new HashSet<>();
 
 			while (rsCont.next()) {
 
@@ -421,7 +423,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		}
 	}
 
-	private void updateImagens(Long id, List<Imagem> lista) throws ExcessaoBd {
+	private void updateImagens(Long id, Set<Imagem> lista) throws ExcessaoBd {
 		if (lista == null || lista.size() == 0)
 			return;
 
@@ -432,7 +434,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 				if (ls.getExcluir()) {
 					stImg = conexao.prepareStatement(DELETE, Statement.RETURN_GENERATED_KEYS);
 					stImg.setLong(1, id);
-					stImg.setLong(2, ls.getIdSequencial());
+					stImg.setLong(2, ls.getId());
 					int rowsAffected = stImg.executeUpdate();
 
 					if (rowsAffected < 1) {
@@ -440,7 +442,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 						throw new ExcessaoBd(Mensagens.BD_ERRO_APAGAR_IMAGEM);
 					}
 				} else {
-					if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+					if (ls.getId() != null && ls.getId() != 0) {
 						stImg = conexao.prepareStatement(UPDATE_IMAGEM, Statement.RETURN_GENERATED_KEYS);
 
 						stImg.setString(1, ls.getNome());
@@ -462,7 +464,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 						}
 
 						stImg.setLong(5, id);
-						stImg.setLong(6, ls.getIdSequencial());
+						stImg.setLong(6, ls.getId());
 
 						stImg.executeUpdate();
 
@@ -506,7 +508,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 		}
 	}
 
-	private List<Imagem> selectImagens(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
+	private Set<Imagem> selectImagens(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
 		if (tamanho == null || tamanho == TamanhoImagem.NENHUMA)
 			return null;
 
@@ -536,7 +538,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 			stImg.setLong(1, id);
 			rsImg = stImg.executeQuery();
 
-			List<Imagem> list = new ArrayList<>();
+			Set<Imagem> list = new HashSet<>();
 
 			while (rsImg.next()) {
 				Imagem obj = new Imagem(rsImg.getLong("IdSequencial"), rsImg.getString("Nome"),

@@ -9,7 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import comum.model.encode.DecodeHash;
 import comum.model.enums.Situacao;
@@ -206,7 +208,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 
-	private void updateImagens(Long id, List<Imagem> lista) throws ExcessaoBd {
+	private void updateImagens(Long id, Set<Imagem> lista) throws ExcessaoBd {
 		if (lista == null || lista.size() == 0)
 			return;
 
@@ -217,7 +219,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				if (ls.getExcluir()) {
 					stImg = conexao.prepareStatement(DELETE, Statement.RETURN_GENERATED_KEYS);
 					stImg.setLong(1, id);
-					stImg.setLong(2, ls.getIdSequencial());
+					stImg.setLong(2, ls.getId());
 					int rowsAffected = stImg.executeUpdate();
 
 					if (rowsAffected < 1) {
@@ -225,7 +227,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 						throw new ExcessaoBd(Mensagens.BD_ERRO_APAGAR_IMAGEM);
 					}
 				} else {
-					if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+					if (ls.getId() != null && ls.getId() != 0) {
 						stImg = conexao.prepareStatement(UPDATE_IMAGEM, Statement.RETURN_GENERATED_KEYS);
 
 						stImg.setString(1, ls.getNome());
@@ -247,7 +249,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 						}
 
 						stImg.setLong(5, id);
-						stImg.setLong(6, ls.getIdSequencial());
+						stImg.setLong(6, ls.getId());
 
 						stImg.executeUpdate();
 
@@ -291,7 +293,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		}
 	}
 
-	private List<Imagem> selectImagens(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
+	private Set<Imagem> selectImagens(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
 		if (tamanho == null || tamanho == TamanhoImagem.NENHUMA)
 			return null;
 
@@ -321,7 +323,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			stImg.setLong(1, id);
 			rsImg = stImg.executeQuery();
 
-			List<Imagem> list = new ArrayList<>();
+			Set<Imagem> list = new HashSet<>();
 
 			while (rsImg.next()) {
 				Imagem obj = new Imagem(rsImg.getLong("IdSequencial"), rsImg.getString("Nome"),

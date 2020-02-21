@@ -4,11 +4,16 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "bairros", schema = "baseteste")
 public class Bairro implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -19,6 +24,8 @@ public class Bairro implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@OneToOne(targetEntity = Cidade.class, fetch = FetchType.LAZY)
+	@JoinColumn(name="IdCidade")
 	private Cidade cidade;
 
 	@Column(name = "Nome")

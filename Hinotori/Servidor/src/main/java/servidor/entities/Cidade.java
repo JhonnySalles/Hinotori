@@ -4,13 +4,18 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import comum.model.enums.Situacao;
 
 @Entity
+@Table(name = "cidades", schema = "baseteste")
 public class Cidade implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -20,6 +25,9 @@ public class Cidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@OneToOne(targetEntity = Estado.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "IdEstado")
 	private Estado estado;
 
 	@Column(name = "Nome")

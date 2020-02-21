@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "paises", schema = "baseteste")
 public class Pais implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes

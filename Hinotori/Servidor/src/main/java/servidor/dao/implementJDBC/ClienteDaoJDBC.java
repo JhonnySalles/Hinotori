@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoCliente;
@@ -235,14 +237,14 @@ public class ClienteDaoJDBC implements ClienteDao {
 		}
 	}
 
-	private void updateEnderecos(Long id, List<Endereco> lista) throws ExcessaoBd {
+	private void updateEnderecos(Long id, Set<Endereco> lista) throws ExcessaoBd {
 		if (lista == null || lista.size() == 0)
 			return;
 
 		PreparedStatement stEnd = null;
 		try {
 			for (Endereco ls : lista) {
-				if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+				if (ls.getId() != null && ls.getId() != 0) {
 					stEnd = conexao.prepareStatement(UPDATE_ENDERECO, Statement.RETURN_GENERATED_KEYS);
 
 					if (ls.getBairro() == null || ls.getBairro().getId() == 0)
@@ -259,7 +261,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 					stEnd.setString(8, ls.getSituacao().toString());
 					stEnd.setBoolean(9, ls.isPadrao());
 					stEnd.setLong(10, id);
-					stEnd.setLong(11, ls.getIdSequencial());
+					stEnd.setLong(11, ls.getId());
 
 					stEnd.executeUpdate();
 
@@ -300,7 +302,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 		}
 	}
 
-	private List<Endereco> selectEndereco(Long id) throws ExcessaoBd {
+	private Set<Endereco> selectEndereco(Long id) throws ExcessaoBd {
 		PreparedStatement stEnd = null;
 		ResultSet rsEnd = null;
 		try {
@@ -308,7 +310,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 			stEnd.setLong(1, id);
 			rsEnd = stEnd.executeQuery();
 
-			List<Endereco> list = new ArrayList<>();
+			Set<Endereco> list = new HashSet<>();
 
 			if (bairroService == null) {
 				setBairroServices(new BairroServices());
@@ -334,14 +336,14 @@ public class ClienteDaoJDBC implements ClienteDao {
 		}
 	}
 
-	private void updateContatos(Long id, List<Contato> lista) throws ExcessaoBd {
+	private void updateContatos(Long id, Set<Contato> lista) throws ExcessaoBd {
 		if (lista == null || lista.size() == 0)
 			return;
 
 		PreparedStatement stCont = null;
 		try {
 			for (Contato ls : lista) {
-				if (ls.getIdSequencial() != null && ls.getIdSequencial() != 0) {
+				if (ls.getId() != null && ls.getId() != 0) {
 					stCont = conexao.prepareStatement(UPDATE_CONTATO, Statement.RETURN_GENERATED_KEYS);
 
 					stCont.setString(1, ls.getNome());
@@ -353,7 +355,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 					stCont.setString(7, ls.getSituacao().toString());
 					stCont.setBoolean(8, ls.isPadrao());
 					stCont.setLong(9, id);
-					stCont.setLong(10, ls.getIdSequencial());
+					stCont.setLong(10, ls.getId());
 
 					stCont.executeUpdate();
 
@@ -388,7 +390,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 		}
 	}
 
-	private List<Contato> selectContato(Long id) throws ExcessaoBd {
+	private Set<Contato> selectContato(Long id) throws ExcessaoBd {
 		PreparedStatement stCont = null;
 		ResultSet rsCont = null;
 		try {
@@ -396,7 +398,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 			stCont.setLong(1, id);
 			rsCont = stCont.executeQuery();
 
-			List<Contato> list = new ArrayList<>();
+			Set<Contato> list = new HashSet<>();
 
 			while (rsCont.next()) {
 

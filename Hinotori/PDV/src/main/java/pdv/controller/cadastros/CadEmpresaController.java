@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -105,7 +105,7 @@ public class CadEmpresaController implements Initializable {
 	@FXML
 	private JFXButton btnVoltar;
 
-	private List<Imagem> imagens;
+	private Set<Imagem> imagens;
 	private Empresa empresa;
 	private EmpresaServices empresaService;
 	private String id;
@@ -245,7 +245,7 @@ public class CadEmpresaController implements Initializable {
 				imgLogo.setImage(new Image(caminhoImagem.toURI().toString()));
 
 				if (imagens == null)
-					imagens = new ArrayList<Imagem>();
+					imagens = new HashSet<Imagem>();
 
 				BufferedImage bImage = ImageIO.read(caminhoImagem);
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();

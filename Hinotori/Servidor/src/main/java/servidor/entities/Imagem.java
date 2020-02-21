@@ -4,36 +4,50 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import comum.model.enums.TamanhoImagem;
 
+@Entity
+@Table(name = "Imagem", schema = "baseteste")
 public class Imagem implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6407704915654886503L;
 
-	private Long idSequencial;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-	@Column(name = "Nome")
+	@Column(name = "Nome", columnDefinition = "varchar(250)")
 	private String nome;
 
-	@Column(name = "Extenssao")
+	@Column(name = "Extenssao", columnDefinition = "varchar(10)")
 	private String extenssao;
 
-	@Column(name = "Imagem")
+	@Column(name = "Imagem", columnDefinition = "longblob")
 	private byte[] imagem;
 
-	@Column(name = "Tamanho	")
+	@Column(name = "Tamanho", columnDefinition = "enum('ORIGINAL','PEQUENA','MEDIA')")
 	private Enum<TamanhoImagem> tamanho;
+
+	@Transient
 	private Boolean excluir;
 
-	public Long getIdSequencial() {
-		return idSequencial;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdSequencial(Long idSequencial) {
-		this.idSequencial = idSequencial;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -60,6 +74,7 @@ public class Imagem implements Serializable {
 		this.imagem = imagem;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public Enum<TamanhoImagem> getTamanho() {
 		return tamanho;
 	}
@@ -77,11 +92,12 @@ public class Imagem implements Serializable {
 	}
 
 	public Imagem() {
-		this.idSequencial = Long.valueOf(0);
+		this.id = Long.valueOf(0);
 		this.excluir = false;
 	}
 
 	public Imagem(String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
+		this.id = Long.valueOf(0);
 		this.nome = nome;
 		this.extenssao = extenssao;
 		this.imagem = imagem;
@@ -89,8 +105,8 @@ public class Imagem implements Serializable {
 		this.excluir = false;
 	}
 
-	public Imagem(Long idSequencial, String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
-		this.idSequencial = idSequencial;
+	public Imagem(Long id, String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
+		this.id = id;
 		this.nome = nome;
 		this.extenssao = extenssao;
 		this.imagem = imagem;
@@ -99,9 +115,33 @@ public class Imagem implements Serializable {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Imagem other = (Imagem) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
-		return "Imagem [idSequencial=" + idSequencial + ", nome=" + nome + ", extenssao=" + extenssao + ", tamanho="
-				+ tamanho + "]";
+		return "Imagem [id=" + id + ", nome=" + nome + ", extenssao=" + extenssao + ", tamanho=" + tamanho + "]";
 	}
 
 }
