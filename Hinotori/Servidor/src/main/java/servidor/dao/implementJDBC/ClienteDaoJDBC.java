@@ -28,44 +28,44 @@ import servidor.entities.Endereco;
 public class ClienteDaoJDBC implements ClienteDao {
 
 	final String INSERT = "INSERT INTO clientes (NomeSobrenome, "
-			+ " Cpf, Cnpj, DataCadastro, UltimaAlteracao, Observacao, Tipo, "
+			+ " Cpf, Cnpj, DataCadastro, DataUltimaAlteracao, Observacao, Tipo, "
 			+ " Enquadramento, Situacao ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 
 	final String UPDATE = "UPDATE clientes SET NomeSobrenome = ?, "
-			+ " Cpf = ?, Cnpj = ?, UltimaAlteracao = ?, Observacao = ?, Tipo = ?, "
+			+ " Cpf = ?, Cnpj = ?, Observacao = ?, DataUltimaAlteracao = ?, Tipo = ?, "
 			+ " Enquadramento = ?, Situacao = ? WHERE ID = ?";
 
 	final String DELETE = "UPDATE clientes SET Situacao = 'Excluído' WHERE ID = ?";
 
-	final String SELECT_ALL = "SELECT ID, NomeSobrenome, Cpf, Cnpj, DataCadastro, "
+	final String SELECT_ALL = "SELECT ID, NomeSobrenome, Cpf, Cnpj, DataCadastro, DataUltimaAlteracao, "
 			+ " Observacao, Tipo, Enquadramento, Situacao FROM clientes WHERE Situacao <> 'Excluído'";
 
-	final String SELECT = "SELECT ID, NomeSobrenome, Cpf, Cnpj, DataCadastro, Observacao, "
-			+ " Tipo, Enquadramento, Situacao FROM clientes WHERE ID = ?";
+	final String SELECT = "SELECT ID, NomeSobrenome, Cpf, Cnpj, DataCadastro, DataUltimaAlteracao, "
+			+ "  Observacao, Tipo, Enquadramento, Situacao FROM clientes WHERE ID = ?";
 
 	final String SELECT_ENDERECO = "SELECT IdSequencial, IdBairro, Endereco, Numero, CEP, "
-			+ " Complemento, Observacao, Tipo, Situacao, Padrao FROM clientes_enderecos "
+			+ " Complemento, Observacao, DataCadastro, Tipo, Situacao, Padrao FROM clientes_enderecos "
 			+ "WHERE IdCliente = ? AND Situacao <> 'Excluído' ";
 
-	final String INSERT_ENDERECO = "INSERT INTO clientes_enderecos (IdCliente, IdSequencial, "
-			+ " IdBairro, Endereco, Numero, CEP, Complemento, Observacao, Tipo, Situacao, Padrao) VALUES (?,"
+	final String INSERT_ENDERECO = "INSERT INTO clientes_enderecos (IdCliente, IdSequencial, IdBairro, Endereco, "
+			+ " Numero, CEP, Complemento, Observacao, DataCadastro, Tipo, Situacao, Padrao) VALUES (?,"
 			+ " (SELECT IFNULL(MAX(cliEnd.IdSequencial),0)+1 FROM clientes_enderecos cliEnd WHERE cliEnd.IdCliente = ?),"
-			+ " ?,?,?,?,?,?,?,?,?)";
+			+ " ?,?,?,?,?,?,?,?,?,?)";
 
 	final String UPDATE_ENDERECO = "UPDATE clientes_enderecos SET IdBairro = ?,"
-			+ " Endereco = ?, Numero = ?, CEP = ?, Complemento = ?, Observacao = ?,"
+			+ " Endereco = ?, Numero = ?, CEP = ?, Complemento = ?, Observacao = ?, DataCadastro = ?,"
 			+ " Tipo = ?, Situacao = ?, Padrao = ? WHERE IdCliente = ? AND IdSequencial = ?";
 
 	final String SELECT_CONTATO = "SELECT IdSequencial, Nome, Telefone, Celular, Email, Observacao, Tipo, "
 			+ " Situacao, Padrao FROM clientes_contatos WHERE IdCliente = ? AND Situacao <> 'Excluído' ";
 
 	final String INSERT_CONTATO = "INSERT INTO clientes_contatos (IdCliente, IdSequencial, "
-			+ " Nome, Telefone, Celular, Email, Observacao, Tipo, Situacao, Padrao) VALUES (?,"
+			+ " Nome, Telefone, Celular, Email, Observacao, DataCadastro, Tipo, Situacao, Padrao) VALUES (?,"
 			+ " (SELECT IFNULL(MAX(cliCont.IdSequencial),0)+1 FROM clientes_contatos cliCont WHERE cliCont.IdCliente = ?),"
-			+ " ?,?,?,?,?,?,?,?)";
+			+ " ?,?,?,?,?,??,,?,?)";
 
 	final String UPDATE_CONTATO = "UPDATE clientes_contatos SET Nome = ?, Telefone = ?, Celular = ?, Email = ?, "
-			+ " Observacao = ?, Tipo = ?, Situacao = ?, Padrao = ? WHERE IdCliente = ? AND IdSequencial = ?";
+			+ " Observacao = ?, DataCadastro = ?, Tipo = ?, Situacao = ?, Padrao = ? WHERE IdCliente = ? AND IdSequencial = ?";
 
 	private Connection conexao;
 	private BairroServices bairroService;
@@ -130,8 +130,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 			st.setString(1, obj.getNomeSobrenome());
 			st.setString(2, obj.getCpf());
 			st.setString(3, obj.getCnpj());
-			st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
-			st.setString(5, obj.getObservacao());
+			st.setString(4, obj.getObservacao());
+			st.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
 			st.setString(6, obj.getTipoPessoa().toString());
 			st.setString(7, obj.getTipoCliente().toString());
 			st.setString(8, obj.getSituacao().toString());
@@ -186,8 +186,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 			rs = st.executeQuery();
 			if (rs.next()) {
 				Cliente obj = new Cliente(rs.getLong("Id"), rs.getString("NomeSobrenome"),
-						rs.getTimestamp("DataCadastro"), rs.getString("Cpf"), rs.getString("Cnpj"),
-						rs.getString("Observacao"), TipoPessoa.valueOf(rs.getString("Tipo")),
+						rs.getTimestamp("DataCadastro"), rs.getTimestamp("DataUltimaAlteracao"), rs.getString("Cpf"),
+						rs.getString("Cnpj"), rs.getString("Observacao"), TipoPessoa.valueOf(rs.getString("Tipo")),
 						TipoCliente.valueOf(rs.getString("Enquadramento")), Situacao.valueOf(rs.getString("Situacao")));
 
 				obj.setContatos(selectContato(rs.getLong("Id")));
@@ -218,8 +218,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 			while (rs.next()) {
 
 				Cliente obj = new Cliente(rs.getLong("Id"), rs.getString("NomeSobrenome"),
-						rs.getTimestamp("DataCadastro"), rs.getString("Cpf"), rs.getString("Cnpj"),
-						rs.getString("Observacao"), TipoPessoa.valueOf(rs.getString("Tipo")),
+						rs.getTimestamp("DataCadastro"), rs.getTimestamp("DataUltimaAlteracao"), rs.getString("Cpf"),
+						rs.getString("Cnpj"), rs.getString("Observacao"), TipoPessoa.valueOf(rs.getString("Tipo")),
 						TipoCliente.valueOf(rs.getString("Enquadramento")), Situacao.valueOf(rs.getString("Situacao")));
 
 				obj.setContatos(selectContato(rs.getLong("Id")));
@@ -257,11 +257,12 @@ public class ClienteDaoJDBC implements ClienteDao {
 					stEnd.setString(4, ls.getCep());
 					stEnd.setString(5, ls.getComplemento());
 					stEnd.setString(6, ls.getObservacao());
-					stEnd.setString(7, ls.getTipoEndereco().toString());
-					stEnd.setString(8, ls.getSituacao().toString());
-					stEnd.setBoolean(9, ls.isPadrao());
-					stEnd.setLong(10, id);
-					stEnd.setLong(11, ls.getId());
+					stEnd.setTimestamp(7, ls.getDataCadastro());
+					stEnd.setString(8, ls.getTipoEndereco().toString());
+					stEnd.setString(9, ls.getSituacao().toString());
+					stEnd.setBoolean(10, ls.isPadrao());
+					stEnd.setLong(11, id);
+					stEnd.setLong(12, ls.getId());
 
 					stEnd.executeUpdate();
 
@@ -281,9 +282,10 @@ public class ClienteDaoJDBC implements ClienteDao {
 					stEnd.setString(6, ls.getCep());
 					stEnd.setString(7, ls.getComplemento());
 					stEnd.setString(8, ls.getObservacao());
-					stEnd.setString(9, ls.getTipoEndereco().toString());
-					stEnd.setString(10, ls.getSituacao().toString());
-					stEnd.setBoolean(11, ls.isPadrao());
+					stEnd.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
+					stEnd.setString(10, ls.getTipoEndereco().toString());
+					stEnd.setString(11, ls.getSituacao().toString());
+					stEnd.setBoolean(12, ls.isPadrao());
 
 					int rowsAffected = stEnd.executeUpdate();
 
@@ -321,8 +323,9 @@ public class ClienteDaoJDBC implements ClienteDao {
 				Endereco endereco = new Endereco(rsEnd.getLong("IdSequencial"),
 						bairroService.pesquisar(rsEnd.getLong("IdBairro")), rsEnd.getString("Endereco"),
 						rsEnd.getString("Numero"), rsEnd.getString("CEP"), rsEnd.getString("Complemento"),
-						rsEnd.getString("Observacao"), TipoEndereco.valueOf(rsEnd.getString("Tipo")),
-						Situacao.valueOf(rsEnd.getString("Situacao")), rsEnd.getBoolean("Padrao"));
+						rsEnd.getString("Observacao"), rsEnd.getTimestamp("DataCadastro"),
+						TipoEndereco.valueOf(rsEnd.getString("Tipo")), Situacao.valueOf(rsEnd.getString("Situacao")),
+						rsEnd.getBoolean("Padrao"));
 
 				list.add(endereco);
 			}
@@ -351,11 +354,12 @@ public class ClienteDaoJDBC implements ClienteDao {
 					stCont.setString(3, ls.getCelular());
 					stCont.setString(4, ls.getEmail());
 					stCont.setString(5, ls.getObservacao());
-					stCont.setString(6, ls.getTipoContato().toString());
-					stCont.setString(7, ls.getSituacao().toString());
-					stCont.setBoolean(8, ls.isPadrao());
-					stCont.setLong(9, id);
-					stCont.setLong(10, ls.getId());
+					stCont.setTimestamp(6, ls.getDataCadastro());
+					stCont.setString(7, ls.getTipoContato().toString());
+					stCont.setString(8, ls.getSituacao().toString());
+					stCont.setBoolean(9, ls.isPadrao());
+					stCont.setLong(10, id);
+					stCont.setLong(11, ls.getId());
 
 					stCont.executeUpdate();
 
@@ -369,9 +373,10 @@ public class ClienteDaoJDBC implements ClienteDao {
 					stCont.setString(5, ls.getCelular());
 					stCont.setString(6, ls.getEmail());
 					stCont.setString(7, ls.getObservacao());
-					stCont.setString(8, ls.getTipoContato().toString());
-					stCont.setString(9, ls.getSituacao().toString());
-					stCont.setBoolean(10, ls.isPadrao());
+					stCont.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+					stCont.setString(9, ls.getTipoContato().toString());
+					stCont.setString(10, ls.getSituacao().toString());
+					stCont.setBoolean(11, ls.isPadrao());
 
 					int rowsAffected = stCont.executeUpdate();
 
@@ -404,8 +409,9 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 				Contato endereco = new Contato(rsCont.getLong("IdSequencial"), rsCont.getString("Nome"),
 						rsCont.getString("Telefone"), rsCont.getString("Celular"), rsCont.getString("Email"),
-						rsCont.getString("Observacao"), TipoContato.valueOf(rsCont.getString("Tipo")),
-						Situacao.valueOf(rsCont.getString("Situacao")), rsCont.getBoolean("Padrao"));
+						rsCont.getString("Observacao"), rsCont.getTimestamp("DataCadastro"),
+						TipoContato.valueOf(rsCont.getString("Tipo")), Situacao.valueOf(rsCont.getString("Situacao")),
+						rsCont.getBoolean("Padrao"));
 
 				list.add(endereco);
 			}

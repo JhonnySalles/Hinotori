@@ -1,7 +1,7 @@
 package servidor.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -39,16 +39,16 @@ public class Produto implements Serializable {
 
 	private Long idGrupo;
 
-	@Column(name = "Descricao", nullable = false, insertable = true, updatable = true, length = 250)
+	@Column(name = "Descricao", nullable = false, insertable = true, updatable = true, length = 250, columnDefinition = "varchar(250)")
 	private String descricao;
 
-	@Column(name = "CodigoBarras", length = 35)
+	@Column(name = "CodigoBarras", length = 35, columnDefinition = "varchar(35)")
 	private String codigoBarras;
 
-	@Column(name = "Marca", length = 250)
+	@Column(name = "Marca", length = 250, columnDefinition = "varchar(250)")
 	private String marca;
 
-	@Column(name = "Unidade", length = 4)
+	@Column(name = "Unidade", length = 4, columnDefinition = "varchar(4)")
 	private String unidade;
 
 	@Column(name = "Peso", precision = 4)
@@ -57,14 +57,17 @@ public class Produto implements Serializable {
 	@Column(name = "Volume", precision = 4)
 	private Double volume;
 
-	@Column(name = "Observacao")
+	@Column(name = "Observacao", columnDefinition = "longtext")
 	private String observacao;
 
-	@Column(name = "DataCadastro")
-	private Date dataCadastro;
+	@Column(name = "DataCadastro", columnDefinition = "datetime")
+	private Timestamp dataCadastro;
+
+	@Column(name = "DataUltimaAlteracao", columnDefinition = "datetime")
+	private Timestamp dataUltimaAlteracao;
 
 	@Column(name = "Tipo", columnDefinition = "enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL')")
-	private Enum<TipoProduto> tipo;
+	private Enum<TipoProduto> tipoProduto;
 
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
@@ -73,6 +76,10 @@ public class Produto implements Serializable {
 	@JoinTable(name = "produtos_imagens", schema = "baseteste", joinColumns = @JoinColumn(name = "idProduto"), foreignKey = @ForeignKey(name = "Produtos_Imagens"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "Imagens_Produtos"), uniqueConstraints = {
 			@UniqueConstraint(name = "produto_imagem", columnNames = { "idProduto", "idImagem" }) })
 	private Set<Imagem> imagens;
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public Long getId() {
 		return id;
@@ -138,20 +145,28 @@ public class Produto implements Serializable {
 		this.marca = marca;
 	}
 
-	public Date getDataCadastro() {
+	public Timestamp getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(Timestamp dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public Enum<TipoProduto> getTipoProduto() {
-		return tipo;
+	public Timestamp getDataUltimaAlteracao() {
+		return dataUltimaAlteracao;
 	}
 
-	public void setTipoProduto(Enum<TipoProduto> tipo) {
-		this.tipo = tipo;
+	public void setDataUltimaAlteracao(Timestamp dataUltimaAlteracao) {
+		this.dataUltimaAlteracao = dataUltimaAlteracao;
+	}
+
+	public Enum<TipoProduto> getTipoProduto() {
+		return tipoProduto;
+	}
+
+	public void setTipoProduto(Enum<TipoProduto> tipoProduto) {
+		this.tipoProduto = tipoProduto;
 	}
 
 	public Double getPeso() {
@@ -194,12 +209,13 @@ public class Produto implements Serializable {
 		this.unidade = "";
 		this.marca = "";
 		this.peso = 0.0;
-		this.tipo = TipoProduto.PRODUTOFINAL;
+		this.tipoProduto = TipoProduto.PRODUTOFINAL;
 		this.situacao = Situacao.ATIVO;
 	}
 
 	public Produto(String descricao, String observacao, String codigoBarras, String unidade, String marca, Double peso,
-			Double volume, Date dataCadastro, Enum<TipoProduto> tipo, Enum<Situacao> situacao) {
+			Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, Enum<TipoProduto> tipoProduto,
+			Enum<Situacao> situacao) {
 		this.id = Long.valueOf(0);
 		this.descricao = descricao;
 		this.observacao = observacao;
@@ -209,13 +225,14 @@ public class Produto implements Serializable {
 		this.peso = peso;
 		this.volume = volume;
 		this.dataCadastro = dataCadastro;
-		this.tipo = tipo;
+		this.dataUltimaAlteracao = dataUltimaAlteracao;
+		this.tipoProduto = tipoProduto;
 		this.situacao = situacao;
 	}
 
 	public Produto(Long id, Long idNcm, Long idGrupo, String descricao, String observacao, String codigoBarras,
-			String unidade, String marca, Double peso, Double volume, Date dataCadastro, Enum<TipoProduto> tipo,
-			Enum<Situacao> situacao) {
+			String unidade, String marca, Double peso, Double volume, Timestamp dataCadastro,
+			Timestamp dataUltimaAlteracao, Enum<TipoProduto> tipoProduto, Enum<Situacao> situacao) {
 		this.id = id;
 		this.idNcm = idNcm;
 		this.idGrupo = idGrupo;
@@ -227,7 +244,8 @@ public class Produto implements Serializable {
 		this.peso = peso;
 		this.volume = volume;
 		this.dataCadastro = dataCadastro;
-		this.tipo = tipo;
+		this.dataUltimaAlteracao = dataUltimaAlteracao;
+		this.tipoProduto = tipoProduto;
 		this.situacao = situacao;
 	}
 
@@ -260,7 +278,7 @@ public class Produto implements Serializable {
 	public String toString() {
 		return "Produto [id=" + id + ", descricao=" + descricao + ", observacao=" + observacao + ", codigoBarras="
 				+ codigoBarras + ", unidade=" + unidade + ", marca=" + marca + ", dataCadastro=" + dataCadastro
-				+ ", tipo=" + tipo + ", peso=" + peso + ", situacao=" + situacao + "]";
+				+ ", tipoProduto=" + tipoProduto + ", peso=" + peso + ", situacao=" + situacao + "]";
 	}
 
 }

@@ -24,18 +24,19 @@ import servidor.entities.Produto;
 public class ProdutoDaoJDBC implements ProdutoDao {
 
 	final String INSERT = "INSERT INTO produtos (IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade,"
-			+ " Marca, Peso, Volume, DataCadastro, Tipo, Situacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ " Marca, Peso, Volume, DataCadastro, DataUltimaAlteracao, Tipo, Situacao) VALUES "
+			+ " (?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	final String UPDATE = "UPDATE produtos SET IdNcm = ?, IdGrupo = ?, Descricao = ?, Observacao = ?, CodigoBarras = ?, "
-			+ " Unidade = ?, Marca = ?, Peso = ?, Volume = ?, Tipo = ?, Situacao = ? WHERE ID = ?";
+			+ " Unidade = ?, Marca = ?, Peso = ?, Volume = ?, DataUltimaAlteracao = ?, Tipo = ?, Situacao = ? WHERE ID = ?";
 
 	final String DELETE = "DELETE FROM produtos WHERE ID = ?";
 
 	final String SELECT = "SELECT Id, IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade, Marca, Peso, Volume, "
-			+ " DataCadastro, Tipo, Situacao FROM produtos WHERE ID = ?";
+			+ " DataCadastro, DataUltimaAlteracao, Tipo, Situacao FROM produtos WHERE ID = ?";
 
 	final String SELECT_ALL = "SELECT Id, IdNcm, IdGrupo, Descricao, Observacao, CodigoBarras, Unidade, Marca, Peso, Volume, "
-			+ " qtdVolume, DataCadastro, Tipo, Situacao FROM produtos";
+			+ " qtdVolume, DataCadastro, DataUltimaAlteracao, Tipo, Situacao FROM produtos";
 
 	final String INSERT_IMAGEM = "INSERT INTO produtos_imagens (IdProduto, IdSequencial, Nome, Extenssao, Imagem, Tamanho) "
 			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM produtos_imagens img WHERE img.IdProduto = ?),?,?,?,?)";
@@ -70,25 +71,26 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setDouble(8, obj.getPeso());
 			st.setDouble(9, obj.getVolume());
 			st.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
+			st.setTimestamp(11, new Timestamp(System.currentTimeMillis()));
 
 			switch ((TipoProduto) obj.getTipoProduto()) {
 			case PRODUTOFINAL:
-				st.setString(11, "PRODUTOFINAL");
+				st.setString(12, "PRODUTOFINAL");
 				break;
 			case PRODUZIDO:
-				st.setString(11, "PRODUZIDO");
+				st.setString(12, "PRODUZIDO");
 				break;
 			case MATERIAPRIMA:
-				st.setString(11, "MATERIAPRIMA");
+				st.setString(12, "MATERIAPRIMA");
 				break;
 			case SERVICO:
-				st.setString(11, "SERVICO");
+				st.setString(12, "SERVICO");
 				break;
 			default:
-				st.setString(11, "");
+				st.setString(12, "");
 			}
 
-			st.setString(12, obj.getSituacao().toString());
+			st.setString(13, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 			ResultSet rs = st.getGeneratedKeys();
@@ -128,26 +130,27 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setString(7, obj.getMarca());
 			st.setDouble(8, obj.getPeso());
 			st.setDouble(9, obj.getVolume());
+			st.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
 
 			switch ((TipoProduto) obj.getTipoProduto()) {
 			case PRODUTOFINAL:
-				st.setString(10, "PRODUTOFINAL");
+				st.setString(11, "PRODUTOFINAL");
 				break;
 			case PRODUZIDO:
-				st.setString(10, "PRODUZIDO");
+				st.setString(11, "PRODUZIDO");
 				break;
 			case MATERIAPRIMA:
-				st.setString(10, "MATERIAPRIMA");
+				st.setString(11, "MATERIAPRIMA");
 				break;
 			case SERVICO:
-				st.setString(10, "SERVICO");
+				st.setString(11, "SERVICO");
 				break;
 			default:
-				st.setString(10, "");
+				st.setString(11, "");
 			}
 
-			st.setString(11, obj.getSituacao().toString());
-			st.setLong(12, obj.getId());
+			st.setString(12, obj.getSituacao().toString());
+			st.setLong(13, obj.getId());
 
 			st.executeUpdate();
 
@@ -200,7 +203,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 				Produto obj = new Produto(rs.getLong("Id"), rs.getLong("IdNcm"), rs.getLong("IdGrupo"),
 						rs.getString("Descricao"), rs.getString("Observacao"), rs.getString("CodigoBarras"),
 						rs.getString("Unidade"), rs.getString("Marca"), rs.getDouble("Peso"), rs.getDouble("Volume"),
-						rs.getDate("DataCadastro"), TipoProduto.valueOf(rs.getString("Tipo")),
+						rs.getTimestamp("DataCadastro"), rs.getTimestamp("DataUltimaAlteracao"), TipoProduto.valueOf(rs.getString("Tipo")),
 						Situacao.valueOf(rs.getString("Situacao")));
 				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				return obj;
@@ -230,7 +233,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 				Produto obj = new Produto(rs.getLong("Id"), rs.getLong("IdNcm"), rs.getLong("IdGrupo"),
 						rs.getString("Descricao"), rs.getString("Observacao"), rs.getString("CodigoBarras"),
 						rs.getString("Unidade"), rs.getString("Marca"), rs.getDouble("Peso"), rs.getDouble("Volume"),
-						rs.getDate("DataCadastro"), TipoProduto.valueOf(rs.getString("Tipo")),
+						rs.getTimestamp("DataCadastro"), rs.getTimestamp("DataUltimaAlteracao"), TipoProduto.valueOf(rs.getString("Tipo")),
 						Situacao.valueOf(rs.getString("Situacao")));
 				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				list.add(obj);

@@ -1,6 +1,7 @@
 package servidor.entities;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,23 +46,23 @@ public class Empresa implements Serializable {
 	private String cnpj;
 
 	@Column(name = "DataCadastro")
-	private Date dataCadastro;
+	private Timestamp dataCadastro;
 
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "empresas_enderecos", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Usuarios_Enderecos"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "Enderecos_Empresas"), uniqueConstraints = {
+	@JoinTable(name = "empresas_enderecos", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Empresas_Enderecos"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "Enderecos_Empresas"), uniqueConstraints = {
 			@UniqueConstraint(name = "empresa_endereco", columnNames = { "idEmpresa", "idEndereco" }) })
 	private Set<Endereco> enderecos;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "empresas_contatos", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Usuarios_Contatos"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "Contatos_Empresas"), uniqueConstraints = {
+	@JoinTable(name = "empresas_contatos", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Empresas_Contatos"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "Contatos_Empresas"), uniqueConstraints = {
 			@UniqueConstraint(name = "empresa_contato", columnNames = { "idEmpresa", "idContato" }) })
 	private Set<Contato> contatos;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "empresas_imagens", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Usuarios_Imagens"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "Imagens_Empresas"), uniqueConstraints = {
+	@JoinTable(name = "empresas_imagens", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Empresas_Imagens"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "Imagens_Empresas"), uniqueConstraints = {
 			@UniqueConstraint(name = "empresa_imagem", columnNames = { "idEmpresa", "idImagem" }) })
 	private Set<Imagem> imagens;
 
@@ -101,7 +102,7 @@ public class Empresa implements Serializable {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(Timestamp dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
@@ -149,7 +150,7 @@ public class Empresa implements Serializable {
 		this.imagens = new HashSet<>();
 	}
 
-	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Date dataCadastro,
+	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
 			Enum<Situacao> situacao) {
 		this.id = id;
 		this.nomeFantasia = nomeFantasia;
@@ -160,14 +161,6 @@ public class Empresa implements Serializable {
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
-	}
-
-	// Utilizado para que possamos comparar os objetos por conteúdo e não
-	// por referência de ponteiro.
-	@Override
-	public String toString() {
-		return "Empresa [id=" + id + ", nomeFantasia=" + nomeFantasia + ", razaoSocial=" + razaoSocial + ", cnpj="
-				+ cnpj + ", dataCadastro=" + dataCadastro + ", situacao=" + situacao + "]";
 	}
 
 	@Override
@@ -205,6 +198,13 @@ public class Empresa implements Serializable {
 		} else if (!nomeFantasia.equals(other.nomeFantasia))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Empresa [id=" + id + ", nomeFantasia=" + nomeFantasia + ", razaoSocial=" + razaoSocial + ", cnpj="
+				+ cnpj + ", dataCadastro=" + dataCadastro + ", situacao=" + situacao + ", enderecos=" + enderecos
+				+ ", contatos=" + contatos + ", imagens=" + imagens + "]";
 	}
 
 }

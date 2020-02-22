@@ -27,17 +27,18 @@ import servidor.entities.Usuario;
 public class UsuarioDaoJDBC implements UsuarioDao {
 
 	final String INSERT = "INSERT INTO usuarios (NomeSobrenome, Login,"
-			+ " Senha, DataCadastro, Observacao, Nivel, Situacao) VALUES" + " (?, ?, ?, ?, ?, ?, ?)";
+			+ " Senha, DataCadastro, DataUltimaAlteracao, Observacao, Nivel, Situacao) VALUES"
+			+ " (?, ?, ?, ?, ?, ?, ?, ?)";
 
 	final String UPDATE = "UPDATE usuarios SET NomeSobrenome = ?, Login = ?, Senha = ?, "
-			+ " Observacao = ?,  Nivel = ?, Situacao = ? WHERE id = ?";
+			+ " Observacao = ?, DataUltimaAlteracao = ?,  Nivel = ?, Situacao = ? WHERE id = ?";
 
 	final String DELETE = "UPDATE Situacao = 'EXCLUIDO' WHERE id = ?";
 
-	final String SELECT_ALL = "SELECT Id, NomeSobrenome, Login, DataCadastro, Observacao,"
+	final String SELECT_ALL = "SELECT Id, NomeSobrenome, Login, DataCadastro, DataUltimaAlteracao, Observacao,"
 			+ " Nivel, Situacao FROM usuarios WHERE Situacao <> 'EXCLUIDO' AND Id <> 0";
 
-	final String SELECT = "SELECT Id, NomeSobrenome, Login, DataCadastro, Observacao, "
+	final String SELECT = "SELECT Id, NomeSobrenome, Login, DataCadastro, DataUltimaAlteracao, Observacao, "
 			+ " Nivel, Situacao FROM usuarios WHERE Id = ?";
 
 	final String SELECT_LOGIN = "SELECT * FROM usuarios WHERE Login = ?";
@@ -70,9 +71,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			st.setString(2, obj.getLogin());
 			st.setString(3, DecodeHash.DecodePassword(obj.getSenha()));
 			st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
-			st.setString(5, obj.getObservacao());
-			st.setString(6, obj.getNivel().toString());
-			st.setString(7, obj.getSituacao().toString());
+			st.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+			st.setString(6, obj.getObservacao());
+			st.setString(7, obj.getNivel().toString());
+			st.setString(8, obj.getSituacao().toString());
 
 			int rowsAffected = st.executeUpdate();
 			ResultSet rs = st.getGeneratedKeys();
@@ -111,9 +113,10 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			st.setString(2, obj.getLogin());
 			st.setString(3, DecodeHash.DecodePassword(obj.getSenha()));
 			st.setString(4, obj.getObservacao());
-			st.setString(5, obj.getNivel().toString());
-			st.setString(6, obj.getSituacao().toString());
-			st.setLong(7, obj.getId());
+			st.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+			st.setString(6, obj.getNivel().toString());
+			st.setString(7, obj.getSituacao().toString());
+			st.setLong(8, obj.getId());
 
 			st.executeUpdate();
 
@@ -165,8 +168,9 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			rs = st.executeQuery();
 			if (rs.next()) {
 				Usuario obj = new Usuario(rs.getLong("Id"), rs.getString("NomeSobrenome"),
-						rs.getTimestamp("DataCadastro"), rs.getString("Login"), rs.getString("Observacao"),
-						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
+						rs.getTimestamp("DataCadastro"), rs.getTimestamp("dataUltimaAlteracao"), rs.getString("Login"),
+						rs.getString("Observacao"), UsuarioNivel.valueOf(rs.getString("Nivel")),
+						Situacao.valueOf(rs.getString("Situacao")));
 				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				return obj;
 			}
@@ -193,8 +197,9 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 			while (rs.next()) {
 				Usuario obj = new Usuario(rs.getLong("Id"), rs.getString("NomeSobrenome"),
-						rs.getTimestamp("DataCadastro"), rs.getString("Login"), rs.getString("Observacao"),
-						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
+						rs.getTimestamp("DataCadastro"), rs.getTimestamp("dataUltimaAlteracao"), rs.getString("Login"),
+						rs.getString("Observacao"), UsuarioNivel.valueOf(rs.getString("Nivel")),
+						Situacao.valueOf(rs.getString("Situacao")));
 				obj.setImagens(selectImagens(rs.getLong("Id"), tamanho));
 				list.add(obj);
 			}

@@ -17,15 +17,22 @@ public class Pessoa implements Serializable {
 	private static final long serialVersionUID = 7073086540992937921L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 
 	@Column(name = "NomeSobrenome", nullable = true, insertable = true, updatable = true, length = 250)
 	private String nomeSobrenome;
 
-	@Column(name = "DataCadastro")
+	@Column(name = "DataCadastro", columnDefinition = "datetime")
 	private Timestamp dataCadastro;
+
+	@Column(name = "DataUltimaAlteracao", columnDefinition = "datetime")
+	private Timestamp dataUltimaAlteracao;
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public Long getId() {
 		return id;
@@ -51,15 +58,24 @@ public class Pessoa implements Serializable {
 		this.dataCadastro = dataCadastro;
 	}
 
+	public Timestamp getDataUltimaAlteracao() {
+		return dataUltimaAlteracao;
+	}
+
+	public void setDataUltimaAlteracao(Timestamp dataUltimaAlteracao) {
+		this.dataUltimaAlteracao = dataUltimaAlteracao;
+	}
+
 	public Pessoa() {
 		this.id = Long.valueOf(0);
 		this.nomeSobrenome = "";
 	}
 
-	public Pessoa(Long id, String nomeSobrenome, Timestamp dataCadastro) {
+	public Pessoa(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao) {
 		this.id = id;
 		this.nomeSobrenome = nomeSobrenome;
 		this.dataCadastro = dataCadastro;
+		this.dataUltimaAlteracao = dataUltimaAlteracao;
 	}
 
 	@Override
@@ -89,7 +105,8 @@ public class Pessoa implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nomeSobrenome=" + nomeSobrenome + ", dataCadastro=" + dataCadastro + "]";
+		return "Pessoa [id=" + id + ", nomeSobrenome=" + nomeSobrenome + ", dataCadastro=" + dataCadastro
+				+ ", dataUltimaAlteracao=" + dataUltimaAlteracao + "]";
 	}
 
 }

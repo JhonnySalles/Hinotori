@@ -37,7 +37,7 @@
 	<modules>
 		<module>Comum</module>
 		<module>Servidor</module>
-		<module>Sistema</module>
+		<module>Menu</module>
 		<module>Config</module>
 		<module>Administrador</module>
 		<module>Restaurante</module>

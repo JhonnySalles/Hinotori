@@ -1,8 +1,10 @@
 package servidor.entities;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,9 +16,10 @@ import javax.persistence.Table;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoContato;
 import javafx.beans.property.SimpleBooleanProperty;
+import servidor.converter.BooleanPropertyConverter;
 
 @Entity
-@Table(name = "Contato", schema = "baseteste")
+@Table(name = "Contatos", schema = "baseteste")
 public class Contato implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -49,8 +52,16 @@ public class Contato implements Serializable {
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
 
-	@Column(name = "Padrao", columnDefinition = "tinyint")
+	@Column(name = "DataCadastro")
+	private Timestamp dataCadastro;
+
+	@Convert(converter = BooleanPropertyConverter.class)
+	@Column(name = "Padrao", columnDefinition = "tinyint(1)")
 	private SimpleBooleanProperty padrao = new SimpleBooleanProperty(false);
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public Long getId() {
 		return id;
@@ -100,6 +111,14 @@ public class Contato implements Serializable {
 		this.observacao = observacao;
 	}
 
+	public Timestamp getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(Timestamp dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
 	@Enumerated(EnumType.STRING)
 	public Enum<TipoContato> getTipoContato() {
 		return tipoContato;
@@ -121,11 +140,11 @@ public class Contato implements Serializable {
 	public final boolean getPadrao() {
 		return padrao.get();
 	}
-	
+
 	public final void setPadrao(boolean padrao) {
 		this.padrao.set(padrao);
 	}
-	
+
 	public boolean isPadrao() {
 		return padrao.get();
 	}
@@ -147,13 +166,14 @@ public class Contato implements Serializable {
 	}
 
 	public Contato(Long id, String nome, String telefone, String celular, String email, String observacao,
-			Enum<TipoContato> tipoContato, Enum<Situacao> situacao, Boolean padrao) {
+			Timestamp dataCadastro, Enum<TipoContato> tipoContato, Enum<Situacao> situacao, Boolean padrao) {
 		this.id = id;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.celular = celular;
 		this.email = email;
 		this.observacao = observacao;
+		this.dataCadastro = dataCadastro;
 		this.tipoContato = tipoContato;
 		this.situacao = situacao;
 		this.padrao.set(padrao);
@@ -212,7 +232,7 @@ public class Contato implements Serializable {
 	public String toString() {
 		return "Contato [id=" + id + ", nome=" + nome + ", telefone=" + telefone + ", celular=" + celular + ", email="
 				+ email + ", observacao=" + observacao + ", tipoContato=" + tipoContato + ", situacao=" + situacao
-				+ ", padrao=" + padrao + "]";
+				+ ", dataCadastro=" + dataCadastro + ", padrao=" + padrao + "]";
 	}
 
 }

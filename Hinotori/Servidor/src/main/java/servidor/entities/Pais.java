@@ -21,7 +21,7 @@ public class Pais implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "Nome")
+	@Column(name = "Nome", columnDefinition = "varchar(150)")
 	private String nome;
 
 	public Long getId() {

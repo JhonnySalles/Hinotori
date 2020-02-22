@@ -124,9 +124,9 @@ public class Usuario extends Pessoa implements Serializable {
 		this.contatos = new HashSet<>();
 	}
 
-	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, String login, String observacao,
-			Enum<UsuarioNivel> nivel, Enum<Situacao> situacao) {
-		super(id, nomeSobrenome, dataCadastro);
+	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
+			String observacao, Enum<UsuarioNivel> nivel, Enum<Situacao> situacao) {
+		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao);
 		this.login = login;
 		this.nivel = nivel;
 		this.observacao = observacao;
@@ -135,9 +135,9 @@ public class Usuario extends Pessoa implements Serializable {
 		this.imagens = new HashSet<>();
 	}
 
-	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, String login, String observacao,
-			Enum<UsuarioNivel> nivel, Enum<Situacao> situacao, Set<Imagem> imagens) {
-		super(id, nomeSobrenome, dataCadastro);
+	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
+			String observacao, Enum<UsuarioNivel> nivel, Enum<Situacao> situacao, Set<Imagem> imagens) {
+		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao);
 		this.login = login;
 		this.situacao = situacao;
 		this.observacao = observacao;
@@ -174,6 +174,7 @@ public class Usuario extends Pessoa implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [login=" + login + ", senha=" + senha + ", observacao=" + observacao + ", imagens=" + imagens
-				+ ", nivel=" + nivel + ", situacao=" + situacao + ", contatos=" + contatos + "]";
+				+ ", contatos=" + contatos + ", nivel=" + nivel + ", situacao=" + situacao + "]";
 	}
+
 }

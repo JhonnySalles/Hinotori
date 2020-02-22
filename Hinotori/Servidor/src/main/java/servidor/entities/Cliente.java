@@ -31,10 +31,10 @@ public class Cliente extends Pessoa implements Serializable {
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6989181117327049412L;
 
-	@Column(name = "CPF", unique = true, nullable = true, insertable = true, updatable = true, length = 15)
+	@Column(name = "CPF", unique = true, nullable = true, insertable = true, updatable = true, length = 15, columnDefinition = "varchar(15)")
 	private String cpf;
 
-	@Column(name = "CNPJ", unique = true, nullable = true, insertable = true, updatable = true, length = 15)
+	@Column(name = "CNPJ", unique = true, nullable = true, insertable = true, updatable = true, length = 15, columnDefinition = "varchar(15)")
 	private String cnpj;
 
 	@Column(name = "Observacao", columnDefinition = "longtext")
@@ -140,9 +140,10 @@ public class Cliente extends Pessoa implements Serializable {
 
 	}
 
-	public Cliente(Long id, String nomeSobrenome, Timestamp dataCadastro, String cpf, String cnpj, String observacao,
-			Enum<TipoPessoa> tipoPessoa, Enum<TipoCliente> tipoCliente, Enum<Situacao> situacao) {
-		super(id, nomeSobrenome, dataCadastro);
+	public Cliente(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String cpf,
+			String cnpj, String observacao, Enum<TipoPessoa> tipoPessoa, Enum<TipoCliente> tipoCliente,
+			Enum<Situacao> situacao) {
+		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao);
 		this.cpf = cpf;
 		this.cnpj = cnpj;
 		this.observacao = observacao;
@@ -156,7 +157,8 @@ public class Cliente extends Pessoa implements Serializable {
 	@Override
 	public String toString() {
 		return "Cliente [cpf=" + cpf + ", cnpj=" + cnpj + ", observacao=" + observacao + ", tipoPessoa=" + tipoPessoa
-				+ ", tipoCliente=" + tipoCliente + ", situacao=" + situacao + "]";
+				+ ", tipoCliente=" + tipoCliente + ", situacao=" + situacao + ", contatos=" + contatos + ", enderecos="
+				+ enderecos + "]";
 	}
 
 }

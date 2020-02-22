@@ -5,12 +5,15 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "estados", schema = "baseteste")
@@ -24,17 +27,18 @@ public class Estado implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "Nome")
+	@Column(name = "Nome", columnDefinition = "varchar(150)")
 	private String nome;
 
-	@Column(name = "Sigla")
+	@Column(name = "Sigla", columnDefinition = "varchar(2)")
 	private String sigla;
 
-	@Column(name = "codigoIBGE")
+	@Column(name = "codigoIBGE", columnDefinition = "int(3)")
 	private Integer codigoIBGE;
-	
+
 	@OneToOne(targetEntity = Pais.class, fetch = FetchType.LAZY)
-	@JoinColumn(name="IdPais")
+	@JoinTable(name = "Paises", schema = "baseteste", joinColumns = @JoinColumn(name = "IdPais"), foreignKey = @ForeignKey(name = "Estados_Paises"), uniqueConstraints = {
+			@UniqueConstraint(name = "Estado_Pais", columnNames = { "IdPais" }) })
 	private Pais pais;
 
 	public Long getId() {

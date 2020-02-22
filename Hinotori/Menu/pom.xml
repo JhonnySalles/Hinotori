@@ -11,8 +11,8 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   
-  <artifactId>Sistema</artifactId>
-  <name>Sistema</name>
+  <artifactId>Menu</artifactId>
+  <name>Menu</name>
   <url>http://maven.apache.org</url>
   
   <properties>

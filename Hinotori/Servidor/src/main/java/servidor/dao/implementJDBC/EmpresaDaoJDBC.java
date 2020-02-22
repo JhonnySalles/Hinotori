@@ -28,42 +28,42 @@ import servidor.entities.Imagem;
 public class EmpresaDaoJDBC implements EmpresaDao {
 
 	final String INSERT = "INSERT INTO empresas (NomeFantasia, RazaoSocial, "
-			+ " CNPJ, DataCadastro, Situacao ) VALUES ( ?, ?, ?, ?, ? )";
+			+ " CNPJ, DataCadastro, DataUltimaAlteracao, Situacao ) VALUES " + " ( ?, ?, ?, ?, ?, ? )";
 
 	final String UPDATE = "UPDATE empresas SET NomeFantasia = ?,"
-			+ " RazaoSocial = ?, CNPJ = ?, Situacao = ? WHERE ID = ?";
+			+ " RazaoSocial = ?, CNPJ = ?, DataUltimaAlteracao = ?," + " Situacao = ? WHERE ID = ?";
 
 	final String DELETE = "DELETE FROM empresas WHERE ID = ?";
 
 	final String SELECT_ALL = "SELECT ID, NomeFantasia, RazaoSocial, CNPJ,"
-			+ " DataCadastro, Situacao FROM empresas WHERE Situacao <> 'Excluído'";
+			+ " DataCadastro, DataUltimaAlteracao, Situacao" + " FROM empresas WHERE Situacao <> 'Excluído'";
 
 	final String SELECT = "SELECT ID, NomeFantasia, RazaoSocial, CNPJ, "
-			+ " DataCadastro, Situacao FROM empresas WHERE ID = ?";
+			+ " DataCadastro, DataUltimaAlteracao, Situacao" + " FROM empresas WHERE ID = ?";
 
 	final String SELECT_ENDERECO = "SELECT IdSequencial, IdBairro, Endereco, Numero, CEP, "
-			+ " Complemento, Observacao, Tipo, Situacao, Padrao FROM empresas_enderecos "
+			+ " Complemento, Observacao, DataCadastro, Tipo, Situacao, Padrao FROM empresas_enderecos "
 			+ "WHERE IdEmpresa = ? AND Situacao <> 'Excluído' ";
 
 	final String INSERT_ENDERECO = "INSERT INTO empresas_enderecos (IdEmpresa, IdSequencial, "
-			+ " IdBairro, Endereco, Numero, CEP, Complemento, Observacao, Tipo, Situacao, Padrao) VALUES (?,"
+			+ " IdBairro, Endereco, Numero, CEP, Complemento, Observacao, DataCadastro, Tipo, Situacao, Padrao) VALUES (?,"
 			+ " (SELECT IFNULL(MAX(empEnd.IdSequencial),0)+1 FROM empresas_enderecos empEnd WHERE empEnd.IdEmpresa = ?),"
-			+ " ?,?,?,?,?,?,?,?,?)";
+			+ " ?,?,?,?,?,?,?,?,?,?)";
 
-	final String UPDATE_ENDERECO = "UPDATE empresas_enderecos SET IdBairro = ?,"
-			+ " Endereco = ?, Numero = ?, CEP = ?, Complemento = ?, Observacao = ?,"
+	final String UPDATE_ENDERECO = "UPDATE empresas_enderecos SET IdBairro = ?,Endereco = ?,"
+			+ " Numero = ?, CEP = ?, Complemento = ?, Observacao = ?, DataCadastro = ?,"
 			+ " Tipo = ?, Situacao = ?, Padrao = ? WHERE IdEmpresa = ? AND IdSequencial = ?";
 
 	final String SELECT_CONTATO = "SELECT IdSequencial, Nome, Telefone, Celular, Email, Observacao, Tipo, "
 			+ " Situacao, Padrao FROM empresas_contatos WHERE IdEmpresa = ? AND Situacao <> 'Excluído' ";
 
 	final String INSERT_CONTATO = "INSERT INTO empresas_contatos (IdEmpresa, IdSequencial, "
-			+ " Nome, Telefone, Celular, Email, Observacao, Tipo, Situacao, Padrao) VALUES (?,"
+			+ " Nome, Telefone, Celular, Email, Observacao, DataCadastro, Tipo, Situacao, Padrao) VALUES (?,"
 			+ " (SELECT IFNULL(MAX(empCont.IdSequencial),0)+1 FROM empresas_contatos empCont WHERE empCont.IdEmpresa = ?),"
-			+ " ?,?,?,?,?,?,?,?)";
+			+ " ?,?,?,?,?,?,?,?,?)";
 
 	final String UPDATE_CONTATO = "UPDATE empresas_contatos SET Nome = ?, Telefone = ?, Celular = ?, Email = ?, "
-			+ " Observacao = ?, Tipo = ?, Situacao = ?, Padrao = ? WHERE IdEmpresa = ? AND IdSequencial = ?";
+			+ " Observacao = ?, DataCadastro = ?, Tipo = ?, Situacao = ?, Padrao = ? WHERE IdEmpresa = ? AND IdSequencial = ?";
 
 	final String INSERT_IMAGEM = "INSERT INTO empresas_imagens (IdEmpresa, IdSequencial, Nome, Extenssao, Imagem, Tamanho) "
 			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM empresas_imagens img WHERE img.IdEmpresa = ?),?,?,?,?)";
@@ -326,8 +326,9 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 				Endereco endereco = new Endereco(rsEnd.getLong("IdSequencial"),
 						bairroService.pesquisar(rsEnd.getLong("IdBairro")), rsEnd.getString("Endereco"),
 						rsEnd.getString("Numero"), rsEnd.getString("CEP"), rsEnd.getString("Complemento"),
-						rsEnd.getString("Observacao"), TipoEndereco.valueOf(rsEnd.getString("Tipo")),
-						Situacao.valueOf(rsEnd.getString("Situacao")), rsEnd.getBoolean("Padrao"));
+						rsEnd.getString("Observacao"), rsEnd.getTimestamp("DataCadastro"),
+						TipoEndereco.valueOf(rsEnd.getString("Tipo")), Situacao.valueOf(rsEnd.getString("Situacao")),
+						rsEnd.getBoolean("Padrao"));
 
 				list.add(endereco);
 			}
@@ -408,8 +409,9 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 
 				Contato endereco = new Contato(rsCont.getLong("IdSequencial"), rsCont.getString("Nome"),
 						rsCont.getString("Telefone"), rsCont.getString("Celular"), rsCont.getString("Email"),
-						rsCont.getString("Observacao"), TipoContato.valueOf(rsCont.getString("Tipo")),
-						Situacao.valueOf(rsCont.getString("Situacao")), rsCont.getBoolean("Padrao"));
+						rsCont.getString("Observacao"), rsCont.getTimestamp("DataCadastro"),
+						TipoContato.valueOf(rsCont.getString("Tipo")), Situacao.valueOf(rsCont.getString("Situacao")),
+						rsCont.getBoolean("Padrao"));
 
 				list.add(endereco);
 			}
