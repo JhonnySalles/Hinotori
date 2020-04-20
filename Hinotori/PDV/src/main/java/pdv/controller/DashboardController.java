@@ -26,6 +26,7 @@ import comum.model.entities.Conexao;
 import comum.model.mysql.ConexaoMysql;
 import comum.model.notification.Alertas;
 import comum.model.notification.Notificacoes;
+import comum.model.utils.ViewGerenciador;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -53,7 +54,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import pdv.App;
-import pdv.model.util.ViewGerenciador;
 
 public class DashboardController implements Initializable {
 
