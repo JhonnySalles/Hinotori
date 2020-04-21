@@ -7,6 +7,10 @@ import com.jfoenix.controls.JFXButton;
 
 import administrador.App;
 import administrador.controller.DashboardController;
+import cadastro.controller.cadastros.CadClienteController;
+import cadastro.controller.cadastros.CadEmpresaController;
+import cadastro.controller.cadastros.CadProdutoController;
+import cadastro.controller.cadastros.CadUsuarioController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -23,34 +27,37 @@ public class CadastrosController implements Initializable {
 	
 	@FXML
 	JFXButton btnCadProduto;
+
 	
 	final DashboardController main = App.getMainController();
 
-	
 	@FXML
 	public void onBtnCadClienteAction() {
-		main.loadView("/pdv/view/cadastros/CadCliente.fxml", "Cadastros de clientes", "");
+		main.loadView(CadClienteController.getFxmlLocate(), "Cadastros de clientes", "");
 	}
 	
 	@FXML
 	public void onBtnCadEmpresaAction() {
-		main.loadView("/pdv/view/cadastros/CadEmpresa.fxml", "Cadastros de empresas", "");
+		main.loadView(CadEmpresaController.getFxmlLocate(), "Cadastros de empresas", "");
 	}
 	
 	@FXML
 	public void onBtnCadUsuarioAction() {
-		main.loadView("/pdv/view/cadastros/CadUsuario.fxml", "Cadastros de usuários", "");
+		main.loadView(CadUsuarioController.getFxmlLocate(), "Cadastros de usuários", "");
 	}
 
 	@FXML
 	public void onBtnCadProdutoAction() {
-		main.loadView("/pdv/view/cadastros/CadProduto.fxml", "Cadastros de produtos", "");
+		main.loadView(CadProdutoController.getFxmlLocate(), "Cadastros de produtos", "");
 	}
 	
 	
 	@Override
 	public synchronized void initialize(URL location, ResourceBundle resources) {
 
-
+	}
+	
+	public static URL getFxmlLocate() {
+		return CadastrosController.class.getResource("/administrador/view/cadastros/Cadastros.fxml");
 	}
 }

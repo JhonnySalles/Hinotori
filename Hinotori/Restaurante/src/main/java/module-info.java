@@ -7,7 +7,6 @@ module Administrador {
 	exports restaurante;
 	exports restaurante.controller;
 	exports restaurante.controller.cadastros;
-	exports restaurante.controller.frame;
 	exports restaurante.controller.metricas;
 
 	requires transitive Comum;
@@ -20,11 +19,12 @@ module Administrador {
 	requires org.controlsfx.controls;
 	requires AnimateFX;
 	requires java.desktop;
+	requires Cadastro;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens restaurante.controller to javafx.fxml;
 	opens restaurante.controller.cadastros to javafx.fxml;
-	opens restaurante.controller.frame to javafx.fxml;
+	opens restaurante.controller.pesquisas to javafx.fxml;
 	opens restaurante.controller.metricas to javafx.fxml;
 	
 }

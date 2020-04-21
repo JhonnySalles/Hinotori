@@ -1,40 +1,49 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  
-  <parent>
-    <groupId>br.com.Hinotori</groupId>
-    <artifactId>Hinotori</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-  
-  <artifactId>Restaurante</artifactId>
-  <name>Restaurante</name>
-  <url>http://maven.apache.org</url>
-  
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-  </properties>
-  
-  <dependencies>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
 
-    <!-- Dependencia para o módulo comum  -->
-  	<dependency>
-    	<groupId>br.com.Hinotori</groupId>
-    	<artifactId>Comum</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>  	
-  	</dependency>
-  	
-  	<!-- Dependencia para o funções do banco -->
+	<parent>
+		<groupId>br.com.Hinotori</groupId>
+		<artifactId>Hinotori</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>Restaurante</artifactId>
+	<name>Restaurante</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+
+		<!-- Dependencia para o módulo comum -->
+		<dependency>
+			<groupId>br.com.Hinotori</groupId>
+			<artifactId>Comum</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- Dependencia para o funções do banco -->
 		<dependency>
 			<groupId>br.com.Hinotori</groupId>
 			<artifactId>Servidor</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-  </dependencies>
-  
+
+		<!-- Dependencia para o módulo comum -->
+		<dependency>
+			<groupId>br.com.Hinotori</groupId>
+			<artifactId>Cadastro</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
 </project>

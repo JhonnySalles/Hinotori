@@ -1,6 +1,7 @@
 package comum.model.utils;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 
 import javafx.collections.FXCollections;
@@ -13,10 +14,10 @@ import javafx.scene.Parent;
 public class ViewGerenciador {
 
 	private static ViewGerenciador instancia;
-	private static final HashMap<String, Node> TELA_PRE_CARREGADA = new HashMap<>();
+	private static final HashMap<URL, Node> TELA_PRE_CARREGADA = new HashMap<>();
 
 	public static ObservableList<String> stylesheets = FXCollections.observableArrayList("");
-	private static String[] PRE_CARREGAMENTO = {};
+	private static URL[] PRE_CARREGAMENTO = {};
 
 	public static ViewGerenciador getInstance() {
 		if (instancia == null) {
@@ -43,8 +44,8 @@ public class ViewGerenciador {
 			@Override
 			public Void call() throws IOException, InterruptedException {
 				for (int i = 0; i < PRE_CARREGAMENTO.length; i++) {
-					if (!PRE_CARREGAMENTO[i].isEmpty()) {
-						FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(PRE_CARREGAMENTO[i]));
+					if (!PRE_CARREGAMENTO[i].getPath().isEmpty()) {
+						FXMLLoader loader = new FXMLLoader(PRE_CARREGAMENTO[i]);
 						Parent novaTela = loader.load();
 						TELA_PRE_CARREGADA.put(PRE_CARREGAMENTO[i], novaTela);
 					}
@@ -66,11 +67,11 @@ public class ViewGerenciador {
 	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
 	 * @author Jhonny de Salles Noschang
 	 */
-	private static void preCarregamentoTelas(String absoluteName) {
+	private static void preCarregamentoTelas(URL absoluteName) {
 		Task<Void> preCarregamentoTask = new Task<Void>() {
 			@Override
 			public Void call() throws IOException, InterruptedException {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+				FXMLLoader loader = new FXMLLoader(absoluteName);
 				Parent novaTela = loader.load();
 				TELA_PRE_CARREGADA.put(absoluteName, novaTela);
 				return null;
@@ -91,7 +92,7 @@ public class ViewGerenciador {
 	 * @return Retorna o <b>Parent</b> da tela já carregada préviamente.
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static Node getTelaPreCarregada(String absoluteName) {
+	public static Node getTelaPreCarregada(URL absoluteName) {
 		if (TELA_PRE_CARREGADA.containsKey(absoluteName)) {
 			Node telaPre = TELA_PRE_CARREGADA.get(absoluteName);
 			preCarregamentoTelas(absoluteName);
@@ -101,7 +102,7 @@ public class ViewGerenciador {
 			return null;
 	}
 
-	public static String[] getPre_Ccarregamento() {
+	public static URL[] getPre_Ccarregamento() {
 		return PRE_CARREGAMENTO;
 	}
 
@@ -113,13 +114,11 @@ public class ViewGerenciador {
 	 * @param Pre_Carregamento Enreços em uma <b>Lista de String</b> para carregamento automático.
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static void setPre_Carregamento(String[] Pre_Carregamento) {
+	public static void setPre_Carregamento(URL[] Pre_Carregamento) {
 		PRE_CARREGAMENTO = Pre_Carregamento;
 	}
 
-	public static Boolean verificaTelaCarregada(String absoluteName) {
-		System.out.println(absoluteName);
-		System.out.println(TELA_PRE_CARREGADA.containsKey(absoluteName));
+	public static Boolean verificaTelaCarregada(URL absoluteName) {
 		return TELA_PRE_CARREGADA.containsKey(absoluteName);
 	}
 

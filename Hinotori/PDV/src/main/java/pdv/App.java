@@ -1,5 +1,6 @@
 package pdv;
 
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,9 +59,10 @@ public class App extends Application {
 	}
 
 	private static void preCarregamentoTelas() {
-		String[] telas = {"/pdv/view/view/cadastros/CadCliente.fxml",
-				"/pdv/view/view/cadastros/CadEmpresa.fxml", "/pdv/view/view/cadastros/CadUsuario.fxml",
-				"/pdv/view/view/cadastros/CadProduto.fxml"};
+		URL[] telas = {DashboardController.class.getResource("/pdv/view/view/cadastros/CadCliente.fxml"),
+				DashboardController.class.getResource("/pdv/view/view/cadastros/CadEmpresa.fxml"), DashboardController.class.getResource("/pdv/view/view/cadastros/CadUsuario.fxml"),
+				DashboardController.class.getResource("/pdv/view/view/cadastros/CadEmpresa.fxml"), DashboardController.class.getResource("/pdv/view/view/cadastros/CadUsuario.fxml"),
+				DashboardController.class.getResource("/pdv/view/view/cadastros/CadProduto.fxml")};
 		ViewGerenciador.setPre_Carregamento(telas);
 		
 		String[] css = {App.class.getResource("/pdv/resources/css/Paleta_Cores.css").toExternalForm(),

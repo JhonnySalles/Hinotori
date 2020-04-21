@@ -5,6 +5,10 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import cadastro.controller.pesquisas.PsqClienteController;
+import cadastro.controller.pesquisas.PsqEmpresaController;
+import cadastro.controller.pesquisas.PsqProdutoController;
+import cadastro.controller.pesquisas.PsqUsuarioController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import pdv.App;
@@ -29,22 +33,22 @@ public class PesquisasController implements Initializable {
 	
 	@FXML
 	public void onBtnPsqClienteAction() {
-		main.loadView("/pdv/view/pesquisas/PsqCliente.fxml", "Pesquisa de clientes", "");
+		main.loadView(PsqClienteController.getFxmlLocate(), "Pesquisa de clientes", "");
 	}
 	
 	@FXML
 	public void onBtnPsqEmpresaAction() {
-		main.loadView("/pdv/view/pesquisas/PsqEmpresa.fxml", "Pesquisa de empresas", "");
+		main.loadView(PsqEmpresaController.getFxmlLocate(), "Pesquisa de empresas", "");
 	}
 	
 	@FXML
 	public void onBtnPsqUsuarioAction() {
-		main.loadView("/pdv/view/pesquisas/PsqUsuario.fxml", "Pesquisa de usuários", "");
+		main.loadView(PsqUsuarioController.getFxmlLocate(), "Pesquisa de usuários", "");
 	}
 
 	@FXML
 	public void onBtnPsqProdutoAction() {
-		main.loadView("/pdv/view/pesquisas/PsqProduto.fxml", "Pesquisa de produtos", "");
+		main.loadView(PsqProdutoController.getFxmlLocate(), "Pesquisa de produtos", "");
 	}
 	
 	

@@ -5,6 +5,10 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import cadastro.controller.cadastros.CadClienteController;
+import cadastro.controller.cadastros.CadEmpresaController;
+import cadastro.controller.cadastros.CadProdutoController;
+import cadastro.controller.cadastros.CadUsuarioController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import pdv.App;
@@ -29,22 +33,22 @@ public class CadastrosController implements Initializable {
 	
 	@FXML
 	public void onBtnCadClienteAction() {
-		main.loadView("/pdv/view/cadastros/CadCliente.fxml", "Cadastro de clientes", "");
+		main.loadView(CadClienteController.getFxmlLocate(), "Cadastros de clientes", "");
 	}
 	
 	@FXML
 	public void onBtnCadEmpresaAction() {
-		main.loadView("/pdv/view/cadastros/CadEmpresa.fxml", "Cadastro de empresas", "");
+		main.loadView(CadEmpresaController.getFxmlLocate(), "Cadastros de empresas", "");
 	}
 	
 	@FXML
 	public void onBtnCadUsuarioAction() {
-		main.loadView("/pdv/view/cadastros/CadUsuario.fxml", "Cadastro de usuários", "");
+		main.loadView(CadUsuarioController.getFxmlLocate(), "Cadastros de usuários", "");
 	}
 
 	@FXML
 	public void onBtnCadProdutoAction() {
-		main.loadView("/pdv/view/cadastros/CadProduto.fxml", "Cadastro de produtos", "");
+		main.loadView(CadProdutoController.getFxmlLocate(), "Cadastros de produtos", "");
 	}
 	
 	

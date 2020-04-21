@@ -43,7 +43,7 @@
                               <Label text="Hinotori 2020" />
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../resources/images/ico/icoPrincipal_100.png" />
+                                    <Image url="@../resources/images/icon/icoPrincipal_100.png" />
                                  </image>
                               </ImageView>
                            </children>

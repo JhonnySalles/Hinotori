@@ -12,6 +12,7 @@ module Comum {
 	exports comum.model.notification;
 	exports comum.model.utils;
 	exports comum.controller.alerts;
+	exports comum.form;
 
 	requires java.logging;
 	requires javafx.base;
@@ -25,4 +26,5 @@ module Comum {
 	requires AnimateFX;
 	
 	opens comum.controller.alerts to javafx.fxml;
+	opens comum.form to javafx.fxml;
 }
