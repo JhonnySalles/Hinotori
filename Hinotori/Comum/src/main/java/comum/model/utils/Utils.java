@@ -21,7 +21,7 @@ public class Utils {
 	}
 
 	public static String removeMascaras(String texto) {
-		return texto.replaceAll("[\\.\\-\\(\\)\\s]", "");
+		return texto.replaceAll("[\\.\\-\\(\\)\\s\\/]", "");
 	}
 
 	public static void clickTab() {

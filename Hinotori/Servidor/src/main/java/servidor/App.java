@@ -4,12 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
-import servidor.persistencia.Controlador;
-import servidor.util.HibernateUtil;
 
 /**
  * Hello world!
@@ -19,8 +19,8 @@ public class App {
 
 	public static void main(String[] args) {
 
-		Controlador entityManager = new Controlador();
-		/*// Cria objeto que receberá as configurações
+		//Controlador entityManager = new Controlador();
+		// Cria objeto que receberá as configurações
 		Configuration cfg = new Configuration();
 		// Informe o arquivo XML que contém a configurações
 		cfg.configure(App.class.getClassLoader().getResource("hibernate.cfg.xml"));
@@ -59,7 +59,7 @@ public class App {
 
 		System.out.println(prod);
 
-		Transaction transaction = null;
+		/*Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			// start a transaction
 			transaction = session.beginTransaction();
@@ -73,7 +73,7 @@ public class App {
 				transaction.rollback();
 			}
 			e.printStackTrace();
-		}
+		}*/
 		
 	}
 

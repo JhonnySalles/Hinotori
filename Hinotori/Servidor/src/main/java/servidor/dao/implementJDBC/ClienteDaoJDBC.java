@@ -29,7 +29,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 
 	final String INSERT = "INSERT INTO clientes (NomeSobrenome, "
 			+ " Cpf, Cnpj, DataCadastro, DataUltimaAlteracao, Observacao, Tipo, "
-			+ " Enquadramento, Situacao ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+			+ " Enquadramento, Situacao ) VALUES (?,?,?,?,?,?,?,?,?);";
 
 	final String UPDATE = "UPDATE clientes SET NomeSobrenome = ?, "
 			+ " Cpf = ?, Cnpj = ?, Observacao = ?, DataUltimaAlteracao = ?, Tipo = ?, "
