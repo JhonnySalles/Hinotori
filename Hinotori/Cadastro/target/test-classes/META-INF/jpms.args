@@ -1,0 +1,4 @@
+--patch-module
+Cadastro=_
+--add-reads
+Cadastro=ALL-UNNAMED

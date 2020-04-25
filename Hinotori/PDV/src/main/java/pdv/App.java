@@ -4,6 +4,10 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import cadastro.controller.cadastros.CadClienteController;
+import cadastro.controller.cadastros.CadEmpresaController;
+import cadastro.controller.cadastros.CadProdutoController;
+import cadastro.controller.cadastros.CadUsuarioController;
 import comum.model.utils.ViewGerenciador;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -50,8 +54,8 @@ public class App extends Application {
 			Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 			primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
 			primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
-			preCarregamentoTelas();
 
+			preCarregamentoTelas();
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOGGER.log(Level.SEVERE, "{Erro ao iniciar o programa}", e);
@@ -59,20 +63,17 @@ public class App extends Application {
 	}
 
 	private static void preCarregamentoTelas() {
-		URL[] telas = {DashboardController.class.getResource("/pdv/view/view/cadastros/CadCliente.fxml"),
-				DashboardController.class.getResource("/pdv/view/view/cadastros/CadEmpresa.fxml"), DashboardController.class.getResource("/pdv/view/view/cadastros/CadUsuario.fxml"),
-				DashboardController.class.getResource("/pdv/view/view/cadastros/CadEmpresa.fxml"), DashboardController.class.getResource("/pdv/view/view/cadastros/CadUsuario.fxml"),
-				DashboardController.class.getResource("/pdv/view/view/cadastros/CadProduto.fxml")};
-		ViewGerenciador.setPre_Carregamento(telas);
-		
-		String[] css = {App.class.getResource("/pdv/resources/css/Paleta_Cores.css").toExternalForm(),
-				App.class.getResource("/pdv/resources/css/White_Cadastros.css").toExternalForm(),
+		URL[] listaTelas = { CadClienteController.getFxmlLocate(), CadEmpresaController.getFxmlLocate(),
+				CadProdutoController.getFxmlLocate(), CadUsuarioController.getFxmlLocate() };
+		ViewGerenciador.setCaminhoTelasPreCarregamento(listaTelas);
+
+		String[] css = { App.class.getResource("/pdv/resources/css/Paleta_Cores.css").toExternalForm(),
 				App.class.getResource("/pdv/resources/css/White_Dashboard.css").toExternalForm(),
 				App.class.getResource("/pdv/resources/css/White_Dashboard_Botoes.css").toExternalForm(),
 				App.class.getResource("/pdv/resources/css/White_Dashboard_Graficos.css").toExternalForm(),
-				App.class.getResource("/pdv/resources/css/White_Frame.css").toExternalForm()};
+				App.class.getResource("/pdv/resources/css/White_Geral.css").toExternalForm(),
+				App.class.getResource("/pdv/resources/css/White_SpinnerHorizontal.css").toExternalForm() };
 		ViewGerenciador.carregaCss(css);
-		ViewGerenciador.preCarregamentoTelas();
 	}
 
 	public static DashboardController getMainController() {

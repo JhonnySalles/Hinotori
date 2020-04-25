@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE hibernate-configuration PUBLIC 
+ 	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+ 	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- Configuração da conexão -->
+		<property name="hibernate.connection.driver_class">
+			com.mysql.jdbc.Driver
+		</property>
+
+		<property name="hibernate.connection.url">
+			jdbc:mysql://localhost:3306/baseteste?useTimezone=true&amp;serverTimezone=UTC
+		</property>
+
+		<property name="hibernate.connection.user">
+			admin
+		</property>
+
+		<property name="hibernate.connection.password">
+			admin
+		</property>
+
+		<!-- propriedades do hibernate -->
+		<property name="hibernate.archive.autodetection">
+			class
+		</property>
+
+		<property name="hibernate.dialect">
+			org.hibernate.dialect.MySQL5InnoDBDialect
+		</property>
+
+		<property name="hibernate.show_sql">
+			true
+		</property>
+
+		<property name="hibernate.format_sql">
+			false
+		</property>
+
+		<property name="use_sql_comments">
+			true
+		</property>
+
+		<!-- atualiza o banco, gera as tabelas se for preciso -->
+		<property name="hibernate.hbm2ddl.auto">
+			 update
+		</property> <!-- create-drop -->
+
+        <!-- Set the current session context -->
+        <property name="current_session_context_class">
+        	thread
+        </property>
+        
+        <!-- dbcp connection pool configuration -->
+		<property name="hibernate.dbcp.initialSize">
+			5
+		</property>
+		
+		<property name="hibernate.dbcp.maxTotal">
+			20
+		</property>
+		
+		<property name="hibernate.dbcp.maxIdle">
+			10
+		</property>
+		
+		<property name="hibernate.dbcp.minIdle">
+			5
+		</property>
+
+		<property name="hibernate.dbcp.maxWaitMillis">
+			-1
+		</property>
+
+		<mapping class="servidor.entities.Pais" />
+		<mapping class="servidor.entities.Estado" />
+		<mapping class="servidor.entities.Cidade" />
+		<mapping class="servidor.entities.Bairro" />
+		<mapping class="servidor.entities.Imagem" />
+		<mapping class="servidor.entities.Usuario" />
+		<mapping class="servidor.entities.Empresa" />
+		<mapping class="servidor.entities.Cliente" />
+		<mapping class="servidor.entities.Endereco" />
+		<mapping class="servidor.entities.Contato" />
+		<mapping class="servidor.entities.Produto" />
+		
+	</session-factory>
+</hibernate-configuration>

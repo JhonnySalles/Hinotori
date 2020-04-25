@@ -41,7 +41,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class DashboardFormPadrao {
-	
+
 	private final static Logger LOGGER = Logger.getLogger(DashboardFormPadrao.class.getName());
 
 	protected Map<URL, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
@@ -66,7 +66,6 @@ public class DashboardFormPadrao {
 
 	@FXML
 	protected JFXTabPane tbPaneAbas;
-
 
 	@FXML
 	protected JFXHamburger btnBurgerBotao;
@@ -261,7 +260,6 @@ public class DashboardFormPadrao {
 				// Remove do mapeamento se fechou.
 				aba.setOnClosed(removMap -> abasAbertas.remove(absoluteName));
 			} else {
-
 				Task<Node> loadTask = new Task<Node>() {
 					@Override
 					public Node call() throws IOException, InterruptedException {
@@ -357,7 +355,7 @@ public class DashboardFormPadrao {
 			btnBurgerBotao.fireEvent(new ActionEvent());
 		});
 	}
-	
+
 	private DashboardFormPadrao setEfeito() {
 		efeitoPainelDetalhe.setWidth(21.0);
 		efeitoPainelDetalhe.setWidth(21.0);

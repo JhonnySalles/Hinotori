@@ -5,15 +5,12 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "bairros", schema = "baseteste")
@@ -28,8 +25,7 @@ public class Bairro implements Serializable {
 	private Long id;
 
 	@OneToOne(targetEntity = Cidade.class, fetch = FetchType.LAZY)
-	@JoinTable(name = "Cidades", schema = "baseteste", joinColumns = @JoinColumn(name = "IdCidade"), foreignKey = @ForeignKey(name = "Bairros_Cidades"), uniqueConstraints = {
-			@UniqueConstraint(name = "Bairro_Cidade", columnNames = { "IdCidade" }) })
+	@JoinColumn(name = "IdCidade")
 	private Cidade cidade;
 
 	@Column(name = "Nome", columnDefinition = "varchar(150)")

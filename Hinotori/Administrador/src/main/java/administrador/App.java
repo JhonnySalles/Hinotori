@@ -1,10 +1,15 @@
 package administrador;
 
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import administrador.controller.DashboardController;
-import administrador.model.util.ViewGerenciador;
+import cadastro.controller.cadastros.CadClienteController;
+import cadastro.controller.cadastros.CadEmpresaController;
+import cadastro.controller.cadastros.CadProdutoController;
+import cadastro.controller.cadastros.CadUsuarioController;
+import comum.model.utils.ViewGerenciador;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -49,12 +54,24 @@ public class App extends Application {
 			Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 			primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
 			primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
-			ViewGerenciador.preCarregamentoTelas();
-			ViewGerenciador.carregaCss();
+
+			preCarregamentoTelas();
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOGGER.log(Level.SEVERE, "{Erro ao iniciar o programa}", e);
 		}
+	}
+
+	private static void preCarregamentoTelas() {
+		URL[] listaTelas = { CadClienteController.getFxmlLocate(), CadEmpresaController.getFxmlLocate(),
+				CadProdutoController.getFxmlLocate(), CadUsuarioController.getFxmlLocate() };
+		ViewGerenciador.setCaminhoTelasPreCarregamento(listaTelas);
+
+		String[] css = { App.class.getResource("/administrador/resources/css/Paleta_Cores.css").toExternalForm(),
+				App.class.getResource("/administrador/resources/css/White_Dashboard.css").toExternalForm(),
+				App.class.getResource("/administrador/resources/css/White_Dashboard_Botoes.css").toExternalForm(),
+				App.class.getResource("/administrador/resources/css/White_Dashboard_Graficos.css").toExternalForm() };
+		ViewGerenciador.carregaCss(css);
 	}
 
 	public static DashboardController getMainController() {

@@ -2,6 +2,7 @@ package servidor.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -67,9 +68,11 @@ public class Produto implements Serializable {
 	private Timestamp dataUltimaAlteracao;
 
 	@Column(name = "Tipo", columnDefinition = "enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL')")
+	//@Enumerated(EnumType.STRING)
 	private Enum<TipoProduto> tipoProduto;
 
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
+	//@Enumerated(EnumType.STRING)
 	private Enum<Situacao> situacao;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -209,6 +212,8 @@ public class Produto implements Serializable {
 		this.unidade = "";
 		this.marca = "";
 		this.peso = 0.0;
+		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
+		this.dataUltimaAlteracao = Timestamp.valueOf(LocalDateTime.now());
 		this.tipoProduto = TipoProduto.PRODUTOFINAL;
 		this.situacao = Situacao.ATIVO;
 	}

@@ -17,7 +17,7 @@ public class ViewGerenciador {
 	private static final HashMap<URL, Node> TELA_PRE_CARREGADA = new HashMap<>();
 
 	public static ObservableList<String> stylesheets = FXCollections.observableArrayList("");
-	private static URL[] PRE_CARREGAMENTO = {};
+	private static URL[] CAMINHO_TELAS_PRE_CARREGAMENTO = {};
 
 	public static ViewGerenciador getInstance() {
 		if (instancia == null) {
@@ -38,24 +38,24 @@ public class ViewGerenciador {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static void preCarregamentoTelas() {
+	private static void preCarregamentoTelas() {
 		TELA_PRE_CARREGADA.clear();
 		Task<Void> preCarregamentoTask = new Task<Void>() {
 			@Override
 			public Void call() throws IOException, InterruptedException {
-				for (int i = 0; i < PRE_CARREGAMENTO.length; i++) {
-					if (!PRE_CARREGAMENTO[i].getPath().isEmpty()) {
-						FXMLLoader loader = new FXMLLoader(PRE_CARREGAMENTO[i]);
+				for (int i = 0; i < CAMINHO_TELAS_PRE_CARREGAMENTO.length; i++) {
+					if (!CAMINHO_TELAS_PRE_CARREGAMENTO[i].getPath().isEmpty()) {
+						FXMLLoader loader = new FXMLLoader(CAMINHO_TELAS_PRE_CARREGAMENTO[i]);
 						Parent novaTela = loader.load();
-						TELA_PRE_CARREGADA.put(PRE_CARREGAMENTO[i], novaTela);
+						TELA_PRE_CARREGADA.put(CAMINHO_TELAS_PRE_CARREGAMENTO[i], novaTela);
 					}
 				}
 				return null;
 			}
 		};
 
-		Thread thread = new Thread(preCarregamentoTask);
-		thread.start();
+		Thread preCarregamento = new Thread(preCarregamentoTask);
+		preCarregamento.start();
 	}
 
 	/**
@@ -67,8 +67,8 @@ public class ViewGerenciador {
 	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
 	 * @author Jhonny de Salles Noschang
 	 */
-	private static void preCarregamentoTelas(URL absoluteName) {
-		Task<Void> preCarregamentoTask = new Task<Void>() {
+	private static void carregamentoTela(URL absoluteName) {
+		Task<Void> carregamentoTelaTask = new Task<Void>() {
 			@Override
 			public Void call() throws IOException, InterruptedException {
 				FXMLLoader loader = new FXMLLoader(absoluteName);
@@ -78,8 +78,8 @@ public class ViewGerenciador {
 			}
 		};
 
-		Thread thread = new Thread(preCarregamentoTask);
-		thread.start();
+		Thread tela = new Thread(carregamentoTelaTask);
+		tela.start();
 	}
 
 	/**
@@ -95,15 +95,15 @@ public class ViewGerenciador {
 	public static Node getTelaPreCarregada(URL absoluteName) {
 		if (TELA_PRE_CARREGADA.containsKey(absoluteName)) {
 			Node telaPre = TELA_PRE_CARREGADA.get(absoluteName);
-			preCarregamentoTelas(absoluteName);
+			carregamentoTela(absoluteName);
 			return telaPre;
 
 		} else
 			return null;
 	}
 
-	public static URL[] getPre_Ccarregamento() {
-		return PRE_CARREGAMENTO;
+	public static Boolean verificaTelaCarregada(URL absoluteName) {
+		return TELA_PRE_CARREGADA.containsKey(absoluteName);
 	}
 
 	/**
@@ -111,15 +111,17 @@ public class ViewGerenciador {
 	 * Função para adicionar quais telas serão carregada automaticamente.
 	 * </p>
 	 * 
-	 * @param Pre_Carregamento Enreços em uma <b>Lista de String</b> para carregamento automático.
+	 * @param listaTelas Endereços em uma <b>Lista de URL</b> para carregamento
+	 *                   automático.
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static void setPre_Carregamento(URL[] Pre_Carregamento) {
-		PRE_CARREGAMENTO = Pre_Carregamento;
+	public static void setCaminhoTelasPreCarregamento(URL[] listaTelas) {
+		CAMINHO_TELAS_PRE_CARREGAMENTO = listaTelas;
+		preCarregamentoTelas();
 	}
 
-	public static Boolean verificaTelaCarregada(URL absoluteName) {
-		return TELA_PRE_CARREGADA.containsKey(absoluteName);
+	public static URL[] getCaminhoTelasPreCarregamento() {
+		return CAMINHO_TELAS_PRE_CARREGAMENTO;
 	}
 
 	public static void carregaCss(String[] listaCss) {
