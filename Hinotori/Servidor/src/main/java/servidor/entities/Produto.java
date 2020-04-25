@@ -68,11 +68,9 @@ public class Produto implements Serializable {
 	private Timestamp dataUltimaAlteracao;
 
 	@Column(name = "Tipo", columnDefinition = "enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL')")
-	//@Enumerated(EnumType.STRING)
 	private Enum<TipoProduto> tipoProduto;
 
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	//@Enumerated(EnumType.STRING)
 	private Enum<Situacao> situacao;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
