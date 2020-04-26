@@ -32,6 +32,9 @@ public class Imagem implements Serializable {
 
 	@Column(name = "Extenssao", columnDefinition = "varchar(10)")
 	private String extenssao;
+	
+	@Column(name = "caminho", columnDefinition = "longtext")
+	private String caminho;
 
 	@Column(name = "Imagem", columnDefinition = "longblob")
 	private byte[] imagem;

@@ -45,8 +45,8 @@
 
 		<!-- atualiza o banco, gera as tabelas se for preciso -->
 		<property name="hibernate.hbm2ddl.auto">
-			 update
-		</property> <!-- create-drop -->
+			create-drop 
+		</property> <!-- create-drop - update -->
 
         <!-- Set the current session context -->
         <property name="current_session_context_class">
@@ -78,6 +78,7 @@
 		<mapping class="servidor.entities.Estado" />
 		<mapping class="servidor.entities.Cidade" />
 		<mapping class="servidor.entities.Bairro" />
+		<mapping class="servidor.entities.Ncm" />
 		<mapping class="servidor.entities.Imagem" />
 		<mapping class="servidor.entities.Usuario" />
 		<mapping class="servidor.entities.Empresa" />

@@ -50,12 +50,12 @@ public class Cliente extends Pessoa implements Serializable {
 	private Enum<Situacao> situacao;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "clientes_contatos", schema = "baseteste", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "Clientes_Contatos"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "Contatos_Clientes"), uniqueConstraints = {
+	@JoinTable(name = "clientes_contatos", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "UK_CLIENTES_CONTATOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "UK_CLIENTES_CONTATOS_IDCONTATO"), uniqueConstraints = {
 			@UniqueConstraint(name = "cliente_contato", columnNames = { "idCliente", "idContato" }) })
 	private Set<Contato> contatos;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "clientes_enderecos", schema = "baseteste", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "Clientes_Enderecos"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "Enderecos_Clientes"), uniqueConstraints = {
+	@JoinTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "UK_CLIENTES_ENDERECOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "UK_CLIENTES_ENDERECOS_IDENDERECO"), uniqueConstraints = {
 			@UniqueConstraint(name = "cliente_endereco", columnNames = { "idCliente", "idEndereco" }) })
 	private Set<Endereco> enderecos;
 

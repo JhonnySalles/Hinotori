@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -34,9 +35,6 @@ public class Produto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-
-	@Column(name = "idNcm")
-	private Long idNcm;
 
 	private Long idGrupo;
 
@@ -73,8 +71,12 @@ public class Produto implements Serializable {
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
 
+	@OneToOne(targetEntity = Ncm.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "ncm", nullable = true, foreignKey = @ForeignKey(name = "UK_PRODUTO_NCM"))
+	private Ncm ncm;
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "produtos_imagens", schema = "baseteste", joinColumns = @JoinColumn(name = "idProduto"), foreignKey = @ForeignKey(name = "Produtos_Imagens"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "Imagens_Produtos"), uniqueConstraints = {
+	@JoinTable(name = "produtos_imagens", joinColumns = @JoinColumn(name = "idProduto"), foreignKey = @ForeignKey(name = "UK_PRODUTOS_IMAGENS_IDPRODUTO"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "UK_PRODUTOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
 			@UniqueConstraint(name = "produto_imagem", columnNames = { "idProduto", "idImagem" }) })
 	private Set<Imagem> imagens;
 
@@ -88,14 +90,6 @@ public class Produto implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getIdNcm() {
-		return idNcm;
-	}
-
-	public void setIdNcm(Long idNcm) {
-		this.idNcm = idNcm;
 	}
 
 	public Long getIdGrupo() {
@@ -194,6 +188,14 @@ public class Produto implements Serializable {
 		this.situacao = situacao;
 	}
 
+	public Ncm getIdNcm() {
+		return ncm;
+	}
+
+	public void setIdNcm(Ncm ncm) {
+		this.ncm = ncm;
+	}
+
 	public Set<Imagem> getImagens() {
 		return imagens;
 	}
@@ -233,11 +235,10 @@ public class Produto implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public Produto(Long id, Long idNcm, Long idGrupo, String descricao, String observacao, String codigoBarras,
+	public Produto(Long id, Long idGrupo, String descricao, String observacao, String codigoBarras,
 			String unidade, String marca, Double peso, Double volume, Timestamp dataCadastro,
 			Timestamp dataUltimaAlteracao, Enum<TipoProduto> tipoProduto, Enum<Situacao> situacao) {
 		this.id = id;
-		this.idNcm = idNcm;
 		this.idGrupo = idGrupo;
 		this.descricao = descricao;
 		this.observacao = observacao;

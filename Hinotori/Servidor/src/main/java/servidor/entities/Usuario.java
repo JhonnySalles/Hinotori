@@ -42,12 +42,12 @@ public class Usuario extends Pessoa implements Serializable {
 	private String observacao;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_imagens", schema = "baseteste", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "Usuarios_Imagens"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "Imagens_Usuarios"), uniqueConstraints = {
+	@JoinTable(name = "usuarios_imagens", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "UK_USUARIOS_IMAGENS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "UK_USUARIOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
 			@UniqueConstraint(name = "usuario_imagem", columnNames = { "idUsuario", "idImagem" }) })
 	private Set<Imagem> imagens;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_contatos", schema = "baseteste", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "Usuarios_Contatos"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "Contatos_Usuarios"), uniqueConstraints = {
+	@JoinTable(name = "usuarios_contatos", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "UK_USUARIOS_CONTATOS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "UK_USUARIOS_CONTATOS_IDCONTATO"), uniqueConstraints = {
 			@UniqueConstraint(name = "usuario_contato", columnNames = { "idUsuario", "idContato" }) })
 	private Set<Contato> contatos;
 

@@ -5,12 +5,16 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "estados", schema = "baseteste")
@@ -34,7 +38,8 @@ public class Estado implements Serializable {
 	private Integer codigoIBGE;
 
 	@OneToOne(targetEntity = Pais.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdPais")
+	@JoinColumn(name = "IdPais", nullable = false, foreignKey = @ForeignKey(name = "UK_ESTADO_PAIS"))
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Pais pais;
 
 	public Long getId() {

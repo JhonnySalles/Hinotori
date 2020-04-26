@@ -5,12 +5,16 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import comum.model.enums.Situacao;
 
@@ -27,7 +31,8 @@ public class Cidade implements Serializable {
 	private Long id;
 
 	@OneToOne(targetEntity = Estado.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdEstado")
+	@JoinColumn(name = "IdEstado", nullable = false, foreignKey = @ForeignKey(name = "UK_CIDADE_ESTADO"))
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Estado estado;
 
 	@Column(name = "Nome", columnDefinition = "varchar(150)")

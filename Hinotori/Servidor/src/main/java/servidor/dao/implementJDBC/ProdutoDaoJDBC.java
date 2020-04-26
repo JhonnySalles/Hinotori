@@ -61,7 +61,11 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		try {
 			st = conexao.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdNcm());
+			if (obj.getIdNcm() != null)
+				st.setString(1, obj.getIdNcm().getNcm());
+			else
+				st.setString(1, "");
+			
 			st.setLong(2, obj.getIdGrupo());
 			st.setString(3, obj.getDescricao());
 			st.setString(4, obj.getObservacao());
@@ -121,7 +125,11 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		try {
 			st = conexao.prepareStatement(UPDATE, Statement.RETURN_GENERATED_KEYS);
 
-			st.setLong(1, obj.getIdNcm());
+			if (obj.getIdNcm() != null)
+				st.setString(1, obj.getIdNcm().getNcm());
+			else
+				st.setString(1, "");
+			
 			st.setLong(2, obj.getIdGrupo());
 			st.setString(3, obj.getDescricao());
 			st.setString(4, obj.getObservacao());
@@ -200,7 +208,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Produto obj = new Produto(rs.getLong("Id"), rs.getLong("IdNcm"), rs.getLong("IdGrupo"),
+				Produto obj = new Produto(rs.getLong("Id"), rs.getLong("IdGrupo"),
 						rs.getString("Descricao"), rs.getString("Observacao"), rs.getString("CodigoBarras"),
 						rs.getString("Unidade"), rs.getString("Marca"), rs.getDouble("Peso"), rs.getDouble("Volume"),
 						rs.getTimestamp("DataCadastro"), rs.getTimestamp("DataUltimaAlteracao"), TipoProduto.valueOf(rs.getString("Tipo")),
@@ -230,7 +238,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			List<Produto> list = new ArrayList<>();
 
 			while (rs.next()) {
-				Produto obj = new Produto(rs.getLong("Id"), rs.getLong("IdNcm"), rs.getLong("IdGrupo"),
+				Produto obj = new Produto(rs.getLong("Id"), rs.getLong("IdGrupo"),
 						rs.getString("Descricao"), rs.getString("Observacao"), rs.getString("CodigoBarras"),
 						rs.getString("Unidade"), rs.getString("Marca"), rs.getDouble("Peso"), rs.getDouble("Volume"),
 						rs.getTimestamp("DataCadastro"), rs.getTimestamp("DataUltimaAlteracao"), TipoProduto.valueOf(rs.getString("Tipo")),

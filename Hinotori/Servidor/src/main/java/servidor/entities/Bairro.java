@@ -5,12 +5,16 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "bairros", schema = "baseteste")
@@ -25,7 +29,8 @@ public class Bairro implements Serializable {
 	private Long id;
 
 	@OneToOne(targetEntity = Cidade.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdCidade")
+	@JoinColumn(name = "IdCidade", nullable = false, foreignKey = @ForeignKey(name = "UK_BAIRRO_CIDADE"))
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Cidade cidade;
 
 	@Column(name = "Nome", columnDefinition = "varchar(150)")

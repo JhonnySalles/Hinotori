@@ -52,17 +52,17 @@ public class Empresa implements Serializable {
 	private Enum<Situacao> situacao;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "empresas_enderecos", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Empresas_Enderecos"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "Enderecos_Empresas"), uniqueConstraints = {
+	@JoinTable(name = "empresas_enderecos", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "UK_EMPRESAS_ENDERECOS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_ENDERECOS_IDENDERECO"), uniqueConstraints = {
 			@UniqueConstraint(name = "empresa_endereco", columnNames = { "idEmpresa", "idEndereco" }) })
 	private Set<Endereco> enderecos;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "empresas_contatos", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Empresas_Contatos"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "Contatos_Empresas"), uniqueConstraints = {
+	@JoinTable(name = "empresas_contatos", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDCONTATO"), uniqueConstraints = {
 			@UniqueConstraint(name = "empresa_contato", columnNames = { "idEmpresa", "idContato" }) })
 	private Set<Contato> contatos;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "empresas_imagens", schema = "baseteste", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "Empresas_Imagens"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "Imagens_Empresas"), uniqueConstraints = {
+	@JoinTable(name = "empresas_imagens", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "UK_EMPRESAS_IMAGENS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDIMAGEM"), uniqueConstraints = {
 			@UniqueConstraint(name = "empresa_imagem", columnNames = { "idEmpresa", "idImagem" }) })
 	private Set<Imagem> imagens;
 

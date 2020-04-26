@@ -366,8 +366,8 @@ public class CadProdutoController implements Initializable {
 		produto.setVolume(spnVolume.getValue());
 		produto.setObservacao(txtAreaObservacao.getText());
 
-		if (frameNCMController.getId() != null)
-			produto.setIdNcm(Long.valueOf(frameNCMController.getId()));
+		//if (frameNCMController.getId() != null)
+	//		produto.setIdNcm(String.valueOf(frameNCMController.getId()));
 
 		produto.setTipoProduto(cbTipoProduto.getSelectionModel().getSelectedItem());
 		produto.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
