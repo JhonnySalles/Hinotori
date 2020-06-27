@@ -19,7 +19,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import servidor.converter.BooleanPropertyConverter;
 
 @Entity
-@Table(name = "Contatos", schema = "baseteste")
+@Table(name = "Contatos")
 public class Contato implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes

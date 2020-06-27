@@ -25,7 +25,7 @@ import javax.persistence.UniqueConstraint;
 import comum.model.enums.Situacao;
 
 @Entity
-@Table(name = "empresas", schema = "baseteste")
+@Table(name = "empresas")
 public class Empresa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes

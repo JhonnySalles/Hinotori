@@ -24,7 +24,7 @@ import comum.model.enums.Situacao;
 import comum.model.enums.TipoProduto;
 
 @Entity
-@Table(name = "produtos", schema = "baseteste")
+@Table(name = "produtos")
 public class Produto implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -72,11 +72,11 @@ public class Produto implements Serializable {
 	private Enum<Situacao> situacao;
 
 	@OneToOne(targetEntity = Ncm.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "ncm", nullable = true, foreignKey = @ForeignKey(name = "UK_PRODUTO_NCM"))
+	@JoinColumn(name = "ncm", nullable = true, foreignKey = @ForeignKey(name = "FK_PRODUTO_NCM"))
 	private Ncm ncm;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "produtos_imagens", joinColumns = @JoinColumn(name = "idProduto"), foreignKey = @ForeignKey(name = "UK_PRODUTOS_IMAGENS_IDPRODUTO"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "UK_PRODUTOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
+	@JoinTable(name = "produtos_imagens", joinColumns = @JoinColumn(name = "idProduto"), foreignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDPRODUTO"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
 			@UniqueConstraint(name = "produto_imagem", columnNames = { "idProduto", "idImagem" }) })
 	private Set<Imagem> imagens;
 

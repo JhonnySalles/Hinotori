@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "paises", schema = "baseteste")
+@Table(name = "paises")
 public class Pais implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes

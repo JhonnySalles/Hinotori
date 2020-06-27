@@ -17,7 +17,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(name = "bairros", schema = "baseteste")
+@Table(name = "bairros")
 public class Bairro implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -29,7 +29,7 @@ public class Bairro implements Serializable {
 	private Long id;
 
 	@OneToOne(targetEntity = Cidade.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdCidade", nullable = false, foreignKey = @ForeignKey(name = "UK_BAIRRO_CIDADE"))
+	@JoinColumn(name = "IdCidade", nullable = false, foreignKey = @ForeignKey(name = "FK_BAIRRO_CIDADE"))
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Cidade cidade;
 

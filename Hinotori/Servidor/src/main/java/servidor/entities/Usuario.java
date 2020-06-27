@@ -24,7 +24,7 @@ import comum.model.enums.Situacao;
 import comum.model.enums.UsuarioNivel;
 
 @Entity
-@Table(name = "usuarios", schema = "baseteste")
+@Table(name = "usuarios")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Usuario extends Pessoa implements Serializable {
 
@@ -42,12 +42,12 @@ public class Usuario extends Pessoa implements Serializable {
 	private String observacao;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_imagens", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "UK_USUARIOS_IMAGENS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "UK_USUARIOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
+	@JoinTable(name = "usuarios_imagens", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
 			@UniqueConstraint(name = "usuario_imagem", columnNames = { "idUsuario", "idImagem" }) })
 	private Set<Imagem> imagens;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_contatos", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "UK_USUARIOS_CONTATOS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "UK_USUARIOS_CONTATOS_IDCONTATO"), uniqueConstraints = {
+	@JoinTable(name = "usuarios_contatos", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDCONTATO"), uniqueConstraints = {
 			@UniqueConstraint(name = "usuario_contato", columnNames = { "idUsuario", "idContato" }) })
 	private Set<Contato> contatos;
 

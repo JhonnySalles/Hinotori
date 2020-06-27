@@ -23,7 +23,7 @@ import comum.model.enums.TipoCliente;
 import comum.model.enums.TipoPessoa;
 
 @Entity
-@Table(name = "clientes", schema = "baseteste")
+@Table(name = "clientes")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Cliente extends Pessoa implements Serializable {
 
@@ -49,13 +49,12 @@ public class Cliente extends Pessoa implements Serializable {
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
 	private Enum<Situacao> situacao;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "clientes_contatos", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "UK_CLIENTES_CONTATOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "UK_CLIENTES_CONTATOS_IDCONTATO"), uniqueConstraints = {
-			@UniqueConstraint(name = "cliente_contato", columnNames = { "idCliente", "idContato" }) })
-	private Set<Contato> contatos;
+	/*@ElementCollection(targetClass = Contato.class)
+	@CollectionTable(name = "clientes_contatos", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCLIENTE"))*/
+	private Set<Contato> contatos = new HashSet<Contato>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "UK_CLIENTES_ENDERECOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "UK_CLIENTES_ENDERECOS_IDENDERECO"), uniqueConstraints = {
+	@JoinTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDENDERECO"), uniqueConstraints = {
 			@UniqueConstraint(name = "cliente_endereco", columnNames = { "idCliente", "idEndereco" }) })
 	private Set<Endereco> enderecos;
 

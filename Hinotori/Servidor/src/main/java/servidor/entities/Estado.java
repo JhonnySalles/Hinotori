@@ -17,7 +17,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(name = "estados", schema = "baseteste")
+@Table(name = "estados")
 public class Estado implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -38,7 +38,7 @@ public class Estado implements Serializable {
 	private Integer codigoIBGE;
 
 	@OneToOne(targetEntity = Pais.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdPais", nullable = false, foreignKey = @ForeignKey(name = "UK_ESTADO_PAIS"))
+	@JoinColumn(name = "IdPais", nullable = false, foreignKey = @ForeignKey(name = "FK_ESTADO_PAIS"))
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Pais pais;
 

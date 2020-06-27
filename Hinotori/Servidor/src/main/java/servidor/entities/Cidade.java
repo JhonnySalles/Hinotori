@@ -19,7 +19,7 @@ import org.hibernate.annotations.CascadeType;
 import comum.model.enums.Situacao;
 
 @Entity
-@Table(name = "cidades", schema = "baseteste")
+@Table(name = "cidades")
 public class Cidade implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -31,7 +31,7 @@ public class Cidade implements Serializable {
 	private Long id;
 
 	@OneToOne(targetEntity = Estado.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdEstado", nullable = false, foreignKey = @ForeignKey(name = "UK_CIDADE_ESTADO"))
+	@JoinColumn(name = "IdEstado", nullable = false, foreignKey = @ForeignKey(name = "FK_CIDADE_ESTADO"))
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Estado estado;
 

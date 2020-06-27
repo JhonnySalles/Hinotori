@@ -21,7 +21,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import servidor.converter.BooleanPropertyConverter;
 
 @Entity
-@Table(name = "Enderecos", schema = "baseteste")
+@Table(name = "Enderecos")
 public class Endereco implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
