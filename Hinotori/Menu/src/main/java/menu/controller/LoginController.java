@@ -10,10 +10,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 
+import comum.model.alerts.AlertasPopup;
 import comum.model.constraints.Validadores;
 import comum.model.encode.DecodeHash;
-import comum.model.mysql.ConexaoMysql;
-import comum.model.notification.Alertas;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -76,10 +75,10 @@ public class LoginController implements Initializable {
 		Validadores.setTextFieldNotEmpty(pswFieldPassword);
 
 		// Gera lista de usuario
-		List<String> lista = ConexaoMysql.getDBUsuarios();
+		/*List<String> lista = ConexaoMysql.getDBUsuarios();
 		obsList = FXCollections.observableArrayList(lista);
 		cbBoxUsuario.getItems().addAll(obsList); // Transfere a lista para o combobox
-		cbBoxUsuario.requestFocus(); // Foco principal no combo box
+		cbBoxUsuario.requestFocus(); // Foco principal no combo box*/
 	}
 
 	public void ValidaLogin() throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -99,6 +98,7 @@ public class LoginController implements Initializable {
 
 		String password = pswFieldPassword.getText();
 
+		/* valida login
 		if (DecodeHash.ComparaPassword(user, password)) {
 
 		} else {
@@ -106,7 +106,7 @@ public class LoginController implements Initializable {
 				Alertas.dialogLogin(stPaneLogin, vbLogin, "Usuário inválido", "Favor selecionar um usuário.");
 			else
 				Alertas.dialogLogin(stPaneLogin, vbLogin, "Senha inválida", "Favor verificar os dados de conexão.");
-		}
+		}*/
 
 	}
 	

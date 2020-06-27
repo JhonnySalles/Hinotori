@@ -23,7 +23,6 @@ import cadastro.controller.frame.PesquisaGenericaController;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
-import comum.model.enums.Notificacao;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.TipoProduto;
@@ -35,6 +34,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
@@ -50,9 +50,12 @@ import servidor.entities.Produto;
 
 public class CadProdutoController implements Initializable {
 
-	/* Referencia para o controlador pai, onde é utilizado para realizar o refresh na tela */
+	/*
+	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
+	 * na tela
+	 */
 	private DashboardFormPadrao dashBoard;
-	
+
 	final static Image ImagemPadrao = new Image(CadUsuarioController.class
 			.getResourceAsStream("/cadastro/resources/imagens/white/geral/icoProdutoImage_256.png"));
 
@@ -178,7 +181,7 @@ public class CadProdutoController implements Initializable {
 	@FXML
 	public void onBtnExcluirClick() {
 		if ((produto.getId() == null) || txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(Notificacao.AVISO, "Aviso",
+			Notificacoes.notificacao(AlertType.INFORMATION, "Aviso",
 					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
 		else {
 			try {
@@ -244,7 +247,7 @@ public class CadProdutoController implements Initializable {
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				Notificacoes.notificacao(Notificacao.ERRO, "Erro", "Não foi possível carregar a imagem.");
+				Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível carregar a imagem.");
 				setImagemPadrao();
 			}
 		}
@@ -366,8 +369,8 @@ public class CadProdutoController implements Initializable {
 		produto.setVolume(spnVolume.getValue());
 		produto.setObservacao(txtAreaObservacao.getText());
 
-		//if (frameNCMController.getId() != null)
-	//		produto.setIdNcm(String.valueOf(frameNCMController.getId()));
+		// if (frameNCMController.getId() != null)
+		// produto.setIdNcm(String.valueOf(frameNCMController.getId()));
 
 		produto.setTipoProduto(cbTipoProduto.getSelectionModel().getSelectedItem());
 		produto.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
@@ -412,7 +415,8 @@ public class CadProdutoController implements Initializable {
 
 		if (produto.getImagens() != null && produto.getImagens().size() > 0) {
 			imagens = produto.getImagens();
-			imgProduto.setImage(new Image(new ByteArrayInputStream(produto.getImagens().iterator().next().getImagem())));
+			imgProduto
+					.setImage(new Image(new ByteArrayInputStream(produto.getImagens().iterator().next().getImagem())));
 		} else {
 			setImagemPadrao();
 		}
@@ -438,10 +442,10 @@ public class CadProdutoController implements Initializable {
 
 		try {
 			produtoService.salvar(produto);
-			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Produto salvo com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Produto salvo com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 		}
 
 	}
@@ -452,10 +456,10 @@ public class CadProdutoController implements Initializable {
 
 		try {
 			produtoService.deletar(produto.getId());
-			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Produto excluído com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Produto excluído com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 		}
 	}
 
@@ -503,7 +507,7 @@ public class CadProdutoController implements Initializable {
 		txtId.setText("0");
 		setSqlFrame().configuraExitId();
 	}
-	
+
 	public DashboardFormPadrao getDashBoard() {
 		return dashBoard;
 	}
@@ -511,7 +515,7 @@ public class CadProdutoController implements Initializable {
 	public void setDashBoard(DashboardFormPadrao dashBoard) {
 		this.dashBoard = dashBoard;
 	}
-	
+
 	public static URL getFxmlLocate() {
 		return CadContatoController.class.getResource("/cadastro/view/cadastros/CadProduto.fxml");
 	}

@@ -8,10 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import comum.model.mysql.DB;
 import servidor.dao.BairroDao;
 import servidor.dao.services.CidadeServices;
 import servidor.entities.Bairro;
+import servidor.util.DBConnection;
 
 public class BairroDaoJDBC implements BairroDao {
 
@@ -52,7 +52,7 @@ public class BairroDaoJDBC implements BairroDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 	}
 
@@ -73,7 +73,7 @@ public class BairroDaoJDBC implements BairroDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 	}
 
@@ -96,7 +96,7 @@ public class BairroDaoJDBC implements BairroDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 	}
 
@@ -120,8 +120,8 @@ public class BairroDaoJDBC implements BairroDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}
@@ -151,8 +151,8 @@ public class BairroDaoJDBC implements BairroDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}

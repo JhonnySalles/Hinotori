@@ -15,7 +15,6 @@ import com.jfoenix.controls.events.JFXDialogEvent;
 
 import comum.form.DashboardFormPadrao;
 import comum.model.animation.TelaAnimation;
-import comum.model.enums.Notificacao;
 import comum.model.enums.Situacao;
 import comum.model.notification.Notificacoes;
 import javafx.beans.property.SimpleStringProperty;
@@ -26,6 +25,7 @@ import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -45,9 +45,12 @@ import servidor.entities.Endereco;
 
 public class CadEnderecoDadosController implements Initializable {
 
-	/* Referencia para o controlador pai, onde é utilizado para realizar o refresh na tela */
+	/*
+	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
+	 * na tela
+	 */
 	private DashboardFormPadrao dashBoard;
-	
+
 	@FXML
 	private StackPane root;
 
@@ -132,10 +135,10 @@ public class CadEnderecoDadosController implements Initializable {
 	public void onBtnRemoverClick() {
 		if (enderecos.isEmpty() || tbEnderecos.getSelectionModel().isEmpty())
 			if (enderecos.isEmpty())
-				Notificacoes.notificacao(Notificacao.AVISO, "Não foi possível apagar item",
+				Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item",
 						"Não existe nenhum endereço cadastrado.");
 			else
-				Notificacoes.notificacao(Notificacao.AVISO, "Não foi possível apagar item",
+				Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item",
 						"Não foi possível apagar o endereço, nenhum item selecionado.");
 		else
 			tbEnderecos.getSelectionModel().getSelectedItem().setSituacao(Situacao.EXCLUIDO);
@@ -292,7 +295,7 @@ public class CadEnderecoDadosController implements Initializable {
 		// Necessário por um bug na tela ao carregar ela.
 		dashBoard.atualizaTabPane();
 	}
-	
+
 	public DashboardFormPadrao getDashBoard() {
 		return dashBoard;
 	}
@@ -300,7 +303,7 @@ public class CadEnderecoDadosController implements Initializable {
 	public void setDashBoard(DashboardFormPadrao dashBoard) {
 		this.dashBoard = dashBoard;
 	}
-	
+
 	public static URL getFxmlLocate() {
 		return CadEnderecoDadosController.class.getResource("/cadastro/view/cadastros/CadEnderecoDados.fxml");
 	}

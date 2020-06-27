@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comum.model.enums.Situacao;
-import comum.model.mysql.DB;
 import servidor.dao.CidadeDao;
 import servidor.dao.services.EstadoServices;
 import servidor.entities.Cidade;
+import servidor.util.DBConnection;
 
 public class CidadeDaoJDBC implements CidadeDao {
 
@@ -55,7 +55,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class CidadeDaoJDBC implements CidadeDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 	}
 
@@ -127,8 +127,8 @@ public class CidadeDaoJDBC implements CidadeDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}
@@ -158,8 +158,8 @@ public class CidadeDaoJDBC implements CidadeDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}

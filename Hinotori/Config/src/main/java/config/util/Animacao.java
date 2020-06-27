@@ -12,9 +12,11 @@ import javafx.util.Duration;
 
 public class Animacao {
 
-	final static Image banco = new Image(Animacao.class.getResourceAsStream("/resources/images/icoDataBase_48.png"));
-	final static Image conectando = new Image(
-			Animacao.class.getResourceAsStream("/resources/images/icoDataEspera_48.png"));
+	final public static Image BD_CONECTADO = new Image(Animacao.class.getResourceAsStream("/config/resources/imagens/icoDataConectado_48.png"));
+	final public static Image BD_ERRO = new Image(Animacao.class.getResourceAsStream("/config/resources/imagens/icoDataSemConexao_48.png"));
+	final public static Image BD_NORMAL = new Image(Animacao.class.getResourceAsStream("/config/resources/imagens/icoDataBase_48.png"));
+	final public static Image BD_CONECTANDO = new Image(
+			Animacao.class.getResourceAsStream("/config/resources/imagens/icoDataEspera_48.png"));
 
 	final public static Timeline timeline = new Timeline();
 
@@ -25,14 +27,14 @@ public class Animacao {
 		timeline.getKeyFrames().addAll(new KeyFrame(Duration.millis(250), new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				img.setImage(banco);
+				img.setImage(BD_NORMAL);
 				img.setFitWidth(App.imgBancoWidth);
 				img.setFitHeight(App.imgBancoHeight);
 			}
 		}), new KeyFrame(Duration.millis(500), new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				img.setImage(conectando);
+				img.setImage(BD_CONECTANDO);
 				img.setFitWidth(App.imgBancoWidth);
 				img.setFitHeight(App.imgBancoHeight);
 			}

@@ -9,6 +9,7 @@ module Servidor {
 	exports servidor.dao.implementJDBC;
 	exports servidor.entities;
 	exports servidor.converter;
+	exports servidor.util;
 
 	requires transitive Comum;
 	requires transitive java.persistence;

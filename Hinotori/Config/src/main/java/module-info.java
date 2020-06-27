@@ -1,8 +1,6 @@
 module Config {
-	exports config.gui;
-	exports config.connection;
+	exports config.controller;
 	exports config.util;
-	exports config.alerts;
 	exports config;
 
 	requires transitive Comum;
@@ -12,8 +10,8 @@ module Config {
 	requires javafx.fxml;
 	requires javafx.graphics;
 	requires com.jfoenix;
+	requires Servidor;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
-	opens config.gui to javafx.fxml;
-	opens config.alerts to javafx.fxml;	
+	opens config.controller to javafx.fxml;
 }

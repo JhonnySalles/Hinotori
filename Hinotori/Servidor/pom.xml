@@ -29,6 +29,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+				 	<!-- Remover se um dia tiver testes -->
+					<skipTests>false</skipTests>
+					<testFailureIgnore>true</testFailureIgnore>
+					<forkMode>once</forkMode>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

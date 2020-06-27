@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import comum.model.mysql.DB;
 import servidor.dao.PaisDao;
 import servidor.entities.Pais;
+import servidor.util.DBConnection;
 
 public class PaisDaoJDBC implements PaisDao {
 
@@ -49,7 +49,7 @@ public class PaisDaoJDBC implements PaisDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 
 	}
@@ -70,7 +70,7 @@ public class PaisDaoJDBC implements PaisDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 
 	}
@@ -94,7 +94,7 @@ public class PaisDaoJDBC implements PaisDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 
 	}
@@ -115,8 +115,8 @@ public class PaisDaoJDBC implements PaisDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}
@@ -141,8 +141,8 @@ public class PaisDaoJDBC implements PaisDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}

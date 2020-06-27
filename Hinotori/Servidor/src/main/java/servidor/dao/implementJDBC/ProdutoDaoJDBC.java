@@ -16,10 +16,10 @@ import comum.model.enums.TamanhoImagem;
 import comum.model.enums.TipoProduto;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.messages.Mensagens;
-import comum.model.mysql.DB;
 import servidor.dao.ProdutoDao;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
+import servidor.util.DBConnection;
 
 public class ProdutoDaoJDBC implements ProdutoDao {
 
@@ -114,7 +114,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			System.out.println(st.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_INSERT);
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 
 	}
@@ -169,7 +169,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			System.out.println(st.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_UPDATE);
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 
 	}
@@ -194,7 +194,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			System.out.println(st.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_DELETE);
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 
 	}
@@ -220,8 +220,8 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			e.printStackTrace();
 			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT);
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}
@@ -251,8 +251,8 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			e.printStackTrace();
 			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT_ALL);
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 	}
 
@@ -338,7 +338,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			System.out.println(stImg.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_IMAGEM);
 		} finally {
-			DB.closeStatement(stImg);
+			DBConnection.closeStatement(stImg);
 		}
 	}
 
@@ -386,8 +386,8 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			e.printStackTrace();
 			throw new ExcessaoBd(Mensagens.BD_ERRO_CARREGAR_IMAGEM);
 		} finally {
-			DB.closeStatement(stImg);
-			DB.closeResultSet(rsImg);
+			DBConnection.closeStatement(stImg);
+			DBConnection.closeResultSet(rsImg);
 		}
 	}
 

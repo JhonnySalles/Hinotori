@@ -8,10 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import comum.model.mysql.DB;
 import servidor.dao.EstadoDao;
 import servidor.dao.services.PaisServices;
 import servidor.entities.Estado;
+import servidor.util.DBConnection;
 
 public class EstadoDaoJDBC implements EstadoDao {
 
@@ -54,7 +54,7 @@ public class EstadoDaoJDBC implements EstadoDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 
 	}
@@ -78,7 +78,7 @@ public class EstadoDaoJDBC implements EstadoDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 
 	}
@@ -102,7 +102,7 @@ public class EstadoDaoJDBC implements EstadoDao {
 			e.printStackTrace();
 			System.out.println(st.toString());
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 
 	}
@@ -128,8 +128,8 @@ public class EstadoDaoJDBC implements EstadoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}
@@ -159,8 +159,8 @@ public class EstadoDaoJDBC implements EstadoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}

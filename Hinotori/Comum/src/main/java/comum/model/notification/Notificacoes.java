@@ -6,8 +6,8 @@ import org.controlsfx.control.Notifications;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
-import comum.controller.alerts.NotificacaoController;
-import comum.model.enums.Notificacao;
+import comum.model.alerts.AlertasPopup;
+import comum.model.notification.controller.NotificacaoController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,15 +25,15 @@ import javafx.util.Duration;
 public class Notificacoes {
 
 	public final static ImageView IMG_ALERTA = new ImageView(
-			new Image(Alertas.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAlerta_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAlerta_48.png")));
 	public final static ImageView IMG_AVISO = new ImageView(
-			new Image(Alertas.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAviso_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAviso_48.png")));
 	public final static ImageView IMG_ERRO = new ImageView(
-			new Image(Alertas.class.getResourceAsStream("/comum/resources/imagens/alerta/icoErro_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoErro_48.png")));
 	public final static ImageView IMG_CONFIRMA = new ImageView(
-			new Image(Alertas.class.getResourceAsStream("/comum/resources/imagens/alerta/icoConfirma_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoConfirma_48.png")));
 	public final static ImageView IMG_SUCESSO = new ImageView(
-			new Image(Alertas.class.getResourceAsStream("/comum/resources/imagens/alerta/btnConfirma_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/btnConfirma_48.png")));
 
 	private static NotificacaoController CONTROLLER;
 	private static AnchorPane NOTIFICACAO;
@@ -49,31 +50,32 @@ public class Notificacoes {
 		Notificacoes.ROOT_ANCHOR_PANE = rootAnchorkPane;
 	}
 
-	private static void setTipo(Notificacao tipo, NotificacaoController controller, AnchorPane root) {
+	
+	private static void setTipo(AlertType tipo, NotificacaoController controller, AnchorPane root) {
 		root.getStyleClass().clear();
 		switch (tipo) {
-		case ALERTA:
-			root.getStyleClass().add("notificacaoAlertaBackground");
+		case WARNING:
+			root.getStyleClass().add("Notificacao_AlertaBackground");
 			controller.setImagem(IMG_ALERTA);
 			break;
 
-		case AVISO:
-			root.getStyleClass().add("notificacaoAvisoBackground");
+		case INFORMATION:
+			root.getStyleClass().add("Notificacao_AvisoBackground");
 			controller.setImagem(IMG_AVISO);
 			break;
 
-		case ERRO:
-			root.getStyleClass().add("notificacaoErroBackground");
+		case ERROR:
+			root.getStyleClass().add("Notificacao_ErroBackground");
 			controller.setImagem(IMG_ERRO);
 			break;
 
-		case SUCESSO:
-			root.getStyleClass().add("notificacaoSucessoBackground");
+		case NONE:
+			root.getStyleClass().add("Notificacao_SucessoBackground");
 			controller.setImagem(IMG_SUCESSO);
 			break;
 
 		default:
-			root.getStyleClass().add("notificacaoAvisoBackground");
+			root.getStyleClass().add("Notificacao_AvisoBackground");
 			controller.setImagem(IMG_AVISO);
 		}
 	}
@@ -100,7 +102,7 @@ public class Notificacoes {
 
 	private static void create() {
 		try {
-			FXMLLoader loader = new FXMLLoader(Notificacoes.class.getResource("/comum/view/alerts/Notificacao.fxml"));
+			FXMLLoader loader = new FXMLLoader(NotificacaoController.getFxmlLocate());
 			NOTIFICACAO = loader.load();
 			CONTROLLER = loader.getController();
 			ROOT_ANCHOR_PANE.getChildren().add(NOTIFICACAO);
@@ -130,14 +132,14 @@ public class Notificacoes {
 	 * inicialização.
 	 * </p>
 	 * 
-	 * @param tipo    Tipo da notificação solicitada, podendo ser ALERTA, AVISO,
-	 *                ERRO, SUCESSO.
-	 * @param titulo  Titulo da notificação.
-	 * @param texto   Texto da notificação.
+	 * @param tipo   Tipo da notificação solicitada, podendo ser ALERTA (Alert), AVISO (Warning),
+	 *               ERRO (Error), SUCESSO (None).
+	 * @param titulo Titulo da notificação.
+	 * @param texto  Texto da notificação.
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static void notificacao(Notificacao tipo, String titulo, String texto) {
+	public static void notificacao(AlertType tipo, String titulo, String texto) {
 		if ((NOTIFICACAO == null) || (CONTROLLER == null))
 			create();
 

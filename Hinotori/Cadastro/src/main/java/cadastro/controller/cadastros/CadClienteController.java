@@ -20,7 +20,6 @@ import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
-import comum.model.enums.Notificacao;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoCliente;
 import comum.model.enums.TipoPessoa;
@@ -33,6 +32,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -46,8 +46,11 @@ import servidor.entities.Cliente;
 public class CadClienteController implements Initializable {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
-	
-	/* Referencia para o controlador pai, onde é utilizado para realizar o refresh na tela */
+
+	/*
+	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
+	 * na tela
+	 */
 	private DashboardFormPadrao dashBoard;
 
 	@FXML
@@ -151,7 +154,7 @@ public class CadClienteController implements Initializable {
 	public void onBtnExcluirClick() {
 		if ((cliente == null) || (cliente.getId() == null) || txtId.getText().isEmpty()
 				|| txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(Notificacao.AVISO, "Aviso",
+			Notificacoes.notificacao(AlertType.INFORMATION, "Aviso",
 					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
 		else {
 			try {
@@ -346,10 +349,10 @@ public class CadClienteController implements Initializable {
 
 		try {
 			clienteService.salvar(cliente);
-			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Cliente salvo com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente salvo com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 		}
 	}
 
@@ -359,10 +362,10 @@ public class CadClienteController implements Initializable {
 
 		try {
 			clienteService.deletar(cliente.getId());
-			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Cliente excluído com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente excluído com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 		}
 	}
 

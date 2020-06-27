@@ -1,6 +1,6 @@
 package config;
 
-import config.gui.TelaConfiguracaoController;
+import config.controller.TelaConfiguracaoController;
 import config.util.CarregaConfig;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
@@ -8,7 +8,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -33,7 +32,7 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/TelaConfiguracao.fxml"));
+			FXMLLoader loader = new FXMLLoader(TelaConfiguracaoController.getFxmlLocate());
 			AnchorPane scPnTelaPrincipal = loader.load();
 
 			Scene mainScene = new Scene(scPnTelaPrincipal); // Carrega a scena
@@ -64,7 +63,7 @@ public class App extends Application {
 
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Config");
-			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/icoConfiguracao.png")));
+			primaryStage.getIcons().add(TelaConfiguracaoController.ICO_CONFIGURACAO);
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.show(); // Mostra a tela.
 

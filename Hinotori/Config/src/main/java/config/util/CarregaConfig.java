@@ -1,12 +1,12 @@
 package config.util;
 
 import comum.model.config.ProcessaConfig;
-import comum.model.entities.Conexao;
-import config.gui.TelaConfiguracaoController;
+import comum.model.entities.Configuracao;
+import config.controller.TelaConfiguracaoController;
 
 public class CarregaConfig {
 
-	public static Conexao dadosConexao = ProcessaConfig.getDadosConexao();
+	public static Configuracao dadosConexao = ProcessaConfig.getDadosConexao();
 
 	public void processaConfig(TelaConfiguracaoController cntr) {
 		cntr.setConfig(dadosConexao);

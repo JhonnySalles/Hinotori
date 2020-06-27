@@ -27,7 +27,6 @@ import cadastro.controller.frame.PesquisaGenericaController;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
-import comum.model.enums.Notificacao;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
@@ -39,6 +38,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -54,9 +54,12 @@ import servidor.entities.Usuario;
 
 public class CadUsuarioController implements Initializable {
 
-	/* Referencia para o controlador pai, onde é utilizado para realizar o refresh na tela */
+	/*
+	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
+	 * na tela
+	 */
 	private DashboardFormPadrao dashBoard;
-	
+
 	public final static Image ImagemPadrao = new Image(CadUsuarioController.class
 			.getResourceAsStream("/cadastro/resources/imagens/white/geral/icoUsuarioImage_256.png"));
 
@@ -165,7 +168,7 @@ public class CadUsuarioController implements Initializable {
 	@FXML
 	public void onBtnExcluirClick() {
 		if ((usuario.getId() == null) || txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(Notificacao.AVISO, "Aviso",
+			Notificacoes.notificacao(AlertType.INFORMATION, "Aviso",
 					"Não foi possivel realizar a exclusão, nenhum usuário selecionado.");
 		else {
 			try {
@@ -248,7 +251,7 @@ public class CadUsuarioController implements Initializable {
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				Notificacoes.notificacao(Notificacao.ERRO, "Erro", "Não foi possível carregar a imagem.");
+				Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível carregar a imagem.");
 				setImagemPadrao();
 			}
 		}
@@ -302,10 +305,10 @@ public class CadUsuarioController implements Initializable {
 
 		try {
 			usuarioService.salvar(usuario);
-			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Cliente salvo com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente salvo com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 		}
 	}
 
@@ -315,10 +318,10 @@ public class CadUsuarioController implements Initializable {
 
 		try {
 			usuarioService.deletar(usuario.getId());
-			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Usuário excluído com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Usuário excluído com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 		}
 
 	}
@@ -367,7 +370,8 @@ public class CadUsuarioController implements Initializable {
 
 		if (usuario.getImagens() != null && usuario.getImagens().size() > 0) {
 			imagens = usuario.getImagens();
-			imgUsuario.setImage(new Image(new ByteArrayInputStream(usuario.getImagens().iterator().next().getImagem())));
+			imgUsuario
+					.setImage(new Image(new ByteArrayInputStream(usuario.getImagens().iterator().next().getImagem())));
 		} else {
 			setImagemPadrao();
 		}
@@ -434,14 +438,14 @@ public class CadUsuarioController implements Initializable {
 				if ((txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
 						&& usuarioService.validaLogin(txtLogin.getText())) {
 					txtLogin.setUnFocusColor(Color.RED);
-					Notificacoes.notificacao(Notificacao.AVISO, "Usuário já cadastrado",
+					Notificacoes.notificacao(AlertType.INFORMATION, "Usuário já cadastrado",
 							"Favor informar outro usuário.");
 					valida = false;
 				}
 			} catch (ExcessaoBd e) {
 				e.printStackTrace();
 				valida = false;
-				Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+				Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 			}
 		}
 
@@ -463,7 +467,7 @@ public class CadUsuarioController implements Initializable {
 					carregaUsuario(usuarioService.pesquisar(Long.valueOf(frameTxtNomeController.getId()),
 							TamanhoImagem.TODOS));
 				} catch (ExcessaoBd e) {
-					Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+					Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 				}
 		});
 		return this;
@@ -509,7 +513,7 @@ public class CadUsuarioController implements Initializable {
 
 		usuario = new Usuario();
 	}
-	
+
 	public DashboardFormPadrao getDashBoard() {
 		return dashBoard;
 	}
@@ -517,7 +521,7 @@ public class CadUsuarioController implements Initializable {
 	public void setDashBoard(DashboardFormPadrao dashBoard) {
 		this.dashBoard = dashBoard;
 	}
-	
+
 	public static URL getFxmlLocate() {
 		return CadUsuarioController.class.getResource("/cadastro/view/cadastros/CadUsuario.fxml");
 	}

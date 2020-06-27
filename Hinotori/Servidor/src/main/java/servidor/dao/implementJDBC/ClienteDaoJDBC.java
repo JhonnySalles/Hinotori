@@ -18,12 +18,12 @@ import comum.model.enums.TipoEndereco;
 import comum.model.enums.TipoPessoa;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.messages.Mensagens;
-import comum.model.mysql.DB;
 import servidor.dao.ClienteDao;
 import servidor.dao.services.BairroServices;
 import servidor.entities.Cliente;
 import servidor.entities.Contato;
 import servidor.entities.Endereco;
+import servidor.util.DBConnection;
 
 public class ClienteDaoJDBC implements ClienteDao {
 
@@ -115,7 +115,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 			System.out.println(st.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_INSERT);
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 	}
 
@@ -147,7 +147,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 			System.out.println(st.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_UPDATE);
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 	}
 
@@ -172,7 +172,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 			System.out.println(st.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_DELETE);
 		} finally {
-			DB.closeStatement(st);
+			DBConnection.closeStatement(st);
 		}
 	}
 
@@ -199,8 +199,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 			e.printStackTrace();
 			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT);
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}
@@ -232,8 +232,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 			e.printStackTrace();
 			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT_ALL);
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 	}
 
@@ -300,7 +300,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 			System.out.println(stEnd.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_ENDERECO);
 		} finally {
-			DB.closeStatement(stEnd);
+			DBConnection.closeStatement(stEnd);
 		}
 	}
 
@@ -334,8 +334,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 			e.printStackTrace();
 			throw new ExcessaoBd(Mensagens.BD_ERRO_CARREGAR_ENDERECO);
 		} finally {
-			DB.closeStatement(stEnd);
-			DB.closeResultSet(rsEnd);
+			DBConnection.closeStatement(stEnd);
+			DBConnection.closeResultSet(rsEnd);
 		}
 	}
 
@@ -391,7 +391,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 			System.out.println(stCont.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_SALVAR_CONTATO);
 		} finally {
-			DB.closeStatement(stCont);
+			DBConnection.closeStatement(stCont);
 		}
 	}
 
@@ -420,8 +420,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 			e.printStackTrace();
 			throw new ExcessaoBd(Mensagens.BD_ERRO_CARREGAR_CONTATO);
 		} finally {
-			DB.closeStatement(stCont);
-			DB.closeResultSet(rsCont);
+			DBConnection.closeStatement(stCont);
+			DBConnection.closeResultSet(rsCont);
 		}
 	}
 }

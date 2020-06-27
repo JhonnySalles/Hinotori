@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import comum.model.mysql.DB;
 import servidor.dao.PesquisaGenericaDao;
 import servidor.entities.PesquisaGenerica;
 import servidor.entities.PesquisaGenericaDados;
+import servidor.util.DBConnection;
 
 public class PesquisaGenericaDaoJDBC implements PesquisaGenericaDao {
 
@@ -51,8 +51,8 @@ public class PesquisaGenericaDaoJDBC implements PesquisaGenericaDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
 		}
 		return null;
 	}

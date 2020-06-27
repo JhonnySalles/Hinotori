@@ -11,9 +11,8 @@ import com.jfoenix.controls.JFXScrollPane;
 import com.jfoenix.svg.SVGGlyph;
 
 import comum.form.DashboardFormPadrao;
-import comum.model.entities.Conexao;
-import comum.model.mysql.ConexaoMysql;
-import comum.model.notification.Alertas;
+import comum.model.alerts.AlertasPopup;
+import comum.model.entities.Configuracao;
 import comum.model.notification.Notificacoes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +32,7 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 
 	private final static Logger LOGGER = Logger.getLogger(DashboardController.class.getName());
 
-	private static Conexao conexao;
+	private static Configuracao conexao;
 
 	@FXML
 	private AnchorPane apGlobal;
@@ -127,10 +126,10 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 	 * @author Jhonny de Salles Noschang
 	 */
 	public void verificaConexao() {
-		conexao = ConexaoMysql.testaConexaoMySQL(imgBd, tootBd);
+		//conexao = DBConnection.testaConexaoMySQL(imgBd, tootBd); ***************************************************************
 	}
 
-	public Conexao getConexao() {
+	public Configuracao getConexao() {
 		return conexao;
 	}
 
@@ -198,8 +197,8 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 		btnConfiguracoes.setTooltip(new Tooltip("Configurações"));
 
 		/* Setando as variáveis para o alerta padrão. */
-		Alertas.setNodeBlur(rootStackPane);
-		Alertas.setNodeBlur(splPane);
+		AlertasPopup.setNodeBlur(rootStackPane);
+		AlertasPopup.setNodeBlur(splPane);
 		Notificacoes.setRootStackPane(apGlobal);
 
 		rootStackPane.setCache(true);

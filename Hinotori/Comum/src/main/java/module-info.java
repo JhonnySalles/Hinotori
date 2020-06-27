@@ -1,4 +1,5 @@
 module Comum {
+	exports comum.model.alerts;
 	exports comum.model.animation;
 	exports comum.model.config;
 	exports comum.model.constraints;
@@ -8,10 +9,9 @@ module Comum {
 	exports comum.model.exceptions;
 	exports comum.model.mask;
 	exports comum.model.messages;
-	exports comum.model.mysql;
 	exports comum.model.notification;
+	exports comum.model.notification.controller;
 	exports comum.model.utils;
-	exports comum.controller.alerts;
 	exports comum.form;
 
 	requires java.logging;
@@ -25,6 +25,7 @@ module Comum {
 	requires transitive java.desktop;
 	requires AnimateFX;
 	
-	opens comum.controller.alerts to javafx.fxml;
+	opens comum.model.notification.controller to javafx.fxml;
+	opens comum.model.alerts.controller to javafx.fxml;
 	opens comum.form to javafx.fxml;
 }

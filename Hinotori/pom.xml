@@ -35,9 +35,9 @@
 	<modules>
 		<module>Comum</module>
 		<module>Servidor</module>
-		<module>Cadastro</module>
-		<module>Menu</module>
 		<module>Config</module>
+		<module>Menu</module>	
+		<module>Cadastro</module>			
 		<module>Administrador</module>
 		<module>Restaurante</module>
 		<module>PDV</module>

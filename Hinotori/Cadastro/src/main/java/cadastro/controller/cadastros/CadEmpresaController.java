@@ -21,7 +21,6 @@ import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
-import comum.model.enums.Notificacao;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.exceptions.ExcessaoBd;
@@ -33,6 +32,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,9 +47,12 @@ import servidor.entities.Imagem;
 
 public class CadEmpresaController implements Initializable {
 
-	/* Referencia para o controlador pai, onde é utilizado para realizar o refresh na tela */
+	/*
+	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
+	 * na tela
+	 */
 	private DashboardFormPadrao dashBoard;
-	
+
 	final static Image LogoPadrao = new Image(
 			CadEmpresaController.class.getResourceAsStream("/cadastro/resources/imagens/icon/icoPrincipal_100.png"));
 
@@ -154,7 +157,7 @@ public class CadEmpresaController implements Initializable {
 	@FXML
 	public void onBtnExcluirClick() {
 		if ((empresa.getId() == null) || txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(Notificacao.AVISO, "Aviso",
+			Notificacoes.notificacao(AlertType.INFORMATION, "Aviso",
 					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
 		else {
 			try {
@@ -265,7 +268,7 @@ public class CadEmpresaController implements Initializable {
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				Notificacoes.notificacao(Notificacao.ERRO, "Erro", "Não foi possível carregar a imagem.");
+				Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível carregar a imagem.");
 				setImagemPadrao();
 			}
 		}
@@ -315,10 +318,10 @@ public class CadEmpresaController implements Initializable {
 
 		try {
 			empresaService.salvar(empresa);
-			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Cliente salvo com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente salvo com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 		}
 
 	}
@@ -329,10 +332,10 @@ public class CadEmpresaController implements Initializable {
 
 		try {
 			empresaService.deletar(empresa.getId());
-			Notificacoes.notificacao(Notificacao.SUCESSO, "Concluído", "Cliente excluído com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente excluído com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(Notificacao.ERRO, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
 		}
 	}
 
@@ -466,7 +469,7 @@ public class CadEmpresaController implements Initializable {
 		txtId.setText("0");
 		empresa = new Empresa();
 	}
-	
+
 	public DashboardFormPadrao getDashBoard() {
 		return dashBoard;
 	}
@@ -474,7 +477,7 @@ public class CadEmpresaController implements Initializable {
 	public void setDashBoard(DashboardFormPadrao dashBoard) {
 		this.dashBoard = dashBoard;
 	}
-	
+
 	public static URL getFxmlLocate() {
 		return CadEmpresaController.class.getResource("/cadastro/view/cadastros/CadEmpresa.fxml");
 	}

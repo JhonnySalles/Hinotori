@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="180.0" prefWidth="500.0" styleClass="Tela_Alerta" stylesheets="@../../../resources/css/White_Alertas.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comum.model.alerts.controller.ConfirmacaoController">
+   <children>
+      <Label fx:id="lblTitulo" layoutX="22.0" layoutY="17.0" text="Confirmar" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTexto" layoutX="88.0" layoutY="62.0" prefHeight="74.0" prefWidth="324.0" text="Deseja continuar?" wrapText="true" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <padding>
+            <Insets left="65.0" top="15.0" />
+         </padding></Label>
+      <ImageView fx:id="imgIcone" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="60.0">
+         <image>
+            <Image url="@../../../resources/imagens/alerta/icoConfirma_48.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="btnCancelar" buttonType="RAISED" layoutX="250.0" layoutY="137.0" prefWidth="100.0" styleClass="btnCancela" text="Cancelar" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="125.0" />
+      <JFXButton fx:id="btnConfirmar" buttonType="RAISED" layoutX="434.0" layoutY="111.0" prefWidth="100.0" styleClass="btnConfirma" text="Confirmar" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+   </children>
+</AnchorPane>

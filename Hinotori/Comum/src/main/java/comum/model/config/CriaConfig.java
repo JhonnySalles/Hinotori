@@ -15,14 +15,17 @@ public class CriaConfig {
 
 		prop.setProperty("prop.server.host", "localhost");
 		prop.setProperty("prop.server.port", "3306");
-		prop.setProperty("prop.server.base", "baseteste");
+		prop.setProperty("prop.server.base", "servidorteste");
 		prop.setProperty("prop.server.login", "admin");
 		prop.setProperty("prop.server.password", "crg+SNfHXEMF7MkmtK4CdA==");
 		prop.setProperty("prop.server.database", "MySQL");
-		prop.setProperty("prop.caminho.log", "C:\\Log");
-		prop.setProperty("prop.log.mostrar", "0");
-		prop.setProperty("prop.unicode.usa", "1");
+		prop.setProperty("prop.unicode.usar", "1");
 		prop.setProperty("prop.unicode.encode", "UTF-8");
+		prop.setProperty("prop.log.caminho", "C:\\Log");
+		prop.setProperty("prop.log.mostrar", "0");
+		prop.setProperty("prop.hibernate.mostrar_sql", "1");
+		prop.setProperty("prop.sistema.tipo", "HOMOLOGACAO");
+		prop.setProperty("prop.sistema.tema", "WHITE");
 		
 		try {
 			FileOutputStream arquivoOut = new FileOutputStream(arquivo);

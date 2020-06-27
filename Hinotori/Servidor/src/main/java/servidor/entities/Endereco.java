@@ -64,8 +64,8 @@ public class Endereco implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
 
-	@Convert(converter = BooleanPropertyConverter.class)
 	@Column(name = "Padrao", columnDefinition = "tinyint(1)")
+	@Convert(converter = BooleanPropertyConverter.class)
 	private SimpleBooleanProperty padrao = new SimpleBooleanProperty(false);
 
 	public static long getSerialversionuid() {
