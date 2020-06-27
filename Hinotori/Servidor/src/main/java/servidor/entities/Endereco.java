@@ -8,6 +8,7 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,7 +34,7 @@ public class Endereco implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	@OneToOne(targetEntity = Bairro.class)
+	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id")
 	private Bairro bairro;
 
@@ -56,10 +57,12 @@ public class Endereco implements Serializable {
 	private Timestamp dataCadastro;
 
 	@Column(name = "Tipo", columnDefinition = "enum('COMERCIAL','COBRANÇA','ENTREGA','OUTROS')")
-	private Enum<TipoEndereco> tipoEndereco;
+	@Enumerated(EnumType.STRING)
+	private TipoEndereco tipoEndereco;
 
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	private Enum<Situacao> situacao;
+	@Enumerated(EnumType.STRING)
+	private Situacao situacao;
 
 	@Convert(converter = BooleanPropertyConverter.class)
 	@Column(name = "Padrao", columnDefinition = "tinyint(1)")
@@ -138,16 +141,15 @@ public class Endereco implements Serializable {
 		return situacao;
 	}
 
-	public void setSituacao(Enum<Situacao> situacao) {
+	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public Enum<TipoEndereco> getTipoEndereco() {
+	public TipoEndereco getTipoEndereco() {
 		return tipoEndereco;
 	}
 
-	public void setTipoEndereco(Enum<TipoEndereco> tipoEndereco) {
+	public void setTipoEndereco(TipoEndereco tipoEndereco) {
 		this.tipoEndereco = tipoEndereco;
 	}
 
@@ -176,7 +178,7 @@ public class Endereco implements Serializable {
 	}
 
 	public Endereco(Bairro bairro, String endereco, String numero, String cep, String complemento, String observacao,
-			Timestamp dataCadastro, Enum<TipoEndereco> tipoEndereco, Enum<Situacao> situacao, Boolean padrao) {
+			Timestamp dataCadastro, TipoEndereco tipoEndereco, Situacao situacao, Boolean padrao) {
 		this.id = Long.valueOf(0);
 		this.bairro = bairro;
 		this.endereco = endereco;
@@ -191,8 +193,7 @@ public class Endereco implements Serializable {
 	}
 
 	public Endereco(Long id, Bairro bairro, String endereco, String numero, String cep, String complemento,
-			String observacao, Timestamp dataCadastro, Enum<TipoEndereco> tipoEndereco, Enum<Situacao> situacao,
-			Boolean padrao) {
+			String observacao, Timestamp dataCadastro, TipoEndereco tipoEndereco, Situacao situacao, Boolean padrao) {
 		this.id = id;
 		this.bairro = bairro;
 		this.endereco = endereco;

@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -49,21 +52,32 @@ public class Empresa implements Serializable {
 	private Timestamp dataCadastro;
 
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	private Enum<Situacao> situacao;
+	@Enumerated(EnumType.STRING)
+	private Situacao situacao;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "empresas_enderecos", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "UK_EMPRESAS_ENDERECOS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_ENDERECOS_IDENDERECO"), uniqueConstraints = {
-			@UniqueConstraint(name = "empresa_endereco", columnNames = { "idEmpresa", "idEndereco" }) })
+	@OneToOne(targetEntity = Cidade.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "cidade_id", foreignKey = @ForeignKey(name = "FK_EMPRESA_CIDADE"))
+	private Cidade cidade;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "empresas_enderecos", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_ENDERECOS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "endereco_id"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_ENDERECOS_IDENDERECO"), uniqueConstraints = {
+			@UniqueConstraint(name = "empresas_enderecos", columnNames = { "empresa_id", "endereco_id" }) })
+	@ElementCollection(targetClass = Endereco.class)
+	@CollectionTable(name = "empresas_enderecos", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_ENDERECOS_IDEMPRESA"))
 	private Set<Endereco> enderecos;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "empresas_contatos", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDCONTATO"), uniqueConstraints = {
-			@UniqueConstraint(name = "empresa_contato", columnNames = { "idEmpresa", "idContato" }) })
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "empresas_contatos", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_CONTATOS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "contato_id"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDCONTATO"), uniqueConstraints = {
+			@UniqueConstraint(name = "empresa_contato", columnNames = { "empresa_id", "contato_id" }) })
+	@ElementCollection(targetClass = Contato.class)
+	@CollectionTable(name = "empresas_contatos", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_CONTATOS_IDEMPRESA"))
 	private Set<Contato> contatos;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "empresas_imagens", joinColumns = @JoinColumn(name = "idEmpresa"), foreignKey = @ForeignKey(name = "UK_EMPRESAS_IMAGENS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDIMAGEM"), uniqueConstraints = {
-			@UniqueConstraint(name = "empresa_imagem", columnNames = { "idEmpresa", "idImagem" }) })
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "empresas_imagens", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_IMAGENS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "imagem_id"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDIMAGEM"), uniqueConstraints = {
+			@UniqueConstraint(name = "empresa_imagem", columnNames = { "empresa_id", "imagem_id" }) })
+	@ElementCollection(targetClass = Imagem.class)
+	@CollectionTable(name = "empresas_imagens", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_IMAGENS_IDEMPRESA"))
 	private Set<Imagem> imagens;
 
 	public Long getId() {
@@ -106,13 +120,20 @@ public class Empresa implements Serializable {
 		this.dataCadastro = dataCadastro;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public Enum<Situacao> getSituacao() {
+	public Situacao getSituacao() {
 		return situacao;
 	}
 
-	public void setSituacao(Enum<Situacao> situacao) {
+	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
+	}
+
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
 	}
 
 	public Set<Endereco> getEnderecos() {
@@ -123,6 +144,10 @@ public class Empresa implements Serializable {
 		this.enderecos = enderecos;
 	}
 
+	public void addEnderecos(Endereco enderecos) {
+		this.enderecos.add(enderecos);
+	}
+
 	public Set<Contato> getContatos() {
 		return contatos;
 	}
@@ -131,12 +156,20 @@ public class Empresa implements Serializable {
 		this.contatos = contatos;
 	}
 
+	public void addContatos(Contato contatos) {
+		this.contatos.add(contatos);
+	}
+
 	public Set<Imagem> getImagens() {
 		return imagens;
 	}
 
 	public void setImagens(Set<Imagem> imagens) {
 		this.imagens = imagens;
+	}
+
+	public void addImagens(Imagem imagens) {
+		this.imagens.add(imagens);
 	}
 
 	public Empresa() {
@@ -151,7 +184,7 @@ public class Empresa implements Serializable {
 	}
 
 	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
-			Enum<Situacao> situacao) {
+			Situacao situacao) {
 		this.id = id;
 		this.nomeFantasia = nomeFantasia;
 		this.razaoSocial = razaoSocial;
@@ -161,6 +194,34 @@ public class Empresa implements Serializable {
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
+	}
+
+	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
+			Situacao situacao, Cidade cidade) {
+		this.id = id;
+		this.nomeFantasia = nomeFantasia;
+		this.razaoSocial = razaoSocial;
+		this.cnpj = cnpj;
+		this.dataCadastro = dataCadastro;
+		this.situacao = situacao;
+		this.cidade = cidade;
+		this.enderecos = new HashSet<>();
+		this.contatos = new HashSet<>();
+		this.imagens = new HashSet<>();
+	}
+
+	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
+			Situacao situacao, Cidade cidade, Set<Endereco> enderecos, Set<Contato> contatos, Set<Imagem> imagens) {
+		this.id = id;
+		this.nomeFantasia = nomeFantasia;
+		this.razaoSocial = razaoSocial;
+		this.cnpj = cnpj;
+		this.dataCadastro = dataCadastro;
+		this.situacao = situacao;
+		this.cidade = cidade;
+		this.enderecos = enderecos;
+		this.contatos = contatos;
+		this.imagens = imagens;
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class Bairro implements Serializable {
 	private Long id;
 
 	@OneToOne(targetEntity = Cidade.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdCidade", nullable = false, foreignKey = @ForeignKey(name = "FK_BAIRRO_CIDADE"))
+	@JoinColumn(name = "cidade_id", nullable = false, foreignKey = @ForeignKey(name = "FK_BAIRRO_CIDADE"))
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Cidade cidade;
 
@@ -61,13 +61,14 @@ public class Bairro implements Serializable {
 	}
 
 	public Bairro() {
-
+		this.id = Long.valueOf(0);
+		this.nome = "";
 	}
 
 	public Bairro(Long id, String nome, Cidade cidade) {
 		this.id = id;
-		this.cidade = cidade;
 		this.nome = nome;
+		this.cidade = cidade;
 	}
 
 	// Utilizado para que possamos comparar os objetos por conteúdo e não

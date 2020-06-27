@@ -6,12 +6,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
@@ -23,8 +25,8 @@ import comum.model.enums.TipoCliente;
 import comum.model.enums.TipoPessoa;
 
 @Entity
-@Table(name = "clientes")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "clientes", uniqueConstraints = { @UniqueConstraint(columnNames = { "CPF" }, name = "UK_CLIENTE_CPF"),
+		@UniqueConstraint(columnNames = { "CNPJ" }, name = "UK_CLIENTE_CNPJ") })
 public class Cliente extends Pessoa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -41,22 +43,26 @@ public class Cliente extends Pessoa implements Serializable {
 	private String observacao;
 
 	@Column(name = "Tipo", columnDefinition = "enum('FISICO','JURIDICO','AMBOS')")
-	private Enum<TipoPessoa> tipoPessoa;
+	@Enumerated(EnumType.STRING)
+	private TipoPessoa tipoPessoa;
 
 	@Column(name = "Enquadramento", columnDefinition = "enum('CLIENTE','FORNECEDOR','AMBOS')")
-	private Enum<TipoCliente> tipoCliente;
+	@Enumerated(EnumType.STRING)
+	private TipoCliente tipoCliente;
 
-	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	private Enum<Situacao> situacao;
-
-	/*@ElementCollection(targetClass = Contato.class)
-	@CollectionTable(name = "clientes_contatos", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCLIENTE"))*/
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "clientes_contatos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "contato_id"), inverseForeignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCONTATO"), uniqueConstraints = {
+			@UniqueConstraint(name = "cliente_contato", columnNames = { "cliente_id", "contato_id" }) })
+	@ElementCollection(targetClass = Contato.class)
+	@CollectionTable(name = "clientes_contatos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCLIENTE"))
 	private Set<Contato> contatos = new HashSet<Contato>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "idCliente"), foreignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "idEndereco"), inverseForeignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDENDERECO"), uniqueConstraints = {
-			@UniqueConstraint(name = "cliente_endereco", columnNames = { "idCliente", "idEndereco" }) })
-	private Set<Endereco> enderecos;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "endereco_id"), inverseForeignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDENDERECO"), uniqueConstraints = {
+			@UniqueConstraint(name = "cliente_endereco", columnNames = { "cliente_id", "endereco_id" }) })
+	@ElementCollection(targetClass = Endereco.class)
+	@CollectionTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDCLIENTE"))
+	private Set<Endereco> enderecos = new HashSet<Endereco>();
 
 	public String getCpf() {
 		return cpf;
@@ -82,28 +88,20 @@ public class Cliente extends Pessoa implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public Enum<TipoPessoa> getTipoPessoa() {
+	public TipoPessoa getTipoPessoa() {
 		return tipoPessoa;
 	}
 
-	public void setTipoPessoa(Enum<TipoPessoa> tipoPessoa) {
+	public void setTipoPessoa(TipoPessoa tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
 	}
 
-	public Enum<TipoCliente> getTipoCliente() {
+	public TipoCliente getTipoCliente() {
 		return tipoCliente;
 	}
 
-	public void setTipoCliente(Enum<TipoCliente> tipoCliente) {
+	public void setTipoCliente(TipoCliente tipoCliente) {
 		this.tipoCliente = tipoCliente;
-	}
-
-	public Enum<Situacao> getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Enum<Situacao> situacao) {
-		this.situacao = situacao;
 	}
 
 	public Set<Endereco> getEnderecos() {
@@ -114,12 +112,20 @@ public class Cliente extends Pessoa implements Serializable {
 		this.enderecos = enderecos;
 	}
 
+	public void addEnderecos(Endereco enderecos) {
+		this.enderecos.add(enderecos);
+	}
+
 	public Set<Contato> getContatos() {
 		return contatos;
 	}
 
 	public void setContatos(Set<Contato> contatos) {
 		this.contatos = contatos;
+	}
+
+	public void addContatos(Contato contatos) {
+		this.contatos.add(contatos);
 	}
 
 	public static long getSerialversionuid() {
@@ -133,31 +139,40 @@ public class Cliente extends Pessoa implements Serializable {
 		this.observacao = "";
 		this.tipoPessoa = TipoPessoa.FISICO;
 		this.tipoCliente = TipoCliente.CLIENTE;
-		this.situacao = Situacao.ATIVO;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 
 	}
 
 	public Cliente(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String cpf,
-			String cnpj, String observacao, Enum<TipoPessoa> tipoPessoa, Enum<TipoCliente> tipoCliente,
-			Enum<Situacao> situacao) {
-		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao);
+			String cnpj, String observacao, TipoPessoa tipoPessoa, TipoCliente tipoCliente, Situacao situacao) {
+		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.cpf = cpf;
 		this.cnpj = cnpj;
 		this.observacao = observacao;
 		this.tipoPessoa = tipoPessoa;
 		this.tipoCliente = tipoCliente;
-		this.situacao = situacao;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
+	}
+
+	public Cliente(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String cpf,
+			String cnpj, String observacao, TipoPessoa tipoPessoa, TipoCliente tipoCliente, Situacao situacao,
+			Set<Contato> contatos, Set<Endereco> enderecos) {
+		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
+		this.cpf = cpf;
+		this.cnpj = cnpj;
+		this.observacao = observacao;
+		this.tipoPessoa = tipoPessoa;
+		this.tipoCliente = tipoCliente;
+		this.contatos = contatos;
+		this.enderecos = enderecos;
 	}
 
 	@Override
 	public String toString() {
 		return "Cliente [cpf=" + cpf + ", cnpj=" + cnpj + ", observacao=" + observacao + ", tipoPessoa=" + tipoPessoa
-				+ ", tipoCliente=" + tipoCliente + ", situacao=" + situacao + ", contatos=" + contatos + ", enderecos="
-				+ enderecos + "]";
+				+ ", tipoCliente=" + tipoCliente + ", contatos=" + contatos + ", enderecos=" + enderecos + "]";
 	}
 
 }

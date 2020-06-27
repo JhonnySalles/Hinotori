@@ -38,7 +38,7 @@ public class Estado implements Serializable {
 	private Integer codigoIBGE;
 
 	@OneToOne(targetEntity = Pais.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdPais", nullable = false, foreignKey = @ForeignKey(name = "FK_ESTADO_PAIS"))
+	@JoinColumn(name = "pais_id", nullable = false, foreignKey = @ForeignKey(name = "FK_ESTADO_PAIS"))
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Pais pais;
 
@@ -83,7 +83,10 @@ public class Estado implements Serializable {
 	}
 
 	public Estado() {
-
+		this.id = Long.valueOf(0);
+		this.nome = "";
+		this.sigla = "";
+		this.codigoIBGE = 0;
 	}
 
 	public Estado(Long id, String nome, String sigla, Integer codigoIBGE, Pais pais) {

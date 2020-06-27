@@ -2,14 +2,22 @@ package servidor.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
+import comum.model.enums.Situacao;
+
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Pessoa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -29,6 +37,10 @@ public class Pessoa implements Serializable {
 
 	@Column(name = "DataUltimaAlteracao", columnDefinition = "datetime")
 	private Timestamp dataUltimaAlteracao;
+
+	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
+	@Enumerated(EnumType.STRING)
+	private Situacao situacao;
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -66,16 +78,29 @@ public class Pessoa implements Serializable {
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
 	}
 
+	public Situacao getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
+	}
+
 	public Pessoa() {
 		this.id = Long.valueOf(0);
 		this.nomeSobrenome = "";
+		this.dataCadastro = Timestamp.from(Instant.now());
+		this.dataUltimaAlteracao = Timestamp.from(Instant.now());
+		this.situacao = Situacao.ATIVO;
 	}
 
-	public Pessoa(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao) {
+	public Pessoa(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao,
+			Situacao situacao) {
 		this.id = id;
 		this.nomeSobrenome = nomeSobrenome;
 		this.dataCadastro = dataCadastro;
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
+		this.situacao = situacao;
 	}
 
 	@Override

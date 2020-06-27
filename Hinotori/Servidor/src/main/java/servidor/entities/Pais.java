@@ -41,7 +41,8 @@ public class Pais implements Serializable {
 	}
 
 	public Pais() {
-
+		this.id = Long.valueOf(0);
+		this.nome = "";
 	}
 
 	public Pais(Long id, String nome) {

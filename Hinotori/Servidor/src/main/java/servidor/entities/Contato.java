@@ -47,10 +47,12 @@ public class Contato implements Serializable {
 	private String observacao;
 
 	@Column(name = "Tipo", columnDefinition = "enum('RESIDENCIAL','COMERCIAL')")
-	private Enum<TipoContato> tipoContato;
+	@Enumerated(EnumType.STRING)
+	private TipoContato tipoContato;
 
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	private Enum<Situacao> situacao;
+	@Enumerated(EnumType.STRING)
+	private Situacao situacao;
 
 	@Column(name = "DataCadastro")
 	private Timestamp dataCadastro;
@@ -119,21 +121,19 @@ public class Contato implements Serializable {
 		this.dataCadastro = dataCadastro;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public Enum<TipoContato> getTipoContato() {
+	public TipoContato getTipoContato() {
 		return tipoContato;
 	}
 
-	public void setTipoContato(Enum<TipoContato> tipo) {
+	public void setTipoContato(TipoContato tipo) {
 		this.tipoContato = tipo;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public Enum<Situacao> getSituacao() {
+	public Situacao getSituacao() {
 		return situacao;
 	}
 
-	public void setSituacao(Enum<Situacao> situacao) {
+	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
 	}
 
@@ -166,7 +166,7 @@ public class Contato implements Serializable {
 	}
 
 	public Contato(Long id, String nome, String telefone, String celular, String email, String observacao,
-			Timestamp dataCadastro, Enum<TipoContato> tipoContato, Enum<Situacao> situacao, Boolean padrao) {
+			Timestamp dataCadastro, TipoContato tipoContato, Situacao situacao, Boolean padrao) {
 		this.id = id;
 		this.nome = nome;
 		this.telefone = telefone;

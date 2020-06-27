@@ -3,11 +3,16 @@ package servidor.entities;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -65,19 +70,23 @@ public class Produto implements Serializable {
 	@Column(name = "DataUltimaAlteracao", columnDefinition = "datetime")
 	private Timestamp dataUltimaAlteracao;
 
-	@Column(name = "Tipo", columnDefinition = "enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL')")
-	private Enum<TipoProduto> tipoProduto;
+	@Column(name = "Tipo", columnDefinition = "enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL')", length = 20)
+	@Enumerated(EnumType.STRING)
+	private TipoProduto tipoProduto;
 
-	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	private Enum<Situacao> situacao;
+	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')", length = 10)
+	@Enumerated(EnumType.STRING)
+	private Situacao situacao;
 
 	@OneToOne(targetEntity = Ncm.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "ncm", nullable = true, foreignKey = @ForeignKey(name = "FK_PRODUTO_NCM"))
 	private Ncm ncm;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "produtos_imagens", joinColumns = @JoinColumn(name = "idProduto"), foreignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDPRODUTO"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
-			@UniqueConstraint(name = "produto_imagem", columnNames = { "idProduto", "idImagem" }) })
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "produtos_imagens", joinColumns = @JoinColumn(name = "produto_id"), foreignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDPRODUTO"), inverseJoinColumns = @JoinColumn(name = "imagem_id"), inverseForeignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
+			@UniqueConstraint(name = "produto_imagem", columnNames = { "produto_id", "imagem_id" }) })
+	@ElementCollection(targetClass = Endereco.class)
+	@CollectionTable(name = "produtos_imagens", joinColumns = @JoinColumn(name = "produto_id"), foreignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDPRODUTO"))
 	private Set<Imagem> imagens;
 
 	public static long getSerialversionuid() {
@@ -156,11 +165,11 @@ public class Produto implements Serializable {
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
 	}
 
-	public Enum<TipoProduto> getTipoProduto() {
+	public TipoProduto getTipoProduto() {
 		return tipoProduto;
 	}
 
-	public void setTipoProduto(Enum<TipoProduto> tipoProduto) {
+	public void setTipoProduto(TipoProduto tipoProduto) {
 		this.tipoProduto = tipoProduto;
 	}
 
@@ -180,19 +189,19 @@ public class Produto implements Serializable {
 		this.volume = volume;
 	}
 
-	public Enum<Situacao> getSituacao() {
+	public Situacao getSituacao() {
 		return situacao;
 	}
 
-	public void setSituacao(Enum<Situacao> situacao) {
+	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
 	}
 
-	public Ncm getIdNcm() {
+	public Ncm getNcm() {
 		return ncm;
 	}
 
-	public void setIdNcm(Ncm ncm) {
+	public void setNcm(Ncm ncm) {
 		this.ncm = ncm;
 	}
 
@@ -202,6 +211,10 @@ public class Produto implements Serializable {
 
 	public void setImagens(Set<Imagem> imagens) {
 		this.imagens = imagens;
+	}
+
+	public void addImagens(Imagem imagens) {
+		this.imagens.add(imagens);
 	}
 
 	public Produto() {
@@ -216,11 +229,12 @@ public class Produto implements Serializable {
 		this.dataUltimaAlteracao = Timestamp.valueOf(LocalDateTime.now());
 		this.tipoProduto = TipoProduto.PRODUTOFINAL;
 		this.situacao = Situacao.ATIVO;
+		this.imagens = new HashSet<>();
 	}
 
 	public Produto(String descricao, String observacao, String codigoBarras, String unidade, String marca, Double peso,
-			Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, Enum<TipoProduto> tipoProduto,
-			Enum<Situacao> situacao) {
+			Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, TipoProduto tipoProduto,
+			Situacao situacao) {
 		this.id = Long.valueOf(0);
 		this.descricao = descricao;
 		this.observacao = observacao;
@@ -233,11 +247,12 @@ public class Produto implements Serializable {
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
 		this.tipoProduto = tipoProduto;
 		this.situacao = situacao;
+		this.imagens = new HashSet<>();
 	}
 
-	public Produto(Long id, Long idGrupo, String descricao, String observacao, String codigoBarras,
-			String unidade, String marca, Double peso, Double volume, Timestamp dataCadastro,
-			Timestamp dataUltimaAlteracao, Enum<TipoProduto> tipoProduto, Enum<Situacao> situacao) {
+	public Produto(Long id, Long idGrupo, String descricao, String observacao, String codigoBarras, String unidade,
+			String marca, Double peso, Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao,
+			TipoProduto tipoProduto, Situacao situacao) {
 		this.id = id;
 		this.idGrupo = idGrupo;
 		this.descricao = descricao;
@@ -251,6 +266,27 @@ public class Produto implements Serializable {
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
 		this.tipoProduto = tipoProduto;
 		this.situacao = situacao;
+		this.imagens = new HashSet<>();
+	}
+
+	public Produto(Long id, Long idGrupo, String descricao, String observacao, String codigoBarras, String unidade,
+			String marca, Double peso, Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao,
+			TipoProduto tipoProduto, Situacao situacao, Ncm ncm, Set<Imagem> imagens) {
+		this.id = id;
+		this.idGrupo = idGrupo;
+		this.descricao = descricao;
+		this.observacao = observacao;
+		this.codigoBarras = codigoBarras;
+		this.unidade = unidade;
+		this.marca = marca;
+		this.peso = peso;
+		this.volume = volume;
+		this.dataCadastro = dataCadastro;
+		this.dataUltimaAlteracao = dataUltimaAlteracao;
+		this.tipoProduto = tipoProduto;
+		this.situacao = situacao;
+		this.ncm = ncm;
+		this.imagens = imagens;
 	}
 
 	@Override

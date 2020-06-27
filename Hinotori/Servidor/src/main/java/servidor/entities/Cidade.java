@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -31,7 +33,7 @@ public class Cidade implements Serializable {
 	private Long id;
 
 	@OneToOne(targetEntity = Estado.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdEstado", nullable = false, foreignKey = @ForeignKey(name = "FK_CIDADE_ESTADO"))
+	@JoinColumn(name = "estado_id", nullable = false, foreignKey = @ForeignKey(name = "FK_CIDADE_ESTADO"))
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Estado estado;
 
@@ -42,7 +44,8 @@ public class Cidade implements Serializable {
 	private String ddd;
 
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUÍDO')")
-	private Enum<Situacao> situacao;
+	@Enumerated(EnumType.STRING)
+	private Situacao situacao;
 
 	public Long getId() {
 		return id;
@@ -76,19 +79,22 @@ public class Cidade implements Serializable {
 		this.ddd = ddd;
 	}
 
-	public Enum<Situacao> getSituacao() {
+	public Situacao getSituacao() {
 		return situacao;
 	}
 
-	public void setSituacao(Enum<Situacao> situacao) {
+	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
 	}
 
 	public Cidade() {
-
+		this.id = Long.valueOf(0);
+		this.nome = "";
+		this.ddd = "";
+		this.situacao = Situacao.ATIVO;
 	}
 
-	public Cidade(Long id, String nome, String ddd, Enum<Situacao> situacao, Estado estado) {
+	public Cidade(Long id, String nome, String ddd, Situacao situacao, Estado estado) {
 		this.id = id;
 		this.estado = estado;
 		this.nome = nome;

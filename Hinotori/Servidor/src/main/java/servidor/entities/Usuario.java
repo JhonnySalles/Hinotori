@@ -6,14 +6,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
@@ -25,7 +25,6 @@ import comum.model.enums.UsuarioNivel;
 
 @Entity
 @Table(name = "usuarios")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Usuario extends Pessoa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -41,21 +40,23 @@ public class Usuario extends Pessoa implements Serializable {
 	@Column(name = "Observacao", columnDefinition = "longtext")
 	private String observacao;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_imagens", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "idImagem"), inverseForeignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
-			@UniqueConstraint(name = "usuario_imagem", columnNames = { "idUsuario", "idImagem" }) })
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "usuarios_imagens", joinColumns = @JoinColumn(name = "usuario_id"), foreignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "imagem_id"), inverseForeignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
+			@UniqueConstraint(name = "usuario_imagem", columnNames = { "usuario_id", "imagem_id" }) })
+	@ElementCollection(targetClass = Imagem.class)
+	@CollectionTable(name = "usuarios_imagens", joinColumns = @JoinColumn(name = "imagem_id"), foreignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDUSUARIO"))
 	private Set<Imagem> imagens;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_contatos", joinColumns = @JoinColumn(name = "idUsuario"), foreignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "idContato"), inverseForeignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDCONTATO"), uniqueConstraints = {
-			@UniqueConstraint(name = "usuario_contato", columnNames = { "idUsuario", "idContato" }) })
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "usuarios_contatos", joinColumns = @JoinColumn(name = "usuario_id"), foreignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "contato_id"), inverseForeignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDCONTATO"), uniqueConstraints = {
+			@UniqueConstraint(name = "usuario_contato", columnNames = { "usuario_id", "contato_id" }) })
+	@ElementCollection(targetClass = Contato.class)
+	@CollectionTable(name = "usuarios_contatos", joinColumns = @JoinColumn(name = "usuario_id"), foreignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDUSUARIO"))
 	private Set<Contato> contatos;
 
 	@Column(name = "Nivel", columnDefinition = "enum('USUARIO','ADMINISTRADOR','TOTAL')")
-	private Enum<UsuarioNivel> nivel;
-
-	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	private Enum<Situacao> situacao;
+	@Enumerated(EnumType.STRING)
+	private UsuarioNivel nivel;
 
 	public String getLogin() {
 		return login;
@@ -71,15 +72,6 @@ public class Usuario extends Pessoa implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-
-	@Enumerated(EnumType.STRING)
-	public Enum<Situacao> getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Enum<Situacao> situacao) {
-		this.situacao = situacao;
 	}
 
 	public String getObservacao() {
@@ -98,12 +90,11 @@ public class Usuario extends Pessoa implements Serializable {
 		this.imagens = imagens;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public Enum<UsuarioNivel> getNivel() {
+	public UsuarioNivel getNivel() {
 		return nivel;
 	}
 
-	public void setNivel(Enum<UsuarioNivel> nivel) {
+	public void setNivel(UsuarioNivel nivel) {
 		this.nivel = nivel;
 	}
 
@@ -115,35 +106,51 @@ public class Usuario extends Pessoa implements Serializable {
 		this.contatos = contatos;
 	}
 
+	public void addContatos(Contato contatos) {
+		this.contatos.add(contatos);
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	public Usuario() {
 		super();
-		this.contatos = new HashSet<>();
-	}
-
-	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
-			String observacao, Enum<UsuarioNivel> nivel, Enum<Situacao> situacao) {
-		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao);
-		this.login = login;
-		this.nivel = nivel;
-		this.observacao = observacao;
-		this.situacao = situacao;
+		this.login = "";
+		this.nivel = UsuarioNivel.USUARIO;
+		this.observacao = "";
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
 
 	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
-			String observacao, Enum<UsuarioNivel> nivel, Enum<Situacao> situacao, Set<Imagem> imagens) {
-		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao);
+			String observacao, UsuarioNivel nivel, Situacao situacao) {
+		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.login = login;
-		this.situacao = situacao;
+		this.nivel = nivel;
+		this.observacao = observacao;
+		this.contatos = new HashSet<>();
+		this.imagens = new HashSet<>();
+	}
+
+	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
+			String observacao, UsuarioNivel nivel, Situacao situacao, Set<Imagem> imagens) {
+		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
+		this.login = login;
 		this.observacao = observacao;
 		this.imagens = imagens;
 		this.nivel = nivel;
 		this.contatos = new HashSet<>();
+	}
+
+	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
+			String observacao, UsuarioNivel nivel, Situacao situacao, Set<Contato> contatos, Set<Imagem> imagens) {
+		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
+		this.login = login;
+		this.observacao = observacao;
+		this.imagens = imagens;
+		this.nivel = nivel;
+		this.contatos = contatos;
 	}
 
 	@Override
@@ -174,7 +181,7 @@ public class Usuario extends Pessoa implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [login=" + login + ", senha=" + senha + ", observacao=" + observacao + ", imagens=" + imagens
-				+ ", contatos=" + contatos + ", nivel=" + nivel + ", situacao=" + situacao + "]";
+				+ ", contatos=" + contatos + ", nivel=" + nivel + "]";
 	}
 
 }

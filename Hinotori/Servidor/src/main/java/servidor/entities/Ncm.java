@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ncm")
 public class Ncm implements Serializable {
-	
+
 	private static final long serialVersionUID = 1778071323939610003L;
 
 	@Id
@@ -23,7 +23,7 @@ public class Ncm implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	public String getNcm() {
 		return ncm;
 	}
@@ -34,6 +34,20 @@ public class Ncm implements Serializable {
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Ncm() {
+		this.ncm = "";
+		this.descricao = "";
+	}
+
+	public Ncm(String ncm, String descricao) {
+		this.ncm = ncm;
+		this.descricao = descricao;
 	}
 
 	@Override
@@ -65,5 +79,5 @@ public class Ncm implements Serializable {
 	public String toString() {
 		return "Ncm [ncm=" + ncm + ", descricao=" + descricao + "]";
 	}
-	
+
 }

@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 import comum.model.enums.TamanhoImagem;
 
 @Entity
-@Table(name = "Imagem", schema = "baseteste")
+@Table(name = "Imagem")
 public class Imagem implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
