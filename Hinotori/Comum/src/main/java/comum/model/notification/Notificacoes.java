@@ -1,6 +1,8 @@
 package comum.model.notification;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.controlsfx.control.Notifications;
 
@@ -23,6 +25,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 public class Notificacoes {
+
+	private final static Logger LOGGER = Logger.getLogger(Notificacoes.class.getName());
 
 	public final static ImageView IMG_ALERTA = new ImageView(
 			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAlerta_48.png")));
@@ -50,7 +54,6 @@ public class Notificacoes {
 		Notificacoes.ROOT_ANCHOR_PANE = rootAnchorkPane;
 	}
 
-	
 	private static void setTipo(AlertType tipo, NotificacaoController controller, AnchorPane root) {
 		root.getStyleClass().clear();
 		switch (tipo) {
@@ -132,8 +135,8 @@ public class Notificacoes {
 	 * inicialização.
 	 * </p>
 	 * 
-	 * @param tipo   Tipo da notificação solicitada, podendo ser ALERTA (Alert), AVISO (Warning),
-	 *               ERRO (Error), SUCESSO (None).
+	 * @param tipo   Tipo da notificação solicitada, podendo ser ALERTA (Alert),
+	 *               AVISO (Warning), ERRO (Error), SUCESSO (None).
 	 * @param titulo Titulo da notificação.
 	 * @param texto  Texto da notificação.
 	 * 
@@ -142,6 +145,9 @@ public class Notificacoes {
 	public static void notificacao(AlertType tipo, String titulo, String texto) {
 		if ((NOTIFICACAO == null) || (CONTROLLER == null))
 			create();
+
+		if (tipo == AlertType.INFORMATION)
+			LOGGER.log(Level.INFO, "{Mensagem de aviso ou alerta: " + texto + "}");
 
 		TM_LINE_CLOSE.stop();
 		if (!APARECENDO) {

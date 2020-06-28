@@ -18,6 +18,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * <p>
+ * Classe responssável por apresentar alertas em janela, podendo ser um alerta
+ * com borda (tala do windows) ou sem borda.
+ * </p>
+ * 
+ * @author Jhonny de Salles Noschang
+ */
 public class Alertas {
 
 	private final static Logger LOGGER = Logger.getLogger(Alertas.class.getName());
@@ -119,7 +127,7 @@ public class Alertas {
 
 	private static boolean PreparaTela(String titulo, String texto) {
 
-		if (TIPO == AlertType.WARNING || TIPO == AlertType.INFORMATION)
+		if (TIPO == AlertType.INFORMATION)
 			LOGGER.log(Level.INFO, "{Mensagem de aviso ou alerta: " + texto + "}");
 
 		resposta = true;

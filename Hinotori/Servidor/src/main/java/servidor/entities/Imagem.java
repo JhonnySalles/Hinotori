@@ -3,19 +3,20 @@ package servidor.entities;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import comum.model.enums.TamanhoImagem;
 
-@Entity
-@Table(name = "Imagem")
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Imagem implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes

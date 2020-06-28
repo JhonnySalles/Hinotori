@@ -15,6 +15,7 @@ public class Controlador {
 	private static Persistence persistence;
 	private static Properties configbd = getConfigBD();
 
+	/* Substitui a configuração do arquivo de persistencia pelo arquivo de config */
 	private static Properties getConfigBD() {
 		Configuracao dados_conexao = ProcessaConfig.getDadosConexao();
 
@@ -52,7 +53,6 @@ public class Controlador {
 	}
 
 	public Controlador() {
-
 		if (configbd != null)
 			emf = Persistence.createEntityManagerFactory("PersistenciaServidor", configbd);
 		else

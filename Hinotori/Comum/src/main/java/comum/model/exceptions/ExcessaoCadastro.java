@@ -2,16 +2,16 @@ package comum.model.exceptions;
 
 /**
  * <p>
- * Classe responssável por gerar excessões personalizadas aos eventos do banco.
+ * Classe responssável por gerar excessões personalizadas aos cadastros.
  * </p>
  * 
  * @author Jhonny de Salles Noschang
  */
-public class ExcessaoBd extends Exception {
+public class ExcessaoCadastro extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public ExcessaoBd(String mensagem) {
+	public ExcessaoCadastro(String mensagem) {
 		super(mensagem);
 	}
 }

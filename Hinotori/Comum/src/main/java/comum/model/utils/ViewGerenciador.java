@@ -11,6 +11,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 
+/**
+ * <p>
+ * Classe responssável por executar as funções de carregamento das telas,
+ * retornará a tela quando já previamente carregada ou então irá executar como
+ * tarefas o carregamento da tela solicitada. Também irá ser responsável por
+ * manter uma cópia em memória das telas previamente carregada ou que foram
+ * carregada por ele para melhor desempenho do sistema como um todo.
+ * </p>
+ * 
+ * @author Jhonny de Salles Noschang
+ */
 public class ViewGerenciador {
 
 	private static ViewGerenciador instancia;

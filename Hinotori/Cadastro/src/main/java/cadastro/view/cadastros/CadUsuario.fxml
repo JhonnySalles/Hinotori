@@ -26,7 +26,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="200.0" styleClass="tituloBackground-usuario" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="Cadastro de Cliente" textFill="WHITE" HBox.hgrow="ALWAYS">
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Cadastro de Usuário" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -52,20 +52,24 @@
                                        <children>
                                           <HBox alignment="CENTER" minHeight="35.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <JFXTextField fx:id="txtId" labelFloat="true" minHeight="30.0" onKeyPressed="#onTxtIdEnter" onMouseClicked="#onTxtIdClick" prefWidth="100.0" promptText="Id">
+                                                <JFXTextField fx:id="txtId" editable="false" labelFloat="true" minHeight="30.0" onMouseClicked="#onTxtIdClick" prefWidth="80.0" promptText="Id">
                                                    <font>
                                                       <Font name="Times New Roman" size="12.0" />
                                                    </font>
                                                 </JFXTextField>
                                                 <HBox alignment="CENTER_RIGHT" spacing="5.0" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <JFXComboBox fx:id="cbNivel" minHeight="30.0" minWidth="70.0" promptText="Nível" />
-                                                      <JFXComboBox fx:id="cbSituacao" minHeight="30.0" minWidth="80.0" promptText="Situação" />
+                                                      <JFXComboBox fx:id="cbNivel" minHeight="30.0" minWidth="100.0" promptText="Nível" />
+                                                      <JFXComboBox fx:id="cbSituacao" minHeight="30.0" minWidth="100.0" promptText="Situação" />
                                                    </children>
                                                 </HBox>
                                              </children>
                                           </HBox>
-                                          <fx:include fx:id="frameTxtNome" source="../frame/PesquisaGenerica.fxml" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+                                          <HBox alignment="CENTER" minHeight="35.0" spacing="5.0">
+                                             <children>
+                                                <JFXTextField fx:id="txtNome" labelFloat="true" promptText="Nome e sobrenome" HBox.hgrow="ALWAYS" />
+                                             </children>
+                                          </HBox>
                                           <HBox alignment="CENTER" minHeight="35.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <JFXTextField fx:id="txtLogin" labelFloat="true" promptText="Login" HBox.hgrow="ALWAYS">

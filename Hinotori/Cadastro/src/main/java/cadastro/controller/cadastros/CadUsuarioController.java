@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -23,14 +20,15 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import cadastro.controller.frame.PesquisaGenericaController;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
+import comum.model.encode.DecodeHash;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
 import comum.model.exceptions.ExcessaoBd;
+import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.beans.value.ChangeListener;
@@ -51,6 +49,7 @@ import javafx.stage.FileChooser;
 import servidor.dao.services.UsuarioServices;
 import servidor.entities.Imagem;
 import servidor.entities.Usuario;
+import servidor.validations.ValidaUsuario;
 
 public class CadUsuarioController implements Initializable {
 
@@ -75,15 +74,8 @@ public class CadUsuarioController implements Initializable {
 	@FXML
 	private JFXTextField txtId;
 
-	// O formato do arquivo incluido é um anchorpane "conforme criei a tela",
-	// o nome aqui será o mesmo que no id do fxml incluido.
 	@FXML
-	private AnchorPane frameTxtNome;
-
-	// Para utilizar o controlador do frame incluido, basta colocar a descrição
-	// "Controller" na frente do id do fxml incluido conforme abaixo.
-	@FXML
-	private PesquisaGenericaController frameTxtNomeController;
+	private JFXTextField txtNome;
 
 	@FXML
 	private JFXTextField txtLogin;
@@ -124,7 +116,6 @@ public class CadUsuarioController implements Initializable {
 	private Set<Imagem> imagens;
 	private Usuario usuario;
 	private UsuarioServices usuarioService;
-	private String id;
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -135,14 +126,20 @@ public class CadUsuarioController implements Initializable {
 
 	@FXML
 	public void onBtnConfirmarClick() {
-		if (validaCampos()) {
-			try {
-				background.cursorProperty().set(Cursor.WAIT);
-				desabilitaBotoes().atualizaEntidade().salvar(usuario);
-			} finally {
-				background.cursorProperty().set(null);
-				habilitaBotoes();
-			}
+		try {
+			background.cursorProperty().set(Cursor.WAIT);
+			if (ValidaUsuario.validaUsuario(usuario))
+				desabilitaBotoes().salvar(usuario);
+
+		} catch (ExcessaoCadastro e) {
+			Notificacoes.notificacao(AlertType.INFORMATION, "Cadastro de usuário inválido", e.getMessage());
+			e.printStackTrace();
+		} catch (ExcessaoBd e) {
+			Notificacoes.notificacao(AlertType.INFORMATION, "Cadastro de usuário inválido", e.getMessage());
+			e.printStackTrace();
+		} finally {
+			background.cursorProperty().set(null);
+			habilitaBotoes();
 		}
 	}
 
@@ -167,13 +164,13 @@ public class CadUsuarioController implements Initializable {
 
 	@FXML
 	public void onBtnExcluirClick() {
-		if ((usuario.getId() == null) || txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+		if ((usuario.getId() == null) || usuario.getId() == 0 || txtId.getText().equalsIgnoreCase("0"))
 			Notificacoes.notificacao(AlertType.INFORMATION, "Aviso",
 					"Não foi possivel realizar a exclusão, nenhum usuário selecionado.");
 		else {
 			try {
 				background.cursorProperty().set(Cursor.WAIT);
-				desabilitaBotoes().atualizaEntidade().excluir(usuario);
+				desabilitaBotoes().excluir(usuario);
 			} finally {
 				background.cursorProperty().set(null);
 				habilitaBotoes();
@@ -191,23 +188,6 @@ public class CadUsuarioController implements Initializable {
 	@FXML
 	public void onBtnPesquisarClick() {
 		// limpaCampos();
-	}
-
-	@FXML
-	public void onTxtIdClick() {
-		txtId.getSelectedText();
-	}
-
-	@FXML
-	public void onTxtIdEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
-				onTxtIdExit();
-			else
-				limpaCampos();
-
-			Utils.clickTab();
-		}
 	}
 
 	@FXML
@@ -273,7 +253,7 @@ public class CadUsuarioController implements Initializable {
 	}
 
 	public void onTxtIdExit() {
-		if (!txtId.getText().isEmpty() && !txtId.getText().equalsIgnoreCase(frameTxtNomeController.getId())) {
+		if (!txtId.getText().isEmpty()) {
 			try {
 				carregaUsuario(usuarioService.pesquisar(Long.valueOf(txtId.getText()), TamanhoImagem.TODOS));
 			} catch (ExcessaoBd e) {
@@ -305,7 +285,8 @@ public class CadUsuarioController implements Initializable {
 
 		try {
 			usuarioService.salvar(usuario);
-			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente salvo com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, "Concluído",
+					"Cliente salvo com sucesso." + "\nId:" + usuario.getId());
 			limpaCampos();
 		} catch (ExcessaoBd e) {
 			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
@@ -347,24 +328,13 @@ public class CadUsuarioController implements Initializable {
 	// Necessário a validação para casos em que ouve problemas com o registro no
 	// banco.
 	private synchronized CadUsuarioController atualizaTela(Usuario usuario) {
-		limpaCampos();
-
 		this.usuario = usuario;
 
 		txtId.setText(usuario.getId().toString());
-
-		if (usuario.getNomeSobrenome() != null && !usuario.getNomeSobrenome().isEmpty())
-			frameTxtNomeController.setDescricao(usuario.getNomeSobrenome());
-
-		if (usuario.getLogin() != null && !usuario.getLogin().isEmpty())
-			txtLogin.setText(usuario.getLogin());
-
-		if (usuario.getSenha() != null && !usuario.getSenha().isEmpty())
-			pswSenha.setText(usuario.getSenha());
-
-		if (usuario.getObservacao() != null && !usuario.getObservacao().isEmpty())
-			txtObservacao.setText(usuario.getObservacao());
-
+		txtNome.setText(usuario.getNomeSobrenome());
+		txtLogin.setText(usuario.getLogin());
+		pswSenha.setText(""); // A senha será necessária sempre informa-la ao editar o cadastro.
+		txtObservacao.setText(usuario.getObservacao());
 		cbSituacao.getSelectionModel().select(usuario.getSituacao().ordinal());
 		cbNivel.getSelectionModel().select(usuario.getNivel().ordinal());
 
@@ -372,9 +342,8 @@ public class CadUsuarioController implements Initializable {
 			imagens = usuario.getImagens();
 			imgUsuario
 					.setImage(new Image(new ByteArrayInputStream(usuario.getImagens().iterator().next().getImagem())));
-		} else {
+		} else
 			setImagemPadrao();
-		}
 
 		// Necessário por um bug na tela ao carregar ela.
 		dashBoard.atualizaTabPane();
@@ -382,37 +351,8 @@ public class CadUsuarioController implements Initializable {
 		return this;
 	}
 
-	private CadUsuarioController atualizaEntidade() {
-		if (usuario == null)
-			usuario = new Usuario();
-
-		if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			usuario.setId(Long.valueOf(0));
-		else
-			usuario.setId(Long.valueOf(txtId.getText()));
-
-		usuario.setNomeSobrenome(frameTxtNomeController.getDescricao());
-		usuario.setDataCadastro(Timestamp.valueOf(LocalDate.now().atTime(LocalTime.MIDNIGHT)));
-		usuario.setLogin(txtLogin.getText());
-		usuario.setSenha(pswSenha.getText());
-		usuario.setObservacao(txtObservacao.getText());
-		usuario.setNivel(cbNivel.getSelectionModel().getSelectedItem());
-		usuario.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-		usuario.setImagens(imagens);
-
-		return this;
-	}
-
 	private synchronized CadUsuarioController limpaCampos() {
-		usuario = new Usuario();
-		frameTxtNomeController.limpaCampos();
-		txtId.setText("0");
-		txtLogin.setText("");
-		pswSenha.setText("");
-		txtObservacao.setText("");
-		cbNivel.getSelectionModel().selectFirst();
-		cbSituacao.getSelectionModel().selectFirst();
-		setImagemPadrao();
+		atualizaTela(new Usuario());
 		return this;
 	}
 
@@ -422,74 +362,115 @@ public class CadUsuarioController implements Initializable {
 		return this;
 	}
 
-	private Boolean validaCampos() {
-		Boolean valida = true;
-
-		if (frameTxtNomeController.txtFraPesquisa.getText().isEmpty()) {
-			frameTxtNomeController.txtFraPesquisa.setUnFocusColor(Color.RED);
-			valida = false;
-		}
-
-		if (txtLogin.getText().isEmpty()) {
-			txtLogin.setUnFocusColor(Color.RED);
-			valida = false;
-		} else {
-			try {
-				if ((txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-						&& usuarioService.validaLogin(txtLogin.getText())) {
-					txtLogin.setUnFocusColor(Color.RED);
-					Notificacoes.notificacao(AlertType.INFORMATION, "Usuário já cadastrado",
-							"Favor informar outro usuário.");
-					valida = false;
-				}
-			} catch (ExcessaoBd e) {
-				e.printStackTrace();
-				valida = false;
-				Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
-			}
-		}
-
-		if (pswSenha.getText().isEmpty()) {
-			pswSenha.setUnFocusColor(Color.RED);
-			valida = false;
-		}
-
-		return valida;
-	}
-
-	private CadUsuarioController setSqlFrame() {
-		frameTxtNomeController.setPesquisa("Id", "Nome", "id, nomeSobrenome AS Nome, Login", "usuarios", "",
-				" AND id <> 0 ", "ORDER BY Login");
-		frameTxtNomeController.txtFraPesquisa.setPromptText("Nome");
-		frameTxtNomeController.setOnDuploClique(carregaDados -> {
-			if (frameTxtNomeController.getId() != null)
-				try {
-					carregaUsuario(usuarioService.pesquisar(Long.valueOf(frameTxtNomeController.getId()),
-							TamanhoImagem.TODOS));
-				} catch (ExcessaoBd e) {
-					Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
-				}
-		});
-		return this;
-	}
-
 	private void setUsuarioServices(UsuarioServices usuarioService) {
 		this.usuarioService = usuarioService;
 	}
 
-	private CadUsuarioController configuraExitId() {
-		txtId.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	private CadUsuarioController configuraExitCampos() {
+
+		txtNome.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
 					Boolean newPropertyValue) {
 
-				if (newPropertyValue)
-					id = txtId.getText();
+				if (oldPropertyValue) {
+					usuario.setNomeSobrenome(txtNome.getText());
 
-				if (oldPropertyValue && !id.equalsIgnoreCase(txtId.getText()))
-					onTxtIdExit();
+					try {
+						ValidaUsuario.validaNome(usuario.getNomeSobrenome());
+					} catch (ExcessaoCadastro e) {
+						txtNome.setUnFocusColor(Color.RED);
+						Notificacoes.notificacao(AlertType.INFORMATION, "Nome inválido", e.getMessage());
+						e.printStackTrace();
+
+					}
+				}
+
 			}
 		});
+
+		txtLogin.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
+					Boolean newPropertyValue) {
+
+				if (oldPropertyValue) {
+					usuario.setLogin(txtLogin.getText().toUpperCase());
+
+					try {
+						ValidaUsuario.validaLogin(usuario);
+					} catch (ExcessaoCadastro e) {
+						txtNome.setUnFocusColor(Color.RED);
+						Notificacoes.notificacao(AlertType.INFORMATION, "Login inválido", e.getMessage());
+						e.printStackTrace();
+					} catch (ExcessaoBd e) {
+						Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível validar o login",
+								e.getMessage());
+						e.printStackTrace();
+					}
+				}
+
+			}
+		});
+
+		pswSenha.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
+					Boolean newPropertyValue) {
+
+				if (oldPropertyValue) {
+					usuario.setSenha(pswSenha.getText());
+
+					try {
+						ValidaUsuario.validaSenha(usuario.getSenha());
+
+						usuario.setSenha(DecodeHash.DecodePassword(usuario.getSenha()));
+					} catch (ExcessaoCadastro e) {
+						txtNome.setUnFocusColor(Color.RED);
+						Notificacoes.notificacao(AlertType.INFORMATION, "Senha inválida", e.getMessage());
+						e.printStackTrace();
+					} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+						Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível codificar a senha");
+						e.printStackTrace();
+					}
+				}
+
+			}
+		});
+
+		txtObservacao.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
+					Boolean newPropertyValue) {
+
+				if (oldPropertyValue)
+					usuario.setObservacao(txtObservacao.getText());
+
+			}
+		});
+
+		cbNivel.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
+					Boolean newPropertyValue) {
+
+				if (oldPropertyValue)
+					usuario.setNivel(cbNivel.getSelectionModel().getSelectedItem());
+
+			}
+		});
+
+		cbSituacao.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
+					Boolean newPropertyValue) {
+
+				if (oldPropertyValue)
+					usuario.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
+
+			}
+		});
+
 		return this;
 	}
 
@@ -498,7 +479,7 @@ public class CadUsuarioController implements Initializable {
 		setUsuarioServices(new UsuarioServices());
 		Limitadores.setTextFieldInteger(txtId);
 
-		Validadores.setTextFieldChangeBlack(frameTxtNomeController.txtFraPesquisa);
+		Validadores.setTextFieldNotEmpty(txtNome);
 		Validadores.setTextFieldNotEmpty(txtLogin);
 		Validadores.setTextFieldNotEmpty(pswSenha);
 
@@ -508,10 +489,9 @@ public class CadUsuarioController implements Initializable {
 		cbSituacao.getSelectionModel().select(Situacao.ATIVO);
 		cbNivel.getSelectionModel().select(UsuarioNivel.USUARIO);
 
-		txtId.setText("0");
-		setSqlFrame().configuraExitId();
+		configuraExitCampos();
 
-		usuario = new Usuario();
+		atualizaTela(new Usuario());
 	}
 
 	public DashboardFormPadrao getDashBoard() {

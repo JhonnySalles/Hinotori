@@ -1,7 +1,5 @@
 package servidor.dao.implementJDBC;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import comum.model.encode.DecodeHash;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
@@ -41,7 +38,11 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	final String SELECT = "SELECT Id, NomeSobrenome, Login, DataCadastro, DataUltimaAlteracao, Observacao, "
 			+ " Nivel, Situacao FROM usuarios WHERE Id = ?";
 
-	final String SELECT_LOGIN = "SELECT * FROM usuarios WHERE Login = ?";
+	final String SELECT_LOGIN = "SELECT * FROM usuarios WHERE Login = ? AND SITUACAO = 'ATIVO' ";
+
+	final String SELECT_LISTA_LOGIN = "SELECT Login FROM usuarios WHERE SITUACAO = 'ATIVO' ";
+
+	final String SELECT_EXISTE_LOGIN = "SELECT * FROM usuarios WHERE Login = ? AND ID <> ?";
 
 	final String INSERT_IMAGEM = "INSERT INTO usuarios_imagens (IdUsuario, IdSequencial, Nome, Extenssao, Imagem, Tamanho) "
 			+ " VALUES (?,(SELECT IFNULL(MAX(img.IdSequencial),0)+1 FROM usuarios_imagens img WHERE img.IdUsuario = ?),?,?,?,?)";
@@ -61,7 +62,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public void insert(Usuario obj) throws ExcessaoBd {
+	public Usuario insert(Usuario obj) throws ExcessaoBd {
 
 		PreparedStatement st = null;
 		try {
@@ -69,7 +70,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 			st.setString(1, obj.getNomeSobrenome());
 			st.setString(2, obj.getLogin());
-			st.setString(3, DecodeHash.DecodePassword(obj.getSenha()));
+			st.setString(3, obj.getSenha());
 			st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
 			st.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
 			st.setString(6, obj.getObservacao());
@@ -79,9 +80,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			int rowsAffected = st.executeUpdate();
 			ResultSet rs = st.getGeneratedKeys();
 
-			if (rs.next()) {
+			if (rs.next())
 				obj.setId(rs.getLong(1));
-			}
 
 			updateImagens(obj.getId(), obj.getImagens());
 
@@ -89,13 +89,12 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				System.out.println("Erro ao salvar os dados.\n" + st.toString());
 				throw new ExcessaoBd(Mensagens.BD_ERRO_INSERT);
 			}
+
+			return obj;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_INSERT);
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-			throw new ExcessaoBd(Mensagens.USR_ERRO_SENHA);
 		} finally {
 			DBConnection.closeStatement(st);
 		}
@@ -103,7 +102,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public void update(Usuario obj) throws ExcessaoBd {
+	public Usuario update(Usuario obj) throws ExcessaoBd {
 
 		PreparedStatement st = null;
 		try {
@@ -111,7 +110,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 			st.setString(1, obj.getNomeSobrenome());
 			st.setString(2, obj.getLogin());
-			st.setString(3, DecodeHash.DecodePassword(obj.getSenha()));
+			st.setString(3, obj.getSenha());
 			st.setString(4, obj.getObservacao());
 			st.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
 			st.setString(6, obj.getNivel().toString());
@@ -119,16 +118,13 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			st.setLong(8, obj.getId());
 
 			st.executeUpdate();
-
 			updateImagens(obj.getId(), obj.getImagens());
 
+			return obj;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
 			throw new ExcessaoBd(Mensagens.BD_ERRO_UPDATE);
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-			throw new ExcessaoBd(Mensagens.USR_ERRO_SENHA);
 		} finally {
 			DBConnection.closeStatement(st);
 		}
@@ -136,7 +132,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public void delete(Long id) throws ExcessaoBd {
+	public Long delete(Long id) throws ExcessaoBd {
 
 		PreparedStatement st = null;
 		try {
@@ -148,6 +144,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				System.out.println("Erro ao salvar os dados.\n" + st.toString());
 				throw new ExcessaoBd(Mensagens.BD_ERRO_DELETE);
 			}
+
+			return id;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(st.toString());
@@ -155,7 +153,6 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		} finally {
 			DBConnection.closeStatement(st);
 		}
-
 	}
 
 	@Override
@@ -348,12 +345,13 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 	}
 
 	@Override
-	public Boolean validaLogin(String login) throws ExcessaoBd {
+	public Boolean validaLogin(Long id, String login) throws ExcessaoBd {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conexao.prepareStatement(SELECT_LOGIN);
+			st = conexao.prepareStatement(SELECT_EXISTE_LOGIN);
 			st.setString(1, login);
+			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next())
 				return true;
@@ -361,7 +359,55 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 				return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new ExcessaoBd(Mensagens.USR_ERRO_AO_VALIDAR_LOGIN);
+			throw new ExcessaoBd(Mensagens.BD_ERRO_USR_VALIDAR_LOGIN);
+		} finally {
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
+		}
+	}
+
+	@Override
+	public Usuario find(String login) throws ExcessaoBd {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conexao.prepareStatement(SELECT_LOGIN);
+			st.setString(1, login);
+			rs = st.executeQuery();
+
+			if (rs.next())
+				return new Usuario(rs.getLong("Id"), rs.getString("NomeSobrenome"), rs.getTimestamp("DataCadastro"),
+						rs.getTimestamp("dataUltimaAlteracao"), rs.getString("Login"), rs.getString("Observacao"),
+						UsuarioNivel.valueOf(rs.getString("Nivel")), Situacao.valueOf(rs.getString("Situacao")));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT);
+		} finally {
+			DBConnection.closeStatement(st);
+			DBConnection.closeResultSet(rs);
+		}
+		return null;
+	}
+
+	@Override
+	public List<String> findLogins() throws ExcessaoBd {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+
+			st = conexao.prepareStatement(SELECT_LISTA_LOGIN);
+			rs = st.executeQuery();
+
+			List<String> list = new ArrayList<>();
+
+			while (rs.next())
+				list.add(rs.getString("Login"));
+
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ExcessaoBd(Mensagens.BD_ERRO_SELECT_ALL);
 		} finally {
 			DBConnection.closeStatement(st);
 			DBConnection.closeResultSet(rs);

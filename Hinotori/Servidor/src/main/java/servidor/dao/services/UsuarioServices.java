@@ -4,7 +4,6 @@ import java.util.List;
 
 import comum.model.enums.TamanhoImagem;
 import comum.model.exceptions.ExcessaoBd;
-import comum.model.messages.Mensagens;
 import servidor.dao.DaoFactory;
 import servidor.dao.UsuarioDao;
 import servidor.entities.Usuario;
@@ -13,21 +12,23 @@ public class UsuarioServices {
 
 	private UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
 
-	public Boolean validaLogin(String login) throws ExcessaoBd {
-		return usuarioDao.validaLogin(login);
+	public Boolean validaLogin(Long id, String login) throws ExcessaoBd {
+		return usuarioDao.validaLogin(id, login);
 	}
 
-	public void salvar(Usuario usuario) throws ExcessaoBd {
+	public Usuario salvar(Usuario usuario) throws ExcessaoBd {
 		if (usuario.getId() != null && usuario.getId() != 0)
-			usuarioDao.update(usuario);
-		else if (validaLogin(usuario.getLogin()))
-			throw new ExcessaoBd(Mensagens.USR_LOGIN_EXITENTE);
+			return usuarioDao.update(usuario);
 		else
-			usuarioDao.insert(usuario);
+			return usuarioDao.insert(usuario);
 	}
 
 	public void deletar(Long id) throws ExcessaoBd {
 		usuarioDao.delete(id);
+	};
+
+	public Usuario pesquisar(String login) throws ExcessaoBd {
+		return usuarioDao.find(login);
 	};
 
 	public Usuario pesquisar(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
@@ -36,6 +37,10 @@ public class UsuarioServices {
 
 	public List<Usuario> pesquisarTodos(TamanhoImagem tamanho) throws ExcessaoBd {
 		return usuarioDao.findAll(tamanho);
+	};
+
+	public List<String> carregaLogins() throws ExcessaoBd {
+		return usuarioDao.findLogins();
 	};
 
 }

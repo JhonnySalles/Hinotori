@@ -9,6 +9,13 @@ import java.io.File;
 import javafx.scene.input.KeyCode;
 import javafx.scene.robot.Robot;
 
+/**
+ * <p>
+ * Classe responssável por conter funções uteis do sistema.
+ * </p>
+ * 
+ * @author Jhonny de Salles Noschang
+ */
 public class Utils {
 
 	public static String getFileExtension(File file) {

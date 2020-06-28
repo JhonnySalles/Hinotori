@@ -10,12 +10,14 @@ module Servidor {
 	exports servidor.entities;
 	exports servidor.converter;
 	exports servidor.util;
+	exports servidor.validations;
 
 	requires transitive Comum;
 	requires transitive java.persistence;
 	requires org.hibernate.orm.core;
 	requires org.hibernate.commons.annotations;
 	requires javafx.base;
+	requires java.transaction;
 
 
 	opens servidor.entities to org.hibernate.orm.core;

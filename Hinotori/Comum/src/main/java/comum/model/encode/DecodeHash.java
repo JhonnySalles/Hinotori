@@ -14,9 +14,8 @@ public class DecodeHash {
 		byte messageDigestSenhaAdmin[] = algorithm.digest(senha.getBytes("UTF-8"));
 
 		StringBuilder hexStringSenha = new StringBuilder();
-		for (byte b : messageDigestSenhaAdmin) {
+		for (byte b : messageDigestSenhaAdmin)
 			hexStringSenha.append(String.format("%02X", 0xFF & b));
-		}
 
 		return hexStringSenha.toString();
 	}

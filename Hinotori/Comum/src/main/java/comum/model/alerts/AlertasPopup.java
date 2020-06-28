@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -28,8 +30,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 
+/**
+ * <p>
+ * Classe responssável por apresentar um popup de alerta diretamente do
+ * <b>DashBord</b> ou então em um <b>StackPane</b> escolhido.
+ * </p>
+ * 
+ * @author Jhonny de Salles Noschang
+ */
 public class AlertasPopup {
 
+	private final static Logger LOGGER = Logger.getLogger(AlertasPopup.class.getName());
+	
 	public final static ImageView ALERTA = new ImageView(
 			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAlerta_48.png")));
 	public final static ImageView AVISO = new ImageView(
@@ -74,6 +86,7 @@ public class AlertasPopup {
 	 */
 	public static void AvisoModal(StackPane rootStackPane, Node nodeBlur, List<JFXButton> botoes, String titulo,
 			String texto) {
+		LOGGER.log(Level.INFO, "{Mensagem de aviso ou alerta: " + texto + "}");
 		dialogModern(rootStackPane, nodeBlur, botoes, titulo, texto, AVISO);
 	}
 
@@ -85,6 +98,7 @@ public class AlertasPopup {
 	 * 
 	 */
 	public static void AvisoModal(String titulo, String texto) {
+		LOGGER.log(Level.INFO, "{Mensagem de aviso ou alerta: " + texto + "}");
 		dialogModern(ROOT_STACK_PANE, NODE_BLUR, null, titulo, texto, AVISO);
 	}
 
@@ -231,7 +245,7 @@ public class AlertasPopup {
 	}
 
 	private static void dialogModern(StackPane rootStackPane, Node nodeBlur, List<JFXButton> botoes, String titulo,
-			String texto, ImageView imagem) {
+			String texto, ImageView imagem) {		
 		BoxBlur blur = new BoxBlur(3, 3, 3);
 
 		if (botoes == null)
@@ -263,7 +277,7 @@ public class AlertasPopup {
 		nodeBlur.setEffect(blur);
 		dialog.show();
 	}
-	
+
 	public static void dialogLogin(StackPane rootStackPane, Node nodeBlur, String titulo, String texto) {
 		BoxBlur blur = new BoxBlur(3, 3, 3);
 
@@ -274,7 +288,7 @@ public class AlertasPopup {
 		JFXDialog dialog = new JFXDialog(rootStackPane, dialogLayout, JFXDialog.DialogTransition.CENTER);
 
 		dialog.setPadding(new Insets(0, 20, 0, 70));
-		
+
 		dialog.getStylesheets()
 				.add(AlertasPopup.class.getResource("/comum/resources/css/White_Alertas.css").toExternalForm());
 
@@ -301,6 +315,7 @@ public class AlertasPopup {
 
 	public static void showTrayMessage(String title, String message) {
 		try {
+			LOGGER.log(Level.FINE, "{Mensagem do showTray: " + message + "}");
 			SystemTray tray = SystemTray.getSystemTray();
 			BufferedImage image = ImageIO.read(AlertasPopup.class.getResource(CAMINHO_ICONE));
 			TrayIcon trayIcon = new TrayIcon(image, "Teste");

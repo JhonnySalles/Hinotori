@@ -8,16 +8,20 @@ import servidor.entities.Usuario;
 
 public interface UsuarioDao {
 
-	void insert(Usuario obj) throws ExcessaoBd;
+	Usuario insert(Usuario obj) throws ExcessaoBd;
 
-	void update(Usuario obj) throws ExcessaoBd;
+	Usuario update(Usuario obj) throws ExcessaoBd;
 
-	void delete(Long id) throws ExcessaoBd;
+	Long delete(Long id) throws ExcessaoBd;
 
 	Usuario find(Long id, TamanhoImagem tamanho) throws ExcessaoBd;
 
+	Usuario find(String login) throws ExcessaoBd;
+
 	List<Usuario> findAll(TamanhoImagem tamanho) throws ExcessaoBd;
 
-	Boolean validaLogin(String login) throws ExcessaoBd;
+	Boolean validaLogin(Long id, String login) throws ExcessaoBd;
+
+	List<String> findLogins() throws ExcessaoBd;
 
 }
