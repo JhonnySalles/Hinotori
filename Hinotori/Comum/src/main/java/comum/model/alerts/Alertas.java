@@ -1,5 +1,8 @@
 package comum.model.alerts;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import comum.model.alerts.controller.AlertaController;
 import comum.model.alerts.controller.AvisoController;
 import comum.model.alerts.controller.ConclusaoController;
@@ -16,6 +19,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Alertas {
+
+	private final static Logger LOGGER = Logger.getLogger(Alertas.class.getName());
 
 	private static boolean resposta;
 
@@ -84,7 +89,7 @@ public class Alertas {
 		TIPO = tipo;
 		return PreparaTela(titulo, texto);
 	}
-	
+
 	/**
 	 * <p>
 	 * Função estática para apresentar um alerta na tela, por padrão será aberta uma
@@ -113,6 +118,10 @@ public class Alertas {
 	}
 
 	private static boolean PreparaTela(String titulo, String texto) {
+
+		if (TIPO == AlertType.WARNING || TIPO == AlertType.INFORMATION)
+			LOGGER.log(Level.INFO, "{Mensagem de aviso ou alerta: " + texto + "}");
+
 		resposta = true;
 		switch ((AlertType) TIPO) {
 		case ERROR:
@@ -138,7 +147,7 @@ public class Alertas {
 		Limpa();
 		return resposta;
 	}
-	
+
 	public static void Concluido(String titulo, String texto) {
 		Tela_Concluido(titulo, texto);
 		Limpa();
@@ -187,6 +196,7 @@ public class Alertas {
 		} catch (Exception e) {
 			System.out.println("Erro ao tentar carregar o alerta.");
 			e.printStackTrace();
+			LOGGER.log(Level.FINE, "{Erro ao tentar carregar o alerta. }", e);
 		}
 		return resposta;
 	}
@@ -272,6 +282,7 @@ public class Alertas {
 		} catch (Exception e) {
 			System.out.println("Erro ao tentar carregar o alerta.");
 			e.printStackTrace();
+			LOGGER.log(Level.FINE, "{Erro ao tentar carregar o alerta. }", e);
 		}
 	}
 
@@ -314,6 +325,7 @@ public class Alertas {
 		} catch (Exception e) {
 			System.out.println("Erro ao tentar carregar o alerta.");
 			e.printStackTrace();
+			LOGGER.log(Level.FINE, "{Erro ao tentar carregar o alerta. }", e);
 		}
 	}
 
@@ -356,6 +368,7 @@ public class Alertas {
 		} catch (Exception e) {
 			System.out.println("Erro ao tentar carregar o alerta.");
 			e.printStackTrace();
+			LOGGER.log(Level.FINE, "{Erro ao tentar carregar o alerta. }", e);
 		}
 	}
 

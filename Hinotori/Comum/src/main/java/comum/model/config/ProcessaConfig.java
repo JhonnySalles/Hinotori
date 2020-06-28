@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import comum.model.alerts.Alertas;
 import comum.model.encode.Encryption;
@@ -16,6 +18,9 @@ import comum.model.enums.TipoLancamento;
 import javafx.scene.control.Alert.AlertType;
 
 public class ProcessaConfig {
+	
+	private final static Logger LOGGER = Logger.getLogger(ProcessaConfig.class.getName());
+	
 	public static Configuracao dadosConexao = new Configuracao();
 	public final static File f = new File(Config.verificaConfig());
 
@@ -56,9 +61,11 @@ public class ProcessaConfig {
 			Alertas.Alerta(AlertType.ERROR, "Erro",
 					"Não foi possivel ler o arquivo de configuração,  verifique o caminho: " + f.toString());
 			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "{Erro ao carregar o arquivo config: " + f.toString() + "}", e);
 		} catch (IOException e) {
 			Alertas.Alerta(AlertType.ERROR, "Erro", "Não foi possivel ler o arquivo de configuração.");
 			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "{Erro ao carregar o arquivo config: " + f.toString() + "}", e);
 		}
 	}
 

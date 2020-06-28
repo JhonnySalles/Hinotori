@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
-http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-	version="2.0">
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
 	<persistence-unit name="PersistenciaServidor"
 		transaction-type="RESOURCE_LOCAL">
 		<description> Hibernate JPA Configuration</description>
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>servidor.entities.Produto</class>
+		
+		<!-- Implementação do JPA, no nosso caso Hibernate -->
+        <!-- Aqui são listadas todas as entidades -->
+		<class>servidor.entities.Pais</class>
+		<class>servidor.entities.Estado</class>
+		<class>servidor.entities.Cidade</class>
+		<class>servidor.entities.Bairro</class>
+		<class>servidor.entities.Ncm</class>
+		<class>servidor.entities.Imagem</class>
+		<class>servidor.entities.Endereco</class>
+		<class>servidor.entities.Contato</class>
+		<class>servidor.entities.Usuario</class>
+		<class>servidor.entities.Empresa</class>
+		<class>servidor.entities.Cliente</class>
+		<class>servidor.entities.Produto</class>	
 
+		<!-- As propriedades estarão sendo substituida pelo properties na classe Controlador -->
 		<properties>
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.cj.jdbc.Driver" />
@@ -26,7 +40,7 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 				value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
 		</properties>
 	</persistence-unit>
 </persistence>
