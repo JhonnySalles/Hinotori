@@ -23,8 +23,6 @@ public class TelaAnimation {
 						Interpolator.EASE_BOTH)));
 		timeline.setOnFinished(event -> {
 			apFilho.setDisable(false);
-			spRoot.requestLayout();
-			apFilho.requestLayout();
 		});
 		timeline.play();
 	}
@@ -39,14 +37,13 @@ public class TelaAnimation {
 		nodeBaixo.translateXProperty().set(-nodeBaixo.getBoundsInParent().getWidth());
 		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(300),
 				new KeyValue(nodeBaixo.translateXProperty(), 0, Interpolator.EASE_BOTH),
-				new KeyValue(nodeCima.translateXProperty(), nodeCima.getBoundsInParent().getWidth() * 2,
+				new KeyValue(nodeCima.translateXProperty(), nodeCima.getBoundsInParent().getWidth(),
 						Interpolator.EASE_BOTH)));
 
 		timeline.setOnFinished(event -> {
 			spRoot.getChildren().remove(spRoot.getChildren().indexOf(nodeCima));
 			nodeBaixo.setDisable(false);
 			nodeCima.setVisible(false);
-			spRoot.requestLayout();
 		});
 		timeline.play();
 

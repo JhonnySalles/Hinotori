@@ -45,7 +45,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class DashboardFormPadrao {
-
+	
 	private final static Logger LOGGER = Logger.getLogger(DashboardFormPadrao.class.getName());
 
 	final static protected Map<URL, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
@@ -53,6 +53,8 @@ public class DashboardFormPadrao {
 
 	protected final static DropShadow efeitoPainelDetalhe = new DropShadow();
 
+	static protected DashboardFormPadrao DASHBOARD_MAIN;
+	
 	@FXML
 	protected SplitPane splPane;
 	protected DoubleProperty dPropSplPane;
@@ -328,6 +330,10 @@ public class DashboardFormPadrao {
 			spRoot.getChildren().add(apFilho);
 			telaSobreposta.put(apFilho, spRoot);
 			new TelaAnimation().abrirPane(spRoot, apFilho);
+			
+			if (DASHBOARD_MAIN != null)
+				DASHBOARD_MAIN.atualizaTabPane();
+			
 			return loader.getController();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -457,6 +463,10 @@ public class DashboardFormPadrao {
 		dTransSplPane = new DoubleTransition(Duration.millis(600), dPropSplPane);
 
 		tTransApBotoesDetalhes = new TranslateTransition(new Duration(350), apBotoesDetalhes);
+		
+		// Utilizarei a referença, para poder chamar o requestLayout do tabpane, pois quando carregado
+		// sem a chamada ocorre de bugar o novo conteudo quando a animação inicia.
+		DASHBOARD_MAIN = this;
 	}
 
 }
