@@ -1,0 +1,244 @@
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Pesquisa de Clientes  -----------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+.dtPk-PsqCliente {
+    -jfx-default-color: #005a9e;
+}
+
+.dtPk-PsqCliente .jfx-text-field {
+    -jfx-focus-color: #4059a9;
+}
+
+.tb-PsqCliente {
+    -fx-border-color:  #005a9e;
+}
+
+.tb-PsqCliente .table-cell {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.tb-PsqCliente .column-header,
+.tb-PsqCliente .column-header-background .filler {
+    -fx-background-color:  #005a9e;
+}
+
+.tb-PsqCliente .column-header-background{
+    -fx-background-color:  #005a9e;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Pesquisa de Empresas ------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+.dtPk-PsqEmpresa {
+    -jfx-default-color: #b71c1c;
+}
+
+.dtPk-PsqEmpresa .jfx-text-field {
+    -jfx-focus-color: #4059a9;
+}
+
+.tb-PsqEmpresa {
+    -fx-border-color:  #b71c1c;
+}
+
+.tb-PsqEmpresa .table-cell {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.tb-PsqEmpresa .column-header,
+.tb-PsqEmpresa .column-header-background .filler {
+    -fx-background-color:  #b71c1c;
+}
+
+.tb-PsqEmpresa .column-header-background{
+    -fx-background-color:  #b71c1c;
+}
+
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Pesquisa de Usuarios ------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+.dtPk-PsqUsuario {
+    -jfx-default-color: #689F38;
+}
+
+.dtPk-PsqUsuario .jfx-text-field {
+    -jfx-focus-color: #4059a9;
+}
+
+.tb-PsqUsuario {
+    -fx-border-color:  #689F38;
+}
+
+.tb-PsqUsuario .table-cell {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.tb-PsqUsuario .column-header,
+.tb-PsqUsuario .column-header-background .filler {
+    -fx-background-color:  #689F38;
+}
+
+.tb-PsqUsuario .column-header-background{
+    -fx-background-color:  #689F38;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Produtos ------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+.dtPk-PsqProduto {
+    -jfx-default-color: #BF360C;
+}
+
+.dtPk-PsqProduto .jfx-text-field {
+    -jfx-focus-color: #4059a9;
+}
+
+.tb-PsqProduto {
+    -fx-border-color:  #BF360C;
+}
+
+.tb-PsqProduto .table-cell {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.tb-PsqProduto .column-header,
+.tb-PsqProduto .column-header-background .filler {
+    -fx-background-color:  #BF360C;
+}
+
+.tb-PsqProduto .column-header-background{
+    -fx-background-color:  #BF360C;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------ Cadastro de Geral ---------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*----------  Image usuario ----------*/
+.tituloBackground-cadastroGeral{
+    -fx-background-color: linear-gradient(to right top, #9E9E9E , #212121);
+}
+.imgBackground-cadastroGeral{
+    -fx-background-image: url("../imagens/white/cadastros/icoGeral.png");
+    -fx-background-position: bottom center;
+
+    -fx-background-size: auto 165;
+    -fx-background-repeat: no-repeat;
+}
+.botoesBackground-cadastroGeral{
+    -fx-border-color:  black;
+    -fx-border-width:  1 1 1 0;
+    -fx-background-color:  #757575;
+}
+.textArea-cadastroGeral {
+    -fx-background-color: #757575;
+}
+
+.textArea-cadastroGeral .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------- Cadastro de endereço -----------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------  Image endereço ----------*/
+.tituloBackground-CadastroEndereco {
+    -fx-background-color: linear-gradient(to right top, #9C27B0 , #4A148C);
+    -fx-background-image: url("../imagens/white/cadastros/icoEndereco_400.png");
+    -fx-background-position: left+20 top;
+
+    -fx-background-size: 300 289;
+    -fx-background-repeat: no-repeat;
+}
+
+/*----------  Botoes ----------*/
+.btnCadastraEndereco {
+    -fx-background-color:  #7cb342;
+}
+
+.btnRemoveEndereco {
+    -fx-background-color:  #e53935;
+}
+
+
+/*----------  Cadastro endereço ----------*/
+.textArea-endereco {
+    -fx-background-color: #4A148C;
+}
+
+.textArea-endereco .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+.backoground-CadastrosEndereco {
+    -fx-background-color:  #ffffff;
+}
+
+/*----------  Cadastro endereço ----------*/
+.textArea-contato {
+    -fx-background-color: #00277B;
+}
+
+.textArea-contato .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+.backoground-CadastrosContato {
+    -fx-background-color:  #ffffff;
+}
+
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------- Cadastro de contatos -----------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------*/
+/*----------  Image contatos ----------*/
+.tituloBackground-CadastroContatos {
+    -fx-background-color: linear-gradient(to right top, #0277BD , #00277B);
+    -fx-background-image: url("../imagens/white/cadastros/icoContato_500.png");
+    -fx-background-position: left+10 top;
+
+    -fx-background-size: 400 250;
+    -fx-background-repeat: no-repeat;
+}
+
+/*----------  Botoes ----------*/
+.btnCadastraContatos {
+    -fx-background-color:  #7cb342;
+}
+
+.btnRemoveContatos {
+    -fx-background-color:  #e53935;
+}
+
+
+/*----------  Cadastro endereço ----------*/
+.textArea-endereco {
+    -fx-background-color: #4A148C;
+}
+
+.textArea-endereco .scroll-pane {
+    -fx-background-color: #eaeaea;
+}
+
+.backoground-CadastrosEndereco {
+    -fx-background-color:  #ffffff;
+}
