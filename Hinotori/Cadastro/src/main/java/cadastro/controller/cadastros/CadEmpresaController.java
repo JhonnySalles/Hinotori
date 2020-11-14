@@ -177,7 +177,7 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 	@FXML
 	public void onBtnEnderecoClick() {
 		ListaEnderecoController ctn = (ListaEnderecoController) DashboardFormPadrao
-				.abreTela(ListaEnderecoController.getFxmlLocate(), spRoot);
+				.loadTela(ListaEnderecoController.getFxmlLocate(), spRoot);
 		ctn.initData(txtNomeFantasia.getText(), empresa.getEnderecos());
 	}
 
@@ -191,7 +191,7 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 	@FXML
 	public void onBtnContatoClick() {
 		ListaContatoController ctn = (ListaContatoController) DashboardFormPadrao
-				.abreTela(ListaContatoController.getFxmlLocate(), spRoot);
+				.loadTela(ListaContatoController.getFxmlLocate(), spRoot);
 		ctn.initData(txtRazaoSocial.getText(), empresa.getContatos());
 	}
 

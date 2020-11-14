@@ -93,7 +93,7 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnVoltarClick() {
-		DashboardFormPadrao.fechaTela(rootPane);
+		DashboardFormPadrao.closeTela(rootPane);
 		onClose();
 	}
 
@@ -134,7 +134,7 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 	}
 
 	private void abreTelaEndereco(Endereco endereco) {
-		controller = (CadEnderecoController) DashboardFormPadrao.abreDialog(CadContatoController.getFxmlLocate(),
+		controller = (CadEnderecoController) DashboardFormPadrao.loadDialog(CadContatoController.getFxmlLocate(),
 				rootPane, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {

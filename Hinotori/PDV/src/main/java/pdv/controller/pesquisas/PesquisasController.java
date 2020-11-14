@@ -33,22 +33,22 @@ public class PesquisasController implements Initializable {
 	
 	@FXML
 	public void onBtnPsqClienteAction() {
-		main.loadView(PsqClienteController.getFxmlLocate(), "Pesquisa de clientes", "");
+		main.loadAbas(PsqClienteController.getFxmlLocate(), "Pesquisa de clientes", "");
 	}
 	
 	@FXML
 	public void onBtnPsqEmpresaAction() {
-		main.loadView(PsqEmpresaController.getFxmlLocate(), "Pesquisa de empresas", "");
+		main.loadAbas(PsqEmpresaController.getFxmlLocate(), "Pesquisa de empresas", "");
 	}
 	
 	@FXML
 	public void onBtnPsqUsuarioAction() {
-		main.loadView(PsqUsuarioController.getFxmlLocate(), "Pesquisa de usuários", "");
+		main.loadAbas(PsqUsuarioController.getFxmlLocate(), "Pesquisa de usuários", "");
 	}
 
 	@FXML
 	public void onBtnPsqProdutoAction() {
-		main.loadView(PsqProdutoController.getFxmlLocate(), "Pesquisa de produtos", "");
+		main.loadAbas(PsqProdutoController.getFxmlLocate(), "Pesquisa de produtos", "");
 	}
 	
 	

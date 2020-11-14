@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 
 /**
  * <p>
@@ -57,8 +56,7 @@ public class ViewGerenciador {
 				for (int i = 0; i < CAMINHO_TELAS_PRE_CARREGAMENTO.length; i++) {
 					if (!CAMINHO_TELAS_PRE_CARREGAMENTO[i].getPath().isEmpty()) {
 						FXMLLoader loader = new FXMLLoader(CAMINHO_TELAS_PRE_CARREGAMENTO[i]);
-						Parent novaTela = loader.load();
-						TELA_PRE_CARREGADA.put(CAMINHO_TELAS_PRE_CARREGAMENTO[i], novaTela);
+						TELA_PRE_CARREGADA.put(CAMINHO_TELAS_PRE_CARREGAMENTO[i], loader.load());
 					}
 				}
 				return null;
@@ -83,8 +81,7 @@ public class ViewGerenciador {
 			@Override
 			public Void call() throws IOException, InterruptedException {
 				FXMLLoader loader = new FXMLLoader(absoluteName);
-				Parent novaTela = loader.load();
-				TELA_PRE_CARREGADA.put(absoluteName, novaTela);
+				TELA_PRE_CARREGADA.put(absoluteName, loader.load());
 				return null;
 			}
 		};

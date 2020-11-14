@@ -92,7 +92,7 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 
 	@FXML
 	public void onBtnVoltarClick() {
-		DashboardFormPadrao.fechaTela(rootPane);
+		DashboardFormPadrao.closeTela(rootPane);
 		onClose();
 	}
 
@@ -133,7 +133,7 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 	}
 
 	private void abreTelaContato(Contato contato) {
-		controller = (CadContatoController) DashboardFormPadrao.abreDialog(CadContatoController.getFxmlLocate(),
+		controller = (CadContatoController) DashboardFormPadrao.loadDialog(CadContatoController.getFxmlLocate(),
 				rootPane, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {

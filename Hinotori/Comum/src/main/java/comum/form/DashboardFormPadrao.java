@@ -174,14 +174,13 @@ public class DashboardFormPadrao {
 
 	/**
 	 * <p>
-	 * Função para fazer o do pane do botões de detalhe (botões internos), no split
-	 * pane.
+	 * Função para fazer o do pane com a lista de botões, no split pane.
 	 * </p>
 	 * 
 	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
 	 * @author Jhonny de Salles Noschang
 	 */
-	protected synchronized void loadView(URL absoluteName) {
+	protected synchronized void loadBotoes(URL absoluteName) {
 		FXMLLoader loader = new FXMLLoader(absoluteName);
 		try {
 			VBox vbPainelBotoes = loader.load();
@@ -228,16 +227,14 @@ public class DashboardFormPadrao {
 	 *                     o caminho após o comando <b><i>getPath</i><b>.
 	 * @author Jhonny de Salles Noschang
 	 */
-	public synchronized void loadView(URL absoluteName, String tela, String icon) {
-		if (tbPaneAbas == null) {
+	public synchronized void loadAbas(URL absoluteName, String tela, String icon) {
+		if (tbPaneAbas == null)
 			tbPaneAbas = new JFXTabPane();
-		}
 
-		if (abasAbertas.containsKey(absoluteName)) {
+		if (abasAbertas.containsKey(absoluteName))
 			// Caso ja foi mapeada a aba, foco nela.
 			tbPaneAbas.getSelectionModel().select(abasAbertas.get(absoluteName));
-		} else {
-
+		else {
 			// Caso a tela já foi previamente carregada, carrega ela.
 			if (ViewGerenciador.verificaTelaCarregada(absoluteName)) {
 				Tab aba = new Tab(tela);
@@ -304,7 +301,6 @@ public class DashboardFormPadrao {
 
 				Thread thread = new Thread(loadTask);
 				thread.start();
-
 			}
 		}
 		fecharBotoesDetalhe();
@@ -325,7 +321,7 @@ public class DashboardFormPadrao {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static Object abreTela(URL absoluteName, StackPane spRoot) {
+	public synchronized static Object loadTela(URL absoluteName, StackPane spRoot) {
 		FXMLLoader loader = new FXMLLoader(absoluteName);
 		try {
 			AnchorPane apFilho = loader.load();
@@ -340,14 +336,14 @@ public class DashboardFormPadrao {
 		return null;
 	}
 
-	public static Object abreTela(URL absoluteName, AnchorPane apRoot) {
+	public static Object loadTela(URL absoluteName, AnchorPane apRoot) {
 		if (!telaSobreposta.containsKey(apRoot))
 			return null;
 
-		return abreTela(absoluteName, telaSobreposta.get(apRoot));
+		return loadTela(absoluteName, telaSobreposta.get(apRoot));
 	}
 
-	public static void fechaTela(AnchorPane apRoot) {
+	public static void closeTela(AnchorPane apRoot) {
 		if (!telaSobreposta.containsKey(apRoot))
 			return;
 
@@ -362,15 +358,27 @@ public class DashboardFormPadrao {
 		return telaSobreposta.get(apRoot);
 	}
 
-	public static Object abreDialog(URL absoluteName, AnchorPane apRoot) {
-		return abreDialog(absoluteName, apRoot, null, null);
+	/**
+	 * <p>
+	 * Função estatica para abrir uma caixa de dialogo, onde o conteudo atras ficará esmaecido.
+	 * </p>
+	 * 
+	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
+	 * @param apRoot       <b>AnchorPane</b> da tela que irá ser aberto o dialog acima.
+	 * @return Retorna um objeto no formato do controlador da tela aberta, caso
+	 *         apresente erro irá retornar null.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static Object loadDialog(URL absoluteName, AnchorPane apRoot) {
+		return loadDialog(absoluteName, apRoot, null, null);
 	}
 	
-	public static Object abreDialog(URL absoluteName, AnchorPane apRoot, EventHandler<ActionEvent> onClose) {
-		return abreDialog(absoluteName, apRoot, null, onClose);
+	public static Object loadDialog(URL absoluteName, AnchorPane apRoot, EventHandler<ActionEvent> onClose) {
+		return loadDialog(absoluteName, apRoot, null, onClose);
 	}
 
-	public static Object abreDialog(URL absoluteName, AnchorPane apRoot, EventHandler<ActionEvent> onOpen,
+	public synchronized static Object loadDialog(URL absoluteName, AnchorPane apRoot, EventHandler<ActionEvent> onOpen,
 			EventHandler<ActionEvent> onClose) {
 		Object controller = null;
 		if (!telaSobreposta.containsKey(apRoot))

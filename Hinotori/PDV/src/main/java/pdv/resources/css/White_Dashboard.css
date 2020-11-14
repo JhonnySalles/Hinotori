@@ -121,55 +121,40 @@
 }
 
 .tab {
-    -fx-background-color: #FFFFFF;
-    -fx-background-insets: 0.0;
-    -fx-background-radius: 7 7 0 0;
-    /*-fx-border-width: 0.5;
-    -fx-border-color: #6A8347;
-    -fx-border-radius: 7 7 0 0;*/
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: #000000;
+    -fx-border-insets: 7 0 7 0;
     -fx-padding: 0 10 0 10;
     -fx-pref-height: 35px;
 }
 
 .tab .tab-label {
     -fx-alignment: CENTER;
-    -fx-text-fill: #828282;
+    -fx-text-fill: #FFFFFF;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
 
 }
 
 .tab:selected {
+	-fx-background-radius: 7 7 0 0;
+	-fx-background-color: #FFFFFF;
     -fx-pref-height: 40px;
-    /*-fx-border-color: #000000;
-    -fx-border-width: 0 0 2 0;*/
+    -fx-border-width: 0;
+    -fx-background-insets: 0 -1 0 -1;
 }
 
 .tab:selected .tab-label {
     -fx-text-fill: #000000;
 }
 
-.tab:hover {
-
-}
-
 .tab:hover .tab-label {
-    -fx-text-fill: #0a7800;
-}
-/*
-.tab .tab-close-button {
-    -fx-background-color: #ff3333;
+    -fx-text-fill: #000000;
 }
 
-
-.jfx-tab-pane .control-buttons-tab .tab-down-button{
-    -fx-background-color: #000000;
-    -fx-padding: 0 0 0 0;
+.tab:selected:hover .tab-label {
+    -fx-text-fill: #595959;
 }
-
-.jfx-tab-pane .control-buttons-tab {
-    -fx-padding: 0 0 0 0;
-}*/
 
 .jfx-tab-pane .control-buttons-tab .jfx-rippler{
     -jfx-rippler-fill: #0a7800;
@@ -182,6 +167,7 @@
 .jfx-tab-pane .tab-selected-line {
     -fx-background-color: #0a7800;
     -fx-pref-height: 3;
+    -fx-background-insets: 0 -0.01 0 -0.01;
 }
 
 .jfx-tab-pane .headers-region .tab .tab-container .tab-close-button > .jfx-svg-glyph {

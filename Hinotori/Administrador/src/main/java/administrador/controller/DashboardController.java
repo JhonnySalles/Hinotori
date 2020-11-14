@@ -84,7 +84,7 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 
 	@FXML
 	private void onBtnCadastrosAction() {
-		loadView(getClass().getResource("/administrador/view/cadastros/Cadastros.fxml"));
+		loadBotoes(getClass().getResource("/administrador/view/cadastros/Cadastros.fxml"));
 	}
 
 	@FXML
@@ -94,7 +94,7 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 
 	@FXML
 	private void onBtnPesquisasAction() {
-		loadView(getClass().getResource("/administrador/view/pesquisas/Pesquisas.fxml"));
+		loadBotoes(getClass().getResource("/administrador/view/pesquisas/Pesquisas.fxml"));
 	}
 
 	@FXML
