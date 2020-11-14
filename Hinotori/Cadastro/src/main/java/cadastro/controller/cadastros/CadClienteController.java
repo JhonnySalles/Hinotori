@@ -28,6 +28,8 @@ import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -170,9 +172,15 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnEnderecoClick() {
-		CadEnderecoDadosController ctn = (CadEnderecoDadosController) DashboardFormPadrao
-				.loadView(CadEnderecoDadosController.getFxmlLocate(), spRoot);
-		ctn.initData(txtNome.getText(), cliente.getEnderecos(), spRoot);
+		ListaEnderecoController ctn = (ListaEnderecoController) DashboardFormPadrao
+				.abreTela(ListaEnderecoController.getFxmlLocate(), spRoot);
+		ctn.initData(txtNome.getText(), cliente.getEnderecos());
+		ctn.setOnClose(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				cliente.setEnderecos(ctn.getEndereco());
+			}
+		});
 	}
 
 	@FXML
@@ -184,9 +192,15 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnContatoClick() {
-		CadContatoDadosController ctn = (CadContatoDadosController) DashboardFormPadrao
-				.loadView(CadContatoDadosController.getFxmlLocate(), spRoot);
-		ctn.initData(txtNome.getText(), cliente.getContatos(), spRoot);
+		ListaContatoController ctn = (ListaContatoController) DashboardFormPadrao
+				.abreTela(ListaContatoController.getFxmlLocate(), spRoot);
+		ctn.initData(txtNome.getText(), cliente.getContatos());
+		ctn.setOnClose(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				cliente.setContatos(ctn.getContato());
+			}
+		});
 	}
 
 	public void onTxtIdExit() {
@@ -249,9 +263,11 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 		txtCpf.setText("");
 		txtCnpj.setText("");
 		txtAreaObservacao.setText("");
+		cbPessoaTipo.getSelectionModel().selectFirst();
 		cbSituacao.getSelectionModel().selectFirst();
 		cbClienteTipo.getSelectionModel().selectFirst();
 		dtPkCadastro.setValue(LocalDate.now());
+
 		return this;
 	}
 
@@ -301,9 +317,6 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 		cbSituacao.getSelectionModel().select(cliente.getSituacao().ordinal());
 		cbClienteTipo.getSelectionModel().select(cliente.getTipoCliente().ordinal());
 		cbPessoaTipo.getSelectionModel().select(cliente.getTipoPessoa().ordinal());
-
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
 
 		return this;
 	}
@@ -393,23 +406,10 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 		configuraExitId();
 
 		cbSituacao.getItems().addAll(Situacao.values());
-		cbSituacao.getSelectionModel().selectFirst();
 		cbPessoaTipo.getItems().addAll(TipoPessoa.values());
-		cbPessoaTipo.getSelectionModel().selectFirst();
 		cbClienteTipo.getItems().addAll(TipoCliente.values());
-		cbClienteTipo.getSelectionModel().selectFirst();
-		dtPkCadastro.setValue(LocalDate.now());
-		txtId.setText("0");
 
-		cliente = new Cliente();
-	}
-
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
-
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
+		limpaCampos();
 	}
 
 	public static URL getFxmlLocate() {

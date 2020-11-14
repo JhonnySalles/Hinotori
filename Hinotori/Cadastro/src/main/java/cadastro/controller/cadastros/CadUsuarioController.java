@@ -21,7 +21,6 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import comum.form.CadastroFormPadrao;
-import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
 import comum.model.encode.DecodeHash;
@@ -222,6 +221,23 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 		setImagemPadrao();
 	}
 
+	@FXML
+	public void onTxtIdClick() {
+		txtId.getSelectedText();
+	}
+
+	@FXML
+	public void onTxtIdEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		if (e.getCode().toString().equals("ENTER")) {
+			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
+				onTxtIdExit();
+			else
+				limpaCampos();
+
+			Utils.clickTab();
+		}
+	}
+	
 	public void onTxtIdExit() {
 		if (!txtId.getText().isEmpty()) {
 			try {
@@ -314,10 +330,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 					.setImage(new Image(new ByteArrayInputStream(usuario.getImagens().iterator().next().getImagem())));
 		} else
 			setImagemPadrao();
-
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
-
+		
 		return this;
 	}
 
@@ -463,14 +476,6 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 		configuraExitCampos();
 
 		atualizaTela(new Usuario());
-	}
-
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
-
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
 	}
 
 	public static URL getFxmlLocate() {

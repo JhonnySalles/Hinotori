@@ -19,12 +19,6 @@ public class CadastroFormPadrao {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
 
-	/*
-	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
-	 * na tela
-	 */
-	protected DashboardFormPadrao dashBoard;
-
 	@FXML
 	protected StackPane spRoot;
 

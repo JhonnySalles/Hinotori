@@ -1,6 +1,5 @@
 package cadastro.controller.cadastros;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -8,20 +7,19 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.events.JFXDialogEvent;
 
 import comum.form.DashboardFormPadrao;
-import comum.model.animation.TelaAnimation;
+import comum.form.ListaFormPadrao;
 import comum.model.enums.Situacao;
 import comum.model.notification.Notificacoes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContentDisplay;
@@ -31,21 +29,12 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import servidor.entities.Contato;
 
-public class CadContatoDadosController implements Initializable {
-
-	/* Referencia para o controlador pai, onde é utilizado para realizar o refresh na tela */
-	private DashboardFormPadrao dashBoard;
-	
-	@FXML
-	private StackPane root;
+public class ListaContatoController extends ListaFormPadrao implements Initializable {
 
 	@FXML
 	private AnchorPane rootPane;
@@ -66,7 +55,7 @@ public class CadContatoDadosController implements Initializable {
 	private TableColumn<Contato, String> tbClEmail;
 
 	@FXML
-	private TableColumn<Contato, String> tbClTipo;
+	private TableColumn<Contato, String> tbClTipoContato;
 
 	@FXML
 	private TableColumn<Contato, String> tbClSituacao;
@@ -86,12 +75,10 @@ public class CadContatoDadosController implements Initializable {
 	@FXML
 	private JFXButton btnVoltar;
 
-	private AnchorPane cadastroContato;
 	private CadContatoController controller;
 
 	private ObservableList<Contato> obsContatos;
 	private Set<Contato> contatos;
-	private StackPane spRoot;
 	private ToggleGroup tgGroup;
 
 	final PseudoClass excluido = PseudoClass.getPseudoClass("excluido");
@@ -105,7 +92,8 @@ public class CadContatoDadosController implements Initializable {
 
 	@FXML
 	public void onBtnVoltarClick() {
-		new TelaAnimation().fecharPane(spRoot);
+		DashboardFormPadrao.fechaTela(rootPane);
+		onClose();
 	}
 
 	@FXML
@@ -145,28 +133,15 @@ public class CadContatoDadosController implements Initializable {
 	}
 
 	private void abreTelaContato(Contato contato) {
-		BoxBlur blur = new BoxBlur(3, 3, 3);
-
-		controller.setContatos(contatos);
-		JFXDialog dialog = new JFXDialog(root, cadastroContato, JFXDialog.DialogTransition.CENTER);
-
-		rootPane.setDisable(true);
-		dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
-			rootPane.setEffect(null);
-			rootPane.setDisable(false);
-			carregaGrid();
-		});
-
-		controller.btnVoltar.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseEvent) -> {
-			dialog.close();
-		});
-
-		rootPane.setEffect(blur);
-
-		if (contato != null)
-			controller.carregaContato(contato);
-
-		dialog.show();
+		controller = (CadContatoController) DashboardFormPadrao.abreDialog(CadContatoController.getFxmlLocate(),
+				rootPane, new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent t) {
+						contatos = controller.getContato();
+						carregaGrid();
+					}
+				});
+		controller.carregaContato(contato);
 	}
 
 	private void carregaGrid() {
@@ -177,13 +152,23 @@ public class CadContatoDadosController implements Initializable {
 		tbContatos.setItems(obsContatos);
 		tbContatos.refresh();
 	}
+	
+	public void initData(String pessoa, Set<Contato> contatos) {
+		txtTitulo.setText(pessoa);
+		this.contatos = contatos;
+		carregaGrid();
+	}
+	
+	public Set<Contato> getContato() {
+		return contatos;
+	}
 
-	private CadContatoDadosController linkaCelulas() {
+	private ListaContatoController linkaCelulas() {
 		tbClNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tbClTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 		tbClCelular.setCellValueFactory(new PropertyValueFactory<>("celular"));
 		tbClEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-		tbClTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+		tbClTipoContato.setCellValueFactory(new PropertyValueFactory<>("tipoContato"));
 		tbClSituacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
 
 		// Fará o controle dos radios button para que apenas um fique marcado
@@ -244,44 +229,14 @@ public class CadContatoDadosController implements Initializable {
 
 		return this;
 	}
-
-	private CadContatoDadosController iniciaCadContato() {
-		FXMLLoader loader = new FXMLLoader(CadContatoController.getFxmlLocate());
-		try {
-			cadastroContato = loader.load();
-			controller = loader.getController();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return this;
-	}
-
+	
 	@Override
 	public synchronized void initialize(URL location, ResourceBundle resources) {
-		linkaCelulas().iniciaCadContato();
+		linkaCelulas();
 	}
 
-	public void initData(String pessoa, Set<Contato> contatos, StackPane spRoot) {
-		txtTitulo.setText(pessoa);
-		this.spRoot = spRoot;
-		this.contatos = contatos;
-		carregaGrid();
-
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
-	}
-	
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
-
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
-	}
-	
 	public static URL getFxmlLocate() {
-		return CadContatoDadosController.class.getResource("/cadastro/view/cadastros/CadContatoDados.fxml");
+		return ListaContatoController.class.getResource("/cadastro/view/cadastros/ListaContato.fxml");
 	}
 
 }

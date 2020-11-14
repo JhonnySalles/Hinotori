@@ -1,6 +1,5 @@
 package cadastro.controller.cadastros;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -8,13 +7,11 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.events.JFXDialogEvent;
 
 import comum.form.DashboardFormPadrao;
-import comum.model.animation.TelaAnimation;
+import comum.form.ListaFormPadrao;
 import comum.model.enums.Situacao;
 import comum.model.notification.Notificacoes;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,8 +19,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContentDisplay;
@@ -34,25 +32,13 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import servidor.entities.Endereco;
 
-public class CadEnderecoDadosController implements Initializable {
-
-	/*
-	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
-	 * na tela
-	 */
-	private DashboardFormPadrao dashBoard;
-
-	@FXML
-	private StackPane root;
+public class ListaEnderecoController extends ListaFormPadrao implements Initializable {
 
 	@FXML
 	private AnchorPane rootPane;
@@ -90,12 +76,10 @@ public class CadEnderecoDadosController implements Initializable {
 	@FXML
 	private JFXButton btnVoltar;
 
-	private AnchorPane cadastroEndereco;
 	private CadEnderecoController controller;
 
 	private ObservableList<Endereco> obsEnderecos;
 	private Set<Endereco> enderecos;
-	private StackPane spRoot;
 	private ToggleGroup tgGroup;
 
 	final PseudoClass excluido = PseudoClass.getPseudoClass("excluido");
@@ -109,7 +93,8 @@ public class CadEnderecoDadosController implements Initializable {
 
 	@FXML
 	public void onBtnVoltarClick() {
-		new TelaAnimation().fecharPane(spRoot);
+		DashboardFormPadrao.fechaTela(rootPane);
+		onClose();
 	}
 
 	@FXML
@@ -149,28 +134,15 @@ public class CadEnderecoDadosController implements Initializable {
 	}
 
 	private void abreTelaEndereco(Endereco endereco) {
-		BoxBlur blur = new BoxBlur(3, 3, 3);
-
-		controller.setEnderecos(enderecos);
-		JFXDialog dialog = new JFXDialog(root, cadastroEndereco, JFXDialog.DialogTransition.CENTER);
-
-		rootPane.setDisable(true);
-		dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
-			rootPane.setEffect(null);
-			rootPane.setDisable(false);
-			carregaGrid();
-		});
-
-		controller.btnVoltar.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseEvent) -> {
-			dialog.close();
-		});
-
-		rootPane.setEffect(blur);
-
-		if (endereco != null)
-			controller.carregaEndereco(endereco);
-
-		dialog.show();
+		controller = (CadEnderecoController) DashboardFormPadrao.abreDialog(CadContatoController.getFxmlLocate(),
+				rootPane, new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent t) {
+						enderecos = controller.getEndereco();
+						carregaGrid();
+					}
+				});
+		controller.carregaEndereco(endereco);
 	}
 
 	private void carregaGrid() {
@@ -182,7 +154,17 @@ public class CadEnderecoDadosController implements Initializable {
 		tbEnderecos.refresh();
 	}
 
-	private CadEnderecoDadosController linkaCelulas() {
+	public void initData(String pessoa, Set<Endereco> enderecos) {
+		txtTitulo.setText(pessoa);
+		this.enderecos = enderecos;
+		carregaGrid();
+	}
+
+	public Set<Endereco> getEndereco() {
+		return enderecos;
+	}
+
+	private ListaEnderecoController linkaCelulas() {
 		tbClCidade.setCellValueFactory(new Callback<CellDataFeatures<Endereco, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Endereco, String> p) {
 				if (p.getValue() != null && p.getValue().getBairro() != null
@@ -269,42 +251,12 @@ public class CadEnderecoDadosController implements Initializable {
 		return this;
 	}
 
-	private CadEnderecoDadosController iniciaCadEndereco() {
-		FXMLLoader loader = new FXMLLoader(CadEnderecoController.getFxmlLocate());
-		try {
-			cadastroEndereco = loader.load();
-			controller = loader.getController();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return this;
-	}
-
 	@Override
 	public synchronized void initialize(URL location, ResourceBundle resources) {
-		linkaCelulas().iniciaCadEndereco();
-	}
-
-	public void initData(String pessoa, Set<Endereco> enderecos, StackPane spRoot) {
-		txtTitulo.setText(pessoa);
-		this.spRoot = spRoot;
-		this.enderecos = enderecos;
-		carregaGrid();
-
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
-	}
-
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
-
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
+		linkaCelulas();
 	}
 
 	public static URL getFxmlLocate() {
-		return CadEnderecoDadosController.class.getResource("/cadastro/view/cadastros/CadEnderecoDados.fxml");
+		return ListaEnderecoController.class.getResource("/cadastro/view/cadastros/ListaEndereco.fxml");
 	}
 }

@@ -11,8 +11,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import animatefx.animation.Pulse;
@@ -25,12 +27,14 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,7 +48,8 @@ public class DashboardFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(DashboardFormPadrao.class.getName());
 
-	protected Map<URL, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
+	final static protected Map<URL, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
+	final static protected Map<AnchorPane, StackPane> telaSobreposta = new HashMap<>(); // Irá mapear as abas abertas.
 
 	protected final static DropShadow efeitoPainelDetalhe = new DropShadow();
 
@@ -320,19 +325,87 @@ public class DashboardFormPadrao {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static Object loadView(URL absoluteName, StackPane spRoot) {
+	public static Object abreTela(URL absoluteName, StackPane spRoot) {
 		FXMLLoader loader = new FXMLLoader(absoluteName);
 		try {
-			Node rootCima = loader.load();
-			spRoot.getChildren().add(rootCima);
-			new TelaAnimation().abrirPane(spRoot);
-			spRoot.requestLayout();
+			AnchorPane apFilho = loader.load();
+			spRoot.getChildren().add(apFilho);
+			telaSobreposta.put(apFilho, spRoot);
+			new TelaAnimation().abrirPane(spRoot, apFilho);
 			return loader.getController();
 		} catch (IOException e) {
 			e.printStackTrace();
 			LOGGER.log(Level.SEVERE, "{Erro ao carregar a tela: " + absoluteName + "}", e);
 		}
 		return null;
+	}
+
+	public static Object abreTela(URL absoluteName, AnchorPane apRoot) {
+		if (!telaSobreposta.containsKey(apRoot))
+			return null;
+
+		return abreTela(absoluteName, telaSobreposta.get(apRoot));
+	}
+
+	public static void fechaTela(AnchorPane apRoot) {
+		if (!telaSobreposta.containsKey(apRoot))
+			return;
+
+		new TelaAnimation().fecharPane(telaSobreposta.get(apRoot));
+		telaSobreposta.remove(apRoot);
+	}
+
+	public static StackPane getStackPaneRoot(AnchorPane apRoot) {
+		if (!telaSobreposta.containsKey(apRoot))
+			return null;
+
+		return telaSobreposta.get(apRoot);
+	}
+
+	public static Object abreDialog(URL absoluteName, AnchorPane apRoot) {
+		return abreDialog(absoluteName, apRoot, null, null);
+	}
+	
+	public static Object abreDialog(URL absoluteName, AnchorPane apRoot, EventHandler<ActionEvent> onClose) {
+		return abreDialog(absoluteName, apRoot, null, onClose);
+	}
+
+	public static Object abreDialog(URL absoluteName, AnchorPane apRoot, EventHandler<ActionEvent> onOpen,
+			EventHandler<ActionEvent> onClose) {
+		Object controller = null;
+		if (!telaSobreposta.containsKey(apRoot))
+			return controller;
+
+		FXMLLoader loader = new FXMLLoader(absoluteName);
+		try {
+			StackPane root = telaSobreposta.get(apRoot);
+			AnchorPane tela = loader.load();
+			controller = loader.getController();
+
+			BoxBlur blur = new BoxBlur(3, 3, 3);
+			JFXDialog dialog = new JFXDialog(root, tela, JFXDialog.DialogTransition.CENTER);
+
+			apRoot.setDisable(true);
+			dialog.setOnDialogOpened((JFXDialogEvent eventOpen) -> {
+				if (onOpen != null)
+					onOpen.handle(new ActionEvent(onOpen, null));
+			});
+			dialog.setOnDialogClosed((JFXDialogEvent eventClose) -> {
+				apRoot.setEffect(null);
+				apRoot.setDisable(false);
+
+				if (onClose != null)
+					onClose.handle(new ActionEvent(onClose, null));
+			});
+
+			apRoot.setEffect(blur);
+
+			dialog.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "{Erro ao carregar a tela: " + absoluteName + "}", e);
+		}
+		return controller;
 	}
 
 	protected synchronized void prepareSlideMenuAnimation() {

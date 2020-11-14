@@ -13,7 +13,6 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.frame.PesquisaGenericaController;
-import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
@@ -33,11 +32,8 @@ import servidor.entities.Endereco;
 
 public class CadEnderecoController implements Initializable {
 
-	/* Referencia para o controlador pai, onde é utilizado para realizar o refresh na tela */
-	private DashboardFormPadrao dashBoard;
-	
 	@FXML
-	private AnchorPane rootPane;
+	private AnchorPane apRoot;
 
 	@FXML
 	private JFXComboBox<TipoEndereco> cbTipo;
@@ -81,9 +77,6 @@ public class CadEnderecoController implements Initializable {
 
 	@FXML
 	private JFXButton btnCancelar;
-
-	@FXML
-	public JFXButton btnVoltar;
 
 	private Set<Endereco> enderecos;
 	private Endereco endereco;
@@ -148,6 +141,10 @@ public class CadEnderecoController implements Initializable {
 		limpaCampos();
 	}
 
+	public Set<Endereco> getEndereco() {
+		return enderecos;
+	}
+
 	private CadEnderecoController atualizaEntidade() {
 		if (endereco == null)
 			endereco = new Endereco();
@@ -210,8 +207,6 @@ public class CadEnderecoController implements Initializable {
 
 		cbSituacao.getSelectionModel().select(endereco.getSituacao().ordinal());
 		cbTipo.getSelectionModel().select(endereco.getTipoEndereco().ordinal());
-
-		dashBoard.atualizaTabPane();
 
 		return this;
 	}
@@ -285,15 +280,7 @@ public class CadEnderecoController implements Initializable {
 		cbTipo.getItems().addAll(TipoEndereco.values());
 		cbTipo.getSelectionModel().selectFirst();
 	}
-	
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
 
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
-	}
-	
 	public static URL getFxmlLocate() {
 		return CadEnderecoController.class.getResource("/cadastro/view/cadastros/CadEndereco.fxml");
 	}

@@ -176,9 +176,9 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnEnderecoClick() {
-		CadEnderecoDadosController ctn = (CadEnderecoDadosController) DashboardFormPadrao
-				.loadView(CadEnderecoDadosController.getFxmlLocate(), spRoot);
-		ctn.initData(txtNomeFantasia.getText(), empresa.getEnderecos(), spRoot);
+		ListaEnderecoController ctn = (ListaEnderecoController) DashboardFormPadrao
+				.abreTela(ListaEnderecoController.getFxmlLocate(), spRoot);
+		ctn.initData(txtNomeFantasia.getText(), empresa.getEnderecos());
 	}
 
 	@FXML
@@ -190,9 +190,9 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnContatoClick() {
-		CadContatoDadosController ctn = (CadContatoDadosController) DashboardFormPadrao
-				.loadView(CadContatoDadosController.getFxmlLocate(), spRoot);
-		ctn.initData(txtRazaoSocial.getText(), empresa.getContatos(), spRoot);
+		ListaContatoController ctn = (ListaContatoController) DashboardFormPadrao
+				.abreTela(ListaContatoController.getFxmlLocate(), spRoot);
+		ctn.initData(txtRazaoSocial.getText(), empresa.getContatos());
 	}
 
 	@FXML
@@ -353,8 +353,6 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 		cbSituacao.getSelectionModel().select(empresa.getSituacao().ordinal());
 
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
 		return this;
 	}
 
@@ -439,13 +437,6 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 		empresa = new Empresa();
 	}
 
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
-
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
-	}
 
 	public static URL getFxmlLocate() {
 		return CadEmpresaController.class.getResource("/cadastro/view/cadastros/CadEmpresa.fxml");

@@ -21,7 +21,6 @@ import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.frame.PesquisaGenericaController;
 import comum.form.CadastroFormPadrao;
-import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
@@ -385,10 +384,7 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 		} else {
 			setImagemPadrao();
 		}
-
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
-
+		
 		return this;
 	}
 
@@ -472,14 +468,6 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 		txtId.setText("0");
 		setSqlFrame().configuraExitId();
-	}
-
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
-
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
 	}
 
 	public static URL getFxmlLocate() {

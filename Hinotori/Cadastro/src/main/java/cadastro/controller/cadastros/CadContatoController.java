@@ -12,7 +12,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import comum.form.DashboardFormPadrao;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
@@ -28,11 +27,8 @@ import servidor.entities.Contato;
 
 public class CadContatoController implements Initializable {
 
-	/* Referencia para o controlador pai, onde é utilizado para realizar o refresh na tela */
-	private DashboardFormPadrao dashBoard;
-	
 	@FXML
-	private AnchorPane rootPane;
+	private AnchorPane apRoot;
 
 	@FXML
 	private JFXComboBox<TipoContato> cbTipo;
@@ -60,9 +56,6 @@ public class CadContatoController implements Initializable {
 
 	@FXML
 	private JFXButton btnCancelar;
-
-	@FXML
-	public JFXButton btnVoltar;
 
 	private Set<Contato> contatos;
 	private Contato contato;
@@ -113,13 +106,14 @@ public class CadContatoController implements Initializable {
 		if (contatos == null)
 			contatos = new HashSet<>();
 
-		if (contatos.size() < 1)
-			contato.setPadrao(true);
-
 		if (!contatos.contains(contato))
 			contatos.add(contato);
 
 		limpaCampos();
+	}
+
+	public Set<Contato> getContato() {
+		return contatos;
 	}
 
 	private CadContatoController atualizaEntidade() {
@@ -155,6 +149,9 @@ public class CadContatoController implements Initializable {
 	public CadContatoController carregaContato(Contato contato) {
 		limpaCampos();
 
+		if (contato == null)
+			return this;
+
 		this.contato = contato;
 
 		if (contato.getNome() != null && !contato.getNome().isEmpty())
@@ -175,13 +172,6 @@ public class CadContatoController implements Initializable {
 		cbSituacao.getSelectionModel().select(contato.getSituacao().ordinal());
 		cbTipo.getSelectionModel().select(contato.getTipoContato().ordinal());
 
-		dashBoard.atualizaTabPane();
-
-		return this;
-	}
-
-	public CadContatoController setContatos(Set<Contato> contatos) {
-		this.contatos = contatos;
 		return this;
 	}
 
@@ -207,15 +197,7 @@ public class CadContatoController implements Initializable {
 		cbTipo.getItems().addAll(TipoContato.values());
 		cbTipo.getSelectionModel().selectFirst();
 	}
-	
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
 
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
-	}
-	
 	public static URL getFxmlLocate() {
 		return CadContatoController.class.getResource("/cadastro/view/cadastros/CadContato.fxml");
 	}
