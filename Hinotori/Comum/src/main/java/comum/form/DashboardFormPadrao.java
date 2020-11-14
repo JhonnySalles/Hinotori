@@ -367,7 +367,7 @@ public class DashboardFormPadrao {
 		return this;
 	}
 
-	protected synchronized void inicializa() {
+	protected synchronized void inicializaHeranca() {
 		setEfeito();
 		prepareSlideMenuAnimation();
 

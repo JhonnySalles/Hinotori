@@ -17,6 +17,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
+import comum.form.CadastroFormPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
@@ -33,37 +34,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import servidor.dao.services.EmpresaServices;
 import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 
-public class CadEmpresaController implements Initializable {
-
-	/*
-	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
-	 * na tela
-	 */
-	private DashboardFormPadrao dashBoard;
+public class CadEmpresaController extends CadastroFormPadrao implements Initializable {
 
 	final static Image LogoPadrao = new Image(
 			CadEmpresaController.class.getResourceAsStream("/cadastro/resources/imagens/icon/icoPrincipal_100.png"));
-
-	@FXML
-	private ScrollPane background;
-
-	@FXML
-	private StackPane spTelas;
-
-	@FXML
-	private AnchorPane rootEmpresa;
 
 	@FXML
 	private JFXTextField txtId;
@@ -95,21 +78,6 @@ public class CadEmpresaController implements Initializable {
 	@FXML
 	private JFXButton btnProcurarImagem;
 
-	@FXML
-	private JFXButton btnPesquisar;
-
-	@FXML
-	private JFXButton btnConfirmar;
-
-	@FXML
-	private JFXButton btnCancelar;
-
-	@FXML
-	private JFXButton btnExcluir;
-
-	@FXML
-	private JFXButton btnVoltar;
-
 	private Set<Imagem> imagens;
 	private Empresa empresa;
 	private EmpresaServices empresaService;
@@ -126,10 +94,10 @@ public class CadEmpresaController implements Initializable {
 	public void onBtnConfirmarClick() {
 		if (validaCampos()) {
 			try {
-				background.getScene().getRoot().setCursor(Cursor.WAIT);
+				spBackground.getScene().getRoot().setCursor(Cursor.WAIT);
 				desabilitaBotoes().atualizaEntidade().salvar(empresa);
 			} finally {
-				background.getScene().getRoot().setCursor(null);
+				spBackground.getScene().getRoot().setCursor(null);
 				habilitaBotoes();
 			}
 		}
@@ -161,10 +129,10 @@ public class CadEmpresaController implements Initializable {
 					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
 		else {
 			try {
-				background.cursorProperty().set(Cursor.WAIT);
+				spBackground.cursorProperty().set(Cursor.WAIT);
 				desabilitaBotoes().atualizaEntidade().excluir(empresa);
 			} finally {
-				background.cursorProperty().set(null);
+				spBackground.cursorProperty().set(null);
 				habilitaBotoes();
 			}
 		}
@@ -209,8 +177,8 @@ public class CadEmpresaController implements Initializable {
 	@FXML
 	public void onBtnEnderecoClick() {
 		CadEnderecoDadosController ctn = (CadEnderecoDadosController) DashboardFormPadrao
-				.loadView(CadEnderecoDadosController.getFxmlLocate(), spTelas);
-		ctn.initData(txtNomeFantasia.getText(), empresa.getEnderecos(), spTelas);
+				.loadView(CadEnderecoDadosController.getFxmlLocate(), spRoot);
+		ctn.initData(txtNomeFantasia.getText(), empresa.getEnderecos(), spRoot);
 	}
 
 	@FXML
@@ -223,8 +191,8 @@ public class CadEmpresaController implements Initializable {
 	@FXML
 	public void onBtnContatoClick() {
 		CadContatoDadosController ctn = (CadContatoDadosController) DashboardFormPadrao
-				.loadView(CadContatoDadosController.getFxmlLocate(), spTelas);
-		ctn.initData(txtRazaoSocial.getText(), empresa.getContatos(), spTelas);
+				.loadView(CadContatoDadosController.getFxmlLocate(), spRoot);
+		ctn.initData(txtRazaoSocial.getText(), empresa.getContatos(), spRoot);
 	}
 
 	@FXML
@@ -391,7 +359,7 @@ public class CadEmpresaController implements Initializable {
 	}
 
 	private CadEmpresaController desabilitaBotoes() {
-		background.setDisable(true);
+		spBackground.setDisable(true);
 		btnConfirmar.setDisable(true);
 		btnCancelar.setDisable(true);
 		btnExcluir.setDisable(true);
@@ -399,7 +367,7 @@ public class CadEmpresaController implements Initializable {
 	}
 
 	private CadEmpresaController habilitaBotoes() {
-		background.setDisable(false);
+		spBackground.setDisable(false);
 		btnConfirmar.setDisable(false);
 		btnCancelar.setDisable(false);
 		btnExcluir.setDisable(false);
@@ -447,6 +415,7 @@ public class CadEmpresaController implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL location, ResourceBundle resources) {
+		inicializaHeranca();
 		setEmpresaServices(new EmpresaServices());
 
 		Limitadores.setTextFieldInteger(txtId);

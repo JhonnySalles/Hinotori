@@ -6,8 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -16,6 +14,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import comum.form.CadastroFormPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
@@ -33,34 +32,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import servidor.dao.services.ClienteServices;
 import servidor.entities.Cliente;
 
-public class CadClienteController implements Initializable {
-
-	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
-
-	/*
-	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
-	 * na tela
-	 */
-	private DashboardFormPadrao dashBoard;
-
-	@FXML
-	private ScrollPane background;
-
-	@FXML
-	private StackPane spTelas;
-
-	@FXML
-	private AnchorPane rootCliente;
+public class CadClienteController extends CadastroFormPadrao implements Initializable {
 
 	@FXML
 	private JFXTextField txtId;
@@ -95,18 +72,6 @@ public class CadClienteController implements Initializable {
 	@FXML
 	private JFXButton btnEndereco;
 
-	@FXML
-	private JFXButton btnPesquisar;
-
-	@FXML
-	private JFXButton btnConfirmar;
-
-	@FXML
-	private JFXButton btnCancelar;
-
-	@FXML
-	private JFXButton btnExcluir;
-
 	private Cliente cliente;
 	private ClienteServices clienteService;
 	private String id;
@@ -122,10 +87,10 @@ public class CadClienteController implements Initializable {
 	public void onBtnConfirmarClick() {
 		if (validaCampos()) {
 			try {
-				spTelas.cursorProperty().set(Cursor.WAIT);
+				spRoot.cursorProperty().set(Cursor.WAIT);
 				desabilitaBotoes().atualizaEntidade().salvar(cliente);
 			} finally {
-				spTelas.cursorProperty().set(null);
+				spRoot.cursorProperty().set(null);
 				habilitaBotoes();
 			}
 		}
@@ -158,10 +123,10 @@ public class CadClienteController implements Initializable {
 					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
 		else {
 			try {
-				spTelas.cursorProperty().set(Cursor.WAIT);
+				spRoot.cursorProperty().set(Cursor.WAIT);
 				desabilitaBotoes().atualizaEntidade().excluir(cliente);
 			} finally {
-				spTelas.cursorProperty().set(null);
+				spRoot.cursorProperty().set(null);
 				habilitaBotoes();
 			}
 		}
@@ -206,8 +171,8 @@ public class CadClienteController implements Initializable {
 	@FXML
 	public void onBtnEnderecoClick() {
 		CadEnderecoDadosController ctn = (CadEnderecoDadosController) DashboardFormPadrao
-				.loadView(CadEnderecoDadosController.getFxmlLocate(), spTelas);
-		ctn.initData(txtNome.getText(), cliente.getEnderecos(), spTelas);
+				.loadView(CadEnderecoDadosController.getFxmlLocate(), spRoot);
+		ctn.initData(txtNome.getText(), cliente.getEnderecos(), spRoot);
 	}
 
 	@FXML
@@ -220,8 +185,8 @@ public class CadClienteController implements Initializable {
 	@FXML
 	public void onBtnContatoClick() {
 		CadContatoDadosController ctn = (CadContatoDadosController) DashboardFormPadrao
-				.loadView(CadContatoDadosController.getFxmlLocate(), spTelas);
-		ctn.initData(txtNome.getText(), cliente.getContatos(), spTelas);
+				.loadView(CadContatoDadosController.getFxmlLocate(), spRoot);
+		ctn.initData(txtNome.getText(), cliente.getContatos(), spRoot);
 	}
 
 	public void onTxtIdExit() {
@@ -370,7 +335,7 @@ public class CadClienteController implements Initializable {
 	}
 
 	private CadClienteController desabilitaBotoes() {
-		spTelas.setDisable(true);
+		spRoot.setDisable(true);
 		btnConfirmar.setDisable(true);
 		btnCancelar.setDisable(true);
 		btnExcluir.setDisable(true);
@@ -378,7 +343,7 @@ public class CadClienteController implements Initializable {
 	}
 
 	private CadClienteController habilitaBotoes() {
-		spTelas.setDisable(false);
+		spRoot.setDisable(false);
 		btnConfirmar.setDisable(false);
 		btnCancelar.setDisable(false);
 		btnExcluir.setDisable(false);
@@ -406,44 +371,9 @@ public class CadClienteController implements Initializable {
 		return this;
 	}
 
-	// Será necessário verificar uma forma de configurar o scene após a exibição,
-	// pois é ele que adiciona os atalhos do teclado, porém na construção a scene
-	// não existe, somente na exibição.
-	public void ativaAtalhos() {
-		rootCliente.getScene().getAccelerators().clear();
-		rootCliente.getScene().getAccelerators().putAll(atalhosTecla);
-	}
-
-	private CadClienteController configuraAtalhosTeclado() {
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.F2), new Runnable() {
-			@FXML
-			public void run() {
-				btnConfirmar.fire();
-			}
-		});
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.F3), new Runnable() {
-			@FXML
-			public void run() {
-				btnCancelar.fire();
-			}
-		});
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.F4), new Runnable() {
-			@FXML
-			public void run() {
-				btnExcluir.fire();
-			}
-		});
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.F5), new Runnable() {
-			@FXML
-			public void run() {
-				btnPesquisar.fire();
-			}
-		});
-		return this;
-	}
-
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
+		inicializaHeranca();
 		setClienteServices(new ClienteServices());
 		Limitadores.setTextFieldInteger(txtId);
 
@@ -460,7 +390,7 @@ public class CadClienteController implements Initializable {
 		TecladoUtils.onEnterConfigureTab(cbClienteTipo);
 		TecladoUtils.onEnterConfigureTab(cbPessoaTipo);
 
-		configuraAtalhosTeclado().configuraExitId();
+		configuraExitId();
 
 		cbSituacao.getItems().addAll(Situacao.values());
 		cbSituacao.getSelectionModel().selectFirst();

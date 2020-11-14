@@ -1,5 +1,4 @@
 module Cadastro {
-	exports cadastro;
 	exports cadastro.controller.cadastros;
 	exports cadastro.controller.frame;
 	exports cadastro.controller.pesquisas;

@@ -20,6 +20,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import comum.form.CadastroFormPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
@@ -37,13 +38,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import servidor.dao.services.UsuarioServices;
@@ -51,25 +48,10 @@ import servidor.entities.Imagem;
 import servidor.entities.Usuario;
 import servidor.validations.ValidaUsuario;
 
-public class CadUsuarioController implements Initializable {
-
-	/*
-	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
-	 * na tela
-	 */
-	private DashboardFormPadrao dashBoard;
+public class CadUsuarioController extends CadastroFormPadrao implements Initializable {
 
 	public final static Image ImagemPadrao = new Image(CadUsuarioController.class
 			.getResourceAsStream("/cadastro/resources/imagens/white/geral/icoUsuarioImage_256.png"));
-
-	@FXML
-	private ScrollPane background;
-
-	@FXML
-	private StackPane spTelas;
-
-	@FXML
-	private AnchorPane rootUsuario;
 
 	@FXML
 	private JFXTextField txtId;
@@ -101,18 +83,6 @@ public class CadUsuarioController implements Initializable {
 	@FXML
 	private JFXButton btnProcurarImagem;
 
-	@FXML
-	private Button btnConfirmar;
-
-	@FXML
-	private Button btnCancelar;
-
-	@FXML
-	private Button btnExcluir;
-
-	@FXML
-	private Button btnPesquisar;
-
 	private Set<Imagem> imagens;
 	private Usuario usuario;
 	private UsuarioServices usuarioService;
@@ -127,7 +97,7 @@ public class CadUsuarioController implements Initializable {
 	@FXML
 	public void onBtnConfirmarClick() {
 		try {
-			background.cursorProperty().set(Cursor.WAIT);
+			spBackground.cursorProperty().set(Cursor.WAIT);
 			if (ValidaUsuario.validaUsuario(usuario))
 				desabilitaBotoes().salvar(usuario);
 
@@ -138,7 +108,7 @@ public class CadUsuarioController implements Initializable {
 			Notificacoes.notificacao(AlertType.INFORMATION, "Cadastro de usuário inválido", e.getMessage());
 			e.printStackTrace();
 		} finally {
-			background.cursorProperty().set(null);
+			spBackground.cursorProperty().set(null);
 			habilitaBotoes();
 		}
 	}
@@ -169,10 +139,10 @@ public class CadUsuarioController implements Initializable {
 					"Não foi possivel realizar a exclusão, nenhum usuário selecionado.");
 		else {
 			try {
-				background.cursorProperty().set(Cursor.WAIT);
+				spBackground.cursorProperty().set(Cursor.WAIT);
 				desabilitaBotoes().excluir(usuario);
 			} finally {
-				background.cursorProperty().set(null);
+				spBackground.cursorProperty().set(null);
 				habilitaBotoes();
 			}
 		}
@@ -308,7 +278,7 @@ public class CadUsuarioController implements Initializable {
 	}
 
 	private CadUsuarioController desabilitaBotoes() {
-		background.setDisable(true);
+		spBackground.setDisable(true);
 		btnConfirmar.setDisable(true);
 		btnCancelar.setDisable(true);
 		btnExcluir.setDisable(true);
@@ -316,7 +286,7 @@ public class CadUsuarioController implements Initializable {
 	}
 
 	private CadUsuarioController habilitaBotoes() {
-		background.setDisable(false);
+		spBackground.setDisable(false);
 		btnConfirmar.setDisable(false);
 		btnCancelar.setDisable(false);
 		btnExcluir.setDisable(false);
@@ -476,6 +446,7 @@ public class CadUsuarioController implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
+		inicializaHeranca();
 		setUsuarioServices(new UsuarioServices());
 		Limitadores.setTextFieldInteger(txtId);
 

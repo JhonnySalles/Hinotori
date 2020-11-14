@@ -20,6 +20,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.frame.PesquisaGenericaController;
+import comum.form.CadastroFormPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
@@ -35,38 +36,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import servidor.dao.services.ProdutoServices;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
 
-public class CadProdutoController implements Initializable {
-
-	/*
-	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
-	 * na tela
-	 */
-	private DashboardFormPadrao dashBoard;
+public class CadProdutoController extends CadastroFormPadrao implements Initializable {
 
 	final static Image ImagemPadrao = new Image(CadUsuarioController.class
 			.getResourceAsStream("/cadastro/resources/imagens/white/geral/icoProdutoImage_256.png"));
-
-	@FXML
-	private Pane paneBackground;
-
-	@FXML
-	private ScrollPane background;
-
-	@FXML
-	private AnchorPane rootPane;
 
 	@FXML
 	private JFXTextField txtId;
@@ -88,9 +72,6 @@ public class CadProdutoController implements Initializable {
 
 	@FXML
 	private Spinner<Double> spnVolume;
-
-	@FXML
-	private Spinner<Double> spnQtdVolume;
 
 	@FXML
 	private JFXTextArea txtAreaObservacao;
@@ -120,21 +101,6 @@ public class CadProdutoController implements Initializable {
 	@FXML
 	private JFXButton btnProcurarImagem;
 
-	@FXML
-	private JFXButton btnPesquisar;
-
-	@FXML
-	private JFXButton btnConfirmar;
-
-	@FXML
-	private JFXButton btnCancelar;
-
-	@FXML
-	private JFXButton btnExcluir;
-
-	@FXML
-	private JFXButton btnVoltar;
-
 	private Set<Imagem> imagens;
 	private Produto produto;
 	private ProdutoServices produtoService;
@@ -150,10 +116,10 @@ public class CadProdutoController implements Initializable {
 	public void onBtnConfirmarClick() {
 		if (validaCampos()) {
 			try {
-				background.getScene().getRoot().setCursor(Cursor.WAIT);
+				spBackground.getScene().getRoot().setCursor(Cursor.WAIT);
 				desabilitaBotoes().atualizaEntidade().salvar(produto);
 			} finally {
-				background.getScene().getRoot().setCursor(null);
+				spBackground.getScene().getRoot().setCursor(null);
 				habilitaBotoes();
 			}
 		}
@@ -185,10 +151,10 @@ public class CadProdutoController implements Initializable {
 					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
 		else {
 			try {
-				background.cursorProperty().set(Cursor.WAIT);
+				spBackground.cursorProperty().set(Cursor.WAIT);
 				desabilitaBotoes().atualizaEntidade().excluir(produto);
 			} finally {
-				background.cursorProperty().set(null);
+				spBackground.cursorProperty().set(null);
 				habilitaBotoes();
 			}
 		}
@@ -301,7 +267,7 @@ public class CadProdutoController implements Initializable {
 	}
 
 	private CadProdutoController desabilitaBotoes() {
-		background.setDisable(true);
+		spBackground.setDisable(true);
 		btnConfirmar.setDisable(true);
 		btnCancelar.setDisable(true);
 		btnExcluir.setDisable(true);
@@ -309,7 +275,7 @@ public class CadProdutoController implements Initializable {
 	}
 
 	private CadProdutoController habilitaBotoes() {
-		background.setDisable(false);
+		spBackground.setDisable(false);
 		btnConfirmar.setDisable(false);
 		btnCancelar.setDisable(false);
 		btnExcluir.setDisable(false);
@@ -338,7 +304,6 @@ public class CadProdutoController implements Initializable {
 		txtMarca.setText("");
 		spnPeso.getEditor().setText("0");
 		spnVolume.getEditor().setText("0");
-		spnQtdVolume.getEditor().setText("0");
 		txtAreaObservacao.setText("");
 		cbSituacao.getSelectionModel().selectFirst();
 		cbTipoProduto.getSelectionModel().selectFirst();
@@ -494,6 +459,7 @@ public class CadProdutoController implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL location, ResourceBundle resources) {
+		inicializaHeranca();
 		setProdutoServices(new ProdutoServices());
 
 		Limitadores.setTextFieldInteger(txtId);

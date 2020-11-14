@@ -7,17 +7,15 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
 import comum.form.DashboardFormPadrao;
+import comum.form.PesquisaFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.enums.Situacao;
@@ -32,47 +30,19 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.transform.Scale;
-import javafx.scene.transform.Transform;
 import javafx.util.Callback;
 import servidor.dao.services.ProdutoServices;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
 
-public class PsqProdutoController implements Initializable {
-
-	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
-
-	/* Referencia para o controlador pai, onde é utilizado para realizar o refresh na tela */
-	private DashboardFormPadrao dashBoard;
-	
-	@FXML
-	private StackPane spRoot;
-
-	@FXML
-	private ScrollPane background;
-
-	@FXML
-	private HBox titulo;
-
-	@FXML
-	private HBox fundoBotoes;
-
-	@FXML
-	private AnchorPane rootProduto;
+public class PsqProdutoController extends PesquisaFormPadrao implements Initializable {
 
 	@FXML
 	private JFXTextField txtIdInicial;
@@ -136,18 +106,6 @@ public class PsqProdutoController implements Initializable {
 
 	@FXML
 	private TableColumn<Produto, String> tbClDataCadastro;
-
-	@FXML
-	private JFXButton btnAtualizar;
-
-	@FXML
-	private JFXButton btnConfirmar;
-
-	@FXML
-	private JFXButton btnCancelar;
-
-	@FXML
-	private JFXButton btnVoltar;
 
 	private List<Produto> produtos;
 	private ObservableList<Produto> obsProdutos;
@@ -319,85 +277,13 @@ public class PsqProdutoController implements Initializable {
 		return this;
 	}
 
-	// Será necessário verificar uma forma de configurar o scene após a exibição,
-	// pois é ele que adiciona os atalhos do teclado, porém na construção a scene
-	// não existe, somente na exibição.
-	public void ativaAtalhos() {
-		rootProduto.getScene().getAccelerators().clear();
-		rootProduto.getScene().getAccelerators().putAll(atalhosTecla);
-	}
-
-	private PsqProdutoController configuraAtalhosTeclado() {
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.F2), new Runnable() {
-			@FXML
-			public void run() {
-				btnConfirmar.fire();
-			}
-		});
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.F3), new Runnable() {
-			@FXML
-			public void run() {
-				btnCancelar.fire();
-			}
-		});
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.BACK_SPACE), new Runnable() {
-			@FXML
-			public void run() {
-				btnVoltar.fire();
-			}
-		});
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.BACK_SPACE), new Runnable() {
-			@FXML
-			public void run() {
-				btnVoltar.fire();
-			}
-		});
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.F5), new Runnable() {
-			@FXML
-			public void run() {
-				btnAtualizar.fire();
-			}
-		});
-		return this;
-	}
-
+	
 	private PsqProdutoController setProdutoServices(ProdutoServices produtoService) {
 		this.produtoService = produtoService;
 		return this;
 	}
 
-	// Função responsável pela transição de opacidade do fundo do cadastro e dos
-	// botões.
-	private double initY = -1;
-	private final Scale scale = new Scale(1, 1, 0, 0);
-	private Transform oldSceneTransform = null;
-
-	private PsqProdutoController configureScroll() {
-
-		fundoBotoes.localToSceneTransformProperty().addListener((o, oldVal, newVal) -> oldSceneTransform = oldVal);
-		background.vvalueProperty().addListener((o, oldVal, newVal) -> {
-			if (initY == -1) {
-				initY = oldSceneTransform.getTy();
-			}
-
-			// translation
-			double ty = rootProduto.getLocalToSceneTransform().getTy();
-			double opacity = Math.abs(ty - initY) / 100;
-			opacity = opacity > 1 ? 1 : (opacity < 0) ? 0 : opacity;
-
-			titulo.setOpacity(1 - opacity);
-			fundoBotoes.setOpacity(opacity);
-
-			// scale
-			scale.setX(map(opacity, 0, 1, 1, 0.75));
-			scale.setY(map(opacity, 0, 1, 1, 0.75));
-		});
-		return this;
-	}
-
-	private double map(double val, double min1, double max1, double min2, double max2) {
-		return min2 + (max2 - min2) * ((val - min1) / (max1 - min1));
-	}
+	
 
 	private PsqProdutoController linkaCelulas() {
 		tbClId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -444,6 +330,7 @@ public class PsqProdutoController implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
+		inicializaHeranca();
 		setProdutoServices(new ProdutoServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
@@ -456,7 +343,6 @@ public class PsqProdutoController implements Initializable {
 		TecladoUtils.onEnterConfigureTab(cbProdutoTipo);
 		TecladoUtils.onEnterConfigureTab(cbSituacao);
 
-		configuraAtalhosTeclado().configureScroll();
 		linkaCelulas();
 
 		cbSituacao.getItems().addAll(Situacao.values());
