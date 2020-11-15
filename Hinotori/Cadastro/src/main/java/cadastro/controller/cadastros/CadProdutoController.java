@@ -20,7 +20,9 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.frame.PesquisaGenericaController;
+import cadastro.controller.pesquisas.PsqProdutoController;
 import comum.form.CadastroFormPadrao;
+import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
@@ -168,7 +170,9 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnPesquisarClick() {
-		// limpaCampos();
+		PsqProdutoController ctn = (PsqProdutoController) DashboardFormPadrao
+				.loadTela(PsqProdutoController.getFxmlLocate(), spRoot);
+		ctn.setAtivaBotoesPesquisa(true, true);
 	}
 
 	@FXML

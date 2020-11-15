@@ -20,7 +20,9 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.controller.pesquisas.PsqUsuarioController;
 import comum.form.CadastroFormPadrao;
+import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
 import comum.model.encode.DecodeHash;
@@ -156,7 +158,9 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnPesquisarClick() {
-		// limpaCampos();
+		PsqUsuarioController ctn = (PsqUsuarioController) DashboardFormPadrao
+				.loadTela(PsqUsuarioController.getFxmlLocate(), spRoot);
+		ctn.setAtivaBotoesPesquisa(true, true);
 	}
 
 	@FXML

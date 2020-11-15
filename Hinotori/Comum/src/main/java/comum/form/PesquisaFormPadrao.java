@@ -5,6 +5,10 @@ import java.util.Map;
 
 import com.jfoenix.controls.JFXButton;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
@@ -18,12 +22,6 @@ import javafx.scene.transform.Transform;
 public class PesquisaFormPadrao {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
-
-	/*
-	 * Referencia para o controlador pai, onde é utilizado para realizar o refresh
-	 * na tela
-	 */
-	protected DashboardFormPadrao dashBoard;
 
 	@FXML
 	protected StackPane spRoot;
@@ -124,10 +122,79 @@ public class PesquisaFormPadrao {
 			}
 		});
 	}
+	
+	/**
+	 * Função apara ativar os botões de confirmar e cancelar (pesquisa) e o botão voltar.
+	 * {@code PesquisaFormPadrao}.
+	 *
+	 * @defaultValue null
+	 */
+	public void setAtivaBotoesPesquisa(Boolean btnPesquisa, Boolean btnVoltar) {
+		if (btnPesquisa) {
+			btnConfirmar.setDisable(false);
+			btnConfirmar.setVisible(true);
+			btnCancelar.setDisable(false);
+			btnCancelar.setVisible(true);
+		} else {
+			btnConfirmar.setDisable(true);
+			btnConfirmar.setVisible(false);
+			btnCancelar.setDisable(true);
+			btnCancelar.setVisible(false);
+		}
+		
+		if (btnVoltar) {
+			this.btnVoltar.setDisable(false);
+			this.btnVoltar.setVisible(true);
+		} else {
+			this.btnVoltar.setDisable(true);
+			this.btnVoltar.setVisible(false);
+		}
+	}
 
 	public synchronized void inicializaHeranca() {
 		configureScroll();
-		configuraAtalhosTeclado();
+		configuraAtalhosTeclado();	
+		
+		// Por padrão os botões não estão visiveis.
+		btnConfirmar.setDisable(true);
+		btnConfirmar.setVisible(false);
+		btnCancelar.setDisable(true);
+		btnCancelar.setVisible(false);
+		btnVoltar.setDisable(true);
+		btnVoltar.setVisible(false);
+	}
+	
+	/**
+	 * Função a ser executada quando a tela for fechada.
+	 * {@code PesquisaFormPadrao}.
+	 *
+	 * @defaultValue null
+	 */
+	protected ObjectProperty<EventHandler<ActionEvent>> onClose;
+	protected static final EventHandler<ActionEvent> DEFAULT_ON_CLOSE = null;
+
+	public final void setOnClose(EventHandler<ActionEvent> value) {
+		if ((onClose != null) || (value != null /* DEFAULT_ON_DUPLO_CLIQUE */)) {
+			onCloseProperty().set(value);
+		}
+	}
+
+	public final EventHandler<ActionEvent> getOnClose() {
+		return (onClose == null) ? DEFAULT_ON_CLOSE : onClose.get();
+	}
+
+	public final ObjectProperty<EventHandler<ActionEvent>> onCloseProperty() {
+		if (onClose == null) {
+			onClose = new SimpleObjectProperty<EventHandler<ActionEvent>>(this, "onClose",
+					DEFAULT_ON_CLOSE);
+		}
+		return onClose;
+	}
+	
+	protected final void onClose() {
+		final EventHandler<ActionEvent> handler = getOnClose();
+		if (handler != null)
+			handler.handle(new ActionEvent(this, null));
 	}
 
 }

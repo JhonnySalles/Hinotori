@@ -139,8 +139,6 @@ public class PsqUsuarioController extends PesquisaFormPadrao implements Initiali
 		try {
 			spRoot.cursorProperty().set(Cursor.WAIT);
 			carregarUsuarios();
-			// Necessário por um bug na tela ao carregar ela.
-			dashBoard.atualizaTabPane();
 		} catch (ExcessaoBd e) {
 			e.printStackTrace();
 		} finally {
@@ -158,7 +156,8 @@ public class PsqUsuarioController extends PesquisaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnVoltarClick() {
-
+		DashboardFormPadrao.closeTela(spRoot);
+		onClose();
 	}
 
 	@FXML
@@ -173,7 +172,6 @@ public class PsqUsuarioController extends PesquisaFormPadrao implements Initiali
 		cbSituacao.getSelectionModel().clearSelection();
 		if (filteredData != null)
 			filteredData.setPredicate(null);
-		dashBoard.atualizaTabPane();
 	}
 
 	public PsqUsuarioController carregarUsuarios(List<Usuario> usuarios) {
@@ -187,8 +185,6 @@ public class PsqUsuarioController extends PesquisaFormPadrao implements Initiali
 		tbUsuarios.setItems(obsUsuarios);
 		tbUsuarios.refresh();
 		configuraGrid();
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
 		return this;
 	}
 
@@ -332,14 +328,6 @@ public class PsqUsuarioController extends PesquisaFormPadrao implements Initiali
 
 		cbNivel.getItems().addAll(UsuarioNivel.values());
 		cbSituacao.getItems().addAll(Situacao.values());
-	}
-	
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
-
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
 	}
 	
 	public static URL getFxmlLocate() {

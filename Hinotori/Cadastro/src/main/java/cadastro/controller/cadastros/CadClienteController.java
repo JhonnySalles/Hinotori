@@ -14,6 +14,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.controller.pesquisas.PsqClienteController;
 import comum.form.CadastroFormPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
@@ -143,7 +144,9 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnPesquisarClick() {
-		// limpaCampos();
+		PsqClienteController ctn = (PsqClienteController) DashboardFormPadrao
+				.loadTela(PsqClienteController.getFxmlLocate(), spRoot);
+		ctn.setAtivaBotoesPesquisa(true, true);
 	}
 
 	@FXML

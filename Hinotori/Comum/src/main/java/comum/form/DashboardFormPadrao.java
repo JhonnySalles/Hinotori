@@ -49,7 +49,7 @@ public class DashboardFormPadrao {
 	private final static Logger LOGGER = Logger.getLogger(DashboardFormPadrao.class.getName());
 
 	final static protected Map<URL, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
-	final static protected Map<AnchorPane, StackPane> telaSobreposta = new HashMap<>(); // Irá mapear as abas abertas.
+	final static protected Map<Node, StackPane> telaSobreposta = new HashMap<>(); // Irá mapear as abas abertas.
 
 	protected final static DropShadow efeitoPainelDetalhe = new DropShadow();
 
@@ -326,7 +326,7 @@ public class DashboardFormPadrao {
 	public synchronized static Object loadTela(URL absoluteName, StackPane spRoot) {
 		FXMLLoader loader = new FXMLLoader(absoluteName);
 		try {
-			AnchorPane apFilho = loader.load();
+			Node apFilho = loader.load();
 			spRoot.getChildren().add(apFilho);
 			telaSobreposta.put(apFilho, spRoot);
 			new TelaAnimation().abrirPane(spRoot, apFilho);
@@ -342,14 +342,14 @@ public class DashboardFormPadrao {
 		return null;
 	}
 
-	public static Object loadTela(URL absoluteName, AnchorPane apRoot) {
+	public static Object loadTela(URL absoluteName, Node apRoot) {
 		if (!telaSobreposta.containsKey(apRoot))
 			return null;
 
 		return loadTela(absoluteName, telaSobreposta.get(apRoot));
 	}
 
-	public static void closeTela(AnchorPane apRoot) {
+	public static void closeTela(Node apRoot) {
 		if (!telaSobreposta.containsKey(apRoot))
 			return;
 
@@ -357,7 +357,7 @@ public class DashboardFormPadrao {
 		telaSobreposta.remove(apRoot);
 	}
 
-	public static StackPane getStackPaneRoot(AnchorPane apRoot) {
+	public static StackPane getStackPaneRoot(Node apRoot) {
 		if (!telaSobreposta.containsKey(apRoot))
 			return null;
 

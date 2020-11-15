@@ -142,7 +142,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 			spRoot.cursorProperty().set(Cursor.WAIT);
 			carregarEmpresas();
 			// Necessário por um bug na tela ao carregar ela.
-			dashBoard.atualizaTabPane();
+			//dashBoard.atualizaTabPane();
 		} catch (ExcessaoBd e) {
 			e.printStackTrace();
 		} finally {
@@ -175,7 +175,6 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 		cbSituacao.getSelectionModel().clearSelection();
 		if (filteredData != null)
 			filteredData.setPredicate(null);
-		dashBoard.atualizaTabPane();
 	}
 
 	public PsqEmpresaController carregarEmpresas(List<Empresa> empresas) {
@@ -189,8 +188,6 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 		tbEmpresas.setItems(obsEmpresas);
 		tbEmpresas.refresh();
 		configuraGrid();
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
 		return this;
 	}
 
@@ -346,14 +343,6 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 		linkaCelulas();
 
 		cbSituacao.getItems().addAll(Situacao.values());
-	}
-	
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
-
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
 	}
 	
 	public static URL getFxmlLocate() {

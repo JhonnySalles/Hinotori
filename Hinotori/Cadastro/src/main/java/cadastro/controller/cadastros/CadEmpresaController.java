@@ -17,6 +17,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.controller.pesquisas.PsqEmpresaController;
 import comum.form.CadastroFormPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
@@ -147,7 +148,9 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnPesquisarClick() {
-		// limpaCampos();
+		PsqEmpresaController ctn = (PsqEmpresaController) DashboardFormPadrao
+				.loadTela(PsqEmpresaController.getFxmlLocate(), spRoot);
+		ctn.setAtivaBotoesPesquisa(true, true);
 	}
 
 	@FXML

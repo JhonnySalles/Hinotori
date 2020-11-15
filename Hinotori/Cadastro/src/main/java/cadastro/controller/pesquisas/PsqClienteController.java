@@ -94,7 +94,7 @@ public class PsqClienteController extends PesquisaFormPadrao implements Initiali
 
 	@FXML
 	private TableColumn<Cliente, String> tbClContatoPadrao;
-	
+
 	@FXML
 	private TableColumn<Cliente, String> tbClEnderecoPadrao;
 
@@ -139,8 +139,6 @@ public class PsqClienteController extends PesquisaFormPadrao implements Initiali
 		try {
 			spRoot.cursorProperty().set(Cursor.WAIT);
 			carregarClientes();
-			// Necessário por um bug na tela ao carregar ela.
-			dashBoard.atualizaTabPane();
 		} catch (ExcessaoBd e) {
 			e.printStackTrace();
 		} finally {
@@ -158,7 +156,8 @@ public class PsqClienteController extends PesquisaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnVoltarClick() {
-
+		DashboardFormPadrao.closeTela(spRoot);
+		onClose();
 	}
 
 	@FXML
@@ -175,7 +174,6 @@ public class PsqClienteController extends PesquisaFormPadrao implements Initiali
 		cbSituacao.getSelectionModel().clearSelection();
 		if (filteredData != null)
 			filteredData.setPredicate(null);
-		dashBoard.atualizaTabPane();
 	}
 
 	public PsqClienteController carregarClientes(List<Cliente> clientes) {
@@ -189,8 +187,6 @@ public class PsqClienteController extends PesquisaFormPadrao implements Initiali
 		tbClientes.setItems(obsClientes);
 		tbClientes.refresh();
 		configuraGrid();
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
 		return this;
 	}
 
@@ -379,16 +375,17 @@ public class PsqClienteController extends PesquisaFormPadrao implements Initiali
 			property.setValue(dateFormat.format(data.getValue().getDataCadastro()));
 			return property;
 		});
-		
+
 		tbClContatoPadrao.setCellValueFactory(data -> {
 			List<Contato> psq = data.getValue().getContatos().stream().filter(item -> item.isPadrao())
 					.collect(Collectors.toList());
 			SimpleStringProperty contato = new SimpleStringProperty();
 			if (psq != null && psq.size() > 0)
-				contato.setValue(ConverterMascaras.formataFone(psq.get(0).getTelefone()) + " / " + ConverterMascaras.formataFone(psq.get(0).getCelular()));
+				contato.setValue(ConverterMascaras.formataFone(psq.get(0).getTelefone()) + " / "
+						+ ConverterMascaras.formataFone(psq.get(0).getCelular()));
 			else
 				contato.setValue("");
-			
+
 			return contato;
 		});
 
@@ -430,15 +427,7 @@ public class PsqClienteController extends PesquisaFormPadrao implements Initiali
 		cbPessoaTipo.getItems().addAll(TipoPessoa.values());
 		cbClienteTipo.getItems().addAll(TipoCliente.values());
 	}
-	
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
 
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
-	}
-	
 	public static URL getFxmlLocate() {
 		return PsqClienteController.class.getResource("/cadastro/view/pesquisas/PsqCliente.fxml");
 	}

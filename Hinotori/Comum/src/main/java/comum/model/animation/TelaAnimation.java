@@ -5,13 +5,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class TelaAnimation {
 
-	public synchronized void abrirPane(StackPane spRoot, AnchorPane apFilho) {
+	public synchronized void abrirPane(StackPane spRoot, Node apFilho) {
 		Node nodeBaixo = spRoot.getChildren().get(0);
 		nodeBaixo.setDisable(true);
 		apFilho.setDisable(true);

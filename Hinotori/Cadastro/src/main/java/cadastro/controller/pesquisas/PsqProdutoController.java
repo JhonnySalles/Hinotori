@@ -148,8 +148,6 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 		try {
 			spRoot.cursorProperty().set(Cursor.WAIT);
 			carregarClientes();
-			// Necessário por um bug na tela ao carregar ela.
-			dashBoard.atualizaTabPane();
 		} catch (ExcessaoBd e) {
 			e.printStackTrace();
 		} finally {
@@ -167,7 +165,8 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnVoltarClick() {
-
+		DashboardFormPadrao.closeTela(spRoot);
+		onClose();
 	}
 
 	@FXML
@@ -184,7 +183,6 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 		cbSituacao.getSelectionModel().clearSelection();
 		if (filteredData != null)
 			filteredData.setPredicate(null);
-		dashBoard.atualizaTabPane();
 	}
 
 	public PsqProdutoController carregarProdutoss(List<Produto> produtos) {
@@ -198,8 +196,6 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 		tbProdutos.setItems(obsProdutos);
 		tbProdutos.refresh();
 		configuraGrid();
-		// Necessário por um bug na tela ao carregar ela.
-		dashBoard.atualizaTabPane();
 		return this;
 	}
 
@@ -277,13 +273,10 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 		return this;
 	}
 
-	
 	private PsqProdutoController setProdutoServices(ProdutoServices produtoService) {
 		this.produtoService = produtoService;
 		return this;
 	}
-
-	
 
 	private PsqProdutoController linkaCelulas() {
 		tbClId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -348,15 +341,7 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 		cbSituacao.getItems().addAll(Situacao.values());
 		cbProdutoTipo.getItems().addAll(TipoProduto.values());
 	}
-	
-	public DashboardFormPadrao getDashBoard() {
-		return dashBoard;
-	}
 
-	public void setDashBoard(DashboardFormPadrao dashBoard) {
-		this.dashBoard = dashBoard;
-	}
-	
 	public static URL getFxmlLocate() {
 		return PsqProdutoController.class.getResource("/cadastro/view/pesquisas/PsqProduto.fxml");
 	}
