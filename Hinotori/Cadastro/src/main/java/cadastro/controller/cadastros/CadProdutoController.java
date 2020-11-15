@@ -11,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -29,6 +31,8 @@ import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.TipoProduto;
 import comum.model.exceptions.ExcessaoBd;
+import comum.model.exceptions.ExcessaoCadastro;
+import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.beans.value.ChangeListener;
@@ -47,8 +51,11 @@ import javafx.stage.FileChooser;
 import servidor.dao.services.ProdutoServices;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
+import servidor.validations.ValidaProduto;
 
 public class CadProdutoController extends CadastroFormPadrao implements Initializable {
+
+	private final static Logger LOGGER = Logger.getLogger(CadProdutoController.class.getName());
 
 	final static Image ImagemPadrao = new Image(CadUsuarioController.class
 			.getResourceAsStream("/cadastro/resources/imagens/white/geral/icoProdutoImage_256.png"));
@@ -108,17 +115,17 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnConfirmarClick() {
+		atualizaEntidade();
 		if (validaCampos()) {
 			try {
 				spBackground.getScene().getRoot().setCursor(Cursor.WAIT);
-				desabilitaBotoes().atualizaEntidade().salvar(produto);
+				desabilitaBotoes().salvar(produto);
 			} finally {
 				spBackground.getScene().getRoot().setCursor(null);
 				habilitaBotoes();
@@ -128,9 +135,8 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
-		}
 	}
 
 	@FXML
@@ -140,16 +146,15 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnExcluirEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnExcluir.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnExcluirClick() {
 		if ((produto.getId() == null) || txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(AlertType.INFORMATION, "Aviso",
-					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_EXCLUIR + "\nNenhum produto selecionado.");
 		else {
 			try {
 				spBackground.cursorProperty().set(Cursor.WAIT);
@@ -163,9 +168,8 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnPesquisarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnPesquisar.fire();
-		}
 	}
 
 	@FXML
@@ -177,9 +181,8 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnProcurarImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnProcurarImagem.fire();
-		}
 	}
 
 	@FXML
@@ -216,7 +219,8 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível carregar a imagem.");
+				LOGGER.log(Level.INFO, "{Erro ao carregar e processar a imagem}", e);
+				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, "Não foi possível carregar a imagem.");
 				setImagemPadrao();
 			}
 		}
@@ -224,16 +228,15 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnExcluirImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnExcluirImagem.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnExcluirImagemClick() {
-		for (Imagem img : imagens) {
+		for (Imagem img : imagens)
 			img.setExcluir(true);
-		}
+
 		setImagemPadrao();
 	}
 
@@ -255,18 +258,15 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 	}
 
 	public void onTxtIdExit() {
-
 		if (!txtId.getText().isEmpty()) {
 			try {
 				carregarProduto(produtoService.pesquisar(Long.valueOf(txtId.getText()), TamanhoImagem.TODOS));
 			} catch (ExcessaoBd e) {
 				e.printStackTrace();
+				LOGGER.log(Level.INFO, "{Erro ao carregar o produto}", e);
 			}
-		} else {
-			if (txtId.getText().isEmpty())
-				txtId.setText("0");
-		}
-
+		} else if (txtId.getText().isEmpty())
+			txtId.setText("0");
 	}
 
 	private CadProdutoController desabilitaBotoes() {
@@ -286,14 +286,27 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 	}
 
 	private Boolean validaCampos() {
-		Boolean valida = true;
 
-		if (txtDescricao.getText().isEmpty()) {
-			txtDescricao.setUnFocusColor(Color.RED);
-			valida = false;
+		try {
+			return ValidaProduto.validaProduto(produto);
+		} catch (ExcessaoCadastro e) {
+			e.printStackTrace();
 		}
 
-		return valida;
+		try {
+			ValidaProduto.validaDescricao(produto.getDescricao());
+		} catch (ExcessaoCadastro e) {
+			txtDescricao.setUnFocusColor(Color.RED);
+		}
+
+		try {
+			ValidaProduto.validaCodigoBarras(produto.getCodigoBarras());
+		} catch (ExcessaoCadastro e) {
+			txtCodigoBarras.setUnFocusColor(Color.RED);
+		}
+
+		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
+		return false;
 	}
 
 	private CadProdutoController limpaCampos() {
@@ -385,10 +398,9 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 			imagens = produto.getImagens();
 			imgProduto
 					.setImage(new Image(new ByteArrayInputStream(produto.getImagens().iterator().next().getImagem())));
-		} else {
+		} else
 			setImagemPadrao();
-		}
-		
+
 		return this;
 	}
 
@@ -407,10 +419,11 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 		try {
 			produtoService.salvar(produto);
-			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Produto salvo com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Produto salvo com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+			LOGGER.log(Level.INFO, "{Erro ao salvar o produto}", e);
 		}
 
 	}
@@ -421,10 +434,11 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 
 		try {
 			produtoService.deletar(produto.getId());
-			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Produto excluído com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Produto excluído com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+			LOGGER.log(Level.INFO, "{Erro ao excluir o produto}", e);
 		}
 	}
 

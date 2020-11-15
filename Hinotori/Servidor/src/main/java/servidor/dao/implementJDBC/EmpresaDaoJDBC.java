@@ -352,7 +352,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 				if (ls.getId() != null && ls.getId() != 0) {
 					stCont = conexao.prepareStatement(UPDATE_CONTATO, Statement.RETURN_GENERATED_KEYS);
 
-					stCont.setString(1, ls.getNome());
+					stCont.setString(1, ls.getNomeSobrenome());
 					stCont.setString(2, ls.getTelefone());
 					stCont.setString(3, ls.getCelular());
 					stCont.setString(4, ls.getEmail());
@@ -369,7 +369,7 @@ public class EmpresaDaoJDBC implements EmpresaDao {
 
 					stCont.setLong(1, id);
 					stCont.setLong(2, id);
-					stCont.setString(3, ls.getNome());
+					stCont.setString(3, ls.getNomeSobrenome());
 					stCont.setString(4, ls.getTelefone());
 					stCont.setString(5, ls.getCelular());
 					stCont.setString(6, ls.getEmail());

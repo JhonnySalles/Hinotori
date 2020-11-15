@@ -11,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -31,6 +33,7 @@ import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoCadastro;
+import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.beans.value.ChangeListener;
@@ -50,6 +53,8 @@ import servidor.entities.Usuario;
 import servidor.validations.ValidaUsuario;
 
 public class CadUsuarioController extends CadastroFormPadrao implements Initializable {
+
+	private final static Logger LOGGER = Logger.getLogger(CadUsuarioController.class.getName());
 
 	public final static Image ImagemPadrao = new Image(CadUsuarioController.class
 			.getResourceAsStream("/cadastro/resources/imagens/white/geral/icoUsuarioImage_256.png"));
@@ -90,9 +95,8 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
-		}
 	}
 
 	@FXML
@@ -108,6 +112,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 		} catch (ExcessaoBd e) {
 			Notificacoes.notificacao(AlertType.INFORMATION, "Cadastro de usuário inválido", e.getMessage());
 			e.printStackTrace();
+			LOGGER.log(Level.INFO, "{Erro ao salvar o usuário}", e);
 		} finally {
 			spBackground.cursorProperty().set(null);
 			habilitaBotoes();
@@ -116,9 +121,8 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
-		}
 	}
 
 	@FXML
@@ -128,16 +132,15 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnExcluirEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnExcluir.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnExcluirClick() {
 		if ((usuario.getId() == null) || usuario.getId() == 0 || txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(AlertType.INFORMATION, "Aviso",
-					"Não foi possivel realizar a exclusão, nenhum usuário selecionado.");
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_EXCLUIR + " Nenhum usuário selecionado.");
 		else {
 			try {
 				spBackground.cursorProperty().set(Cursor.WAIT);
@@ -151,9 +154,8 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnPesquisarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnPesquisar.fire();
-		}
 	}
 
 	@FXML
@@ -165,9 +167,8 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnProcurarImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnProcurarImagem.fire();
-		}
 	}
 
 	@FXML
@@ -204,7 +205,8 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível carregar a imagem.");
+				LOGGER.log(Level.INFO, "{Erro ao carregar e processar a imagem}", e);
+				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, "Não foi possível carregar a imagem.");
 				setImagemPadrao();
 			}
 		}
@@ -212,16 +214,15 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnExcluirImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnExcluirImagem.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnExcluirImagemClick() {
-		for (Imagem img : imagens) {
+		for (Imagem img : imagens)
 			img.setExcluir(true);
-		}
+
 		setImagemPadrao();
 	}
 
@@ -241,18 +242,17 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 			Utils.clickTab();
 		}
 	}
-	
+
 	public void onTxtIdExit() {
 		if (!txtId.getText().isEmpty()) {
 			try {
 				carregaUsuario(usuarioService.pesquisar(Long.valueOf(txtId.getText()), TamanhoImagem.TODOS));
 			} catch (ExcessaoBd e) {
 				e.printStackTrace();
+				LOGGER.log(Level.INFO, "{Erro ao pesquisar o usuário}", e);
 			}
-		} else {
-			if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-				limpaCampos();
-		}
+		} else if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+			limpaCampos();
 	}
 
 	public CadUsuarioController carregaUsuario(Usuario usuario) {
@@ -275,11 +275,12 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 		try {
 			usuarioService.salvar(usuario);
-			Notificacoes.notificacao(AlertType.NONE, "Concluído",
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
 					"Cliente salvo com sucesso." + "\nId:" + usuario.getId());
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+			LOGGER.log(Level.INFO, "{Erro ao conectar ao banco}", e);
 		}
 	}
 
@@ -289,10 +290,11 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 		try {
 			usuarioService.deletar(usuario.getId());
-			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Usuário excluído com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Usuário excluído com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+			LOGGER.log(Level.INFO, "{Erro ao excluir o usuário ao banco}", e);
 		}
 
 	}
@@ -334,7 +336,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 					.setImage(new Image(new ByteArrayInputStream(usuario.getImagens().iterator().next().getImagem())));
 		} else
 			setImagemPadrao();
-		
+
 		return this;
 	}
 
@@ -369,7 +371,6 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 						txtNome.setUnFocusColor(Color.RED);
 						Notificacoes.notificacao(AlertType.INFORMATION, "Nome inválido", e.getMessage());
 						e.printStackTrace();
-
 					}
 				}
 
@@ -394,6 +395,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 						Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível validar o login",
 								e.getMessage());
 						e.printStackTrace();
+						LOGGER.log(Level.INFO, "{Erro ao conectar ao banco}", e);
 					}
 				}
 
@@ -419,6 +421,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 					} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 						Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível codificar a senha");
 						e.printStackTrace();
+						LOGGER.log(Level.WARNING, "{Erro ao codificar a senha}", e);
 					}
 				}
 

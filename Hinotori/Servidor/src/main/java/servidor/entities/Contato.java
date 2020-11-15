@@ -8,9 +8,6 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import comum.model.enums.Situacao;
@@ -20,19 +17,11 @@ import servidor.converter.BooleanPropertyConverter;
 
 @Entity
 @Table(name = "Contatos")
-public class Contato implements Serializable {
+public class Contato extends Pessoa implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -1562578455627883930L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
-
-	@Column(name = "Nome", columnDefinition = "varchar(150)")
-	private String nome;
 
 	@Column(name = "Telefone", columnDefinition = "varchar(15)")
 	private String telefone;
@@ -50,10 +39,6 @@ public class Contato implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoContato tipoContato;
 
-	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	@Enumerated(EnumType.STRING)
-	private Situacao situacao;
-
 	@Column(name = "DataCadastro")
 	private Timestamp dataCadastro;
 
@@ -63,22 +48,6 @@ public class Contato implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public String getTelefone() {
@@ -129,14 +98,6 @@ public class Contato implements Serializable {
 		this.tipoContato = tipo;
 	}
 
-	public Situacao getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Situacao situacao) {
-		this.situacao = situacao;
-	}
-
 	public final boolean getPadrao() {
 		return padrao.get();
 	}
@@ -154,39 +115,33 @@ public class Contato implements Serializable {
 	}
 
 	public Contato() {
-		this.id = Long.valueOf(0);
-		this.nome = "";
+		super();
 		this.telefone = "";
 		this.celular = "";
 		this.email = "";
 		this.observacao = "";
 		this.tipoContato = TipoContato.RESIDENCIAL;
-		this.situacao = Situacao.ATIVO;
 		this.padrao.set(false);
 	}
 
-	public Contato(Long id, String nome, String telefone, String celular, String email, String observacao,
+	public Contato(Long id, String nomeSobrenome, String telefone, String celular, String email, String observacao,
 			Timestamp dataCadastro, TipoContato tipoContato, Situacao situacao, Boolean padrao) {
-		this.id = id;
-		this.nome = nome;
+		super(id, nomeSobrenome, dataCadastro, situacao);
 		this.telefone = telefone;
 		this.celular = celular;
 		this.email = email;
 		this.observacao = observacao;
 		this.dataCadastro = dataCadastro;
 		this.tipoContato = tipoContato;
-		this.situacao = situacao;
 		this.padrao.set(padrao);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((celular == null) ? 0 : celular.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
 		return result;
 	}
@@ -195,7 +150,7 @@ public class Contato implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -210,16 +165,6 @@ public class Contato implements Serializable {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
 		if (telefone == null) {
 			if (other.telefone != null)
 				return false;
@@ -230,9 +175,9 @@ public class Contato implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Contato [id=" + id + ", nome=" + nome + ", telefone=" + telefone + ", celular=" + celular + ", email="
-				+ email + ", observacao=" + observacao + ", tipoContato=" + tipoContato + ", situacao=" + situacao
-				+ ", dataCadastro=" + dataCadastro + ", padrao=" + padrao + "]";
+		return "Contato [telefone=" + telefone + ", celular=" + celular + ", email=" + email + ", observacao="
+				+ observacao + ", tipoContato=" + tipoContato + ", dataCadastro=" + dataCadastro + ", padrao=" + padrao
+				+ "]";
 	}
 
 }

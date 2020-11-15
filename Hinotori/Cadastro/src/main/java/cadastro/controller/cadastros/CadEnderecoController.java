@@ -18,17 +18,22 @@ import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoEndereco;
+import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
+import comum.model.messages.Mensagens;
+import comum.model.notification.Notificacoes;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import servidor.dao.services.BairroServices;
 import servidor.entities.Bairro;
 import servidor.entities.Endereco;
+import servidor.validations.ValidaEndereco;
 
 public class CadEnderecoController implements Initializable {
 
@@ -83,23 +88,21 @@ public class CadEnderecoController implements Initializable {
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnConfirmarClick() {
-		if (validaCampos()) {
-			atualizaEntidade().salvar(endereco);
-		}
+		atualizaEntidade();
+		if (validaCampos())
+			salvar(endereco);
 	}
 
 	@FXML
 	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
-		}
 	}
 
 	@FXML
@@ -108,24 +111,27 @@ public class CadEnderecoController implements Initializable {
 	}
 
 	private Boolean validaCampos() {
-		Boolean valida = true;
-
-		if (frameBairroController.txtFraPesquisa.getText().isEmpty()) {
-			frameBairroController.txtFraPesquisa.setUnFocusColor(Color.RED);
-			valida = false;
+		try {
+			return ValidaEndereco.validaEndereco(endereco);
+		} catch (ExcessaoCadastro e) {
+			e.printStackTrace();
 		}
 
-		if (txtEndereco.getText().isEmpty()) {
+		try {
+			ValidaEndereco.validaEndereco(endereco.getEndereco());
+		} catch (ExcessaoCadastro e) {
 			txtEndereco.setUnFocusColor(Color.RED);
-			valida = false;
 		}
 
-		if (!Validadores.validaCep(txtCep.getText())) {
+		try {
+			ValidaEndereco.validaCEP(endereco.getCep());
+		} catch (ExcessaoCadastro e) {
 			txtCep.setUnFocusColor(Color.RED);
-			valida = false;
 		}
 
-		return valida;
+		Notificacoes.notificacao(AlertType.INFORMATION, "Aviso", Mensagens.CADASTRO_SALVAR);
+
+		return false;
 	}
 
 	private void salvar(Endereco endereco) {

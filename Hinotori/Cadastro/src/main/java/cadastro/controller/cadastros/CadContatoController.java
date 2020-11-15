@@ -16,14 +16,19 @@ import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoContato;
+import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
+import comum.model.messages.Mensagens;
+import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import servidor.entities.Contato;
+import servidor.validations.ValidaContato;
 
 public class CadContatoController implements Initializable {
 
@@ -62,23 +67,21 @@ public class CadContatoController implements Initializable {
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnConfirmarClick() {
-		if (validaCampos()) {
-			atualizaEntidade().salvar(contato);
-		}
+		atualizaEntidade();
+		if (validaCampos())
+			salvar(contato);
 	}
 
 	@FXML
 	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
-		}
 	}
 
 	@FXML
@@ -87,19 +90,39 @@ public class CadContatoController implements Initializable {
 	}
 
 	private Boolean validaCampos() {
-		Boolean valida = true;
+		try {
+			return ValidaContato.validaContato(contato);
+		} catch (ExcessaoCadastro e) {
+			e.printStackTrace();
+		}
 
-		if (txtNome.getText().isEmpty()) {
+		try {
+			ValidaContato.validaNome(contato.getNomeSobrenome());
+		} catch (ExcessaoCadastro e) {
 			txtNome.setUnFocusColor(Color.RED);
-			valida = false;
 		}
 
-		if (!Validadores.validaEmail(txtEmail.getText())) {
+		try {
+			ValidaContato.validaCelular(contato.getCelular());
+		} catch (ExcessaoCadastro e) {
+			txtCelular.setUnFocusColor(Color.RED);
+		}
+
+		try {
+			ValidaContato.validaTelefone(contato.getTelefone());
+		} catch (ExcessaoCadastro e) {
+			txtTelefone.setUnFocusColor(Color.RED);
+		}
+
+		try {
+			ValidaContato.validaEmail(contato.getEmail());
+		} catch (ExcessaoCadastro e) {
 			txtEmail.setUnFocusColor(Color.RED);
-			valida = false;
 		}
 
-		return valida;
+		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
+
+		return false;
 	}
 
 	private void salvar(Contato contato) {
@@ -120,7 +143,7 @@ public class CadContatoController implements Initializable {
 		if (contato == null)
 			contato = new Contato();
 
-		contato.setNome(txtNome.getText());
+		contato.setNomeSobrenome(txtNome.getText());
 		contato.setTelefone(Utils.removeMascaras(txtTelefone.getText()));
 		contato.setCelular(Utils.removeMascaras(txtCelular.getText()));
 		contato.setEmail(txtEmail.getText());
@@ -154,8 +177,8 @@ public class CadContatoController implements Initializable {
 
 		this.contato = contato;
 
-		if (contato.getNome() != null && !contato.getNome().isEmpty())
-			txtNome.setText(contato.getNome());
+		if (contato.getNomeSobrenome() != null && !contato.getNomeSobrenome().isEmpty())
+			txtNome.setText(contato.getNomeSobrenome());
 
 		if (contato.getTelefone() != null && !contato.getTelefone().isEmpty())
 			txtTelefone.setText(contato.getTelefone());

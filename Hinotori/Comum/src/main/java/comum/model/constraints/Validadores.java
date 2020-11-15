@@ -153,7 +153,7 @@ public class Validadores {
 		});
 	}
 
-	public static Boolean validaCpfCnpj(String texto) {
+	public static Boolean validaCpfCnpj(final String texto) {
 		if (texto.isEmpty()) {
 			return true;
 		} else {
@@ -173,7 +173,7 @@ public class Validadores {
 		}
 	}
 	
-	public static Boolean validaCep(String texto) {
+	public static Boolean validaCep(final String texto) {
 		if (texto.isEmpty()) {
 			return true;
 		} else {
@@ -186,7 +186,7 @@ public class Validadores {
 		}
 	}
 
-	public static Boolean validaEmail(String texto) {
+	public static Boolean validaEmail(final String texto) {
 		if (texto.isEmpty()) {
 			return true;
 		} else {
@@ -195,7 +195,7 @@ public class Validadores {
 		}
 	}
 
-	public static Boolean validaTelefone(String texto) {
+	public static Boolean validaTelefone(final String texto) {
 		if (texto.isEmpty()) {
 			return true;
 		} else {
@@ -207,7 +207,7 @@ public class Validadores {
 		}
 	}
 
-	public static Boolean validaTelefoneInternacional(String texto) {
+	public static Boolean validaTelefoneInternacional(final String texto) {
 		if (texto.isEmpty()) {
 			return true;
 		} else {
@@ -240,6 +240,27 @@ public class Validadores {
 										// tera alteracao.
 			} // d representa digito, * representa qualquer quantidade.
 		});
+	}
+	
+	public static Boolean validaEAN(final String codigoBarra) {
+		boolean status = false;
+        if (!codigoBarra.isEmpty()) {
+            // Remove nom numeric characters
+            String treatedEanStr = codigoBarra.replaceAll("[^\\d.]", "");
+            // Remove leading zeros
+            String shortenedEanStr = treatedEanStr.replaceFirst("^0+(?!$)", "");
+            // Validate length
+            if (shortenedEanStr.length() > 7 && shortenedEanStr.length() < 14) {
+                int sum = 0;
+                String[] digits = treatedEanStr.split("");
+                for (int i = 0; i < (digits.length - 1); i++)
+                    sum += Integer.parseInt(digits[i]) * ((i % 2 == 0) ? 1 : 3);
+                
+                int checksumDigit = (10 - (sum % 10)) % 10;
+                status = (Integer.parseInt(digits[digits.length - 1]) == checksumDigit);
+            }
+        }
+        return status;
 	}
 
 }

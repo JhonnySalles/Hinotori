@@ -86,9 +86,8 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnVoltarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnVoltar.fire();
-		}
 	}
 
 	@FXML
@@ -99,9 +98,8 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnAdicionarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnAdicionar.fire();
-		}
 	}
 
 	@FXML
@@ -111,9 +109,8 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnRemoverEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnRemover.fire();
-		}
 	}
 
 	@FXML

@@ -10,6 +10,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -26,7 +28,9 @@ import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.exceptions.ExcessaoBd;
+import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
+import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.beans.value.ChangeListener;
@@ -43,8 +47,11 @@ import javafx.stage.FileChooser;
 import servidor.dao.services.EmpresaServices;
 import servidor.entities.Empresa;
 import servidor.entities.Imagem;
+import servidor.validations.ValidaEmpresa;
 
 public class CadEmpresaController extends CadastroFormPadrao implements Initializable {
+
+	private final static Logger LOGGER = Logger.getLogger(CadEmpresaController.class.getName());
 
 	final static Image LogoPadrao = new Image(
 			CadEmpresaController.class.getResourceAsStream("/cadastro/resources/imagens/icon/icoPrincipal_100.png"));
@@ -86,17 +93,17 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnConfirmarClick() {
+		atualizaEntidade();
 		if (validaCampos()) {
 			try {
 				spBackground.getScene().getRoot().setCursor(Cursor.WAIT);
-				desabilitaBotoes().atualizaEntidade().salvar(empresa);
+				desabilitaBotoes().salvar(empresa);
 			} finally {
 				spBackground.getScene().getRoot().setCursor(null);
 				habilitaBotoes();
@@ -106,9 +113,8 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
-		}
 	}
 
 	@FXML
@@ -118,16 +124,15 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnExcluirEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnExcluir.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnExcluirClick() {
 		if ((empresa.getId() == null) || txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(AlertType.INFORMATION, "Aviso",
-					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_EXCLUIR + "\nNenhum cliente selecionado.");
 		else {
 			try {
 				spBackground.cursorProperty().set(Cursor.WAIT);
@@ -141,9 +146,8 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnPesquisarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnPesquisar.fire();
-		}
 	}
 
 	@FXML
@@ -172,9 +176,8 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnEnderecoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnEndereco.fire();
-		}
 	}
 
 	@FXML
@@ -186,9 +189,8 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnContatoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnContato.fire();
-		}
 	}
 
 	@FXML
@@ -200,9 +202,8 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnProcurarImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnProcurarImagem.fire();
-		}
 	}
 
 	@FXML
@@ -239,7 +240,8 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível carregar a imagem.");
+				LOGGER.log(Level.INFO, "{Erro ao carregar e processar a imagem}", e);
+				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, "Não foi possível carregar a imagem.");
 				setImagemPadrao();
 			}
 		}
@@ -247,9 +249,8 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnExcluirImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnExcluirImagem.fire();
-		}
 	}
 
 	@FXML
@@ -262,12 +263,11 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 			try {
 				carregaEmpresa(empresaService.pesquisar(Long.valueOf(txtId.getText()), TamanhoImagem.TODOS));
 			} catch (ExcessaoBd e) {
+				LOGGER.log(Level.INFO, "{Erro ao pesquisar empresa}", e);
 				e.printStackTrace();
 			}
-		} else {
-			if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-				limpaCampos();
-		}
+		} else if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+			limpaCampos();
 	}
 
 	public Empresa getEmpresa() {
@@ -289,36 +289,60 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 		try {
 			empresaService.salvar(empresa);
-			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente salvo com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente salvo com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+			LOGGER.log(Level.INFO, "{Erro ao salvar empresa}", e);
 		}
 
 	}
 
 	private void excluir(Empresa empresa) {
-		if (empresaService == null)
-			setEmpresaServices(new EmpresaServices());
 
-		try {
-			empresaService.deletar(empresa.getId());
-			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente excluído com sucesso.");
-			limpaCampos();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
+		if ((empresa.getId() == null) || (empresa.getId() == 0) || txtId.getText().isEmpty()
+				|| txtId.getText().equalsIgnoreCase("0"))
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_EXCLUIR + "\nNenhuma empresa selecionada.");
+		else {
+			try {
+				empresaService.deletar(empresa.getId());
+				Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Empresa excluído com sucesso.");
+				limpaCampos();
+			} catch (ExcessaoBd e) {
+				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+				LOGGER.log(Level.INFO, "{Erro ao excluir empresa}", e);
+			}
 		}
 	}
 
 	private Boolean validaCampos() {
-		Boolean valida = true;
-
-		if (txtRazaoSocial.getText().isEmpty()) {
-			txtRazaoSocial.setUnFocusColor(Color.RED);
-			valida = false;
+		try {
+			return ValidaEmpresa.validaEmpresa(empresa);
+		} catch (ExcessaoCadastro e) {
+			e.printStackTrace();
 		}
 
-		return valida;
+		try {
+			ValidaEmpresa.validaRazaoSocial(empresa.getRazaoSocial());
+		} catch (ExcessaoCadastro e) {
+			txtRazaoSocial.setUnFocusColor(Color.RED);
+		}
+
+		try {
+			ValidaEmpresa.validaNomeFantasia(empresa.getNomeFantasia());
+		} catch (ExcessaoCadastro e) {
+			txtNomeFantasia.setUnFocusColor(Color.RED);
+		}
+
+		try {
+			ValidaEmpresa.validaCNPJ(empresa.getCnpj());
+		} catch (ExcessaoCadastro e) {
+			txtCnpj.setUnFocusColor(Color.RED);
+		}
+
+		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
+		return false;
 	}
 
 	private CadEmpresaController limpaCampos() {
@@ -439,7 +463,6 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 		txtId.setText("0");
 		empresa = new Empresa();
 	}
-
 
 	public static URL getFxmlLocate() {
 		return CadEmpresaController.class.getResource("/cadastro/view/cadastros/CadEmpresa.fxml");

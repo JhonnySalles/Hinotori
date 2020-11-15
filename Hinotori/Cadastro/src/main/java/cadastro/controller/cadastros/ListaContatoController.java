@@ -85,9 +85,8 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 
 	@FXML
 	public void onBtnVoltarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnVoltar.fire();
-		}
 	}
 
 	@FXML
@@ -110,9 +109,8 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 
 	@FXML
 	public void onBtnRemoverEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnRemover.fire();
-		}
 	}
 
 	@FXML
@@ -152,13 +150,13 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 		tbContatos.setItems(obsContatos);
 		tbContatos.refresh();
 	}
-	
+
 	public void initData(String pessoa, Set<Contato> contatos) {
 		txtTitulo.setText(pessoa);
 		this.contatos = contatos;
 		carregaGrid();
 	}
-	
+
 	public Set<Contato> getContato() {
 		return contatos;
 	}
@@ -229,7 +227,7 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 
 		return this;
 	}
-	
+
 	@Override
 	public synchronized void initialize(URL location, ResourceBundle resources) {
 		linkaCelulas();

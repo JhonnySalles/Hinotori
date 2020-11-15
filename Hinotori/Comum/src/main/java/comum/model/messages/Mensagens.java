@@ -11,7 +11,19 @@ package comum.model.messages;
 public class Mensagens {
 
 	public final static String LOGIN_ADMINISTRADOR_PADRAO = "HINOTORI";
-	
+
+	// --------------------------------------------------------------------------//
+	// ************************** GERAL *****************************************//
+	// --------------------------------------------------------------------------//
+	public final static String ALERTA = "Alerta";
+	public final static String CONCLUIDO = "Concluído";
+	public final static String ERRO = "Erro";
+	public final static String AVISO = "Aviso";
+
+	// --------------------------------------------------------------------------//
+	// ************************** BANCO DE DADOS ********************************//
+	// --------------------------------------------------------------------------//
+	// ERROS DE BANCO DE DADOS
 	public final static String BD_ERRO_INSERT = "Erro ao inserir o novo registro.";
 	public final static String BD_ERRO_UPDATE = "Erro ao atualizar o novo registro.";
 	public final static String BD_ERRO_DELETE = "Erro ao apagar o novo registro.";
@@ -26,14 +38,49 @@ public class Mensagens {
 	public final static String BD_ERRO_SALVAR_CONTATO = "Erro ao salvar o contato.";
 	public final static String BD_ERRO_USR_VALIDAR_LOGIN = "Erro tentar validar o login.";
 
+	// --------------------------------------------------------------------------//
+	// ************************** LOGUIN ****************************************//
+	// --------------------------------------------------------------------------//
+	// ERROS AO TENTAR LOGAR NO SISTEMA
 	public final static String LOGIN_ERRO_USER_LOGIN = "Necessário selecionar um usuário.";
 	public final static String LOGIN_ERRO_USER_LOGIN_NAO_ENCONTRADO = "Login informado não encontrado.";
 	public final static String LOGIN_ERRO_USER_SENHA = "Senha incorreta, favor informa-la novamente.";
 	public final static String LOGIN_ERRO_USER_SENHA_VAZIA = "Necessário informar uma senha.";
 
+	// --------------------------------------------------------------------------//
+	// ************************** CADASTROS *************************************//
+	// --------------------------------------------------------------------------//
+	public final static String CADASTRO_SALVAR = "Não foi possivel salvar, alguns campos não conseguiram ser validados, favor verificar o cadastro.";
+	public final static String CADASTRO_EXCLUIR = "Não foi possivel realizar a exclusão";
+
+	// ERROS DO CADASTRO DE USUARIO
 	public final static String CAD_USR_NOME_VAZIO = "Nome não pode ser vazio.";
 	public final static String CAD_USR_LOGIN_VAZIO = "Loguin não pode ser vazio.";
 	public final static String CAD_USR_LOGIN_UTILLIZADO = "Loguin já cadastrado por outro usuário.";
 	public final static String CAD_USR_SENHA_VAZIA = "Senha não pode ser vazia.";
+
+	// ERROS DO CADASTRO DE CLIENTE
+	public final static String CAD_CLI_NOME_VAZIO = "O NOME não pode ser vazio.";
+	public final static String CAD_CLI_CPF = "O CPF informado é inválido.";
+	public final static String CAD_CLI_CNPJ = "O CNPJ informado é inválido.";
+	public final static String CAD_CLI_TIPO_CLIENTE_VAZIO = "Necessário selecionar um tipo de cliente.";
+
+	// ERROS DO CADASTRO DA EMPRESA
+	public final static String CAD_EMP_RAZAO_VAZIO = "RAZÂO SOCIAL não pode ser vazio.";
+	public final static String CAD_EMP_FANTASIA_VAZIO = "NOME FANTASIA não pode ser vazio.";
+
+	// ERROS DO CADASTRO DO PRODUTO
+	public final static String CAD_PROD_DESCRICAO_VAZIO = "Descrição do produto não pode ser vazio.";
+	public final static String CAD_PROD_CODIGO_BARRAS = "O CÓDIGO DE BARRAS informado não é um código de barras EAN válido.";
+
+	// ERROS DO CADASTRO DE CONTATO
+	public final static String CAD_CONTATO_NOME_VAZIO = "O NOME do contato não pode ser vazio.";
+	public final static String CAD_CONTATO_TELEFONE = "O TELEFONE informado é inválido.";
+	public final static String CAD_CONTATO_CELULAR = "O CELULAR informado é inválido.";
+	public final static String CAD_CONTATO_EMAIL = "O EMAIL informado é inválido.";
+
+	// ERROS DO CADASTRO DE ENDERECO
+	public final static String CAD_ENDERECO_ENDERECO_VAZIO = "O ENDEREÇO não pode ser vazio.";
+	public final static String CAD_ENDERECO_CEP = "O CEP informado não é valido.";
 
 }

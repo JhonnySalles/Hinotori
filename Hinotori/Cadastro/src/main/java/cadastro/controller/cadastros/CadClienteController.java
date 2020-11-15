@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -24,7 +26,9 @@ import comum.model.enums.Situacao;
 import comum.model.enums.TipoCliente;
 import comum.model.enums.TipoPessoa;
 import comum.model.exceptions.ExcessaoBd;
+import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
+import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.beans.value.ChangeListener;
@@ -39,8 +43,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import servidor.dao.services.ClienteServices;
 import servidor.entities.Cliente;
+import servidor.validations.ValidaCliente;
 
 public class CadClienteController extends CadastroFormPadrao implements Initializable {
+
+	private final static Logger LOGGER = Logger.getLogger(CadUsuarioController.class.getName());
 
 	@FXML
 	private JFXTextField txtId;
@@ -81,17 +88,17 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnConfirmarClick() {
+		atualizaEntidade();
 		if (validaCampos()) {
 			try {
 				spRoot.cursorProperty().set(Cursor.WAIT);
-				desabilitaBotoes().atualizaEntidade().salvar(cliente);
+				desabilitaBotoes().salvar(cliente);
 			} finally {
 				spRoot.cursorProperty().set(null);
 				habilitaBotoes();
@@ -101,9 +108,8 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
-		}
 	}
 
 	@FXML
@@ -113,21 +119,21 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnExcluirEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnExcluir.fire();
-		}
 	}
 
 	@FXML
 	public void onBtnExcluirClick() {
-		if ((cliente == null) || (cliente.getId() == null) || txtId.getText().isEmpty()
+		if ((cliente.getId() == null) || (cliente.getId() == 0) || txtId.getText().isEmpty()
 				|| txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(AlertType.INFORMATION, "Aviso",
-					"Não foi possivel realizar a exclusão, nenhum cliente selecionado.");
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_EXCLUIR + "\nNenhum cliente selecionado.");
 		else {
 			try {
 				spRoot.cursorProperty().set(Cursor.WAIT);
 				desabilitaBotoes().atualizaEntidade().excluir(cliente);
+				Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente excluído com sucesso.");
 			} finally {
 				spRoot.cursorProperty().set(null);
 				habilitaBotoes();
@@ -137,9 +143,8 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnPesquisarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnPesquisar.fire();
-		}
 	}
 
 	@FXML
@@ -168,9 +173,8 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnEnderecoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnEndereco.fire();
-		}
 	}
 
 	@FXML
@@ -188,9 +192,8 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnContatoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnContato.fire();
-		}
 	}
 
 	@FXML
@@ -212,6 +215,7 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 				carregarCliente(clienteService.pesquisar(Long.valueOf(txtId.getText())));
 			} catch (ExcessaoBd e) {
 				e.printStackTrace();
+				LOGGER.log(Level.INFO, "{Erro ao pesquisar o cliente}", e);
 			}
 		} else {
 			if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
@@ -231,32 +235,36 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 		return this;
 	}
 
-	private Boolean validaCampos() {
-		Boolean valida = true;
+	private boolean validaCampos() {
+		try {
+			return ValidaCliente.validaCliente(cliente);
+		} catch (ExcessaoCadastro e) {
+			e.printStackTrace();
+		}
 
-		if (txtNome.getText().isEmpty()) {
+		try {
+			ValidaCliente.validaNome(cliente.getNomeSobrenome());
+		} catch (ExcessaoCadastro e) {
 			txtNome.setUnFocusColor(Color.RED);
-			valida = false;
 		}
 
-		switch (cbPessoaTipo.getSelectionModel().getSelectedItem()) {
-		case FISICO:
-			if (!Validadores.validaCpfCnpj(txtCpf.getText())) {
+		try {
+			ValidaCliente.validaPessoa(cliente.getTipoPessoa(), cliente.getCnpj(), cliente.getCpf());
+		} catch (ExcessaoCadastro e) {
+			switch (cliente.getTipoPessoa()) {
+			case FISICO:
 				txtCpf.setUnFocusColor(Color.RED);
-				valida = false;
-			}
-			break;
-		case JURIDICO:
-			if (!Validadores.validaCpfCnpj(txtCnpj.getText())) {
+				break;
+			case JURIDICO:
 				txtCnpj.setUnFocusColor(Color.RED);
-				valida = false;
+				break;
+			default:
+				break;
 			}
-			break;
-		default:
-			break;
 		}
 
-		return valida;
+		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
+		return false;
 	}
 
 	private CadClienteController limpaCampos() {
@@ -330,10 +338,11 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 		try {
 			clienteService.salvar(cliente);
-			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente salvo com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente salvo com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+			LOGGER.log(Level.INFO, "{Erro ao salvar o cliente}", e);
 		}
 	}
 
@@ -343,10 +352,11 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 
 		try {
 			clienteService.deletar(cliente.getId());
-			Notificacoes.notificacao(AlertType.NONE, "Concluído", "Cliente excluído com sucesso.");
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente excluído com sucesso.");
 			limpaCampos();
 		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, "Erro", e.getMessage());
+			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+			LOGGER.log(Level.INFO, "{Erro ao excluir o cliente}", e);
 		}
 	}
 
