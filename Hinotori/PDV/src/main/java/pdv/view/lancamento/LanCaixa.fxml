@@ -12,6 +12,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -22,22 +23,6 @@
    <children>
       <AnchorPane fx:id="apContainer" minHeight="600.0" minWidth="750.0">
          <children>
-            <AnchorPane layoutX="305.0" layoutY="465.0" prefHeight="30.0" prefWidth="750.0" styleClass="background-Green12" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <HBox alignment="CENTER_RIGHT" layoutX="418.0" layoutY="27.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="Caixa 01" textFill="WHITE" />
-                           </children>
-                        </HBox>
-                        <JFXButton buttonType="RAISED" text="Configuração" textFill="WHITE" />
-                        <JFXButton buttonType="RAISED" text="Sair" textFill="WHITE" />
-                        <JFXButton buttonType="RAISED" text="Tela cheia" textFill="WHITE" />
-                     </children>
-                  </HBox>
-               </children>
-            </AnchorPane>
             <SplitPane dividerPositions="0.8" layoutX="2.0" layoutY="2.0" prefHeight="522.0" prefWidth="744.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
               <items>
                 <AnchorPane minHeight="300.0" minWidth="400.0" prefHeight="160.0" prefWidth="100.0" styleClass="background-White1">
@@ -79,7 +64,7 @@
                                           <TableColumn prefWidth="150.0" text="Produto" />
                                           <TableColumn prefWidth="90.0" text="Valor unitário" />
                                           <TableColumn prefWidth="71.0" text="Valor Total" />
-                                          <TableColumn prefWidth="30.0" text="Remover" />
+                                          <TableColumn prefWidth="50.0" text="Ações" />
                                       </columns>
                                        <padding>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -242,11 +227,30 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </VBox>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background-White1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background-White1" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
               </items>
             </SplitPane>
+            <AnchorPane layoutX="305.0" layoutY="465.0" prefHeight="30.0" prefWidth="750.0" styleClass="background-Green12" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" layoutX="418.0" layoutY="27.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Caixa 01" textFill="WHITE" />
+                           </children>
+                        </HBox>
+                        <JFXButton buttonType="RAISED" text="Configuração" textFill="WHITE" />
+                        <JFXButton buttonType="RAISED" text="Sair" textFill="WHITE" />
+                        <JFXButton buttonType="RAISED" text="Tela cheia" textFill="WHITE" />
+                     </children>
+                  </HBox>
+               </children>
+               <effect>
+                  <DropShadow height="20.0" radius="9.5" width="20.0" />
+               </effect>
+            </AnchorPane>
             <AnchorPane layoutX="295.0" layoutY="455.0" prefHeight="40.0" prefWidth="750.0" styleClass="background-Green11" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <HBox alignment="CENTER_RIGHT" layoutX="418.0" layoutY="27.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
