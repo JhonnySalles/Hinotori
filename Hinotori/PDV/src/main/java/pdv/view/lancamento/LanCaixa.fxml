@@ -12,29 +12,144 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <StackPane fx:id="spRoot" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cadastro.controller.cadastros.CadClienteController">
    <children>
       <AnchorPane fx:id="apContainer" minHeight="600.0" minWidth="750.0">
          <children>
-            <SplitPane dividerPositions="0.2580213903743315" layoutX="2.0" layoutY="2.0" prefHeight="522.0" prefWidth="744.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+            <AnchorPane layoutX="305.0" layoutY="465.0" prefHeight="30.0" prefWidth="750.0" styleClass="background-Green12" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" layoutX="418.0" layoutY="27.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Caixa 01" textFill="WHITE" />
+                           </children>
+                        </HBox>
+                        <JFXButton buttonType="RAISED" text="Configuração" textFill="WHITE" />
+                        <JFXButton buttonType="RAISED" text="Sair" textFill="WHITE" />
+                        <JFXButton buttonType="RAISED" text="Tela cheia" textFill="WHITE" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+            <SplitPane dividerPositions="0.8" layoutX="2.0" layoutY="2.0" prefHeight="522.0" prefWidth="744.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="190.0" prefHeight="160.0" prefWidth="100.0">
+                <AnchorPane minHeight="300.0" minWidth="400.0" prefHeight="160.0" prefWidth="100.0" styleClass="background-White1">
+                     <children>
+                        <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0" style="-fx-background-radius: 5;" styleClass="background-Green2">
+                                 <children>
+                                    <Label text="Pedido Nº 1" textFill="WHITE" />
+                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="12/05/2020 16:52" textFill="WHITE" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                                 <children>
+                                    <JFXButton buttonType="RAISED" styleClass="background-Green3" text="Pesquisar" textFill="WHITE" />
+                                    <JFXTextField focusColor="#427322" labelFloat="true" promptText="CPF/CNPJ" />
+                                    <JFXTextField focusColor="#427322" labelFloat="true" promptText="Cliente" HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER" style="-fx-background-radius: 5;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <TableView prefHeight="200.0" prefWidth="504.0" HBox.hgrow="ALWAYS">
+                                      <columns>
+                                        <TableColumn prefWidth="75.0" text="Quantidade" />
+                                        <TableColumn prefWidth="75.0" text="Código" />
+                                          <TableColumn prefWidth="150.0" text="Produto" />
+                                          <TableColumn prefWidth="90.0" text="Valor unitário" />
+                                          <TableColumn prefWidth="71.0" text="Valor Total" />
+                                          <TableColumn prefWidth="30.0" text="Remover" />
+                                      </columns>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </TableView>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="10.0" style="-fx-background-radius: 5;" styleClass="background-Green10">
+                                 <children>
+                                    <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Valor do desconto" />
+                                          <Label text="R$ 15,00" />
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                    <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Valor das mercadorias" />
+                                          <Label text="R$ 35,22" VBox.vgrow="ALWAYS" />
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets top="5.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="200.0" style="-fx-background-radius: 5;" styleClass="background-Green6">
+                                 <children>
+                                    <Label text="Total" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="30.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="R$ 12,33" textFill="WHITE">
+                                             <font>
+                                                <Font size="30.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children></HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="190.0" prefHeight="160.0" prefWidth="100.0" styleClass="background-White1">
                      <children>
                         <VBox layoutX="60.0" layoutY="148.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
                                     <JFXButton prefWidth="1000.0" text="Pesquisar" />
-                                    <JFXCheckBox text="Barras" />
+                                    <JFXCheckBox text="Cód. Barras" />
                                  </children>
                               </HBox>
-                              <JFXTextField labelFloat="true" promptText="Código Produto" VBox.vgrow="ALWAYS" />
+                              <JFXTextField focusColor="#427322" labelFloat="true" promptText="Código Produto" VBox.vgrow="ALWAYS" />
                               <HBox spacing="10.0">
                                  <children>
                                     <VBox alignment="CENTER">
@@ -113,10 +228,13 @@
                                     </Spinner>
                                  </children>
                               </VBox>
-                              <VBox alignment="TOP_CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                              <VBox alignment="TOP_CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <JFXButton alignment="CENTER" buttonType="RAISED" minHeight="30.0" prefWidth="1000.0" text="Adicionar" VBox.vgrow="ALWAYS" />
-                                    <JFXTextArea labelFloat="true" promptText="Observações" styleClass="textArea-endereco" VBox.vgrow="ALWAYS" />
+                                    <JFXButton alignment="CENTER" buttonType="RAISED" minHeight="30.0" prefWidth="1000.0" styleClass="background-Green3" text="Adicionar" textFill="WHITE" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font></JFXButton>
+                                    <JFXTextArea focusColor="#427322" labelFloat="true" promptText="Observações" styleClass="textArea-observacao" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                            </children>
@@ -124,63 +242,44 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </VBox>
-                     </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="100.0">
-                     <children>
-                        <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0" />
-                              <HBox alignment="CENTER" styleClass="background-dados" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <TableView prefHeight="200.0" prefWidth="504.0" HBox.hgrow="ALWAYS">
-                                      <columns>
-                                        <TableColumn prefWidth="75.0" text="C1" />
-                                        <TableColumn prefWidth="75.0" text="C2" />
-                                      </columns>
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                    </TableView>
-                                 </children>
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
-                              </HBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0" />
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background-White1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
               </items>
             </SplitPane>
-            <AnchorPane layoutX="295.0" layoutY="455.0" prefHeight="50.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <AnchorPane layoutX="295.0" layoutY="455.0" prefHeight="40.0" prefWidth="750.0" styleClass="background-Green11" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <HBox alignment="CENTER_RIGHT" layoutX="418.0" layoutY="27.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox alignment="CENTER_RIGHT" layoutX="418.0" layoutY="27.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <JFXButton text="Cancelar" />
-                        <JFXButton text="Pagamento" />
-                     </children>
-                  </HBox>
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutX="305.0" layoutY="465.0" prefHeight="30.0" prefWidth="750.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <HBox alignment="CENTER_RIGHT" layoutX="418.0" layoutY="27.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                        <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Caixa 1" />
+                              <Label text="Operador" textFill="WHITE" />
+                              <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Teste" textFill="WHITE">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </VBox>
                            </children>
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
                         </HBox>
-                        <JFXButton text="Sair" />
-                        <JFXButton text="||" />
+                        <JFXButton buttonType="RAISED" prefHeight="28.0" prefWidth="110.0" styleClass="background-Blue1" text="Sangria/Reforço" textFill="WHITE" />
+                        <JFXButton buttonType="RAISED" prefHeight="28.0" prefWidth="110.0" styleClass="background-Red1" text="Cancelar" textFill="WHITE" />
+                        <JFXButton buttonType="RAISED" prefHeight="28.0" prefWidth="110.0" styleClass="background-Green2" text="Pagamento" textFill="WHITE" />
                      </children>
                   </HBox>
                </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
             </AnchorPane>
          </children>
       </AnchorPane>
