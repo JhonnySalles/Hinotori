@@ -1,6 +1,7 @@
 module Cadastro {
 	exports cadastro.controller.cadastros;
 	exports cadastro.controller.frame;
+	exports cadastro.controller.lista;
 	exports cadastro.controller.pesquisas;
 	
 	requires transitive Comum;
@@ -19,4 +20,5 @@ module Cadastro {
 	opens cadastro.controller.cadastros to javafx.fxml;
 	opens cadastro.controller.pesquisas to javafx.fxml;
 	opens cadastro.controller.frame to javafx.fxml;
+	opens cadastro.controller.lista to javafx.fxml;
 }

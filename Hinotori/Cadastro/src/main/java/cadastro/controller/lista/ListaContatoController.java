@@ -1,8 +1,6 @@
-package cadastro.controller.cadastros;
+package cadastro.controller.lista;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -10,6 +8,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.controller.cadastros.DialogCadContatoController;
 import comum.form.DashboardFormPadrao;
 import comum.form.ListaFormPadrao;
 import comum.model.enums.Situacao;
@@ -30,14 +29,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import servidor.entities.Contato;
 
 public class ListaContatoController extends ListaFormPadrao implements Initializable {
-
-	@FXML
-	private AnchorPane rootPane;
 
 	@FXML
 	private TableView<Contato> tbContatos;
@@ -67,15 +62,9 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 	private JFXTextField txtTitulo;
 
 	@FXML
-	private JFXButton btnAdicionar;
-
-	@FXML
-	private JFXButton btnRemover;
-
-	@FXML
 	private JFXButton btnVoltar;
 
-	private CadContatoController controller;
+	private DialogCadContatoController controller;
 
 	private ObservableList<Contato> obsContatos;
 	private Set<Contato> contatos;
@@ -83,38 +72,25 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 
 	final PseudoClass excluido = PseudoClass.getPseudoClass("excluido");
 
-	@FXML
-	public void onBtnVoltarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onNovoKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
-			btnVoltar.fire();
+			btnNovo.fire();
 	}
 
-	@FXML
-	public void onBtnVoltarClick() {
-		DashboardFormPadrao.closeTela(rootPane);
-		onClose();
-	}
-
-	@FXML
-	public void onBtnAdicionarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			btnAdicionar.fire();
-		}
-	}
-
-	@FXML
-	public void onBtnAdicionarClick() {
+	@Override
+	public void onBtnNovoClick() {
 		adicionarContato();
 	}
 
-	@FXML
-	public void onBtnRemoverEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onExcluirKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
-			btnRemover.fire();
+			btnExcluir.fire();
 	}
 
-	@FXML
-	public void onBtnRemoverClick() {
+	@Override
+	public void onBtnExcluirClick() {
 		if (contatos.isEmpty() || tbContatos.getSelectionModel().isEmpty())
 			if (contatos.isEmpty())
 				Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item",
@@ -126,13 +102,47 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 			tbContatos.getSelectionModel().getSelectedItem().setSituacao(Situacao.EXCLUIDO);
 	}
 
+	@Override
+	public void onEditarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnEditar.fire();
+	}
+
+	@Override
+	public void onBtnEditarClick() {
+
+	}
+
+	@Override
+	public void onAtualizarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnAtualizar.fire();
+	}
+
+	@Override
+	public void onBtnAtualizarClick() {
+
+	}
+
+	@FXML
+	public void onVoltarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnVoltar.fire();
+	}
+
+	@FXML
+	public void onBtnVoltarClick() {
+		DashboardFormPadrao.closeTela(spRoot);
+		onClose();
+	}
+
 	private void adicionarContato() {
 		abreTelaContato(null);
 	}
 
 	private void abreTelaContato(Contato contato) {
-		controller = (CadContatoController) DashboardFormPadrao.loadDialog(CadContatoController.getFxmlLocate(),
-				rootPane, new EventHandler<ActionEvent>() {
+		controller = (DialogCadContatoController) DashboardFormPadrao
+				.loadDialog(DialogCadContatoController.getFxmlLocate(), spRoot, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
 						contatos = controller.getContato();
@@ -230,11 +240,12 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 
 	@Override
 	public synchronized void initialize(URL location, ResourceBundle resources) {
+		inicializaHeranca();
 		linkaCelulas();
 	}
 
 	public static URL getFxmlLocate() {
-		return ListaContatoController.class.getResource("/cadastro/view/cadastros/ListaContato.fxml");
+		return ListaContatoController.class.getResource("/cadastro/view/lista/ListaContato.fxml");
 	}
 
 }

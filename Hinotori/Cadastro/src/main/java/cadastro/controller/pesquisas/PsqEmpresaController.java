@@ -1,9 +1,7 @@
 package cadastro.controller.pesquisas;
 
 import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,7 +13,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
-import comum.form.DashboardFormPadrao;
 import comum.form.PesquisaFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
@@ -106,10 +103,9 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 	private EmpresaServices empresaService;
 
 	@FXML
-	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+	public void onConfirmarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
-		}
 	}
 
 	@FXML
@@ -118,10 +114,9 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+	public void onCancelarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
-		}
 	}
 
 	@FXML
@@ -130,10 +125,9 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnAtualizarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+	public void onAtualizarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnAtualizar.fire();
-		}
 	}
 
 	@FXML
@@ -152,10 +146,9 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnVoltarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+	public void onVoltarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnVoltar.fire();
-		}
 	}
 
 	@FXML

@@ -5,9 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -22,7 +20,6 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.frame.PesquisaGenericaController;
-import cadastro.controller.pesquisas.PsqProdutoController;
 import comum.form.CadastroFormPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
@@ -113,13 +110,13 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 	private Produto produto;
 	private ProdutoServices produtoService;
 
-	@FXML
-	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onConfirmarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos()) {
@@ -133,28 +130,28 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 		}
 	}
 
-	@FXML
-	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onCancelarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnCancelarClick() {
 
 	}
 
-	@FXML
-	public void onBtnExcluirEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onExcluirKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnExcluir.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnExcluirClick() {
 		if ((produto.getId() == null) || txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
 			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + "\nNenhum produto selecionado.");
+					Mensagens.CADASTRO_EXCLUIR + " Nenhum produto selecionado.");
 		else {
 			try {
 				spBackground.cursorProperty().set(Cursor.WAIT);
@@ -166,21 +163,20 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 		}
 	}
 
-	@FXML
-	public void onBtnPesquisarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onVoltarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
-			btnPesquisar.fire();
+			btnVoltar.fire();
+	}
+
+	@Override
+	public void onBtnVoltarClick() {
+		DashboardFormPadrao.closeTela(spRoot);
+		onClose();
 	}
 
 	@FXML
-	public void onBtnPesquisarClick() {
-		PsqProdutoController ctn = (PsqProdutoController) DashboardFormPadrao
-				.loadTela(PsqProdutoController.getFxmlLocate(), spRoot);
-		ctn.setAtivaBotoesPesquisa(true, true);
-	}
-
-	@FXML
-	public void onBtnProcurarImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onBtnProcurarImagemEnter(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnProcurarImagem.fire();
 	}
@@ -227,7 +223,7 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnExcluirImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onBtnExcluirImagemEnter(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnExcluirImagem.fire();
 	}
@@ -246,7 +242,7 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onTxtIdEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onTxtIdEnter(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER")) {
 			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
 				onTxtIdExit();
@@ -489,7 +485,7 @@ public class CadProdutoController extends CadastroFormPadrao implements Initiali
 	}
 
 	public static URL getFxmlLocate() {
-		return CadContatoController.class.getResource("/cadastro/view/cadastros/CadProduto.fxml");
+		return DialogCadContatoController.class.getResource("/cadastro/view/cadastros/CadProduto.fxml");
 	}
 
 }

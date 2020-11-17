@@ -5,37 +5,44 @@ import java.util.Map;
 
 import com.jfoenix.controls.JFXButton;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 
-public class CadastroFormPadrao {
+public abstract class CadastroFormPadrao {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
+
+	static protected CadastroFormPadrao CADASTRO_MAIN;
 
 	@FXML
 	protected StackPane spRoot;
 
 	@FXML
+	protected AnchorPane apContainer;
+
+	@FXML
 	protected ScrollPane spBackground;
+	
+	@FXML
+	protected AnchorPane apContainerInterno;
 
 	@FXML
 	protected HBox hbTitulo;
 
 	@FXML
 	protected HBox hbTituloBotoes;
-
-	@FXML
-	protected AnchorPane apContainer;
-
-	@FXML
-	protected JFXButton btnPesquisar;
 
 	@FXML
 	protected JFXButton btnConfirmar;
@@ -46,13 +53,71 @@ public class CadastroFormPadrao {
 	@FXML
 	protected JFXButton btnExcluir;
 
+	@FXML
+	protected JFXButton btnVoltar;
+
+	@FXML
+	protected abstract void onBtnConfirmarClick();
+
+	@FXML
+	protected abstract void onConfirmarKeyPress(KeyEvent e);
+
+	@FXML
+	protected abstract void onBtnCancelarClick();
+
+	@FXML
+	protected abstract void onCancelarKeyPress(KeyEvent e);
+
+	@FXML
+	protected abstract void onBtnExcluirClick();
+
+	@FXML
+	protected abstract void onExcluirKeyPress(KeyEvent e);
+
+	@FXML
+	protected abstract void onBtnVoltarClick();
+
+	@FXML
+	protected abstract void onVoltarKeyPress(KeyEvent e);
+
+	/**
+	 * Função a ser executada quando a tela for fechada. {@code ListaFormPadrao}.
+	 *
+	 * @defaultValue null
+	 */
+	protected ObjectProperty<EventHandler<ActionEvent>> onClose;
+	protected static final EventHandler<ActionEvent> DEFAULT_ON_CLOSE = null;
+
+	public final void setOnClose(EventHandler<ActionEvent> value) {
+		if ((onClose != null) || (value != null /* DEFAULT_ON_DUPLO_CLIQUE */)) {
+			onCloseProperty().set(value);
+		}
+	}
+
+	public final EventHandler<ActionEvent> getOnClose() {
+		return (onClose == null) ? DEFAULT_ON_CLOSE : onClose.get();
+	}
+
+	public final ObjectProperty<EventHandler<ActionEvent>> onCloseProperty() {
+		if (onClose == null) {
+			onClose = new SimpleObjectProperty<EventHandler<ActionEvent>>(this, "onClose", DEFAULT_ON_CLOSE);
+		}
+		return onClose;
+	}
+
+	protected final void onClose() {
+		final EventHandler<ActionEvent> handler = getOnClose();
+		if (handler != null)
+			handler.handle(new ActionEvent(this, null));
+	}
+
 	// Função responsável pela transição de opacidade do fundo do cadastro e dos
 	// botões.
 	private double initY = -1;
 	private final Scale scale = new Scale(1, 1, 0, 0);
 	private Transform oldSceneTransform = null;
 
-	private void configureScroll() {
+	private void configuraScroll() {
 
 		hbTituloBotoes.localToSceneTransformProperty().addListener((o, oldVal, newVal) -> oldSceneTransform = oldVal);
 		spBackground.vvalueProperty().addListener((o, oldVal, newVal) -> {
@@ -61,7 +126,7 @@ public class CadastroFormPadrao {
 			}
 
 			// translation
-			double ty = apContainer.getLocalToSceneTransform().getTy();
+			double ty = apContainerInterno.getLocalToSceneTransform().getTy();
 			double opacity = Math.abs(ty - initY) / 100;
 			opacity = opacity > 1 ? 1 : (opacity < 0) ? 0 : opacity;
 
@@ -105,16 +170,11 @@ public class CadastroFormPadrao {
 				btnExcluir.fire();
 			}
 		});
-		atalhosTecla.put(new KeyCodeCombination(KeyCode.F5), new Runnable() {
-			@FXML
-			public void run() {
-				btnPesquisar.fire();
-			}
-		});
 	}
 
 	public synchronized void inicializaHeranca() {
-		configureScroll();
+		CADASTRO_MAIN = this;
+		configuraScroll();
 		configuraAtalhosTeclado();
 	}
 

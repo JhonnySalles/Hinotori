@@ -1,0 +1,129 @@
+package cadastro.controller.lista;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXTextField;
+
+import cadastro.controller.cadastros.CadProdutoController;
+import comum.form.DashboardFormPadrao;
+import comum.form.ListaFormPadrao;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.input.KeyEvent;
+import servidor.dao.services.ProdutoServices;
+import servidor.entities.Imagem;
+import servidor.entities.Produto;
+
+public class ListaProdutoController extends ListaFormPadrao implements Initializable {
+
+	@FXML
+	private TableView<Produto> tbProdutos;
+
+	@FXML
+	private TableColumn<Produto, String> tbClId;
+
+	@FXML
+	private TableColumn<Produto, List<Imagem>> tbClImagem;
+
+	@FXML
+	private TableColumn<Produto, String> tbClDescricao;
+
+	@FXML
+	private TableColumn<Produto, String> tbClCodigoBarras;
+
+	@FXML
+	private TableColumn<Produto, String> tbClUnidade;
+
+	@FXML
+	private TableColumn<Produto, String> tbClMarca;
+
+	@FXML
+	private TableColumn<Produto, Double> tbClPeso;
+
+	@FXML
+	private TableColumn<Produto, Double> tbClVolume;
+
+	@FXML
+	private TableColumn<Produto, String> tbClObservacao;
+
+	@FXML
+	private TableColumn<Produto, String> tbClDataCadastro;
+
+	private List<Produto> produtos;
+	private ObservableList<Produto> obsProdutos;
+	private FilteredList<Produto> filteredData;
+	private ProdutoServices produtoService;
+
+	@Override
+	public void onNovoKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnNovo.fire();
+	}
+
+	@Override
+	public void onBtnNovoClick() {
+		CadProdutoController ctn = (CadProdutoController) DashboardFormPadrao
+				.loadTela(CadProdutoController.getFxmlLocate(), spRoot);
+		ctn.setOnClose(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				atualizar();
+			}
+		});
+	}
+
+	@Override
+	public void onExcluirKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnExcluir.fire();
+	}
+
+	@Override
+	public void onBtnExcluirClick() {
+
+	}
+
+	@Override
+	public void onEditarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnEditar.fire();
+	}
+
+	@Override
+	public void onBtnEditarClick() {
+
+	}
+
+	@Override
+	public void onAtualizarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnAtualizar.fire();
+	}
+
+	@Override
+	public void onBtnAtualizarClick() {
+		atualizar();
+	}
+
+	public void atualizar() {
+
+	}
+
+	@Override
+	public synchronized void initialize(URL location, ResourceBundle resources) {
+		inicializaHeranca();
+	}
+
+	public static URL getFxmlLocate() {
+		return ListaProdutoController.class.getResource("/cadastro/view/lista/ListaProduto.fxml");
+	}
+
+}

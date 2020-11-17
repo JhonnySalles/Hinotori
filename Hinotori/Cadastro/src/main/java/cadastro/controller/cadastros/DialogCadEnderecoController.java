@@ -1,18 +1,16 @@
 package cadastro.controller.cadastros;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.frame.PesquisaGenericaController;
+import comum.form.CadastroDialogPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
@@ -35,10 +33,7 @@ import servidor.entities.Bairro;
 import servidor.entities.Endereco;
 import servidor.validations.ValidaEndereco;
 
-public class CadEnderecoController implements Initializable {
-
-	@FXML
-	private AnchorPane apRoot;
+public class DialogCadEnderecoController extends CadastroDialogPadrao implements Initializable {
 
 	@FXML
 	private JFXComboBox<TipoEndereco> cbTipo;
@@ -77,35 +72,29 @@ public class CadEnderecoController implements Initializable {
 	@FXML
 	private JFXTextArea txtAreaObservacao;
 
-	@FXML
-	private JFXButton btnConfirmar;
-
-	@FXML
-	private JFXButton btnCancelar;
-
 	private Set<Endereco> enderecos;
 	private Endereco endereco;
 
-	@FXML
-	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onConfirmarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos())
 			salvar(endereco);
 	}
 
-	@FXML
-	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onCancelarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnCancelarClick() {
 		limpaCampos();
 	}
@@ -151,7 +140,7 @@ public class CadEnderecoController implements Initializable {
 		return enderecos;
 	}
 
-	private CadEnderecoController atualizaEntidade() {
+	private DialogCadEnderecoController atualizaEntidade() {
 		if (endereco == null)
 			endereco = new Endereco();
 
@@ -173,7 +162,7 @@ public class CadEnderecoController implements Initializable {
 		return this;
 	}
 
-	public CadEnderecoController limpaCampos() {
+	public DialogCadEnderecoController limpaCampos() {
 		endereco = new Endereco();
 
 		cbTipo.getSelectionModel().selectFirst();
@@ -191,7 +180,7 @@ public class CadEnderecoController implements Initializable {
 		return this;
 	}
 
-	public CadEnderecoController carregaEndereco(Endereco endereco) {
+	public DialogCadEnderecoController carregaEndereco(Endereco endereco) {
 		limpaCampos();
 
 		this.endereco = endereco;
@@ -217,12 +206,12 @@ public class CadEnderecoController implements Initializable {
 		return this;
 	}
 
-	public CadEnderecoController setEnderecos(Set<Endereco> enderecos) {
+	public DialogCadEnderecoController setEnderecos(Set<Endereco> enderecos) {
 		this.enderecos = enderecos;
 		return this;
 	}
 
-	private CadEnderecoController setSqlFrame() {
+	private DialogCadEnderecoController setSqlFrame() {
 		frameCidadeController.setPesquisa("Id", "Cidade",
 				"cidades.Id, CONCAT(cidades.Nome, '/', estados.Sigla) AS Cidade", "cidades",
 				"INNER JOIN estados ON cidades.IdEstado = estados.Id", "", "ORDER BY Cidade");
@@ -288,7 +277,7 @@ public class CadEnderecoController implements Initializable {
 	}
 
 	public static URL getFxmlLocate() {
-		return CadEnderecoController.class.getResource("/cadastro/view/cadastros/CadEndereco.fxml");
+		return DialogCadEnderecoController.class.getResource("/cadastro/view/cadastros/DialogCadEndereco.fxml");
 	}
 
 }

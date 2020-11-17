@@ -41,17 +41,35 @@
     -fx-font-size: 14;
 }
 
+#btnNovo {
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #730099;
+    -fx-border-color :#730099;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
+
+#btnNovo:hover {
+    -fx-background-color: #730099;
+    -fx-text-fill:  #ffffff;
+}
+
+#btnNovo:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
 #btnExcluir {
     -fx-background-color: #ffffff;
-    -fx-text-fill:  #4052ab;
-    -fx-border-color :#4052ab;
+    -fx-text-fill:  #ca5010;
+    -fx-border-color :#ca5010;
     -fx-border-radius: 2px;
     -fx-border-width: 2px;
 }
 
 #btnExcluir:hover {
-    -fx-background-color: #4052ab;
-    -fx-text-fill:  #ffffff;
+    -fx-background-color: #ca5010;
+    -fx-text-fill: #ffffff;
 }
 
 #btnExcluir:focused {
@@ -59,20 +77,20 @@
     -fx-font-size: 14;
 }
 
-#btnPesquisar {
+#btnEditar {
     -fx-background-color: #ffffff;
-    -fx-text-fill:  #333333;
-    -fx-border-color :#333333;
+    -fx-text-fill:  #737373;
+    -fx-border-color :#737373;
     -fx-border-radius: 2px;
     -fx-border-width: 2px;
 }
 
-#btnPesquisar:hover {
-    -fx-background-color: #333333;
+#btnEditar:hover {
+    -fx-background-color: #8c8c8c;
     -fx-text-fill: #ffffff;
 }
 
-#btnPesquisar:focused {
+#btnEditar:focused {
     -fx-font-weight: bold;
     -fx-font-size: 14;
 }

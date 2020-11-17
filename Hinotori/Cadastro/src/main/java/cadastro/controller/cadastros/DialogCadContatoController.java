@@ -1,17 +1,15 @@
 package cadastro.controller.cadastros;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import comum.form.CadastroDialogPadrao;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
@@ -25,15 +23,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import servidor.entities.Contato;
 import servidor.validations.ValidaContato;
 
-public class CadContatoController implements Initializable {
-
-	@FXML
-	private AnchorPane apRoot;
+public class DialogCadContatoController extends CadastroDialogPadrao implements Initializable {
 
 	@FXML
 	private JFXComboBox<TipoContato> cbTipo;
@@ -56,35 +50,29 @@ public class CadContatoController implements Initializable {
 	@FXML
 	private JFXTextArea txtAreaObservacao;
 
-	@FXML
-	private JFXButton btnConfirmar;
-
-	@FXML
-	private JFXButton btnCancelar;
-
 	private Set<Contato> contatos;
 	private Contato contato;
 
-	@FXML
-	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onConfirmarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos())
 			salvar(contato);
 	}
 
-	@FXML
-	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onCancelarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnCancelarClick() {
 		limpaCampos();
 	}
@@ -139,7 +127,7 @@ public class CadContatoController implements Initializable {
 		return contatos;
 	}
 
-	private CadContatoController atualizaEntidade() {
+	private DialogCadContatoController atualizaEntidade() {
 		if (contato == null)
 			contato = new Contato();
 
@@ -154,7 +142,7 @@ public class CadContatoController implements Initializable {
 		return this;
 	}
 
-	public CadContatoController limpaCampos() {
+	public DialogCadContatoController limpaCampos() {
 		contato = new Contato();
 
 		cbTipo.getSelectionModel().selectFirst();
@@ -169,7 +157,7 @@ public class CadContatoController implements Initializable {
 		return this;
 	}
 
-	public CadContatoController carregaContato(Contato contato) {
+	public DialogCadContatoController carregaContato(Contato contato) {
 		limpaCampos();
 
 		if (contato == null)
@@ -222,7 +210,7 @@ public class CadContatoController implements Initializable {
 	}
 
 	public static URL getFxmlLocate() {
-		return CadContatoController.class.getResource("/cadastro/view/cadastros/CadContato.fxml");
+		return DialogCadContatoController.class.getResource("/cadastro/view/cadastros/DialogCadContato.fxml");
 	}
 
 }

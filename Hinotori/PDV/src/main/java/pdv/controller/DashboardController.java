@@ -185,7 +185,6 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 		}
 	}
 
-
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		inicializaHeranca();

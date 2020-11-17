@@ -44,8 +44,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-public class DashboardFormPadrao {
-	
+public abstract class DashboardFormPadrao {
+
 	private final static Logger LOGGER = Logger.getLogger(DashboardFormPadrao.class.getName());
 
 	final static protected Map<URL, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
@@ -54,7 +54,7 @@ public class DashboardFormPadrao {
 	protected final static DropShadow efeitoPainelDetalhe = new DropShadow();
 
 	static protected DashboardFormPadrao DASHBOARD_MAIN;
-	
+
 	@FXML
 	protected SplitPane splPane;
 	protected DoubleProperty dPropSplPane;
@@ -330,10 +330,10 @@ public class DashboardFormPadrao {
 			spRoot.getChildren().add(apFilho);
 			telaSobreposta.put(apFilho, spRoot);
 			new TelaAnimation().abrirPane(spRoot, apFilho);
-			
+
 			if (DASHBOARD_MAIN != null)
 				DASHBOARD_MAIN.atualizaTabPane();
-			
+
 			return loader.getController();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -366,33 +366,36 @@ public class DashboardFormPadrao {
 
 	/**
 	 * <p>
-	 * Função estatica para abrir uma caixa de dialogo, onde o conteudo atras ficará esmaecido.
+	 * Função estatica para abrir uma caixa de dialogo, onde o conteudo atras ficará
+	 * esmaecido.
 	 * </p>
 	 * 
 	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
-	 * @param apRoot       <b>AnchorPane</b> da tela que irá ser aberto o dialog acima.
+	 * @param apRoot       <b>AnchorPane</b> da tela que irá ser aberto o dialog
+	 *                     acima.
 	 * @return Retorna um objeto no formato do controlador da tela aberta, caso
 	 *         apresente erro irá retornar null.
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static Object loadDialog(URL absoluteName, AnchorPane apRoot) {
-		return loadDialog(absoluteName, apRoot, null, null);
-	}
-	
-	public static Object loadDialog(URL absoluteName, AnchorPane apRoot, EventHandler<ActionEvent> onClose) {
-		return loadDialog(absoluteName, apRoot, null, onClose);
+	public static Object loadDialog(URL absoluteName, StackPane spRoot) {
+		return loadDialog(absoluteName, spRoot, null, null);
 	}
 
-	public synchronized static Object loadDialog(URL absoluteName, AnchorPane apRoot, EventHandler<ActionEvent> onOpen,
+	public static Object loadDialog(URL absoluteName, StackPane spRoot, EventHandler<ActionEvent> onClose) {
+		return loadDialog(absoluteName, spRoot, null, onClose);
+	}
+
+	public synchronized static Object loadDialog(URL absoluteName, StackPane spRoot, EventHandler<ActionEvent> onOpen,
 			EventHandler<ActionEvent> onClose) {
 		Object controller = null;
-		if (!telaSobreposta.containsKey(apRoot))
+		if (!telaSobreposta.containsKey(spRoot))
 			return controller;
 
 		FXMLLoader loader = new FXMLLoader(absoluteName);
 		try {
-			StackPane root = telaSobreposta.get(apRoot);
+			StackPane root = telaSobreposta.get(spRoot);
+			Node apRoot = spRoot.getChildren().get(0);
 			AnchorPane tela = loader.load();
 			controller = loader.getController();
 
@@ -414,6 +417,9 @@ public class DashboardFormPadrao {
 
 			apRoot.setEffect(blur);
 
+			if (DASHBOARD_MAIN != null)
+				DASHBOARD_MAIN.atualizaTabPane();
+			
 			dialog.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -455,6 +461,11 @@ public class DashboardFormPadrao {
 	}
 
 	protected synchronized void inicializaHeranca() {
+		// Utilizarei a referença, para poder chamar o requestLayout do tabpane, pois
+		// quando carregado
+		// sem a chamada ocorre de bugar o novo conteudo quando a animação inicia.
+		DASHBOARD_MAIN = this;
+
 		setEfeito();
 		prepareSlideMenuAnimation();
 
@@ -463,10 +474,6 @@ public class DashboardFormPadrao {
 		dTransSplPane = new DoubleTransition(Duration.millis(600), dPropSplPane);
 
 		tTransApBotoesDetalhes = new TranslateTransition(new Duration(350), apBotoesDetalhes);
-		
-		// Utilizarei a referença, para poder chamar o requestLayout do tabpane, pois quando carregado
-		// sem a chamada ocorre de bugar o novo conteudo quando a animação inicia.
-		DASHBOARD_MAIN = this;
 	}
 
 }

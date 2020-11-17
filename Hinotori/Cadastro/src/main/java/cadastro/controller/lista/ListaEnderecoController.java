@@ -1,8 +1,6 @@
-package cadastro.controller.cadastros;
+package cadastro.controller.lista;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -10,6 +8,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.controller.cadastros.DialogCadContatoController;
+import cadastro.controller.cadastros.DialogCadEnderecoController;
 import comum.form.DashboardFormPadrao;
 import comum.form.ListaFormPadrao;
 import comum.model.enums.Situacao;
@@ -33,15 +33,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import servidor.entities.Endereco;
 
 public class ListaEnderecoController extends ListaFormPadrao implements Initializable {
-
-	@FXML
-	private AnchorPane rootPane;
 
 	@FXML
 	private TableView<Endereco> tbEnderecos;
@@ -68,15 +64,9 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 	private JFXTextField txtTitulo;
 
 	@FXML
-	private JFXButton btnAdicionar;
-
-	@FXML
-	private JFXButton btnRemover;
-
-	@FXML
 	private JFXButton btnVoltar;
 
-	private CadEnderecoController controller;
+	private DialogCadEnderecoController controller;
 
 	private ObservableList<Endereco> obsEnderecos;
 	private Set<Endereco> enderecos;
@@ -84,37 +74,25 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 
 	final PseudoClass excluido = PseudoClass.getPseudoClass("excluido");
 
-	@FXML
-	public void onBtnVoltarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onNovoKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
-			btnVoltar.fire();
+			btnNovo.fire();
 	}
 
-	@FXML
-	public void onBtnVoltarClick() {
-		DashboardFormPadrao.closeTela(rootPane);
-		onClose();
-	}
-
-	@FXML
-	public void onBtnAdicionarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER"))
-			btnAdicionar.fire();
-	}
-
-	@FXML
-	public void onBtnAdicionarClick() {
+	@Override
+	public void onBtnNovoClick() {
 		adicionarEndereco();
 	}
 
-	@FXML
-	public void onBtnRemoverEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onExcluirKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
-			btnRemover.fire();
+			btnExcluir.fire();
 	}
 
-	@FXML
-	public void onBtnRemoverClick() {
+	@Override
+	public void onBtnExcluirClick() {
 		if (enderecos.isEmpty() || tbEnderecos.getSelectionModel().isEmpty())
 			if (enderecos.isEmpty())
 				Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item",
@@ -126,13 +104,46 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 			tbEnderecos.getSelectionModel().getSelectedItem().setSituacao(Situacao.EXCLUIDO);
 	}
 
+	@Override
+	public void onEditarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnEditar.fire();
+	}
+
+	@Override
+	public void onBtnEditarClick() {
+
+	}
+
+	@Override
+	public void onAtualizarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnAtualizar.fire();
+	}
+
+	@Override
+	public void onBtnAtualizarClick() {
+
+	}
+
+	@FXML
+	public void onVoltarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
+			btnVoltar.fire();
+	}
+
+	@FXML
+	public void onBtnVoltarClick() {
+
+	}
+
 	private void adicionarEndereco() {
 		abreTelaEndereco(null);
 	}
 
 	private void abreTelaEndereco(Endereco endereco) {
-		controller = (CadEnderecoController) DashboardFormPadrao.loadDialog(CadContatoController.getFxmlLocate(),
-				rootPane, new EventHandler<ActionEvent>() {
+		controller = (DialogCadEnderecoController) DashboardFormPadrao
+				.loadDialog(DialogCadContatoController.getFxmlLocate(), spRoot, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
 						enderecos = controller.getEndereco();
@@ -250,10 +261,11 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 
 	@Override
 	public synchronized void initialize(URL location, ResourceBundle resources) {
+		inicializaHeranca();
 		linkaCelulas();
 	}
 
 	public static URL getFxmlLocate() {
-		return ListaEnderecoController.class.getResource("/cadastro/view/cadastros/ListaEndereco.fxml");
+		return ListaEnderecoController.class.getResource("/cadastro/view/lista/ListaEndereco.fxml");
 	}
 }

@@ -1,9 +1,7 @@
 package cadastro.controller.pesquisas;
 
 import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -113,10 +111,9 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 	private ProdutoServices produtoService;
 
 	@FXML
-	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+	public void onConfirmarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
-		}
 	}
 
 	@FXML
@@ -125,10 +122,9 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+	public void onCancelarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
-		}
 	}
 
 	@FXML
@@ -137,10 +133,9 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnAtualizarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+	public void onAtualizarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnAtualizar.fire();
-		}
 	}
 
 	@FXML
@@ -157,10 +152,9 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnVoltarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+	public void onVoltarKeyPress(KeyEvent e) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnVoltar.fire();
-		}
 	}
 
 	@FXML

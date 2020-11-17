@@ -22,7 +22,6 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import cadastro.controller.pesquisas.PsqUsuarioController;
 import comum.form.CadastroFormPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
@@ -93,13 +92,13 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 	private Usuario usuario;
 	private UsuarioServices usuarioService;
 
-	@FXML
-	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onConfirmarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnConfirmarClick() {
 		try {
 			spBackground.cursorProperty().set(Cursor.WAIT);
@@ -119,24 +118,24 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 		}
 	}
 
-	@FXML
-	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onCancelarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnCancelarClick() {
 		limpaCampos();
 	}
 
-	@FXML
-	public void onBtnExcluirEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onExcluirKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnExcluir.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnExcluirClick() {
 		if ((usuario.getId() == null) || usuario.getId() == 0 || txtId.getText().equalsIgnoreCase("0"))
 			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
@@ -152,21 +151,20 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 		}
 	}
 
-	@FXML
-	public void onBtnPesquisarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onVoltarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
-			btnPesquisar.fire();
+			btnVoltar.fire();
+	}
+
+	@Override
+	public void onBtnVoltarClick() {
+		DashboardFormPadrao.closeTela(spRoot);
+		onClose();
 	}
 
 	@FXML
-	public void onBtnPesquisarClick() {
-		PsqUsuarioController ctn = (PsqUsuarioController) DashboardFormPadrao
-				.loadTela(PsqUsuarioController.getFxmlLocate(), spRoot);
-		ctn.setAtivaBotoesPesquisa(true, true);
-	}
-
-	@FXML
-	public void onBtnProcurarImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onBtnProcurarImagemEnter(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnProcurarImagem.fire();
 	}
@@ -213,7 +211,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnExcluirImagemEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onBtnExcluirImagemEnter(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnExcluirImagem.fire();
 	}
@@ -232,7 +230,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onTxtIdEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onTxtIdEnter(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER")) {
 			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
 				onTxtIdExit();
@@ -276,7 +274,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 		try {
 			usuarioService.salvar(usuario);
 			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-					"Cliente salvo com sucesso." + "\nId:" + usuario.getId());
+					"Cliente salvo com sucesso." + " Id:" + usuario.getId());
 			limpaCampos();
 		} catch (ExcessaoBd e) {
 			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());

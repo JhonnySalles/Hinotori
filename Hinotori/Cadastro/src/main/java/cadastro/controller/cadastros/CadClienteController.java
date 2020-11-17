@@ -1,8 +1,6 @@
 package cadastro.controller.cadastros;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,7 +14,8 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import cadastro.controller.pesquisas.PsqClienteController;
+import cadastro.controller.lista.ListaContatoController;
+import cadastro.controller.lista.ListaEnderecoController;
 import comum.form.CadastroFormPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
@@ -86,13 +85,13 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 	private ClienteServices clienteService;
 	private String id;
 
-	@FXML
-	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onConfirmarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnConfirmar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos()) {
@@ -106,29 +105,29 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 		}
 	}
 
-	@FXML
-	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onCancelarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnCancelar.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnCancelarClick() {
 		limpaCampos();
 	}
 
-	@FXML
-	public void onBtnExcluirEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onExcluirKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnExcluir.fire();
 	}
 
-	@FXML
+	@Override
 	public void onBtnExcluirClick() {
 		if ((cliente.getId() == null) || (cliente.getId() == 0) || txtId.getText().isEmpty()
 				|| txtId.getText().equalsIgnoreCase("0"))
 			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + "\nNenhum cliente selecionado.");
+					Mensagens.CADASTRO_EXCLUIR + " Nenhum cliente selecionado.");
 		else {
 			try {
 				spRoot.cursorProperty().set(Cursor.WAIT);
@@ -141,17 +140,16 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 		}
 	}
 
-	@FXML
-	public void onBtnPesquisarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	@Override
+	public void onVoltarKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
-			btnPesquisar.fire();
+			btnVoltar.fire();
 	}
 
-	@FXML
-	public void onBtnPesquisarClick() {
-		PsqClienteController ctn = (PsqClienteController) DashboardFormPadrao
-				.loadTela(PsqClienteController.getFxmlLocate(), spRoot);
-		ctn.setAtivaBotoesPesquisa(true, true);
+	@Override
+	public void onBtnVoltarClick() {
+		DashboardFormPadrao.closeTela(spRoot);
+		onClose();
 	}
 
 	@FXML
@@ -160,7 +158,7 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onTxtIdEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onTxtIdEnter(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER")) {
 			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
 				onTxtIdExit();
@@ -172,7 +170,7 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnEnderecoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onBtnEnderecoEnter(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnEndereco.fire();
 	}
@@ -191,7 +189,7 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 	}
 
 	@FXML
-	public void onBtnContatoEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void onBtnContatoEnter(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
 			btnContato.fire();
 	}
@@ -428,4 +426,5 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 	public static URL getFxmlLocate() {
 		return CadClienteController.class.getResource("/cadastro/view/cadastros/CadCliente.fxml");
 	}
+
 }
