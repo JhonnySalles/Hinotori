@@ -12,7 +12,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
-import comum.form.DashboardFormPadrao;
 import comum.form.PesquisaFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
@@ -20,6 +19,7 @@ import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.TipoProduto;
 import comum.model.exceptions.ExcessaoBd;
+import comum.model.utils.ViewGerenciador;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -159,7 +159,7 @@ public class PsqProdutoController extends PesquisaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnVoltarClick() {
-		DashboardFormPadrao.closeTela(spRoot);
+		ViewGerenciador.closeTela(spRoot);
 		onClose();
 	}
 

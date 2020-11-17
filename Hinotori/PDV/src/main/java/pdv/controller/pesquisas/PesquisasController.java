@@ -15,32 +15,31 @@ import pdv.App;
 import pdv.controller.DashboardController;
 
 public class PesquisasController implements Initializable {
-	
+
 	@FXML
 	JFXButton btnPsqCliente;
-	
+
 	@FXML
 	JFXButton btnPsqEmpresa;
-	
+
 	@FXML
 	JFXButton btnPsqUsuario;
-	
+
 	@FXML
 	JFXButton btnPsqProduto;
-	
+
 	final DashboardController main = App.getMainController();
 
-	
 	@FXML
 	public void onBtnPsqClienteAction() {
 		main.loadAbas(PsqClienteController.getFxmlLocate(), "Pesquisa de clientes", "");
 	}
-	
+
 	@FXML
 	public void onBtnPsqEmpresaAction() {
 		main.loadAbas(PsqEmpresaController.getFxmlLocate(), "Pesquisa de empresas", "");
 	}
-	
+
 	@FXML
 	public void onBtnPsqUsuarioAction() {
 		main.loadAbas(PsqUsuarioController.getFxmlLocate(), "Pesquisa de usuários", "");
@@ -50,11 +49,13 @@ public class PesquisasController implements Initializable {
 	public void onBtnPsqProdutoAction() {
 		main.loadAbas(PsqProdutoController.getFxmlLocate(), "Pesquisa de produtos", "");
 	}
-	
-	
+
 	@Override
 	public synchronized void initialize(URL location, ResourceBundle resources) {
 
+	}
 
+	public static URL getFxmlLocate() {
+		return PesquisasController.class.getResource("/pdv/view/pesquisas/Pesquisas.fxml");
 	}
 }

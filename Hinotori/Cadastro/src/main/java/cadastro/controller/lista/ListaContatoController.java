@@ -9,10 +9,10 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.cadastros.DialogCadContatoController;
-import comum.form.DashboardFormPadrao;
 import comum.form.ListaFormPadrao;
 import comum.model.enums.Situacao;
 import comum.model.notification.Notificacoes;
+import comum.model.utils.ViewGerenciador;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -132,7 +132,7 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 
 	@FXML
 	public void onBtnVoltarClick() {
-		DashboardFormPadrao.closeTela(spRoot);
+		ViewGerenciador.closeTela(spRoot);
 		onClose();
 	}
 
@@ -141,8 +141,8 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 	}
 
 	private void abreTelaContato(Contato contato) {
-		controller = (DialogCadContatoController) DashboardFormPadrao
-				.loadDialog(DialogCadContatoController.getFxmlLocate(), spRoot, new EventHandler<ActionEvent>() {
+		controller = (DialogCadContatoController) ViewGerenciador.loadDialog(DialogCadContatoController.getFxmlLocate(),
+				spRoot, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
 						contatos = controller.getContato();

@@ -13,7 +13,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
-import comum.form.DashboardFormPadrao;
 import comum.form.PesquisaFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
@@ -22,6 +21,7 @@ import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.mask.ConverterMascaras;
+import comum.model.utils.ViewGerenciador;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -86,7 +86,7 @@ public class PsqUsuarioController extends PesquisaFormPadrao implements Initiali
 
 	@FXML
 	private TableColumn<Usuario, String> tbClContatoPadrao;
-	
+
 	@FXML
 	private TableColumn<Usuario, String> tbClObservacao;
 
@@ -150,7 +150,7 @@ public class PsqUsuarioController extends PesquisaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnVoltarClick() {
-		DashboardFormPadrao.closeTela(spRoot);
+		ViewGerenciador.closeTela(spRoot);
 		onClose();
 	}
 
@@ -279,19 +279,20 @@ public class PsqUsuarioController extends PesquisaFormPadrao implements Initiali
 
 		tbClNome.setCellValueFactory(new PropertyValueFactory<>("nomeSobrenome"));
 		tbClLogin.setCellValueFactory(new PropertyValueFactory<>("login"));
-		
+
 		tbClContatoPadrao.setCellValueFactory(data -> {
 			List<Contato> psq = data.getValue().getContatos().stream().filter(item -> item.isPadrao())
 					.collect(Collectors.toList());
 			SimpleStringProperty contato = new SimpleStringProperty();
 			if (psq != null && psq.size() > 0)
-				contato.setValue(ConverterMascaras.formataFone(psq.get(0).getTelefone()) + " / " + ConverterMascaras.formataFone(psq.get(0).getCelular()));
+				contato.setValue(ConverterMascaras.formataFone(psq.get(0).getTelefone()) + " / "
+						+ ConverterMascaras.formataFone(psq.get(0).getCelular()));
 			else
 				contato.setValue("");
-			
+
 			return contato;
 		});
-		
+
 		tbClObservacao.setCellValueFactory(new PropertyValueFactory<>("observacao"));
 		tbClNivel.setCellValueFactory(new PropertyValueFactory<>("nivel"));
 
@@ -317,13 +318,13 @@ public class PsqUsuarioController extends PesquisaFormPadrao implements Initiali
 		TecladoUtils.onEnterConfigureTab(txtLogin);
 		TecladoUtils.onEnterConfigureTab(cbSituacao);
 		TecladoUtils.onEnterConfigureTab(cbNivel);
-		
+
 		linkaCelulas();
 
 		cbNivel.getItems().addAll(UsuarioNivel.values());
 		cbSituacao.getItems().addAll(Situacao.values());
 	}
-	
+
 	public static URL getFxmlLocate() {
 		return PsqUsuarioController.class.getResource("/cadastro/view/pesquisas/PsqUsuario.fxml");
 	}

@@ -3,12 +3,26 @@ package comum.model.utils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.events.JFXDialogEvent;
+
+import comum.form.DashboardFormPadrao;
+import comum.model.animation.TelaAnimation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 /**
  * <p>
@@ -23,18 +37,55 @@ import javafx.scene.Node;
  */
 public class ViewGerenciador {
 
-	private static ViewGerenciador instancia;
-	private static final HashMap<URL, Node> TELA_PRE_CARREGADA = new HashMap<>();
+	private final static Logger LOGGER = Logger.getLogger(ViewGerenciador.class.getName());
 
+	// ********************************************************************************//
+	// Classe para guardar a referencia das telas aberta e controlador
+	// *******************************************************************************//
+	private static class Tela {
+		private Node tela;
+		private Object controlador;
+
+		public Node getTela() {
+			return tela;
+		}
+
+		public Object getControlador() {
+			return controlador;
+		}
+
+		public Tela(Node tela, Object controlador) {
+			this.tela = tela;
+			this.controlador = controlador;
+		}
+	}
+
+	// A dependencia ao form do dashboard é feito na inicialização dele
+	private static DashboardFormPadrao DASHBOARD_MAIN;
+
+	public static DashboardFormPadrao getDashboardController() {
+		return DASHBOARD_MAIN;
+	}
+
+	public static void setDashboardController(DashboardFormPadrao dashboard) {
+		DASHBOARD_MAIN = dashboard;
+	}
+
+	private static ViewGerenciador instancia;
+	private static final HashMap<URL, Tela> TELA_PRE_CARREGADA = new HashMap<>();
 	public static ObservableList<String> stylesheets = FXCollections.observableArrayList("");
 	private static URL[] CAMINHO_TELAS_PRE_CARREGAMENTO = {};
 
 	public static ViewGerenciador getInstance() {
-		if (instancia == null) {
+		if (instancia == null)
 			instancia = new ViewGerenciador();
-		}
+
 		return instancia;
 	}
+
+	// ********************************************************************************//
+	// Métodos do pre-carregamento
+	// *******************************************************************************//
 
 	/**
 	 * <p>
@@ -56,7 +107,8 @@ public class ViewGerenciador {
 				for (int i = 0; i < CAMINHO_TELAS_PRE_CARREGAMENTO.length; i++) {
 					if (!CAMINHO_TELAS_PRE_CARREGAMENTO[i].getPath().isEmpty()) {
 						FXMLLoader loader = new FXMLLoader(CAMINHO_TELAS_PRE_CARREGAMENTO[i]);
-						TELA_PRE_CARREGADA.put(CAMINHO_TELAS_PRE_CARREGAMENTO[i], loader.load());
+						TELA_PRE_CARREGADA.put(CAMINHO_TELAS_PRE_CARREGAMENTO[i],
+								new Tela(loader.load(), loader.getController()));
 					}
 				}
 				return null;
@@ -81,7 +133,7 @@ public class ViewGerenciador {
 			@Override
 			public Void call() throws IOException, InterruptedException {
 				FXMLLoader loader = new FXMLLoader(absoluteName);
-				TELA_PRE_CARREGADA.put(absoluteName, loader.load());
+				TELA_PRE_CARREGADA.put(absoluteName, new Tela(loader.load(), loader.getController()));
 				return null;
 			}
 		};
@@ -92,24 +144,50 @@ public class ViewGerenciador {
 
 	/**
 	 * <p>
-	 * Função verificar se a tela já foi pré carregada pela função
+	 * Função obter a tela pré carregada pela função
 	 * <b><i>preCarregamentoTelas</i></b>.
 	 * </p>
 	 * 
 	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
-	 * @return Retorna o <b>Parent</b> da tela já carregada préviamente.
+	 * @return Retorna um <b>Node</b> da tela já carregada préviamente.
 	 * @author Jhonny de Salles Noschang
 	 */
 	public static Node getTelaPreCarregada(URL absoluteName) {
 		if (TELA_PRE_CARREGADA.containsKey(absoluteName)) {
-			Node telaPre = TELA_PRE_CARREGADA.get(absoluteName);
+			Node telaPre = TELA_PRE_CARREGADA.get(absoluteName).getTela();
 			carregamentoTela(absoluteName);
 			return telaPre;
-
 		} else
 			return null;
 	}
 
+	/**
+	 * <p>
+	 * Função obter o controlador da tela que já foi pré carregada pela função
+	 * <b><i>preCarregamentoTelas</i></b>.
+	 * </p>
+	 * 
+	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
+	 * @return Retorna um <b>Object</b> contendo o controlador da tela solicitada.
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static Object getControladorTelaPreCarregada(URL absoluteName) {
+		if (TELA_PRE_CARREGADA.containsKey(absoluteName)) {
+			return TELA_PRE_CARREGADA.get(absoluteName).getControlador();
+		} else
+			return null;
+	}
+
+	/**
+	 * <p>
+	 * Função para verificar se a tela já foi pré carregada pela função
+	 * <b><i>preCarregamentoTelas</i></b>.
+	 * </p>
+	 * 
+	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
+	 * @return Um boleano que informa se a tela existe no pré carregaemnto.
+	 * @author Jhonny de Salles Noschang
+	 */
 	public static Boolean verificaTelaCarregada(URL absoluteName) {
 		return TELA_PRE_CARREGADA.containsKey(absoluteName);
 	}
@@ -134,6 +212,231 @@ public class ViewGerenciador {
 
 	public static void carregaCss(String[] listaCss) {
 		stylesheets.addAll(listaCss);
+	}
+
+	// ********************************************************************************//
+	// Métodos staticos para sobreposição de tela
+	// *******************************************************************************//
+
+	// Irá mapear as abas abertas.
+	final static private Map<Node, TelaAberta> TELA_SOBREPOSTA = new HashMap<>();
+
+	// ********************************************************************************//
+	// Classe para guardar a referencia das telas aberta e controlador
+	// *******************************************************************************//
+	private static class TelaAberta {
+		private Pane telaPai;
+		private Object controlador;
+
+		public Pane getTelaPai() {
+			return telaPai;
+		}
+
+		public Object getControlador() {
+			return controlador;
+		}
+
+		public TelaAberta(Pane telaPai, Object controlador) {
+			this.telaPai = telaPai;
+			this.controlador = controlador;
+		}
+	}
+
+	/**
+	 * <p>
+	 * Função estatica apenas para fazer o carregamento de um panel em cima de
+	 * outro, com a animação de movimentação dos panels para a esquerda e fechamento
+	 * para a direita.
+	 * </p>
+	 * 
+	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
+	 * @param rootPane     O campo deverá ser o root pane de algum componente que
+	 *                     herde de <b>Pane</b>, como <b>StackPane</b>,
+	 *                     <b>AnchorPane</b>, entre outros.
+	 * @return Retorna um objeto no formato do controlador da tela aberta, caso
+	 *         ocorra algum erro erro irá retornar null.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public synchronized static Object loadTela(URL absoluteName, Pane rootPane) {
+		Node apFilho = null;
+		Object controlador = null;
+
+		if (ViewGerenciador.verificaTelaCarregada(absoluteName)) {
+			apFilho = ViewGerenciador.getTelaPreCarregada(absoluteName);
+			controlador = ViewGerenciador.getControladorTelaPreCarregada(absoluteName);
+		} else {
+			FXMLLoader loader = new FXMLLoader(absoluteName);
+			try {
+				apFilho = loader.load();
+				controlador = loader.getController();
+			} catch (IOException e) {
+				e.printStackTrace();
+				LOGGER.log(Level.SEVERE, "{Erro ao carregar a tela: " + absoluteName + "}", e);
+			}
+		}
+
+		if (apFilho != null) {
+			rootPane.getChildren().add(apFilho);
+			TELA_SOBREPOSTA.put(apFilho, new TelaAberta(rootPane, controlador));
+			new TelaAnimation().abrirPane(rootPane, apFilho);
+
+			if (DASHBOARD_MAIN != null)
+				DASHBOARD_MAIN.atualizaTabPane();
+		}
+
+		return controlador;
+	}
+
+	/**
+	 * <p>
+	 * Função estatica que faz o fechamento da tela e a troca para a tela que está
+	 * logo acima da cadeia de tela. Ou seja, troca a tela atual pela tela pai.
+	 * </p>
+	 * 
+	 * @param rootPane O rootPane da tela em que deseja que seja fechada, caso não
+	 *                 encontrado o sistema retorna sem fazer nada.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static void closeTela(Pane rootPane) {
+		if (!TELA_SOBREPOSTA.containsKey(rootPane))
+			return;
+
+		new TelaAnimation().fecharPane(TELA_SOBREPOSTA.get(rootPane).getTelaPai());
+		TELA_SOBREPOSTA.remove(rootPane);
+	}
+
+	/**
+	 * <p>
+	 * Função que retorna o Pane da tela em que a tela está sobreposto, ou seja
+	 * retorna o pane da tela pai.
+	 * </p>
+	 * 
+	 * @param rootPane O rootPane da tela em que a tela está em cima.
+	 * @return Retorna um <b>Pane</b> da tela superior a ela.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static Pane getPaneRoot(Node rootPane) {
+		if (!TELA_SOBREPOSTA.containsKey(rootPane))
+			return null;
+
+		return TELA_SOBREPOSTA.get(rootPane).getTelaPai();
+	}
+
+	/**
+	 * <p>
+	 * Função que retorna o controlador da tela filho, ou seja, o controlador da
+	 * tela que foi solicitada a abertura.
+	 * </p>
+	 * 
+	 * @param rootPane O root pane da tela que se solicita o controlador.
+	 * @return Retorna um <b>Pane</b> da tela superior a ela.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static Object getController(Node rootPane) {
+		if (!TELA_SOBREPOSTA.containsKey(rootPane))
+			return null;
+
+		return TELA_SOBREPOSTA.get(rootPane).getControlador();
+	}
+
+	/**
+	 * <p>
+	 * Função estatica para abrir uma caixa de dialogo, onde o conteudo atras ficará
+	 * esmaecido.
+	 * </p>
+	 * 
+	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
+	 * @param spRoot       Obrigatóriamente a tela deverá ter um <b>StackPane</b>,
+	 *                     para que a função consiga fazer a abertura.
+	 * @param onOpen       Função a ser chamada quando o dialog for aberto.
+	 * @param spRoot       Função a ser chamada quando o dialog for fechado.
+	 * @return Retorna um objeto no formato do controlador da tela aberta, caso
+	 *         apresente erro irá retornar null.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public synchronized static Object loadDialog(URL absoluteName, StackPane spRoot, EventHandler<ActionEvent> onOpen,
+			EventHandler<ActionEvent> onClose) {
+		Object controller = null;
+		if (!TELA_SOBREPOSTA.containsKey(spRoot))
+			return controller;
+
+		FXMLLoader loader = new FXMLLoader(absoluteName);
+		try {
+			StackPane root = (StackPane) TELA_SOBREPOSTA.get(spRoot).getTelaPai();
+			Node apRoot = spRoot.getChildren().get(0);
+			AnchorPane tela = loader.load();
+			controller = loader.getController();
+
+			BoxBlur blur = new BoxBlur(3, 3, 3);
+			JFXDialog dialog = new JFXDialog(root, tela, JFXDialog.DialogTransition.CENTER);
+
+			apRoot.setDisable(true);
+			if (onOpen != null)
+				dialog.setOnDialogOpened((JFXDialogEvent eventOpen) -> {
+					onOpen.handle(new ActionEvent(onOpen, null));
+				});
+
+			dialog.setOnDialogClosed((JFXDialogEvent eventClose) -> {
+				apRoot.setEffect(null);
+				apRoot.setDisable(false);
+
+				if (onClose != null)
+					onClose.handle(new ActionEvent(onClose, null));
+			});
+
+			apRoot.setEffect(blur);
+
+			if (DASHBOARD_MAIN != null)
+				DASHBOARD_MAIN.atualizaTabPane();
+
+			dialog.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "{Erro ao carregar a tela: " + absoluteName + "}", e);
+		}
+		return controller;
+	}
+
+	/**
+	 * <p>
+	 * Função estatica para abrir uma caixa de dialogo, onde o conteudo atras ficará
+	 * esmaecido.
+	 * </p>
+	 * 
+	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
+	 * @param spRoot       Obrigatóriamente a tela deverá ter um <b>StackPane</b>,
+	 *                     para que a função consiga fazer a abertura.
+	 * @return Retorna um objeto no formato do controlador da tela aberta, caso
+	 *         apresente erro irá retornar null.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static Object loadDialog(URL absoluteName, StackPane spRoot) {
+		return loadDialog(absoluteName, spRoot, null, null);
+	}
+
+	/**
+	 * <p>
+	 * Função estatica para abrir uma caixa de dialogo, onde o conteudo atras ficará
+	 * esmaecido.
+	 * </p>
+	 * 
+	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
+	 * @param spRoot       Obrigatóriamente a tela deverá ter um <b>StackPane</b>,
+	 *                     para que a função consiga fazer a abertura.
+	 * @param spRoot       Função a ser chamada quando o dialog for fechado.
+	 * @return Retorna um objeto no formato do controlador da tela aberta, caso
+	 *         apresente erro irá retornar null.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static Object loadDialog(URL absoluteName, StackPane spRoot, EventHandler<ActionEvent> onClose) {
+		return loadDialog(absoluteName, spRoot, null, onClose);
 	}
 
 }

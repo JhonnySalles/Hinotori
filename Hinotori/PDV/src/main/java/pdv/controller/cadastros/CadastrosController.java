@@ -54,4 +54,8 @@ public class CadastrosController implements Initializable {
 	public synchronized void initialize(URL location, ResourceBundle resources) {
 
 	}
+
+	public static URL getFxmlLocate() {
+		return CadastrosController.class.getResource("/pdv/view/cadastros/Cadastros.fxml");
+	}
 }

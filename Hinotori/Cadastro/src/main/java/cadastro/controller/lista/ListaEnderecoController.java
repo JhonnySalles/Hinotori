@@ -10,10 +10,10 @@ import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.cadastros.DialogCadContatoController;
 import cadastro.controller.cadastros.DialogCadEnderecoController;
-import comum.form.DashboardFormPadrao;
 import comum.form.ListaFormPadrao;
 import comum.model.enums.Situacao;
 import comum.model.notification.Notificacoes;
+import comum.model.utils.ViewGerenciador;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -134,7 +134,8 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnVoltarClick() {
-
+		ViewGerenciador.closeTela(spRoot);
+		onClose();
 	}
 
 	private void adicionarEndereco() {
@@ -142,7 +143,7 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 	}
 
 	private void abreTelaEndereco(Endereco endereco) {
-		controller = (DialogCadEnderecoController) DashboardFormPadrao
+		controller = (DialogCadEnderecoController) ViewGerenciador
 				.loadDialog(DialogCadContatoController.getFxmlLocate(), spRoot, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {

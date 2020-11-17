@@ -16,7 +16,6 @@ import comum.model.entities.Configuracao;
 import comum.model.notification.Notificacoes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
@@ -27,18 +26,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import pdv.controller.cadastros.CadastrosController;
+import pdv.controller.pesquisas.PesquisasController;
 
-public class DashboardController extends DashboardFormPadrao implements Initializable {
+public class DashboardController extends DashboardFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(DashboardController.class.getName());
-	
+
 	private static Configuracao conexao;
-
-	@FXML
-	private AnchorPane apGlobal;
-
-	@FXML
-	private StackPane rootStackPane;
 
 	@FXML
 	private Tab tbDashBoardGraficos;
@@ -84,7 +79,7 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 
 	@FXML
 	private void onBtnCadastrosAction() {
-		loadBotoes(getClass().getResource("/pdv/view/cadastros/Cadastros.fxml"));
+		loadBotoes(CadastrosController.getFxmlLocate());
 	}
 
 	@FXML
@@ -94,7 +89,7 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 
 	@FXML
 	private void onBtnPesquisasAction() {
-		loadBotoes(getClass().getResource("/pdv/view/pesquisas/Pesquisas.fxml"));
+		loadBotoes(PesquisasController.getFxmlLocate());
 	}
 
 	@FXML
@@ -117,7 +112,6 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 		fecharBotoesDetalhe();
 	}
 
-
 	/**
 	 * <p>
 	 * Chama o método de verificar conexão animando o icone do dashboard, também
@@ -127,7 +121,8 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 	 * @author Jhonny de Salles Noschang
 	 */
 	public void verificaConexao() {
-		//conexao = ConexaoMysql.testaConexaoMySQL(imgBd, tootBd);**********************************
+		// conexao = ConexaoMysql.testaConexaoMySQL(imgBd,
+		// tootBd);**********************************
 	}
 
 	public Configuracao getConexao() {
@@ -186,8 +181,7 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 	}
 
 	@Override
-	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
 		verificaConexao();
 		inicializaGraficos();
 
@@ -206,6 +200,10 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 		rootStackPane.setCacheHint(CacheHint.SPEED);
 		apGlobal.setCache(true);
 		apGlobal.setCacheHint(CacheHint.SPEED);
+	}
+
+	public static URL getFxmlLocate() {
+		return DashboardController.class.getResource("/pdv/view/Dashboard.fxml");
 	}
 
 }

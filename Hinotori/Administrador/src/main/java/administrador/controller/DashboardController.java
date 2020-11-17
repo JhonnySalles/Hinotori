@@ -16,7 +16,6 @@ import comum.model.entities.Configuracao;
 import comum.model.notification.Notificacoes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
@@ -28,17 +27,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class DashboardController extends DashboardFormPadrao implements Initializable {
+public class DashboardController extends DashboardFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(DashboardController.class.getName());
 
 	private static Configuracao conexao;
-
-	@FXML
-	private AnchorPane apGlobal;
-
-	@FXML
-	private StackPane rootStackPane;
 
 	@FXML
 	private Tab tbDashBoardGraficos;
@@ -117,7 +110,6 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 		fecharBotoesDetalhe();
 	}
 
-
 	/**
 	 * <p>
 	 * Chama o método de verificar conexão animando o icone do dashboard, também
@@ -127,13 +119,13 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 	 * @author Jhonny de Salles Noschang
 	 */
 	public void verificaConexao() {
-		//conexao = ConexaoMysql.testaConexaoMySQL(imgBd, tootBd);   **********************
+		// conexao = ConexaoMysql.testaConexaoMySQL(imgBd, tootBd);
+		// **********************
 	}
 
 	public Configuracao getConexao() {
 		return conexao;
 	}
-
 
 	// Irá inicializar a parte do dashboard grafico
 	private void inicializaGraficos() {
@@ -186,10 +178,8 @@ public class DashboardController extends DashboardFormPadrao implements Initiali
 		}
 	}
 
-
 	@Override
-	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
 		verificaConexao();
 		inicializaGraficos();
 

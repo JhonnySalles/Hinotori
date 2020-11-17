@@ -32,7 +32,7 @@ public class App extends Application {
 	public synchronized void start(Stage primaryStage) {
 		try {
 			// Classe inicial
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/Dashboard.fxml"));
+			FXMLLoader loader = new FXMLLoader(DashboardController.getFxmlLocate());
 			AnchorPane scPnTelaPrincipal = loader.load();
 			mainController = loader.getController();
 

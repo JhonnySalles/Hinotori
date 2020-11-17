@@ -20,7 +20,6 @@ import com.jfoenix.controls.JFXTextField;
 import cadastro.controller.lista.ListaContatoController;
 import cadastro.controller.lista.ListaEnderecoController;
 import comum.form.CadastroFormPadrao;
-import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
@@ -32,6 +31,7 @@ import comum.model.mask.Mascaras;
 import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
+import comum.model.utils.ViewGerenciador;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -151,7 +151,7 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@Override
 	public void onBtnVoltarClick() {
-		DashboardFormPadrao.closeTela(spRoot);
+		ViewGerenciador.closeTela(spRoot);
 		onClose();
 	}
 
@@ -180,7 +180,7 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnEnderecoClick() {
-		ListaEnderecoController ctn = (ListaEnderecoController) DashboardFormPadrao
+		ListaEnderecoController ctn = (ListaEnderecoController) ViewGerenciador
 				.loadTela(ListaEnderecoController.getFxmlLocate(), spRoot);
 		ctn.initData(txtNomeFantasia.getText(), empresa.getEnderecos());
 	}
@@ -193,7 +193,7 @@ public class CadEmpresaController extends CadastroFormPadrao implements Initiali
 
 	@FXML
 	public void onBtnContatoClick() {
-		ListaContatoController ctn = (ListaContatoController) DashboardFormPadrao
+		ListaContatoController ctn = (ListaContatoController) ViewGerenciador
 				.loadTela(ListaContatoController.getFxmlLocate(), spRoot);
 		ctn.initData(txtRazaoSocial.getText(), empresa.getContatos());
 	}

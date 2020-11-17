@@ -4,12 +4,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXTextField;
-
 import cadastro.controller.cadastros.CadUsuarioController;
-import comum.form.DashboardFormPadrao;
 import comum.form.ListaFormPadrao;
 import comum.model.enums.UsuarioNivel;
+import comum.model.utils.ViewGerenciador;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -56,7 +54,7 @@ public class ListaUsuarioController extends ListaFormPadrao implements Initializ
 	private ObservableList<Usuario> obsUsuarios;
 	private FilteredList<Usuario> filteredData;
 	private UsuarioServices usuarioService;
-	
+
 	@Override
 	public void onNovoKeyPress(KeyEvent e) {
 		if (e.getCode().toString().equals("ENTER"))
@@ -65,8 +63,8 @@ public class ListaUsuarioController extends ListaFormPadrao implements Initializ
 
 	@Override
 	public void onBtnNovoClick() {
-		CadUsuarioController ctn = (CadUsuarioController) DashboardFormPadrao
-				.loadTela(CadUsuarioController.getFxmlLocate(), spRoot);
+		CadUsuarioController ctn = (CadUsuarioController) ViewGerenciador.loadTela(CadUsuarioController.getFxmlLocate(),
+				spRoot);
 		ctn.setOnClose(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {

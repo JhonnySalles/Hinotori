@@ -8,18 +8,16 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
-import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import animatefx.animation.Pulse;
 import comum.model.animation.DoubleTransition;
-import comum.model.animation.TelaAnimation;
 import comum.model.utils.ViewGerenciador;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -27,14 +25,13 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,16 +41,36 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-public abstract class DashboardFormPadrao {
+/**
+ * <p>
+ * Classe abstrata que irá conter os métodos padrões para a criação de um
+ * dashboard e sua reutilização em vários módulos.
+ * 
+ * Irá conter funções como a criação das abas, abertura de telas sobreposta e
+ * dialogos como suas movimentações e animações.
+ * 
+ * Por padrão a tela já implementa o método initializable do Javafx, fazendo a
+ * chamada da função inicializa que servirá para propagar para as classes
+ * herdadas a mesma função. Será necessário manter a função no form padrão, pois
+ * alguns métodos requer o prévio carregamento.
+ * </p>
+ * 
+ * @author Jhonny de Salles Noschang
+ */
+public abstract class DashboardFormPadrao implements Initializable {
 
 	private final static Logger LOGGER = Logger.getLogger(DashboardFormPadrao.class.getName());
 
-	final static protected Map<URL, Tab> abasAbertas = new HashMap<>(); // Irá mapear as abas abertas.
-	final static protected Map<Node, StackPane> telaSobreposta = new HashMap<>(); // Irá mapear as abas abertas.
+	// Irá mapear as abas abertas.
+	final static protected Map<URL, Tab> abasAbertas = new HashMap<>();
 
 	protected final static DropShadow efeitoPainelDetalhe = new DropShadow();
 
-	static protected DashboardFormPadrao DASHBOARD_MAIN;
+	@FXML
+	protected AnchorPane apGlobal;
+
+	@FXML
+	protected StackPane rootStackPane;
 
 	@FXML
 	protected SplitPane splPane;
@@ -78,9 +95,21 @@ public abstract class DashboardFormPadrao {
 	protected JFXHamburger btnBurgerBotao;
 	protected HamburgerBackArrowBasicTransition btnBurgerTask;
 
+	/**
+	 * <p>
+	 * Função necessária para atualizar o conteiner de abas, no qual devido a um bug
+	 * não ajusta direito o conteudo novo ao ser adicionado.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
 	public void atualizaTabPane() {
 		tbPaneAbas.requestLayout();
 	}
+
+	// ********************************************************************************//
+	// Método para a movimentações dos panels e dos botões.
+	// *******************************************************************************//
 
 	/**
 	 * <p>
@@ -215,18 +244,23 @@ public abstract class DashboardFormPadrao {
 		return imageView;
 	}
 
+	// ********************************************************************************//
+	// Método para a abertura das abas
+	// *******************************************************************************//
+
 	// Comando synchronized irá fazer com que a tela carregue por primeiro, não
 	// esperando outros processamentos que possam ter.
-	/**
-	 * <p>
-	 * Função para fazer o carregamento da tela e insere na aba ou mostrar se a tela
-	 * já está mapeada.
-	 * </p>
+	/*
+	 * <p> Função para fazer o carregamento da tela e insere na aba ou mostrar se a
+	 * tela já está mapeada. </p>
 	 * 
 	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
-	 * @param tela         Nome que será apresentada na aba.
-	 * @param icon         Icone opcional, no qual será inserido na aba. Necessário
-	 *                     o caminho após o comando <b><i>getPath</i><b>.
+	 * 
+	 * @param tela Nome que será apresentada na aba.
+	 * 
+	 * @param icon Icone opcional, no qual será inserido na aba. Necessário o
+	 * caminho após o comando <b><i>getPath</i><b>.
+	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
 	public synchronized void loadAbas(URL absoluteName, String tela, String icon) {
@@ -308,127 +342,10 @@ public abstract class DashboardFormPadrao {
 		fecharBotoesDetalhe();
 	}
 
-	/**
-	 * <p>
-	 * Função estatica apenas para fazer o carregamento de um panel em cima de
-	 * outro, com a animação de movimentação dos panels para a esquerda e fechamento
-	 * para a direita.
-	 * </p>
-	 * 
-	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
-	 * @param spRoot       <b>StackPane</b> da tela que irá ser adicionado a nova
-	 *                     tela acima.
-	 * @return Retorna um objeto no formato do controlador da tela aberta, caso
-	 *         apresente erro irá retornar null.
-	 * 
-	 * @author Jhonny de Salles Noschang
-	 */
-	public synchronized static Object loadTela(URL absoluteName, StackPane spRoot) {
-		FXMLLoader loader = new FXMLLoader(absoluteName);
-		try {
-			Node apFilho = loader.load();
-			spRoot.getChildren().add(apFilho);
-			telaSobreposta.put(apFilho, spRoot);
-			new TelaAnimation().abrirPane(spRoot, apFilho);
-
-			if (DASHBOARD_MAIN != null)
-				DASHBOARD_MAIN.atualizaTabPane();
-
-			return loader.getController();
-		} catch (IOException e) {
-			e.printStackTrace();
-			LOGGER.log(Level.SEVERE, "{Erro ao carregar a tela: " + absoluteName + "}", e);
-		}
-		return null;
-	}
-
-	public static Object loadTela(URL absoluteName, Node apRoot) {
-		if (!telaSobreposta.containsKey(apRoot))
-			return null;
-
-		return loadTela(absoluteName, telaSobreposta.get(apRoot));
-	}
-
-	public static void closeTela(Node apRoot) {
-		if (!telaSobreposta.containsKey(apRoot))
-			return;
-
-		new TelaAnimation().fecharPane(telaSobreposta.get(apRoot));
-		telaSobreposta.remove(apRoot);
-	}
-
-	public static StackPane getStackPaneRoot(Node apRoot) {
-		if (!telaSobreposta.containsKey(apRoot))
-			return null;
-
-		return telaSobreposta.get(apRoot);
-	}
-
-	/**
-	 * <p>
-	 * Função estatica para abrir uma caixa de dialogo, onde o conteudo atras ficará
-	 * esmaecido.
-	 * </p>
-	 * 
-	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
-	 * @param apRoot       <b>AnchorPane</b> da tela que irá ser aberto o dialog
-	 *                     acima.
-	 * @return Retorna um objeto no formato do controlador da tela aberta, caso
-	 *         apresente erro irá retornar null.
-	 * 
-	 * @author Jhonny de Salles Noschang
-	 */
-	public static Object loadDialog(URL absoluteName, StackPane spRoot) {
-		return loadDialog(absoluteName, spRoot, null, null);
-	}
-
-	public static Object loadDialog(URL absoluteName, StackPane spRoot, EventHandler<ActionEvent> onClose) {
-		return loadDialog(absoluteName, spRoot, null, onClose);
-	}
-
-	public synchronized static Object loadDialog(URL absoluteName, StackPane spRoot, EventHandler<ActionEvent> onOpen,
-			EventHandler<ActionEvent> onClose) {
-		Object controller = null;
-		if (!telaSobreposta.containsKey(spRoot))
-			return controller;
-
-		FXMLLoader loader = new FXMLLoader(absoluteName);
-		try {
-			StackPane root = telaSobreposta.get(spRoot);
-			Node apRoot = spRoot.getChildren().get(0);
-			AnchorPane tela = loader.load();
-			controller = loader.getController();
-
-			BoxBlur blur = new BoxBlur(3, 3, 3);
-			JFXDialog dialog = new JFXDialog(root, tela, JFXDialog.DialogTransition.CENTER);
-
-			apRoot.setDisable(true);
-			dialog.setOnDialogOpened((JFXDialogEvent eventOpen) -> {
-				if (onOpen != null)
-					onOpen.handle(new ActionEvent(onOpen, null));
-			});
-			dialog.setOnDialogClosed((JFXDialogEvent eventClose) -> {
-				apRoot.setEffect(null);
-				apRoot.setDisable(false);
-
-				if (onClose != null)
-					onClose.handle(new ActionEvent(onClose, null));
-			});
-
-			apRoot.setEffect(blur);
-
-			if (DASHBOARD_MAIN != null)
-				DASHBOARD_MAIN.atualizaTabPane();
-			
-			dialog.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-			LOGGER.log(Level.SEVERE, "{Erro ao carregar a tela: " + absoluteName + "}", e);
-		}
-		return controller;
-	}
-
-	protected synchronized void prepareSlideMenuAnimation() {
+	// ********************************************************************************//
+	// Funções de carregamento da tela
+	// *******************************************************************************//
+	protected synchronized void prepareAnimacaoMenuSlide() {
 		/* Função para abrir automaticamente depois de 2 segundos */
 		tmLineAbrir = new Timeline(new KeyFrame(Duration.millis(2000), ae -> apBotoesMovDireita()));
 
@@ -460,20 +377,23 @@ public abstract class DashboardFormPadrao {
 		return this;
 	}
 
-	protected synchronized void inicializaHeranca() {
-		// Utilizarei a referença, para poder chamar o requestLayout do tabpane, pois
-		// quando carregado
-		// sem a chamada ocorre de bugar o novo conteudo quando a animação inicia.
-		DASHBOARD_MAIN = this;
+	protected abstract void inicializa(URL arg0, ResourceBundle arg1);
+
+	@Override
+	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
+		// Injeta a dependencia deste controlador no gerenciador de view
+		ViewGerenciador.setDashboardController(this);
 
 		setEfeito();
-		prepareSlideMenuAnimation();
+		prepareAnimacaoMenuSlide();
 
 		SplitPane.setResizableWithParent(splPane, false);
 		dPropSplPane = splPane.getDividers().get(0).positionProperty();
 		dTransSplPane = new DoubleTransition(Duration.millis(600), dPropSplPane);
 
 		tTransApBotoesDetalhes = new TranslateTransition(new Duration(350), apBotoesDetalhes);
+
+		inicializa(arg0, arg1);
 	}
 
 }

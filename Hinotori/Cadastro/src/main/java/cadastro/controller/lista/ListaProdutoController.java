@@ -4,11 +4,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXTextField;
-
 import cadastro.controller.cadastros.CadProdutoController;
-import comum.form.DashboardFormPadrao;
 import comum.form.ListaFormPadrao;
+import comum.model.utils.ViewGerenciador;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -70,8 +68,8 @@ public class ListaProdutoController extends ListaFormPadrao implements Initializ
 
 	@Override
 	public void onBtnNovoClick() {
-		CadProdutoController ctn = (CadProdutoController) DashboardFormPadrao
-				.loadTela(CadProdutoController.getFxmlLocate(), spRoot);
+		CadProdutoController ctn = (CadProdutoController) ViewGerenciador.loadTela(CadProdutoController.getFxmlLocate(),
+				spRoot);
 		ctn.setOnClose(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {

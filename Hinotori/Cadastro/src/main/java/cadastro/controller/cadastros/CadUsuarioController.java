@@ -23,7 +23,6 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import comum.form.CadastroFormPadrao;
-import comum.form.DashboardFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
 import comum.model.encode.DecodeHash;
@@ -35,6 +34,7 @@ import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
+import comum.model.utils.ViewGerenciador;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -159,7 +159,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 
 	@Override
 	public void onBtnVoltarClick() {
-		DashboardFormPadrao.closeTela(spRoot);
+		ViewGerenciador.closeTela(spRoot);
 		onClose();
 	}
 

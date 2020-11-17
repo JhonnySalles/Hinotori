@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import cadastro.controller.cadastros.CadClienteController;
-import comum.form.DashboardFormPadrao;
 import comum.form.ListaFormPadrao;
+import comum.model.utils.ViewGerenciador;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -58,8 +58,8 @@ public class ListaClienteController extends ListaFormPadrao implements Initializ
 
 	@Override
 	public void onBtnNovoClick() {
-		CadClienteController ctn = (CadClienteController) DashboardFormPadrao
-				.loadTela(CadClienteController.getFxmlLocate(), spRoot);
+		CadClienteController ctn = (CadClienteController) ViewGerenciador.loadTela(CadClienteController.getFxmlLocate(),
+				spRoot);
 		ctn.setOnClose(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
