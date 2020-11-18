@@ -22,11 +22,11 @@
 
 <StackPane fx:id="spRoot" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cadastro.controller.cadastros.CadProdutoController">
    <children>
-      <AnchorPane fx:id="apContainer">
+      <AnchorPane fx:id="apContainer" minHeight="0.0" minWidth="0.0">
          <children>
             <ScrollPane fx:id="spBackground" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
-                <AnchorPane fx:id="apContainerInterno" styleClass="background-cartao">
+                <AnchorPane fx:id="apContainerInterno" minHeight="650.0" minWidth="685.0" styleClass="background-cartao">
                      <children>
                         <HBox fx:id="hbTitulo" alignment="CENTER" prefHeight="200.0" styleClass="tituloBackground-produto" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
