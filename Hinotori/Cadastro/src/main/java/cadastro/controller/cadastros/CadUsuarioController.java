@@ -463,7 +463,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		setUsuarioServices(new UsuarioServices());
+		//setUsuarioServices(new UsuarioServices());
 		Limitadores.setTextFieldInteger(txtId);
 
 		Validadores.setTextFieldNotEmpty(txtNome);

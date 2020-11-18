@@ -437,7 +437,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
-		setEmpresaServices(new EmpresaServices());
+		//setEmpresaServices(new EmpresaServices());
 
 		Limitadores.setTextFieldInteger(txtId);
 

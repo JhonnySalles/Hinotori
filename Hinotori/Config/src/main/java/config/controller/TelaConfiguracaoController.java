@@ -151,7 +151,7 @@ public class TelaConfiguracaoController implements Initializable {
 			};
 			Thread t = new Thread(verificaConexao);
 			t.setDaemon(true);
-			t.start();
+			//t.start();
 		}
 	}
 

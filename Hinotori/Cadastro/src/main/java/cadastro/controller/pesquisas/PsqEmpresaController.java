@@ -320,7 +320,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		setEmpresaServices(new EmpresaServices());
+		//setEmpresaServices(new EmpresaServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
 		Limitadores.setTextFieldInteger(txtIdFinal);

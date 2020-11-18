@@ -316,7 +316,7 @@ public class PsqProdutoController extends PesquisaFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		setProdutoServices(new ProdutoServices());
+		//setProdutoServices(new ProdutoServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
 		Limitadores.setTextFieldInteger(txtIdFinal);

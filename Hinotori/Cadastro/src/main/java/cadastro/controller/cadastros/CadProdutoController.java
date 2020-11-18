@@ -468,7 +468,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
-		setProdutoServices(new ProdutoServices());
+		//setProdutoServices(new ProdutoServices());
 
 		Limitadores.setTextFieldInteger(txtId);
 		Validadores.setTextFieldNotEmpty(txtDescricao);

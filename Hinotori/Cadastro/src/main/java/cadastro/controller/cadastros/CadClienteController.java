@@ -396,7 +396,7 @@ public class CadClienteController extends CadastroFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		setClienteServices(new ClienteServices());
+		//setClienteServices(new ClienteServices());
 		Limitadores.setTextFieldInteger(txtId);
 
 		Validadores.setTextFieldNotEmpty(txtNome);

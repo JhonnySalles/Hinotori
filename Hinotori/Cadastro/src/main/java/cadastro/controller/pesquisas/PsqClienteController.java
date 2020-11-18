@@ -399,7 +399,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		setClienteServices(new ClienteServices());
+		//setClienteServices(new ClienteServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
 		Limitadores.setTextFieldInteger(txtIdFinal);

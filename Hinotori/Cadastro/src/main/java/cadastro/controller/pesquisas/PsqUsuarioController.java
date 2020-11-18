@@ -307,7 +307,7 @@ public class PsqUsuarioController extends PesquisaFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		setUsuarioServices(new UsuarioServices());
+		//setUsuarioServices(new UsuarioServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
 		Limitadores.setTextFieldInteger(txtIdFinal);

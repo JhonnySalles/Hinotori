@@ -182,7 +182,7 @@ public class DashboardController extends DashboardFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		verificaConexao();
+		//verificaConexao();
 		inicializaGraficos();
 
 		/* Popup de descricao dos botoes */

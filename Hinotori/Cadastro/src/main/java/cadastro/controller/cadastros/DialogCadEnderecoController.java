@@ -252,7 +252,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
-		setSqlFrame();
+		//setSqlFrame();
 
 		Validadores.setTextFieldNotEmpty(frameCidadeController.txtFraPesquisa);
 		Validadores.setTextFieldNotEmpty(frameBairroController.txtFraPesquisa);

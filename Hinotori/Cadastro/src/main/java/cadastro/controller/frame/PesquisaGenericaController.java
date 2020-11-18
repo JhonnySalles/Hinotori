@@ -412,7 +412,7 @@ public class PesquisaGenericaController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		resultado = null;
-		pesquisaService = new PesquisaGenericaServices();
+		//pesquisaService = new PesquisaGenericaServices();
 
 		/* Popup de descricao dos botoes */
 		Tooltip toltLimpar = new Tooltip("Limpar");
