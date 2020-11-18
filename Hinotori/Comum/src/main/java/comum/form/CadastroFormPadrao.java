@@ -182,6 +182,8 @@ public abstract class CadastroFormPadrao implements Initializable {
 		CADASTRO_MAIN = this;
 		configuraScroll();
 		configuraAtalhosTeclado();
+		
+		inicializa(arg0, arg1);
 	}
 
 }

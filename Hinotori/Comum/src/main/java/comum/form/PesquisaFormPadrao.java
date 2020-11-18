@@ -203,6 +203,8 @@ public abstract class PesquisaFormPadrao implements Initializable {
 		btnCancelar.setVisible(false);
 		btnVoltar.setDisable(true);
 		btnVoltar.setVisible(false);
+		
+		inicializa(arg0, arg1);
 	}
 
 }

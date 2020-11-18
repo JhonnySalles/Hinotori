@@ -5,7 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.robot.Robot;
 
@@ -88,6 +91,20 @@ public class Utils {
 		g.dispose();
 
 		return resizedImage;
+	}
+
+	// Redimenciona a imagem para o tab pane
+	public static ImageView resizeImageTab(InputStream inputStream) {
+		if (inputStream == null) {
+			return null;
+		}
+		Image img = new Image(inputStream);
+		ImageView imageView = new ImageView();
+
+		imageView.setFitHeight(16);
+		imageView.setFitWidth(16);
+		imageView.setImage(img);
+		return imageView;
 	}
 
 }

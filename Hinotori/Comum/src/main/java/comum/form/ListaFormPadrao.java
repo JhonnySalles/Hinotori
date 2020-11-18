@@ -149,5 +149,7 @@ public abstract class ListaFormPadrao implements Initializable {
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		LISTA_MAIN = this;
 		configuraScroll();
+		
+		inicializa(arg0, arg1);
 	}
 }

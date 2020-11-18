@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +17,7 @@ import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import animatefx.animation.Pulse;
 import comum.model.animation.DoubleTransition;
+import comum.model.utils.Utils;
 import comum.model.utils.ViewGerenciador;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -33,8 +33,6 @@ import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -64,6 +62,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 	// Irá mapear as abas abertas.
 	final static protected Map<URL, Tab> abasAbertas = new HashMap<>();
 
+	protected static DashboardFormPadrao INSTANCIA;
 	protected final static DropShadow efeitoPainelDetalhe = new DropShadow();
 
 	@FXML
@@ -94,6 +93,17 @@ public abstract class DashboardFormPadrao implements Initializable {
 	@FXML
 	protected JFXHamburger btnBurgerBotao;
 	protected HamburgerBackArrowBasicTransition btnBurgerTask;
+
+	/**
+	 * <p>
+	 * Função para pegar a instância do dashboard que está iniciado.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static DashboardFormPadrao getInstancia() {
+		return INSTANCIA;
+	}
 
 	/**
 	 * <p>
@@ -230,20 +240,6 @@ public abstract class DashboardFormPadrao implements Initializable {
 		}
 	}
 
-	// Redimenciona a imagem para o tab pane
-	private static ImageView buildImage(InputStream inputStream) {
-		if (inputStream == null) {
-			return null;
-		}
-		Image img = new Image(inputStream);
-		ImageView imageView = new ImageView();
-
-		imageView.setFitHeight(16);
-		imageView.setFitWidth(16);
-		imageView.setImage(img);
-		return imageView;
-	}
-
 	// ********************************************************************************//
 	// Método para a abertura das abas
 	// *******************************************************************************//
@@ -263,7 +259,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public synchronized void loadAbas(URL absoluteName, String tela, String icon) {
+	public synchronized void loadAbas(URL absoluteName, String descricaoTela, String icon) {
 		if (tbPaneAbas == null)
 			tbPaneAbas = new JFXTabPane();
 
@@ -273,18 +269,10 @@ public abstract class DashboardFormPadrao implements Initializable {
 		else {
 			// Caso a tela já foi previamente carregada, carrega ela.
 			if (ViewGerenciador.verificaTelaCarregada(absoluteName)) {
-				Tab aba = new Tab(tela);
+				Tab aba = new Tab(descricaoTela);
 
-				if (icon != "") { // Irá chamar a função para redimencionar e colocar a imagem.
-					// Coloca o caminho do arquivo com o caminho da imagem.
-					File initialFile = new File(getClass().getResource("").getPath() + icon);
-					try {
-						aba.setGraphic(buildImage(new FileInputStream(initialFile)));
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-						LOGGER.log(Level.SEVERE, "{Erro ao carregar a imagem da aba: " + initialFile + "}", e1);
-					}
-				}
+				if (icon != "")
+					setImageTab(aba, getClass().getResource("").getPath() + icon);
 
 				aba.setContent(ViewGerenciador.getTelaPreCarregada(absoluteName));
 				tbPaneAbas.getTabs().add(aba);
@@ -307,18 +295,10 @@ public abstract class DashboardFormPadrao implements Initializable {
 				};
 
 				loadTask.setOnSucceeded(e -> {
-					Tab aba = new Tab(tela);
+					Tab aba = new Tab(descricaoTela);
 
-					if (icon != "") { // Irá chamar a função para redimencionar e colocar a imagem.
-						// Coloca o caminho do arquivo com o caminho da imagem.
-						File initialFile = new File(getClass().getResource("").getPath() + icon);
-						try {
-							aba.setGraphic(buildImage(new FileInputStream(initialFile)));
-						} catch (FileNotFoundException e1) {
-							e1.printStackTrace();
-							LOGGER.log(Level.SEVERE, "{Erro ao carregar a imagem da aba: " + initialFile + "}", e1);
-						}
-					}
+					if (icon != "")
+						setImageTab(aba, getClass().getResource("").getPath() + icon);
 
 					aba.setContent(loadTask.getValue());
 					tbPaneAbas.getTabs().add(aba);
@@ -333,13 +313,27 @@ public abstract class DashboardFormPadrao implements Initializable {
 					aba.setOnClosed(removMap -> abasAbertas.remove(absoluteName));
 				});
 
-				loadTask.setOnFailed(errorTask -> loadTask.getException().printStackTrace());
+				loadTask.setOnFailed(errorTask -> LOGGER.log(Level.SEVERE,
+						"{Erro ao carregar a aba: " + absoluteName + "}", loadTask.getException()));
 
 				Thread thread = new Thread(loadTask);
 				thread.start();
 			}
 		}
 		fecharBotoesDetalhe();
+	}
+
+	// Irá chamar a função para redimencionar e colocar a imagem.
+	// Coloca o caminho do arquivo com o caminho da imagem.
+	private void setImageTab(Tab aba, String localizacao) {
+		// Coloca o caminho do arquivo com o caminho da imagem.
+		File initialFile = new File(localizacao);
+		try {
+			aba.setGraphic(Utils.resizeImageTab(new FileInputStream(initialFile)));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+			LOGGER.log(Level.SEVERE, "{Erro ao carregar a imagem da aba: " + initialFile + "}", e1);
+		}
 	}
 
 	// ********************************************************************************//
@@ -381,8 +375,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		// Injeta a dependencia deste controlador no gerenciador de view
-		ViewGerenciador.setDashboardController(this);
+		INSTANCIA = this;
 
 		setEfeito();
 		prepareAnimacaoMenuSlide();

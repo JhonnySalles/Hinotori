@@ -61,26 +61,21 @@ public class ViewGerenciador {
 	}
 
 	// A dependencia ao form do dashboard é feito na inicialização dele
-	private static DashboardFormPadrao DASHBOARD_MAIN;
-
-	public static DashboardFormPadrao getDashboardController() {
-		return DASHBOARD_MAIN;
-	}
-
-	public static void setDashboardController(DashboardFormPadrao dashboard) {
-		DASHBOARD_MAIN = dashboard;
-	}
-
-	private static ViewGerenciador instancia;
+	private static DashboardFormPadrao DASHBOARD_MAIN = DashboardFormPadrao.getInstancia();
+	private static ViewGerenciador INSTANCIA;
 	private static final HashMap<URL, Tela> TELA_PRE_CARREGADA = new HashMap<>();
 	public static ObservableList<String> stylesheets = FXCollections.observableArrayList("");
 	private static URL[] CAMINHO_TELAS_PRE_CARREGAMENTO = {};
 
 	public static ViewGerenciador getInstance() {
-		if (instancia == null)
-			instancia = new ViewGerenciador();
+		if (INSTANCIA == null)
+			INSTANCIA = new ViewGerenciador();
 
-		return instancia;
+		return INSTANCIA;
+	}
+
+	private static void getDashBoard() {
+		DASHBOARD_MAIN = DashboardFormPadrao.getInstancia();
 	}
 
 	// ********************************************************************************//
@@ -217,7 +212,6 @@ public class ViewGerenciador {
 	// ********************************************************************************//
 	// Métodos staticos para sobreposição de tela
 	// *******************************************************************************//
-
 	// Irá mapear as abas abertas.
 	final static private Map<Node, TelaAberta> TELA_SOBREPOSTA = new HashMap<>();
 
@@ -283,6 +277,8 @@ public class ViewGerenciador {
 
 			if (DASHBOARD_MAIN != null)
 				DASHBOARD_MAIN.atualizaTabPane();
+			else
+				getDashBoard();
 		}
 
 		return controlador;
@@ -393,6 +389,8 @@ public class ViewGerenciador {
 
 			if (DASHBOARD_MAIN != null)
 				DASHBOARD_MAIN.atualizaTabPane();
+			else
+				getDashBoard();
 
 			dialog.show();
 		} catch (IOException e) {
