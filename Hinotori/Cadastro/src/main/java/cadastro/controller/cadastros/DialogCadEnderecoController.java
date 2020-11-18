@@ -23,7 +23,6 @@ import comum.model.notification.Notificacoes;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -33,7 +32,7 @@ import servidor.entities.Bairro;
 import servidor.entities.Endereco;
 import servidor.validations.ValidaEndereco;
 
-public class DialogCadEnderecoController extends CadastroDialogPadrao implements Initializable {
+public class DialogCadEnderecoController extends CadastroDialogPadrao {
 
 	@FXML
 	private JFXComboBox<TipoEndereco> cbTipo;
@@ -252,7 +251,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao implements
 	}
 
 	@Override
-	public synchronized void initialize(URL location, ResourceBundle resources) {
+	public synchronized void inicializa(URL location, ResourceBundle resources) {
 		setSqlFrame();
 
 		Validadores.setTextFieldNotEmpty(frameCidadeController.txtFraPesquisa);

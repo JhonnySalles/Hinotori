@@ -20,14 +20,13 @@ import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import servidor.entities.Contato;
 import servidor.validations.ValidaContato;
 
-public class DialogCadContatoController extends CadastroDialogPadrao implements Initializable {
+public class DialogCadContatoController extends CadastroDialogPadrao {
 
 	@FXML
 	private JFXComboBox<TipoContato> cbTipo;
@@ -187,7 +186,7 @@ public class DialogCadContatoController extends CadastroDialogPadrao implements 
 	}
 
 	@Override
-	public synchronized void initialize(URL location, ResourceBundle resources) {
+	public synchronized void inicializa(URL location, ResourceBundle resources) {
 		Validadores.setTextFieldNotEmpty(txtNome);
 		Validadores.setTextFieldEmailExit(txtEmail);
 		Validadores.setTextFieldTelefoneExit(txtTelefone);

@@ -12,14 +12,13 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
 import servidor.dao.services.ClienteServices;
 import servidor.entities.Cliente;
 
-public class ListaClienteController extends ListaFormPadrao implements Initializable {
+public class ListaClienteController extends ListaFormPadrao {
 
 	@FXML
 	private TableView<Cliente> tbClientes;
@@ -106,8 +105,8 @@ public class ListaClienteController extends ListaFormPadrao implements Initializ
 	}
 
 	@Override
-	public synchronized void initialize(URL location, ResourceBundle resources) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL location, ResourceBundle resources) {
+
 	}
 
 	public static URL getFxmlLocate() {

@@ -35,7 +35,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
@@ -44,7 +43,7 @@ import servidor.dao.services.ClienteServices;
 import servidor.entities.Cliente;
 import servidor.validations.ValidaCliente;
 
-public class CadClienteController extends CadastroFormPadrao implements Initializable {
+public class CadClienteController extends CadastroFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(CadUsuarioController.class.getName());
 
@@ -396,8 +395,7 @@ public class CadClienteController extends CadastroFormPadrao implements Initiali
 	}
 
 	@Override
-	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
 		setClienteServices(new ClienteServices());
 		Limitadores.setTextFieldInteger(txtId);
 

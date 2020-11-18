@@ -38,7 +38,6 @@ import comum.model.utils.ViewGerenciador;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -51,7 +50,7 @@ import servidor.entities.Imagem;
 import servidor.entities.Usuario;
 import servidor.validations.ValidaUsuario;
 
-public class CadUsuarioController extends CadastroFormPadrao implements Initializable {
+public class CadUsuarioController extends CadastroFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(CadUsuarioController.class.getName());
 
@@ -463,8 +462,7 @@ public class CadUsuarioController extends CadastroFormPadrao implements Initiali
 	}
 
 	@Override
-	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
 		setUsuarioServices(new UsuarioServices());
 		Limitadores.setTextFieldInteger(txtId);
 

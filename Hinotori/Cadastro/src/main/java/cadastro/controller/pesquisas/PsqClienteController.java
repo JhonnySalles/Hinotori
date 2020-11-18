@@ -29,7 +29,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -40,7 +39,7 @@ import servidor.entities.Cliente;
 import servidor.entities.Contato;
 import servidor.entities.Endereco;
 
-public class PsqClienteController extends PesquisaFormPadrao implements Initializable {
+public class PsqClienteController extends PesquisaFormPadrao {
 
 	@FXML
 	private JFXTextField txtIdInicial;
@@ -399,8 +398,7 @@ public class PsqClienteController extends PesquisaFormPadrao implements Initiali
 	}
 
 	@Override
-	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
 		setClienteServices(new ClienteServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);

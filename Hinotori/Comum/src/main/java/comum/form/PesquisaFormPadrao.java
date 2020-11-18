@@ -1,7 +1,9 @@
 package comum.form;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
@@ -10,6 +12,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -20,21 +23,21 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 
-public abstract class PesquisaFormPadrao {
+public abstract class PesquisaFormPadrao implements Initializable {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
-	
+
 	static protected PesquisaFormPadrao PESQUISA_MAIN;
 
 	@FXML
 	protected StackPane spRoot;
-	
+
 	@FXML
 	protected AnchorPane apContainer;
 
 	@FXML
 	protected ScrollPane spBackground;
-	
+
 	@FXML
 	protected AnchorPane apContainerInterno;
 
@@ -49,34 +52,34 @@ public abstract class PesquisaFormPadrao {
 
 	@FXML
 	protected JFXButton btnCancelar;
-	
+
 	@FXML
 	protected JFXButton btnAtualizar;
 
 	@FXML
 	protected JFXButton btnVoltar;
-	
+
 	@FXML
 	protected abstract void onBtnConfirmarClick();
-	
+
 	@FXML
 	protected abstract void onConfirmarKeyPress(KeyEvent e);
-	
+
 	@FXML
 	protected abstract void onBtnCancelarClick();
-	
+
 	@FXML
 	protected abstract void onCancelarKeyPress(KeyEvent e);
-	
+
 	@FXML
-	protected abstract void onBtnAtualizarClick(); 
-	
+	protected abstract void onBtnAtualizarClick();
+
 	@FXML
 	protected abstract void onAtualizarKeyPress(KeyEvent e);
-	
+
 	@FXML
 	protected abstract void onBtnVoltarClick();
-	
+
 	@FXML
 	protected abstract void onVoltarKeyPress(KeyEvent e);
 
@@ -87,8 +90,7 @@ public abstract class PesquisaFormPadrao {
 	private Transform oldSceneTransform = null;
 
 	/**
-	 * Função a ser executada quando a tela for fechada.
-	 * {@code PesquisaFormPadrao}.
+	 * Função a ser executada quando a tela for fechada. {@code PesquisaFormPadrao}.
 	 *
 	 * @defaultValue null
 	 */
@@ -107,18 +109,17 @@ public abstract class PesquisaFormPadrao {
 
 	public final ObjectProperty<EventHandler<ActionEvent>> onCloseProperty() {
 		if (onClose == null) {
-			onClose = new SimpleObjectProperty<EventHandler<ActionEvent>>(this, "onClose",
-					DEFAULT_ON_CLOSE);
+			onClose = new SimpleObjectProperty<EventHandler<ActionEvent>>(this, "onClose", DEFAULT_ON_CLOSE);
 		}
 		return onClose;
 	}
-	
+
 	protected final void onClose() {
 		final EventHandler<ActionEvent> handler = getOnClose();
 		if (handler != null)
 			handler.handle(new ActionEvent(this, null));
 	}
-	
+
 	private void configuraScroll() {
 
 		hbTituloBotoes.localToSceneTransformProperty().addListener((o, oldVal, newVal) -> oldSceneTransform = oldVal);
@@ -186,12 +187,15 @@ public abstract class PesquisaFormPadrao {
 		});
 	}
 
-	public synchronized void inicializaHeranca() {
+	protected abstract void inicializa(URL arg0, ResourceBundle arg1);
+
+	@Override
+	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		PESQUISA_MAIN = this;
-		
+
 		configuraScroll();
-		configuraAtalhosTeclado();	
-		
+		configuraAtalhosTeclado();
+
 		// Por padrão os botões não estão visiveis.
 		btnConfirmar.setDisable(true);
 		btnConfirmar.setVisible(false);

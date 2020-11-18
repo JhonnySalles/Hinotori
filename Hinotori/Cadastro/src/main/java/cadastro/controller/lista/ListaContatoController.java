@@ -19,7 +19,6 @@ import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
@@ -32,7 +31,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import servidor.entities.Contato;
 
-public class ListaContatoController extends ListaFormPadrao implements Initializable {
+public class ListaContatoController extends ListaFormPadrao {
 
 	@FXML
 	private TableView<Contato> tbContatos;
@@ -239,8 +238,7 @@ public class ListaContatoController extends ListaFormPadrao implements Initializ
 	}
 
 	@Override
-	public synchronized void initialize(URL location, ResourceBundle resources) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL location, ResourceBundle resources) {
 		linkaCelulas();
 	}
 

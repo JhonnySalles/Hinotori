@@ -1,5 +1,8 @@
 package comum.form;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
@@ -8,6 +11,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -16,7 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 
-public abstract class ListaFormPadrao {
+public abstract class ListaFormPadrao implements Initializable {
 
 	static protected ListaFormPadrao LISTA_MAIN;
 
@@ -28,7 +32,7 @@ public abstract class ListaFormPadrao {
 
 	@FXML
 	protected ScrollPane spBackground;
-	
+
 	@FXML
 	protected AnchorPane apContainerInterno;
 
@@ -49,7 +53,7 @@ public abstract class ListaFormPadrao {
 
 	@FXML
 	protected JFXButton btnAtualizar;
-	
+
 	@FXML
 	protected JFXTextField txtPesquisa;
 
@@ -139,7 +143,10 @@ public abstract class ListaFormPadrao {
 		return min2 + (max2 - min2) * ((val - min1) / (max1 - min1));
 	}
 
-	protected synchronized void inicializaHeranca() {
+	protected abstract void inicializa(URL arg0, ResourceBundle arg1);
+
+	@Override
+	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		LISTA_MAIN = this;
 		configuraScroll();
 	}

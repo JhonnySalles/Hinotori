@@ -1,7 +1,9 @@
 package comum.form;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
@@ -10,6 +12,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -20,7 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 
-public abstract class CadastroFormPadrao {
+public abstract class CadastroFormPadrao implements Initializable {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
 
@@ -34,7 +37,7 @@ public abstract class CadastroFormPadrao {
 
 	@FXML
 	protected ScrollPane spBackground;
-	
+
 	@FXML
 	protected AnchorPane apContainerInterno;
 
@@ -172,7 +175,10 @@ public abstract class CadastroFormPadrao {
 		});
 	}
 
-	public synchronized void inicializaHeranca() {
+	protected abstract void inicializa(URL arg0, ResourceBundle arg1);
+
+	@Override
+	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		CADASTRO_MAIN = this;
 		configuraScroll();
 		configuraAtalhosTeclado();

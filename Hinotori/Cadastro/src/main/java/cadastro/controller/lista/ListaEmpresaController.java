@@ -12,7 +12,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
@@ -20,7 +19,7 @@ import servidor.dao.services.EmpresaServices;
 import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 
-public class ListaEmpresaController extends ListaFormPadrao implements Initializable {
+public class ListaEmpresaController extends ListaFormPadrao {
 
 	@FXML
 	private TableView<Empresa> tbEmpresas;
@@ -110,8 +109,8 @@ public class ListaEmpresaController extends ListaFormPadrao implements Initializ
 	}
 
 	@Override
-	public synchronized void initialize(URL location, ResourceBundle resources) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL location, ResourceBundle resources) {
+
 	}
 
 	public static URL getFxmlLocate() {

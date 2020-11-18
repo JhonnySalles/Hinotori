@@ -28,7 +28,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -44,7 +43,7 @@ import servidor.entities.Empresa;
 import servidor.entities.Endereco;
 import servidor.entities.Imagem;
 
-public class PsqEmpresaController extends PesquisaFormPadrao implements Initializable {
+public class PsqEmpresaController extends PesquisaFormPadrao {
 
 	@FXML
 	private JFXTextField txtIdInicial;
@@ -93,7 +92,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 
 	@FXML
 	private TableColumn<Empresa, String> tbClContatoPadrao;
-	
+
 	@FXML
 	private TableColumn<Empresa, String> tbClEnderecoPadrao;
 
@@ -136,7 +135,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 			spRoot.cursorProperty().set(Cursor.WAIT);
 			carregarEmpresas();
 			// Necessário por um bug na tela ao carregar ela.
-			//dashBoard.atualizaTabPane();
+			// dashBoard.atualizaTabPane();
 		} catch (ExcessaoBd e) {
 			e.printStackTrace();
 		} finally {
@@ -290,16 +289,17 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 			property.setValue(dateFormat.format(data.getValue().getDataCadastro()));
 			return property;
 		});
-		
+
 		tbClContatoPadrao.setCellValueFactory(data -> {
 			List<Contato> psq = data.getValue().getContatos().stream().filter(item -> item.isPadrao())
 					.collect(Collectors.toList());
 			SimpleStringProperty contato = new SimpleStringProperty();
 			if (psq != null && psq.size() > 0)
-				contato.setValue(ConverterMascaras.formataFone(psq.get(0).getTelefone()) + " / " + ConverterMascaras.formataFone(psq.get(0).getCelular()));
+				contato.setValue(ConverterMascaras.formataFone(psq.get(0).getTelefone()) + " / "
+						+ ConverterMascaras.formataFone(psq.get(0).getCelular()));
 			else
 				contato.setValue("");
-			
+
 			return contato;
 		});
 
@@ -319,8 +319,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 	}
 
 	@Override
-	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
 		setEmpresaServices(new EmpresaServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
@@ -337,7 +336,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao implements Initiali
 
 		cbSituacao.getItems().addAll(Situacao.values());
 	}
-	
+
 	public static URL getFxmlLocate() {
 		return PsqEmpresaController.class.getResource("/cadastro/view/pesquisas/PsqEmpresa.fxml");
 	}

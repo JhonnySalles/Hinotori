@@ -22,7 +22,6 @@ import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
@@ -37,7 +36,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import servidor.entities.Endereco;
 
-public class ListaEnderecoController extends ListaFormPadrao implements Initializable {
+public class ListaEnderecoController extends ListaFormPadrao {
 
 	@FXML
 	private TableView<Endereco> tbEnderecos;
@@ -261,8 +260,7 @@ public class ListaEnderecoController extends ListaFormPadrao implements Initiali
 	}
 
 	@Override
-	public synchronized void initialize(URL location, ResourceBundle resources) {
-		inicializaHeranca();
+	public synchronized void inicializa(URL location, ResourceBundle resources) {
 		linkaCelulas();
 	}
 
