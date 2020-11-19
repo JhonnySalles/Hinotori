@@ -63,12 +63,17 @@
 			<artifactId>javafx-base</artifactId>
 			<version>12</version>
 		</dependency>
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>12</version>
+		</dependency>
 
 		<!-- Bibliotecas para animacao no javafx -->
 		<dependency>
 			<groupId>io.github.typhon0</groupId>
 			<artifactId>AnimateFX</artifactId>
-			<version>1.2.1</version>
+			<version>1.2.2</version>
 		</dependency>
 
 		<!-- Botoes e componentes estilizados para o javafx -->
@@ -78,19 +83,20 @@
 			<version>9.0.9</version>
 		</dependency>
 
-		<!-- Bibliotecas para animacao no javafx -->
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-fxml</artifactId>
-			<version>12</version>
-		</dependency>
-
 		<!-- Biblioteca para popup -->
 		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
-			<version>11.0.1</version>
+			<version>11.0.3</version>
 		</dependency>
+
+		<!-- Biblioteca para tiles, chart at no dashboard -->
+		<dependency>
+			<groupId>eu.hansolo</groupId>
+			<artifactId>tilesfx</artifactId>
+			<version>11.45</version>
+		</dependency>
+
 
 		<!-- MySQL -->
 		<dependency>
