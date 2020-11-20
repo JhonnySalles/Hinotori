@@ -33,6 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
 import servidor.dao.services.ProdutoServices;
@@ -111,7 +112,7 @@ public class PsqProdutoController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnConfirmar.fire();
 	}
 
@@ -122,7 +123,7 @@ public class PsqProdutoController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnCancelar.fire();
 	}
 
@@ -133,7 +134,7 @@ public class PsqProdutoController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onAtualizarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnAtualizar.fire();
 	}
 
@@ -152,7 +153,7 @@ public class PsqProdutoController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnVoltar.fire();
 	}
 

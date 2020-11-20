@@ -26,7 +26,6 @@ import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
 import comum.model.enums.TipoProduto;
-import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
@@ -40,11 +39,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import servidor.dao.services.ProdutoServices;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
 import servidor.validations.ValidaProduto;
@@ -107,11 +106,10 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	private Set<Imagem> imagens;
 	private Produto produto;
-	private ProdutoServices produtoService;
 
 	@Override
 	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnConfirmar.fire();
 	}
 
@@ -131,7 +129,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	@Override
 	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnCancelar.fire();
 	}
 
@@ -142,7 +140,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	@Override
 	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnExcluir.fire();
 	}
 
@@ -164,7 +162,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	@Override
 	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnVoltar.fire();
 	}
 
@@ -176,7 +174,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnProcurarImagemEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnProcurarImagem.fire();
 	}
 
@@ -223,7 +221,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnExcluirImagemEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnExcluirImagem.fire();
 	}
 
@@ -242,7 +240,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	@FXML
 	public void onTxtIdEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().equals(KeyCode.ENTER)) {
 			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
 				onTxtIdExit();
 			else
@@ -253,34 +251,58 @@ public class CadProdutoController extends CadastroFormPadrao {
 	}
 
 	public void onTxtIdExit() {
-		if (!txtId.getText().isEmpty()) {
-			try {
-				carregarProduto(produtoService.pesquisar(Long.valueOf(txtId.getText()), TamanhoImagem.TODOS));
-			} catch (ExcessaoBd e) {
-				e.printStackTrace();
-				LOGGER.log(Level.INFO, "{Erro ao carregar o produto}", e);
-			}
-		} else if (txtId.getText().isEmpty())
+		if (!txtId.getText().isEmpty())
+			carregar(pesquisar(new Produto(Long.valueOf(txtId.getText()))));
+		else if (txtId.getText().isEmpty())
 			txtId.setText("0");
 	}
 
-	private CadProdutoController desabilitaBotoes() {
-		spBackground.setDisable(true);
-		btnConfirmar.setDisable(true);
-		btnCancelar.setDisable(true);
-		btnExcluir.setDisable(true);
-		return this;
+	@Override
+	protected <T> void salvar(T entidade) {
+		/*
+		 * try {
+		 * 
+		 * Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+		 * "Produto salvo com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
+		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+		 * LOGGER.log(Level.INFO, "{Erro ao salvar o produto}", e); }
+		 */
+
 	}
 
-	private CadProdutoController habilitaBotoes() {
-		spBackground.setDisable(false);
-		btnConfirmar.setDisable(false);
-		btnCancelar.setDisable(false);
-		btnExcluir.setDisable(false);
-		return this;
+	@Override
+	protected <T> void excluir(T entidade) {
+		/*
+		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+		 * "Produto excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
+		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+		 * LOGGER.log(Level.INFO, "{Erro ao excluir o produto}", e); }
+		 */
+
 	}
 
-	private Boolean validaCampos() {
+	@Override
+	protected <T> T pesquisar(T entidade) {
+		/*
+		 * try {
+		 * 
+		 * } catch (ExcessaoBd e) { e.printStackTrace(); LOGGER.log(Level.INFO,
+		 * "{Erro ao carregar o produto}", e); }
+		 */
+		return null;
+	}
+
+	@Override
+	public <T> void carregar(T entidade) {
+		if (entidade == null)
+			limpaCampos();
+		else
+			atualizaTela((Produto) entidade);
+
+	}
+
+	@Override
+	protected boolean validaCampos() {
 
 		try {
 			return ValidaProduto.validaProduto(produto);
@@ -304,10 +326,10 @@ public class CadProdutoController extends CadastroFormPadrao {
 		return false;
 	}
 
-	private CadProdutoController limpaCampos() {
-		setImagemPadrao();
-
+	@Override
+	protected void limpaCampos() {
 		produto = new Produto();
+
 		txtId.setText("0");
 		txtDescricao.setText("");
 		txtCodigoBarras.setText("");
@@ -319,12 +341,28 @@ public class CadProdutoController extends CadastroFormPadrao {
 		cbSituacao.getSelectionModel().selectFirst();
 		cbTipoProduto.getSelectionModel().selectFirst();
 		frameNCMController.limpaCampos();
-		return this;
+		setImagemPadrao();
 	}
 
 	private CadProdutoController setImagemPadrao() {
 		imagens = null;
 		imgProduto.setImage(ImagemPadrao);
+		return this;
+	}
+
+	private CadProdutoController desabilitaBotoes() {
+		spBackground.setDisable(true);
+		btnConfirmar.setDisable(true);
+		btnCancelar.setDisable(true);
+		btnExcluir.setDisable(true);
+		return this;
+	}
+
+	private CadProdutoController habilitaBotoes() {
+		spBackground.setDisable(false);
+		btnConfirmar.setDisable(false);
+		btnCancelar.setDisable(false);
+		btnExcluir.setDisable(false);
 		return this;
 	}
 
@@ -399,44 +437,6 @@ public class CadProdutoController extends CadastroFormPadrao {
 		return this;
 	}
 
-	public CadProdutoController carregarProduto(Produto produto) {
-		this.produto = produto;
-		if (produto == null)
-			limpaCampos();
-		else
-			atualizaTela(produto);
-		return this;
-	}
-
-	private void salvar(Produto produto) {
-		if (produtoService == null)
-			setProdutoServices(new ProdutoServices());
-
-		try {
-			produtoService.salvar(produto);
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Produto salvo com sucesso.");
-			limpaCampos();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-			LOGGER.log(Level.INFO, "{Erro ao salvar o produto}", e);
-		}
-
-	}
-
-	private void excluir(Produto produto) {
-		if (produtoService == null)
-			setProdutoServices(new ProdutoServices());
-
-		try {
-			produtoService.deletar(produto.getId());
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Produto excluído com sucesso.");
-			limpaCampos();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-			LOGGER.log(Level.INFO, "{Erro ao excluir o produto}", e);
-		}
-	}
-
 	private CadProdutoController setSqlFrame() {
 
 		frameNCMController.setPesquisa("NCM", "Descricao", "NCM, CONCAT(NCM, ' - ', Descricao) AS Descricao", "ncm", "",
@@ -444,10 +444,6 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 		frameNCMController.txtFraPesquisa.setPromptText("Pesquisa de ncm");
 		return this;
-	}
-
-	private void setProdutoServices(ProdutoServices produtoService) {
-		this.produtoService = produtoService;
 	}
 
 	private CadProdutoController configuraExitId() {
@@ -468,8 +464,6 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
-		//setProdutoServices(new ProdutoServices());
-
 		Limitadores.setTextFieldInteger(txtId);
 		Validadores.setTextFieldNotEmpty(txtDescricao);
 

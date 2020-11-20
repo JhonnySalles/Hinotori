@@ -33,6 +33,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import servidor.dao.services.ClienteServices;
 import servidor.entities.Cliente;
@@ -102,7 +103,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnConfirmar.fire();
 	}
 
@@ -113,7 +114,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnCancelar.fire();
 	}
 
@@ -124,7 +125,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onAtualizarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnAtualizar.fire();
 	}
 
@@ -143,7 +144,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnVoltar.fire();
 	}
 

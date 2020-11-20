@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
@@ -23,7 +22,6 @@ import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoCliente;
 import comum.model.enums.TipoPessoa;
-import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
 import comum.model.messages.Mensagens;
@@ -37,9 +35,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import servidor.dao.services.ClienteServices;
 import servidor.entities.Cliente;
 import servidor.validations.ValidaCliente;
 
@@ -81,12 +79,10 @@ public class CadClienteController extends CadastroFormPadrao {
 	private JFXButton btnEndereco;
 
 	private Cliente cliente;
-	private ClienteServices clienteService;
-	private String id;
 
 	@Override
 	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnConfirmar.fire();
 	}
 
@@ -106,7 +102,7 @@ public class CadClienteController extends CadastroFormPadrao {
 
 	@Override
 	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnCancelar.fire();
 	}
 
@@ -117,7 +113,7 @@ public class CadClienteController extends CadastroFormPadrao {
 
 	@Override
 	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnExcluir.fire();
 	}
 
@@ -141,7 +137,7 @@ public class CadClienteController extends CadastroFormPadrao {
 
 	@Override
 	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnVoltar.fire();
 	}
 
@@ -158,7 +154,7 @@ public class CadClienteController extends CadastroFormPadrao {
 
 	@FXML
 	public void onTxtIdEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().equals(KeyCode.ENTER)) {
 			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
 				onTxtIdExit();
 			else
@@ -170,7 +166,7 @@ public class CadClienteController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnEnderecoEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnEndereco.fire();
 	}
 
@@ -189,7 +185,7 @@ public class CadClienteController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnContatoEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnContato.fire();
 	}
 
@@ -207,32 +203,55 @@ public class CadClienteController extends CadastroFormPadrao {
 	}
 
 	public void onTxtIdExit() {
-		if (!txtId.getText().isEmpty() && !txtId.getText().equalsIgnoreCase("0")) {
-			try {
-				carregarCliente(clienteService.pesquisar(Long.valueOf(txtId.getText())));
-			} catch (ExcessaoBd e) {
-				e.printStackTrace();
-				LOGGER.log(Level.INFO, "{Erro ao pesquisar o cliente}", e);
-			}
-		} else {
-			if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-				limpaCampos();
-		}
+		if (!txtId.getText().isEmpty() && !txtId.getText().equalsIgnoreCase("0"))
+			carregar(pesquisar(new Cliente(Long.valueOf(txtId.getText()))));
+		else if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+			limpaCampos();
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	@Override
+	protected <T> void salvar(T entidade) {
+		/*
+		 * try {
+		 * 
+		 * Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+		 * "Cliente salvo com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
+		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+		 * LOGGER.log(Level.INFO, "{Erro ao salvar o cliente}", e); }
+		 */
 	}
 
-	public CadClienteController carregarCliente(Cliente cliente) {
-		limpaCampos();
-		this.cliente = cliente;
-		if (cliente != null)
-			atualizaTela(cliente);
-		return this;
+	@Override
+	protected <T> void excluir(T entidade) {
+		/*
+		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+		 * "Cliente excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
+		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+		 * LOGGER.log(Level.INFO, "{Erro ao excluir o cliente}", e); }
+		 */
 	}
 
-	private boolean validaCampos() {
+	@Override
+	public <T> void carregar(T entidade) {
+		if (entidade == null)
+			limpaCampos();
+		else
+			atualizaTela((Cliente) entidade);
+	}
+
+	@Override
+	protected <T> T pesquisar(T entidade) {
+		/*
+		 * try {
+		 * 
+		 * } catch (ExcessaoBd e) { e.printStackTrace(); LOGGER.log(Level.INFO,
+		 * "{Erro ao pesquisar o cliente}", e); }
+		 */
+		return entidade;
+	}
+
+	@Override
+	protected boolean validaCampos() {
 		try {
 			return ValidaCliente.validaCliente(cliente);
 		} catch (ExcessaoCadastro e) {
@@ -264,7 +283,8 @@ public class CadClienteController extends CadastroFormPadrao {
 		return false;
 	}
 
-	private CadClienteController limpaCampos() {
+	@Override
+	protected void limpaCampos() {
 		cliente = new Cliente();
 		txtId.setText("0");
 		txtNome.setText("");
@@ -275,8 +295,6 @@ public class CadClienteController extends CadastroFormPadrao {
 		cbSituacao.getSelectionModel().selectFirst();
 		cbClienteTipo.getSelectionModel().selectFirst();
 		dtPkCadastro.setValue(LocalDate.now());
-
-		return this;
 	}
 
 	private CadClienteController atualizaEntidade() {
@@ -329,34 +347,6 @@ public class CadClienteController extends CadastroFormPadrao {
 		return this;
 	}
 
-	private void salvar(Cliente cliente) {
-		if (clienteService == null)
-			setClienteServices(new ClienteServices());
-
-		try {
-			clienteService.salvar(cliente);
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente salvo com sucesso.");
-			limpaCampos();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-			LOGGER.log(Level.INFO, "{Erro ao salvar o cliente}", e);
-		}
-	}
-
-	private void excluir(Cliente cliente) {
-		if (clienteService == null)
-			setClienteServices(new ClienteServices());
-
-		try {
-			clienteService.deletar(cliente.getId());
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente excluído com sucesso.");
-			limpaCampos();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-			LOGGER.log(Level.INFO, "{Erro ao excluir o cliente}", e);
-		}
-	}
-
 	private CadClienteController desabilitaBotoes() {
 		spRoot.setDisable(true);
 		btnConfirmar.setDisable(true);
@@ -373,10 +363,11 @@ public class CadClienteController extends CadastroFormPadrao {
 		return this;
 	}
 
-	private CadClienteController setClienteServices(ClienteServices clienteService) {
-		this.clienteService = clienteService;
-		return this;
+	public Cliente getCliente() {
+		return cliente;
 	}
+
+	private String id;
 
 	private CadClienteController configuraExitId() {
 		txtId.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -396,7 +387,6 @@ public class CadClienteController extends CadastroFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		//setClienteServices(new ClienteServices());
 		Limitadores.setTextFieldInteger(txtId);
 
 		Validadores.setTextFieldNotEmpty(txtNome);

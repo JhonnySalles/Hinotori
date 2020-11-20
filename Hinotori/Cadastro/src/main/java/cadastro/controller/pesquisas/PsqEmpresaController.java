@@ -35,6 +35,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
 import servidor.dao.services.EmpresaServices;
@@ -103,7 +104,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnConfirmar.fire();
 	}
 
@@ -114,7 +115,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnCancelar.fire();
 	}
 
@@ -125,7 +126,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onAtualizarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnAtualizar.fire();
 	}
 
@@ -146,7 +147,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao {
 
 	@FXML
 	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnVoltar.fire();
 	}
 
@@ -320,7 +321,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		//setEmpresaServices(new EmpresaServices());
+		// setEmpresaServices(new EmpresaServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
 		Limitadores.setTextFieldInteger(txtIdFinal);

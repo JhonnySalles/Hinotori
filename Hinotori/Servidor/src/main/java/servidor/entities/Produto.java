@@ -232,6 +232,21 @@ public class Produto implements Serializable {
 		this.imagens = new HashSet<>();
 	}
 
+	public Produto(Long id) {
+		this.id = id;
+		this.descricao = "";
+		this.observacao = "";
+		this.codigoBarras = "";
+		this.unidade = "";
+		this.marca = "";
+		this.peso = 0.0;
+		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
+		this.dataUltimaAlteracao = Timestamp.valueOf(LocalDateTime.now());
+		this.tipoProduto = TipoProduto.PRODUTOFINAL;
+		this.situacao = Situacao.ATIVO;
+		this.imagens = new HashSet<>();
+	}
+
 	public Produto(String descricao, String observacao, String codigoBarras, String unidade, String marca, Double peso,
 			Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, TipoProduto tipoProduto,
 			Situacao situacao) {

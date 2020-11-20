@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import comum.model.animation.TelaAnimation;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -20,8 +21,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.transform.Scale;
-import javafx.scene.transform.Transform;
 
 public abstract class PesquisaFormPadrao implements Initializable {
 
@@ -83,12 +82,6 @@ public abstract class PesquisaFormPadrao implements Initializable {
 	@FXML
 	protected abstract void onVoltarKeyPress(KeyEvent e);
 
-	// Função responsável pela transição de opacidade do fundo do cadastro e dos
-	// botões.
-	private double initY = -1;
-	private final Scale scale = new Scale(1, 1, 0, 0);
-	private Transform oldSceneTransform = null;
-
 	/**
 	 * Função a ser executada quando a tela for fechada. {@code PesquisaFormPadrao}.
 	 *
@@ -121,29 +114,7 @@ public abstract class PesquisaFormPadrao implements Initializable {
 	}
 
 	private void configuraScroll() {
-
-		hbTituloBotoes.localToSceneTransformProperty().addListener((o, oldVal, newVal) -> oldSceneTransform = oldVal);
-		spBackground.vvalueProperty().addListener((o, oldVal, newVal) -> {
-			if (initY == -1) {
-				initY = oldSceneTransform.getTy();
-			}
-
-			// translation
-			double ty = apContainerInterno.getLocalToSceneTransform().getTy();
-			double opacity = Math.abs(ty - initY) / 100;
-			opacity = opacity > 1 ? 1 : (opacity < 0) ? 0 : opacity;
-
-			hbTitulo.setOpacity(1 - opacity);
-			hbTituloBotoes.setOpacity(opacity);
-
-			// scale
-			scale.setX(map(opacity, 0, 1, 1, 0.75));
-			scale.setY(map(opacity, 0, 1, 1, 0.75));
-		});
-	}
-
-	private double map(double val, double min1, double max1, double min2, double max2) {
-		return min2 + (max2 - min2) * ((val - min1) / (max1 - min1));
+		new TelaAnimation().scrollTitulo(spBackground, apContainerInterno, hbTitulo, hbTituloBotoes);
 	}
 
 	// Será necessário verificar uma forma de configurar o scene após a exibição,
@@ -203,7 +174,7 @@ public abstract class PesquisaFormPadrao implements Initializable {
 		btnCancelar.setVisible(false);
 		btnVoltar.setDisable(true);
 		btnVoltar.setVisible(false);
-		
+
 		inicializa(arg0, arg1);
 	}
 

@@ -95,9 +95,9 @@ public class Utils {
 
 	// Redimenciona a imagem para o tab pane
 	public static ImageView resizeImageTab(InputStream inputStream) {
-		if (inputStream == null) {
+		if (inputStream == null)
 			return null;
-		}
+
 		Image img = new Image(inputStream);
 		ImageView imageView = new ImageView();
 

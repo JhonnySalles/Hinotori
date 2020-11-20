@@ -141,8 +141,19 @@ public class Cliente extends Pessoa implements Serializable {
 		this.tipoCliente = TipoCliente.CLIENTE;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
-
 	}
+	
+	public Cliente(Long id) {
+		super(id);
+		this.cpf = "";
+		this.cnpj = "";
+		this.observacao = "";
+		this.tipoPessoa = TipoPessoa.FISICO;
+		this.tipoCliente = TipoCliente.CLIENTE;
+		this.enderecos = new HashSet<>();
+		this.contatos = new HashSet<>();
+	}
+
 
 	public Cliente(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String cpf,
 			String cnpj, String observacao, TipoPessoa tipoPessoa, TipoCliente tipoCliente, Situacao situacao) {

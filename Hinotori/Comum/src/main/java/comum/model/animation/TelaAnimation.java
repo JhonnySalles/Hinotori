@@ -5,7 +5,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
 import javafx.util.Duration;
 
 public class TelaAnimation {
@@ -64,6 +69,36 @@ public class TelaAnimation {
 			nodeCima.setVisible(false);
 		});
 		timeline.play();
+	}
 
+	// Função responsável pela transição de opacidade do fundo do cadastro e dos
+	// botões.
+	private double initY = -1;
+	private final Scale scale = new Scale(1, 1, 0, 0);
+	private Transform oldSceneTransform = null;
+
+	public void scrollTitulo(ScrollPane background, AnchorPane containerInterno, HBox titulo,
+			HBox tituloBotoes) {
+		tituloBotoes.localToSceneTransformProperty().addListener((o, oldVal, newVal) -> oldSceneTransform = oldVal);
+		background.vvalueProperty().addListener((o, oldVal, newVal) -> {
+			if (initY == -1)
+				initY = oldSceneTransform.getTy();
+
+			// translation
+			double ty = containerInterno.getLocalToSceneTransform().getTy();
+			double opacity = Math.abs(ty - initY) / 100;
+			opacity = opacity > 1 ? 1 : (opacity < 0) ? 0 : opacity;
+
+			titulo.setOpacity(1 - opacity);
+			tituloBotoes.setOpacity(opacity);
+
+			// scale
+			scale.setX(map(opacity, 0, 1, 1, 0.75));
+			scale.setY(map(opacity, 0, 1, 1, 0.75));
+		});
+	}
+
+	private double map(double val, double min1, double max1, double min2, double max2) {
+		return min2 + (max2 - min2) * ((val - min1) / (max1 - min1));
 	}
 }

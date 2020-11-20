@@ -42,10 +42,10 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import servidor.dao.services.UsuarioServices;
 import servidor.entities.Imagem;
 import servidor.entities.Usuario;
 import servidor.validations.ValidaUsuario;
@@ -89,11 +89,10 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	private Set<Imagem> imagens;
 	private Usuario usuario;
-	private UsuarioServices usuarioService;
 
 	@Override
 	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnConfirmar.fire();
 	}
 
@@ -119,7 +118,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	@Override
 	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnCancelar.fire();
 	}
 
@@ -130,7 +129,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	@Override
 	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnExcluir.fire();
 	}
 
@@ -152,7 +151,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	@Override
 	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnVoltar.fire();
 	}
 
@@ -164,7 +163,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnProcurarImagemEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnProcurarImagem.fire();
 	}
 
@@ -211,7 +210,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnExcluirImagemEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnExcluirImagem.fire();
 	}
 
@@ -230,7 +229,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	@FXML
 	public void onTxtIdEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().equals(KeyCode.ENTER)) {
 			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
 				onTxtIdExit();
 			else
@@ -241,59 +240,75 @@ public class CadUsuarioController extends CadastroFormPadrao {
 	}
 
 	public void onTxtIdExit() {
-		if (!txtId.getText().isEmpty()) {
-			try {
-				carregaUsuario(usuarioService.pesquisar(Long.valueOf(txtId.getText()), TamanhoImagem.TODOS));
-			} catch (ExcessaoBd e) {
-				e.printStackTrace();
-				LOGGER.log(Level.INFO, "{Erro ao pesquisar o usuário}", e);
-			}
-		} else if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+		if (!txtId.getText().isEmpty())
+			carregar(pesquisar(new Usuario(Long.valueOf(txtId.getText()))));
+		else if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
 			limpaCampos();
 	}
 
-	public CadUsuarioController carregaUsuario(Usuario usuario) {
-		this.usuario = usuario;
-		if (usuario == null)
+	@Override
+	protected <T> void salvar(T entidade) {
+		/*
+		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+		 * "Cliente salvo com sucesso." + " Id:" + usuario.getId()); limpaCampos(); }
+		 * catch (ExcessaoBd e) { Notificacoes.notificacao(AlertType.ERROR,
+		 * Mensagens.ERRO, e.getMessage()); LOGGER.log(Level.INFO,
+		 * "{Erro ao conectar ao banco}", e); }
+		 */
+
+	}
+
+	@Override
+	protected <T> void excluir(T entidade) {
+		/*
+		 * try {
+		 * 
+		 * Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+		 * "Usuário excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
+		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+		 * LOGGER.log(Level.INFO, "{Erro ao excluir o usuário ao banco}", e); }
+		 */
+	}
+
+	@Override
+	protected <T> T pesquisar(T entidade) {
+		/*
+		 * try { } catch (ExcessaoBd e) { e.printStackTrace(); LOGGER.log(Level.INFO,
+		 * "{Erro ao pesquisar o usuário}", e); }
+		 */
+		return entidade;
+	}
+
+	@Override
+	public <T> void carregar(T entidade) {
+		if (entidade == null)
 			limpaCampos();
 		else
-			atualizaTela(usuario);
+			atualizaTela((Usuario) entidade);
+	}
 
-		return this;
+	@Override
+	protected boolean validaCampos() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	protected void limpaCampos() {
+		usuario = new Usuario();
+
+		txtId.setText("");
+		txtNome.setText("");
+		txtLogin.setText("");
+		pswSenha.setText("");
+		txtObservacao.setText("");
+		cbSituacao.getSelectionModel().select(Situacao.ATIVO);
+		cbNivel.getSelectionModel().select(UsuarioNivel.USUARIO);
+		setImagemPadrao();
 	}
 
 	public Usuario getUsuario() {
 		return usuario;
-	}
-
-	private void salvar(Usuario usuario) {
-		if (usuarioService == null)
-			setUsuarioServices(new UsuarioServices());
-
-		try {
-			usuarioService.salvar(usuario);
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-					"Cliente salvo com sucesso." + " Id:" + usuario.getId());
-			limpaCampos();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-			LOGGER.log(Level.INFO, "{Erro ao conectar ao banco}", e);
-		}
-	}
-
-	private void excluir(Usuario usuario) {
-		if (usuarioService == null)
-			setUsuarioServices(new UsuarioServices());
-
-		try {
-			usuarioService.deletar(usuario.getId());
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Usuário excluído com sucesso.");
-			limpaCampos();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-			LOGGER.log(Level.INFO, "{Erro ao excluir o usuário ao banco}", e);
-		}
-
 	}
 
 	private CadUsuarioController desabilitaBotoes() {
@@ -316,7 +331,9 @@ public class CadUsuarioController extends CadastroFormPadrao {
 	// erro na edição do campo.
 	// Necessário a validação para casos em que ouve problemas com o registro no
 	// banco.
-	private synchronized CadUsuarioController atualizaTela(Usuario usuario) {
+	private CadUsuarioController atualizaTela(Usuario usuario) {
+		limpaCampos();
+
 		this.usuario = usuario;
 
 		txtId.setText(usuario.getId().toString());
@@ -337,19 +354,10 @@ public class CadUsuarioController extends CadastroFormPadrao {
 		return this;
 	}
 
-	private synchronized CadUsuarioController limpaCampos() {
-		atualizaTela(new Usuario());
-		return this;
-	}
-
 	private CadUsuarioController setImagemPadrao() {
 		imagens = null;
 		imgUsuario.setImage(ImagemPadrao);
 		return this;
-	}
-
-	private void setUsuarioServices(UsuarioServices usuarioService) {
-		this.usuarioService = usuarioService;
 	}
 
 	private CadUsuarioController configuraExitCampos() {
@@ -463,7 +471,6 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		//setUsuarioServices(new UsuarioServices());
 		Limitadores.setTextFieldInteger(txtId);
 
 		Validadores.setTextFieldNotEmpty(txtNome);
@@ -473,8 +480,8 @@ public class CadUsuarioController extends CadastroFormPadrao {
 		cbSituacao.getItems().addAll(Situacao.values());
 		cbNivel.getItems().add(UsuarioNivel.USUARIO);
 		cbNivel.getItems().add(UsuarioNivel.ADMINISTRADOR);
-		cbSituacao.getSelectionModel().select(Situacao.ATIVO);
-		cbNivel.getSelectionModel().select(UsuarioNivel.USUARIO);
+
+		limpaCampos();
 
 		configuraExitCampos();
 

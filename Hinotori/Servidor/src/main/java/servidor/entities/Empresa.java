@@ -182,6 +182,17 @@ public class Empresa implements Serializable {
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
+	
+	public Empresa(Long id) {
+		this.id = id;
+		this.nomeFantasia = "";
+		this.razaoSocial = "";
+		this.cnpj = "";
+		this.situacao = Situacao.ATIVO;
+		this.enderecos = new HashSet<>();
+		this.contatos = new HashSet<>();
+		this.imagens = new HashSet<>();
+	}
 
 	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
 			Situacao situacao) {

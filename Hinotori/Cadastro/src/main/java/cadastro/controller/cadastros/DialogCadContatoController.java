@@ -21,6 +21,7 @@ import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import servidor.entities.Contato;
@@ -54,7 +55,7 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 
 	@Override
 	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnConfirmar.fire();
 	}
 
@@ -67,7 +68,7 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 
 	@Override
 	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnCancelar.fire();
 	}
 

@@ -24,6 +24,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -76,7 +77,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 
 	@Override
 	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnConfirmar.fire();
 	}
 
@@ -89,7 +90,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 
 	@Override
 	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.TAB))
 			btnCancelar.fire();
 	}
 

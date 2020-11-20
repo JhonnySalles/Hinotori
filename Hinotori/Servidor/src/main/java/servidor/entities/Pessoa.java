@@ -93,6 +93,14 @@ public class Pessoa implements Serializable {
 		this.dataUltimaAlteracao = Timestamp.from(Instant.now());
 		this.situacao = Situacao.ATIVO;
 	}
+	
+	public Pessoa(Long id) {
+		this.id = id;
+		this.nomeSobrenome = "";
+		this.dataCadastro = Timestamp.from(Instant.now());
+		this.dataUltimaAlteracao = Timestamp.from(Instant.now());
+		this.situacao = Situacao.ATIVO;
+	}
 
 	public Pessoa(Long id, String nomeSobrenome, Timestamp dataCadastro, Situacao situacao) {
 		this.id = id;

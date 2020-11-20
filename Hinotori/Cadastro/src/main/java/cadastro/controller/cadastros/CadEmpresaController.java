@@ -39,6 +39,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -91,7 +92,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@Override
 	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnConfirmar.fire();
 	}
 
@@ -111,7 +112,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@Override
 	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnCancelar.fire();
 	}
 
@@ -122,7 +123,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@Override
 	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnExcluir.fire();
 	}
 
@@ -144,7 +145,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@Override
 	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnVoltar.fire();
 	}
 
@@ -161,7 +162,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@FXML
 	public void onTxtIdEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().equals(KeyCode.ENTER)) {
 			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
 				onTxtIdExit();
 			else
@@ -173,7 +174,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnEnderecoEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnEndereco.fire();
 	}
 
@@ -186,7 +187,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnContatoEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnContato.fire();
 	}
 
@@ -199,7 +200,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnProcurarImagemEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnProcurarImagem.fire();
 	}
 
@@ -246,7 +247,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnExcluirImagemEnter(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
+		if (e.getCode().equals(KeyCode.ENTER))
 			btnExcluirImagem.fire();
 	}
 
@@ -256,47 +257,24 @@ public class CadEmpresaController extends CadastroFormPadrao {
 	}
 
 	public void onTxtIdExit() {
-		if (!txtId.getText().isEmpty()) {
-			try {
-				carregaEmpresa(empresaService.pesquisar(Long.valueOf(txtId.getText()), TamanhoImagem.TODOS));
-			} catch (ExcessaoBd e) {
-				LOGGER.log(Level.INFO, "{Erro ao pesquisar empresa}", e);
-				e.printStackTrace();
-			}
-		} else if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+		if (!txtId.getText().isEmpty())
+			carregar(pesquisar(new Empresa(Long.valueOf(txtId.getText()))));
+		else if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
 			limpaCampos();
 	}
 
-	public Empresa getEmpresa() {
-		return empresa;
+	@Override
+	protected <T> void salvar(T entidade) {
+		/*
+		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+		 * "Cliente salvo com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
+		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+		 * LOGGER.log(Level.INFO, "{Erro ao salvar empresa}", e); }
+		 */
 	}
 
-	public CadEmpresaController carregaEmpresa(Empresa empresa) {
-		this.empresa = empresa;
-		if (empresa == null)
-			limpaCampos();
-		else
-			atualizaTela(empresa);
-		return this;
-	}
-
-	private void salvar(Empresa empresa) {
-		if (empresaService == null)
-			setEmpresaServices(new EmpresaServices());
-
-		try {
-			empresaService.salvar(empresa);
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente salvo com sucesso.");
-			limpaCampos();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-			LOGGER.log(Level.INFO, "{Erro ao salvar empresa}", e);
-		}
-
-	}
-
-	private void excluir(Empresa empresa) {
-
+	@Override
+	protected <T> void excluir(T entidade) {
 		if ((empresa.getId() == null) || (empresa.getId() == 0) || txtId.getText().isEmpty()
 				|| txtId.getText().equalsIgnoreCase("0"))
 			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
@@ -311,9 +289,28 @@ public class CadEmpresaController extends CadastroFormPadrao {
 				LOGGER.log(Level.INFO, "{Erro ao excluir empresa}", e);
 			}
 		}
+
 	}
 
-	private Boolean validaCampos() {
+	@Override
+	protected <T> T pesquisar(T entidade) {
+		/*
+		 * try { } catch (ExcessaoBd e) { LOGGER.log(Level.INFO,
+		 * "{Erro ao pesquisar empresa}", e); e.printStackTrace(); }
+		 */
+		return entidade;
+	}
+
+	@Override
+	public <T> void carregar(T entidade) {
+		if (entidade == null)
+			limpaCampos();
+		else
+			atualizaTela((Empresa) entidade);
+	}
+
+	@Override
+	protected boolean validaCampos() {
 		try {
 			return ValidaEmpresa.validaEmpresa(empresa);
 		} catch (ExcessaoCadastro e) {
@@ -342,7 +339,8 @@ public class CadEmpresaController extends CadastroFormPadrao {
 		return false;
 	}
 
-	private CadEmpresaController limpaCampos() {
+	@Override
+	protected void limpaCampos() {
 		empresa = new Empresa();
 		txtId.setText("0");
 		txtNomeFantasia.setText("");
@@ -350,7 +348,6 @@ public class CadEmpresaController extends CadastroFormPadrao {
 		txtCnpj.setText("");
 		cbSituacao.getSelectionModel().selectFirst();
 		setImagemPadrao();
-		return this;
 	}
 
 	private CadEmpresaController setImagemPadrao() {
@@ -413,6 +410,10 @@ public class CadEmpresaController extends CadastroFormPadrao {
 		return this;
 	}
 
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
 	private CadEmpresaController configuraExitId() {
 		txtId.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
@@ -430,15 +431,8 @@ public class CadEmpresaController extends CadastroFormPadrao {
 		return this;
 	}
 
-	private CadEmpresaController setEmpresaServices(EmpresaServices empresaService) {
-		this.empresaService = empresaService;
-		return this;
-	}
-
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
-		//setEmpresaServices(new EmpresaServices());
-
 		Limitadores.setTextFieldInteger(txtId);
 
 		Validadores.setTextFieldNotEmpty(txtRazaoSocial);
