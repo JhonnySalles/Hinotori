@@ -20,8 +20,6 @@ import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
 import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
@@ -85,7 +83,30 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 		limpaCampos();
 	}
 
-	private Boolean validaCampos() {
+	@Override
+	protected <T> void salvar(T entidade) {
+		if (enderecos == null)
+			enderecos = new HashSet<>();
+
+		if (enderecos.size() < 1)
+			endereco.setPadrao(true);
+
+		if (!enderecos.contains(entidade))
+			enderecos.add((Endereco) entidade);
+
+		limpaCampos();
+	}
+
+	@Override
+	public <T> void carregar(T entidade) {
+		if (entidade == null)
+			limpaCampos();
+		else
+			atualizaTela((Endereco) entidade);
+	}
+
+	@Override
+	protected boolean validaCampos() {
 		try {
 			return ValidaEndereco.validaEndereco(endereco);
 		} catch (ExcessaoCadastro e) {
@@ -107,19 +128,6 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 		Notificacoes.notificacao(AlertType.INFORMATION, "Aviso", Mensagens.CADASTRO_SALVAR);
 
 		return false;
-	}
-
-	private void salvar(Endereco endereco) {
-		if (enderecos == null)
-			enderecos = new HashSet<>();
-
-		if (enderecos.size() < 1)
-			endereco.setPadrao(true);
-
-		if (!enderecos.contains(endereco))
-			enderecos.add(endereco);
-
-		limpaCampos();
 	}
 
 	public Set<Endereco> getEndereco() {
@@ -148,25 +156,20 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 		return this;
 	}
 
-	public DialogCadEnderecoController limpaCampos() {
+	public void limpaCampos() {
 		endereco = new Endereco();
-
-		cbTipo.getSelectionModel().selectFirst();
-		cbSituacao.getSelectionModel().selectFirst();
-
 		txtEndereco.setText("");
 		txtNumero.setText("");
 		txtComplemento.setText("");
 		txtCep.setText("");
 		txtAreaObservacao.setText("");
-
+		cbTipo.getSelectionModel().selectFirst();
+		cbSituacao.getSelectionModel().selectFirst();
 		frameCidadeController.limpaCampos();
 		frameBairroController.limpaCampos();
-
-		return this;
 	}
 
-	public DialogCadEnderecoController carregaEndereco(Endereco endereco) {
+	public DialogCadEnderecoController atualizaTela(Endereco endereco) {
 		limpaCampos();
 
 		this.endereco = endereco;
@@ -197,50 +200,8 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 		return this;
 	}
 
-	private DialogCadEnderecoController setSqlFrame() {
-		frameCidadeController.setPesquisa("Id", "Cidade",
-				"cidades.Id, CONCAT(cidades.Nome, '/', estados.Sigla) AS Cidade", "cidades",
-				"INNER JOIN estados ON cidades.IdEstado = estados.Id", "", "ORDER BY Cidade");
-
-		frameCidadeController.txtFraPesquisa.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if (!newValue.booleanValue()) {
-					if (frameCidadeController.getId() != null)
-						frameBairroController.setPesquisa("Id", "Bairro", "Id, Nome As Bairro", "bairros", "",
-								" AND IdCidade = " + frameCidadeController.getId(), "ORDER BY Bairro");
-					else
-						frameBairroController.setPesquisa("Id", "Bairro",
-								"Bairros.Id, Cidades.Nome AS Cidade, Bairros.Nome AS Bairro", "bairros",
-								"INNER JOIN Cidades ON cidades.id = bairros.IdCidade", "", "ORDER BY Cidade, Bairro");
-				}
-			}
-		});
-
-		frameBairroController.setPesquisa("Id", "Bairro", "Bairros.Id, Cidades.Nome AS Cidade, Bairros.Nome AS Bairro",
-				"bairros", "INNER JOIN Cidades ON cidades.id = bairros.IdCidade", "", "ORDER BY Cidade, Bairro");
-
-		frameBairroController.txtFraPesquisa.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-
-				if (oldPropertyValue && frameCidadeController.getId() == null)
-					frameCidadeController.txtFraPesquisa.setUnFocusColor(Color.RED);
-			}
-		});
-		frameBairroController.setColunaIdVisivel(false);
-
-		frameCidadeController.txtFraPesquisa.setPromptText("Pesquisa de cidades");
-		frameBairroController.txtFraPesquisa.setPromptText("Pesquisa de bairros");
-
-		return this;
-	}
-
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
-		// setSqlFrame();
-
 		Validadores.setTextFieldNotEmpty(frameCidadeController.txtFraPesquisa);
 		Validadores.setTextFieldNotEmpty(frameBairroController.txtFraPesquisa);
 		Validadores.setTextFieldNotEmpty(txtEndereco);

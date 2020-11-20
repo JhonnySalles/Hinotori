@@ -63,7 +63,27 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 		limpaCampos();
 	}
 
-	private Boolean validaCampos() {
+	@Override
+	protected <T> void salvar(T entidade) {
+		if (contatos == null)
+			contatos = new HashSet<>();
+
+		if (!contatos.contains(entidade))
+			contatos.add((Contato) entidade);
+
+		limpaCampos();
+	}
+
+	@Override
+	public <T> void carregar(T entidade) {
+		if (entidade == null)
+			limpaCampos();
+		else
+			atualizaTela((Contato) entidade);
+	}
+
+	@Override
+	protected boolean validaCampos() {
 		try {
 			return ValidaContato.validaContato(contato);
 		} catch (ExcessaoCadastro e) {
@@ -99,14 +119,15 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 		return false;
 	}
 
-	private void salvar(Contato contato) {
-		if (contatos == null)
-			contatos = new HashSet<>();
-
-		if (!contatos.contains(contato))
-			contatos.add(contato);
-
-		limpaCampos();
+	public void limpaCampos() {
+		contato = new Contato();
+		txtNome.setText("");
+		txtTelefone.setText("");
+		txtCelular.setText("");
+		txtEmail.setText("");
+		txtAreaObservacao.setText("");
+		cbTipo.getSelectionModel().selectFirst();
+		cbSituacao.getSelectionModel().selectFirst();
 	}
 
 	public Set<Contato> getContato() {
@@ -128,26 +149,8 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 		return this;
 	}
 
-	public DialogCadContatoController limpaCampos() {
-		contato = new Contato();
-
-		cbTipo.getSelectionModel().selectFirst();
-		cbSituacao.getSelectionModel().selectFirst();
-
-		txtNome.setText("");
-		txtTelefone.setText("");
-		txtCelular.setText("");
-		txtEmail.setText("");
-		txtAreaObservacao.setText("");
-
-		return this;
-	}
-
-	public DialogCadContatoController carregaContato(Contato contato) {
+	public DialogCadContatoController atualizaTela(Contato contato) {
 		limpaCampos();
-
-		if (contato == null)
-			return this;
 
 		this.contato = contato;
 
@@ -190,9 +193,9 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 		TecladoUtils.onEnterConfigureTab(cbSituacao);
 
 		cbSituacao.getItems().addAll(Situacao.values());
-		cbSituacao.getSelectionModel().selectFirst();
 		cbTipo.getItems().addAll(TipoContato.values());
-		cbTipo.getSelectionModel().selectFirst();
+
+		limpaCampos();
 	}
 
 	public static URL getFxmlLocate() {

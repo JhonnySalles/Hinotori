@@ -124,7 +124,7 @@ public class ListaContatoController extends ListaFormPadrao {
 						carregaGrid();
 					}
 				});
-		controller.carregaContato(contato);
+		controller.carregar(contato);
 	}
 
 	private void carregaGrid() {

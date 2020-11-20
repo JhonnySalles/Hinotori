@@ -118,7 +118,7 @@ public class ListaEnderecoController extends ListaFormPadrao {
 						carregaGrid();
 					}
 				});
-		controller.carregaEndereco(endereco);
+		controller.carregar(endereco);
 	}
 
 	private void carregaGrid() {

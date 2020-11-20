@@ -27,7 +27,15 @@ public abstract class CadastroDialogPadrao implements Initializable {
 
 	@FXML
 	protected abstract void onBtnCancelarClick();
+	
+	protected abstract <T> void salvar(T entidade);
 
+	public abstract <T> void carregar(T entidade);
+
+	protected abstract boolean validaCampos();
+
+	protected abstract void limpaCampos();
+	
 	protected abstract void inicializa(URL arg0, ResourceBundle arg1);
 
 	@Override
