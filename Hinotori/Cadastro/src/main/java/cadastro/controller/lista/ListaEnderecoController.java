@@ -8,7 +8,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 
-import cadastro.controller.cadastros.DialogCadContatoController;
 import cadastro.controller.cadastros.DialogCadEnderecoController;
 import comum.form.ListaFormPadrao;
 import comum.model.enums.Situacao;
@@ -112,7 +111,7 @@ public class ListaEnderecoController extends ListaFormPadrao {
 
 	private void abreTelaEndereco(Endereco endereco) {
 		controller = (DialogCadEnderecoController) ViewGerenciador
-				.loadDialog(DialogCadContatoController.getFxmlLocate(), spRoot, new EventHandler<ActionEvent>() {
+				.loadDialog(DialogCadEnderecoController.getFxmlLocate(), spRoot, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
 						enderecos = controller.getEndereco();

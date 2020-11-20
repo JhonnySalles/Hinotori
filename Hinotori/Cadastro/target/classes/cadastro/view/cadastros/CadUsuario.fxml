@@ -110,8 +110,8 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" spacing="10.0">
                                                    <children>
-                                                      <JFXButton fx:id="btnExcluirImagem" buttonType="RAISED" onAction="#onBtnExcluirImagemClick" onKeyPressed="#onBtnExcluirImagemEnter" styleClass="btnExcluir-usuario" text="Excluir" textFill="WHITE" />
-                                                      <JFXButton fx:id="btnProcurarImagem" buttonType="RAISED" onAction="#onBtnProcurarImagemClick" onKeyPressed="#onBtnProcurarImagemEnter" styleClass="btnProcurar-usuario" text="Procurar" textFill="WHITE" />
+                                                      <JFXButton fx:id="btnExcluirImagem" buttonType="RAISED" onAction="#onBtnExcluirImagemClick" styleClass="btnExcluir-usuario" text="Excluir" textFill="WHITE" />
+                                                      <JFXButton fx:id="btnProcurarImagem" buttonType="RAISED" onAction="#onBtnProcurarImagemClick" styleClass="btnProcurar-usuario" text="Procurar" textFill="WHITE" />
                                                    </children>
                                                 </HBox>
                                              </children>

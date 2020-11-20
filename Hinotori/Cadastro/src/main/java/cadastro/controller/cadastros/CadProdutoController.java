@@ -437,7 +437,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 		cbTipoProduto.getSelectionModel().select(TipoProduto.PRODUTOFINAL);
 
 		txtId.setText("0");
-		setSqlFrame().configuraExitId();
+		configuraExitId();
 	}
 
 	public static URL getFxmlLocate() {
