@@ -51,7 +51,7 @@ Distribuido sobre a licença GPL. Veja o arquivo ``COPYING`` para maiores inform
 
 ## Contribuindo
 
-1. Ramo (<https://github.com/JhonnySalles/Hinotori/fork>)
+1. Fork (<https://github.com/JhonnySalles/Hinotori/fork>)
 2. Crie sua branch de recurso (`git checkout -b feature/fooBar`)
 3. Faça o commit com suas alterações (`git commit -am 'Add some fooBar'`)
 4. Realize o push de sua branch (`git push origin feature/fooBar`)
