@@ -97,14 +97,6 @@
 			<version>11.45</version>
 		</dependency>
 
-
-		<!-- MySQL -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.15</version>
-		</dependency>
-
 		<!--Outros -->
 
 	</dependencies>
