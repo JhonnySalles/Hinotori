@@ -108,12 +108,6 @@ public class CadProdutoController extends CadastroFormPadrao {
 	private Produto produto;
 
 	@Override
-	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnConfirmar.fire();
-	}
-
-	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos()) {
@@ -128,20 +122,8 @@ public class CadProdutoController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnCancelar.fire();
-	}
-
-	@Override
 	public void onBtnCancelarClick() {
 
-	}
-
-	@Override
-	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnExcluir.fire();
 	}
 
 	@Override
@@ -161,21 +143,9 @@ public class CadProdutoController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnVoltar.fire();
-	}
-
-	@Override
 	public void onBtnVoltarClick() {
 		ViewGerenciador.closeTela(spRoot);
 		onClose();
-	}
-
-	@FXML
-	public void onBtnProcurarImagemEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnProcurarImagem.fire();
 	}
 
 	@FXML
@@ -217,12 +187,6 @@ public class CadProdutoController extends CadastroFormPadrao {
 				setImagemPadrao();
 			}
 		}
-	}
-
-	@FXML
-	public void onBtnExcluirImagemEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnExcluirImagem.fire();
 	}
 
 	@FXML

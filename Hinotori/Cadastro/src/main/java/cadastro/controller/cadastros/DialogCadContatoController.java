@@ -21,8 +21,6 @@ import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import servidor.entities.Contato;
 import servidor.validations.ValidaContato;
@@ -54,22 +52,10 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 	private Contato contato;
 
 	@Override
-	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.TAB))
-			btnConfirmar.fire();
-	}
-
-	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos())
 			salvar(contato);
-	}
-
-	@Override
-	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.TAB))
-			btnCancelar.fire();
 	}
 
 	@Override

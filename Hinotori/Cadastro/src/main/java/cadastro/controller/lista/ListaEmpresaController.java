@@ -14,8 +14,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.input.KeyEvent;
-import servidor.dao.services.EmpresaServices;
 import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 
@@ -51,13 +49,6 @@ public class ListaEmpresaController extends ListaFormPadrao {
 	private List<Empresa> empresas;
 	private ObservableList<Empresa> obsEmpresas;
 	private FilteredList<Empresa> filteredData;
-	private EmpresaServices empresaService;
-
-	@Override
-	public void onNovoKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
-			btnNovo.fire();
-	}
 
 	@Override
 	public void onBtnNovoClick() {
@@ -72,31 +63,13 @@ public class ListaEmpresaController extends ListaFormPadrao {
 	}
 
 	@Override
-	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
-			btnExcluir.fire();
-	}
-
-	@Override
 	public void onBtnExcluirClick() {
 
 	}
 
 	@Override
-	public void onEditarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
-			btnEditar.fire();
-	}
-
-	@Override
 	public void onBtnEditarClick() {
 
-	}
-
-	@Override
-	public void onAtualizarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
-			btnAtualizar.fire();
 	}
 
 	@Override

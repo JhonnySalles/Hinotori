@@ -17,7 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -62,25 +61,13 @@ public abstract class CadastroFormPadrao implements Initializable {
 	protected abstract void onBtnConfirmarClick();
 
 	@FXML
-	protected abstract void onConfirmarKeyPress(KeyEvent e);
-
-	@FXML
 	protected abstract void onBtnCancelarClick();
-
-	@FXML
-	protected abstract void onCancelarKeyPress(KeyEvent e);
 
 	@FXML
 	protected abstract void onBtnExcluirClick();
 
 	@FXML
-	protected abstract void onExcluirKeyPress(KeyEvent e);
-
-	@FXML
 	protected abstract void onBtnVoltarClick();
-
-	@FXML
-	protected abstract void onVoltarKeyPress(KeyEvent e);
 
 	protected abstract <T> void salvar(T entidade);
 

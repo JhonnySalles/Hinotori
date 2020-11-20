@@ -91,12 +91,6 @@ public class CadEmpresaController extends CadastroFormPadrao {
 	private String id;
 
 	@Override
-	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnConfirmar.fire();
-	}
-
-	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos()) {
@@ -111,20 +105,8 @@ public class CadEmpresaController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnCancelar.fire();
-	}
-
-	@Override
 	public void onBtnCancelarClick() {
 		limpaCampos();
-	}
-
-	@Override
-	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnExcluir.fire();
 	}
 
 	@Override
@@ -141,12 +123,6 @@ public class CadEmpresaController extends CadastroFormPadrao {
 				habilitaBotoes();
 			}
 		}
-	}
-
-	@Override
-	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnVoltar.fire();
 	}
 
 	@Override
@@ -173,12 +149,6 @@ public class CadEmpresaController extends CadastroFormPadrao {
 	}
 
 	@FXML
-	public void onBtnEnderecoEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnEndereco.fire();
-	}
-
-	@FXML
 	public void onBtnEnderecoClick() {
 		ListaEnderecoController ctn = (ListaEnderecoController) ViewGerenciador
 				.loadTela(ListaEnderecoController.getFxmlLocate(), spRoot);
@@ -186,22 +156,10 @@ public class CadEmpresaController extends CadastroFormPadrao {
 	}
 
 	@FXML
-	public void onBtnContatoEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnContato.fire();
-	}
-
-	@FXML
 	public void onBtnContatoClick() {
 		ListaContatoController ctn = (ListaContatoController) ViewGerenciador
 				.loadTela(ListaContatoController.getFxmlLocate(), spRoot);
 		ctn.initData(txtRazaoSocial.getText(), empresa.getContatos());
-	}
-
-	@FXML
-	public void onBtnProcurarImagemEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnProcurarImagem.fire();
 	}
 
 	@FXML
@@ -243,12 +201,6 @@ public class CadEmpresaController extends CadastroFormPadrao {
 				setImagemPadrao();
 			}
 		}
-	}
-
-	@FXML
-	public void onBtnExcluirImagemEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnExcluirImagem.fire();
 	}
 
 	@FXML

@@ -255,11 +255,11 @@ public class ViewGerenciador {
 	public synchronized static Object loadTela(URL absoluteName, Pane rootPane) {
 		Node apFilho = null;
 		Object controlador = null;
-
 		if (ViewGerenciador.verificaTelaCarregada(absoluteName)) {
 			apFilho = ViewGerenciador.getTelaPreCarregada(absoluteName);
 			controlador = ViewGerenciador.getControladorTelaPreCarregada(absoluteName);
 		} else {
+
 			FXMLLoader loader = new FXMLLoader(absoluteName);
 			try {
 				apFilho = loader.load();

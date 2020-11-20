@@ -91,12 +91,6 @@ public class CadUsuarioController extends CadastroFormPadrao {
 	private Usuario usuario;
 
 	@Override
-	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnConfirmar.fire();
-	}
-
-	@Override
 	public void onBtnConfirmarClick() {
 		try {
 			spBackground.cursorProperty().set(Cursor.WAIT);
@@ -117,20 +111,8 @@ public class CadUsuarioController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnCancelar.fire();
-	}
-
-	@Override
 	public void onBtnCancelarClick() {
 		limpaCampos();
-	}
-
-	@Override
-	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnExcluir.fire();
 	}
 
 	@Override
@@ -150,21 +132,9 @@ public class CadUsuarioController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnVoltar.fire();
-	}
-
-	@Override
 	public void onBtnVoltarClick() {
 		ViewGerenciador.closeTela(spRoot);
 		onClose();
-	}
-
-	@FXML
-	public void onBtnProcurarImagemEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnProcurarImagem.fire();
 	}
 
 	@FXML
@@ -206,12 +176,6 @@ public class CadUsuarioController extends CadastroFormPadrao {
 				setImagemPadrao();
 			}
 		}
-	}
-
-	@FXML
-	public void onBtnExcluirImagemEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnExcluirImagem.fire();
 	}
 
 	@FXML

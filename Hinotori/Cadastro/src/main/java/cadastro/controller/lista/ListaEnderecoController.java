@@ -31,7 +31,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import servidor.entities.Endereco;
@@ -74,20 +73,8 @@ public class ListaEnderecoController extends ListaFormPadrao {
 	final PseudoClass excluido = PseudoClass.getPseudoClass("excluido");
 
 	@Override
-	public void onNovoKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
-			btnNovo.fire();
-	}
-
-	@Override
 	public void onBtnNovoClick() {
 		adicionarEndereco();
-	}
-
-	@Override
-	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
-			btnExcluir.fire();
 	}
 
 	@Override
@@ -104,31 +91,13 @@ public class ListaEnderecoController extends ListaFormPadrao {
 	}
 
 	@Override
-	public void onEditarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
-			btnEditar.fire();
-	}
-
-	@Override
 	public void onBtnEditarClick() {
 
 	}
 
 	@Override
-	public void onAtualizarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
-			btnAtualizar.fire();
-	}
-
-	@Override
 	public void onBtnAtualizarClick() {
 
-	}
-
-	@FXML
-	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().toString().equals("ENTER"))
-			btnVoltar.fire();
 	}
 
 	@FXML

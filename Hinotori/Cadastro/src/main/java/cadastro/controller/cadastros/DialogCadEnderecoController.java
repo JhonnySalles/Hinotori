@@ -24,8 +24,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import servidor.dao.services.BairroServices;
@@ -76,22 +74,10 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 	private Endereco endereco;
 
 	@Override
-	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.TAB))
-			btnConfirmar.fire();
-	}
-
-	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos())
 			salvar(endereco);
-	}
-
-	@Override
-	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.TAB))
-			btnCancelar.fire();
 	}
 
 	@Override
@@ -253,7 +239,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
-		//setSqlFrame();
+		// setSqlFrame();
 
 		Validadores.setTextFieldNotEmpty(frameCidadeController.txtFraPesquisa);
 		Validadores.setTextFieldNotEmpty(frameBairroController.txtFraPesquisa);

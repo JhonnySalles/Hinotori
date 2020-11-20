@@ -14,7 +14,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -60,25 +59,13 @@ public abstract class ListaFormPadrao implements Initializable {
 	protected abstract void onBtnNovoClick();
 
 	@FXML
-	protected abstract void onNovoKeyPress(KeyEvent e);
-
-	@FXML
 	protected abstract void onBtnExcluirClick();
-
-	@FXML
-	protected abstract void onExcluirKeyPress(KeyEvent e);
 
 	@FXML
 	protected abstract void onBtnEditarClick();
 
 	@FXML
-	protected abstract void onEditarKeyPress(KeyEvent e);
-
-	@FXML
 	protected abstract void onBtnAtualizarClick();
-
-	@FXML
-	protected abstract void onAtualizarKeyPress(KeyEvent e);
 
 	/**
 	 * Função a ser executada quando a tela for fechada. {@code ListaFormPadrao}.

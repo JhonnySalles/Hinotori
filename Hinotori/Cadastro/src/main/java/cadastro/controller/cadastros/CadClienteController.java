@@ -81,12 +81,6 @@ public class CadClienteController extends CadastroFormPadrao {
 	private Cliente cliente;
 
 	@Override
-	public void onConfirmarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnConfirmar.fire();
-	}
-
-	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos()) {
@@ -101,20 +95,8 @@ public class CadClienteController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public void onCancelarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnCancelar.fire();
-	}
-
-	@Override
 	public void onBtnCancelarClick() {
 		limpaCampos();
-	}
-
-	@Override
-	public void onExcluirKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnExcluir.fire();
 	}
 
 	@Override
@@ -133,12 +115,6 @@ public class CadClienteController extends CadastroFormPadrao {
 				habilitaBotoes();
 			}
 		}
-	}
-
-	@Override
-	public void onVoltarKeyPress(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnVoltar.fire();
 	}
 
 	@Override
@@ -181,12 +157,6 @@ public class CadClienteController extends CadastroFormPadrao {
 				cliente.setEnderecos(ctn.getEndereco());
 			}
 		});
-	}
-
-	@FXML
-	public void onBtnContatoEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER))
-			btnContato.fire();
 	}
 
 	@FXML

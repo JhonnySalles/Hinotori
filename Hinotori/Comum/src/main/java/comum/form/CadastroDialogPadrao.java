@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXButton;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 public abstract class CadastroDialogPadrao implements Initializable {
@@ -27,13 +26,7 @@ public abstract class CadastroDialogPadrao implements Initializable {
 	protected abstract void onBtnConfirmarClick();
 
 	@FXML
-	protected abstract void onConfirmarKeyPress(KeyEvent e);
-
-	@FXML
 	protected abstract void onBtnCancelarClick();
-
-	@FXML
-	protected abstract void onCancelarKeyPress(KeyEvent e);
 
 	protected abstract void inicializa(URL arg0, ResourceBundle arg1);
 
