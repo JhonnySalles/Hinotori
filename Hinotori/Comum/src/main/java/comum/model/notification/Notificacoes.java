@@ -185,6 +185,9 @@ public class Notificacoes {
 	}
 
 	public static void closeNotificacao() {
+		if (TT_AP_NOTIFICACOES == null)
+			return;
+		
 		TT_AP_NOTIFICACOES.stop();
 		TT_AP_NOTIFICACOES.setToY(CONTROLLER.wheight + 5);
 		TT_AP_NOTIFICACOES.play();
