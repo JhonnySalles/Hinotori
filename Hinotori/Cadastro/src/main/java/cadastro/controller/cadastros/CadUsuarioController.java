@@ -35,8 +35,6 @@ import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import comum.model.utils.ViewGerenciador;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
@@ -253,7 +251,48 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	@Override
 	protected boolean validaCampos() {
-		// TODO Auto-generated method stub
+		try {
+			ValidaUsuario.validaSenha(usuario.getSenha());
+
+			usuario.setSenha(DecodeHash.CriptografaSenha(usuario.getSenha()));
+		} catch (ExcessaoCadastro e) {
+			txtNome.setUnFocusColor(Color.RED);
+			Notificacoes.notificacao(AlertType.INFORMATION, "Senha inválida", e.getMessage());
+			e.printStackTrace();
+			return false;
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível codificar a senha");
+			e.printStackTrace();
+			LOGGER.log(Level.WARNING, "{Erro ao codificar a senha}", e);
+			return false;
+		}
+
+		try {
+			return ValidaUsuario.validaUsuario(usuario);
+		} catch (ExcessaoCadastro | ExcessaoBd e) {
+			e.printStackTrace();
+		}
+
+		try {
+			ValidaUsuario.validaNome(usuario.getNomeSobrenome());
+		} catch (ExcessaoCadastro e) {
+			txtNome.setUnFocusColor(Color.RED);
+			Notificacoes.notificacao(AlertType.INFORMATION, "Nome inválido", e.getMessage());
+			e.printStackTrace();
+		}
+
+		try {
+			ValidaUsuario.validaLogin(usuario);
+		} catch (ExcessaoCadastro e) {
+			txtNome.setUnFocusColor(Color.RED);
+			Notificacoes.notificacao(AlertType.INFORMATION, "Login inválido", e.getMessage());
+			e.printStackTrace();
+		} catch (ExcessaoBd e) {
+			Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível validar o login", e.getMessage());
+			e.printStackTrace();
+			LOGGER.log(Level.INFO, "{Erro ao conectar ao banco}", e);
+		}
+
 		return true;
 	}
 
@@ -269,6 +308,21 @@ public class CadUsuarioController extends CadastroFormPadrao {
 		cbSituacao.getSelectionModel().select(Situacao.ATIVO);
 		cbNivel.getSelectionModel().select(UsuarioNivel.USUARIO);
 		setImagemPadrao();
+	}
+
+	@Override
+	public CadastroFormPadrao atualizaEntidade() {
+		if (usuario == null)
+			usuario = new Usuario();
+
+		usuario.setNomeSobrenome(txtNome.getText());
+		usuario.setLogin(txtLogin.getText().toUpperCase());
+		usuario.setSenha(pswSenha.getText());
+		usuario.setObservacao(txtObservacao.getText());
+		usuario.setNivel(cbNivel.getSelectionModel().getSelectedItem());
+		usuario.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
+
+		return this;
 	}
 
 	public Usuario getUsuario() {
@@ -325,110 +379,6 @@ public class CadUsuarioController extends CadastroFormPadrao {
 	}
 
 	private CadUsuarioController configuraExitCampos() {
-
-		txtNome.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-
-				if (oldPropertyValue) {
-					usuario.setNomeSobrenome(txtNome.getText());
-
-					try {
-						ValidaUsuario.validaNome(usuario.getNomeSobrenome());
-					} catch (ExcessaoCadastro e) {
-						txtNome.setUnFocusColor(Color.RED);
-						Notificacoes.notificacao(AlertType.INFORMATION, "Nome inválido", e.getMessage());
-						e.printStackTrace();
-					}
-				}
-
-			}
-		});
-
-		txtLogin.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-
-				if (oldPropertyValue) {
-					usuario.setLogin(txtLogin.getText().toUpperCase());
-
-					try {
-						ValidaUsuario.validaLogin(usuario);
-					} catch (ExcessaoCadastro e) {
-						txtNome.setUnFocusColor(Color.RED);
-						Notificacoes.notificacao(AlertType.INFORMATION, "Login inválido", e.getMessage());
-						e.printStackTrace();
-					} catch (ExcessaoBd e) {
-						Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível validar o login",
-								e.getMessage());
-						e.printStackTrace();
-						LOGGER.log(Level.INFO, "{Erro ao conectar ao banco}", e);
-					}
-				}
-
-			}
-		});
-
-		pswSenha.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-
-				if (oldPropertyValue) {
-					usuario.setSenha(pswSenha.getText());
-
-					try {
-						ValidaUsuario.validaSenha(usuario.getSenha());
-
-						usuario.setSenha(DecodeHash.DecodePassword(usuario.getSenha()));
-					} catch (ExcessaoCadastro e) {
-						txtNome.setUnFocusColor(Color.RED);
-						Notificacoes.notificacao(AlertType.INFORMATION, "Senha inválida", e.getMessage());
-						e.printStackTrace();
-					} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-						Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível codificar a senha");
-						e.printStackTrace();
-						LOGGER.log(Level.WARNING, "{Erro ao codificar a senha}", e);
-					}
-				}
-
-			}
-		});
-
-		txtObservacao.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-
-				if (oldPropertyValue)
-					usuario.setObservacao(txtObservacao.getText());
-
-			}
-		});
-
-		cbNivel.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-
-				if (oldPropertyValue)
-					usuario.setNivel(cbNivel.getSelectionModel().getSelectedItem());
-
-			}
-		});
-
-		cbSituacao.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-
-				if (oldPropertyValue)
-					usuario.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-
-			}
-		});
 
 		return this;
 	}

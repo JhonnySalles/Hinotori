@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="apBackground" maxHeight="-Infinity" prefHeight="600.0" prefWidth="300.0" styleClass="Central_Notificacao_Backugroud" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comum.model.notification.controller.CentralNotificacaoController">
+   <stylesheets>
+      <URL value="@../../../resources/css/Paleta_Cores.css" />
+      <URL value="@../../../resources/css/White_Alertas.css" />
+   </stylesheets>
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="100.0" spacing="5.0" styleClass="Central_Notificacao_Titulo" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXButton fx:id="btnOrdenarHora" buttonType="RAISED" onAction="#onBtnOrdenaHoraClick" text="Hora" textFill="WHITE" />
+            <JFXButton fx:id="onBtnOrdenaTipoClick" buttonType="RAISED" text="Tipo" textFill="WHITE" />
+            <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+               <children>
+                  <JFXButton fx:id="btnLimpar" buttonType="RAISED" onAction="#onBtnLimpaClick" text="Limpar" textFill="WHITE" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <ListView fx:id="lvLista" styleClass="Central_Notificacao_Backugroud" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+   </children>
+</AnchorPane>

@@ -134,7 +134,8 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 		return enderecos;
 	}
 
-	private DialogCadEnderecoController atualizaEntidade() {
+	@Override
+	public DialogCadEnderecoController atualizaEntidade() {
 		if (endereco == null)
 			endereco = new Endereco();
 
@@ -174,19 +175,19 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 
 		this.endereco = endereco;
 
-		if (endereco.getEndereco() != null && !endereco.getEndereco().isEmpty())
+		if (!endereco.getEndereco().isEmpty())
 			txtEndereco.setText(endereco.getEndereco());
 
-		if (endereco.getNumero() != null && !endereco.getNumero().isEmpty())
+		if (!endereco.getNumero().isEmpty())
 			txtNumero.setText(endereco.getNumero());
 
-		if (endereco.getComplemento() != null && !endereco.getComplemento().isEmpty())
+		if (!endereco.getComplemento().isEmpty())
 			txtComplemento.setText(endereco.getComplemento());
 
-		if (endereco.getCep() != null && !endereco.getCep().isEmpty())
+		if (!endereco.getCep().isEmpty())
 			txtCep.setText(endereco.getCep());
 
-		if (endereco.getObservacao() != null && !endereco.getObservacao().isEmpty())
+		if (!endereco.getObservacao().isEmpty())
 			txtAreaObservacao.setText(endereco.getObservacao());
 
 		cbSituacao.getSelectionModel().select(endereco.getSituacao().ordinal());

@@ -116,7 +116,7 @@
                   </AnchorPane>
                 <AnchorPane minHeight="200.0" minWidth="200.0" prefWidth="100.0" styleClass="background-White1" SplitPane.resizableWithParent="false">
                      <children>
-                        <JFXTabPane fx:id="tbPaneAbas" onMouseClicked="#closeBtnDetalhes" tabClosingPolicy="ALL_TABS" tabDragPolicy="REORDER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <JFXTabPane fx:id="tbPaneAbas" onMouseClicked="#onBackgroundMouseClick" tabClosingPolicy="ALL_TABS" tabDragPolicy="REORDER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <tabs>
                               <Tab fx:id="tbDashBoardGraficos" closable="false" text="Dashboard">
                                 <content>

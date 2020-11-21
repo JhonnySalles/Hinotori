@@ -11,12 +11,14 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 
 import animatefx.animation.Pulse;
 import comum.model.animation.DoubleTransition;
+import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import comum.model.utils.ViewGerenciador;
 import javafx.animation.KeyFrame;
@@ -24,6 +26,7 @@ import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,6 +68,8 @@ public abstract class DashboardFormPadrao implements Initializable {
 	protected static DashboardFormPadrao INSTANCIA;
 	protected final static DropShadow efeitoPainelDetalhe = new DropShadow();
 
+	final PseudoClass pcCheio = PseudoClass.getPseudoClass("cheio");
+
 	@FXML
 	protected AnchorPane apGlobal;
 
@@ -85,6 +90,10 @@ public abstract class DashboardFormPadrao implements Initializable {
 	protected TranslateTransition tTransApBotoesDetalhes;
 
 	@FXML
+	protected AnchorPane apCentralNotificacoes;
+	protected TranslateTransition tTransApCentralNotificacoes;
+
+	@FXML
 	protected VBox vbBotoesDetalhes;
 
 	@FXML
@@ -94,6 +103,25 @@ public abstract class DashboardFormPadrao implements Initializable {
 	protected JFXHamburger btnBurgerBotao;
 	protected HamburgerBackArrowBasicTransition btnBurgerTask;
 
+	@FXML
+	private JFXButton btnEmpresa;
+
+	@FXML
+	private JFXButton btnUsuario;
+
+	@FXML
+	private JFXButton btnBd;
+
+	@FXML
+	private JFXButton btnCentralNotificacoes;
+	public static Boolean CENTRAL_OPENED = false;
+
+	@FXML
+	private void onBackgroundMouseClick() {
+		fecharBotoesDetalhe();
+		fecharCentralNotificacao();
+	}
+
 	/**
 	 * <p>
 	 * Função para pegar a instância do dashboard que está iniciado.
@@ -102,7 +130,30 @@ public abstract class DashboardFormPadrao implements Initializable {
 	 * @author Jhonny de Salles Noschang
 	 */
 	public static DashboardFormPadrao getInstancia() {
+		assert INSTANCIA != null : "A instância do dashboard não foi injetada";
 		return INSTANCIA;
+	}
+
+	/**
+	 * <p>
+	 * Função para obter o pane da central de notificacoes.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public AnchorPane getCentralNotificacoes() {
+		return apCentralNotificacoes;
+	}
+
+	/**
+	 * <p>
+	 * Função para obter o stackpane principal para ser apresentado telas a frente.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public AnchorPane getRootStackPane() {
+		return apGlobal;
 	}
 
 	/**
@@ -211,6 +262,65 @@ public abstract class DashboardFormPadrao implements Initializable {
 		}
 		tmLineAbrir.stop();
 		apBotoesMovEsquerda();
+	}
+
+	/**
+	 * <p>
+	 * Função para estar trocando o icone da central de notificação e notificar que
+	 * teve uma entrada.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public void atualizaIcoCentralNotificacao(boolean cheio) {
+		btnCentralNotificacoes.pseudoClassStateChanged(pcCheio, cheio);
+	}
+
+	/**
+	 * <p>
+	 * Função para abrir o split pane que possui botões de detalhes (botões
+	 * internos).
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	private void abrirCentralNotificacao() {
+		Timeline tm = new Timeline(new KeyFrame(Duration.millis(100), ae -> {
+			tTransApCentralNotificacoes.stop();
+			tTransApCentralNotificacoes.setToX(0);
+			tTransApBotoesDetalhes.setOnFinished(efeito -> apCentralNotificacoes.setEffect(efeitoPainelDetalhe));
+			tTransApCentralNotificacoes.play();
+			Notificacoes.closeNotificacao();
+		}));
+		tm.play();
+		CENTRAL_OPENED = true;
+
+	}
+
+	/**
+	 * <p>
+	 * Função para fechar o split pane que possui botões de detalhes (botões
+	 * internos).
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	protected void fecharCentralNotificacao() {
+		if (apCentralNotificacoes.getTranslateX() == 0) {
+			/*
+			 * Necessário utilizar para não ficar bugado burguer botão ao fechar e mostrando
+			 * a flecha
+			 */
+			Timeline tm = new Timeline(new KeyFrame(Duration.millis(100), ae -> {
+				tTransApCentralNotificacoes.stop();
+				tTransApCentralNotificacoes.setToX(apCentralNotificacoes.getWidth() + 5);
+				apCentralNotificacoes.setEffect(null);
+				tTransApCentralNotificacoes.play();
+			}));
+			tm.play();
+			CENTRAL_OPENED = false;
+		}
+		tmLineAbrir.stop();
 	}
 
 	/**
@@ -347,17 +457,31 @@ public abstract class DashboardFormPadrao implements Initializable {
 		btnBurgerTask.setRate(-1);
 		// Evento para abrir e fechar via programacao.
 		btnBurgerBotao.addEventHandler(ActionEvent.ACTION, e -> {
-			if (apBotoesDetalhes.getTranslateX() != 0) {
+			if (apBotoesDetalhes.getTranslateX() != 0)
 				abrirBotoesDetalhe();
-			} else {
+			else
 				fecharBotoesDetalhe();
-			}
 		});
 
 		// Evento para o botao do mouse.
 		btnBurgerBotao.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			btnBurgerBotao.fireEvent(new ActionEvent());
 		});
+
+	}
+
+	private DashboardFormPadrao preparaCentralNotificacao() {
+		Notificacoes.createCentralMenssagem();
+		btnCentralNotificacoes.setOnAction(e -> {
+			if (apCentralNotificacoes.getTranslateX() != 0)
+				abrirCentralNotificacao();
+			else
+				fecharCentralNotificacao();
+
+			Notificacoes.atualizaCentralMenssagem();
+		});
+
+		return this;
 	}
 
 	private DashboardFormPadrao setEfeito() {
@@ -379,12 +503,14 @@ public abstract class DashboardFormPadrao implements Initializable {
 
 		setEfeito();
 		prepareAnimacaoMenuSlide();
+		preparaCentralNotificacao();
 
 		SplitPane.setResizableWithParent(splPane, false);
 		dPropSplPane = splPane.getDividers().get(0).positionProperty();
 		dTransSplPane = new DoubleTransition(Duration.millis(600), dPropSplPane);
 
 		tTransApBotoesDetalhes = new TranslateTransition(new Duration(350), apBotoesDetalhes);
+		tTransApCentralNotificacoes = new TranslateTransition(new Duration(350), apCentralNotificacoes);
 
 		inicializa(arg0, arg1);
 	}

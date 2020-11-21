@@ -105,11 +105,6 @@ public class DashboardController extends DashboardFormPadrao {
 		tmLineAbrir.stop();
 	}
 
-	@FXML
-	private void closeBtnDetalhes() {
-		fecharBotoesDetalhe();
-	}
-
 	/**
 	 * <p>
 	 * Chama o método de verificar conexão animando o icone do dashboard, também
@@ -192,7 +187,6 @@ public class DashboardController extends DashboardFormPadrao {
 		/* Setando as variáveis para o alerta padrão. */
 		AlertasPopup.setNodeBlur(rootStackPane);
 		AlertasPopup.setNodeBlur(splPane);
-		Notificacoes.setRootStackPane(apGlobal);
 
 		rootStackPane.setCache(true);
 		rootStackPane.setCacheHint(CacheHint.SPEED);

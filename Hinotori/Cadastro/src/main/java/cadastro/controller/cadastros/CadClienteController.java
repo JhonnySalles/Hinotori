@@ -267,7 +267,8 @@ public class CadClienteController extends CadastroFormPadrao {
 		dtPkCadastro.setValue(LocalDate.now());
 	}
 
-	private CadClienteController atualizaEntidade() {
+	@Override
+	public CadClienteController atualizaEntidade() {
 		if (cliente == null)
 			cliente = new Cliente();
 

@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 
 public abstract class CadastroDialogPadrao implements Initializable {
 
-	static protected CadastroDialogPadrao CADASTRO_DIALOG_MAIN;
+	static protected CadastroDialogPadrao INSTANCIA;
 
 	@FXML
 	protected AnchorPane apContainer;
@@ -27,7 +27,7 @@ public abstract class CadastroDialogPadrao implements Initializable {
 
 	@FXML
 	protected abstract void onBtnCancelarClick();
-	
+
 	protected abstract <T> void salvar(T entidade);
 
 	public abstract <T> void carregar(T entidade);
@@ -35,12 +35,26 @@ public abstract class CadastroDialogPadrao implements Initializable {
 	protected abstract boolean validaCampos();
 
 	protected abstract void limpaCampos();
+
+	public abstract CadastroDialogPadrao atualizaEntidade();
 	
+	/**
+	 * <p>
+	 * Função para pegar a instância do cadastro que está iniciado.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static CadastroDialogPadrao getInstancia() {
+		assert INSTANCIA != null : "A instância do cadastro não foi injetada";
+		return INSTANCIA;
+	}
+
 	protected abstract void inicializa(URL arg0, ResourceBundle arg1);
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		CADASTRO_DIALOG_MAIN = this;
+		INSTANCIA = this;
 	}
 
 }

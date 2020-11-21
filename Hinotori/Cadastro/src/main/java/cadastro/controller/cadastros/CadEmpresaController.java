@@ -345,7 +345,8 @@ public class CadEmpresaController extends CadastroFormPadrao {
 		return this;
 	}
 
-	private CadEmpresaController atualizaEntidade() {
+	@Override
+	public CadEmpresaController atualizaEntidade() {
 		if (empresa == null)
 			empresa = new Empresa();
 

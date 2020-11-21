@@ -53,7 +53,7 @@ public class ValidaLogin {
 			throw new ExcessaoLogin(Mensagens.LOGIN_ERRO_USER_LOGIN_NAO_ENCONTRADO);
 
 		try {
-			usuario.setSenha(DecodeHash.DecodePassword(usuario.getSenha()));
+			usuario.setSenha(DecodeHash.CriptografaSenha(usuario.getSenha()));
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 			throw new ExcessaoLogin(Mensagens.LOGIN_ERRO_USER_SENHA);

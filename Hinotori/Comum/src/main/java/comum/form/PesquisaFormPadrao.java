@@ -25,7 +25,7 @@ public abstract class PesquisaFormPadrao implements Initializable {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
 
-	static protected PesquisaFormPadrao PESQUISA_MAIN;
+	static protected PesquisaFormPadrao INSTANCIA;
 
 	@FXML
 	protected StackPane spRoot;
@@ -69,6 +69,19 @@ public abstract class PesquisaFormPadrao implements Initializable {
 	@FXML
 	protected abstract void onBtnVoltarClick();
 
+	/**
+	 * <p>
+	 * Função para pegar a instância da lista que está iniciado.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static PesquisaFormPadrao getInstancia() {
+		assert INSTANCIA != null : "A instância da pesquisa não foi injetada";
+		return INSTANCIA;
+	}
+
+	
 	/**
 	 * Função a ser executada quando a tela for fechada. {@code PesquisaFormPadrao}.
 	 *
@@ -149,7 +162,7 @@ public abstract class PesquisaFormPadrao implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		PESQUISA_MAIN = this;
+		INSTANCIA = this;
 
 		configuraScroll();
 		configuraAtalhosTeclado();

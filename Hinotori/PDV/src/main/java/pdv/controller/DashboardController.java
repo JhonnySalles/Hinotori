@@ -13,7 +13,6 @@ import com.jfoenix.svg.SVGGlyph;
 import comum.form.DashboardFormPadrao;
 import comum.model.alerts.AlertasPopup;
 import comum.model.entities.Configuracao;
-import comum.model.notification.Notificacoes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -63,15 +62,6 @@ public class DashboardController extends DashboardFormPadrao {
 	private JFXButton btnConfiguracoes;
 
 	@FXML
-	private JFXButton btnEmpresa;
-
-	@FXML
-	private JFXButton btnUsuario;
-
-	@FXML
-	private JFXButton btnBd;
-
-	@FXML
 	private Tooltip tootBd;
 
 	@FXML
@@ -105,11 +95,6 @@ public class DashboardController extends DashboardFormPadrao {
 	@FXML
 	private void onMouseExitApBotoes() {
 		tmLineAbrir.stop();
-	}
-
-	@FXML
-	private void closeBtnDetalhes() {
-		fecharBotoesDetalhe();
 	}
 
 	/**
@@ -182,7 +167,7 @@ public class DashboardController extends DashboardFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		//verificaConexao();
+		// verificaConexao();
 		inicializaGraficos();
 
 		/* Popup de descricao dos botoes */
@@ -194,7 +179,6 @@ public class DashboardController extends DashboardFormPadrao {
 		/* Setando as variáveis para o alerta padrão. */
 		AlertasPopup.setNodeBlur(rootStackPane);
 		AlertasPopup.setNodeBlur(splPane);
-		Notificacoes.setRootStackPane(apGlobal);
 
 		rootStackPane.setCache(true);
 		rootStackPane.setCacheHint(CacheHint.SPEED);

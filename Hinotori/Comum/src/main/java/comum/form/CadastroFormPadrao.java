@@ -25,7 +25,7 @@ public abstract class CadastroFormPadrao implements Initializable {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
 
-	static protected CadastroFormPadrao CADASTRO_MAIN;
+	static protected CadastroFormPadrao INSTANCIA;
 
 	@FXML
 	protected StackPane spRoot;
@@ -80,6 +80,20 @@ public abstract class CadastroFormPadrao implements Initializable {
 	protected abstract boolean validaCampos();
 
 	protected abstract void limpaCampos();
+
+	public abstract CadastroFormPadrao atualizaEntidade();
+	
+	/**
+	 * <p>
+	 * Função para pegar a instância do cadastro que está iniciado.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static CadastroFormPadrao getInstancia() {
+		assert INSTANCIA != null : "A instância do cadastro não foi injetada";
+		return INSTANCIA;
+	}
 
 	/**
 	 * Função a ser executada quando a tela for fechada. {@code ListaFormPadrao}.
@@ -149,7 +163,7 @@ public abstract class CadastroFormPadrao implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		CADASTRO_MAIN = this;
+		INSTANCIA = this;
 		configuraScroll();
 		configuraAtalhosTeclado();
 		inicializa(arg0, arg1);

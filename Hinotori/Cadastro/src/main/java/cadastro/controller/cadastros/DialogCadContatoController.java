@@ -134,7 +134,8 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 		return contatos;
 	}
 
-	private DialogCadContatoController atualizaEntidade() {
+	@Override
+	public DialogCadContatoController atualizaEntidade() {
 		if (contato == null)
 			contato = new Contato();
 
@@ -145,7 +146,7 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 		contato.setObservacao(txtAreaObservacao.getText());
 		contato.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 		contato.setTipoContato(cbTipo.getSelectionModel().getSelectedItem());
-
+		
 		return this;
 	}
 

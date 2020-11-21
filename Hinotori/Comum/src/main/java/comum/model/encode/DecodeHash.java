@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 public class DecodeHash {
 
 	// Fun��o criada para estar criptografando a senha informada.
-	private static String Decode(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	private static String Criptografa(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		String senha = password;
 
 		MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
@@ -20,7 +20,8 @@ public class DecodeHash {
 		return hexStringSenha.toString();
 	}
 
-	public static String DecodePassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		return Decode(password);
+	public static String CriptografaSenha(String password)
+			throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		return Criptografa(password);
 	}
 }

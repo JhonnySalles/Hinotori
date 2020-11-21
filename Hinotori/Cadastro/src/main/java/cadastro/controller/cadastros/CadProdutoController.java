@@ -330,7 +330,8 @@ public class CadProdutoController extends CadastroFormPadrao {
 		return this;
 	}
 
-	private CadProdutoController atualizaEntidade() {
+	@Override
+	public CadProdutoController atualizaEntidade() {
 		if (produto == null)
 			produto = new Produto();
 

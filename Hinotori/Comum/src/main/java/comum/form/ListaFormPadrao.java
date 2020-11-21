@@ -20,7 +20,7 @@ import javafx.scene.layout.StackPane;
 
 public abstract class ListaFormPadrao implements Initializable {
 
-	static protected ListaFormPadrao LISTA_MAIN;
+	static protected ListaFormPadrao INSTANCIA;
 
 	@FXML
 	protected StackPane spRoot;
@@ -66,6 +66,18 @@ public abstract class ListaFormPadrao implements Initializable {
 
 	@FXML
 	protected abstract void onBtnAtualizarClick();
+	
+	/**
+	 * <p>
+	 * Função para pegar a instância da lista que está iniciado.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static ListaFormPadrao getInstancia() {
+		assert INSTANCIA != null : "A instância da lista não foi injetada";
+		return INSTANCIA;
+	}
 
 	/**
 	 * Função a ser executada quando a tela for fechada. {@code ListaFormPadrao}.
@@ -106,7 +118,7 @@ public abstract class ListaFormPadrao implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		LISTA_MAIN = this;
+		INSTANCIA = this;
 		configuraScroll();
 
 		inicializa(arg0, arg1);
