@@ -133,6 +133,10 @@ public abstract class DashboardFormPadrao implements Initializable {
 		assert INSTANCIA != null : "A instância do dashboard não foi injetada";
 		return INSTANCIA;
 	}
+	
+	public static DashboardFormPadrao getInstanciaTest() {
+		return INSTANCIA;
+	}
 
 	/**
 	 * <p>
@@ -510,7 +514,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 
 		tTransContainerBotoes = new TranslateTransition(new Duration(350), apContainerBotoes);
 		tTransContainerCentralNotificacoes = new TranslateTransition(new Duration(350), apContainerCentralNotificacoes);
-
+		
 		inicializa(arg0, arg1);
 	}
 

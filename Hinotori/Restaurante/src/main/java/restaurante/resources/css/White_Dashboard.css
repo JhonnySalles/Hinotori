@@ -357,3 +357,16 @@
 #btnEmpresa:focused{
     -fx-background-image: url("../imagens/white/dashBoard/btnEmpresa_Select128.png");
 }
+
+#btnCentralNotificacoes {
+	-fx-background-image:
+		url("../imagens/white/dashBoard/icoMenssage_Empty_128.png");
+	-fx-background-position: 10 center;
+	-fx-background-size: 35 35;
+	-fx-background-repeat: no-repeat;
+}
+
+#btnCentralNotificacoes:cheio {
+	-fx-background-image:
+		url("../imagens/white/dashBoard/icoMenssage_Full_128.png");
+}

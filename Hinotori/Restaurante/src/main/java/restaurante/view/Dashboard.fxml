@@ -81,40 +81,42 @@
                                     <Insets />
                                  </opaqueInsets>
                               </JFXButton>
+                              <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <JFXButton fx:id="btnEmpresa" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" minWidth="50.0" prefHeight="40.0" prefWidth="50.0" ripplerFill="#ffffff00" text="Empresa" textFill="WHITE">
+                                       <padding>
+                                          <Insets left="30.0" />
+                                       </padding>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnCentralNotificacoes" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" minWidth="50.0" prefHeight="40.0" prefWidth="50.0" ripplerFill="#ffffff00" text="Notificações" textFill="WHITE" />
+                                    <JFXButton fx:id="btnUsuario" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" minWidth="50.0" prefHeight="40.0" prefWidth="50.0" ripplerFill="#ffffff00" text="Usuário" textFill="WHITE">
+                                       <graphic>
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../../../../PDV/src/main/java/pdv/resources/ImgTeste/IcoTesteUsuario.jpg" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnBd" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" minWidth="50.0" onAction="#verificaConexao" prefHeight="40.0" prefWidth="50.0" ripplerFill="#ffffff00" textFill="WHITE">
+                                       <graphic>
+                                          <ImageView fx:id="imgBd" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../../../../PDV/src/main/java/pdv/resources/imagens/white/dashBoard/icoDataBase_48.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <tooltip>
+                                          <Tooltip fx:id="tootBd" />
+                                       </tooltip>
+                                    </JFXButton>
+                                 </children>
+                              </VBox>
                            </children>
-                           <padding>
-                              <Insets bottom="45.0" />
-                           </padding>
                         </VBox>
-                        <JFXButton fx:id="btnEmpresa" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" minWidth="50.0" prefHeight="40.0" prefWidth="50.0" ripplerFill="#ffffff00" text="Empresa" textFill="WHITE" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="0.0">
-                           <padding>
-                              <Insets left="30.0" />
-                           </padding>
-                        </JFXButton>
-                        <JFXButton fx:id="btnUsuario" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" minWidth="50.0" prefHeight="40.0" prefWidth="50.0" ripplerFill="#ffffff00" text="Usuário" textFill="WHITE" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="0.0">
-                           <graphic>
-                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/ImgTeste/IcoTesteUsuario.jpg" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton fx:id="btnBd" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="40.0" maxWidth="50.0" minHeight="40.0" minWidth="50.0" onAction="#verificaConexao" prefHeight="40.0" prefWidth="50.0" ripplerFill="#ffffff00" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-                           <graphic>
-                              <ImageView fx:id="imgBd" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/imagens/white/dashBoard/icoDataBase_48.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <tooltip>
-                              <Tooltip fx:id="tootBd" />
-                           </tooltip>
-                        </JFXButton>
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="200.0" minWidth="200.0" prefWidth="100.0" styleClass="background-White1" SplitPane.resizableWithParent="false">
+                <AnchorPane minHeight="200.0" minWidth="200.0" prefWidth="100.0" styleClass="background-White1">
                      <children>
                         <JFXTabPane fx:id="tbPaneAbas" onMouseClicked="#onBackgroundMouseClick" tabClosingPolicy="ALL_TABS" tabDragPolicy="REORDER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <tabs>
@@ -141,11 +143,12 @@
                               </Tab>
                            </tabs>
                         </JFXTabPane>
-                        <AnchorPane fx:id="apBotoesDetalhes" prefHeight="200.0" prefWidth="150.0" styleClass="panelSubBotoes" translateX="-155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="42.0">
+                        <AnchorPane fx:id="apContainerBotoes" prefHeight="200.0" prefWidth="150.0" styleClass="panelSubBotoes" translateX="-155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="42.0">
                            <children>
-                              <VBox fx:id="vbBotoesDetalhes" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <VBox fx:id="vbContainerBotoes" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
+                        <AnchorPane fx:id="apContainerCentralNotificacoes" prefHeight="600.0" prefWidth="300.0" translateX="305.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                      <effect>
                         <InnerShadow height="15.0" radius="7.0" width="15.0" />

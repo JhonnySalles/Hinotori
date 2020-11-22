@@ -62,15 +62,6 @@ public class DashboardController extends DashboardFormPadrao {
 	private JFXButton btnConfiguracoes;
 
 	@FXML
-	private JFXButton btnEmpresa;
-
-	@FXML
-	private JFXButton btnUsuario;
-
-	@FXML
-	private JFXButton btnBd;
-
-	@FXML
 	private Tooltip tootBd;
 
 	@FXML
