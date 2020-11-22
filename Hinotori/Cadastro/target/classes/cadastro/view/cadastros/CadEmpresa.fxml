@@ -49,7 +49,7 @@
                                  <children>
                                     <HBox alignment="CENTER" minHeight="30.0" prefHeight="40.0" prefWidth="388.0" spacing="5.0">
                                        <children>
-                                          <JFXTextField fx:id="txtId" labelFloat="true" minHeight="30.0" onKeyPressed="#onTxtIdEnter" onMouseClicked="#onTxtIdClick" prefWidth="100.0" promptText="Id">
+                                          <JFXTextField fx:id="txtId" editable="false" labelFloat="true" minHeight="30.0" onKeyPressed="#onTxtIdEnter" onMouseClicked="#onTxtIdClick" prefWidth="100.0" promptText="Id">
                                              <font>
                                                 <Font name="Times New Roman" size="12.0" />
                                              </font>
