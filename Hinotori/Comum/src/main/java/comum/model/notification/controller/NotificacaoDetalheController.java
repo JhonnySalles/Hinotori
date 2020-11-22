@@ -14,14 +14,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class NotificacaoDetalheController {
 
 	@FXML
-	private AnchorPane apBackground;
+	private HBox hbBackground;
 
 	@FXML
 	private Pane tipo;
@@ -33,7 +34,10 @@ public class NotificacaoDetalheController {
 	private HBox hbConteudo;
 
 	@FXML
-	private Label lblTexto;
+	private TextFlow container;
+
+	@FXML
+	private Text texto;
 
 	@FXML
 	private Label lbDataHora;
@@ -49,8 +53,12 @@ public class NotificacaoDetalheController {
 	final static PseudoClass ERRO = PseudoClass.getPseudoClass("Erro");
 	final static PseudoClass SUCESSO = PseudoClass.getPseudoClass("Sucesso");
 
-	public AnchorPane getRoot() {
-		return apBackground;
+	public HBox getRoot() {
+		return hbBackground;
+	}
+
+	public TextFlow getContainerTexto() {
+		return container;
 	}
 
 	public String getTitulo() {
@@ -63,16 +71,11 @@ public class NotificacaoDetalheController {
 	}
 
 	public String getTexto() {
-		return lblTexto.getText();
+		return texto.getText();
 	}
 
 	public NotificacaoDetalheController setTexto(String texto) {
-		lblTexto.setText(texto);
-
-		if (texto.length() > 200) {
-			
-		}
-		
+		this.texto.setText(texto);
 		return this;
 	}
 

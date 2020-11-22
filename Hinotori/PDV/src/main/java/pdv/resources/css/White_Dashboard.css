@@ -4,22 +4,13 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-/*---------- Estilos de fonte ----------*/
-.texto-titulo {
-	-fx-text-fill: white;
-	-fx-font-size: 24px;
+.background-root {
+    -fx-background-color:  #ffffff;
 }
 
-.texto-stilo-1 {
-	-fx-text-fill: white;
-}
-
-.texto-stilo-2 {
-	-fx-background-color: #ffffff;
-}
 
 /*---------- Barra botões ----------*/
-.panelBotoes {
+.panelBtnAcessoRapido {
 	-fx-background-color: linear-gradient(to right top, #212121, #333333);
 	-fx-border-color: black;
 	-fx-border-width: 0 1 0 0;
@@ -43,13 +34,9 @@
 	-fx-background-color: linear-gradient(to right top, #eaeaea, #EEEEEE, #eaeaea);
 }
 
-#cbBoxFilial {
-	-fx-background-color: #dadada;
-}
-
-#cbBoxFilial .jfx-combo-box .label {
-	-fx-background-color: WHITE;
-	-fx-text: Black;
+.dashBoardGraficos {
+	-fx-border-color: black;
+	-fx-border-width: 1 0 0 0;
 }
 
 /*----------  Panels de rolagens ----------*/
@@ -67,64 +54,6 @@
 
 /*----------  Tab panels ----------*/
 /* Remove a borda de selecao da tab */
-.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator
-	{
-	-fx-focus-color: transparent;
-	-fx-faint-focus-color: transparent;
-}
-
-.tab-pane .tab-content-area {
-	-fx-border-width: 1 0 0 0;
-	-fx-border-color: #000000;
-}
-
-.tab-pane .tab-header-area .tab-header-background {
-	-fx-background-color: #0f9b0f;
-	-fx-background-color: linear-gradient(to top right, #15d115, #10a210, #12ba12, #0f9b0f,
-		#10a210);
-	-fx-padding: 0;
-}
-
-.tab-pane .tab-header-area .control-buttons-tab {
-	-fx-background-color: transparent;
-	-fx-padding: 0 0 0 -5;
-}
-
-.tab-pane .tab-header-area .control-buttons-tab .tab-down-button {
-	-fx-background-color: transparent;
-	-fx-background-insets: 0;
-	-fx-background-radius: 0.0;
-}
-
-.tab-pane .tab-header-area .control-buttons-tab .tab-down-button:hover {
-	-fx-background-color: #dafd9c;
-}
-
-.tab-pane .tab-header-area .control-buttons-tab .tab-down-button .arrow
-	{
-	-fx-background-color: #000000;
-	-fx-pref-height: 10px;
-	-fx-shape:
-		"M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12 c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265 c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z";
-	-fx-rotate: 90;
-}
-
-.tab-pane .tab-header-area .control-buttons-tab .tab-down-button .arrow:hover
-	{
-	-fx-background-color: #1b3104;
-}
-
-.tab-pane {
-	-fx-tab-min-height: 3em;
-	-fx-tab-max-height: 3em;
-	-fx-tab-min-width: 4em;
-}
-
-.tab-pane:top *.tab-header-area {
-	-fx-background-insets: 0, 0 0 10;
-	-fx-padding: 5 0 0 135px;
-}
-
 .tab {
 	-fx-border-width: 0 1 0 0;
 	-fx-border-color: #000000;
@@ -174,8 +103,7 @@
 	-fx-background-insets: 0 -0.01 0 -0.01;
 }
 
-.jfx-tab-pane .headers-region .tab .tab-container .tab-close-button>.jfx-svg-glyph
-	{
+.jfx-tab-pane .headers-region .tab .tab-container .tab-close-button>.jfx-svg-glyph {
 	-fx-background-color: red;
 }
 
@@ -190,7 +118,7 @@
 }
 
 /*----------  SplitBox - Pane divisor ----------*/
-.splitbox { /* Remove as bordas grossas e coloca um realce em preto */
+.container_splitpane { /* Remove as bordas grossas e coloca um realce em preto */
 	-fx-box-border: #000000;
 	-fx-padding: 1;
 }

@@ -101,6 +101,42 @@
 /*------------------------------------------------ Estilos dos gerenciador de alerta -----------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
+.btnOrdenaHora {
+	-fx-text-fill: #ffffff;
+}
+
+.btnOrdenaHora:hover {
+	-fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+.btnOrdenaHora:focused {
+	-fx-font-weight: bold;
+}
+
+.btnOrdenaTipo {
+	-fx-text-fill: #ffffff;
+}
+
+.btnOrdenaTipo:hover {
+	-fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+.btnOrdenaTipo:focused {
+	-fx-font-weight: bold;
+}
+
+.btnLimpa {
+	-fx-text-fill: #ffffff;
+}
+
+.btnLimpa:hover {
+	-fx-background-color: rgba(0, 0, 0, 0.6);
+}
+
+.btnLimpa:focused {
+	-fx-font-weight: bold;
+}
+
 .Central_Notificacao_Backugroud {
 	-fx-background-color: transparent;
 	-fx-border-width: 0;
@@ -120,7 +156,7 @@
 
 .list-view:focused {
 	-fx-background-insets: 0 0 -1 0, 0, 1, 2;
-    -fx-background-radius: 3px, 3px, 2px, 1px;
+	-fx-background-radius: 3px, 3px, 2px, 1px;
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
@@ -194,20 +230,22 @@
 	-fx-background-color: #FF472B;
 }
 
-.scroll-bar:horizontal, .scroll-bar:vertical {
-	-fx-background-color: transparent;
-}
-
-.increment-button, .decrement-button {
-	-fx-background-color: transparent;
-	-fx-border-color: transparent;
-}
-
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*------------------------------------------------ Estilo geral --------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
+.increment-button, .decrement-button {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+}
+
+.scroll-bar:vertical, .scroll-bar:horizontal .track {
+	-fx-background-color: transparent;
+	-fx-pref-width: 15;
+	-fx-padding: 3;
+}
+
 .scroll-bar:horizontal .track, .scroll-bar:vertical .track {
 	-fx-background-color: transparent;
 	-fx-border-color: transparent;
@@ -218,6 +256,7 @@
 .scroll-bar:horizontal .thumb, .scroll-bar:vertical .thumb {
 	-fx-background-color: #3c3c3c;
 	-fx-background-radius: 5em;
+	-fx-pref-height: 3px;
 }
 
 .scroll-bar:horizontal .thumb:hover, .scroll-bar:vertical .thumb:hover {

@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXMasonryPane?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -14,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane id="Background" fx:id="apRoot" styleClass="Background" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pdv.controller.metricas.DashBoardGraficos">
+<StackPane id="Background" fx:id="apRoot" styleClass="Background" stylesheets="@../../resources/css/White_DashBoard_Graficos.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pdv.controller.metricas.DashBoardGraficos">
    <children>
       <VBox spacing="20.0" styleClass="Background" StackPane.alignment="TOP_CENTER">
          <children>
@@ -103,10 +102,6 @@
          </children>
       </VBox>
    </children>
-   <stylesheets>
-      <URL value="@../../resources/css/Paleta_Cores.css" />
-      <URL value="@../../resources/css/White_DashBoard_Graficos.css" />
-   </stylesheets>
    <padding>
       <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
    </padding>

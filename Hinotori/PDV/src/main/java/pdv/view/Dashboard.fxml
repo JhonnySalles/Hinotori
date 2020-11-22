@@ -4,7 +4,6 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXScrollPane?>
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.SplitPane?>
@@ -18,15 +17,15 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="apGlobal" prefHeight="600.0" prefWidth="700.0" styleClass="background-White1" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pdv.controller.DashboardController">
+<AnchorPane fx:id="apGlobal" prefHeight="600.0" prefWidth="700.0" styleClass="background-root" stylesheets="@../resources/css/White_Dashboard.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pdv.controller.DashboardController">
    <children>
       <StackPane fx:id="rootStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <SplitPane fx:id="splPane" dividerPositions="0.0" prefHeight="160.0" prefWidth="200.0" styleClass="splitbox">
+            <SplitPane fx:id="splPane" dividerPositions="0.0" prefHeight="160.0" prefWidth="200.0" styleClass="container_splitpane">
               <items>
                   <AnchorPane fx:id="apBotoes" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" SplitPane.resizableWithParent="false">
                      <children>
-                        <VBox maxWidth="150.0" minWidth="150.0" onMouseEntered="#onMouseEnterApBotoes" onMouseExited="#onMouseExitApBotoes" prefWidth="150.0" styleClass="panelBotoes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox maxWidth="150.0" minWidth="150.0" onMouseEntered="#onMouseEnterApBotoes" onMouseExited="#onMouseExitApBotoes" prefWidth="150.0" styleClass="panelBtnAcessoRapido" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <HBox alignment="CENTER" prefHeight="40.0" styleClass="panelLogo">
                                  <children>
@@ -122,14 +121,9 @@
                            <tabs>
                               <Tab fx:id="tbDashBoardGraficos" closable="false" text="Dashboard">
                                 <content>
-                                  <AnchorPane fx:id="apDashBoardGraficos" style="-fx-border-color: black; -fx-border-width: 1 0 0 0;">
+                                  <AnchorPane fx:id="apDashBoardGraficos" styleClass="dashBoardGraficos">
                                        <children>
-                                          <JFXScrollPane fx:id="scPaneDashGraficos" alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <stylesheets>
-                                                <URL value="@../resources/css/Paleta_Cores.css" />
-                                                <URL value="@../resources/css/White_DashBoard_Graficos.css" />
-                                             </stylesheets>
-                                          </JFXScrollPane>
+                                          <JFXScrollPane fx:id="scPaneDashGraficos" alignment="TOP_CENTER" stylesheets="@../resources/css/White_DashBoard_Graficos.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                 </content>
@@ -143,7 +137,7 @@
                               </Tab>
                            </tabs>
                         </JFXTabPane>
-                        <AnchorPane fx:id="apContainerBotoes" prefHeight="200.0" prefWidth="150.0" styleClass="panelSubBotoes" translateX="-155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="42.0">
+                        <AnchorPane fx:id="apContainerBotoes" prefHeight="200.0" prefWidth="150.0" styleClass="panelSubBotoes" translateX="-155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="41.0">
                            <children>
                               <VBox fx:id="vbContainerBotoes" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
@@ -159,8 +153,4 @@
          </children>
       </StackPane>
    </children>
-   <stylesheets>
-      <URL value="@../resources/css/Paleta_Cores.css" />
-      <URL value="@../resources/css/White_Dashboard.css" />
-   </stylesheets>
 </AnchorPane>

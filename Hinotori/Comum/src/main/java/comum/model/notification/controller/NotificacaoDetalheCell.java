@@ -32,7 +32,5 @@ public class NotificacaoDetalheCell extends ListCell<Menssagem> {
 			setGraphic(data.getRoot());
 		} else
 			setGraphic(null);
-
 	}
-
 }

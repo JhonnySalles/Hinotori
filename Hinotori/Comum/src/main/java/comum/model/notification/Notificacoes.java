@@ -32,7 +32,7 @@ import javafx.util.Duration;
 public class Notificacoes {
 
 	private final static Logger LOGGER = Logger.getLogger(Notificacoes.class.getName());
-	
+
 	public static Boolean TESTE = false;
 
 	private final static ObservableList<Menssagem> LISTA_MENSSAGENS = FXCollections.observableArrayList();
@@ -238,7 +238,7 @@ public class Notificacoes {
 		// Validação para teste
 		if (TESTE)
 			return;
-		
+
 		addListaMenssagem(new Menssagem(titulo, texto, tipo));
 
 		if (DashboardFormPadrao.CENTRAL_OPENED)

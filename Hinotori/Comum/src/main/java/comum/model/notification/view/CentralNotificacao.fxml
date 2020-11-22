@@ -16,11 +16,11 @@
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="100.0" spacing="5.0" styleClass="Central_Notificacao_Titulo" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton fx:id="btnOrdenarHora" accessibleText="ASC" buttonType="RAISED" onAction="#onBtnOrdenaHoraClick" text="Hora" textFill="WHITE" />
-            <JFXButton fx:id="onBtnOrdenaTipoClick" buttonType="RAISED" text="Tipo" textFill="WHITE" />
+            <JFXButton fx:id="btnOrdenarHora" accessibleText="ASC" buttonType="RAISED" onAction="#onBtnOrdenaHoraClick" styleClass="btnOrdenaHora" text="Hora" textFill="WHITE" />
+            <JFXButton fx:id="onBtnOrdenaTipoClick" buttonType="RAISED" styleClass="btnOrdenaTipo" text="Tipo" textFill="WHITE" />
             <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnLimpar" buttonType="RAISED" onAction="#onBtnLimpaClick" text="Limpar" textFill="WHITE" />
+                  <JFXButton fx:id="btnLimpar" buttonType="RAISED" onAction="#onBtnLimpaClick" styleClass="btnLimpa" text="Limpar" textFill="WHITE" />
                </children>
             </VBox>
          </children>

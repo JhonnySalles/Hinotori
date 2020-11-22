@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tooltip?>
@@ -9,32 +8,32 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" minHeight="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pdv.controller.pesquisas.PesquisasController">
+<VBox alignment="TOP_CENTER" minHeight="-Infinity" spacing="5.0" stylesheets="@../../resources/css/White_Dashboard_Botoes.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pdv.controller.pesquisas.PesquisasController">
    <children>
       <Label text="Pesquisas" textFill="WHITE" />
-      <AnchorPane prefHeight="10.0" styleClass="background-Green3" />
-      <JFXButton fx:id="btnPsqCliente" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnPsqClienteAction" prefWidth="150.0" text="Cliente" textFill="WHITE" wrapText="true">
+      <AnchorPane prefHeight="10.0" styleClass="titulo-detalhe-pesquisa" />
+      <JFXButton fx:id="btnPsqCliente" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnPsqClienteAction" prefWidth="150.0" styleClass="btnPesquisa" text="Cliente" textFill="WHITE" wrapText="true">
          <tooltip>
             <Tooltip text="Cadastro de clientes" />
          </tooltip>
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
          </graphic></JFXButton>
-      <JFXButton fx:id="btnPsqEmpresa" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnPsqEmpresaAction" prefWidth="150.0" text="Empresa" textFill="WHITE" wrapText="true">
+      <JFXButton fx:id="btnPsqEmpresa" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnPsqEmpresaAction" prefWidth="150.0" styleClass="btnPesquisa" text="Empresa" textFill="WHITE" wrapText="true">
          <tooltip>
             <Tooltip text="Cadastro de empresas" />
          </tooltip>
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
          </graphic></JFXButton>
-      <JFXButton fx:id="btnPsqUsuario" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnPsqUsuarioAction" prefWidth="150.0" text="Usuário" textFill="WHITE" wrapText="true">
+      <JFXButton fx:id="btnPsqUsuario" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnPsqUsuarioAction" prefWidth="150.0" styleClass="btnPesquisa" text="Usuário" textFill="WHITE" wrapText="true">
          <tooltip>
             <Tooltip text="Cadastro de usuários" />
          </tooltip>
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
          </graphic></JFXButton>
-      <JFXButton fx:id="btnPsqProduto" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnPsqProdutoAction" prefWidth="150.0" text="Produtos" textFill="WHITE" wrapText="true">
+      <JFXButton fx:id="btnPsqProduto" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnPsqProdutoAction" prefWidth="150.0" styleClass="btnPesquisa" text="Produtos" textFill="WHITE" wrapText="true">
          <tooltip>
             <Tooltip text="Cadastro de produtos" />
          </tooltip>
@@ -46,8 +45,4 @@
    <padding>
       <Insets bottom="5.0" top="5.0" />
    </padding>
-   <stylesheets>
-      <URL value="@../../resources/css/Paleta_Cores.css" />
-      <URL value="@../../resources/css/White_Dashboard.css" />
-   </stylesheets>
 </VBox>
