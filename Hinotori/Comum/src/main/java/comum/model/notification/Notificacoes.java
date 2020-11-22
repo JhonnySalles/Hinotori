@@ -2,7 +2,6 @@ package comum.model.notification;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +16,8 @@ import comum.model.notification.controller.NotificacaoController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +33,7 @@ public class Notificacoes {
 
 	private final static Logger LOGGER = Logger.getLogger(Notificacoes.class.getName());
 
-	private final static LinkedList<Menssagem> LISTA_MENSSAGENS = new LinkedList<Menssagem>();
+	private final static ObservableList<Menssagem> LISTA_MENSSAGENS = FXCollections.observableArrayList();
 
 	public final static ImageView IMG_ALERTA = new ImageView(
 			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAlerta_48.png")));
@@ -46,14 +47,14 @@ public class Notificacoes {
 			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/btnConfirma_48.png")));
 
 	private static DashboardFormPadrao DASHBOARD_MAIN;
-	private static AnchorPane CENTRAL_NOTIFICACAO;
-	private static CentralNotificacaoController CENTRAL_CONTROLLER;
-	private static NotificacaoController CONTROLLER;
+	private static AnchorPane CONTAINER_CENTRAL_NOTIFICACAO;
+	private static CentralNotificacaoController CENTRAL_NOTIFICACAO_CONTROLLER;
+	private static NotificacaoController NOTIFICACAO_CONTROLLER;
 	private static AnchorPane NOTIFICACAO;
 	private static AnchorPane ROOT_ANCHOR_PANE;
 	private static Timeline TM_LINE_CLOSE;
 	private static TranslateTransition TT_AP_NOTIFICACOES;
-	private static Boolean APARECENDO;
+	private static Boolean NOTIFICACAO_OPENED = false;
 
 	// ********************************************************************************//
 	// Classe para guardar a referencia das telas aberta e controlador
@@ -88,57 +89,41 @@ public class Notificacoes {
 		}
 	}
 
-	public static AnchorPane getRootStackPane() {
-		return ROOT_ANCHOR_PANE;
-	}
-
-	public static AnchorPane getCentralNotificacao() {
-		return CENTRAL_NOTIFICACAO;
-	}
-
 	public static void limpaNotificacoes() {
 		LISTA_MENSSAGENS.clear();
-		CENTRAL_CONTROLLER.atualiza();
-
 		DASHBOARD_MAIN.atualizaIcoCentralNotificacao(!LISTA_MENSSAGENS.isEmpty());
 	}
 
 	public static void addListaMenssagem(Menssagem menssagem) {
 		LISTA_MENSSAGENS.add(menssagem);
-		CENTRAL_CONTROLLER.add(menssagem);
-
 		DASHBOARD_MAIN.atualizaIcoCentralNotificacao(!LISTA_MENSSAGENS.isEmpty());
 	}
 
 	public static void remListaMenssagem(Menssagem menssagem) {
 		LISTA_MENSSAGENS.remove(menssagem);
-		CENTRAL_CONTROLLER.remove(menssagem);
-
 		DASHBOARD_MAIN.atualizaIcoCentralNotificacao(!LISTA_MENSSAGENS.isEmpty());
 	}
 
-	public static LinkedList<Menssagem> getMenssagens() {
+	public static ObservableList<Menssagem> getListaMenssagens() {
 		return LISTA_MENSSAGENS;
 	}
 
 	public static void atualizaCentralMenssagem() {
-		if ((CENTRAL_NOTIFICACAO == null) || (CENTRAL_CONTROLLER == null))
+		if ((CONTAINER_CENTRAL_NOTIFICACAO == null) || (CENTRAL_NOTIFICACAO_CONTROLLER == null))
 			createCentralMenssagem();
-
-		CENTRAL_CONTROLLER.atualiza();
 	}
 
 	public static void createCentralMenssagem() {
-		if (CENTRAL_NOTIFICACAO == null) {
+		if (CONTAINER_CENTRAL_NOTIFICACAO == null) {
 			DASHBOARD_MAIN = DashboardFormPadrao.getInstancia();
-			CENTRAL_NOTIFICACAO = DASHBOARD_MAIN.getCentralNotificacoes();
+			CONTAINER_CENTRAL_NOTIFICACAO = DASHBOARD_MAIN.getContainerCentralNotificacoes();
 		}
 
 		try {
 			FXMLLoader loaderConteudo = new FXMLLoader(CentralNotificacaoController.getFxmlLocate());
 			AnchorPane spConteudo = loaderConteudo.load();
-			CENTRAL_CONTROLLER = loaderConteudo.getController();
-			CENTRAL_NOTIFICACAO.getChildren().add(spConteudo);
+			CENTRAL_NOTIFICACAO_CONTROLLER = loaderConteudo.getController();
+			CONTAINER_CENTRAL_NOTIFICACAO.getChildren().add(spConteudo);
 			AnchorPane.setTopAnchor(spConteudo, 0.0);
 			AnchorPane.setBottomAnchor(spConteudo, 0.0);
 			AnchorPane.setLeftAnchor(spConteudo, 0.0);
@@ -187,14 +172,14 @@ public class Notificacoes {
 	public static void closeNotificacao() {
 		if (TT_AP_NOTIFICACOES == null)
 			return;
-		
+
 		TT_AP_NOTIFICACOES.stop();
-		TT_AP_NOTIFICACOES.setToY(CONTROLLER.wheight + 5);
+		TT_AP_NOTIFICACOES.setToY(NOTIFICACAO_CONTROLLER.wheight + 5);
 		TT_AP_NOTIFICACOES.play();
 	}
 
 	private static void clear() {
-		APARECENDO = NOTIFICACAO.getTranslateY() == 0;
+		NOTIFICACAO_OPENED = NOTIFICACAO.getTranslateY() == 0;
 		if (!(NOTIFICACAO.getTranslateY() == 0)) {
 			TM_LINE_CLOSE.stop();
 			NOTIFICACAO.toBack();
@@ -210,7 +195,7 @@ public class Notificacoes {
 
 			FXMLLoader loader = new FXMLLoader(NotificacaoController.getFxmlLocate());
 			NOTIFICACAO = loader.load();
-			CONTROLLER = loader.getController();
+			NOTIFICACAO_CONTROLLER = loader.getController();
 			ROOT_ANCHOR_PANE.getChildren().add(NOTIFICACAO);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -225,7 +210,7 @@ public class Notificacoes {
 			}
 		});
 		TM_LINE_CLOSE = new Timeline(new KeyFrame(Duration.millis(10000), close -> closeNotificacao()));
-		APARECENDO = false;
+		NOTIFICACAO_OPENED = false;
 	}
 
 	/**
@@ -247,20 +232,21 @@ public class Notificacoes {
 	 * @author Jhonny de Salles Noschang
 	 */
 	public static void notificacao(AlertType tipo, String titulo, String texto) {
-		if ((NOTIFICACAO == null) || (CONTROLLER == null))
-			create();
 
 		addListaMenssagem(new Menssagem(titulo, texto, tipo));
 
 		if (DashboardFormPadrao.CENTRAL_OPENED)
 			return;
 
+		if ((NOTIFICACAO == null) || (NOTIFICACAO_CONTROLLER == null))
+			create();
+
 		if (tipo == AlertType.INFORMATION)
 			LOGGER.log(Level.INFO, "{Mensagem de aviso ou alerta: " + texto + "}");
 
 		TM_LINE_CLOSE.stop();
-		if (!APARECENDO) {
-			setTipo(tipo, CONTROLLER, NOTIFICACAO);
+		if (!NOTIFICACAO_OPENED) {
+			setTipo(tipo, NOTIFICACAO_CONTROLLER, NOTIFICACAO);
 
 			NOTIFICACAO.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 				public void handle(MouseEvent e) {
@@ -269,17 +255,17 @@ public class Notificacoes {
 			});
 
 			NOTIFICACAO.toFront();
-			CONTROLLER.setTitulo(titulo).setTexto(texto);
+			NOTIFICACAO_CONTROLLER.setTitulo(titulo).setTexto(texto);
 			AnchorPane.setBottomAnchor(NOTIFICACAO, 5.0);
 			AnchorPane.setRightAnchor(NOTIFICACAO, 5.0);
-			NOTIFICACAO.setTranslateY(CONTROLLER.wheight + 5);
+			NOTIFICACAO.setTranslateY(NOTIFICACAO_CONTROLLER.wheight + 5);
 
 			abreNotificacao();
 		} else {
 			FadeOut fade = new FadeOut(NOTIFICACAO);
 			fade.setOnFinished(fadeOut -> {
-				setTipo(tipo, CONTROLLER, NOTIFICACAO);
-				CONTROLLER.setTitulo(titulo).setTexto(texto);
+				setTipo(tipo, NOTIFICACAO_CONTROLLER, NOTIFICACAO);
+				NOTIFICACAO_CONTROLLER.setTitulo(titulo).setTexto(texto);
 				new FadeIn(NOTIFICACAO).play();
 			});
 			fade.setSpeed(100);

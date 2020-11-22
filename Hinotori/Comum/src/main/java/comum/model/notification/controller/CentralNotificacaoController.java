@@ -7,8 +7,6 @@ import com.jfoenix.controls.JFXButton;
 
 import comum.model.notification.Notificacoes;
 import comum.model.notification.Notificacoes.Menssagem;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
@@ -33,35 +31,26 @@ public class CentralNotificacaoController implements Initializable {
 	@FXML
 	private JFXButton btnLimpar;
 
-	private ObservableList<Menssagem> observableList = FXCollections.observableArrayList();
-
 	@FXML
 	public void onBtnOrdenaHoraClick() {
+		if (btnOrdenarHora.accessibleTextProperty().getValue().equalsIgnoreCase("ASC")) {
+			btnOrdenarHora.accessibleTextProperty().set("DESC");
+			lvLista.getItems().sort((o1, o2) -> o1.getHora().compareTo(o2.getHora()) * -1);
+		} else {
+			btnOrdenarHora.accessibleTextProperty().set("ASC");
+			lvLista.getItems().sort((o1, o2) -> o1.getHora().compareTo(o2.getHora()));
+		}
 
 	}
 
 	@FXML
 	public void onBtnOrdenaTipoClick() {
-
+		lvLista.getItems().sort((o1, o2) -> o1.getTipo().compareTo(o2.getTipo()));
 	}
 
 	@FXML
 	public void onBtnLimpaClick() {
 		Notificacoes.limpaNotificacoes();
-	}
-
-	public void atualiza() {
-		observableList.clear();
-		observableList.setAll(Notificacoes.getMenssagens());
-		lvLista.setItems(observableList);
-	}
-
-	public void remove(Menssagem msg) {
-		observableList.remove(msg);
-	}
-
-	public void add(Menssagem msg) {
-		observableList.add(msg);
 	}
 
 	// Cria a forma de exibição das menssagens
@@ -72,12 +61,13 @@ public class CentralNotificacaoController implements Initializable {
 				return new NotificacaoDetalheCell();
 			}
 		});
+
+		lvLista.setItems(Notificacoes.getListaMenssagens());
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		configureListView();
-		atualiza();
 	}
 
 	public static URL getFxmlLocate() {

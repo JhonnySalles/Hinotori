@@ -86,15 +86,15 @@ public abstract class DashboardFormPadrao implements Initializable {
 	protected AnchorPane apBotoes;
 
 	@FXML
-	protected AnchorPane apBotoesDetalhes;
-	protected TranslateTransition tTransApBotoesDetalhes;
+	protected AnchorPane apContainerBotoes;
+	protected TranslateTransition tTransContainerBotoes;
 
 	@FXML
-	protected AnchorPane apCentralNotificacoes;
-	protected TranslateTransition tTransApCentralNotificacoes;
+	protected AnchorPane apContainerCentralNotificacoes;
+	protected TranslateTransition tTransContainerCentralNotificacoes;
 
 	@FXML
-	protected VBox vbBotoesDetalhes;
+	protected VBox vbContainerBotoes;
 
 	@FXML
 	protected JFXTabPane tbPaneAbas;
@@ -118,7 +118,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 
 	@FXML
 	private void onBackgroundMouseClick() {
-		fecharBotoesDetalhe();
+		fecharContainerBotoes();
 		fecharCentralNotificacao();
 	}
 
@@ -141,8 +141,8 @@ public abstract class DashboardFormPadrao implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public AnchorPane getCentralNotificacoes() {
-		return apCentralNotificacoes;
+	public AnchorPane getContainerCentralNotificacoes() {
+		return apContainerCentralNotificacoes;
 	}
 
 	/**
@@ -220,15 +220,15 @@ public abstract class DashboardFormPadrao implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	private void abrirBotoesDetalhe() {
+	private void abrirContainerBotoes() {
 		Timeline tm = new Timeline(new KeyFrame(Duration.millis(100), ae -> {
-			tTransApBotoesDetalhes.stop();
+			tTransContainerBotoes.stop();
 			btnBurgerTask.stop();
-			tTransApBotoesDetalhes.setToX(0);
+			tTransContainerBotoes.setToX(0);
 			btnBurgerTask.setRate(1);
-			tTransApBotoesDetalhes.setOnFinished(efeito -> apBotoesDetalhes.setEffect(efeitoPainelDetalhe));
+			tTransContainerBotoes.setOnFinished(efeito -> apContainerBotoes.setEffect(efeitoPainelDetalhe));
 			btnBurgerTask.setOnFinished(alternar -> btnBurgerTask.setRate(1));
-			tTransApBotoesDetalhes.play();
+			tTransContainerBotoes.play();
 			btnBurgerTask.play();
 		}));
 		tm.play();
@@ -242,20 +242,20 @@ public abstract class DashboardFormPadrao implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	protected void fecharBotoesDetalhe() {
-		if (apBotoesDetalhes.getTranslateX() == 0) {
+	protected void fecharContainerBotoes() {
+		if (apContainerBotoes.getTranslateX() == 0) {
 			/*
 			 * Necessário utilizar para não ficar bugado burguer botão ao fechar e mostrando
 			 * a flecha
 			 */
 			Timeline tm = new Timeline(new KeyFrame(Duration.millis(100), ae -> {
-				tTransApBotoesDetalhes.stop();
+				tTransContainerBotoes.stop();
 				btnBurgerTask.stop();
-				tTransApBotoesDetalhes.setToX(-(apBotoesDetalhes.getWidth() + 5));
+				tTransContainerBotoes.setToX(-(apContainerBotoes.getWidth() + 5));
 				btnBurgerTask.setRate(-1);
-				apBotoesDetalhes.setEffect(null);
+				apContainerBotoes.setEffect(null);
 				btnBurgerTask.setOnFinished(alternar -> btnBurgerTask.setRate(-1));
-				tTransApBotoesDetalhes.play();
+				tTransContainerBotoes.play();
 				btnBurgerTask.play();
 			}));
 			tm.play();
@@ -286,10 +286,11 @@ public abstract class DashboardFormPadrao implements Initializable {
 	 */
 	private void abrirCentralNotificacao() {
 		Timeline tm = new Timeline(new KeyFrame(Duration.millis(100), ae -> {
-			tTransApCentralNotificacoes.stop();
-			tTransApCentralNotificacoes.setToX(0);
-			tTransApBotoesDetalhes.setOnFinished(efeito -> apCentralNotificacoes.setEffect(efeitoPainelDetalhe));
-			tTransApCentralNotificacoes.play();
+			tTransContainerCentralNotificacoes.stop();
+			tTransContainerCentralNotificacoes.setToX(0);
+			tTransContainerCentralNotificacoes
+					.setOnFinished(efeito -> apContainerCentralNotificacoes.setEffect(efeitoPainelDetalhe));
+			tTransContainerCentralNotificacoes.play();
 			Notificacoes.closeNotificacao();
 		}));
 		tm.play();
@@ -306,16 +307,16 @@ public abstract class DashboardFormPadrao implements Initializable {
 	 * @author Jhonny de Salles Noschang
 	 */
 	protected void fecharCentralNotificacao() {
-		if (apCentralNotificacoes.getTranslateX() == 0) {
+		if (apContainerCentralNotificacoes.getTranslateX() == 0) {
 			/*
 			 * Necessário utilizar para não ficar bugado burguer botão ao fechar e mostrando
 			 * a flecha
 			 */
 			Timeline tm = new Timeline(new KeyFrame(Duration.millis(100), ae -> {
-				tTransApCentralNotificacoes.stop();
-				tTransApCentralNotificacoes.setToX(apCentralNotificacoes.getWidth() + 5);
-				apCentralNotificacoes.setEffect(null);
-				tTransApCentralNotificacoes.play();
+				tTransContainerCentralNotificacoes.stop();
+				tTransContainerCentralNotificacoes.setToX(apContainerCentralNotificacoes.getWidth() + 5);
+				apContainerCentralNotificacoes.setEffect(null);
+				tTransContainerCentralNotificacoes.play();
 			}));
 			tm.play();
 			CENTRAL_OPENED = false;
@@ -335,14 +336,14 @@ public abstract class DashboardFormPadrao implements Initializable {
 		FXMLLoader loader = new FXMLLoader(absoluteName);
 		try {
 			VBox vbPainelBotoes = loader.load();
-			vbBotoesDetalhes.getChildren().clear();
-			vbBotoesDetalhes.getChildren().add(vbPainelBotoes);
-			vbBotoesDetalhes.setFillWidth(true);
-			vbBotoesDetalhes.alignmentProperty().set(Pos.TOP_LEFT);
-			if (apBotoesDetalhes.getTranslateX() != 0)
-				abrirBotoesDetalhe();
+			vbContainerBotoes.getChildren().clear();
+			vbContainerBotoes.getChildren().add(vbPainelBotoes);
+			vbContainerBotoes.setFillWidth(true);
+			vbContainerBotoes.alignmentProperty().set(Pos.TOP_LEFT);
+			if (apContainerBotoes.getTranslateX() != 0)
+				abrirContainerBotoes();
 			else
-				new Pulse(apBotoesDetalhes).play();
+				new Pulse(apContainerBotoes).play();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -430,7 +431,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 				thread.start();
 			}
 		}
-		fecharBotoesDetalhe();
+		fecharContainerBotoes();
 	}
 
 	// Irá chamar a função para redimencionar e colocar a imagem.
@@ -457,10 +458,10 @@ public abstract class DashboardFormPadrao implements Initializable {
 		btnBurgerTask.setRate(-1);
 		// Evento para abrir e fechar via programacao.
 		btnBurgerBotao.addEventHandler(ActionEvent.ACTION, e -> {
-			if (apBotoesDetalhes.getTranslateX() != 0)
-				abrirBotoesDetalhe();
+			if (apContainerBotoes.getTranslateX() != 0)
+				abrirContainerBotoes();
 			else
-				fecharBotoesDetalhe();
+				fecharContainerBotoes();
 		});
 
 		// Evento para o botao do mouse.
@@ -473,7 +474,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 	private DashboardFormPadrao preparaCentralNotificacao() {
 		Notificacoes.createCentralMenssagem();
 		btnCentralNotificacoes.setOnAction(e -> {
-			if (apCentralNotificacoes.getTranslateX() != 0)
+			if (apContainerCentralNotificacoes.getTranslateX() != 0)
 				abrirCentralNotificacao();
 			else
 				fecharCentralNotificacao();
@@ -486,9 +487,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 
 	private DashboardFormPadrao setEfeito() {
 		efeitoPainelDetalhe.setWidth(21.0);
-		efeitoPainelDetalhe.setWidth(21.0);
 		efeitoPainelDetalhe.setHeight(21.0);
-		efeitoPainelDetalhe.setRadius(10.0);
 		efeitoPainelDetalhe.setRadius(10.0);
 		efeitoPainelDetalhe.setOffsetX(2.0);
 		efeitoPainelDetalhe.setOffsetY(2.0);
@@ -509,8 +508,8 @@ public abstract class DashboardFormPadrao implements Initializable {
 		dPropSplPane = splPane.getDividers().get(0).positionProperty();
 		dTransSplPane = new DoubleTransition(Duration.millis(600), dPropSplPane);
 
-		tTransApBotoesDetalhes = new TranslateTransition(new Duration(350), apBotoesDetalhes);
-		tTransApCentralNotificacoes = new TranslateTransition(new Duration(350), apCentralNotificacoes);
+		tTransContainerBotoes = new TranslateTransition(new Duration(350), apContainerBotoes);
+		tTransContainerCentralNotificacoes = new TranslateTransition(new Duration(350), apContainerCentralNotificacoes);
 
 		inicializa(arg0, arg1);
 	}
