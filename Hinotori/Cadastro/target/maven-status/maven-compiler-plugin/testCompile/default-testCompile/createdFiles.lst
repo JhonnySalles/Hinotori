@@ -1,1 +1,5 @@
 cadastro\AppTest.class
+cadastro\CadEmpresaTest.class
+cadastro\CadClienteTest.class
+cadastro\CadProdutoTest.class
+cadastro\CadUsuarioTest.class

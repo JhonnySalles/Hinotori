@@ -3,7 +3,6 @@
  *
  */
 module Servidor {
-	exports servidor;
 	exports servidor.dao;
 	exports servidor.dao.services;
 	exports servidor.dao.implementJDBC;

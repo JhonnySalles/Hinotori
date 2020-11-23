@@ -72,12 +72,12 @@
                                     </JFXTextField>
                                     <HBox alignment="CENTER_RIGHT" spacing="5.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <JFXComboBox fx:id="cbClienteTipo" labelFloat="true" minWidth="100.0" prefHeight="30.0" promptText="Tipo de cliente">
+                                          <JFXComboBox fx:id="cbEnquadramento" labelFloat="true" minWidth="100.0" prefHeight="30.0" promptText="Enquadramento">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </JFXComboBox>
-                                          <JFXComboBox fx:id="cbPessoaTipo" labelFloat="true" minWidth="100.0" prefHeight="30.0" promptText="Tipo de pessoa">
+                                          <JFXComboBox fx:id="cbPessoaTipo" labelFloat="true" minWidth="100.0" prefHeight="30.0" promptText="Pessoa">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>

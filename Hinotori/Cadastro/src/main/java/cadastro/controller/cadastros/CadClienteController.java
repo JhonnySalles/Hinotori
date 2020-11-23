@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
@@ -19,9 +20,9 @@ import comum.form.CadastroFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
+import comum.model.enums.Enquadramento;
+import comum.model.enums.PessoaTipo;
 import comum.model.enums.Situacao;
-import comum.model.enums.TipoCliente;
-import comum.model.enums.TipoPessoa;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
 import comum.model.messages.Mensagens;
@@ -39,6 +40,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import servidor.entities.Cliente;
+import servidor.entities.Contato;
+import servidor.entities.Endereco;
 import servidor.validations.ValidaCliente;
 
 public class CadClienteController extends CadastroFormPadrao {
@@ -50,6 +53,9 @@ public class CadClienteController extends CadastroFormPadrao {
 
 	@FXML
 	private JFXTextField txtNome;
+
+	@FXML
+	private JFXTextField txtRazaoSocial;
 
 	@FXML
 	private JFXTextField txtCpf;
@@ -67,10 +73,10 @@ public class CadClienteController extends CadastroFormPadrao {
 	private JFXComboBox<Situacao> cbSituacao;
 
 	@FXML
-	private JFXComboBox<TipoCliente> cbClienteTipo;
+	private JFXComboBox<Enquadramento> cbEnquadramento;
 
 	@FXML
-	private JFXComboBox<TipoPessoa> cbPessoaTipo;
+	private JFXComboBox<PessoaTipo> cbPessoaTipo;
 
 	@FXML
 	private JFXButton btnContato;
@@ -235,9 +241,9 @@ public class CadClienteController extends CadastroFormPadrao {
 		}
 
 		try {
-			ValidaCliente.validaPessoa(cliente.getTipoPessoa(), cliente.getCnpj(), cliente.getCpf());
+			ValidaCliente.validaPessoa(cliente.getPessoaTipo(), cliente.getCnpj(), cliente.getCpf());
 		} catch (ExcessaoCadastro e) {
-			switch (cliente.getTipoPessoa()) {
+			switch (cliente.getPessoaTipo()) {
 			case FISICO:
 				txtCpf.setUnFocusColor(Color.RED);
 				break;
@@ -249,42 +255,37 @@ public class CadClienteController extends CadastroFormPadrao {
 			}
 		}
 
+		try {
+			ValidaCliente.validaRazaoSocial(cliente.getPessoaTipo(), cliente.getRazaoSocial());
+		} catch (ExcessaoCadastro e) {
+			txtRazaoSocial.setUnFocusColor(Color.RED);
+		}
+
 		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
 		return false;
 	}
 
 	@Override
 	protected void limpaCampos() {
-		cliente = new Cliente();
 		txtId.setText("0");
 		txtNome.setText("");
+		txtRazaoSocial.setText("");
 		txtCpf.setText("");
 		txtCnpj.setText("");
 		txtAreaObservacao.setText("");
 		cbPessoaTipo.getSelectionModel().selectFirst();
 		cbSituacao.getSelectionModel().selectFirst();
-		cbClienteTipo.getSelectionModel().selectFirst();
+		cbEnquadramento.getSelectionModel().selectFirst();
 		dtPkCadastro.setValue(LocalDate.now());
 	}
 
 	@Override
 	public CadClienteController atualizaEntidade() {
-		if (cliente == null)
-			cliente = new Cliente();
-
-		if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			cliente.setId(Long.valueOf(0));
-		else
-			cliente.setId(Long.valueOf(txtId.getText()));
-
-		cliente.setNomeSobrenome(txtNome.getText());
-		cliente.setDataCadastro(Timestamp.valueOf(dtPkCadastro.getValue().atTime(LocalTime.MIDNIGHT)));
-		cliente.setCpf(Utils.removeMascaras(txtCpf.getText()));
-		cliente.setCnpj(Utils.removeMascaras(txtCnpj.getText()));
-		cliente.setObservacao(txtAreaObservacao.getText());
-		cliente.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-		cliente.setTipoCliente(cbClienteTipo.getSelectionModel().getSelectedItem());
-		cliente.setTipoPessoa(cbPessoaTipo.getSelectionModel().getSelectedItem());
+		cliente = new Cliente(Long.valueOf(txtId.getText()), txtNome.getText(), txtRazaoSocial.getText(),
+				Utils.removeMascaras(txtCpf.getText()), Utils.removeMascaras(txtCnpj.getText()),
+				txtAreaObservacao.getText(), cbPessoaTipo.getSelectionModel().getSelectedItem(),
+				cbEnquadramento.getSelectionModel().getSelectedItem(),
+				cbSituacao.getSelectionModel().getSelectedItem());
 
 		return this;
 	}
@@ -312,8 +313,8 @@ public class CadClienteController extends CadastroFormPadrao {
 			txtAreaObservacao.setText(cliente.getObservacao());
 
 		cbSituacao.getSelectionModel().select(cliente.getSituacao().ordinal());
-		cbClienteTipo.getSelectionModel().select(cliente.getTipoCliente().ordinal());
-		cbPessoaTipo.getSelectionModel().select(cliente.getTipoPessoa().ordinal());
+		cbEnquadramento.getSelectionModel().select(cliente.getPessoaTipo().ordinal());
+		cbPessoaTipo.getSelectionModel().select(cliente.getEnquadramento().ordinal());
 
 		return this;
 	}
@@ -338,18 +339,13 @@ public class CadClienteController extends CadastroFormPadrao {
 		return cliente;
 	}
 
-	private String id;
-
-	private CadClienteController configuraExitId() {
-		txtId.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	private CadClienteController configuraExitCampos() {
+		cbPessoaTipo.valueProperty().addListener(new ChangeListener<PessoaTipo>() {
 			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-				if (newPropertyValue)
-					id = txtId.getText();
-
-				if (oldPropertyValue && !id.equalsIgnoreCase(txtId.getText()))
-					onTxtIdExit();
+			public void changed(ObservableValue<? extends PessoaTipo> observable, PessoaTipo oldValue,
+					PessoaTipo newValue) {
+				if (newValue != null)
+					txtRazaoSocial.setDisable(newValue.equals(PessoaTipo.FISICO));
 			}
 		});
 
@@ -363,21 +359,23 @@ public class CadClienteController extends CadastroFormPadrao {
 		Validadores.setTextFieldNotEmpty(txtNome);
 		Validadores.setTextFieldCpnfCnpjExit(txtCpf);
 		Validadores.setTextFieldCpnfCnpjExit(txtCnpj);
+		Validadores.setTextFieldChangeBlack(txtRazaoSocial);
 
 		Mascaras.cpfField(txtCpf);
 		Mascaras.cnpjField(txtCnpj);
 
 		TecladoUtils.onEnterConfigureTab(txtCpf);
 		TecladoUtils.onEnterConfigureTab(txtCnpj);
+		TecladoUtils.onEnterConfigureTab(txtRazaoSocial);
 		TecladoUtils.onEnterConfigureTab(cbSituacao);
-		TecladoUtils.onEnterConfigureTab(cbClienteTipo);
+		TecladoUtils.onEnterConfigureTab(cbEnquadramento);
 		TecladoUtils.onEnterConfigureTab(cbPessoaTipo);
 
-		configuraExitId();
+		configuraExitCampos();
 
 		cbSituacao.getItems().addAll(Situacao.values());
-		cbPessoaTipo.getItems().addAll(TipoPessoa.values());
-		cbClienteTipo.getItems().addAll(TipoCliente.values());
+		cbPessoaTipo.getItems().addAll(PessoaTipo.values());
+		cbEnquadramento.getItems().addAll(Enquadramento.values());
 
 		limpaCampos();
 	}

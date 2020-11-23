@@ -2,7 +2,6 @@ package servidor.dao;
 
 import servidor.dao.implementJDBC.BairroDaoJDBC;
 import servidor.dao.implementJDBC.CidadeDaoJDBC;
-import servidor.dao.implementJDBC.ClienteDaoJDBC;
 import servidor.dao.implementJDBC.EmpresaDaoJDBC;
 import servidor.dao.implementJDBC.EstadoDaoJDBC;
 import servidor.dao.implementJDBC.PaisDaoJDBC;
@@ -23,10 +22,6 @@ public class DaoFactory {
 
 	public static CidadeDao createCidadeDao() {
 		return new CidadeDaoJDBC(DBConnection.getConnection());
-	}
-
-	public static ClienteDao createClienteDao() {
-		return new ClienteDaoJDBC(DBConnection.getConnection());
 	}
 
 	public static EmpresaDao createEmpresaDao() {

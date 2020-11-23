@@ -15,9 +15,9 @@ import com.jfoenix.controls.JFXTextField;
 import comum.form.PesquisaFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
+import comum.model.enums.Enquadramento;
+import comum.model.enums.PessoaTipo;
 import comum.model.enums.Situacao;
-import comum.model.enums.TipoCliente;
-import comum.model.enums.TipoPessoa;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.mask.ConverterMascaras;
 import comum.model.mask.Mascaras;
@@ -35,7 +35,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import servidor.dao.services.ClienteServices;
 import servidor.entities.Cliente;
 import servidor.entities.Contato;
 import servidor.entities.Endereco;
@@ -67,10 +66,10 @@ public class PsqClienteController extends PesquisaFormPadrao {
 	private JFXComboBox<Situacao> cbSituacao;
 
 	@FXML
-	private JFXComboBox<TipoCliente> cbClienteTipo;
+	private JFXComboBox<Enquadramento> cbEnquadramento;
 
 	@FXML
-	private JFXComboBox<TipoPessoa> cbPessoaTipo;
+	private JFXComboBox<PessoaTipo> cbPessoaTipo;
 
 	@FXML
 	private TableView<Cliente> tbClientes;
@@ -99,7 +98,6 @@ public class PsqClienteController extends PesquisaFormPadrao {
 	private List<Cliente> clientes;
 	private ObservableList<Cliente> obsClientes;
 	private FilteredList<Cliente> filteredData;
-	private ClienteServices clienteService;
 
 	@FXML
 	public void onConfirmarKeyPress(KeyEvent e) {
@@ -164,7 +162,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 		dtPkCadastroInicial.setValue(null);
 		dtPkCadastroFinal.setValue(null);
 		cbPessoaTipo.getSelectionModel().clearSelection();
-		cbClienteTipo.getSelectionModel().clearSelection();
+		cbEnquadramento.getSelectionModel().clearSelection();
 		cbSituacao.getSelectionModel().clearSelection();
 		if (filteredData != null)
 			filteredData.setPredicate(null);
@@ -176,7 +174,6 @@ public class PsqClienteController extends PesquisaFormPadrao {
 	}
 
 	public PsqClienteController carregarClientes() throws ExcessaoBd {
-		this.clientes = clienteService.pesquisarTodos();
 		obsClientes = FXCollections.observableArrayList(this.clientes);
 		tbClientes.setItems(obsClientes);
 		tbClientes.refresh();
@@ -198,9 +195,9 @@ public class PsqClienteController extends PesquisaFormPadrao {
 						|| obj.getDataCadastro().after(Timestamp.valueOf(dtPkCadastroFinal.getValue().atStartOfDay())))
 
 				&& (cbPessoaTipo.getSelectionModel().getSelectedIndex() < 0
-						|| obj.getTipoPessoa() == cbPessoaTipo.getSelectionModel().getSelectedItem())
-				&& (cbClienteTipo.getSelectionModel().getSelectedIndex() < 0
-						|| obj.getTipoCliente() == cbClienteTipo.getSelectionModel().getSelectedItem())
+						|| obj.getPessoaTipo() == cbPessoaTipo.getSelectionModel().getSelectedItem())
+				&& (cbEnquadramento.getSelectionModel().getSelectedIndex() < 0
+						|| obj.getEnquadramento() == cbEnquadramento.getSelectionModel().getSelectedItem())
 				&& (cbSituacao.getSelectionModel().getSelectedIndex() < 0
 						|| obj.getSituacao() == cbSituacao.getSelectionModel().getSelectedItem()))
 			return true;
@@ -244,7 +241,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 			filteredData.setPredicate(person -> validaPredicate(person));
 		});
 
-		cbClienteTipo.setOnAction(filtrar -> {
+		cbEnquadramento.setOnAction(filtrar -> {
 			filteredData.setPredicate(person -> validaPredicate(person));
 		});
 
@@ -346,11 +343,6 @@ public class PsqClienteController extends PesquisaFormPadrao {
 	 * return this; }
 	 */
 
-	private PsqClienteController setClienteServices(ClienteServices clienteService) {
-		this.clienteService = clienteService;
-		return this;
-	}
-
 	private PsqClienteController linkaCelulas() {
 		tbClId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tbClNome.setCellValueFactory(new PropertyValueFactory<>("nomeSobrenome"));
@@ -400,7 +392,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		//setClienteServices(new ClienteServices());
+		// setClienteServices(new ClienteServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
 		Limitadores.setTextFieldInteger(txtIdFinal);
@@ -411,14 +403,14 @@ public class PsqClienteController extends PesquisaFormPadrao {
 		TecladoUtils.onEnterConfigureTab(txtCpf);
 		TecladoUtils.onEnterConfigureTab(txtCnpj);
 		TecladoUtils.onEnterConfigureTab(cbSituacao);
-		TecladoUtils.onEnterConfigureTab(cbClienteTipo);
+		TecladoUtils.onEnterConfigureTab(cbEnquadramento);
 		TecladoUtils.onEnterConfigureTab(cbPessoaTipo);
 
 		linkaCelulas();
 
 		cbSituacao.getItems().addAll(Situacao.values());
-		cbPessoaTipo.getItems().addAll(TipoPessoa.values());
-		cbClienteTipo.getItems().addAll(TipoCliente.values());
+		cbPessoaTipo.getItems().addAll(PessoaTipo.values());
+		cbEnquadramento.getItems().addAll(Enquadramento.values());
 	}
 
 	public static URL getFxmlLocate() {

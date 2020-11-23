@@ -7,22 +7,22 @@ package comum.model.enums;
  * 
  * @author Jhonny de Salles Noschang
  */
-public enum TipoCliente {
+public enum Enquadramento {
 	
 	CLIENTE("Cliente"), FORNECEDOR("Fornecedor"), AMBOS("Ambos");
 
-	private String tipoCliente;
+	private String enquadramento;
 
-	TipoCliente(String tipoCliente) {
-		this.tipoCliente = tipoCliente;
+	Enquadramento(String enquadramento) {
+		this.enquadramento = enquadramento;
 	}
 
 	public String getDescricao() {
-		return tipoCliente;
+		return enquadramento;
 	}
 	
 	@Override      
 	public String toString(){
-	    return this.tipoCliente;
+	    return this.enquadramento;
 	}  
 }

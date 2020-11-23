@@ -2,6 +2,7 @@ package servidor.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,9 +21,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import comum.model.enums.Enquadramento;
+import comum.model.enums.PessoaTipo;
 import comum.model.enums.Situacao;
-import comum.model.enums.TipoCliente;
-import comum.model.enums.TipoPessoa;
 
 @Entity
 @Table(name = "clientes", uniqueConstraints = { @UniqueConstraint(columnNames = { "CPF" }, name = "UK_CLIENTE_CPF"),
@@ -32,6 +33,8 @@ public class Cliente extends Pessoa implements Serializable {
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6989181117327049412L;
+
+	private String razaoSocial;
 
 	@Column(name = "CPF", unique = true, nullable = true, insertable = true, updatable = true, length = 15, columnDefinition = "varchar(15)")
 	private String cpf;
@@ -44,11 +47,11 @@ public class Cliente extends Pessoa implements Serializable {
 
 	@Column(name = "Tipo", columnDefinition = "enum('FISICO','JURIDICO','AMBOS')")
 	@Enumerated(EnumType.STRING)
-	private TipoPessoa tipoPessoa;
+	private PessoaTipo pessoaTipo;
 
 	@Column(name = "Enquadramento", columnDefinition = "enum('CLIENTE','FORNECEDOR','AMBOS')")
 	@Enumerated(EnumType.STRING)
-	private TipoCliente tipoCliente;
+	private Enquadramento enquadramento;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "clientes_contatos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "contato_id"), inverseForeignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCONTATO"), uniqueConstraints = {
@@ -63,6 +66,14 @@ public class Cliente extends Pessoa implements Serializable {
 	@ElementCollection(targetClass = Endereco.class)
 	@CollectionTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDCLIENTE"))
 	private Set<Endereco> enderecos = new HashSet<Endereco>();
+
+	public String getRazaoSocial() {
+		return razaoSocial;
+	}
+
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
+	}
 
 	public String getCpf() {
 		return cpf;
@@ -88,20 +99,20 @@ public class Cliente extends Pessoa implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public TipoPessoa getTipoPessoa() {
-		return tipoPessoa;
+	public PessoaTipo getPessoaTipo() {
+		return pessoaTipo;
 	}
 
-	public void setTipoPessoa(TipoPessoa tipoPessoa) {
-		this.tipoPessoa = tipoPessoa;
+	public void setPessoaTipo(PessoaTipo pessoaTipo) {
+		this.pessoaTipo = pessoaTipo;
 	}
 
-	public TipoCliente getTipoCliente() {
-		return tipoCliente;
+	public Enquadramento getEnquadramento() {
+		return enquadramento;
 	}
 
-	public void setTipoCliente(TipoCliente tipoCliente) {
-		this.tipoCliente = tipoCliente;
+	public void setEnquadramento(Enquadramento enquadramento) {
+		this.enquadramento = enquadramento;
 	}
 
 	public Set<Endereco> getEnderecos() {
@@ -134,56 +145,60 @@ public class Cliente extends Pessoa implements Serializable {
 
 	public Cliente() {
 		super();
+		this.razaoSocial = "";
 		this.cpf = "";
 		this.cnpj = "";
 		this.observacao = "";
-		this.tipoPessoa = TipoPessoa.FISICO;
-		this.tipoCliente = TipoCliente.CLIENTE;
+		this.pessoaTipo = PessoaTipo.FISICO;
+		this.enquadramento = Enquadramento.CLIENTE;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 	}
-	
+
 	public Cliente(Long id) {
 		super(id);
+		this.razaoSocial = "";
 		this.cpf = "";
 		this.cnpj = "";
 		this.observacao = "";
-		this.tipoPessoa = TipoPessoa.FISICO;
-		this.tipoCliente = TipoCliente.CLIENTE;
+		this.pessoaTipo = PessoaTipo.FISICO;
+		this.enquadramento = Enquadramento.CLIENTE;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 	}
 
-
-	public Cliente(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String cpf,
-			String cnpj, String observacao, TipoPessoa tipoPessoa, TipoCliente tipoCliente, Situacao situacao) {
-		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
+	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
+			PessoaTipo pessoaTipo, Enquadramento enquadramento, Situacao situacao) {
+		super(id, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), situacao);
+		this.razaoSocial = razaoSocial;
 		this.cpf = cpf;
 		this.cnpj = cnpj;
 		this.observacao = observacao;
-		this.tipoPessoa = tipoPessoa;
-		this.tipoCliente = tipoCliente;
+		this.pessoaTipo = pessoaTipo;
+		this.enquadramento = enquadramento;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 	}
 
-	public Cliente(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String cpf,
-			String cnpj, String observacao, TipoPessoa tipoPessoa, TipoCliente tipoCliente, Situacao situacao,
-			Set<Contato> contatos, Set<Endereco> enderecos) {
+	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
+			Timestamp dataCadastro, Timestamp dataUltimaAlteracao, PessoaTipo pessoaTipo, Enquadramento enquadramento,
+			Situacao situacao, Set<Contato> contatos, Set<Endereco> enderecos) {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
+		this.razaoSocial = razaoSocial;
 		this.cpf = cpf;
 		this.cnpj = cnpj;
 		this.observacao = observacao;
-		this.tipoPessoa = tipoPessoa;
-		this.tipoCliente = tipoCliente;
+		this.pessoaTipo = pessoaTipo;
+		this.enquadramento = enquadramento;
 		this.contatos = contatos;
 		this.enderecos = enderecos;
 	}
 
 	@Override
 	public String toString() {
-		return "Cliente [cpf=" + cpf + ", cnpj=" + cnpj + ", observacao=" + observacao + ", tipoPessoa=" + tipoPessoa
-				+ ", tipoCliente=" + tipoCliente + ", contatos=" + contatos + ", enderecos=" + enderecos + "]";
+		return "Cliente [razaoSocial=" + razaoSocial + ", cpf=" + cpf + ", cnpj=" + cnpj + ", observacao=" + observacao
+				+ ", pessoaTipo=" + pessoaTipo + ", enquadramento=" + enquadramento + ", contatos=" + contatos
+				+ ", enderecos=" + enderecos + "]";
 	}
 
 }
