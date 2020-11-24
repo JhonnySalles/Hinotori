@@ -12,12 +12,28 @@ import com.jfoenix.validation.RequiredFieldValidator;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
+/**
+ * <p>
+ * Classe que contem métodos estáticos para validações de campos field.
+ * </p>
+ * 
+ * <p>
+ * Por padrão esta classe possui diversos regex de validação e as validações dos
+ * campos como <b>JFXTextField</b> e <b>JFXPasswordField</b> irá utilizar a
+ * função já embutida <b>Validato</b>, onde pode-se utilizar essas funções aqui
+ * dentro ou então criar um validador próprio que implementa o
+ * <b>IFXValidatableControl </b>.
+ * </p>
+ * 
+ * 
+ * @author Jhonny de Salles Noschang
+ */
 public class Validadores {
 	private static final String ERROR = "error";
 
+	public static final String REGEX_APENAS_NUMEROS = "\\d*";
 	public static final String REGEX_EMAIL = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 	public static final String REGEX_CNPJ = "^[0-9]{2}[.][0-9]{3}[.][0-9]{3}[/][0-9]{4}[-][0-9]{2}";
 	public static final String REGEX_CPF = "^[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}";
@@ -59,6 +75,10 @@ public class Validadores {
 
 	public static void setTextFieldCPFValidate(final JFXTextField textField) {
 		setTextFieldRegexValidate(textField, REGEX_CPF, "CPF informado inválido!");
+	}
+
+	public static void setTextFieldNumberValidate(final JFXTextField textField) {
+		setTextFieldRegexValidate(textField, REGEX_APENAS_NUMEROS, "Somente números são aceito!");
 	}
 
 	public static void setTextFieldNotEmpty(final JFXTextField textField) {
@@ -141,18 +161,6 @@ public class Validadores {
 		});
 	}
 
-	/**
-	 * <p>
-	 * Função para fazer a validação de campos de cpf e cnpj ao sair, no qual irá
-	 * pintar da cor desejada.
-	 * </p>
-	 * 
-	 * @param textField   O textField na qual irá ser validado o seu conteúdo.
-	 * @param Obrigatorio Será utilizada para habilitar ou desabilitar sua
-	 *                    obrigatóriedade.
-	 * @author Jhonny de Salles Noschang
-	 */
-
 	public static Boolean validaCpf(final String texto) {
 		if (texto.isEmpty() || texto.replaceAll("[^0-9]", "").length() > 12)
 			return false;
@@ -200,15 +208,9 @@ public class Validadores {
 		return Pattern.compile(REGEX_ENDERECO_IP).matcher(texto).matches(); // Ip
 	}
 
-	/* Funcao para que seja validada a porta */
-	public static void setTxtFieldPort(final TextField txt) {
-		txt.textProperty().addListener((obs, oldValue, newValue) -> { // O obs e uma referencia para o controlador.
-			if (newValue != null && (!newValue.matches("\\d*") || newValue.length() > 6)) { // A expressao serve para
-																							// validar somente n�meros
-				txt.setText(oldValue); // Caso seja digitado algo diferente ira receber o valor anterior, no caso nao
-										// tera alteracao.
-			} // d representa digito, * representa qualquer quantidade.
-		});
+	// Funcao pater realiza validacao na forma de expressao.
+	public static Boolean validaPorta(final String texto) {
+		return Pattern.compile(REGEX_APENAS_NUMEROS).matcher(texto).matches(); // Ip
 	}
 
 	public static Boolean validaEAN(final String codigoBarra) {

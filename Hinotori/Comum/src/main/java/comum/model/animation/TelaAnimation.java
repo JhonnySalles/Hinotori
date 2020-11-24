@@ -4,6 +4,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -29,16 +30,17 @@ public class TelaAnimation {
 	public synchronized void abrirPane(Pane rootPane, Node rootPaneFilho) {
 		Node nodeBaixo = rootPane.getChildren().get(0);
 
-		rootPaneFilho.setTranslateX(nodeBaixo.getBoundsInParent().getWidth());
+		rootPaneFilho.setTranslateY(rootPane.getScene().getHeight());
 		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(300),
-				new KeyValue(rootPaneFilho.translateXProperty(), 0, Interpolator.EASE_BOTH),
-				new KeyValue(nodeBaixo.translateXProperty(), -nodeBaixo.getBoundsInParent().getWidth(),
-						Interpolator.EASE_BOTH)));
+				new KeyValue(rootPaneFilho.translateYProperty(), 0, Interpolator.EASE_OUT)));
 		timeline.setOnFinished(event -> {
 			nodeBaixo.setVisible(false);
 			nodeBaixo.setDisable(true);
 		});
-		timeline.play();
+
+		Platform.runLater(() -> {
+			timeline.play();
+		});
 	}
 
 	/**
@@ -58,11 +60,8 @@ public class TelaAnimation {
 		nodeBaixo.setDisable(false);
 		nodeBaixo.setVisible(true);
 
-		nodeBaixo.translateXProperty().set(-nodeBaixo.getBoundsInParent().getWidth());
 		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(300),
-				new KeyValue(nodeBaixo.translateXProperty(), 0, Interpolator.EASE_BOTH),
-				new KeyValue(nodeCima.translateXProperty(), nodeCima.getBoundsInParent().getWidth(),
-						Interpolator.EASE_BOTH)));
+				new KeyValue(nodeCima.translateYProperty(), spRoot.getScene().getHeight(), Interpolator.EASE_BOTH)));
 
 		timeline.setOnFinished(event -> {
 			spRoot.getChildren().remove(spRoot.getChildren().indexOf(nodeCima));
@@ -77,8 +76,7 @@ public class TelaAnimation {
 	private final Scale scale = new Scale(1, 1, 0, 0);
 	private Transform oldSceneTransform = null;
 
-	public void scrollTitulo(ScrollPane background, AnchorPane containerInterno, HBox titulo,
-			HBox tituloBotoes) {
+	public void scrollTitulo(ScrollPane background, AnchorPane containerInterno, HBox titulo, HBox tituloBotoes) {
 		tituloBotoes.localToSceneTransformProperty().addListener((o, oldVal, newVal) -> oldSceneTransform = oldVal);
 		background.vvalueProperty().addListener((o, oldVal, newVal) -> {
 			if (initY == -1)

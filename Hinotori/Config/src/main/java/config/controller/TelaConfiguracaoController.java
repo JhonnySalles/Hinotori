@@ -190,7 +190,7 @@ public class TelaConfiguracaoController implements Initializable {
 
 	@FXML
 	public void onTxtPortaEventAction() {
-		Validadores.setTxtFieldPort(txtIP);
+		
 	}
 
 	@FXML
@@ -342,7 +342,7 @@ public class TelaConfiguracaoController implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		Validadores.setTxtFieldPort(txtPorta);
+		Validadores.setTextFieldNumberValidate(txtIP);
 
 		txtIP.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
