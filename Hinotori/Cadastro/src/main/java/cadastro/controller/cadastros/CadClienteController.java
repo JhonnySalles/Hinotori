@@ -357,8 +357,8 @@ public class CadClienteController extends CadastroFormPadrao {
 		Limitadores.setTextFieldInteger(txtId);
 
 		Validadores.setTextFieldNotEmpty(txtNome);
-		Validadores.setTextFieldCpnfCnpjExit(txtCpf);
-		Validadores.setTextFieldCpnfCnpjExit(txtCnpj);
+		Validadores.setTextFieldCPFValidate(txtCpf);
+		Validadores.setTextFieldCNPJValidate(txtCnpj);
 		Validadores.setTextFieldChangeBlack(txtRazaoSocial);
 
 		Mascaras.cpfField(txtCpf);

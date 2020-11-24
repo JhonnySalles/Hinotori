@@ -47,7 +47,7 @@ public class ValidaEmpresa {
 
 	public static void validaCNPJ(String cnpj) throws ExcessaoCadastro {
 		if (cnpj != null && !cnpj.isEmpty())
-			if (!Validadores.validaCpfCnpj(cnpj))
+			if (!Validadores.validaCnpj(cnpj))
 				throw new ExcessaoCadastro(Mensagens.CAD_CLI_CNPJ);
 	}
 

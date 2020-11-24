@@ -389,7 +389,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 		Limitadores.setTextFieldInteger(txtId);
 
 		Validadores.setTextFieldNotEmpty(txtRazaoSocial);
-		Validadores.setTextFieldCpnfCnpjExit(txtCnpj);
+		Validadores.setTextFieldCNPJValidate(txtCnpj);
 
 		Mascaras.cnpjField(txtCnpj);
 

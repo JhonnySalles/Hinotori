@@ -58,7 +58,7 @@ public class ValidaCliente {
 		if (cpf == null || cpf.isEmpty())
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CPF);
 
-		if (!Validadores.validaCpfCnpj(cpf))
+		if (!Validadores.validaCpf(cpf))
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CPF);
 	}
 
@@ -66,7 +66,7 @@ public class ValidaCliente {
 		if (cnpj == null || cnpj.isEmpty())
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CPF);
 
-		if (!Validadores.validaCpfCnpj(cnpj))
+		if (!Validadores.validaCnpj(cnpj))
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CNPJ);
 	}
 

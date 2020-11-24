@@ -24,6 +24,8 @@ module Comum {
 	requires transitive javafx.graphics;
 	requires transitive java.desktop;
 	requires AnimateFX;
+	requires org.kordamp.ikonli.javafx;
+	requires org.kordamp.ikonli.fontawesome5;
 	
 	opens comum.model.notification.controller to javafx.fxml;
 	opens comum.model.alerts.controller to javafx.fxml;

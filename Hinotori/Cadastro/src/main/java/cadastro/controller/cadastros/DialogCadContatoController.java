@@ -179,9 +179,9 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
 		Validadores.setTextFieldNotEmpty(txtNome);
-		Validadores.setTextFieldEmailExit(txtEmail);
-		Validadores.setTextFieldTelefoneExit(txtTelefone);
-		Validadores.setTextFieldTelefoneExit(txtCelular);
+		Validadores.setTextFieldEmailValidate(txtEmail);
+		Validadores.setTextFieldTelefoneValidate(txtTelefone);
+		Validadores.setTextFieldTelefoneValidate(txtCelular);
 
 		Mascaras.foneField(txtTelefone);
 		Mascaras.foneField(txtCelular);

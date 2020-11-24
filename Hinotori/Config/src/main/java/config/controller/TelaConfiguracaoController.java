@@ -107,7 +107,7 @@ public class TelaConfiguracaoController implements Initializable {
 		pnImgAviso.setVisible(false);
 		chBoxBase.getItems().clear();
 
-		if (validaCampos() && Validadores.validaIp(txtIP)) {
+		if (validaCampos() && Validadores.validaIp(txtIP.getText())) {
 
 			background.getScene().getRoot().setCursor(Cursor.WAIT);
 			Animacao.inicia(imgViewConexao);
@@ -232,7 +232,7 @@ public class TelaConfiguracaoController implements Initializable {
 		if (txtIP.textProperty().get().toString().isEmpty()) {
 			txtIP.setStyle("");
 		} else {
-			if (Validadores.validaIp(txtIP))
+			if (Validadores.validaIp(txtIP.getText()))
 				txtIP.setUnFocusColor(Color.GREEN);
 			else
 				txtIP.setUnFocusColor(Color.RED);
