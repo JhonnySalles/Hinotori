@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.jfoenix.controls.JFXAutoCompletePopup;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -378,6 +379,7 @@ public class CadClienteController extends CadastroFormPadrao {
 		cbEnquadramento.getItems().addAll(Enquadramento.values());
 
 		limpaCampos();
+		
 	}
 
 	public static URL getFxmlLocate() {
