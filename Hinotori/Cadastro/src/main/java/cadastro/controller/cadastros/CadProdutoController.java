@@ -274,11 +274,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 			e.printStackTrace();
 		}
 
-		try {
-			ValidaProduto.validaDescricao(produto.getDescricao());
-		} catch (ExcessaoCadastro e) {
-			txtDescricao.setUnFocusColor(Color.RED);
-		}
+		txtDescricao.validate();
 
 		try {
 			ValidaProduto.validaCodigoBarras(produto.getCodigoBarras());

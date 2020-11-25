@@ -41,7 +41,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import servidor.dao.services.EmpresaServices;
 import servidor.entities.Empresa;
@@ -269,23 +268,9 @@ public class CadEmpresaController extends CadastroFormPadrao {
 			e.printStackTrace();
 		}
 
-		try {
-			ValidaEmpresa.validaRazaoSocial(empresa.getRazaoSocial());
-		} catch (ExcessaoCadastro e) {
-			txtRazaoSocial.setUnFocusColor(Color.RED);
-		}
-
-		try {
-			ValidaEmpresa.validaNomeFantasia(empresa.getNomeFantasia());
-		} catch (ExcessaoCadastro e) {
-			txtNomeFantasia.setUnFocusColor(Color.RED);
-		}
-
-		try {
-			ValidaEmpresa.validaCNPJ(empresa.getCnpj());
-		} catch (ExcessaoCadastro e) {
-			txtCnpj.setUnFocusColor(Color.RED);
-		}
+		txtNomeFantasia.validate();
+		txtRazaoSocial.validate();
+		txtCnpj.validate();
 
 		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
 		return false;
@@ -388,6 +373,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
 		Limitadores.setTextFieldInteger(txtId);
 
+		Validadores.setTextFieldNotEmpty(txtNomeFantasia);
 		Validadores.setTextFieldNotEmpty(txtRazaoSocial);
 		Validadores.setTextFieldCNPJValidate(txtCnpj);
 

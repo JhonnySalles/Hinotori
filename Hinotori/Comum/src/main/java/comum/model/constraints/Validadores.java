@@ -5,14 +5,11 @@ import java.util.regex.Pattern;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.paint.Color;
 
 /**
  * <p>
@@ -96,68 +93,33 @@ public class Validadores {
 		});
 	}
 
-	public static void setTextFieldNotEmpty(final JFXPasswordField passwordField) {
-		passwordField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-				if (newPropertyValue) { // Usado para limpar o stilo para que pinte quando entra
-					passwordField.setUnFocusColor(Color.BLACK);
-				} else { // Após, na saida faz então a validacao.
-					if (passwordField.textProperty().get().toString().isEmpty()) {
-						passwordField.setUnFocusColor(Color.RED);
-					} else {
-						passwordField.setUnFocusColor(Color.BLACK);
-					}
-				}
-			}
+	public static void setPasswordFieldNotEmpty(final JFXPasswordField passwordField) {
+		RequiredFieldValidator validator = new RequiredFieldValidator();
+		validator.setMessage("Campo obrigatório!");
+
+		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
+		warnIcon.getStyleClass().add(ERROR);
+		validator.setIcon(warnIcon);
+
+		passwordField.getValidators().add(validator);
+		passwordField.focusedProperty().addListener((o, oldVal, newVal) -> {
+			if (!newVal)
+				passwordField.validate();
 		});
 	}
+	
+	public static void setComboBoxNotEmpty(final JFXComboBox<?> comboBox) {
+		RequiredFieldValidator validator = new RequiredFieldValidator();
+		validator.setMessage("Campo obrigatório!");
 
-	public static void setTextFieldNotEmptyGreen(final JFXTextField textField) {
-		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-				if (newPropertyValue) { // Usado para limpar o stilo para que pinte quando entra
-					textField.setUnFocusColor(Color.BLACK);
-				} else { // Após, na saida faz então a validacao.
-					if (textField.textProperty().get().toString().isEmpty()) {
-						textField.setUnFocusColor(Color.BLACK);
-					} else {
-						textField.setUnFocusColor(Color.GREEN);
-					}
-				}
-			}
-		});
-	}
+		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
+		warnIcon.getStyleClass().add(ERROR);
+		validator.setIcon(warnIcon);
 
-	public static void setTextFieldChangeBlack(final JFXTextField textField) {
-		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-				if (newPropertyValue)
-					textField.setUnFocusColor(Color.BLACK);
-
-				if (oldPropertyValue)
-					textField.setUnFocusColor(Color.BLACK);
-			}
-		});
-	}
-
-	public static void setPasswordFieldChangeBlack(final JFXPasswordField Password) {
-		Password.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-				if (newPropertyValue)
-					Password.setUnFocusColor(Color.BLACK);
-
-				if (oldPropertyValue)
-					Password.setUnFocusColor(Color.BLACK);
-
-			}
+		comboBox.getValidators().add(validator);
+		comboBox.focusedProperty().addListener((o, oldVal, newVal) -> {
+			if (!newVal)
+				comboBox.validate();
 		});
 	}
 

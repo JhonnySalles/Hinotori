@@ -21,7 +21,6 @@ import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.paint.Color;
 import servidor.entities.Contato;
 import servidor.validations.ValidaContato;
 
@@ -90,32 +89,12 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 			e.printStackTrace();
 		}
 
-		try {
-			ValidaContato.validaNome(contato.getNomeSobrenome());
-		} catch (ExcessaoCadastro e) {
-			txtNome.setUnFocusColor(Color.RED);
-		}
-
-		try {
-			ValidaContato.validaCelular(contato.getCelular());
-		} catch (ExcessaoCadastro e) {
-			txtCelular.setUnFocusColor(Color.RED);
-		}
-
-		try {
-			ValidaContato.validaTelefone(contato.getTelefone());
-		} catch (ExcessaoCadastro e) {
-			txtTelefone.setUnFocusColor(Color.RED);
-		}
-
-		try {
-			ValidaContato.validaEmail(contato.getEmail());
-		} catch (ExcessaoCadastro e) {
-			txtEmail.setUnFocusColor(Color.RED);
-		}
+		txtNome.validate();
+		txtCelular.validate();
+		txtTelefone.validate();
+		txtEmail.validate();
 
 		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
-
 		return false;
 	}
 
@@ -146,7 +125,7 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 		contato.setObservacao(txtAreaObservacao.getText());
 		contato.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 		contato.setTipoContato(cbTipo.getSelectionModel().getSelectedItem());
-		
+
 		return this;
 	}
 

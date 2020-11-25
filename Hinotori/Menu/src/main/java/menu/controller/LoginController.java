@@ -8,104 +8,156 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 
 import comum.model.alerts.Alertas;
 import comum.model.constraints.Validadores;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoLogin;
-import comum.model.messages.Mensagens;
-import javafx.collections.FXCollections;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import servidor.dao.services.UsuarioServices;
+import javafx.util.Duration;
 import servidor.entities.Usuario;
 import servidor.validations.ValidaLogin;
 
 public class LoginController implements Initializable {
 
-	public static String usuario;
-	public static Stage loginStage;
+	@FXML
+	private AnchorPane background;
 
 	@FXML
-	private StackPane stPaneLogin;
+	private AnchorPane apLogo;
+
+	@FXML
+	private AnchorPane apLoginCadastro;
 
 	@FXML
 	private VBox vbLogin;
 
 	@FXML
-	private JFXPasswordField pswFieldPassword;
+	private VBox vbCadastro;
 
 	@FXML
-	private JFXButton btnExit;
+	private JFXComboBox<String> cbBoxUsuario;
+
+	@FXML
+	private JFXPasswordField pswSenha;
 
 	@FXML
 	private JFXButton btnLogin;
 
 	@FXML
-	private JFXComboBox<String> cbBoxUsuario;
-	private ObservableList<String> obsList;
-	private UsuarioServices usuarioService;
+	private JFXTextField txtNome;
 
 	@FXML
-	public void onBtLoginAction() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	private JFXTextField txtLoguin;
+
+	@FXML
+	private JFXPasswordField pswPassword;
+
+	@FXML
+	private JFXButton btnCadastrar;
+
+	@FXML
+	private JFXButton btnEscolha;
+
+	private ObservableList<String> obsList;
+
+	ParallelTransition pt;
+
+	@FXML
+	public void onLoginClick() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		ValidaLogin();
 	}
 
 	@FXML
-	public void onBtSairAction() {
+	public void onCadastrarClick() {
 		System.exit(0);
 	}
 
 	@FXML
-	public void onPasswordEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			ValidaLogin();
-		}
+	public void onSairClick() {
+		System.exit(0);
 	}
 
 	@FXML
-	public void onUserEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			pswFieldPassword.requestFocus();
+	public void onEscolhaClick() {
+
+		if (btnEscolha.getAccessibleText().equalsIgnoreCase("CADASTRAR")) {
+			btnEscolha.setAccessibleText("LOGAR");
+			moveDireita();
+		} else {
+			btnEscolha.setAccessibleText("CADASTRAR");
+			moveEsquerda();
 		}
+
 	}
 
-	public void initialize(URL url, ResourceBundle rb) {
-		Validadores.setTextFieldNotEmpty(pswFieldPassword);
-		// Gera lista de usuario
-		try {
-			usuarioService = new UsuarioServices();
-			obsList = FXCollections.observableArrayList(usuarioService.carregaLogins());
-			cbBoxUsuario.getItems().addAll(obsList); // Transfere a lista para o combobox
-			cbBoxUsuario.requestFocus(); // Foco principal no combo box
-		} catch (ExcessaoBd e) {
-			Alertas.Alerta(AlertType.WARNING, "Erro", "Erro ao carregar os usuário, favor reiniciar o sistema.");
-			e.printStackTrace();
-		}
+	private void moveDireita() {
+		vbCadastro.setDisable(false);
+		vbCadastro.setVisible(true);
+
+		TranslateTransition trLogin = new TranslateTransition(Duration.millis(500), vbLogin);
+		trLogin.setToX(-(vbLogin.getWidth() / 2));
+
+		vbCadastro.setTranslateX(vbCadastro.getWidth() / 2);
+		TranslateTransition trCadastro = new TranslateTransition(Duration.millis(500), vbCadastro);
+		trCadastro.setToX(0);
+
+		TranslateTransition trLogo = new TranslateTransition(Duration.millis(500), apLogo);
+		trLogo.setToX(apLoginCadastro.getLayoutX() + (apLoginCadastro.getWidth() - apLogo.getWidth()));
+		trLogo.setOnFinished(event -> {
+			vbLogin.setDisable(true);
+			vbLogin.setVisible(true);
+		});
+
+		trLogo.play();
+		trLogin.play();
+		trCadastro.play();
+	}
+
+	private void moveEsquerda() {
+		vbLogin.setDisable(false);
+		vbLogin.setVisible(true);
+
+		TranslateTransition trLogin = new TranslateTransition(Duration.millis(500), vbLogin);
+		trLogin.setToX(0);
+
+		TranslateTransition trCadastro = new TranslateTransition(Duration.millis(500), vbCadastro);
+		trCadastro.setToX(vbCadastro.getWidth() / 2);
+
+		TranslateTransition trLogo = new TranslateTransition(Duration.millis(500), apLogo);
+		trLogo.setToX(0);
+		trLogo.setOnFinished(evento -> {
+			vbCadastro.setDisable(true);
+			vbCadastro.setVisible(false);
+		});
+
+		trLogo.play();
+		trLogin.play();
+		trCadastro.play();
 	}
 
 	public void ValidaLogin() throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		Usuario usuario = new Usuario();
 
-		// Caso seja vazio, acreditasse que irá logar como nosso usuario.
-		if (cbBoxUsuario.getValue() == null)
-			usuario.setLogin(Mensagens.LOGIN_ADMINISTRADOR_PADRAO);
-		else
-			usuario.setLogin(cbBoxUsuario.getSelectionModel().getSelectedItem().toString());
-
-		if (pswFieldPassword.getText().isEmpty()) {
-			pswFieldPassword.setUnFocusColor(Color.RED);
+		if (!cbBoxUsuario.validate())
 			return;
-		}
 
-		usuario.setSenha(pswFieldPassword.getText());
+		if (!pswPassword.validate())
+			return;
+
+		Usuario usuario = new Usuario(cbBoxUsuario.getSelectionModel().getSelectedItem().toString());
 
 		try {
 			usuario = ValidaLogin.validaLogin(usuario);
@@ -117,6 +169,15 @@ public class LoginController implements Initializable {
 					"Erro ao tentar conectar ao banco, tente novamente.");
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+		Validadores.setPasswordFieldNotEmpty(pswSenha);
+		Validadores.setPasswordFieldNotEmpty(pswPassword);
+		Validadores.setTextFieldNotEmpty(txtLoguin);
+		Validadores.setTextFieldNotEmpty(txtNome);
+		Validadores.setComboBoxNotEmpty(cbBoxUsuario);
 	}
 
 }

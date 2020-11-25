@@ -272,14 +272,14 @@ public class CadUsuarioController extends CadastroFormPadrao {
 		} catch (ExcessaoCadastro | ExcessaoBd e) {
 			e.printStackTrace();
 		}
-
-		try {
-			ValidaUsuario.validaNome(usuario.getNomeSobrenome());
-		} catch (ExcessaoCadastro e) {
-			txtNome.setUnFocusColor(Color.RED);
-			Notificacoes.notificacao(AlertType.INFORMATION, "Nome inválido", e.getMessage());
-			e.printStackTrace();
-		}
+		
+		txtNome.validate();
+		txtLogin.validate();
+		pswSenha.validate();
+		
+		Validadores.setTextFieldNotEmpty(txtNome);
+		Validadores.setTextFieldNotEmpty(txtLogin);
+		Validadores.setPasswordFieldNotEmpty(pswSenha);
 
 		try {
 			ValidaUsuario.validaLogin(usuario);
@@ -389,7 +389,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 		Validadores.setTextFieldNotEmpty(txtNome);
 		Validadores.setTextFieldNotEmpty(txtLogin);
-		Validadores.setTextFieldNotEmpty(pswSenha);
+		Validadores.setPasswordFieldNotEmpty(pswSenha);
 
 		cbSituacao.getItems().addAll(Situacao.values());
 		cbNivel.getItems().add(UsuarioNivel.USUARIO);

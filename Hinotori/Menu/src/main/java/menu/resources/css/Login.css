@@ -4,6 +4,16 @@
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
+#background {
+	-fx-background-color: transparent;
+}
+
+#apLoginCadastro{
+    -fx-background-color: #f2f2f2;
+    -fx-background-radius: 20px;
+}
+
+
 /*---------- Estilos dos botoes ----------*/
 #btnLogin {
     -fx-background-color: #ffffff;
@@ -23,7 +33,25 @@
     -fx-font-size: 14;
 }
 
-#btnSair {
+#btnCadastrar {
+    -fx-background-color: #ffffff;
+    -fx-text-fill:  #005a9e;
+    -fx-border-color :#005a9e;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
+
+#btnCadastrar:hover {
+    -fx-background-color: #005a9e;
+    -fx-text-fill:  #ffffff;
+}
+
+#btnCadastrar:focused {
+    -fx-font-weight: bold;
+    -fx-font-size: 16;
+}
+
+.btnSair {
     -fx-background-color: #ffffff;
     -fx-text-fill:  #a4262c;
     -fx-border-color :#a4262c;
@@ -31,42 +59,38 @@
     -fx-border-width: 2px;
 }
 
-#btnSair:hover {
+.btnSair:hover {
     -fx-background-color: #a4262c;
     -fx-text-fill:  #ffffff;
 }
 
-#btnSair:focused {
+.btnSair:focused {
     -fx-font-weight: bold;
     -fx-font-size: 14;
 }
 
+#btnEscolha {
+    -fx-background-color: rgba(51, 51, 51, 0.2);
+    -fx-text-fill:  #ffffff;
+    -fx-border-color :#8764b8;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+}
 
+#btnEscolha:hover {
+    -fx-background-color:  rgba(51, 51, 51, 0.5);
+    -fx-text-fill:  #ffffff;
+    
+}
 
-
-#paneLogin{
-    -fx-background-color: linear-gradient(to bottom right, #f2f2f2 0%, #ffffff 50%, #d9d9d9 100%);
-    -fx-background-radius: 5px;
+#btnEscolha:focused {
+    -fx-font-weight: bold;
 }
 
 
-#paneLogo{
-    -fx-background-color: linear-gradient(to bottom right, #333333 0%, #212121 50%, #000000 100%);
-    -fx-background-radius: 5px;
-    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.25) , 0, 0.2 , 5, 5);
-}
 
 .logoTexto{
     -fx-text-fill: white;
-}
-
-.loginSombra {
-    -fx-effect: dropshadow( one-pass-box , #333333, 0, 0.0 , 3, 3);
-}
-
-/*--------  Background do login ----------*/
-.LayoutLogin{
-    -fx-background-color:  transparent;
 }
 
 

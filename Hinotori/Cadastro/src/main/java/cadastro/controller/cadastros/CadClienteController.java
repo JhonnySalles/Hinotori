@@ -1,14 +1,10 @@
 package cadastro.controller.cadastros;
 
 import java.net.URL;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.logging.Logger;
 
-import com.jfoenix.controls.JFXAutoCompletePopup;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -39,10 +35,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import servidor.entities.Cliente;
-import servidor.entities.Contato;
-import servidor.entities.Endereco;
 import servidor.validations.ValidaCliente;
 
 public class CadClienteController extends CadastroFormPadrao {
@@ -235,32 +228,10 @@ public class CadClienteController extends CadastroFormPadrao {
 			e.printStackTrace();
 		}
 
-		try {
-			ValidaCliente.validaNome(cliente.getNomeSobrenome());
-		} catch (ExcessaoCadastro e) {
-			txtNome.setUnFocusColor(Color.RED);
-		}
-
-		try {
-			ValidaCliente.validaPessoa(cliente.getPessoaTipo(), cliente.getCnpj(), cliente.getCpf());
-		} catch (ExcessaoCadastro e) {
-			switch (cliente.getPessoaTipo()) {
-			case FISICO:
-				txtCpf.setUnFocusColor(Color.RED);
-				break;
-			case JURIDICO:
-				txtCnpj.setUnFocusColor(Color.RED);
-				break;
-			default:
-				break;
-			}
-		}
-
-		try {
-			ValidaCliente.validaRazaoSocial(cliente.getPessoaTipo(), cliente.getRazaoSocial());
-		} catch (ExcessaoCadastro e) {
-			txtRazaoSocial.setUnFocusColor(Color.RED);
-		}
+		txtNome.validate();
+		txtCpf.validate();
+		txtCnpj.validate();
+		txtRazaoSocial.validate();
 
 		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
 		return false;
@@ -360,7 +331,7 @@ public class CadClienteController extends CadastroFormPadrao {
 		Validadores.setTextFieldNotEmpty(txtNome);
 		Validadores.setTextFieldCPFValidate(txtCpf);
 		Validadores.setTextFieldCNPJValidate(txtCnpj);
-		Validadores.setTextFieldChangeBlack(txtRazaoSocial);
+		// Validadores.setTextFieldChangeBlack(txtRazaoSocial);
 
 		Mascaras.cpfField(txtCpf);
 		Mascaras.cnpjField(txtCnpj);
@@ -379,7 +350,7 @@ public class CadClienteController extends CadastroFormPadrao {
 		cbEnquadramento.getItems().addAll(Enquadramento.values());
 
 		limpaCampos();
-		
+
 	}
 
 	public static URL getFxmlLocate() {

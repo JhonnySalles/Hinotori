@@ -67,7 +67,7 @@ public class App extends Application {
 			
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Hinotori");
-			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/images/ico/icoPrincipal_100.png")));
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/images/icon/icoPrincipal_300.png")));
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.show(); // Mostra a tela.
 		} catch(Exception e) {

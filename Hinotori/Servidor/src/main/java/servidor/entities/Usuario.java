@@ -131,6 +131,15 @@ public class Usuario extends Pessoa implements Serializable {
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
+	
+	public Usuario(String login) {
+		super();
+		this.login = login;
+		this.nivel = UsuarioNivel.USUARIO;
+		this.observacao = "";
+		this.contatos = new HashSet<>();
+		this.imagens = new HashSet<>();
+	}
 
 	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
 			String observacao, UsuarioNivel nivel, Situacao situacao) {
