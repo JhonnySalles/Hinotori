@@ -5,8 +5,6 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXMasonryPane;
-
 import cadastro.controller.lista.ListaGrupoSubGrupoController;
 import comum.model.utils.Utils;
 import javafx.collections.FXCollections;
@@ -76,7 +74,7 @@ public class GrupoComponenteController implements Initializable {
 		sub.getRoot().setOnMouseDragged((MouseEvent event) -> {
 			event.setDragDetect(true);
 		});
-		
+
 		sub.getRoot().setOnDragDone(e -> InstanciaListaGrupo.setTextoRemover("", true));
 
 		return sub;
@@ -182,7 +180,7 @@ public class GrupoComponenteController implements Initializable {
 							root.setPrefHeight(50);
 						else
 							root.setPrefHeight(root.getBoundsInLocal().getHeight());
-						
+
 						InstanciaListaGrupo.getComponenteGrupo().clearLayout();
 						InstanciaListaGrupo.getComponenteGrupo().requestLayout();
 					}
