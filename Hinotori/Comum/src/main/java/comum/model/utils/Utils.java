@@ -10,6 +10,7 @@ import java.io.InputStream;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import javafx.scene.robot.Robot;
 
 /**
@@ -105,6 +106,75 @@ public class Utils {
 		imageView.setFitWidth(16);
 		imageView.setImage(img);
 		return imageView;
+	}
+
+	/**
+	 * <p>
+	 * Função para obter um tom de contraste de uma cor hexadecimal, utilizado
+	 * principalmente em contraste de texto.
+	 * </p>
+	 * 
+	 * @param colorHexa String da cor informada, aceita-se uma cor no formato web.
+	 * @return retorna uma cor branca ou preta (Color.BLACK ou Color.WHITE).
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static Color getContrastColor(String colorHexa) {
+		Color cor = Color.web(colorHexa);
+		double y = ((cor.getRed() * 76245) + (cor.getGreen() * 149685) + (cor.getBlue() * 29070)) / 1000;
+		return y >= 128 ? Color.BLACK : Color.WHITE;
+	}
+
+	/**
+	 * <p>
+	 * Função para obter um tom de contraste de uma cor hexadecimal, utilizado
+	 * principalmente em contraste de texto.
+	 * </p>
+	 * 
+	 * @param colorHexa String da cor informada, aceita-se uma cor no formato web.
+	 * @return retorna uma cor branca ou preta ("#000000" ou "#ffffff").
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static String getContrastHexa(String colorHexa) {
+		Color cor = Color.web(colorHexa);
+		double y = ((cor.getRed() * 76245) + (cor.getGreen() * 149685) + (cor.getBlue() * 29070)) / 1000;
+		return y >= 128 ? "#000000" : "#ffffff";
+	}
+
+	/**
+	 * <p>
+	 * Função padrão para obter um determinado id em um texto com tag. Utilizado
+	 * principalmente para o ARRASTA e SOLTA.
+	 * </p>
+	 * 
+	 * <p>
+	 * <b>Exemplo:</b> Tag: 'idText'. Texto: 'idText2:1-idText:2'. Separador: '-';
+	 * </p>
+	 * 
+	 * <p>
+	 * <b>Retorno:</b> 2;
+	 * </p>
+	 * 
+	 * @param tag    Tag onde se encontra o valor a ser buscado.
+	 * @param texto  Texto que contém a tag solicitada.
+	 * @param Height Separador opciona, caso esteja vazio utilizará o traço (-) como
+	 *               padrão.
+	 * @return Retorna um <b>Long</b> do id que se encontra afrente da tag.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static Long getId(String tag, String texto, String separador) {
+		if (texto.isEmpty() || tag.isEmpty())
+			throw new IllegalArgumentException("Tag ou texto vazios.");
+		
+		if (!texto.contains(tag))
+			throw new IllegalArgumentException("O texto não contem a tag informada.");
+
+		if (!separador.isEmpty() && texto.contains(separador))
+			return Long.valueOf(texto.substring(texto.indexOf(tag) + tag.length(), texto.indexOf(separador)).trim());
+		else
+			return Long.valueOf(texto.substring(texto.indexOf(tag) + tag.length()).trim());
 	}
 
 }

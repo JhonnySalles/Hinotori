@@ -80,6 +80,7 @@
 /*---------- Estilos ----------*/
 .background-titulo {
 	-fx-background-color: #38630e;
+	-fx-background-radius: 0 0 10 10;
 }
 
 .background-rodape {

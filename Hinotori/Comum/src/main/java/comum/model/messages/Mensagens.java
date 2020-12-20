@@ -11,6 +11,11 @@ package comum.model.messages;
 public class Mensagens {
 
 	public final static String LOGIN_ADMINISTRADOR_PADRAO = "HINOTORI";
+	
+	// --------------------------------------------------------------------------//
+	// ************************** SYSTEMA ***************************************//
+	// --------------------------------------------------------------------------//
+
 
 	// --------------------------------------------------------------------------//
 	// ************************** GERAL *****************************************//
@@ -83,5 +88,6 @@ public class Mensagens {
 	// ERROS DO CADASTRO DE ENDERECO
 	public final static String CAD_ENDERECO_ENDERECO_VAZIO = "O ENDEREÇO não pode ser vazio.";
 	public final static String CAD_ENDERECO_CEP = "O CEP informado não é valido.";
+	
 
 }

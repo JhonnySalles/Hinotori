@@ -21,11 +21,11 @@
          <children>
             <ScrollPane fx:id="spBackground" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
-                  <AnchorPane fx:id="apContainerInterno" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="700.0" minWidth="900.0" styleClass="background-cartao">
+                  <AnchorPane fx:id="apContainerInterno" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="900.0" styleClass="background-cartao">
                      <children>
                         <HBox alignment="CENTER" cache="true" prefHeight="200.0" styleClass="tituloBackground-CadastroContatos" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="Cadastro de Contato" textFill="WHITE" HBox.hgrow="ALWAYS">
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Contatos" textFill="WHITE" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font size="24.0" />
                                  </font>

@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXButton;
 
 import cadastro.controller.lista.ListaClienteController;
 import cadastro.controller.lista.ListaEmpresaController;
+import cadastro.controller.lista.ListaGrupoSubGrupoController;
 import cadastro.controller.lista.ListaProdutoController;
 import cadastro.controller.lista.ListaUsuarioController;
 import javafx.fxml.FXML;
@@ -27,6 +28,9 @@ public class CadastrosController implements Initializable {
 
 	@FXML
 	JFXButton btnCadProduto;
+	
+	@FXML
+	JFXButton btnCadGrupoSubGrupo;
 
 	final DashboardController main = App.getMainController();
 
@@ -48,6 +52,11 @@ public class CadastrosController implements Initializable {
 	@FXML
 	public void onBtnCadProdutoAction() {
 		main.loadAbas(ListaProdutoController.getFxmlLocate(), "Cadastros de produtos", "");
+	}
+	
+	@FXML
+	public void onBtnCadGrupoSubGrupoAction() {
+		main.loadAbas(ListaGrupoSubGrupoController.getFxmlLocate(), "Cadastros de grupo/sub grupo", "");
 	}
 
 	@Override

@@ -24,7 +24,7 @@
          <children>
             <ScrollPane fx:id="spBackground" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
-                <AnchorPane fx:id="apContainerInterno" minHeight="510.0" minWidth="680.0" styleClass="background-cartao">
+                <AnchorPane fx:id="apContainerInterno" minHeight="-Infinity" minWidth="680.0" styleClass="background-cartao">
                      <children>
                         <HBox fx:id="hbTitulo" alignment="CENTER" prefHeight="200.0" styleClass="tituloBackground-usuario" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>

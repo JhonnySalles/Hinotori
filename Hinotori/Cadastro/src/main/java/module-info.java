@@ -21,4 +21,5 @@ module Cadastro {
 	opens cadastro.controller.pesquisas to javafx.fxml;
 	opens cadastro.controller.frame to javafx.fxml;
 	opens cadastro.controller.lista to javafx.fxml;
+	opens cadastro.controller.componente to javafx.fxml;
 }

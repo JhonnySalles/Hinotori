@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import java.lang.String?>
 <?import java.net.URL?>
@@ -12,6 +11,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,17 +22,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="spRoot" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cadastro.controller.pesquisas.PsqClienteController">
+<StackPane fx:id="spRoot" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cadastro.controller.pesquisas.PsqProdutoController">
    <children>
       <AnchorPane fx:id="apContainer" minHeight="0.0" minWidth="0.0">
          <children>
             <ScrollPane fx:id="spBackground" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
-                <AnchorPane fx:id="apContainerInterno" cache="true" minHeight="-Infinity" minWidth="900.0" styleClass="background-cartao">
+                <AnchorPane fx:id="apContainerInterno" cache="true" minHeight="-Infinity" minWidth="1040.0" styleClass="background-cartao">
                      <children>
-                        <HBox fx:id="hbTitulo" alignment="CENTER" cache="true" prefHeight="200.0" styleClass="titBackound-cliente" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox fx:id="hbTitulo" alignment="CENTER" cache="true" prefHeight="200.0" styleClass="tituloBackground-produto" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="Pesquisa de Cliente" textFill="WHITE" HBox.hgrow="ALWAYS">
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Pesquisa de Grupo e SubGrupo" textFill="WHITE" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -43,7 +44,7 @@
                         </HBox>
                         <VBox alignment="TOP_CENTER" cache="true" layoutX="20.0" layoutY="150.0" maxHeight="800.0" maxWidth="1000.0" minHeight="600.0" minWidth="700.0" spacing="20.0" styleClass="background-dados" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="150.0">
                            <children>
-                              <HBox alignment="CENTER_LEFT" minHeight="30.0" spacing="5.0">
+                              <HBox alignment="CENTER_LEFT" minHeight="30.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#onBtnLimparClick" prefHeight="50.0" prefWidth="50.0">
                                        <graphic>
@@ -72,47 +73,40 @@
                                     </JFXTextField>
                                     <HBox alignment="CENTER_RIGHT" spacing="5.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <JFXComboBox fx:id="cbEnquadramento" labelFloat="true" minWidth="100.0" prefHeight="30.0" promptText="Enquadramento">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </JFXComboBox>
-                                          <JFXComboBox fx:id="cbPessoaTipo" labelFloat="true" minWidth="100.0" prefHeight="30.0" promptText="Pessoa">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </JFXComboBox>
                                           <JFXComboBox fx:id="cbSituacao" labelFloat="true" minWidth="100.0" prefHeight="30.0" promptText="Situação" />
                                        </children>
                                     </HBox>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER" minHeight="35.0" spacing="5.0">
+                              <HBox alignment="CENTER" minHeight="35.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <JFXTextField fx:id="txtNome" labelFloat="true" promptText="Nome e sobrenome" HBox.hgrow="ALWAYS" />
-                                    <JFXTextField fx:id="txtCpf" labelFloat="true" promptText="CPF" HBox.hgrow="ALWAYS" />
+                                    <JFXTextField fx:id="txtDescricao" labelFloat="true" promptText="Grupo" HBox.hgrow="ALWAYS" />
+                                    <JFXTextField fx:id="txtCodigoBarras" labelFloat="true" promptText="SubGrupo" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER" minHeight="30.0" spacing="5.0">
-                                 <children>
-                                    <JFXTextField fx:id="txtCnpj" labelFloat="true" promptText="CNPJ" HBox.hgrow="ALWAYS" />
-                                    <JFXDatePicker fx:id="dtPkCadastroInicial" defaultColor="#4059a9" promptText="Data inicial" styleClass="dtPk-PsqCliente" />
-                                    <JFXDatePicker fx:id="dtPkCadastroFinal" defaultColor="#4059a9" promptText="Data final" styleClass="dtPk-PsqCliente" />
-                                 </children>
-                              </HBox>
-                              <TableView fx:id="tbClientes" VBox.vgrow="ALWAYS">
+                              <TreeTableView prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                    <TreeTableColumn prefWidth="75.0" text="Id" />
+                                  <TreeTableColumn prefWidth="75.0" text="Grupo" />
+                                  <TreeTableColumn prefWidth="75.0" text="SubGrupo" />
+                                </columns>
+                              </TreeTableView>
+                              <TableView fx:id="tbProdutos" VBox.vgrow="ALWAYS">
                                  <columns>
                                     <TableColumn fx:id="tbClId" minWidth="40.0" prefWidth="43.0" text="Id" />
-                                    <TableColumn fx:id="tbClNome" minWidth="100.0" prefWidth="150.0" text="Nome e sobrenome" />
-                                    <TableColumn fx:id="tbClCpf" minWidth="100.0" prefWidth="100.0" text="CPF" />
-                                    <TableColumn fx:id="tbClCnpj" minWidth="100.0" prefWidth="120.0" text="CNPJ" />
+                                    <TableColumn fx:id="tbClImagem" minWidth="50.0" prefWidth="60.0" text="Imagem" />
+                                    <TableColumn fx:id="tbClDescricao" minWidth="100.0" prefWidth="150.0" text="Descrição" />
+                                    <TableColumn fx:id="tbClCodigoBarras" minWidth="100.0" prefWidth="100.0" text="Cód. Barras" />
+                                    <TableColumn fx:id="tbClUnidade" minWidth="60.0" prefWidth="60.0" text="Unidade" />
+                                    <TableColumn fx:id="tbClMarca" minWidth="100.0" prefWidth="100.0" text="Marca" />
+                                    <TableColumn fx:id="tbClPeso" minWidth="100.0" prefWidth="100.0" text="Marca" />
+                                    <TableColumn fx:id="tbClVolume" minWidth="100.0" prefWidth="100.0" text="Marca" />
+                                    <TableColumn fx:id="tbClObservacao" minWidth="200.0" prefWidth="200.0" text="Observação" />
                                     <TableColumn fx:id="tbClDataCadastro" minWidth="100.0" prefWidth="100.0" text="Data cadastro" />
-                                    <TableColumn fx:id="tbClContatoPadrao" minWidth="100.0" prefWidth="100.0" text="Contato Padrão" />
-                                    <TableColumn fx:id="tbClEnderecoPadrao" minWidth="200.0" prefWidth="200.0" text="Endereço padrão" />
                                  </columns>
                                  <styleClass>
                                     <String fx:value="table-border" />
-                                    <String fx:value="tb-PsqCliente" />
+                                    <String fx:value="tb-PsqProduto" />
                                  </styleClass>
                               </TableView>
                            </children>
@@ -127,12 +121,12 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <HBox fx:id="hbTituloBotoes" alignment="CENTER_LEFT" layoutX="1.0" layoutY="1.0" maxHeight="60.0" minHeight="60.0" opacity="0.0" spacing="10.0" styleClass="titBackound-cliente" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+            <HBox fx:id="hbTituloBotoes" alignment="CENTER_LEFT" layoutX="1.0" layoutY="1.0" maxHeight="60.0" minHeight="60.0" opacity="0.0" spacing="10.0" styleClass="tituloBackground-produto" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding>
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Clientes" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Produtos" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>

@@ -77,7 +77,7 @@ public class LoginController implements Initializable {
 	ParallelTransition pt;
 
 	@FXML
-	public void onLoginClick() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	private void onLoginClick() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		ValidaLogin();
 	}
 

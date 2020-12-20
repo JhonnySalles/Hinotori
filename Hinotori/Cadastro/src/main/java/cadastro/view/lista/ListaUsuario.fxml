@@ -22,11 +22,11 @@
          <children>
             <ScrollPane fx:id="spBackground" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
-                <AnchorPane fx:id="apContainerInterno" cache="true" minHeight="770.0" minWidth="940.0" styleClass="background-cartao">
+                <AnchorPane fx:id="apContainerInterno" cache="true" minHeight="-Infinity" minWidth="940.0" styleClass="background-cartao">
                      <children>
                         <HBox fx:id="hbTitulo" alignment="CENTER" cache="true" prefHeight="200.0" styleClass="tituloBackground-usuario" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="Pesquisa de Usuário" textFill="WHITE" HBox.hgrow="ALWAYS">
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Usuários" textFill="WHITE" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font size="24.0" />
                                  </font>

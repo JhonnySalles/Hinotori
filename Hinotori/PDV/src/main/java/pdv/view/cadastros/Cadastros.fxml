@@ -41,6 +41,14 @@
             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </JFXButton>
+      <JFXButton fx:id="btnCadGrupoSubGrupo" buttonType="RAISED" ellipsisString="" maxWidth="150.0" minWidth="40.0" onAction="#onBtnCadGrupoSubGrupoAction" prefWidth="150.0" styleClass="btnCadastro" text="Grupo Sub Grupo" textFill="WHITE" wrapText="true">
+         <tooltip>
+            <Tooltip text="Cadastro de produtos" />
+         </tooltip>
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+         </graphic>
+      </JFXButton>
    </children>
    <padding>
       <Insets bottom="5.0" top="5.0" />
