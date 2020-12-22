@@ -46,6 +46,11 @@ public class ListaClienteController extends ListaFormPadrao {
 	private ObservableList<Cliente> obsClientes;
 	private FilteredList<Cliente> filteredData;
 
+	
+	public void teste(String teste) {
+		txtPesquisa.setText(teste);
+	}
+	
 	@Override
 	public void onBtnNovoClick() {
 		CadClienteController ctn = (CadClienteController) ViewGerenciador.loadTela(CadClienteController.getFxmlLocate(),

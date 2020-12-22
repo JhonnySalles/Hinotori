@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,7 +64,28 @@ public abstract class DashboardFormPadrao implements Initializable {
 	private final static Logger LOGGER = Logger.getLogger(DashboardFormPadrao.class.getName());
 
 	// Irá mapear as abas abertas.
-	final static protected Map<URL, Tab> abasAbertas = new HashMap<>();
+	final static protected Map<URL, Aba> abasAbertas = new HashMap<>();
+
+	// ********************************************************************************//
+	// Classe para guardar a referencia das abas abertas e controlador
+	// *******************************************************************************//
+	private static class Aba {
+		private Tab aba;
+		private Object controlador;
+
+		public Tab getAba() {
+			return aba;
+		}
+
+		public Object getControlador() {
+			return controlador;
+		}
+
+		public Aba(Tab aba, Object controlador) {
+			this.aba = aba;
+			this.controlador = controlador;
+		}
+	}
 
 	protected static DashboardFormPadrao INSTANCIA;
 	protected final static DropShadow EFEITO_PAINEL_DETALHE = new DropShadow();
@@ -133,7 +155,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 		assert INSTANCIA != null : "A instância do dashboard não foi injetada";
 		return INSTANCIA;
 	}
-	
+
 	public static DashboardFormPadrao getInstanciaTest() {
 		return INSTANCIA;
 	}
@@ -361,6 +383,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 
 	// Comando synchronized irá fazer com que a tela carregue por primeiro, não
 	// esperando outros processamentos que possam ter.
+
 	/*
 	 * <p> Função para fazer o carregamento da tela e insere na aba ou mostrar se a
 	 * tela já está mapeada. </p>
@@ -375,13 +398,37 @@ public abstract class DashboardFormPadrao implements Initializable {
 	 * @author Jhonny de Salles Noschang
 	 */
 	public synchronized void loadAbas(URL absoluteName, String descricaoTela, String icon) {
+		loadAbas(absoluteName, descricaoTela, icon, null);
+	}
+
+	/*
+	 * <p> Função para fazer o carregamento da tela e insere na aba ou mostrar se a
+	 * tela já está mapeada. </p>
+	 * 
+	 * @param absoluteName Endereço em <b>String</b> da tela a ser carregada.
+	 * 
+	 * @param tela Nome que será apresentada na aba.
+	 * 
+	 * @param icon Icone opcional, no qual será inserido na aba. Necessário o
+	 * caminho após o comando <b><i>getPath</i><b>.
+	 * 
+	 * @param actionInicializacao Função a ser executada quando abrir a tela.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public synchronized void loadAbas(URL absoluteName, String descricaoTela, String icon,
+			Consumer<Object> actionInicializacao) {
+
 		if (tbPaneAbas == null)
 			tbPaneAbas = new JFXTabPane();
 
-		if (abasAbertas.containsKey(absoluteName))
+		if (abasAbertas.containsKey(absoluteName)) {
 			// Caso ja foi mapeada a aba, foco nela.
-			tbPaneAbas.getSelectionModel().select(abasAbertas.get(absoluteName));
-		else {
+			tbPaneAbas.getSelectionModel().select(abasAbertas.get(absoluteName).getAba());
+
+			if (actionInicializacao != null)
+				actionInicializacao.accept(abasAbertas.get(absoluteName).getControlador());
+		} else {
 			// Caso a tela já foi previamente carregada, carrega ela.
 			if (ViewGerenciador.verificaTelaCarregada(absoluteName)) {
 				Tab aba = new Tab(descricaoTela);
@@ -389,23 +436,31 @@ public abstract class DashboardFormPadrao implements Initializable {
 				if (icon != "")
 					setImageTab(aba, getClass().getResource("").getPath() + icon);
 
-				aba.setContent(ViewGerenciador.getTelaPreCarregada(absoluteName));
+				Node tela = ViewGerenciador.getTelaPreCarregada(absoluteName);
+				Object controller = ViewGerenciador.getControllerTelaPreCarregada(absoluteName);
+
+				aba.setContent(tela);
 				tbPaneAbas.getTabs().add(aba);
 
 				// Irá mapear a aba que abriu para futuramente localizar e focar nela.
-				abasAbertas.put(absoluteName, aba);
+				abasAbertas.put(absoluteName, new Aba(aba, controller));
 
 				// Foco na ultima tabela adicionada.
 				tbPaneAbas.getSelectionModel().select(tbPaneAbas.getTabs().size() - 1);
 
 				// Remove do mapeamento se fechou.
 				aba.setOnClosed(removMap -> abasAbertas.remove(absoluteName));
+
+				if (actionInicializacao != null)
+					actionInicializacao.accept(controller);
+
 			} else {
-				Task<Node> loadTask = new Task<Node>() {
+				Task<FXMLLoader> loadTask = new Task<FXMLLoader>() {
 					@Override
-					public Node call() throws IOException, InterruptedException {
+					public FXMLLoader call() throws IOException, InterruptedException {
 						FXMLLoader loader = new FXMLLoader(absoluteName);
-						return loader.load();
+						loader.load();
+						return loader;
 					}
 				};
 
@@ -415,17 +470,20 @@ public abstract class DashboardFormPadrao implements Initializable {
 					if (icon != "")
 						setImageTab(aba, getClass().getResource("").getPath() + icon);
 
-					aba.setContent(loadTask.getValue());
+					aba.setContent(loadTask.getValue().getRoot());
 					tbPaneAbas.getTabs().add(aba);
 
 					// Irá mapear a aba que abriu para futuramente localizar e focar nela.
-					abasAbertas.put(absoluteName, aba);
+					abasAbertas.put(absoluteName, new Aba(aba, loadTask.getValue().getController()));
 
 					// Foco na ultima tabela adicionada.
 					tbPaneAbas.getSelectionModel().select(tbPaneAbas.getTabs().size() - 1);
 
 					// Remove do mapeamento se fechou.
 					aba.setOnClosed(removMap -> abasAbertas.remove(absoluteName));
+
+					if (actionInicializacao != null)
+						actionInicializacao.accept(loadTask.getValue().getController());
 				});
 
 				loadTask.setOnFailed(errorTask -> LOGGER.log(Level.SEVERE,
@@ -435,6 +493,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 				thread.start();
 			}
 		}
+
 		fecharContainerBotoes();
 	}
 
@@ -514,7 +573,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 
 		tTransContainerBotoes = new TranslateTransition(new Duration(350), apContainerBotoes);
 		tTransContainerCentralNotificacoes = new TranslateTransition(new Duration(350), apContainerCentralNotificacoes);
-		
+
 		inicializa(arg0, arg1);
 	}
 

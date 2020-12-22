@@ -166,7 +166,7 @@ public class ViewGerenciador {
 	 * @return Retorna um <b>Object</b> contendo o controlador da tela solicitada.
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static Object getControladorTelaPreCarregada(URL absoluteName) {
+	public static Object getControllerTelaPreCarregada(URL absoluteName) {
 		if (TELA_PRE_CARREGADA.containsKey(absoluteName)) {
 			return TELA_PRE_CARREGADA.get(absoluteName).getControlador();
 		} else
@@ -257,7 +257,7 @@ public class ViewGerenciador {
 		Object controlador = null;
 		if (ViewGerenciador.verificaTelaCarregada(absoluteName)) {
 			apFilho = ViewGerenciador.getTelaPreCarregada(absoluteName);
-			controlador = ViewGerenciador.getControladorTelaPreCarregada(absoluteName);
+			controlador = ViewGerenciador.getControllerTelaPreCarregada(absoluteName);
 		} else {
 
 			FXMLLoader loader = new FXMLLoader(absoluteName);

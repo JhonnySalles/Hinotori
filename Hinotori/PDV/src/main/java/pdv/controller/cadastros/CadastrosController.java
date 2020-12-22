@@ -28,7 +28,7 @@ public class CadastrosController implements Initializable {
 
 	@FXML
 	JFXButton btnCadProduto;
-	
+
 	@FXML
 	JFXButton btnCadGrupoSubGrupo;
 
@@ -36,7 +36,9 @@ public class CadastrosController implements Initializable {
 
 	@FXML
 	public void onBtnCadClienteAction() {
-		main.loadAbas(ListaClienteController.getFxmlLocate(), "Cadastros de clientes", "");
+		main.loadAbas(ListaClienteController.getFxmlLocate(), "Cadastros de clientes", "", (controller) -> {
+			// ((ListaClienteController) controller) // chamar a função de carregar a grid.o
+		});
 	}
 
 	@FXML
@@ -53,7 +55,7 @@ public class CadastrosController implements Initializable {
 	public void onBtnCadProdutoAction() {
 		main.loadAbas(ListaProdutoController.getFxmlLocate(), "Cadastros de produtos", "");
 	}
-	
+
 	@FXML
 	public void onBtnCadGrupoSubGrupoAction() {
 		main.loadAbas(ListaGrupoSubGrupoController.getFxmlLocate(), "Cadastros de grupo/sub grupo", "");
