@@ -1,6 +1,5 @@
 package servidor.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -17,7 +16,7 @@ import servidor.converter.BooleanPropertyConverter;
 
 @Entity
 @Table(name = "Contatos")
-public class Contato extends Pessoa implements Serializable {
+public class Contato extends Pessoa {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.

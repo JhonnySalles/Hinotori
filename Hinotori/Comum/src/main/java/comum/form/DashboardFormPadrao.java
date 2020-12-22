@@ -66,7 +66,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 	final static protected Map<URL, Tab> abasAbertas = new HashMap<>();
 
 	protected static DashboardFormPadrao INSTANCIA;
-	protected final static DropShadow efeitoPainelDetalhe = new DropShadow();
+	protected final static DropShadow EFEITO_PAINEL_DETALHE = new DropShadow();
 
 	final PseudoClass pcCheio = PseudoClass.getPseudoClass("cheio");
 
@@ -230,7 +230,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 			btnBurgerTask.stop();
 			tTransContainerBotoes.setToX(0);
 			btnBurgerTask.setRate(1);
-			tTransContainerBotoes.setOnFinished(efeito -> apContainerBotoes.setEffect(efeitoPainelDetalhe));
+			tTransContainerBotoes.setOnFinished(efeito -> apContainerBotoes.setEffect(EFEITO_PAINEL_DETALHE));
 			btnBurgerTask.setOnFinished(alternar -> btnBurgerTask.setRate(1));
 			tTransContainerBotoes.play();
 			btnBurgerTask.play();
@@ -293,7 +293,7 @@ public abstract class DashboardFormPadrao implements Initializable {
 			tTransContainerCentralNotificacoes.stop();
 			tTransContainerCentralNotificacoes.setToX(0);
 			tTransContainerCentralNotificacoes
-					.setOnFinished(efeito -> apContainerCentralNotificacoes.setEffect(efeitoPainelDetalhe));
+					.setOnFinished(efeito -> apContainerCentralNotificacoes.setEffect(EFEITO_PAINEL_DETALHE));
 			tTransContainerCentralNotificacoes.play();
 			Notificacoes.closeNotificacao();
 		}));
@@ -490,11 +490,11 @@ public abstract class DashboardFormPadrao implements Initializable {
 	}
 
 	private DashboardFormPadrao setEfeito() {
-		efeitoPainelDetalhe.setWidth(21.0);
-		efeitoPainelDetalhe.setHeight(21.0);
-		efeitoPainelDetalhe.setRadius(10.0);
-		efeitoPainelDetalhe.setOffsetX(2.0);
-		efeitoPainelDetalhe.setOffsetY(2.0);
+		EFEITO_PAINEL_DETALHE.setWidth(21.0);
+		EFEITO_PAINEL_DETALHE.setHeight(21.0);
+		EFEITO_PAINEL_DETALHE.setRadius(10.0);
+		EFEITO_PAINEL_DETALHE.setOffsetX(2.0);
+		EFEITO_PAINEL_DETALHE.setOffsetY(2.0);
 		return this;
 	}
 

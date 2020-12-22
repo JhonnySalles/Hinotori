@@ -167,7 +167,7 @@ public class Utils {
 	public static Long getId(String tag, String texto, String separador) {
 		if (texto.isEmpty() || tag.isEmpty())
 			throw new IllegalArgumentException("Tag ou texto vazios.");
-		
+
 		if (!texto.contains(tag))
 			throw new IllegalArgumentException("O texto não contem a tag informada.");
 
@@ -175,6 +175,27 @@ public class Utils {
 			return Long.valueOf(texto.substring(texto.indexOf(tag) + tag.length(), texto.indexOf(separador)).trim());
 		else
 			return Long.valueOf(texto.substring(texto.indexOf(tag) + tag.length()).trim());
+	}
+
+	private static String format(double val) {
+		String in = Integer.toHexString((int) Math.round(val * 255));
+		return in.length() == 1 ? "0" + in : in;
+	}
+
+	/**
+	 * <p>
+	 * Função que faz a conversão do tipo <b>Color</b> para o valor hexadecimal.
+	 * </p>
+	 * 
+	 * 
+	 * @param value Variável do tipo <b>Color</b>.
+	 * @return Retorna uma <b>String</b> em hexadecimal da cor informada.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static String colorToHexString(Color value) {
+		return "#" + (format(value.getRed()) + format(value.getGreen()) + format(value.getBlue())
+				+ format(value.getOpacity())).toUpperCase();
 	}
 
 }

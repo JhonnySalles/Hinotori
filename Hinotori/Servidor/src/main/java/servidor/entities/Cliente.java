@@ -1,6 +1,5 @@
 package servidor.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -28,7 +27,7 @@ import comum.model.enums.Situacao;
 @Entity
 @Table(name = "clientes", uniqueConstraints = { @UniqueConstraint(columnNames = { "CPF" }, name = "UK_CLIENTE_CPF"),
 		@UniqueConstraint(columnNames = { "CNPJ" }, name = "UK_CLIENTE_CNPJ") })
-public class Cliente extends Pessoa implements Serializable {
+public class Cliente extends Pessoa {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.

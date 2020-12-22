@@ -1,6 +1,5 @@
 package servidor.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +24,7 @@ import comum.model.enums.UsuarioNivel;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario extends Pessoa implements Serializable {
+public class Usuario extends Pessoa {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.

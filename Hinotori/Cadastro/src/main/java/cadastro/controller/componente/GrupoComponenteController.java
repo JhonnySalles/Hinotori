@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -21,7 +22,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
-import servidor.entities.GrupoSubGrupo;
+import servidor.entities.Grupo;
+import servidor.entities.SubGrupo;
 
 public class GrupoComponenteController implements Initializable {
 
@@ -34,7 +36,7 @@ public class GrupoComponenteController implements Initializable {
 	@FXML
 	private FlowPane fpSubGrupoContainer;
 
-	private GrupoSubGrupo grupo;
+	private Grupo grupo;
 
 	private ObservableList<SubGrupoComponenteController> subGrupo = FXCollections.observableArrayList();
 
@@ -57,7 +59,7 @@ public class GrupoComponenteController implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	private SubGrupoComponenteController createComponentSubGrupo(Long idGrupo, GrupoSubGrupo subGrupo) {
+	private SubGrupoComponenteController createComponentSubGrupo(Long idGrupo, SubGrupo subGrupo) {
 		SubGrupoComponenteController sub = new SubGrupoComponenteController(idGrupo, subGrupo);
 		sub.getRoot().setOnDragDetected(new EventHandler<MouseEvent>() {
 			@Override
@@ -67,7 +69,11 @@ public class GrupoComponenteController implements Initializable {
 				ClipboardContent content = new ClipboardContent();
 				content.putString("idGrupo:" + sub.getIdGrupo() + " - idSubGrupo:" + sub.getSubGrupo().getId());
 				db.setContent(content);
-				InstanciaListaGrupo.setTextoRemover("Arraste aqui para remover.", true);
+				InstanciaListaGrupo.setTextoAvisoCampoRemover("Arraste até aqui para remove-lo.", true);
+
+				// A função cria uma imagem a ser arrastada do componente.
+				SnapshotParameters snapshotParameters = new SnapshotParameters();
+				db.setDragView(sub.getRoot().snapshot(snapshotParameters, null), event.getX(), event.getY());
 			}
 		});
 
@@ -75,7 +81,7 @@ public class GrupoComponenteController implements Initializable {
 			event.setDragDetect(true);
 		});
 
-		sub.getRoot().setOnDragDone(e -> InstanciaListaGrupo.setTextoRemover("", true));
+		sub.getRoot().setOnDragDone(e -> InstanciaListaGrupo.setTextoAvisoCampoRemover("", true));
 
 		return sub;
 	}
@@ -92,7 +98,7 @@ public class GrupoComponenteController implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public void addSubGrupo(Long idGrupo, GrupoSubGrupo subGrupo) {
+	public void addSubGrupo(Long idGrupo, SubGrupo subGrupo) {
 		if (grupo.addSubGrupo(subGrupo))
 			this.subGrupo.add(createComponentSubGrupo(grupo.getId(), subGrupo));
 	}
@@ -107,7 +113,7 @@ public class GrupoComponenteController implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public void removeSubGrupo(GrupoSubGrupo subGrupo) {
+	public void removeSubGrupo(SubGrupo subGrupo) {
 		if (grupo.removeSubGrupo(subGrupo)) {
 			Optional<SubGrupoComponenteController> component = this.subGrupo.stream()
 					.filter(sb -> sb.getSubGrupo().equals(subGrupo)).findFirst();
@@ -128,7 +134,7 @@ public class GrupoComponenteController implements Initializable {
 	 * @author Jhonny de Salles Noschang
 	 */
 	public void removeSubGrupo(Long subGrupo) {
-		Optional<GrupoSubGrupo> obj = this.grupo.getSubGrupos().stream().filter(sb -> sb.getId().equals(subGrupo))
+		Optional<SubGrupo> obj = this.grupo.getSubGrupos().stream().filter(sb -> sb.getId().equals(subGrupo))
 				.findFirst();
 
 		if (obj.isPresent()) {
@@ -142,15 +148,15 @@ public class GrupoComponenteController implements Initializable {
 		}
 	}
 
-	public GrupoSubGrupo getGrupo() {
+	public Grupo getGrupo() {
 		return grupo;
 	}
 
-	private void setGrupo(GrupoSubGrupo grupo) {
+	private void setGrupo(Grupo grupo) {
 		this.grupo = grupo;
 		this.lblDescricao.setText(grupo.getDescricao());
 
-		for (GrupoSubGrupo subGrupo : grupo.getSubGrupos())
+		for (SubGrupo subGrupo : grupo.getSubGrupos())
 			this.subGrupo.add(createComponentSubGrupo(grupo.getId(), subGrupo));
 
 		root.setStyle("-fx-background-radius: 5; -fx-background-color: " + grupo.getCor() + ";");
@@ -176,10 +182,12 @@ public class GrupoComponenteController implements Initializable {
 							fpSubGrupoContainer.getChildren().add(additem.getRoot());
 						}
 
+						// Devido ao efeito aplicado no root do grupo, será subtraido o valor do 
+						// efeito no tamanho minimo.
 						if (root.getBoundsInLocal().getHeight() == 0.0)
 							root.setPrefHeight(50);
 						else
-							root.setPrefHeight(root.getBoundsInLocal().getHeight());
+							root.setPrefHeight(root.getBoundsInLocal().getHeight() - 15);
 
 						InstanciaListaGrupo.getComponenteGrupo().clearLayout();
 						InstanciaListaGrupo.getComponenteGrupo().requestLayout();
@@ -205,7 +213,7 @@ public class GrupoComponenteController implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public GrupoComponenteController(ListaGrupoSubGrupoController instancia, GrupoSubGrupo grupo) {
+	public GrupoComponenteController(ListaGrupoSubGrupoController instancia, Grupo grupo) {
 		this.InstanciaListaGrupo = instancia;
 		FXMLLoader fxmlLoader = new FXMLLoader(GrupoComponenteController.getFxmlLocate());
 		fxmlLoader.setController(this);

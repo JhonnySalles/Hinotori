@@ -4,7 +4,8 @@ import com.jfoenix.controls.JFXButton;
 
 import comum.model.utils.Utils;
 import javafx.fxml.FXML;
-import servidor.entities.GrupoSubGrupo;
+import servidor.entities.GrupoBase;
+import servidor.entities.SubGrupo;
 
 public class SubGrupoComponenteController {
 
@@ -12,13 +13,13 @@ public class SubGrupoComponenteController {
 	private JFXButton root = new JFXButton();
 
 	private Long idGrupo;
-	private GrupoSubGrupo subGrupo;
+	private SubGrupo subGrupo;
 
 	public JFXButton getRoot() {
 		return root;
 	}
 
-	public void createSubGrupo(GrupoSubGrupo subGrupo) {
+	public void createSubGrupo(GrupoBase subGrupo) {
 		root.setText(subGrupo.getDescricao());
 
 		if (!subGrupo.getCor().isEmpty()) {
@@ -26,22 +27,22 @@ public class SubGrupoComponenteController {
 			root.setTextFill(Utils.getContrastColor(subGrupo.getCor()));
 		}
 	}
-	
+
 	public Long getIdGrupo() {
 		return idGrupo;
 	}
 
-	public GrupoSubGrupo getSubGrupo() {
+	public GrupoBase getSubGrupo() {
 		return subGrupo;
 	}
 
-	public SubGrupoComponenteController(GrupoSubGrupo subGrupo) {
+	public SubGrupoComponenteController(SubGrupo subGrupo) {
 		this.idGrupo = null;
 		this.subGrupo = subGrupo;
 		createSubGrupo(subGrupo);
 	}
-	
-	public SubGrupoComponenteController(Long idGrupo, GrupoSubGrupo subGrupo) {
+
+	public SubGrupoComponenteController(Long idGrupo, SubGrupo subGrupo) {
 		this.idGrupo = idGrupo;
 		this.subGrupo = subGrupo;
 		createSubGrupo(subGrupo);

@@ -358,12 +358,15 @@ public class ViewGerenciador {
 	public synchronized static Object loadDialog(URL absoluteName, StackPane spRoot, EventHandler<ActionEvent> onOpen,
 			EventHandler<ActionEvent> onClose) {
 		Object controller = null;
-		if (!TELA_SOBREPOSTA.containsKey(spRoot))
-			return controller;
+		StackPane root = null;
+
+		if (TELA_SOBREPOSTA.containsKey(spRoot))
+			root = (StackPane) TELA_SOBREPOSTA.get(spRoot).getTelaPai();
+		else
+			root = spRoot;
 
 		FXMLLoader loader = new FXMLLoader(absoluteName);
 		try {
-			StackPane root = (StackPane) TELA_SOBREPOSTA.get(spRoot).getTelaPai();
 			Node apRoot = spRoot.getChildren().get(0);
 			AnchorPane tela = loader.load();
 			controller = loader.getController();

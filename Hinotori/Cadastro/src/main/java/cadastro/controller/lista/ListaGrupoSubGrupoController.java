@@ -11,42 +11,42 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXMasonryPane;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.controller.cadastros.DialogCadGrupoSubGrupoController;
 import cadastro.controller.componente.GrupoComponenteController;
 import cadastro.controller.componente.SubGrupoComponenteController;
 import comum.form.ListaFormPadrao;
 import comum.model.enums.Situacao;
-import comum.model.enums.TipoGrupo;
 import comum.model.utils.Utils;
+import comum.model.utils.ViewGerenciador;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import servidor.entities.GrupoSubGrupo;
+import servidor.entities.Grupo;
+import servidor.entities.GrupoBase;
+import servidor.entities.SubGrupo;
 
 public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
-	private Map<Long, GrupoSubGrupo> listSubGrupo = new HashMap<>();
+	private Map<Long, SubGrupo> listSubGrupo = new HashMap<>();
+
+	protected final static DropShadow EFEITO_DESTAQUE = new DropShadow();
 
 	@FXML
-	private JFXTextField txtPesquisaGrupo;
-
-	@FXML
-	private JFXTextField txtPesquisaSubGrupo;
-
-	@FXML
-	private JFXButton btnAdicionar;
-
-	@FXML
-	private JFXButton btnRemover;
+	private JFXButton btnConfirmar;
 
 	@FXML
 	private JFXTextField txtFiltrarGrupo;
@@ -59,12 +59,14 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
 	@FXML
 	private HBox hbRemover;
-	
+
 	@FXML
 	private Label lblRemover;
 
 	@FXML
 	private FlowPane flpSubGrupos;
+
+	private DialogCadGrupoSubGrupoController controller;
 
 	private ObservableList<GrupoComponenteController> grupo = FXCollections.observableArrayList();
 
@@ -72,20 +74,17 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
 	@Override
 	protected void onBtnNovoClick() {
-		// TODO Auto-generated method stub
-
+		abreTelaCadGrupoSubGrupo(null);
 	}
 
 	@Override
 	protected void onBtnExcluirClick() {
-		// TODO Auto-generated method stub
-
+		// Não terá botão de excluir.
 	}
 
 	@Override
 	protected void onBtnEditarClick() {
-		// TODO Auto-generated method stub
-
+		// Não terá botão de editar.
 	}
 
 	@Override
@@ -93,23 +92,54 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 		// TODO Auto-generated method stub
 
 	}
-	
+
+	@FXML
+	public void onBtnConfirmarClick() {
+
+	}
+
 	public JFXMasonryPane getComponenteGrupo() {
 		return mspGrupos;
 	}
-	
-	public void setTextoRemover(String texto, Boolean remover) {
+
+	private void abreTelaCadGrupoSubGrupo(GrupoBase grupoSubGrupo) {
+		controller = (DialogCadGrupoSubGrupoController) ViewGerenciador
+				.loadDialog(DialogCadGrupoSubGrupoController.getFxmlLocate(), spRoot, new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent t) {
+						if (controller.getGrupoSubGrupo() == null || controller.getGrupoSubGrupo().getId() == 0)
+							return;
+
+						if (controller.getGrupoSubGrupo() instanceof SubGrupo)
+							listSubGrupo((SubGrupo) controller.getGrupoSubGrupo());
+						else
+							addGrupo((Grupo) controller.getGrupoSubGrupo());
+					}
+				});
+		controller.carregar(grupoSubGrupo);
+	}
+
+	private void aplicarEfeitoGrupos(Boolean aplicar) {
+		for (GrupoComponenteController gp : grupo)
+			gp.getRoot().setEffect(aplicar ? EFEITO_DESTAQUE : null);
+	}
+
+	public void setTextoAvisoCampoRemover(String texto, Boolean tipoRemover) {
 		if (texto.isEmpty()) {
 			lblRemover.setText("Excluir");
 			hbRemover.setStyle("-fx-background-radius: 5; -fx-background-color: #ef6950;");
-		} else
+			hbRemover.setEffect(null);
+			aplicarEfeitoGrupos(false);
+		} else {
 			lblRemover.setText(texto);
-		
-		if (!texto.isEmpty()) {
-			if (remover)
+
+			if (tipoRemover) {
 				hbRemover.setStyle("-fx-background-radius: 5; -fx-background-color: #ff0000;");
-			else
+				hbRemover.setEffect(EFEITO_DESTAQUE);
+			} else {
 				hbRemover.setStyle("-fx-background-radius: 5; -fx-background-color: #0066ff;");
+				aplicarEfeitoGrupos(true);
+			}
 		}
 	}
 
@@ -124,11 +154,11 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 	 * qual pode-se identificar qual subGrupo a ser adicionado.
 	 * </p>
 	 * 
-	 * @param grupo Um <b>GrupoSubGrupo</b> a ser adicionado.
+	 * @param grupo Um <b>Grupo</b> a ser adicionado.
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public void addGrupo(GrupoSubGrupo grupo) {
+	public void addGrupo(Grupo grupo) {
 		GrupoComponenteController grup = new GrupoComponenteController(this, grupo);
 		this.grupo.add(grup);
 
@@ -153,6 +183,17 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 			event.consume();
 		});
 
+		// Gera um evento de duplo clique para edição.
+		grup.getRoot().setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+					if (mouseEvent.getClickCount() == 2)
+						abreTelaCadGrupoSubGrupo(grup.getGrupo());
+				}
+			}
+		});
+
 	}
 
 	/**
@@ -162,11 +203,11 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 	 * componente para poder arrastar para dentro do grupo.
 	 * </p>
 	 * 
-	 * @param subGrupo Um <b>GrupoSubGrupo</b> a ser adicionado.
+	 * @param subGrupo Um <b>SubGrupo</b> a ser adicionado.
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public void listSubGrupo(GrupoSubGrupo subGrupo) {
+	public void listSubGrupo(SubGrupo subGrupo) {
 		listSubGrupo.put(subGrupo.getId(), subGrupo);
 
 		SubGrupoComponenteController sub = new SubGrupoComponenteController(subGrupo);
@@ -178,16 +219,20 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 				ClipboardContent content = new ClipboardContent();
 				content.putString("idSubGrupo:" + sub.getSubGrupo().getId());
 				db.setContent(content);
-				
-				setTextoRemover("Arraste até algum grupo para adicionar.", false);
+
+				// A função cria uma imagem a ser arrastada do componente.
+				SnapshotParameters snapshotParameters = new SnapshotParameters();
+				db.setDragView(sub.getRoot().snapshot(snapshotParameters, null), event.getX(), event.getY());
+
+				setTextoAvisoCampoRemover("Arraste até algum grupo para adiciona-lo.", false);
 			}
 		});
 
 		sub.getRoot().setOnMouseDragged((MouseEvent event) -> {
 			event.setDragDetect(true);
 		});
-		
-		sub.getRoot().setOnDragDone(e -> setTextoRemover("", false));
+
+		sub.getRoot().setOnDragDone(e -> setTextoAvisoCampoRemover("", false));
 
 		this.subGrupo.add(sub);
 	}
@@ -201,8 +246,8 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public void listSubGrupo(Set<GrupoSubGrupo> subGrupos) {
-		for (GrupoSubGrupo sb : subGrupos)
+	public void listSubGrupo(Set<SubGrupo> subGrupos) {
+		for (SubGrupo sb : subGrupos)
 			listSubGrupo(sb);
 	}
 
@@ -220,64 +265,51 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 	private void removeSubGrupo(Long grupo, Long subGrupo) {
 		Optional<GrupoComponenteController> obj = this.grupo.stream().filter(sb -> sb.getGrupo().getId().equals(grupo))
 				.findFirst();
-		
+
 		if (obj.isPresent())
 			obj.get().removeSubGrupo(subGrupo);
 	}
 
 	private void inicializaTeste() {
 
-		GrupoSubGrupo teste1 = new GrupoSubGrupo(Long.valueOf(4), "Grupo 4 - Preto claro", "#333333", TipoGrupo.GRUPO,
-				Situacao.ATIVO);
-		teste1.addSubGrupo(
-				new GrupoSubGrupo(Long.valueOf(5), "Sub Grupo 1", "#FFFFFF", TipoGrupo.SUBGRUPO, Situacao.ATIVO));
-		teste1.addSubGrupo(
-				new GrupoSubGrupo(Long.valueOf(6), "Sub Grupo 2", "#BBBBBB", TipoGrupo.SUBGRUPO, Situacao.INATIVO));
-		teste1.addSubGrupo(
-				new GrupoSubGrupo(Long.valueOf(7), "Sub Grupo 3", "#CCCCCC", TipoGrupo.SUBGRUPO, Situacao.ATIVO));
+		Grupo teste1 = new Grupo(Long.valueOf(4), "Grupo 4 - Preto claro", "#333333", Situacao.ATIVO);
+		teste1.addSubGrupo(new SubGrupo(Long.valueOf(5), "Sub Grupo 1", "#FFFFFF", Situacao.ATIVO));
+		teste1.addSubGrupo(new SubGrupo(Long.valueOf(6), "Sub Grupo 2", "#BBBBBB", Situacao.INATIVO));
+		teste1.addSubGrupo(new SubGrupo(Long.valueOf(7), "Sub Grupo 3", "#CCCCCC", Situacao.ATIVO));
 
 		addGrupo(teste1);
 
-		addGrupo(new GrupoSubGrupo(Long.valueOf(1), "Grupo 1 - Preto", "#000000", TipoGrupo.GRUPO, Situacao.ATIVO));
-		addGrupo(new GrupoSubGrupo(Long.valueOf(2), "Grupo 2 - Branco", "#ffffff", TipoGrupo.GRUPO, Situacao.INATIVO));
-		addGrupo(new GrupoSubGrupo(Long.valueOf(3), "Grupo 3 - Verde", "#009933", TipoGrupo.GRUPO, Situacao.EXCLUIDO));
+		addGrupo(new Grupo(Long.valueOf(1), "Grupo 1 - Preto", "#000000", Situacao.ATIVO));
+		addGrupo(new Grupo(Long.valueOf(2), "Grupo 2 - Branco", "#ffffff", Situacao.INATIVO));
+		addGrupo(new Grupo(Long.valueOf(3), "Grupo 3 - Verde", "#009933", Situacao.EXCLUIDO));
 
-		teste1 = new GrupoSubGrupo();
+		teste1 = new Grupo();
 		teste1.setId(Long.valueOf(8));
 		teste1.setDescricao("Grupo 7 - Verde claro");
 		teste1.setCor("#66ff66");
 		addGrupo(teste1);
 
-		teste1 = new GrupoSubGrupo();
+		teste1 = new Grupo();
 		teste1.setId(Long.valueOf(9));
 		teste1.setDescricao("Grupo 6 - Azul claro");
 		teste1.setCor("#99ccff");
 		addGrupo(teste1);
 
-		teste1 = new GrupoSubGrupo();
+		teste1 = new Grupo();
 		teste1.setId(Long.valueOf(10));
 		teste1.setDescricao("Grupo 5 - Vermelho claro");
 		teste1.setCor("#ff9966");
-		teste1.addSubGrupo(new GrupoSubGrupo(Long.valueOf(13), "Sub Grupo 5 - Vermelho", "#cc0000", TipoGrupo.SUBGRUPO,
-				Situacao.ATIVO));
-		teste1.addSubGrupo(new GrupoSubGrupo(Long.valueOf(11), "Sub Grupo 6 - Rosa", "#cc0099", TipoGrupo.SUBGRUPO,
-				Situacao.INATIVO));
-		teste1.addSubGrupo(new GrupoSubGrupo(Long.valueOf(12), "Sub Grupo 7 - Azul", "#0000ff", TipoGrupo.SUBGRUPO,
-				Situacao.ATIVO));
+		teste1.addSubGrupo(new SubGrupo(Long.valueOf(13), "Sub Grupo 5 - Vermelho", "#cc0000", Situacao.ATIVO));
+		teste1.addSubGrupo(new SubGrupo(Long.valueOf(11), "Sub Grupo 6 - Rosa", "#cc0099", Situacao.INATIVO));
+		teste1.addSubGrupo(new SubGrupo(Long.valueOf(12), "Sub Grupo 7 - Azul", "#0000ff", Situacao.ATIVO));
 		addGrupo(teste1);
 
-		listSubGrupo(new GrupoSubGrupo(Long.valueOf(5), "Sub Grupo 1 - Roxo", "#660066", TipoGrupo.SUBGRUPO,
-				Situacao.ATIVO));
-		listSubGrupo(new GrupoSubGrupo(Long.valueOf(6), "Sub Grupo 2 - Amarelo", "#ffff00", TipoGrupo.SUBGRUPO,
-				Situacao.INATIVO));
-		listSubGrupo(new GrupoSubGrupo(Long.valueOf(7), "Sub Grupo 3 - Marrom", "#663300", TipoGrupo.SUBGRUPO,
-				Situacao.ATIVO));
-		listSubGrupo(new GrupoSubGrupo(Long.valueOf(13), "Sub Grupo 5 - Azul marinho", "#006666", TipoGrupo.SUBGRUPO,
-				Situacao.ATIVO));
-		listSubGrupo(new GrupoSubGrupo(Long.valueOf(11), "Sub Grupo 6 - Verde escuro", "#003300", TipoGrupo.SUBGRUPO,
-				Situacao.INATIVO));
-		listSubGrupo(new GrupoSubGrupo(Long.valueOf(12), "Sub Grupo 7 - Cinza", "#666666", TipoGrupo.SUBGRUPO,
-				Situacao.ATIVO));
+		listSubGrupo(new SubGrupo(Long.valueOf(5), "Sub Grupo 1 - Roxo", "#660066", Situacao.ATIVO));
+		listSubGrupo(new SubGrupo(Long.valueOf(6), "Sub Grupo 2 - Amarelo", "#ffff00", Situacao.INATIVO));
+		listSubGrupo(new SubGrupo(Long.valueOf(7), "Sub Grupo 3 - Marrom", "#663300", Situacao.ATIVO));
+		listSubGrupo(new SubGrupo(Long.valueOf(13), "Sub Grupo 5 - Azul marinho", "#006666", Situacao.ATIVO));
+		listSubGrupo(new SubGrupo(Long.valueOf(11), "Sub Grupo 6 - Verde escuro", "#003300", Situacao.INATIVO));
+		listSubGrupo(new SubGrupo(Long.valueOf(12), "Sub Grupo 7 - Cinza", "#666666", Situacao.ATIVO));
 
 	}
 
@@ -308,13 +340,12 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 					} else if (c.wasUpdated()) {
 						// update item
 					} else {
-						for (GrupoComponenteController remitem : c.getRemoved()) {
+						for (GrupoComponenteController remitem : c.getRemoved())
 							mspGrupos.getChildren().remove(remitem.getRoot());
-						}
-						for (GrupoComponenteController additem : c.getAddedSubList()) {
+
+						for (GrupoComponenteController additem : c.getAddedSubList())
 							mspGrupos.getChildren().add(additem.getRoot());
-						}
-						
+
 						mspGrupos.requestLayout();
 					}
 				}
@@ -333,13 +364,12 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 					} else if (c.wasUpdated()) {
 						// update item
 					} else {
-						for (SubGrupoComponenteController remitem : c.getRemoved()) {
+						for (SubGrupoComponenteController remitem : c.getRemoved())
 							flpSubGrupos.getChildren().remove(remitem.getRoot());
-						}
-						for (SubGrupoComponenteController additem : c.getAddedSubList()) {
+
+						for (SubGrupoComponenteController additem : c.getAddedSubList())
 							flpSubGrupos.getChildren().add(additem.getRoot());
-						}
-						
+
 						flpSubGrupos.requestLayout();
 					}
 				}
@@ -368,12 +398,19 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 				event.setDropCompleted(false);
 			event.consume();
 		});
+	}
 
+	private ListaGrupoSubGrupoController setEfeito() {
+		EFEITO_DESTAQUE.setWidth(25.0);
+		EFEITO_DESTAQUE.setHeight(25.0);
+		EFEITO_DESTAQUE.setRadius(10.0);
+		return this;
 	}
 
 	@Override
 	protected void inicializa(URL arg0, ResourceBundle arg1) {
 		createListener();
+		setEfeito();
 		inicializaTeste();
 
 	}

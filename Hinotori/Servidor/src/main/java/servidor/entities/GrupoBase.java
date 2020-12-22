@@ -24,15 +24,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
-import comum.model.enums.TipoGrupo;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class GrupoSubGrupo implements Serializable {
+public class GrupoBase implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
-	private static final long serialVersionUID = 6407704915654886503L;
+	private static final long serialVersionUID = 3236226184046318646L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,12 +44,6 @@ public class GrupoSubGrupo implements Serializable {
 	@Column(name = "cor", columnDefinition = "varchar(10)")
 	private String cor;
 
-	private Set<GrupoSubGrupo> subGrupos;
-
-	@Column(name = "Tipo", columnDefinition = "enum('GRUPO','SUBGRUPO')")
-	@Enumerated(EnumType.STRING)
-	private TipoGrupo tipo;
-
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUÍDO')")
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
@@ -60,7 +53,7 @@ public class GrupoSubGrupo implements Serializable {
 			@UniqueConstraint(name = "produto_imagem", columnNames = { "produto_id", "imagem_id" }) })
 	@ElementCollection(targetClass = Endereco.class)
 	@CollectionTable(name = "produtos_imagens", joinColumns = @JoinColumn(name = "produto_id"), foreignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDPRODUTO"))
-	private Set<GupoSubGrupoImagem> imagens;
+	private Set<GupoBaseImagem> imagens;
 
 	public Long getId() {
 		return id;
@@ -89,58 +82,16 @@ public class GrupoSubGrupo implements Serializable {
 			this.cor = cor;
 	}
 
-	public Set<GrupoSubGrupo> getSubGrupos() {
-		return subGrupos;
-	}
-
-	public void setSubGrupos(Set<GrupoSubGrupo> subGrupos) {
-		if (subGrupos.stream().filter(item -> item.getTipo().equals(TipoGrupo.GRUPO)).findFirst().isPresent())
-			throw new IllegalArgumentException("Não é possível inserir um grupo dentro de outro grupo.");
-
-		this.subGrupos = subGrupos;
-	}
-
-	public boolean addSubGrupo(GrupoSubGrupo subGrupo) throws IllegalArgumentException {
-		if (subGrupo.tipo.equals(TipoGrupo.GRUPO))
-			throw new IllegalArgumentException("Não é possível inserir um grupo dentro de outro grupo.");
-		if (!this.subGrupos.contains(subGrupo)) {
-			this.subGrupos.add(subGrupo);
-			return true;
-		}
-
-		return false;
-	}
-
-	public boolean removeSubGrupo(GrupoSubGrupo subGrupo) throws IllegalArgumentException {
-		if (subGrupo.tipo.equals(TipoGrupo.GRUPO))
-			throw new IllegalArgumentException("Não é possível remover um grupo dentro de outro grupo.");
-
-		if (this.subGrupos.contains(subGrupo)) {
-			this.subGrupos.remove(subGrupo);
-			return true;
-		}
-
-		return false;
-	}
-
-	public Set<GupoSubGrupoImagem> getImagens() {
+	public Set<GupoBaseImagem> getImagens() {
 		return imagens;
 	}
 
-	public void setImagens(Set<GupoSubGrupoImagem> imagens) {
+	public void setImagens(Set<GupoBaseImagem> imagens) {
 		this.imagens = imagens;
 	}
 
-	public void addImagens(GupoSubGrupoImagem imagem) {
+	public void addImagens(GupoBaseImagem imagem) {
 		this.imagens.add(imagem);
-	}
-
-	public TipoGrupo getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoGrupo tipo) {
-		this.tipo = tipo;
 	}
 
 	public Situacao getSituacao() {
@@ -151,34 +102,26 @@ public class GrupoSubGrupo implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public GrupoSubGrupo() {
+	public GrupoBase() {
 		this.id = Long.valueOf(0);
 		this.descricao = "";
 		this.cor = "#000000";
-		this.tipo = TipoGrupo.GRUPO;
 		this.situacao = Situacao.ATIVO;
-		this.subGrupos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
 
-	public GrupoSubGrupo(Long id, String descricao, String cor, TipoGrupo tipo, Situacao situacao) {
+	public GrupoBase(Long id, String descricao, String cor, Situacao situacao) {
 		this.id = id;
 		this.descricao = descricao;
-		this.tipo = tipo;
 		this.situacao = situacao;
-
-		this.subGrupos = new HashSet<>();
 		this.imagens = new HashSet<>();
 
 		setCor(cor);
 	}
 
-	public GrupoSubGrupo(Long id, String descricao, String cor, Set<GrupoSubGrupo> subGrupos, TipoGrupo tipo,
-			Situacao situacao, Set<GupoSubGrupoImagem> imagens) {
+	public GrupoBase(Long id, String descricao, String cor, Situacao situacao, Set<GupoBaseImagem> imagens) {
 		this.id = id;
 		this.descricao = descricao;
-		this.subGrupos = subGrupos;
-		this.tipo = tipo;
 		this.situacao = situacao;
 		this.imagens = imagens;
 
@@ -189,9 +132,7 @@ public class GrupoSubGrupo implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		return result;
 	}
 
@@ -203,26 +144,19 @@ public class GrupoSubGrupo implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GrupoSubGrupo other = (GrupoSubGrupo) obj;
-		if (descricao == null) {
-			if (other.descricao != null)
-				return false;
-		} else if (!descricao.equals(other.descricao))
-			return false;
+		GrupoBase other = (GrupoBase) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (tipo != other.tipo)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "GrupoSubGrupo [id=" + id + ", descricao=" + descricao + ", cor=" + cor + ", subGrupos=" + subGrupos
-				+ ", tipo=" + tipo + ", situacao=" + situacao + "]";
+		return "GrupoBase [id=" + id + ", descricao=" + descricao + ", cor=" + cor + ", situacao=" + situacao
+				+ ", imagens=" + imagens + "]";
 	}
 
 }
