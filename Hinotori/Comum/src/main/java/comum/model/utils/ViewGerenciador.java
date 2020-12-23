@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.events.JFXDialogEvent;
 
+import comum.form.CadastroDialogPadrao;
 import comum.form.DashboardFormPadrao;
 import comum.model.animation.TelaAnimation;
 import javafx.collections.FXCollections;
@@ -357,7 +358,6 @@ public class ViewGerenciador {
 	 */
 	public synchronized static Object loadDialog(URL absoluteName, StackPane spRoot, EventHandler<ActionEvent> onOpen,
 			EventHandler<ActionEvent> onClose) {
-		Object controller = null;
 		StackPane root = null;
 
 		if (TELA_SOBREPOSTA.containsKey(spRoot))
@@ -369,7 +369,7 @@ public class ViewGerenciador {
 		try {
 			Node apRoot = spRoot.getChildren().get(0);
 			AnchorPane tela = loader.load();
-			controller = loader.getController();
+			final Object controller = loader.getController();
 
 			BoxBlur blur = new BoxBlur(3, 3, 3);
 			JFXDialog dialog = new JFXDialog(root, tela, JFXDialog.DialogTransition.CENTER);
@@ -384,6 +384,11 @@ public class ViewGerenciador {
 				apRoot.setEffect(null);
 				apRoot.setDisable(false);
 
+				// Os componentes de cadastro que extender de cadastro dialog podem utilizar a
+				// função onClose para eventual validação.
+				if (controller instanceof CadastroDialogPadrao)
+					((CadastroDialogPadrao) controller).onClose();
+
 				if (onClose != null)
 					onClose.handle(new ActionEvent(onClose, null));
 			});
@@ -396,11 +401,14 @@ public class ViewGerenciador {
 				getDashBoard();
 
 			dialog.show();
+
+			return controller;
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			LOGGER.log(Level.SEVERE, "{Erro ao carregar a tela: " + absoluteName + "}", e);
 		}
-		return controller;
+		return null;
 	}
 
 	/**

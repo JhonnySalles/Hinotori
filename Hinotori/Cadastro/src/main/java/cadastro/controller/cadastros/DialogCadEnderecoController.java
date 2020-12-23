@@ -129,6 +129,11 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 
 		return false;
 	}
+	
+	@Override
+	public void onClose() {
+		// TODO Auto-generated method stub
+	}
 
 	public Set<Endereco> getEndereco() {
 		return enderecos;

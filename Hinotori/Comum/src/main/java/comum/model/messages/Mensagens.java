@@ -51,6 +51,12 @@ public class Mensagens {
 	public final static String LOGIN_ERRO_USER_LOGIN_NAO_ENCONTRADO = "Login informado não encontrado.";
 	public final static String LOGIN_ERRO_USER_SENHA = "Senha incorreta, favor informa-la novamente.";
 	public final static String LOGIN_ERRO_USER_SENHA_VAZIA = "Necessário informar uma senha.";
+	
+	// --------------------------------------------------------------------------//
+	// ************************** IMAGEM ****************************************//
+	// --------------------------------------------------------------------------//
+	public final static String IMG_SELECIONE = "Selecione uma imagem.";
+	public final static String IMG_ERRO_CARREGAR = "Não foi possível carregar a imagem.";
 
 	// --------------------------------------------------------------------------//
 	// ************************** CADASTROS *************************************//
@@ -88,6 +94,11 @@ public class Mensagens {
 	// ERROS DO CADASTRO DE ENDERECO
 	public final static String CAD_ENDERECO_ENDERECO_VAZIO = "O ENDEREÇO não pode ser vazio.";
 	public final static String CAD_ENDERECO_CEP = "O CEP informado não é valido.";
+	
+	// ERROS DO CADASTRO DE GRUPO E SUB GRUPO
+	public final static String CAD_GRUPO_DESCRICAO_VAZIO = "A descrição não pode ser vazio.";
+	
+	
 	
 
 }

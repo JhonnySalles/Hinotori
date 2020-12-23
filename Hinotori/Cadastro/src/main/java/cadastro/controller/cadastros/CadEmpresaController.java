@@ -1,7 +1,5 @@
 package cadastro.controller.cadastros;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -10,8 +8,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -24,7 +20,6 @@ import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
-import comum.model.enums.TamanhoImagem;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
@@ -41,11 +36,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.FileChooser;
 import servidor.dao.services.EmpresaServices;
 import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 import servidor.validations.ValidaEmpresa;
+import utils.CadastroUtils;
 
 public class CadEmpresaController extends CadastroFormPadrao {
 
@@ -163,40 +158,19 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@FXML
 	public void onBtnProcurarImagemClick() {
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg");
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().add(extFilter);
-		fileChooser.setTitle("Selecione uma imagem.");
-		File caminhoImagem = fileChooser.showOpenDialog(null);
+		File caminhoImagem = Utils.procurarImagem();
 
 		if (caminhoImagem != null) {
 			try {
-				String imagemNome = caminhoImagem.getName();
-				String imagemExtenssao = Utils.getFileExtension(caminhoImagem);
-
-				imgLogo.setImage(new Image(caminhoImagem.toURI().toString()));
-
 				if (imagens == null)
 					imagens = new HashSet<Imagem>();
 
-				BufferedImage bImage = ImageIO.read(caminhoImagem);
-				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				ImageIO.write(bImage, imagemExtenssao, bos);
-
-				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.ORIGINAL));
-
-				BufferedImage bImg100 = Utils.resizeImage(bImage, 100, 100);
-				ImageIO.write(bImg100, imagemExtenssao, bos);
-				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.PEQUENA));
-
-				BufferedImage bImg600 = Utils.resizeImage(bImage, 600, 600);
-				ImageIO.write(bImg600, imagemExtenssao, bos);
-				imagens.add(new Imagem(imagemNome, imagemExtenssao, bos.toByteArray(), TamanhoImagem.MEDIA));
-
+				imgLogo.setImage(new Image(caminhoImagem.toURI().toString()));
+				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem));
 			} catch (IOException e) {
 				e.printStackTrace();
 				LOGGER.log(Level.INFO, "{Erro ao carregar e processar a imagem}", e);
-				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, "Não foi possível carregar a imagem.");
+				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, Mensagens.IMG_ERRO_CARREGAR);
 				setImagemPadrao();
 			}
 		}

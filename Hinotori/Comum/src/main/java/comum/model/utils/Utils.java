@@ -7,11 +7,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
 
+import comum.model.messages.Mensagens;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.robot.Robot;
+import javafx.stage.FileChooser;
 
 /**
  * <p>
@@ -197,5 +199,46 @@ public class Utils {
 		return "#" + (format(value.getRed()) + format(value.getGreen()) + format(value.getBlue())
 				+ format(value.getOpacity())).toUpperCase();
 	}
+	
+	/**
+	 * <p>
+	 * Função para abrir a tela de abertura do windows para escolher uma imagem.
+	 * </p>
+	 * 
+	 * @return Retorna um <b>File</b> contendo as propriedades do caminho da imagem
+	 *         ou null se não for escolhido nenhuma imagem.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static File procurarImagem() {
+		return procurarImagem("", "");
+	}
 
+	/**
+	 * <p>
+	 * Função para abrir a tela de abertura do windows para escolher uma imagem.
+	 * </p>
+	 * 
+	 * 
+	 * @param caminhoInicial Campo opcional com o caminho inicial da tela.
+	 * @param nomeInicial    Campo opcional com o nome do arquivo inicial.
+	 * @return Retorna um <b>File</b> contendo as propriedades do caminho da imagem
+	 *         ou null se não for escolhido nenhuma imagem.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public static File procurarImagem(String caminhoInicial, String nomeInicial) {
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg");
+		FileChooser fileChooser = new FileChooser();
+
+		if (!caminhoInicial.isEmpty())
+			fileChooser.setInitialDirectory(new File(caminhoInicial));
+
+		if (!nomeInicial.isEmpty())
+			fileChooser.setInitialFileName(nomeInicial);
+
+		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setTitle(Mensagens.IMG_SELECIONE);
+		return fileChooser.showOpenDialog(null);
+	}
 }

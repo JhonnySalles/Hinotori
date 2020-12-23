@@ -35,8 +35,12 @@ public abstract class CadastroDialogPadrao implements Initializable {
 	protected abstract boolean validaCampos();
 
 	protected abstract void limpaCampos();
+	
+	public abstract void onClose();
 
 	public abstract CadastroDialogPadrao atualizaEntidade();
+	
+	public Boolean edicao;
 	
 	/**
 	 * <p>

@@ -83,6 +83,8 @@ public abstract class CadastroFormPadrao implements Initializable {
 
 	public abstract CadastroFormPadrao atualizaEntidade();
 	
+	public Boolean edicao;
+	
 	/**
 	 * <p>
 	 * Função para pegar a instância do cadastro que está iniciado.

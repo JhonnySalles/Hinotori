@@ -97,6 +97,11 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
 		return false;
 	}
+	
+	@Override
+	public void onClose() {
+		// TODO Auto-generated method stub
+	}
 
 	public void limpaCampos() {
 		contato = new Contato();
