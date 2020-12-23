@@ -47,6 +47,7 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao {
 
 	private GrupoBase grupoSubGrupo;
 
+	private Boolean recarregar;
 	private Boolean edicao;
 
 	@Override
@@ -66,11 +67,13 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao {
 	protected <T> void salvar(T entidade) {
 		limpaCampos();
 		edicao = false;
+		recarregar = true;
 	}
 
 	@Override
 	public <T> void carregar(T entidade) {
 		edicao = entidade != null;
+		recarregar = false;
 
 		if (entidade == null)
 			limpaCampos();
@@ -81,7 +84,7 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao {
 	@Override
 	protected boolean validaCampos() {
 		// try {
-		return false; // ValidaEndereco.validaEndereco(endereco);
+		return true; // ValidaEndereco.validaEndereco(endereco);
 		// } catch (ExcessaoCadastro e) {
 		// e.printStackTrace();
 		// }
@@ -118,6 +121,10 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao {
 	public void onBtnExcluirImagemClick() {
 
 	}
+	
+	public Boolean getRecarregar() {
+		return recarregar;
+	}
 
 	public GrupoBase getGrupoSubGrupo() {
 		return this.grupoSubGrupo;
@@ -129,7 +136,7 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao {
 		cpCorFundo.setValue(Color.WHITE);
 		cbAtivo.setSelected(true);
 		cbTipo.getSelectionModel().selectFirst();
-		cbTipo.setEditable(true);
+		cbTipo.setDisable(false);
 	}
 
 	public DialogCadGrupoSubGrupoController atualizaTela(GrupoBase grupoSubGrupo) {
@@ -151,7 +158,7 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao {
 		cbAtivo.setSelected(grupoSubGrupo.getSituacao().equals(Situacao.ATIVO));
 
 		if (edicao)
-			cbTipo.setEditable(false);
+			cbTipo.setDisable(true);
 
 		return this;
 	}

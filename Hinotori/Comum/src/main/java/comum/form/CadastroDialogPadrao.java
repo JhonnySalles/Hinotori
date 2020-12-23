@@ -55,6 +55,7 @@ public abstract class CadastroDialogPadrao implements Initializable {
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
 		INSTANCIA = this;
+		inicializa(arg0, arg1);
 	}
 
 }

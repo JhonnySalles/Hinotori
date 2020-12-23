@@ -49,7 +49,7 @@
                                     <JFXColorPicker fx:id="cpCorFundo" promptText="Cor do fundo" />
                                  </children>
                               </VBox>
-                              <JFXComboBox fx:id="cbTipo" prefWidth="150.0" promptText="Tipo" />
+                              <JFXComboBox fx:id="cbTipo" labelFloat="true" prefWidth="150.0" promptText="Tipo" />
                               <JFXCheckBox fx:id="cbAtivo" selected="true" text="Ativo" />
                            </children>
                         </HBox>

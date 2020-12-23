@@ -129,19 +129,19 @@ public class GrupoComponenteController implements Initializable {
 	 * componente visual do sub grupo.
 	 * </p>
 	 * 
-	 * @param subGrupo Um id <b>Long</b> do subGrupo a ser removido.
+	 * @param idSubGrupo Um id <b>Long</b> do subGrupo a ser removido.
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public void removeSubGrupo(Long subGrupo) {
-		Optional<SubGrupo> obj = this.grupo.getSubGrupos().stream().filter(sb -> sb.getId().equals(subGrupo))
+	public void removeSubGrupo(Long idSubGrupo) {
+		Optional<SubGrupo> obj = this.grupo.getSubGrupos().stream().filter(sb -> sb.getId().equals(idSubGrupo))
 				.findFirst();
 
 		if (obj.isPresent()) {
 			this.grupo.removeSubGrupo(obj.get());
 
 			Optional<SubGrupoComponenteController> component = this.subGrupo.stream()
-					.filter(sb -> sb.getSubGrupo().getId().equals(subGrupo)).findFirst();
+					.filter(sb -> sb.getSubGrupo().getId().equals(idSubGrupo)).findFirst();
 
 			if (component.isPresent())
 				this.subGrupo.remove(component.get());

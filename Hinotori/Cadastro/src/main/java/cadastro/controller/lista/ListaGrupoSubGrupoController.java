@@ -89,7 +89,7 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
 	@Override
 	protected void onBtnAtualizarClick() {
-		// TODO Auto-generated method stub
+		System.out.println("recarregar");
 
 	}
 
@@ -107,15 +107,20 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 				.loadDialog(DialogCadGrupoSubGrupoController.getFxmlLocate(), spRoot, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
-						if (controller.getGrupoSubGrupo() == null || controller.getGrupoSubGrupo().getId() == 0)
+						if (controller.getGrupoSubGrupo() == null)
 							return;
-
-						if (controller.getGrupoSubGrupo() instanceof SubGrupo)
-							listSubGrupo((SubGrupo) controller.getGrupoSubGrupo());
-						else
-							addGrupo((Grupo) controller.getGrupoSubGrupo());
+						
+						if (controller.getRecarregar() || controller.getGrupoSubGrupo().getId() == 0) {
+							onBtnAtualizarClick();
+						} else {
+							if (controller.getGrupoSubGrupo() instanceof SubGrupo)
+								listSubGrupo((SubGrupo) controller.getGrupoSubGrupo());
+							else
+								addGrupo((Grupo) controller.getGrupoSubGrupo());
+						}
 					}
 				});
+		
 		controller.carregar(grupoSubGrupo);
 	}
 
@@ -159,6 +164,12 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 	 * @author Jhonny de Salles Noschang
 	 */
 	public void addGrupo(Grupo grupo) {
+		Optional<GrupoComponenteController> obj = this.grupo.stream().filter(sb -> sb.getGrupo().equals(grupo))
+				.findFirst();
+
+		if (obj.isPresent())
+			this.grupo.remove(obj.get());
+
 		GrupoComponenteController grup = new GrupoComponenteController(this, grupo);
 		this.grupo.add(grup);
 
@@ -193,7 +204,6 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 				}
 			}
 		});
-
 	}
 
 	/**
@@ -256,18 +266,18 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 	 * Função para encontrar e remover o subGrupo do grupo.
 	 * </p>
 	 * 
-	 * @param subGrupo Um id <b>Long</b> do grupo que contém o subGrupo a ser
-	 *                 removido.
-	 * @param subGrupo Um id <b>Long</b> do subGrupo a ser removido.
+	 * @param idGrupo    Um id <b>Long</b> do grupo que contém o subGrupo a ser
+	 *                   removido.
+	 * @param idSubGrupo Um id <b>Long</b> do subGrupo a ser removido.
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	private void removeSubGrupo(Long grupo, Long subGrupo) {
-		Optional<GrupoComponenteController> obj = this.grupo.stream().filter(sb -> sb.getGrupo().getId().equals(grupo))
-				.findFirst();
+	private void removeSubGrupo(Long idGrupo, Long idSubGrupo) {
+		Optional<GrupoComponenteController> obj = this.grupo.stream()
+				.filter(sb -> sb.getGrupo().getId().equals(idGrupo)).findFirst();
 
 		if (obj.isPresent())
-			obj.get().removeSubGrupo(subGrupo);
+			obj.get().removeSubGrupo(idSubGrupo);
 	}
 
 	private void inicializaTeste() {
