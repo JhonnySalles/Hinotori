@@ -16,7 +16,7 @@ import comum.form.PesquisaFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.enums.Enquadramento;
-import comum.model.enums.PessoaTipo;
+import comum.model.enums.TipoPessoa;
 import comum.model.enums.Situacao;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.mask.ConverterMascaras;
@@ -69,7 +69,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 	private JFXComboBox<Enquadramento> cbEnquadramento;
 
 	@FXML
-	private JFXComboBox<PessoaTipo> cbPessoaTipo;
+	private JFXComboBox<TipoPessoa> cbPessoaTipo;
 
 	@FXML
 	private TableView<Cliente> tbClientes;
@@ -195,7 +195,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 						|| obj.getDataCadastro().after(Timestamp.valueOf(dtPkCadastroFinal.getValue().atStartOfDay())))
 
 				&& (cbPessoaTipo.getSelectionModel().getSelectedIndex() < 0
-						|| obj.getPessoaTipo() == cbPessoaTipo.getSelectionModel().getSelectedItem())
+						|| obj.getTipoPessoa() == cbPessoaTipo.getSelectionModel().getSelectedItem())
 				&& (cbEnquadramento.getSelectionModel().getSelectedIndex() < 0
 						|| obj.getEnquadramento() == cbEnquadramento.getSelectionModel().getSelectedItem())
 				&& (cbSituacao.getSelectionModel().getSelectedIndex() < 0
@@ -409,7 +409,7 @@ public class PsqClienteController extends PesquisaFormPadrao {
 		linkaCelulas();
 
 		cbSituacao.getItems().addAll(Situacao.values());
-		cbPessoaTipo.getItems().addAll(PessoaTipo.values());
+		cbPessoaTipo.getItems().addAll(TipoPessoa.values());
 		cbEnquadramento.getItems().addAll(Enquadramento.values());
 	}
 

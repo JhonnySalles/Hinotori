@@ -21,7 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Enquadramento;
-import comum.model.enums.PessoaTipo;
+import comum.model.enums.TipoPessoa;
 import comum.model.enums.Situacao;
 
 @Entity
@@ -46,7 +46,7 @@ public class Cliente extends Pessoa {
 
 	@Column(name = "Tipo", columnDefinition = "enum('FISICO','JURIDICO','AMBOS')")
 	@Enumerated(EnumType.STRING)
-	private PessoaTipo pessoaTipo;
+	private TipoPessoa tipoPessoa;
 
 	@Column(name = "Enquadramento", columnDefinition = "enum('CLIENTE','FORNECEDOR','AMBOS')")
 	@Enumerated(EnumType.STRING)
@@ -98,12 +98,12 @@ public class Cliente extends Pessoa {
 		this.observacao = observacao;
 	}
 
-	public PessoaTipo getPessoaTipo() {
-		return pessoaTipo;
+	public TipoPessoa getTipoPessoa() {
+		return tipoPessoa;
 	}
 
-	public void setPessoaTipo(PessoaTipo pessoaTipo) {
-		this.pessoaTipo = pessoaTipo;
+	public void setTipoPessoa(TipoPessoa tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
 	}
 
 	public Enquadramento getEnquadramento() {
@@ -148,7 +148,7 @@ public class Cliente extends Pessoa {
 		this.cpf = "";
 		this.cnpj = "";
 		this.observacao = "";
-		this.pessoaTipo = PessoaTipo.FISICO;
+		this.tipoPessoa = TipoPessoa.FISICO;
 		this.enquadramento = Enquadramento.CLIENTE;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
@@ -160,34 +160,34 @@ public class Cliente extends Pessoa {
 		this.cpf = "";
 		this.cnpj = "";
 		this.observacao = "";
-		this.pessoaTipo = PessoaTipo.FISICO;
+		this.tipoPessoa = TipoPessoa.FISICO;
 		this.enquadramento = Enquadramento.CLIENTE;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 	}
 
 	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
-			PessoaTipo pessoaTipo, Enquadramento enquadramento, Situacao situacao) {
+			TipoPessoa tipoPessoa, Enquadramento enquadramento, Situacao situacao) {
 		super(id, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), situacao);
 		this.razaoSocial = razaoSocial;
 		this.cpf = cpf;
 		this.cnpj = cnpj;
 		this.observacao = observacao;
-		this.pessoaTipo = pessoaTipo;
+		this.tipoPessoa = tipoPessoa;
 		this.enquadramento = enquadramento;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 	}
 
 	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
-			Timestamp dataCadastro, Timestamp dataUltimaAlteracao, PessoaTipo pessoaTipo, Enquadramento enquadramento,
+			Timestamp dataCadastro, Timestamp dataUltimaAlteracao, TipoPessoa tipoPessoa, Enquadramento enquadramento,
 			Situacao situacao, Set<Contato> contatos, Set<Endereco> enderecos) {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.razaoSocial = razaoSocial;
 		this.cpf = cpf;
 		this.cnpj = cnpj;
 		this.observacao = observacao;
-		this.pessoaTipo = pessoaTipo;
+		this.tipoPessoa = tipoPessoa;
 		this.enquadramento = enquadramento;
 		this.contatos = contatos;
 		this.enderecos = enderecos;
@@ -196,7 +196,7 @@ public class Cliente extends Pessoa {
 	@Override
 	public String toString() {
 		return "Cliente [razaoSocial=" + razaoSocial + ", cpf=" + cpf + ", cnpj=" + cnpj + ", observacao=" + observacao
-				+ ", pessoaTipo=" + pessoaTipo + ", enquadramento=" + enquadramento + ", contatos=" + contatos
+				+ ", tipoPessoa=" + tipoPessoa + ", enquadramento=" + enquadramento + ", contatos=" + contatos
 				+ ", enderecos=" + enderecos + "]";
 	}
 

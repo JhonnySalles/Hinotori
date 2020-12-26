@@ -38,9 +38,6 @@ public class Contato extends Pessoa {
 	@Enumerated(EnumType.STRING)
 	private TipoContato tipoContato;
 
-	@Column(name = "DataCadastro")
-	private Timestamp dataCadastro;
-
 	@Column(name = "Padrao", columnDefinition = "tinyint(1)")
 	@Convert(converter = BooleanPropertyConverter.class)
 	private SimpleBooleanProperty padrao = new SimpleBooleanProperty(false);
@@ -79,14 +76,6 @@ public class Contato extends Pessoa {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
-	}
-
-	public Timestamp getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(Timestamp dataCadastro) {
-		this.dataCadastro = dataCadastro;
 	}
 
 	public TipoContato getTipoContato() {
@@ -130,7 +119,6 @@ public class Contato extends Pessoa {
 		this.celular = celular;
 		this.email = email;
 		this.observacao = observacao;
-		this.dataCadastro = dataCadastro;
 		this.tipoContato = tipoContato;
 		this.padrao.set(padrao);
 	}
@@ -175,7 +163,7 @@ public class Contato extends Pessoa {
 	@Override
 	public String toString() {
 		return "Contato [telefone=" + telefone + ", celular=" + celular + ", email=" + email + ", observacao="
-				+ observacao + ", tipoContato=" + tipoContato + ", dataCadastro=" + dataCadastro + ", padrao=" + padrao
+				+ observacao + ", tipoContato=" + tipoContato + ", padrao=" + padrao
 				+ "]";
 	}
 

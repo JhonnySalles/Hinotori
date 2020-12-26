@@ -70,7 +70,7 @@ public class Produto implements Serializable {
 	@Column(name = "DataUltimaAlteracao", columnDefinition = "datetime")
 	private Timestamp dataUltimaAlteracao;
 
-	@Column(name = "Tipo", columnDefinition = "enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL')", length = 20)
+	@Column(name = "TipoProduto", columnDefinition = "enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL')", length = 20)
 	@Enumerated(EnumType.STRING)
 	private TipoProduto tipoProduto;
 

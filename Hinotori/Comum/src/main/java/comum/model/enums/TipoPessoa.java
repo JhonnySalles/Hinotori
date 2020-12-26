@@ -7,22 +7,22 @@ package comum.model.enums;
  * 
  * @author Jhonny de Salles Noschang
  */
-public enum PessoaTipo {
+public enum TipoPessoa {
 	
 	FISICO("Físico"), JURIDICO("Júridico"), AMBOS("Ambos");
 
-	private String pessoaTipo;
+	private String tipoPessoa;
 
-	PessoaTipo(String pessoaTipo) {
-		this.pessoaTipo = pessoaTipo;
+	TipoPessoa(String tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
 	}
 
 	public String getDescricao() {
-		return pessoaTipo;
+		return tipoPessoa;
 	}
 	
 	@Override      
 	public String toString(){
-	    return this.pessoaTipo;
+	    return this.tipoPessoa;
 	}  
 }

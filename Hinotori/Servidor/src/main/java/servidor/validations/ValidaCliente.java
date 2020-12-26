@@ -1,7 +1,7 @@
 package servidor.validations;
 
 import comum.model.constraints.Validadores;
-import comum.model.enums.PessoaTipo;
+import comum.model.enums.TipoPessoa;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.messages.Mensagens;
 import servidor.entities.Cliente;
@@ -29,9 +29,9 @@ public class ValidaCliente {
 
 		validaNome(cliente.getNomeSobrenome());
 
-		validaPessoa(cliente.getPessoaTipo(), cliente.getCnpj(), cliente.getCpf());
+		validaPessoa(cliente.getTipoPessoa(), cliente.getCnpj(), cliente.getCpf());
 
-		validaRazaoSocial(cliente.getPessoaTipo(), cliente.getRazaoSocial());
+		validaRazaoSocial(cliente.getTipoPessoa(), cliente.getRazaoSocial());
 
 		return true;
 	}
@@ -41,7 +41,7 @@ public class ValidaCliente {
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_NOME_VAZIO);
 	}
 
-	public static void validaPessoa(PessoaTipo pessoa, String cnpj, String cpf) throws ExcessaoCadastro {
+	public static void validaPessoa(TipoPessoa pessoa, String cnpj, String cpf) throws ExcessaoCadastro {
 		switch (pessoa) {
 		case FISICO:
 			validaCPF(cpf);
@@ -70,8 +70,8 @@ public class ValidaCliente {
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CNPJ);
 	}
 
-	public static void validaRazaoSocial(PessoaTipo pessoa, String razaoSocial) throws ExcessaoCadastro {
-		if (!pessoa.equals(PessoaTipo.FISICO) && razaoSocial.isEmpty())
+	public static void validaRazaoSocial(TipoPessoa pessoa, String razaoSocial) throws ExcessaoCadastro {
+		if (!pessoa.equals(TipoPessoa.FISICO) && razaoSocial.isEmpty())
 			throw new ExcessaoCadastro(Mensagens.CAD_RAZAO_SOCIAL_VAZIA);
 	}
 

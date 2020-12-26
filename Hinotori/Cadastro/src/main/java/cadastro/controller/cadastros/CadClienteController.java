@@ -18,7 +18,7 @@ import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Enquadramento;
-import comum.model.enums.PessoaTipo;
+import comum.model.enums.TipoPessoa;
 import comum.model.enums.Situacao;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
@@ -70,7 +70,7 @@ public class CadClienteController extends CadastroFormPadrao {
 	private JFXComboBox<Enquadramento> cbEnquadramento;
 
 	@FXML
-	private JFXComboBox<PessoaTipo> cbPessoaTipo;
+	private JFXComboBox<TipoPessoa> cbPessoaTipo;
 
 	@FXML
 	private JFXButton btnContato;
@@ -285,7 +285,7 @@ public class CadClienteController extends CadastroFormPadrao {
 			txtAreaObservacao.setText(cliente.getObservacao());
 
 		cbSituacao.getSelectionModel().select(cliente.getSituacao().ordinal());
-		cbEnquadramento.getSelectionModel().select(cliente.getPessoaTipo().ordinal());
+		cbEnquadramento.getSelectionModel().select(cliente.getTipoPessoa().ordinal());
 		cbPessoaTipo.getSelectionModel().select(cliente.getEnquadramento().ordinal());
 
 		return this;
@@ -312,12 +312,12 @@ public class CadClienteController extends CadastroFormPadrao {
 	}
 
 	private CadClienteController configuraExitCampos() {
-		cbPessoaTipo.valueProperty().addListener(new ChangeListener<PessoaTipo>() {
+		cbPessoaTipo.valueProperty().addListener(new ChangeListener<TipoPessoa>() {
 			@Override
-			public void changed(ObservableValue<? extends PessoaTipo> observable, PessoaTipo oldValue,
-					PessoaTipo newValue) {
+			public void changed(ObservableValue<? extends TipoPessoa> observable, TipoPessoa oldValue,
+					TipoPessoa newValue) {
 				if (newValue != null)
-					txtRazaoSocial.setDisable(newValue.equals(PessoaTipo.FISICO));
+					txtRazaoSocial.setDisable(newValue.equals(TipoPessoa.FISICO));
 			}
 		});
 
@@ -346,7 +346,7 @@ public class CadClienteController extends CadastroFormPadrao {
 		configuraExitCampos();
 
 		cbSituacao.getItems().addAll(Situacao.values());
-		cbPessoaTipo.getItems().addAll(PessoaTipo.values());
+		cbPessoaTipo.getItems().addAll(TipoPessoa.values());
 		cbEnquadramento.getItems().addAll(Enquadramento.values());
 
 		limpaCampos();
