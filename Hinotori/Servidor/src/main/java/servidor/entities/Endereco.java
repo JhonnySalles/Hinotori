@@ -56,7 +56,7 @@ public class Endereco implements Serializable {
 	@Column(name = "DataCadastro", columnDefinition = "datetime")
 	private Timestamp dataCadastro;
 
-	@Column(name = "Tipo", columnDefinition = "enum('COMERCIAL','COBRANÇA','ENTREGA','OUTROS')")
+	@Column(name = "Tipo", columnDefinition = "enum('RESIDENCIAL','COMERCIAL','COBRANCA','ENTREGA','OUTROS')")
 	@Enumerated(EnumType.STRING)
 	private TipoEndereco tipoEndereco;
 
