@@ -13,7 +13,7 @@ package comum.model.enums;
  */
 public enum TipoEndereco {
 
-	COMERCIAL("Comercial"), RESIDENCIAL("Residencial"), COBRANCA("Cobrança"), ENTREGA("Entrega"), OUTROS("Outros");
+	 RESIDENCIAL("Residencial"), COMERCIAL("Comercial"), COBRANCA("Cobrança"), ENTREGA("Entrega"), OUTROS("Outros");
 
 	private String tipoEndereco;
 

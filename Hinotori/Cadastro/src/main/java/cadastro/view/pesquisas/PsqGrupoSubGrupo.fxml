@@ -11,8 +11,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -81,16 +79,8 @@
                               <HBox alignment="CENTER" minHeight="35.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <JFXTextField fx:id="txtDescricao" labelFloat="true" promptText="Grupo" HBox.hgrow="ALWAYS" />
-                                    <JFXTextField fx:id="txtCodigoBarras" labelFloat="true" promptText="SubGrupo" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <TreeTableView prefHeight="200.0" prefWidth="200.0">
-                                <columns>
-                                    <TreeTableColumn prefWidth="75.0" text="Id" />
-                                  <TreeTableColumn prefWidth="75.0" text="Grupo" />
-                                  <TreeTableColumn prefWidth="75.0" text="SubGrupo" />
-                                </columns>
-                              </TreeTableView>
                               <TableView fx:id="tbProdutos" VBox.vgrow="ALWAYS">
                                  <columns>
                                     <TableColumn fx:id="tbClId" minWidth="40.0" prefWidth="43.0" text="Id" />

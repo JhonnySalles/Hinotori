@@ -21,6 +21,7 @@ import comum.model.utils.ViewGerenciador;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -72,6 +73,9 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
 	private ObservableList<SubGrupoComponenteController> subGrupo = FXCollections.observableArrayList();
 
+	final static PseudoClass ADICIONAR = PseudoClass.getPseudoClass("Adicionar");
+	final static PseudoClass REMOVER = PseudoClass.getPseudoClass("Remover");
+	
 	@Override
 	protected void onBtnNovoClick() {
 		abreTelaCadGrupoSubGrupo(null);
@@ -131,18 +135,19 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
 	public void setTextoAvisoCampoRemover(String texto, Boolean tipoRemover) {
 		if (texto.isEmpty()) {
-			lblRemover.setText("Excluir");
-			hbRemover.setStyle("-fx-background-radius: 5; -fx-background-color: #ef6950;");
+			lblRemover.setText("Remover");
+			hbRemover.pseudoClassStateChanged(REMOVER, false);
+			hbRemover.pseudoClassStateChanged(ADICIONAR, false);
 			hbRemover.setEffect(null);
 			aplicarEfeitoGrupos(false);
 		} else {
 			lblRemover.setText(texto);
 
 			if (tipoRemover) {
-				hbRemover.setStyle("-fx-background-radius: 5; -fx-background-color: #ff0000;");
+				hbRemover.pseudoClassStateChanged(REMOVER, true);
 				hbRemover.setEffect(EFEITO_DESTAQUE);
 			} else {
-				hbRemover.setStyle("-fx-background-radius: 5; -fx-background-color: #0066ff;");
+				hbRemover.pseudoClassStateChanged(ADICIONAR, true);
 				aplicarEfeitoGrupos(true);
 			}
 		}
