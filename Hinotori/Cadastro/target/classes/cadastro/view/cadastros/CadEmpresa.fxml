@@ -23,7 +23,7 @@
          <children>
             <ScrollPane fx:id="spBackground" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
-                <AnchorPane fx:id="apContainerInterno" minHeight="-Infinity" minWidth="600.0" styleClass="background-cartao">
+                <AnchorPane fx:id="apContainerInterno" styleClass="background-cartao">
                      <children>
                         <HBox fx:id="hbTitulo" alignment="CENTER" prefHeight="200.0" styleClass="titBackound-empresa" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
@@ -37,9 +37,9 @@
                               </Label>
                            </children>
                         </HBox>
-                        <VBox alignment="TOP_CENTER" maxHeight="1000.0" maxWidth="1200.0" minHeight="370.0" minWidth="650.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+                        <VBox alignment="TOP_CENTER" minHeight="400.0" minWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
                            <children>
-                              <VBox alignment="TOP_CENTER" maxHeight="800.0" maxWidth="1000.0" minHeight="350.0" minWidth="600.0" spacing="30.0" styleClass="background-dados">
+                              <VBox alignment="TOP_CENTER" maxHeight="800.0" maxWidth="1000.0" minHeight="350.0" minWidth="700.0" spacing="30.0" styleClass="background-dados">
                                  <padding>
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                  </padding>

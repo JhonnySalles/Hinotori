@@ -148,6 +148,71 @@
 	-fx-text-fill: white;
 }
 
+.tb-PsqUnidade {
+    -fx-border-color:  #BF360C;
+}
+
+.tb-PsqUnidade .table-cell {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.tb-PsqUnidade .column-header,
+.tb-PsqUnidade .column-header-background .filler {
+    -fx-background-color:  #BF360C;
+}
+
+.tb-PsqUnidade .column-header-background{
+    -fx-background-color:  #BF360C;
+}
+
+.tbPane-Produtos .tab .tab-label {
+	-fx-alignment: CENTER;
+	-fx-text-fill: #FFFFFF;
+	-fx-font-size: 12px;
+	-fx-font-weight: bold;
+}
+
+.tbPane-Produtos .tab:selected {
+	-fx-background-color: #FFFFFF;
+	-fx-pref-height: 35px;
+	-fx-border-width: 0;
+}
+
+.tbPane-Produtos .tab:selected .tab-label {
+	-fx-text-fill: #000000;
+}
+
+.tbPane-Produtos .tab:hover .tab-label {
+	-fx-text-fill: #000000;
+}
+
+.tbPane-Produtos .tab:selected:hover .tab-label {
+	-fx-text-fill: #595959;
+}
+
+.tbPane-Produtos .control-buttons-tab .jfx-rippler {
+	-jfx-rippler-fill: #BF360C;
+}
+
+.tbPane-Produtos .tab-header-area .jfx-rippler {
+	-jfx-rippler-fill: #BF360C;
+}
+
+.tbPane-Produtos .tab-selected-line {
+	-fx-background-color: #BF360C;
+	-fx-pref-height: 3;
+	-fx-background-insets: 0 -0.01 0 -0.01;
+}
+
+.tbPane-Produtos .headers-region {
+	-fx-background-color: transparent;
+}
+
+.tbPane-Produtos .tab-header-background {
+	-fx-background-color: #BF360C;
+	-fx-background-color: linear-gradient(to top right, #F57C00, #BF360C);
+}
+
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*------------------------------------------------ Cadastro de Geral ---------------------------------------------------------*/
@@ -182,7 +247,7 @@
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
-/*------------------------------------------- Cadastro de endereço -----------------------------------------------------------*/
+/*------------------------------------------- Cadastro de endereco -----------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 /*----------  Image endereço ----------*/
