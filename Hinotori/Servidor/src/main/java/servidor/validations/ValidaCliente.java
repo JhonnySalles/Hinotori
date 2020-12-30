@@ -47,7 +47,11 @@ public class ValidaCliente {
 			validaCPF(cpf);
 			break;
 		case JURIDICO:
-			validaCPF(cnpj);
+			validaCNPJ(cnpj);
+			break;
+		case AMBOS:
+			validaCPF(cpf);
+			validaCNPJ(cnpj);
 			break;
 		default:
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_TIPO_CLIENTE_VAZIO);
@@ -64,7 +68,7 @@ public class ValidaCliente {
 
 	public static void validaCNPJ(String cnpj) throws ExcessaoCadastro {
 		if (cnpj == null || cnpj.isEmpty())
-			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CPF);
+			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CNPJ);
 
 		if (!Validadores.validaCnpj(cnpj))
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CNPJ);

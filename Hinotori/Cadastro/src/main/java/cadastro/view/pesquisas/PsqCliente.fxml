@@ -101,6 +101,9 @@
                                  </children>
                               </HBox>
                               <TableView fx:id="tbClientes" VBox.vgrow="ALWAYS">
+                                 <placeholder>
+                                    <Label text="Lista vazia." />
+                                 </placeholder>
                                  <columns>
                                     <TableColumn fx:id="tbClId" minWidth="40.0" prefWidth="43.0" text="Id" />
                                     <TableColumn fx:id="tbClNome" minWidth="100.0" prefWidth="150.0" text="Nome e sobrenome" />

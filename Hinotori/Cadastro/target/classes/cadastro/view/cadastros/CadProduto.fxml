@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -52,9 +53,9 @@
                                     <DropShadow height="15.0" offsetX="1.0" offsetY="1.0" radius="7.0" width="15.0" />
                                  </effect>
                                  <children>
-                                    <JFXTabPane styleClass="tbPane-Produtos" VBox.vgrow="ALWAYS">
+                                    <JFXTabPane fx:id="tpContainer" styleClass="tbPane-Produtos" VBox.vgrow="ALWAYS">
                                        <tabs>
-                                          <Tab closable="false" text="Produto">
+                                          <Tab fx:id="tabProduto" closable="false" text="Produto">
                                             <content>
                                               <AnchorPane>
                                                    <children>
@@ -65,7 +66,7 @@
                                                          <children>
                                                             <HBox alignment="CENTER" spacing="10.0">
                                                                <children>
-                                                                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                                  <VBox spacing="15.0" HBox.hgrow="ALWAYS">
                                                                      <children>
                                                                         <HBox alignment="CENTER" minHeight="35.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                                            <children>
@@ -96,7 +97,7 @@
                                                                         </HBox>
                                                                         <HBox alignment="CENTER" minHeight="35.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                                                            <children>
-                                                                              <JFXTextField fx:id="txtCodigoBarras" labelFloat="true" promptText="Grupo" HBox.hgrow="ALWAYS">
+                                                                              <JFXTextField fx:id="txtGrupo" labelFloat="true" promptText="Grupo" HBox.hgrow="ALWAYS">
                                                                                  <font>
                                                                                     <Font name="Times New Roman" size="12.0" />
                                                                                  </font>
@@ -105,7 +106,7 @@
                                                                         </HBox>
                                                                         <HBox alignment="CENTER" minHeight="35.0" spacing="5.0">
                                                                            <children>
-                                                                              <JFXTextField fx:id="txtCodigoBarras1" labelFloat="true" promptText="Sub Grupo" HBox.hgrow="ALWAYS">
+                                                                              <JFXTextField fx:id="txtSubGrupo" labelFloat="true" promptText="Sub Grupo" HBox.hgrow="ALWAYS">
                                                                                  <font>
                                                                                     <Font name="Times New Roman" size="12.0" />
                                                                                  </font>
@@ -146,7 +147,7 @@
                                                             </HBox>
                                                             <HBox alignment="CENTER" minHeight="35.0" spacing="5.0">
                                                                <children>
-                                                                  <JFXTextField fx:id="txtCodigoBarras11" labelFloat="true" promptText="NCM" HBox.hgrow="ALWAYS">
+                                                                  <JFXTextField fx:id="txtNCM" labelFloat="true" promptText="NCM" HBox.hgrow="ALWAYS">
                                                                      <font>
                                                                         <Font name="Times New Roman" size="12.0" />
                                                                      </font>
@@ -155,8 +156,8 @@
                                                             </HBox>
                                                             <HBox alignment="CENTER" minHeight="50.0" spacing="10.0" stylesheets="@../../resources/css/White_SpinnerHorizontal.css">
                                                                <children>
-                                                                  <JFXComboBox prefWidth="100.0" promptText="Categoria" />
-                                                                  <JFXComboBox prefWidth="200.0" promptText="Origem" />
+                                                                  <JFXComboBox fx:id="cbCategoria" prefHeight="30.0" prefWidth="100.0" promptText="Categoria" />
+                                                                  <JFXComboBox fx:id="cbOrigem" prefHeight="30.0" prefWidth="200.0" promptText="Origem" />
                                                                   <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                                                      <children>
                                                                         <Label text="Peso líquido" VBox.vgrow="ALWAYS">
@@ -164,7 +165,7 @@
                                                                               <Insets />
                                                                            </VBox.margin>
                                                                         </Label>
-                                                                        <Spinner fx:id="spnPeso" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
+                                                                        <Spinner fx:id="spnPesoLiquido" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
                                                                        		<valueFactory>
                                                     							<SpinnerValueFactory.DoubleSpinnerValueFactory amountToStepBy="1" initialValue="0" max="1000000000.0" min="0.0" />
                                                 							</valueFactory>
@@ -178,7 +179,7 @@
                                                                               <Insets />
                                                                            </VBox.margin>
                                                                         </Label>
-                                                                        <Spinner fx:id="spnVolume" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
+                                                                        <Spinner fx:id="spnPesoBruto" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
                                                                        		<valueFactory>
                                                     							<SpinnerValueFactory.DoubleSpinnerValueFactory amountToStepBy="1" initialValue="0" max="1000000000.0" min="0.0" />
                                                 							</valueFactory>
@@ -189,7 +190,7 @@
                                                             </HBox>
                                                             <HBox alignment="CENTER" prefHeight="80.0" VBox.vgrow="ALWAYS">
                                                                <children>
-                                                                  <JFXTextArea fx:id="txtAreaObservacao" promptText="Descrição complementar" styleClass="textArea-produto" HBox.hgrow="ALWAYS" />
+                                                                  <JFXTextArea fx:id="txtAreaDescricaoComplementar" promptText="Descrição complementar" styleClass="textArea-produto" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
                                                          </children>
@@ -198,7 +199,7 @@
                                                 </AnchorPane>
                                             </content>
                                           </Tab>
-                                          <Tab closable="false" text="Unidade">
+                                          <Tab fx:id="tabUnidade" closable="false" text="Unidade">
                                             <content>
                                               <AnchorPane>
                                                    <children>
@@ -209,21 +210,21 @@
                                                          <children>
                                                             <HBox alignment="CENTER">
                                                                <children>
-                                                                  <JFXTextField fx:id="txtUnidade11" prefHeight="35.0" promptText="Empresa" HBox.hgrow="ALWAYS" />
+                                                                  <JFXTextField fx:id="txtEmpresa" prefHeight="35.0" promptText="Empresa" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
                                                             <HBox alignment="CENTER">
                                                                <children>
-                                                                  <JFXTextField fx:id="txtUnidade1" prefHeight="35.0" promptText="Unidade" HBox.hgrow="ALWAYS" />
+                                                                  <JFXTextField fx:id="txtUnidade" prefHeight="35.0" promptText="Unidade" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
                                                             <HBox alignment="CENTER" spacing="10.0" stylesheets="@../../resources/css/White_SpinnerHorizontal.css">
                                                                <children>
-                                                                  <JFXTextField fx:id="txtMarca1" prefHeight="35.0" promptText="Código de barras" HBox.hgrow="ALWAYS" />
+                                                                  <JFXTextField fx:id="txtCodigoBarras" prefHeight="35.0" promptText="Código de barras" HBox.hgrow="ALWAYS" />
                                                                   <VBox alignment="CENTER_LEFT" spacing="5.0">
                                                                      <children>
-                                                                        <JFXCheckBox text="Unidade Padrão" />
-                                                                        <JFXCheckBox text="Embalagem padrão" />
+                                                                        <JFXCheckBox fx:id="cbUnidadePadrao" selected="true" text="Unidade Padrão" />
+                                                                        <JFXCheckBox fx:id="cbEmbalagemPadrao" text="Embalagem padrão" />
                                                                      </children>
                                                                   </VBox>
                                                                   <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
@@ -233,7 +234,7 @@
                                                                               <Insets />
                                                                            </VBox.margin>
                                                                         </Label>
-                                                                        <Spinner fx:id="spnPeso1" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
+                                                                        <Spinner fx:id="spnQuantidade" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
                                                                            <valueFactory>
                                                                               <SpinnerValueFactory.DoubleSpinnerValueFactory amountToStepBy="1" initialValue="0" max="1000000000.0" min="0.0" />
                                                                            </valueFactory>
@@ -247,7 +248,7 @@
                                                                               <Insets />
                                                                            </VBox.margin>
                                                                         </Label>
-                                                                        <Spinner fx:id="spnVolume1" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
+                                                                        <Spinner fx:id="spnFatorConversao" editable="true" styleClass="split-arrows-horizontal" VBox.vgrow="ALWAYS">
                                                                            <valueFactory>
                                                                               <SpinnerValueFactory.DoubleSpinnerValueFactory amountToStepBy="1" initialValue="0" max="1000000000.0" min="0.0" />
                                                                            </valueFactory>
@@ -258,15 +259,27 @@
                                                             </HBox>
                                                             <HBox alignment="CENTER" spacing="10.0">
                                                                <children>
-                                                                  <JFXButton fx:id="btnAdicionar" text="Adicionar" />
-                                                                  <JFXButton fx:id="btnRemover" text="Remover" />
+                                                                  <JFXButton fx:id="btnAdicionar" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" prefHeight="30.0" prefWidth="100.0" text="Adicionar" />
+                                                                  <JFXButton fx:id="btnRemover" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" prefHeight="30.0" prefWidth="100.0" text="Remover" />
                                                                </children>
                                                             </HBox>
-                                                            <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                            <TableView fx:id="tbUnidade" VBox.vgrow="ALWAYS">
+                                                              <placeholder>
+                                                                  <Label text="Nenhuma unidade informada." />
+                                                              </placeholder>
                                                               <columns>
-                                                                <TableColumn prefWidth="75.0" text="C1" />
-                                                                <TableColumn prefWidth="75.0" text="C2" />
+                                                                  <TableColumn fx:id="tbClFilial" prefWidth="50.0" text="Filial" />
+                                                                <TableColumn fx:id="tbClUnidade" prefWidth="150.0" text="Unidade" />
+                                                                  <TableColumn fx:id="tbClCodigoBarras" prefWidth="150.0" text="Cód. Barras" />
+                                                                  <TableColumn fx:id="tbClQuantidade" text="Quantidade" />
+                                                                  <TableColumn fx:id="tbClFatorConversao" text="Fator" />
+                                                                  <TableColumn fx:id="tbClUnidadePadrao" text="Uni. Padrão" />
+                                                                  <TableColumn fx:id="tbClEmbalagemPadrao" text="Emb. Padrão" />
                                                               </columns>
+                                                               <styleClass>
+                                                                  <String fx:value="table-border" />
+                                                                  <String fx:value="tb-PsqUnidade" />
+                                                               </styleClass>
                                                             </TableView>
                                                          </children>
                                                       </VBox>

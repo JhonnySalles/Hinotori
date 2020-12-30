@@ -5,12 +5,16 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.controller.implementos.ValidateRazaoSocial;
 import cadastro.controller.lista.ListaContatoController;
 import cadastro.controller.lista.ListaEnderecoController;
 import comum.form.CadastroFormPadrao;
@@ -18,8 +22,8 @@ import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Enquadramento;
-import comum.model.enums.TipoPessoa;
 import comum.model.enums.Situacao;
+import comum.model.enums.TipoPessoa;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
 import comum.model.messages.Mensagens;
@@ -323,16 +327,33 @@ public class CadClienteController extends CadastroFormPadrao {
 
 		return this;
 	}
+	
+	private CadClienteController configuraValidate() {
+		Validadores.setTextFieldNotEmpty(txtNome);
+		Validadores.setTextFieldCPFValidate(txtCpf);
+		Validadores.setTextFieldCNPJValidate(txtCnpj);
+
+
+		ValidateRazaoSocial validator = new ValidateRazaoSocial(cbPessoaTipo, "Campo obrigatório!");
+		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
+		warnIcon.getStyleClass().add("error");
+		validator.setIcon(warnIcon);
+
+		txtRazaoSocial.getValidators().add(validator);
+		txtRazaoSocial.focusedProperty().addListener((o, oldVal, newVal) -> {
+			if (!newVal)
+				txtRazaoSocial.validate();
+		});
+		
+		return this;
+	}
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
 		Limitadores.setTextFieldInteger(txtId);
 
-		Validadores.setTextFieldNotEmpty(txtNome);
-		Validadores.setTextFieldCPFValidate(txtCpf);
-		Validadores.setTextFieldCNPJValidate(txtCnpj);
-		// Validadores.setTextFieldChangeBlack(txtRazaoSocial);
-
+		configuraValidate();
+		
 		Mascaras.cpfField(txtCpf);
 		Mascaras.cnpjField(txtCnpj);
 

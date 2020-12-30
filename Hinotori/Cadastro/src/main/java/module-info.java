@@ -15,6 +15,8 @@ module Cadastro {
 	requires org.controlsfx.controls;
 	requires AnimateFX;
 	requires java.sql;
+	requires org.kordamp.ikonli.javafx;
+	requires org.kordamp.ikonli.fontawesome5;
 
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens cadastro.controller.cadastros to javafx.fxml;

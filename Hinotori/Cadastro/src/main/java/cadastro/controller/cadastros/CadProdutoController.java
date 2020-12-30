@@ -11,7 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
@@ -32,6 +34,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -51,28 +56,45 @@ public class CadProdutoController extends CadastroFormPadrao {
 			.getResourceAsStream("/cadastro/resources/imagens/white/geral/icoProdutoImage_256.png"));
 
 	@FXML
+	private JFXTabPane tpContainer;
+
+	@FXML
+	private Tab tabProduto;
+
+	@FXML
+	private Tab tabUnidade;
+
+	// -------------------------------- Produto -------------------------------- //
+
+	@FXML
 	private JFXTextField txtId;
 
 	@FXML
 	private JFXTextField txtDescricao;
 
 	@FXML
-	private JFXTextField txtCodigoBarras;
+	private JFXTextField txtGrupo;
 
 	@FXML
-	private JFXTextField txtUnidade;
+	private JFXTextField txtSubGrupo;
 
 	@FXML
-	private JFXTextField txtMarca;
+	private JFXTextField txtNCM;
 
 	@FXML
-	private Spinner<Double> spnPeso;
+	private JFXComboBox<Situacao> cbCategoria;
 
 	@FXML
-	private Spinner<Double> spnVolume;
+	private JFXComboBox<Situacao> cbOrigem;
 
 	@FXML
-	private JFXTextArea txtAreaObservacao;
+	private Spinner<Double> spnPesoLiquido;
+
+	@FXML
+	private Spinner<Double> spnPesoBruto;
+
+	@FXML
+	private JFXTextArea txtAreaDescricaoComplementar;
 
 	@FXML
 	private JFXComboBox<Situacao> cbSituacao;
@@ -98,6 +120,61 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	@FXML
 	private JFXButton btnProcurarImagem;
+
+	// -------------------------------- Unidade -------------------------------- //
+
+	@FXML
+	private JFXTextField txtEmpresa;
+
+	@FXML
+	private JFXTextField txtUnidade;
+
+	@FXML
+	private JFXTextField txtCodigoBarras;
+
+	@FXML
+	private JFXCheckBox cbUnidadePadrao;
+
+	@FXML
+	private JFXCheckBox cbEmbalagemPadrao;
+
+	@FXML
+	private Spinner<Double> spnQuantidade;
+
+	@FXML
+	private Spinner<Double> spnFatorConversao;
+
+	@FXML
+	private JFXButton btnAdicionar;
+
+	@FXML
+	private JFXButton btnRemover;
+
+	@FXML
+	private TableView<Produto> tbUnidade;
+
+	@FXML
+	private TableColumn<Produto, String> tbClFilial;
+
+	@FXML
+	private TableColumn<Produto, String> tbClUnidade;
+
+	@FXML
+	private TableColumn<Produto, String> tbClCodigoBarras;
+
+	@FXML
+	private TableColumn<Produto, String> tbClQuantidade;
+
+	@FXML
+	private TableColumn<Produto, String> tbClFatorConversao;
+
+	@FXML
+	private TableColumn<Produto, String> tbClUnidadePadrao;
+
+	@FXML
+	private TableColumn<Produto, String> tbClEmbalagemPadrao;
+
+	// -------------------------------- -------------------------------- //
 
 	private Set<Imagem> imagens;
 	private Produto produto;
@@ -265,17 +342,30 @@ public class CadProdutoController extends CadastroFormPadrao {
 	protected void limpaCampos() {
 		produto = new Produto();
 
+		// ----------------- Produto ----------------- //
 		txtId.setText("0");
 		txtDescricao.setText("");
 		txtCodigoBarras.setText("");
 		txtUnidade.setText("");
-		txtMarca.setText("");
-		spnPeso.getEditor().setText("0");
-		spnVolume.getEditor().setText("0");
-		txtAreaObservacao.setText("");
+		txtGrupo.setText("");
+		txtSubGrupo.setText("");
+		txtNCM.setText("");
+		spnPesoLiquido.getEditor().setText("0");
+		spnPesoBruto.getEditor().setText("0");
+		txtAreaDescricaoComplementar.setText("");
 		cbSituacao.getSelectionModel().selectFirst();
 		cbTipoProduto.getSelectionModel().selectFirst();
-		frameNCMController.limpaCampos();
+
+		// ----------------- Unidade ----------------- //
+		txtEmpresa.setText("");
+		txtUnidade.setText("");
+		txtCodigoBarras.setText("");
+		cbUnidadePadrao.setSelected(true);
+		cbEmbalagemPadrao.setSelected(false);
+		spnQuantidade.getEditor().setText("0");
+		spnFatorConversao.getEditor().setText("0");
+
+		// ----------------- ----------------- //
 		setImagemPadrao();
 	}
 
@@ -315,9 +405,10 @@ public class CadProdutoController extends CadastroFormPadrao {
 		produto.setCodigoBarras(txtCodigoBarras.getText());
 		produto.setMarca(txtUnidade.getText());
 		produto.setUnidade(txtUnidade.getText());
-		produto.setPeso(spnPeso.getValue());
-		produto.setVolume(spnVolume.getValue());
-		produto.setObservacao(txtAreaObservacao.getText());
+		/*
+		 * produto.setPeso(spnPeso.getValue()); produto.setVolume(spnVolume.getValue());
+		 * produto.setObservacao(txtAreaObservacao.getText());
+		 */
 
 		// if (frameNCMController.getId() != null)
 		// produto.setIdNcm(String.valueOf(frameNCMController.getId()));
@@ -345,17 +436,19 @@ public class CadProdutoController extends CadastroFormPadrao {
 		if (produto.getUnidade() != null && !produto.getUnidade().isEmpty())
 			txtUnidade.setText(produto.getUnidade());
 
-		if (produto.getMarca() != null && !produto.getMarca().isEmpty())
-			txtMarca.setText(produto.getMarca());
-
-		if (produto.getPeso() != null)
-			spnPeso.getEditor().setText(produto.getPeso().toString());
-
-		if (produto.getVolume() != null)
-			spnVolume.getEditor().setText(produto.getVolume().toString());
-
-		if (produto.getObservacao() != null && !produto.getObservacao().isEmpty())
-			txtAreaObservacao.setText(produto.getObservacao());
+		/*
+		 * if (produto.getMarca() != null && !produto.getMarca().isEmpty())
+		 * txtMarca.setText(produto.getMarca());
+		 * 
+		 * if (produto.getPeso() != null)
+		 * spnPeso.getEditor().setText(produto.getPeso().toString());
+		 * 
+		 * if (produto.getVolume() != null)
+		 * spnVolume.getEditor().setText(produto.getVolume().toString());
+		 * 
+		 * if (produto.getObservacao() != null && !produto.getObservacao().isEmpty())
+		 * txtAreaObservacao.setText(produto.getObservacao());
+		 */
 
 		cbSituacao.getSelectionModel().select(produto.getSituacao().ordinal());
 		cbTipoProduto.getSelectionModel().select(produto.getTipoProduto().ordinal());
