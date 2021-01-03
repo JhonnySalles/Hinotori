@@ -12,7 +12,7 @@ import cadastro.controller.lista.ListaProdutoController;
 import cadastro.controller.lista.ListaUsuarioController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import pdv.App;
+import pdv.Run;
 import pdv.controller.DashboardController;
 
 public class CadastrosController implements Initializable {
@@ -32,7 +32,7 @@ public class CadastrosController implements Initializable {
 	@FXML
 	JFXButton btnCadGrupoSubGrupo;
 
-	final DashboardController main = App.getMainController();
+	final DashboardController main = Run.getMainController();
 
 	@FXML
 	public void onBtnCadClienteAction() {

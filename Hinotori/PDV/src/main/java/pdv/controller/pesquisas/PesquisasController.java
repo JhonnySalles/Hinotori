@@ -11,7 +11,7 @@ import cadastro.controller.pesquisas.PsqProdutoController;
 import cadastro.controller.pesquisas.PsqUsuarioController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import pdv.App;
+import pdv.Run;
 import pdv.controller.DashboardController;
 
 public class PesquisasController implements Initializable {
@@ -28,7 +28,7 @@ public class PesquisasController implements Initializable {
 	@FXML
 	JFXButton btnPsqProduto;
 
-	final DashboardController main = App.getMainController();
+	final DashboardController main = Run.getMainController();
 
 	@FXML
 	public void onBtnPsqClienteAction() {
