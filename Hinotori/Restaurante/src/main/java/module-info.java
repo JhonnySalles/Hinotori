@@ -20,6 +20,7 @@ module Administrador {
 	requires AnimateFX;
 	requires java.desktop;
 	requires Cadastro;
+	requires java.logging;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens restaurante.controller to javafx.fxml;
