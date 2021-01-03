@@ -30,6 +30,7 @@ import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import comum.model.utils.ViewGerenciador;
+import cadastro.utils.CadastroUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
@@ -41,14 +42,13 @@ import javafx.scene.paint.Color;
 import servidor.entities.Imagem;
 import servidor.entities.Usuario;
 import servidor.validations.ValidaUsuario;
-import utils.CadastroUtils;
 
 public class CadUsuarioController extends CadastroFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(CadUsuarioController.class.getName());
 
 	public final static Image ImagemPadrao = new Image(CadUsuarioController.class
-			.getResourceAsStream("/cadastro/resources/imagens/white/geral/icoUsuarioImage_256.png"));
+			.getResourceAsStream("/cadastro/imagens/white/geral/icoUsuarioImage_256.png"));
 
 	@FXML
 	private JFXTextField txtId;

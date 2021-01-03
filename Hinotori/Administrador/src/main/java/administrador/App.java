@@ -32,7 +32,7 @@ public class App extends Application {
 	public synchronized void start(Stage primaryStage) {
 		try {
 			// Classe inicial
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/Dashboard.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/administrador/view/Dashboard.fxml"));
 			AnchorPane scPnTelaPrincipal = loader.load();
 			mainController = loader.getController();
 
@@ -42,7 +42,7 @@ public class App extends Application {
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Ponto de venda");
 			primaryStage.getIcons()
-					.add(new Image(getClass().getResourceAsStream("resources/imagens/icon/icoPDV_400.png")));
+					.add(new Image(getClass().getResourceAsStream("/administrador/imagens/icon/icoPDV_400.png")));
 			primaryStage.setMinHeight(600);
 			primaryStage.setMinWidth(600);
 			primaryStage.initStyle(StageStyle.DECORATED);
@@ -67,10 +67,10 @@ public class App extends Application {
 				CadProdutoController.getFxmlLocate(), CadUsuarioController.getFxmlLocate() };
 		ViewGerenciador.setCaminhoTelasPreCarregamento(listaTelas);
 
-		String[] css = { App.class.getResource("/administrador/resources/css/Paleta_Cores.css").toExternalForm(),
-				App.class.getResource("/administrador/resources/css/White_Dashboard.css").toExternalForm(),
-				App.class.getResource("/administrador/resources/css/White_Dashboard_Botoes.css").toExternalForm(),
-				App.class.getResource("/administrador/resources/css/White_Dashboard_Graficos.css").toExternalForm() };
+		String[] css = { App.class.getResource("/administrador/css/Paleta_Cores.css").toExternalForm(),
+				App.class.getResource("/administrador/css/White_Dashboard.css").toExternalForm(),
+				App.class.getResource("/administrador/css/White_Dashboard_Botoes.css").toExternalForm(),
+				App.class.getResource("/administrador/css/White_Dashboard_Graficos.css").toExternalForm() };
 		ViewGerenciador.carregaCss(css);
 	}
 

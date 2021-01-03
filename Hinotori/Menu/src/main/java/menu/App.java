@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import menu.controller.LoginController;
 
 public class App extends Application {
 	
@@ -34,7 +35,7 @@ public class App extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			//Comentar esta linha para teste.
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/Login.fxml"));
+			FXMLLoader loader = new FXMLLoader(LoginController.getFxmlLocate());
 			Parent scPnTelaPrincipal = loader.load();
 
 			mainScene = new Scene(scPnTelaPrincipal); // Carrega a scena
@@ -67,7 +68,7 @@ public class App extends Application {
 			
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Hinotori");
-			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/images/icon/icoPrincipal_300.png")));
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/menu/images/icon/icoPrincipal_300.png")));
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.show(); // Mostra a tela.
 		} catch(Exception e) {

@@ -131,7 +131,7 @@ public class NotificacaoDetalheController {
 	}
 
 	public static URL getFxmlLocate() {
-		return NotificacaoDetalheController.class.getResource("/comum/model/notification/view/NotificacaoDetalhe.fxml");
+		return NotificacaoDetalheController.class.getResource("/comum/view/notification/NotificacaoDetalhe.fxml");
 	}
 
 }

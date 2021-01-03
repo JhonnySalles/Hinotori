@@ -14,12 +14,7 @@ import comum.model.alerts.Alertas;
 import comum.model.constraints.Validadores;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoLogin;
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -178,6 +173,10 @@ public class LoginController implements Initializable {
 		Validadores.setTextFieldNotEmpty(txtLoguin);
 		Validadores.setTextFieldNotEmpty(txtNome);
 		Validadores.setComboBoxNotEmpty(cbBoxUsuario);
+	}
+	
+	public static URL getFxmlLocate() {
+		return LoginController.class.getResource("/menu/view/Login.fxml");
 	}
 
 }

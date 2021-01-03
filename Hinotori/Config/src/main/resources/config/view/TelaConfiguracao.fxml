@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="background" prefHeight="400.0" prefWidth="602.0" stylesheets="@../css/White_Configuracao.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.controller.TelaConfiguracaoController">
+   <children>
+      <Pane fx:id="paneEsquerda" maxHeight="-Infinity" prefHeight="350.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="184.0" fitWidth="205.0" layoutX="34.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagens/logo/icoLogoPrincipal_1000.png" />
+               </image></ImageView>
+            <Label fx:id="lblConfig" layoutX="24.0" layoutY="11.0" styleClass="logoTexto" text="Configuração">
+               <font>
+                  <Font name="Sword Kanji" size="36.0" />
+               </font>
+            </Label>
+            <Pane fx:id="pnImgAviso" layoutX="109.0" layoutY="267.0" prefHeight="20.0" prefWidth="20.0" />
+            <Label fx:id="lblAviso" alignment="CENTER" contentDisplay="CENTER" layoutX="18.0" layoutY="304.0" prefHeight="67.0" prefWidth="205.0" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true" />
+         </children>
+      </Pane>
+      <Pane fx:id="paneDireita" layoutX="243.0" prefHeight="350.0" prefWidth="358.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXButton fx:id="btnExit" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="312.0" layoutY="14.0" onAction="#onBtExitAction">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagens/btnExit_48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagens/icoRede_48.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagens/icoDataBase_48.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagens/icoUsuario_48.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagens/icoSenha_48.png" />
+               </image>
+            </ImageView>
+            <JFXTextField fx:id="txtIP" labelFloat="true" layoutX="44.0" layoutY="47.0" prefHeight="25.0" prefWidth="300.0" promptText="IP" />
+            <JFXTextField fx:id="txtPorta" labelFloat="true" layoutX="44.0" layoutY="101.0" onAction="#onTxtPortaEventAction" onKeyPressed="#onPortaEnter" prefHeight="25.0" prefWidth="120.0" promptText="Porta" />
+            <Label layoutX="201.0" layoutY="88.0" text="Base">
+               <font>
+                  <Font size="10.0" />
+               </font></Label>
+            <ChoiceBox fx:id="chBoxDataBase" layoutX="199.0" layoutY="102.0" onKeyPressed="#onDataBaseEnter" prefHeight="27.0" prefWidth="144.0" />
+            <JFXTextField fx:id="txtUsuario" labelFloat="true" layoutX="44.0" layoutY="156.0" onKeyPressed="#onUsuarioEnter" prefHeight="25.0" prefWidth="300.0" promptText="Usuário" />
+            <JFXPasswordField fx:id="pswSenha" labelFloat="true" layoutX="44.0" layoutY="214.0" onKeyPressed="#onSenhaEnter" prefHeight="25.0" prefWidth="300.0" promptText="Senha" />
+            <JFXButton fx:id="btnTestarConexao" buttonType="RAISED" layoutX="45.0" layoutY="261.0" onAction="#onBtnTesteClick" onKeyPressed="#onBtnTesteEnter" text="Testar Conexão" />
+            <ChoiceBox fx:id="chBoxBase" disable="true" layoutX="161.0" layoutY="260.0" prefHeight="27.0" prefWidth="181.0" />
+            <JFXCheckBox fx:id="cbMostrarLog" layoutX="252.0" layoutY="315.0" text="Mostrar log" />
+            <JFXButton fx:id="btnCancelar" buttonType="RAISED" layoutX="18.0" layoutY="360.0" onAction="#onBtnCancelarClick" prefHeight="25.0" prefWidth="120.0" text="Cancelar" />
+            <JFXButton fx:id="btnConfirmar" buttonType="RAISED" layoutX="160.0" layoutY="360.0" onAction="#onBtnConfirmarClick" prefHeight="25.0" prefWidth="120.0" text="Confirmar" />
+            <ImageView fx:id="imgViewConexao" fitHeight="35.0" fitWidth="35.0" layoutX="304.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagens/icoDataBase_48.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
