@@ -15,6 +15,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.lista.ListaContatoController;
 import cadastro.controller.lista.ListaEnderecoController;
+import cadastro.utils.CadastroUtils;
 import comum.form.CadastroFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
@@ -40,14 +41,13 @@ import servidor.dao.services.EmpresaServices;
 import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 import servidor.validations.ValidaEmpresa;
-import utils.CadastroUtils;
 
 public class CadEmpresaController extends CadastroFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(CadEmpresaController.class.getName());
 
 	final static Image LogoPadrao = new Image(
-			CadEmpresaController.class.getResourceAsStream("/cadastro/resources/imagens/icon/icoPrincipal_100.png"));
+			CadEmpresaController.class.getResourceAsStream("/cadastro/imagens/icon/icoPrincipal_100.png"));
 
 	@FXML
 	private JFXTextField txtId;

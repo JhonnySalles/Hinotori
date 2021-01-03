@@ -37,7 +37,7 @@ import servidor.util.DBUtil;
 public class TelaConfiguracaoController implements Initializable {
 
 	public final static Image ICO_CONFIGURACAO = new Image(
-			TelaConfiguracaoController.class.getResourceAsStream("/config/resources/imagens/icoConfiguracao.png"));
+			TelaConfiguracaoController.class.getResourceAsStream("/config/imagens/icoConfiguracao.png"));
 
 	@FXML
 	AnchorPane background;

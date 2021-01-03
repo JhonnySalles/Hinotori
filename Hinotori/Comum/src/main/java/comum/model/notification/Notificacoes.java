@@ -38,15 +38,15 @@ public class Notificacoes {
 	private final static ObservableList<Menssagem> LISTA_MENSSAGENS = FXCollections.observableArrayList();
 
 	public final static ImageView IMG_ALERTA = new ImageView(
-			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAlerta_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/imagens/alerta/icoAlerta_48.png")));
 	public final static ImageView IMG_AVISO = new ImageView(
-			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAviso_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/imagens/alerta/icoAviso_48.png")));
 	public final static ImageView IMG_ERRO = new ImageView(
-			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoErro_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/imagens/alerta/icoErro_48.png")));
 	public final static ImageView IMG_CONFIRMA = new ImageView(
-			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoConfirma_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/imagens/alerta/icoConfirma_48.png")));
 	public final static ImageView IMG_SUCESSO = new ImageView(
-			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/btnConfirma_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/imagens/alerta/btnConfirma_48.png")));
 
 	private static DashboardFormPadrao DASHBOARD_MAIN;
 	private static AnchorPane CONTAINER_CENTRAL_NOTIFICACAO;

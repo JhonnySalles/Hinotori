@@ -43,13 +43,13 @@ public class AlertasPopup {
 	private final static Logger LOGGER = Logger.getLogger(AlertasPopup.class.getName());
 	
 	public final static ImageView ALERTA = new ImageView(
-			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAlerta_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/imagens/alerta/icoAlerta_48.png")));
 	public final static ImageView AVISO = new ImageView(
-			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAviso_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/imagens/alerta/icoAviso_48.png")));
 	public final static ImageView ERRO = new ImageView(
-			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoErro_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/imagens/alerta/icoErro_48.png")));
 	public final static ImageView CONFIRMA = new ImageView(
-			new Image(AlertasPopup.class.getResourceAsStream("/comum/resources/imagens/alerta/icoConfirma_48.png")));
+			new Image(AlertasPopup.class.getResourceAsStream("/comum/imagens/alerta/icoConfirma_48.png")));
 
 	private static StackPane ROOT_STACK_PANE;
 	private static Node NODE_BLUR;
@@ -207,7 +207,7 @@ public class AlertasPopup {
 		layout.setHeading(new Label(titulo));
 		layout.setBody(CONFIRMA, new VBox(new Label(texto)));
 		layout.getStylesheets()
-				.add(AlertasPopup.class.getResource("/comum/resources/css/White_Alertas.css").toExternalForm());
+				.add(AlertasPopup.class.getResource("/comum/css/White_Alertas.css").toExternalForm());
 
 		JFXButton confirmButton = new JFXButton("Confirmar");
 		confirmButton.setDefaultButton(true);
@@ -258,7 +258,7 @@ public class AlertasPopup {
 		JFXDialog dialog = new JFXDialog(rootStackPane, dialogLayout, JFXDialog.DialogTransition.CENTER);
 
 		dialog.getStylesheets()
-				.add(AlertasPopup.class.getResource("/comum/resources/css/White_Alertas.css").toExternalForm());
+				.add(AlertasPopup.class.getResource("/comum/css/White_Alertas.css").toExternalForm());
 
 		botoes.forEach(controlButton -> {
 			controlButton.getStyleClass().add("btnAlerta");
@@ -290,7 +290,7 @@ public class AlertasPopup {
 		dialog.setPadding(new Insets(0, 20, 0, 70));
 
 		dialog.getStylesheets()
-				.add(AlertasPopup.class.getResource("/comum/resources/css/White_Alertas.css").toExternalForm());
+				.add(AlertasPopup.class.getResource("/comum/css/White_Alertas.css").toExternalForm());
 
 		botoes.forEach(controlButton -> {
 			controlButton.getStyleClass().add("btnAlerta");
@@ -311,7 +311,7 @@ public class AlertasPopup {
 	}
 
 	// Ver
-	public static final String CAMINHO_ICONE = "/comum/resources/imagens/bd/icoDataBase_48.png";
+	public static final String CAMINHO_ICONE = "/comum/imagens/bd/icoDataBase_48.png";
 
 	public static void showTrayMessage(String title, String message) {
 		try {

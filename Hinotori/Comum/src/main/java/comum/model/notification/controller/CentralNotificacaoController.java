@@ -71,7 +71,7 @@ public class CentralNotificacaoController implements Initializable {
 	}
 
 	public static URL getFxmlLocate() {
-		return CentralNotificacaoController.class.getResource("/comum/model/notification/view/CentralNotificacao.fxml");
+		return CentralNotificacaoController.class.getResource("/comum/view/notification/CentralNotificacao.fxml");
 	}
 
 }

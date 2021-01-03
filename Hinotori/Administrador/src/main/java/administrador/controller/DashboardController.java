@@ -68,7 +68,7 @@ public class DashboardController extends DashboardFormPadrao {
 
 	@FXML
 	private void onBtnCadastrosAction() {
-		loadBotoes(getClass().getResource("/administrador/view/cadastros/Cadastros.fxml"));
+		loadBotoes(getClass().getResource("/view/cadastros/Cadastros.fxml"));
 	}
 
 	@FXML
@@ -78,7 +78,7 @@ public class DashboardController extends DashboardFormPadrao {
 
 	@FXML
 	private void onBtnPesquisasAction() {
-		loadBotoes(getClass().getResource("/administrador/view/pesquisas/Pesquisas.fxml"));
+		loadBotoes(getClass().getResource("/view/pesquisas/Pesquisas.fxml"));
 	}
 
 	@FXML

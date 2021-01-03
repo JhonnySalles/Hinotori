@@ -41,8 +41,7 @@ public class App extends Application {
 
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Ponto de venda");
-			primaryStage.getIcons()
-					.add(new Image(getClass().getResourceAsStream("resources/imagens/icon/icoPDV_400.png")));
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/pdv/imagens/icon/icoPDV_400.png")));
 			primaryStage.setMinHeight(600);
 			primaryStage.setMinWidth(600);
 			primaryStage.initStyle(StageStyle.DECORATED);
@@ -67,12 +66,12 @@ public class App extends Application {
 				CadProdutoController.getFxmlLocate(), CadUsuarioController.getFxmlLocate() };
 		ViewGerenciador.setCaminhoTelasPreCarregamento(listaTelas);
 
-		String[] css = { App.class.getResource("/pdv/resources/css/Paleta_Cores.css").toExternalForm(),
-				App.class.getResource("/pdv/resources/css/White_Dashboard.css").toExternalForm(),
-				App.class.getResource("/pdv/resources/css/White_Dashboard_Botoes.css").toExternalForm(),
-				App.class.getResource("/pdv/resources/css/White_Dashboard_Graficos.css").toExternalForm(),
-				App.class.getResource("/pdv/resources/css/White_Geral.css").toExternalForm(),
-				App.class.getResource("/pdv/resources/css/White_SpinnerHorizontal.css").toExternalForm() };
+		String[] css = { App.class.getResource("/pdv/css/Paleta_Cores.css").toExternalForm(),
+				App.class.getResource("/pdv/css/White_Dashboard.css").toExternalForm(),
+				App.class.getResource("/pdv/css/White_Dashboard_Botoes.css").toExternalForm(),
+				App.class.getResource("/pdv/css/White_Dashboard_Graficos.css").toExternalForm(),
+				App.class.getResource("/pdv/css/White_Geral.css").toExternalForm(),
+				App.class.getResource("/pdv/css/White_SpinnerHorizontal.css").toExternalForm() };
 		ViewGerenciador.carregaCss(css);
 	}
 

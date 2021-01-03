@@ -42,7 +42,7 @@ public class App extends Application {
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Restaurante");
 			primaryStage.getIcons().add(new Image(
-					getClass().getResourceAsStream("resources/imagens/icon/icoRestaurante_ComFundo_400.png")));
+					getClass().getResourceAsStream("/restaurante/imagens/icon/icoRestaurante_ComFundo_400.png")));
 			primaryStage.setMinHeight(600);
 			primaryStage.setMinWidth(600);
 			primaryStage.initStyle(StageStyle.DECORATED);
@@ -67,10 +67,10 @@ public class App extends Application {
 				CadProdutoController.getFxmlLocate(), CadUsuarioController.getFxmlLocate() };
 		ViewGerenciador.setCaminhoTelasPreCarregamento(listaTelas);
 
-		String[] css = { App.class.getResource("/restaurante/resources/css/Paleta_Cores.css").toExternalForm(),
-				App.class.getResource("/restaurante/resources/css/White_Dashboard.css").toExternalForm(),
-				App.class.getResource("/restaurante/resources/css/White_Dashboard_Botoes.css").toExternalForm(),
-				App.class.getResource("/restaurante/resources/css/White_Dashboard_Graficos.css").toExternalForm() };
+		String[] css = { App.class.getResource("/restaurante/css/Paleta_Cores.css").toExternalForm(),
+				App.class.getResource("/restaurante/css/White_Dashboard.css").toExternalForm(),
+				App.class.getResource("/restaurante/css/White_Dashboard_Botoes.css").toExternalForm(),
+				App.class.getResource("/restaurante/css/White_Dashboard_Graficos.css").toExternalForm() };
 		ViewGerenciador.carregaCss(css);
 	}
 

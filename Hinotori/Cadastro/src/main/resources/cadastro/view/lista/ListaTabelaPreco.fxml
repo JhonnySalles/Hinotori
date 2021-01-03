@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="spRoot" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cadastro.controller.lista.ListaTabelaPrecoController">
+   <children>
+      <AnchorPane fx:id="apContainer" minHeight="0.0" minWidth="0.0">
+         <children>
+            <ScrollPane fx:id="spBackground" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <content>
+                <AnchorPane fx:id="apContainerInterno" cache="true" minHeight="-Infinity" minWidth="700.0" styleClass="background-cartao">
+                     <children>
+                        <HBox fx:id="hbTitulo" alignment="CENTER" cache="true" prefHeight="200.0" styleClass="tituloBackground-tabelaPreco" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Tabelas de preço" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow spread="0.5" />
+                                 </effect>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox alignment="TOP_CENTER" cache="true" minHeight="400.0" minWidth="600.0" spacing="10.0" styleClass="background-dados" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="150.0">
+                           <children>
+                              <HBox alignment="CENTER" minHeight="35.0" spacing="5.0">
+                                 <children>
+                                    <JFXTextField fx:id="txtPsqTabelaPreco" labelFloat="true" prefHeight="29.0" promptText="Tabela de preço" HBox.hgrow="ALWAYS" />
+                                    <JFXDatePicker fx:id="dtPkValidade" promptText="Valido até" styleClass="dtPk-tabelaPreco" />
+                                 </children>
+                              </HBox>
+                              <VBox alignment="TOP_CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER" minHeight="35.0" spacing="5.0">
+                                       <children>
+                                          <JFXTextField fx:id="txtPsqProduto" labelFloat="true" promptText="Produto" HBox.hgrow="ALWAYS" />
+                                          <JFXComboBox fx:id="cbUnidade" prefWidth="150.0" promptText="Unidade" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" minHeight="35.0" spacing="5.0">
+                                       <children>
+                                          <JFXButton fx:id="btnAdicionar" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" prefHeight="30.0" prefWidth="100.0" text="Adicionar" />
+                                          <JFXButton fx:id="btnRemover" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" prefHeight="30.0" prefWidth="100.0" text="Remover" />
+                                       </children></HBox>
+                                    <TableView prefHeight="500.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+                                      <columns>
+                                        <TableColumn minWidth="50.0" prefWidth="50.0" text="id" />
+                                          <TableColumn minWidth="80.0" text="Cod. barras" />
+                                        <TableColumn prefWidth="117.0" text="Descrição" />
+                                          <TableColumn minWidth="55.0" prefWidth="55.0" text="Unidade" />
+                                          <TableColumn minWidth="100.0" prefWidth="100.0" text="A vista" />
+                                          <TableColumn minWidth="100.0" prefWidth="100.0" text="A prazo" />
+                                          <TableColumn minWidth="100.0" prefWidth="100.0" text="Minimo" />
+                                          <TableColumn minWidth="100.0" prefWidth="100.0" text="Máximo" />
+                                          <TableColumn minWidth="90.0" prefWidth="90.0" text="Data alteração" />
+                                      </columns>
+                                       <styleClass>
+                                          <String fx:value="table-border" />
+                                          <String fx:value="tb-tabelaPrecoItem" />
+                                       </styleClass>
+                                    </TableView>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="background-item" />
+                                    <String fx:value="background-dadosProduto" />
+                                 </styleClass>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                           <effect>
+                              <DropShadow height="15.0" offsetX="1.0" offsetY="1.0" radius="7.0" width="15.0" />
+                           </effect>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+            <HBox fx:id="hbTituloBotoes" alignment="CENTER_LEFT" layoutX="1.0" layoutY="1.0" maxHeight="60.0" minHeight="60.0" opacity="0.0" spacing="10.0" styleClass="tituloBackground-grupoSubGrupo" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Produtos" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <effect>
+                        <DropShadow spread="0.5" />
+                     </effect>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" maxHeight="60.0" minHeight="60.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <JFXButton fx:id="btnNovo" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnNovoClick" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Novo" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnAtualizar" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnAtualizarClick" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Atualizar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnConfirmar" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnConfirmarClick" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Confirmar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets left="150.0" right="20.0" />
+               </padding>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../css/Paleta_Cores.css" />
+      <URL value="@../../css/White_Geral.css" />
+      <URL value="@../../css/White_Cadastros.css" />
+      <URL value="@../../css/White_Pesquisas.css" />
+   </stylesheets>
+</StackPane>

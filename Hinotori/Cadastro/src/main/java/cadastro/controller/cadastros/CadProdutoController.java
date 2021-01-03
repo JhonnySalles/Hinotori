@@ -18,6 +18,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import cadastro.controller.frame.PesquisaGenericaController;
+import cadastro.utils.CadastroUtils;
 import comum.form.CadastroFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
@@ -46,14 +47,13 @@ import javafx.scene.paint.Color;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
 import servidor.validations.ValidaProduto;
-import utils.CadastroUtils;
 
 public class CadProdutoController extends CadastroFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(CadProdutoController.class.getName());
 
 	final static Image ImagemPadrao = new Image(CadUsuarioController.class
-			.getResourceAsStream("/cadastro/resources/imagens/white/geral/icoProdutoImage_256.png"));
+			.getResourceAsStream("/cadastro/imagens/white/geral/icoProdutoImage_256.png"));
 
 	@FXML
 	private JFXTabPane tpContainer;
