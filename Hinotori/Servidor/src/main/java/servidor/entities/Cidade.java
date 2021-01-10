@@ -24,6 +24,8 @@ import comum.model.enums.Situacao;
 @Table(name = "cidades")
 public class Cidade implements Serializable {
 
+	public static final String TABELA = "cidades";
+	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 8936948944326503399L;

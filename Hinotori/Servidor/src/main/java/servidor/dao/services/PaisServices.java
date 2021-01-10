@@ -2,30 +2,25 @@ package servidor.dao.services;
 
 import java.util.List;
 
-import servidor.dao.DaoFactory;
-import servidor.dao.PaisDao;
 import servidor.entities.Pais;
 
-public class PaisServices {
-	
-	private PaisDao paisDao = DaoFactory.createPaisDao();
+public class PaisServices extends HibernateService {
 
-	public void salvar(Pais pais) {
-		if (pais.getId() != null && pais.getId() != 0)
-			paisDao.update(pais);
-		else
-			paisDao.insert(pais);
+	final static String SELECT_ALL = "SELECT p FROM " + Pais.TABELA + " p WHERE Situacao <> 'EXCLUIDO' AND Id <> 0";
+
+	public Pais salvar(Pais produto) {
+		return super.salvar(produto);
 	}
 
 	public void deletar(Long id) {
-		paisDao.delete(id);
+		super.deletar(id, Pais.TABELA);
 	};
 
 	public Pais pesquisar(Long id) {
-		return paisDao.find(id);
+		return em.find(Pais.class, id);
 	};
 
 	public List<Pais> pesquisarTodos() {
-		return paisDao.findAll();
+		return em.createQuery(SELECT_ALL, Pais.class).getResultList();
 	};
 }

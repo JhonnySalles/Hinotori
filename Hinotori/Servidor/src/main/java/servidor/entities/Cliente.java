@@ -21,14 +21,16 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Enquadramento;
-import comum.model.enums.TipoPessoa;
 import comum.model.enums.Situacao;
+import comum.model.enums.TipoPessoa;
 
 @Entity
 @Table(name = "clientes", uniqueConstraints = { @UniqueConstraint(columnNames = { "CPF" }, name = "UK_CLIENTE_CPF"),
 		@UniqueConstraint(columnNames = { "CNPJ" }, name = "UK_CLIENTE_CNPJ") })
 public class Cliente extends Pessoa {
 
+	public static final String TABELA = "clientes";
+	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6989181117327049412L;

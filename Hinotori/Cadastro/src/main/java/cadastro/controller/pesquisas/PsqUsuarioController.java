@@ -17,7 +17,6 @@ import comum.form.PesquisaFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.enums.Situacao;
-import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.mask.ConverterMascaras;
@@ -38,7 +37,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
-import servidor.dao.services.UsuarioServices;
 import servidor.entities.Contato;
 import servidor.entities.Imagem;
 import servidor.entities.Usuario;
@@ -99,7 +97,6 @@ public class PsqUsuarioController extends PesquisaFormPadrao {
 	private List<Usuario> usuarios;
 	private ObservableList<Usuario> obsUsuarios;
 	private FilteredList<Usuario> filteredData;
-	private UsuarioServices usuarioService;
 
 	@FXML
 	public void onConfirmarKeyPress(KeyEvent e) {
@@ -174,7 +171,7 @@ public class PsqUsuarioController extends PesquisaFormPadrao {
 	}
 
 	public PsqUsuarioController carregarUsuarios() throws ExcessaoBd {
-		this.usuarios = usuarioService.pesquisarTodos(TamanhoImagem.PEQUENA);
+		// this.usuarios = usuarioService.pesquisarTodos(TamanhoImagem.PEQUENA);
 		obsUsuarios = FXCollections.observableArrayList(this.usuarios);
 		tbUsuarios.setItems(obsUsuarios);
 		tbUsuarios.refresh();
@@ -243,11 +240,6 @@ public class PsqUsuarioController extends PesquisaFormPadrao {
 		sortedData.comparatorProperty().bind(tbUsuarios.comparatorProperty());
 		tbUsuarios.setItems(sortedData);
 
-		return this;
-	}
-
-	private PsqUsuarioController setUsuarioServices(UsuarioServices usuarioService) {
-		this.usuarioService = usuarioService;
 		return this;
 	}
 

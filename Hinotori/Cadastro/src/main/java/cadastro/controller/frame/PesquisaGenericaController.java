@@ -35,7 +35,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.robot.Robot;
 import javafx.stage.Screen;
-import servidor.dao.services.PesquisaGenericaServices;
 import servidor.entities.PesquisaGenerica;
 import servidor.entities.PesquisaGenericaDados;
 
@@ -67,7 +66,6 @@ public class PesquisaGenericaController implements Initializable {
 	private JFXButton btnFraPesquisar;
 
 	private PesquisaGenerica pesquisa;
-	private PesquisaGenericaServices pesquisaService;
 	private PesquisaGenericaDados resultado;
 	private PesquisaGenericaGridController controllerGrid;
 	private PopOver pop;
@@ -166,7 +164,7 @@ public class PesquisaGenericaController implements Initializable {
 			pop.hide();
 
 		pesquisa = new PesquisaGenerica(campoID, campoFiltrar, select, tabela, joins, where, groupOrder);
-		resultado = pesquisaService.pesquisar(pesquisa);
+		// resultado = pesquisaService.pesquisar(pesquisa);
 		if (resultado != null)
 			controllerGrid.carregaGrid(resultado, pesquisa);
 		return this;
@@ -182,9 +180,9 @@ public class PesquisaGenericaController implements Initializable {
 					.equalsIgnoreCase(id)) {
 				controllerGrid.getTabela().getSelectionModel().select(i);
 				txtFraPesquisa
-				.setText(controllerGrid.getItemSelecionado().get(controllerGrid.getIndexFiltrar()).toString());
+						.setText(controllerGrid.getItemSelecionado().get(controllerGrid.getIndexFiltrar()).toString());
 				break;
-			}	
+			}
 		}
 	}
 
@@ -193,7 +191,7 @@ public class PesquisaGenericaController implements Initializable {
 
 		if (resultado == null)
 			return;
-		
+
 		txtFraPesquisa.setText(texto);
 		for (int i = 0; i < controllerGrid.getTabela().getItems().size(); i++) {
 			if (resultado.getData().get(i).get(controllerGrid.getIndexFiltrar()).toString().equalsIgnoreCase(texto)) {
@@ -275,7 +273,7 @@ public class PesquisaGenericaController implements Initializable {
 	 * 
 	 */
 	public PesquisaGenericaController limpaCampos() {
-		resultado = pesquisaService.pesquisar(pesquisa);
+		// resultado = pesquisaService.pesquisar(pesquisa);
 		btnFraLimpar.fire();
 		txtFraPesquisa.setText("");
 		return this;
@@ -412,7 +410,7 @@ public class PesquisaGenericaController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		resultado = null;
-		//pesquisaService = new PesquisaGenericaServices();
+		// pesquisaService = new PesquisaGenericaServices();
 
 		/* Popup de descricao dos botoes */
 		Tooltip toltLimpar = new Tooltip("Limpar");
@@ -425,7 +423,7 @@ public class PesquisaGenericaController implements Initializable {
 		iniciaGrid();
 		setExitTxt();
 	}
-	
+
 	public static URL getFxmlLocate() {
 		return PesquisaGenericaController.class.getResource("/cadastro/view/frame/PesquisaGenerica.fxml");
 	}

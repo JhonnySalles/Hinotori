@@ -2,29 +2,25 @@ package servidor.dao.services;
 
 import java.util.List;
 
-import servidor.dao.CidadeDao;
-import servidor.dao.DaoFactory;
 import servidor.entities.Cidade;
 
-public class CidadeServices {
-	private CidadeDao cidadeDao = DaoFactory.createCidadeDao();
+public class CidadeServices extends HibernateService {
 
-	public void salvar(Cidade cidade) {
-		if (cidade.getId() != null && cidade.getId() != 0)
-			cidadeDao.update(cidade);
-		else
-			cidadeDao.insert(cidade);
+	final static String SELECT_ALL = "SELECT c FROM " + Cidade.TABELA + " c WHERE Situacao <> 'EXCLUIDO' AND Id <> 0";
+
+	public Cidade salvar(Cidade produto) {
+		return super.salvar(produto);
 	}
 
 	public void deletar(Long id) {
-		cidadeDao.delete(id);
+		super.deletar(id, Cidade.TABELA);
 	};
-	
+
 	public Cidade pesquisar(Long id) {
-		return cidadeDao.find(id);
+		return em.find(Cidade.class, id);
 	};
 
 	public List<Cidade> pesquisarTodos() {
-		return cidadeDao.findAll();
+		return em.createQuery(SELECT_ALL, Cidade.class).getResultList();
 	};
 }

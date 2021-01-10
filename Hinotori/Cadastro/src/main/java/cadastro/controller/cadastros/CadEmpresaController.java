@@ -21,7 +21,6 @@ import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Situacao;
-import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
 import comum.model.messages.Mensagens;
@@ -37,7 +36,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import servidor.dao.services.EmpresaServices;
 import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 import servidor.validations.ValidaEmpresa;
@@ -81,7 +79,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	private Set<Imagem> imagens;
 	private Empresa empresa;
-	private EmpresaServices empresaService;
+//	private EmpresaServices empresaService;
 	private String id;
 
 	@Override
@@ -200,20 +198,20 @@ public class CadEmpresaController extends CadastroFormPadrao {
 
 	@Override
 	protected <T> void excluir(T entidade) {
-		if ((empresa.getId() == null) || (empresa.getId() == 0) || txtId.getText().isEmpty()
+		/*if ((empresa.getId() == null) || (empresa.getId() == 0) || txtId.getText().isEmpty()
 				|| txtId.getText().equalsIgnoreCase("0"))
 			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
 					Mensagens.CADASTRO_EXCLUIR + " Nenhuma empresa selecionada.");
 		else {
 			try {
-				empresaService.deletar(empresa.getId());
+			//	empresaService.deletar(empresa.getId());
 				Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Empresa excluído com sucesso.");
 				limpaCampos();
 			} catch (ExcessaoBd e) {
 				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
 				LOGGER.log(Level.INFO, "{Erro ao excluir empresa}", e);
 			}
-		}
+		}*/
 
 	}
 

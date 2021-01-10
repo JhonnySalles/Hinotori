@@ -16,7 +16,6 @@ import comum.form.PesquisaFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.enums.Situacao;
-import comum.model.enums.TamanhoImagem;
 import comum.model.enums.TipoProduto;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.utils.ViewGerenciador;
@@ -36,7 +35,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
-import servidor.dao.services.ProdutoServices;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
 
@@ -108,7 +106,6 @@ public class PsqProdutoController extends PesquisaFormPadrao {
 	private List<Produto> produtos;
 	private ObservableList<Produto> obsProdutos;
 	private FilteredList<Produto> filteredData;
-	private ProdutoServices produtoService;
 
 	@FXML
 	public void onConfirmarKeyPress(KeyEvent e) {
@@ -185,7 +182,7 @@ public class PsqProdutoController extends PesquisaFormPadrao {
 	}
 
 	public PsqProdutoController carregarClientes() throws ExcessaoBd {
-		this.produtos = produtoService.pesquisarTodos(TamanhoImagem.PEQUENA);
+		// this.produtos = produtoService.pesquisarTodos(TamanhoImagem.PEQUENA);
 		obsProdutos = FXCollections.observableArrayList(this.produtos);
 		tbProdutos.setItems(obsProdutos);
 		tbProdutos.refresh();
@@ -267,11 +264,6 @@ public class PsqProdutoController extends PesquisaFormPadrao {
 		return this;
 	}
 
-	private PsqProdutoController setProdutoServices(ProdutoServices produtoService) {
-		this.produtoService = produtoService;
-		return this;
-	}
-
 	private PsqProdutoController linkaCelulas() {
 		tbClId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
@@ -317,7 +309,7 @@ public class PsqProdutoController extends PesquisaFormPadrao {
 
 	@Override
 	public synchronized void inicializa(URL arg0, ResourceBundle arg1) {
-		//setProdutoServices(new ProdutoServices());
+		// setProdutoServices(new ProdutoServices());
 
 		Limitadores.setTextFieldInteger(txtIdInicial);
 		Limitadores.setTextFieldInteger(txtIdFinal);

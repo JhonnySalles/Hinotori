@@ -167,7 +167,7 @@ public class MySqlUtil {
 	 *         cadastrados.
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static List<String> getDBUsuarios() {
+	/*public static List<String> getDBUsuarios() {
 		Connection conexao = DBConnection.getConnection();
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -213,5 +213,5 @@ public class MySqlUtil {
 			DBConnection.closeResultSet(rs);
 		}
 		return "";
-	}
+	}*/
 }

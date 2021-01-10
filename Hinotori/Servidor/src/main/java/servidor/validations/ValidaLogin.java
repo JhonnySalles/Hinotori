@@ -7,7 +7,6 @@ import comum.model.encode.DecodeHash;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoLogin;
 import comum.model.messages.Mensagens;
-import servidor.dao.services.UsuarioServices;
 import servidor.entities.Usuario;
 
 /**
@@ -26,7 +25,7 @@ import servidor.entities.Usuario;
  */
 public class ValidaLogin {
 
-	private static UsuarioServices usuarioService;
+	//private static UsuarioServices usuarioService;
 	private static Usuario localizado;
 
 	public static Usuario validaLogin(Usuario usuario) throws ExcessaoLogin, ExcessaoBd {
@@ -44,13 +43,13 @@ public class ValidaLogin {
 
 	public static boolean validaSenha(Usuario usuario) throws ExcessaoBd, ExcessaoLogin {
 
-		if (usuarioService == null)
+		/*if (usuarioService == null)
 			usuarioService = new UsuarioServices();
 
 		Usuario localizado = usuarioService.pesquisar(usuario.getLogin());
 
 		if (localizado == null)
-			throw new ExcessaoLogin(Mensagens.LOGIN_ERRO_USER_LOGIN_NAO_ENCONTRADO);
+			throw new ExcessaoLogin(Mensagens.LOGIN_ERRO_USER_LOGIN_NAO_ENCONTRADO);*/
 
 		try {
 			usuario.setSenha(DecodeHash.CriptografaSenha(usuario.getSenha()));

@@ -3,7 +3,6 @@ package servidor.validations;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.messages.Mensagens;
-import servidor.dao.services.UsuarioServices;
 import servidor.entities.Usuario;
 
 /**
@@ -22,7 +21,7 @@ import servidor.entities.Usuario;
  */
 public class ValidaUsuario {
 
-	private static UsuarioServices usuarioService;
+	//private static UsuarioServices usuarioService;
 
 	public static boolean validaUsuario(Usuario usuario) throws ExcessaoCadastro, ExcessaoBd {
 
@@ -47,11 +46,11 @@ public class ValidaUsuario {
 		if (login.getLogin() == null || login.getLogin().isEmpty())
 			throw new ExcessaoCadastro(Mensagens.CAD_USR_LOGIN_VAZIO);
 
-		if (usuarioService == null)
+		/*if (usuarioService == null)
 			usuarioService = new UsuarioServices();
 
 		if (usuarioService.validaLogin(login.getId(), login.getLogin()))
-			throw new ExcessaoCadastro(Mensagens.CAD_USR_LOGIN_UTILLIZADO);
+			throw new ExcessaoCadastro(Mensagens.CAD_USR_LOGIN_UTILLIZADO);*/
 	}
 
 	public static void validaSenha(String senha) throws ExcessaoCadastro {
