@@ -13,10 +13,11 @@ import comum.model.enums.Situacao;
 import comum.model.enums.TipoContato;
 import javafx.beans.property.SimpleBooleanProperty;
 import servidor.converter.BooleanPropertyConverter;
+import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "contatos")
-public class Contato extends Pessoa {
+public class Contato extends Pessoa implements Entidade {
 
 	public static final String TABELA = "contatos";
 	

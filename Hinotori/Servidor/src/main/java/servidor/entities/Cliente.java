@@ -23,11 +23,12 @@ import javax.persistence.UniqueConstraint;
 import comum.model.enums.Enquadramento;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoPessoa;
+import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "clientes", uniqueConstraints = { @UniqueConstraint(columnNames = { "CPF" }, name = "UK_CLIENTE_CPF"),
 		@UniqueConstraint(columnNames = { "CNPJ" }, name = "UK_CLIENTE_CNPJ") })
-public class Cliente extends Pessoa {
+public class Cliente extends Pessoa implements Entidade {
 
 	public static final String TABELA = "clientes";
 	

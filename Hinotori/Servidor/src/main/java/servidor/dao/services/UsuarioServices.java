@@ -2,49 +2,41 @@ package servidor.dao.services;
 
 import java.util.List;
 
-import javax.persistence.TypedQuery;
-
 import comum.model.enums.TamanhoImagem;
+import servidor.dao.UsuarioDao;
 import servidor.entities.Usuario;
 
-public class UsuarioServices extends HibernateService {
+public class UsuarioServices {
 
-	final static String SELECT_LISTA_LOGIN = "SELECT Login FROM usuarios WHERE SITUACAO = 'ATIVO' ";
-	final static String SELECT_LOGIN = "SELECT u FROM usuarios u WHERE Login = ? AND SITUACAO = 'ATIVO' ";
-	final static String SELECT_ALL = "SELECT u FROM usuarios u WHERE Situacao <> 'EXCLUIDO' AND Id <> 0";
-	final static String SELECT_EXISTE_LOGIN = "SELECT Login FROM usuarios u WHERE Login = ? AND ID <> ?";
-	
+	private UsuarioDao usuarioDao = new UsuarioDao();
+
 	public Boolean validaLogin(Long id, String login) {
-		String query = SELECT_EXISTE_LOGIN;
-		query.replaceFirst("?", login).replaceFirst("?", id.toString());
-		TypedQuery<Boolean> booleanQuery = em.createQuery(query, Boolean.class);
-		return booleanQuery.getSingleResult();
+		return usuarioDao.validaLogin(id, login);
 	}
 
 	public Usuario salvar(Usuario usuario) {
-		return super.salvar(usuario);
+		usuarioDao.salvarAtomico(usuario);
+		return usuario;
 	}
 
 	public void deletar(Long id) {
-		super.deletar(id, Usuario.TABELA);
+		usuarioDao.remover(id);
 	};
 
 	public Usuario pesquisar(String login) {
-		TypedQuery<Usuario> query = em.createQuery(SELECT_LOGIN, Usuario.class);
-		return query.getSingleResult();
+		return usuarioDao.pesquisar(login);
 	};
 
 	public Usuario pesquisar(Long id) {
-		return em.find(Usuario.class, id);
+		return usuarioDao.pesquisar(id);
 	};
 
-	public List<Usuario> pesquisarTodos(TamanhoImagem tamanho) {
-		return em.createQuery(SELECT_ALL, Usuario.class).getResultList();
+	public List<Usuario> listar(TamanhoImagem tamanho) {
+		return usuarioDao.listar();
 	};
 
 	public List<String> carregaLogins() {
-		TypedQuery<String> stringQuery = em.createQuery(SELECT_LISTA_LOGIN, String.class);
-		return stringQuery.getResultList();
+		return usuarioDao.carregaLogins();
 	};
 
 }

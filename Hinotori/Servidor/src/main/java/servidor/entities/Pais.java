@@ -9,9 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import servidor.dao.Entidade;
+
 @Entity
 @Table(name = "paises")
-public class Pais implements Serializable {
+public class Pais implements Serializable, Entidade {
 
 	public static final String TABELA = "paises";
 	

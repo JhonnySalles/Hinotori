@@ -16,9 +16,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import servidor.dao.Entidade;
+
 @Entity
 @Table(name = "estados")
-public class Estado implements Serializable {
+public class Estado implements Serializable, Entidade {
 
 	public static final String TABELA = "estados";
 	

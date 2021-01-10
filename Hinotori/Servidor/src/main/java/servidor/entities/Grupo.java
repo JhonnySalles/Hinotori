@@ -7,10 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import comum.model.enums.Situacao;
+import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "grupos")
-public class Grupo extends GrupoBase {
+public class Grupo extends GrupoBase implements Entidade {
 
 	public static final String TABELA = "grupos";
 	

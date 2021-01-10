@@ -9,7 +9,6 @@ module Servidor {
 	exports servidor.converter;
 	exports servidor.util;
 	exports servidor.validations;
-	exports servidor.persistence;
 
 	requires transitive Comum;
 	requires transitive java.persistence;
@@ -18,7 +17,7 @@ module Servidor {
 	requires javafx.base;
 	requires java.transaction;
 	requires java.naming;
-	requires java.sql;
+	requires transitive java.sql;
 
 	opens servidor.entities to org.hibernate.orm.core;
 }
