@@ -2,45 +2,49 @@ package servidor.dao.services;
 
 import java.util.List;
 
+import javax.persistence.TypedQuery;
+
 import comum.model.enums.TamanhoImagem;
-import comum.model.exceptions.ExcessaoBd;
-import servidor.dao.DaoFactory;
-import servidor.dao.UsuarioDao;
 import servidor.entities.Usuario;
 
-public class UsuarioServices {
+public class UsuarioServices extends HibernateService {
 
-	private UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
-
-	public Boolean validaLogin(Long id, String login) throws ExcessaoBd {
-		return usuarioDao.validaLogin(id, login);
+	final static String SELECT_LISTA_LOGIN = "SELECT Login FROM usuarios WHERE SITUACAO = 'ATIVO' ";
+	final static String SELECT_LOGIN = "SELECT u FROM usuarios u WHERE Login = ? AND SITUACAO = 'ATIVO' ";
+	final static String SELECT_ALL = "SELECT u FROM usuarios u WHERE Situacao <> 'EXCLUIDO' AND Id <> 0";
+	final static String SELECT_EXISTE_LOGIN = "SELECT Login FROM usuarios u WHERE Login = ? AND ID <> ?";
+	
+	public Boolean validaLogin(Long id, String login) {
+		String query = SELECT_EXISTE_LOGIN;
+		query.replaceFirst("?", login).replaceFirst("?", id.toString());
+		TypedQuery<Boolean> booleanQuery = em.createQuery(query, Boolean.class);
+		return booleanQuery.getSingleResult();
 	}
 
-	public Usuario salvar(Usuario usuario) throws ExcessaoBd {
-		if (usuario.getId() != null && usuario.getId() != 0)
-			return usuarioDao.update(usuario);
-		else
-			return usuarioDao.insert(usuario);
+	public Usuario salvar(Usuario usuario) {
+		return super.salvar(usuario);
 	}
 
-	public void deletar(Long id) throws ExcessaoBd {
-		usuarioDao.delete(id);
+	public void deletar(Long id) {
+		super.deletar(id, Usuario.TABELA);
 	};
 
-	public Usuario pesquisar(String login) throws ExcessaoBd {
-		return usuarioDao.find(login);
+	public Usuario pesquisar(String login) {
+		TypedQuery<Usuario> query = em.createQuery(SELECT_LOGIN, Usuario.class);
+		return query.getSingleResult();
 	};
 
-	public Usuario pesquisar(Long id, TamanhoImagem tamanho) throws ExcessaoBd {
-		return usuarioDao.find(id, tamanho);
+	public Usuario pesquisar(Long id) {
+		return em.find(Usuario.class, id);
 	};
 
-	public List<Usuario> pesquisarTodos(TamanhoImagem tamanho) throws ExcessaoBd {
-		return usuarioDao.findAll(tamanho);
+	public List<Usuario> pesquisarTodos(TamanhoImagem tamanho) {
+		return em.createQuery(SELECT_ALL, Usuario.class).getResultList();
 	};
 
-	public List<String> carregaLogins() throws ExcessaoBd {
-		return usuarioDao.findLogins();
+	public List<String> carregaLogins() {
+		TypedQuery<String> stringQuery = em.createQuery(SELECT_LISTA_LOGIN, String.class);
+		return stringQuery.getResultList();
 	};
 
 }

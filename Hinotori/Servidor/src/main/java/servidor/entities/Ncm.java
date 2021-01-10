@@ -11,6 +11,8 @@ import javax.persistence.Table;
 @Table(name = "ncm")
 public class Ncm implements Serializable {
 
+	public static final String TABELA = "ncm";
+	
 	private static final long serialVersionUID = 1778071323939610003L;
 
 	@Id

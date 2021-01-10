@@ -20,6 +20,8 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "bairros")
 public class Bairro implements Serializable {
 
+	public static final String TABELA = "bairros";
+	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6407704915654886503L;

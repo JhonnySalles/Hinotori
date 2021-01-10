@@ -9,7 +9,7 @@ import comum.model.enums.TamanhoImagem;
 @Entity
 @Table(name = "usuarios_imagens")
 public class UsuarioImagem extends Imagem {
-
+	
 	private static final long serialVersionUID = 2820959226817240910L;
 
 	@ManyToOne

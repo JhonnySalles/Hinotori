@@ -24,8 +24,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import servidor.dao.services.BairroServices;
-import servidor.entities.Bairro;
 import servidor.entities.Endereco;
 import servidor.validations.ValidaEndereco;
 
@@ -152,12 +150,12 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 		endereco.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 		endereco.setTipoEndereco(cbTipo.getSelectionModel().getSelectedItem());
 
-		if (frameBairroController.getId() != null)
+		/*if (frameBairroController.getId() != null)
 			endereco.setBairro(new BairroServices().pesquisar(Long.parseLong(frameBairroController.getId())));
 		else {
 			endereco.setBairro(new Bairro());
 			endereco.getBairro().setId(Long.valueOf(0));
-		}
+		}*/
 
 		return this;
 	}

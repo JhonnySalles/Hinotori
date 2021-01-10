@@ -15,7 +15,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import servidor.dao.services.UsuarioServices;
 import servidor.entities.Imagem;
 import servidor.entities.Usuario;
 

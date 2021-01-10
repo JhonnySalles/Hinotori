@@ -1,4 +1,4 @@
-package servidor.persistencia;
+package servidor.persistence;
 
 import java.util.Properties;
 
@@ -63,9 +63,5 @@ public class Controlador {
 		if (persistence != null) {
 			((EntityManager) persistence).close();
 		}
-	}
-
-	private void close() {
-		emf.close();
 	}
 }

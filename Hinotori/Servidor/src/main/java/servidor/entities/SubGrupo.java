@@ -10,6 +10,8 @@ import comum.model.enums.Situacao;
 @Entity
 @Table(name = "sub_grupos")
 public class SubGrupo extends GrupoBase {
+	
+	public static final String TABELA = "sub_grupos";
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.

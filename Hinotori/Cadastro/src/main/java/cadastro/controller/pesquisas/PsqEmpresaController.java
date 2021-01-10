@@ -17,7 +17,6 @@ import comum.form.PesquisaFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.enums.Situacao;
-import comum.model.enums.TamanhoImagem;
 import comum.model.exceptions.ExcessaoBd;
 import comum.model.mask.ConverterMascaras;
 import comum.model.mask.Mascaras;
@@ -38,7 +37,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
-import servidor.dao.services.EmpresaServices;
 import servidor.entities.Contato;
 import servidor.entities.Empresa;
 import servidor.entities.Endereco;
@@ -100,7 +98,6 @@ public class PsqEmpresaController extends PesquisaFormPadrao {
 	private List<Empresa> empresas;
 	private ObservableList<Empresa> obsEmpresas;
 	private FilteredList<Empresa> filteredData;
-	private EmpresaServices empresaService;
 
 	@FXML
 	public void onConfirmarKeyPress(KeyEvent e) {
@@ -176,7 +173,7 @@ public class PsqEmpresaController extends PesquisaFormPadrao {
 	}
 
 	public PsqEmpresaController carregarEmpresas() throws ExcessaoBd {
-		this.empresas = empresaService.pesquisarTodos(TamanhoImagem.PEQUENA);
+		// this.empresas = empresaService.pesquisarTodos(TamanhoImagem.PEQUENA);
 		obsEmpresas = FXCollections.observableArrayList(this.empresas);
 		tbEmpresas.setItems(obsEmpresas);
 		tbEmpresas.refresh();
@@ -244,11 +241,6 @@ public class PsqEmpresaController extends PesquisaFormPadrao {
 		sortedData.comparatorProperty().bind(tbEmpresas.comparatorProperty());
 		tbEmpresas.setItems(sortedData);
 
-		return this;
-	}
-
-	private PsqEmpresaController setEmpresaServices(EmpresaServices empresaService) {
-		this.empresaService = empresaService;
 		return this;
 	}
 

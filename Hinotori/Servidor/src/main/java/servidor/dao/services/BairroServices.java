@@ -2,29 +2,25 @@ package servidor.dao.services;
 
 import java.util.List;
 
-import servidor.dao.BairroDao;
-import servidor.dao.DaoFactory;
 import servidor.entities.Bairro;
 
-public class BairroServices {
-	private BairroDao bairroDao = DaoFactory.createBairroDao();
+public class BairroServices extends HibernateService {
 
-	public void salvar(Bairro bairro) {
-		if (bairro.getId() != null && bairro.getId() != 0)
-			bairroDao.update(bairro);
-		else
-			bairroDao.insert(bairro);
+	final static String SELECT_ALL = "SELECT p FROM " + Bairro.TABELA + " p WHERE Situacao <> 'EXCLUIDO' AND Id <> 0";
+
+	public Bairro salvar(Bairro produto) {
+		return super.salvar(produto);
 	}
 
 	public void deletar(Long id) {
-		bairroDao.delete(id);
+		super.deletar(id, Bairro.TABELA);
 	};
-	
+
 	public Bairro pesquisar(Long id) {
-		return bairroDao.find(id);
+		return em.find(Bairro.class, id);
 	};
 
 	public List<Bairro> pesquisarTodos() {
-		return bairroDao.findAll();
+		return em.createQuery(SELECT_ALL, Bairro.class).getResultList();
 	};
 }
