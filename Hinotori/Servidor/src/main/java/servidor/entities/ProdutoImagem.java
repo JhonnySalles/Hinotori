@@ -1,7 +1,6 @@
 package servidor.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import comum.model.enums.TamanhoImagem;
@@ -11,21 +10,6 @@ import comum.model.enums.TamanhoImagem;
 public class ProdutoImagem extends Imagem {
 
 	private static final long serialVersionUID = 2820959226817240910L;
-
-	@ManyToOne
-	private Produto produto;
-
-	public Produto getProduto() {
-		return produto;
-	}
-
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
-
-	public ProdutoImagem(Produto produto) {
-		this.produto = produto;
-	}
 
 	public ProdutoImagem() {
 		super();
@@ -39,8 +23,9 @@ public class ProdutoImagem extends Imagem {
 		super(nome, extenssao, imagem, tamanho);
 	}
 
-	public ProdutoImagem(String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho, Produto produto) {
-		super(nome, extenssao, imagem, tamanho);
-		this.produto = produto;
+	public static ProdutoImagem toProdutoImagem(Imagem imagem) {
+		return new ProdutoImagem(imagem.getId(), imagem.getNome(), imagem.getExtenssao(), imagem.getImagem(),
+				imagem.getTamanho());
 	}
+
 }

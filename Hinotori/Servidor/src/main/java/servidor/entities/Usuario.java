@@ -5,19 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.UsuarioNivel;
@@ -42,18 +36,10 @@ public class Usuario extends Pessoa implements Entidade {
 	@Column(name = "Observacao", columnDefinition = "longtext")
 	private String observacao;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
-	@JoinTable(name = "usuarios_imagens", joinColumns = @JoinColumn(name = "usuario_id"), foreignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "imagem_id"), inverseForeignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
-			@UniqueConstraint(name = "usuario_imagem", columnNames = { "usuario_id", "imagem_id" }) })
-	@ElementCollection(targetClass = Imagem.class)
-	@CollectionTable(name = "usuarios_imagens", joinColumns = @JoinColumn(name = "imagem_id"), foreignKey = @ForeignKey(name = "FK_USUARIOS_IMAGENS_IDUSUARIO"))
-	private Set<Imagem> imagens;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<UsuarioImagem> imagens;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
-	@JoinTable(name = "usuarios_contatos", joinColumns = @JoinColumn(name = "usuario_id"), foreignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDUSUARIO"), inverseJoinColumns = @JoinColumn(name = "contato_id"), inverseForeignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDCONTATO"), uniqueConstraints = {
-			@UniqueConstraint(name = "usuario_contato", columnNames = { "usuario_id", "contato_id" }) })
-	@ElementCollection(targetClass = Contato.class)
-	@CollectionTable(name = "usuarios_contatos", joinColumns = @JoinColumn(name = "usuario_id"), foreignKey = @ForeignKey(name = "FK_USUARIOS_CONTATOS_IDUSUARIO"))
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Contato> contatos;
 
 	@Column(name = "Nivel", columnDefinition = "enum('USUARIO','ADMINISTRADOR','TOTAL')")
@@ -84,11 +70,11 @@ public class Usuario extends Pessoa implements Entidade {
 		this.observacao = observacao;
 	}
 
-	public Set<Imagem> getImagens() {
+	public Set<UsuarioImagem> getImagens() {
 		return imagens;
 	}
 
-	public void setImagens(Set<Imagem> imagens) {
+	public void setImagens(Set<UsuarioImagem> imagens) {
 		this.imagens = imagens;
 	}
 
@@ -154,7 +140,7 @@ public class Usuario extends Pessoa implements Entidade {
 	}
 
 	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
-			String observacao, UsuarioNivel nivel, Situacao situacao, Set<Imagem> imagens) {
+			String observacao, UsuarioNivel nivel, Situacao situacao, Set<UsuarioImagem> imagens) {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.login = login;
 		this.observacao = observacao;
@@ -164,7 +150,7 @@ public class Usuario extends Pessoa implements Entidade {
 	}
 
 	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
-			String observacao, UsuarioNivel nivel, Situacao situacao, Set<Contato> contatos, Set<Imagem> imagens) {
+			String observacao, UsuarioNivel nivel, Situacao situacao, Set<Contato> contatos, Set<UsuarioImagem> imagens) {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.login = login;
 		this.observacao = observacao;

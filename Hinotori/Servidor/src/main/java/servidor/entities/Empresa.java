@@ -7,9 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,11 +17,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
 import servidor.dao.Entidade;
@@ -33,7 +29,7 @@ import servidor.dao.Entidade;
 public class Empresa implements Serializable, Entidade {
 
 	public static final String TABELA = "empresas";
-	
+
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 5585811158914792352L;
@@ -63,25 +59,13 @@ public class Empresa implements Serializable, Entidade {
 	private Cidade cidade;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "empresas_enderecos", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_ENDERECOS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "endereco_id"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_ENDERECOS_IDENDERECO"), uniqueConstraints = {
-			@UniqueConstraint(name = "empresas_enderecos", columnNames = { "empresa_id", "endereco_id" }) })
-	@ElementCollection(targetClass = Endereco.class)
-	@CollectionTable(name = "empresas_enderecos", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_ENDERECOS_IDEMPRESA"))
 	private Set<Endereco> enderecos;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "empresas_contatos", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_CONTATOS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "contato_id"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDCONTATO"), uniqueConstraints = {
-			@UniqueConstraint(name = "empresa_contato", columnNames = { "empresa_id", "contato_id" }) })
-	@ElementCollection(targetClass = Contato.class)
-	@CollectionTable(name = "empresas_contatos", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_CONTATOS_IDEMPRESA"))
 	private Set<Contato> contatos;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "empresas_imagens", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_IMAGENS_IDEMPRESA"), inverseJoinColumns = @JoinColumn(name = "imagem_id"), inverseForeignKey = @ForeignKey(name = "UK_EMPRESAS_CONTATOS_IDIMAGEM"), uniqueConstraints = {
-			@UniqueConstraint(name = "empresa_imagem", columnNames = { "empresa_id", "imagem_id" }) })
-	@ElementCollection(targetClass = Imagem.class)
-	@CollectionTable(name = "empresas_imagens", joinColumns = @JoinColumn(name = "empresa_id"), foreignKey = @ForeignKey(name = "FK_EMPRESAS_IMAGENS_IDEMPRESA"))
-	private Set<Imagem> imagens;
+	private Set<EmpresaImagem> imagens;
 
 	public Long getId() {
 		return id;
@@ -163,15 +147,15 @@ public class Empresa implements Serializable, Entidade {
 		this.contatos.add(contatos);
 	}
 
-	public Set<Imagem> getImagens() {
+	public Set<EmpresaImagem> getImagens() {
 		return imagens;
 	}
 
-	public void setImagens(Set<Imagem> imagens) {
+	public void setImagens(Set<EmpresaImagem> imagens) {
 		this.imagens = imagens;
 	}
 
-	public void addImagens(Imagem imagens) {
+	public void addImagens(EmpresaImagem imagens) {
 		this.imagens.add(imagens);
 	}
 
@@ -185,7 +169,7 @@ public class Empresa implements Serializable, Entidade {
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
-	
+
 	public Empresa(Long id) {
 		this.id = id;
 		this.nomeFantasia = "";
@@ -225,7 +209,8 @@ public class Empresa implements Serializable, Entidade {
 	}
 
 	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
-			Situacao situacao, Cidade cidade, Set<Endereco> enderecos, Set<Contato> contatos, Set<Imagem> imagens) {
+			Situacao situacao, Cidade cidade, Set<Endereco> enderecos, Set<Contato> contatos,
+			Set<EmpresaImagem> imagens) {
 		this.id = id;
 		this.nomeFantasia = nomeFantasia;
 		this.razaoSocial = razaoSocial;

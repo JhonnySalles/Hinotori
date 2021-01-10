@@ -11,20 +11,6 @@ public class GupoBaseImagem extends Imagem {
 
 	private static final long serialVersionUID = 2820959226817240910L;
 
-	private GrupoBase grupoSubGrupo;
-
-	public GrupoBase getGrupoSubGrupo() {
-		return grupoSubGrupo;
-	}
-
-	public void setGrupoSubGrupo(GrupoBase grupoSubGrupo) {
-		this.grupoSubGrupo = grupoSubGrupo;
-	}
-
-	public GupoBaseImagem(GrupoBase grupoSubGrupo) {
-		this.grupoSubGrupo = grupoSubGrupo;
-	}
-
 	public GupoBaseImagem() {
 		super();
 	}
@@ -37,9 +23,4 @@ public class GupoBaseImagem extends Imagem {
 		super(nome, extenssao, imagem, tamanho);
 	}
 
-	public GupoBaseImagem(String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho,
-			GrupoBase grupoSubGrupo) {
-		super(nome, extenssao, imagem, tamanho);
-		this.grupoSubGrupo = grupoSubGrupo;
-	}
 }

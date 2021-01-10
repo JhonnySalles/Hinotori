@@ -7,9 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,11 +17,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoProduto;
@@ -34,7 +30,7 @@ import servidor.dao.Entidade;
 public class Produto implements Serializable, Entidade {
 
 	public static final String TABELA = "produtos";
-	
+
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -2972348557775718310L;
@@ -86,11 +82,7 @@ public class Produto implements Serializable, Entidade {
 	private Ncm ncm;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "produtos_imagens", joinColumns = @JoinColumn(name = "produto_id"), foreignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDPRODUTO"), inverseJoinColumns = @JoinColumn(name = "imagem_id"), inverseForeignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDIMAGEM"), uniqueConstraints = {
-			@UniqueConstraint(name = "produto_imagem", columnNames = { "produto_id", "imagem_id" }) })
-	@ElementCollection(targetClass = Endereco.class)
-	@CollectionTable(name = "produtos_imagens", joinColumns = @JoinColumn(name = "produto_id"), foreignKey = @ForeignKey(name = "FK_PRODUTOS_IMAGENS_IDPRODUTO"))
-	private Set<Imagem> imagens;
+	private Set<ProdutoImagem> imagens;
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -208,15 +200,15 @@ public class Produto implements Serializable, Entidade {
 		this.ncm = ncm;
 	}
 
-	public Set<Imagem> getImagens() {
+	public Set<ProdutoImagem> getImagens() {
 		return imagens;
 	}
 
-	public void setImagens(Set<Imagem> imagens) {
+	public void setImagens(Set<ProdutoImagem> imagens) {
 		this.imagens = imagens;
 	}
 
-	public void addImagens(Imagem imagens) {
+	public void addImagens(ProdutoImagem imagens) {
 		this.imagens.add(imagens);
 	}
 
@@ -289,7 +281,7 @@ public class Produto implements Serializable, Entidade {
 
 	public Produto(Long id, Long idGrupo, String descricao, String observacao, String codigoBarras, String unidade,
 			String marca, Double peso, Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao,
-			TipoProduto tipoProduto, Situacao situacao, Ncm ncm, Set<Imagem> imagens) {
+			TipoProduto tipoProduto, Situacao situacao, Ncm ncm, Set<ProdutoImagem> imagens) {
 		this.id = id;
 		this.idGrupo = idGrupo;
 		this.descricao = descricao;
