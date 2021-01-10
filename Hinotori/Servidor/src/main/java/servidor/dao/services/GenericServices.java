@@ -9,25 +9,29 @@ public class GenericServices<E extends Entidade> {
 
 	private Dao<E> service;
 
+	public Dao<E> getService() {
+		return service;
+	}
+
 	public GenericServices(Class<E> classe) {
 		this.service = new Dao<E>(classe);
 	}
 
 	public E salvar(E entidade) {
-		service.salvar(entidade);
+		service.salvarAtomico(entidade);
 		return entidade;
 	}
 
 	public void deletar(Long id) {
-		service.remover(id);
-	};
+		service.removerAtomico(id);
+	}
 
 	public E pesquisar(Long id) {
 		return service.pesquisar(id);
-	};
+	}
 
 	public List<E> listar() {
 		return service.listar();
-	};
+	}
 
 }

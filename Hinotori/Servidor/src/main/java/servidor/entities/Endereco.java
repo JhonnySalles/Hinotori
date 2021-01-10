@@ -26,8 +26,6 @@ import servidor.dao.Entidade;
 @Table(name = "enderecos")
 public class Endereco implements Serializable, Entidade {
 
-	public static final String TABELA = "enderecos";
-	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -7050982212146652850L;

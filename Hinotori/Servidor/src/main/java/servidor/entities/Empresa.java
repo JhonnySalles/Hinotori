@@ -59,12 +59,15 @@ public class Empresa implements Serializable, Entidade {
 	private Cidade cidade;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "empresa_enderecos", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_ENDERECO"))
 	private Set<Endereco> enderecos;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "empresa_contatos", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_CONTATO"))
 	private Set<Contato> contatos;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "empresa_imagens", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_IMAGEM"))
 	private Set<EmpresaImagem> imagens;
 
 	public Long getId() {

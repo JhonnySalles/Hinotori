@@ -1,6 +1,8 @@
 package servidor.dao;
 
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,6 +14,8 @@ import comum.model.exceptions.ExcessaoBd;
 
 public class ManagerFactory {
 
+	private final static Logger LOGGER = Logger.getLogger(ManagerFactory.class.getName());
+
 	private static Properties CONFIG_BD;
 	private static EntityManagerFactory EMF;
 
@@ -22,7 +26,7 @@ public class ManagerFactory {
 	/* Substitui a configuração do arquivo de persistencia pelo arquivo de config */
 	private static Properties getConfigBD() throws ExcessaoBd {
 		Configuracao dados_conexao = ProcessaConfig.getDadosConexao();
-		
+
 		if (dados_conexao == null || dados_conexao.getServer_host().isEmpty())
 			throw new ExcessaoBd(
 					"Arquivo de configuração do banco não encontrado ou caminho do servidor não informado.");
@@ -45,7 +49,7 @@ public class ManagerFactory {
 		props.setProperty("hibernate.format_sql", "false");
 		return props;
 	}
-	
+
 	public static void closeConection() {
 		EMF.close();
 	}
@@ -57,7 +61,7 @@ public class ManagerFactory {
 			CONFIG_BD = getConfigBD();
 			EMF = Persistence.createEntityManagerFactory("PersistenciaServidor", CONFIG_BD);
 		} catch (Exception e) {
-			System.out.println("Erro ao iniciar o entity manager.\n" + e.getMessage());
+			LOGGER.log(Level.SEVERE, "{Erro ao carregar o EntityManager}", e);
 			e.printStackTrace();
 		}
 	}

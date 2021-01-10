@@ -23,7 +23,7 @@ public class CriaConfig {
 		prop.setProperty("prop.unicode.encode", "UTF-8");
 		prop.setProperty("prop.log.caminho", "C:\\Log");
 		prop.setProperty("prop.log.mostrar", "0");
-		prop.setProperty("prop.hibernate.mostrar_sql", "1");
+		prop.setProperty("prop.hibernate.createDatabase", "1");
 		prop.setProperty("prop.sistema.tipo", "HOMOLOGACAO");
 		prop.setProperty("prop.sistema.tema", "WHITE");
 		

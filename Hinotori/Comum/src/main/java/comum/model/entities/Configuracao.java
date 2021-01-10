@@ -20,6 +20,7 @@ public class Configuracao {
 	Boolean log_mostrar;
 
 	Boolean hibernate_mostrar_sql;
+	Boolean hibernate_create_database;
 
 	TipoLancamento sistema_tipo;
 	Tema sistema_tema;
@@ -128,13 +129,22 @@ public class Configuracao {
 		this.sistema_tema = sistema_tema;
 	}
 
+	public Boolean getHibernate_create_database() {
+		return hibernate_create_database;
+	}
+
+	public void setHibernate_create_database(Boolean hibernate_create_database) {
+		this.hibernate_create_database = hibernate_create_database;
+	}
+
 	public Configuracao() {
 
 	}
 
 	public Configuracao(DataBase server_database, String server_host, String server_porta, String server_base,
 			String server_usuario, String server_senha, Boolean unicode_usar, String unicode_encode, String log_caminho,
-			Boolean log_mostrar, Boolean hibernate_mostrar_sql, TipoLancamento sistema_tipo, Tema sistema_tema) {
+			Boolean log_mostrar, Boolean hibernate_mostrar_sql, Boolean hibernate_create_database,
+			TipoLancamento sistema_tipo, Tema sistema_tema) {
 		this.server_database = server_database;
 		this.server_host = server_host;
 		this.server_porta = server_porta;
@@ -146,6 +156,7 @@ public class Configuracao {
 		this.log_caminho = log_caminho;
 		this.log_mostrar = log_mostrar;
 		this.hibernate_mostrar_sql = hibernate_mostrar_sql;
+		this.hibernate_create_database = hibernate_create_database;
 		this.sistema_tipo = sistema_tipo;
 		this.sistema_tema = sistema_tema;
 	}
@@ -156,8 +167,8 @@ public class Configuracao {
 				+ server_porta + ", server_base=" + server_base + ", server_usuario=" + server_usuario
 				+ ", server_senha=" + server_senha + ", unicode_usar=" + unicode_usar + ", unicode_encode="
 				+ unicode_encode + ", log_caminho=" + log_caminho + ", log_mostrar=" + log_mostrar
-				+ ", hibernate_mostrar_sql=" + hibernate_mostrar_sql + ", sistema_tipo=" + sistema_tipo
-				+ ", sistema_tema=" + sistema_tema + "]";
+				+ ", hibernate_mostrar_sql=" + hibernate_mostrar_sql + ", hibernate_create_database="
+				+ hibernate_create_database + ", sistema_tipo=" + sistema_tipo + ", sistema_tema=" + sistema_tema + "]";
 	}
 
 }

@@ -3,7 +3,12 @@ package servidor.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import comum.model.enums.Situacao;
@@ -13,12 +18,12 @@ import servidor.dao.Entidade;
 @Table(name = "grupos")
 public class Grupo extends GrupoBase implements Entidade {
 
-	public static final String TABELA = "grupos";
-	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6729440671900319532L;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "grupo_subgrupo", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GRUPO_SUBGRUPO"))
 	private Set<SubGrupo> subGrupos;
 
 	public Set<SubGrupo> getSubGrupos() {

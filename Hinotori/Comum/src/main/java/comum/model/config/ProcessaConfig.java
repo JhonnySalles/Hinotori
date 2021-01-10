@@ -18,9 +18,9 @@ import comum.model.enums.TipoLancamento;
 import javafx.scene.control.Alert.AlertType;
 
 public class ProcessaConfig {
-	
+
 	private final static Logger LOGGER = Logger.getLogger(ProcessaConfig.class.getName());
-	
+
 	public static Configuracao dadosConexao = new Configuracao();
 	public final static File f = new File(Config.verificaConfig());
 
@@ -50,7 +50,7 @@ public class ProcessaConfig {
 			dadosConexao.setLog_caminho(prop.getProperty("prop.log.caminho"));
 			dadosConexao.setLog_mostrar(prop.getProperty("prop.log.mostrar") == "1" ? true : false);
 
-			dadosConexao.setHibernate_mostrar_sql(prop.getProperty("prop.hibernate.mostrar_sql") == "1" ? true : false);
+			dadosConexao.setHibernate_mostrar_sql(prop.getProperty("prop.hibernate.mostrarSql") == "1" ? true : false);
 
 			dadosConexao.setSistema_tema(Tema.valueOf(prop.getProperty("prop.sistema.tema")));
 			dadosConexao.setSistema_tipo(TipoLancamento.valueOf(prop.getProperty("prop.sistema.tipo")));
