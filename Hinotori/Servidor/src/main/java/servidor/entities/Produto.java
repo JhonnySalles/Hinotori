@@ -29,8 +29,6 @@ import servidor.dao.Entidade;
 @Table(name = "produtos")
 public class Produto implements Serializable, Entidade {
 
-	public static final String TABELA = "produtos";
-
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -2972348557775718310L;
@@ -82,6 +80,7 @@ public class Produto implements Serializable, Entidade {
 	private Ncm ncm;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "produtos_imagens", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_PRODUTO_IMAGEM"))
 	private Set<ProdutoImagem> imagens;
 
 	public static long getSerialversionuid() {

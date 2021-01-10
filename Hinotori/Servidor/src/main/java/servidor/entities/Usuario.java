@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,8 +23,6 @@ import servidor.dao.Entidade;
 @Table(name = "usuarios")
 public class Usuario extends Pessoa implements Entidade {
 
-	public static final String TABELA = "usuarios";
-	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -1829885748257026644L;
@@ -37,9 +37,11 @@ public class Usuario extends Pessoa implements Entidade {
 	private String observacao;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "usuario_imagens", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_USUARIO_IMAGEM"))
 	private Set<UsuarioImagem> imagens;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "usuario_contatos", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_USUARIO_CONTATO"))
 	private Set<Contato> contatos;
 
 	@Column(name = "Nivel", columnDefinition = "enum('USUARIO','ADMINISTRADOR','TOTAL')")
@@ -110,7 +112,7 @@ public class Usuario extends Pessoa implements Entidade {
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
-	
+
 	public Usuario(Long id) {
 		super(id);
 		this.login = "";
@@ -119,7 +121,7 @@ public class Usuario extends Pessoa implements Entidade {
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
-	
+
 	public Usuario(String login) {
 		super();
 		this.login = login;
@@ -150,7 +152,8 @@ public class Usuario extends Pessoa implements Entidade {
 	}
 
 	public Usuario(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, String login,
-			String observacao, UsuarioNivel nivel, Situacao situacao, Set<Contato> contatos, Set<UsuarioImagem> imagens) {
+			String observacao, UsuarioNivel nivel, Situacao situacao, Set<Contato> contatos,
+			Set<UsuarioImagem> imagens) {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.login = login;
 		this.observacao = observacao;

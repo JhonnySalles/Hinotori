@@ -74,6 +74,10 @@ public class Dao<E extends Entidade> {
 		return this;
 	}
 
+	public Dao<E> removerAtomico(Long id) {
+		return this.begin().remover(id).commit();
+	}
+
 	public Dao<E> remover(E entidade) {
 		lastEntity = entidade;
 		remover(entidade.getId());

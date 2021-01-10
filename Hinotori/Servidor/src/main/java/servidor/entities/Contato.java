@@ -19,8 +19,6 @@ import servidor.dao.Entidade;
 @Table(name = "contatos")
 public class Contato extends Pessoa implements Entidade {
 
-	public static final String TABELA = "contatos";
-	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -1562578455627883930L;
@@ -89,11 +87,11 @@ public class Contato extends Pessoa implements Entidade {
 		this.tipoContato = tipo;
 	}
 
-	public final boolean getPadrao() {
+	public boolean getPadrao() {
 		return padrao.get();
 	}
 
-	public final void setPadrao(boolean padrao) {
+	public void setPadrao(boolean padrao) {
 		this.padrao.set(padrao);
 	}
 

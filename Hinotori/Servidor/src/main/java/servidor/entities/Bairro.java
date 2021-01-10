@@ -22,8 +22,6 @@ import servidor.dao.Entidade;
 @Table(name = "bairros")
 public class Bairro implements Serializable, Entidade {
 
-	public static final String TABELA = "bairros";
-	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6407704915654886503L;
@@ -33,7 +31,7 @@ public class Bairro implements Serializable, Entidade {
 	private Long id;
 
 	@OneToOne(targetEntity = Cidade.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "cidade_id", nullable = false, foreignKey = @ForeignKey(name = "FK_BAIRRO_CIDADE"))
+	@JoinColumn(name = "idCidade", nullable = false, foreignKey = @ForeignKey(name = "FK_BAIRRO_CIDADE"))
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Cidade cidade;
 

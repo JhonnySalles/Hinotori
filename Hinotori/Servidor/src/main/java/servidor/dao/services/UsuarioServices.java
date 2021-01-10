@@ -8,35 +8,39 @@ import servidor.entities.Usuario;
 
 public class UsuarioServices {
 
-	private UsuarioDao usuarioDao = new UsuarioDao();
+	private UsuarioDao service = new UsuarioDao();
 
-	public Boolean validaLogin(Long id, String login) {
-		return usuarioDao.validaLogin(id, login);
+	public UsuarioDao getService() {
+		return service;
 	}
-
+	
 	public Usuario salvar(Usuario usuario) {
-		usuarioDao.salvarAtomico(usuario);
+		service.salvarAtomico(usuario);
 		return usuario;
 	}
 
 	public void deletar(Long id) {
-		usuarioDao.remover(id);
-	};
+		service.removerAtomico(id);
+	}
+
+	public Boolean validaLogin(Long id, String login) {
+		return service.validaLogin(id, login);
+	}
 
 	public Usuario pesquisar(String login) {
-		return usuarioDao.pesquisar(login);
-	};
+		return service.pesquisar(login);
+	}
 
 	public Usuario pesquisar(Long id) {
-		return usuarioDao.pesquisar(id);
-	};
+		return service.pesquisar(id);
+	}
 
 	public List<Usuario> listar(TamanhoImagem tamanho) {
-		return usuarioDao.listar();
-	};
+		return service.listar();
+	}
 
 	public List<String> carregaLogins() {
-		return usuarioDao.carregaLogins();
-	};
+		return service.carregaLogins();
+	}
 
 }

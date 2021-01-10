@@ -4,6 +4,7 @@
  */
 module Servidor {
 
+	exports servidor.dao;
 	exports servidor.dao.services;
 	exports servidor.entities;
 	exports servidor.converter;
