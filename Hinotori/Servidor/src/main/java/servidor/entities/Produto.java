@@ -27,10 +27,11 @@ import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoProduto;
+import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "produtos")
-public class Produto implements Serializable {
+public class Produto implements Serializable, Entidade {
 
 	public static final String TABELA = "produtos";
 	

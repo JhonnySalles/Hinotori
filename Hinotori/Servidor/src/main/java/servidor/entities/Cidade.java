@@ -19,10 +19,11 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import comum.model.enums.Situacao;
+import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "cidades")
-public class Cidade implements Serializable {
+public class Cidade implements Serializable, Entidade {
 
 	public static final String TABELA = "cidades";
 	

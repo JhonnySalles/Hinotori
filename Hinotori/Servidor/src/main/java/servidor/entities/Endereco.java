@@ -20,10 +20,11 @@ import comum.model.enums.Situacao;
 import comum.model.enums.TipoEndereco;
 import javafx.beans.property.SimpleBooleanProperty;
 import servidor.converter.BooleanPropertyConverter;
+import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "enderecos")
-public class Endereco implements Serializable {
+public class Endereco implements Serializable, Entidade {
 
 	public static final String TABELA = "enderecos";
 	

@@ -21,10 +21,11 @@ import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
 import comum.model.enums.UsuarioNivel;
+import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario extends Pessoa {
+public class Usuario extends Pessoa implements Entidade {
 
 	public static final String TABELA = "usuarios";
 	

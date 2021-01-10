@@ -1,4 +1,4 @@
-package servidor.persistence;
+package servidor.dao;
 
 import java.util.Properties;
 
@@ -8,19 +8,24 @@ import javax.persistence.Persistence;
 
 import comum.model.config.ProcessaConfig;
 import comum.model.entities.Configuracao;
+import comum.model.exceptions.ExcessaoBd;
 
-public class Controlador {
-	private EntityManagerFactory emf;
+public class ManagerFactory {
 
-	private static Persistence persistence;
-	private static Properties configbd = getConfigBD();
+	private static Properties CONFIG_BD;
+	private static EntityManagerFactory EMF;
+
+	public static EntityManager getEtityManager() {
+		return EMF.createEntityManager();
+	}
 
 	/* Substitui a configuração do arquivo de persistencia pelo arquivo de config */
-	private static Properties getConfigBD() {
+	private static Properties getConfigBD() throws ExcessaoBd {
 		Configuracao dados_conexao = ProcessaConfig.getDadosConexao();
-
+		
 		if (dados_conexao == null || dados_conexao.getServer_host().isEmpty())
-			return null;
+			throw new ExcessaoBd(
+					"Arquivo de configuração do banco não encontrado ou caminho do servidor não informado.");
 
 		Properties props = new Properties();
 		props.setProperty("javax.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");
@@ -28,7 +33,7 @@ public class Controlador {
 		props.setProperty("javax.persistence.jdbc.password", dados_conexao.getServer_senha());
 
 		String url = "jdbc:mysql://" + dados_conexao.getServer_host() + ":" + dados_conexao.getServer_porta() + "/"
-				+ dados_conexao.getServer_base() + "?useTimezone=true&amp;serverTimezone=UTC"
+				+ dados_conexao.getServer_base() + "?useTimezone=true&amp&serverTimezone=UTC"
 				+ (dados_conexao.getUnicode_usar() ? "&useUnicode=true" : "");
 
 		props.setProperty("javax.persistence.jdbc.url", url);
@@ -40,28 +45,21 @@ public class Controlador {
 		props.setProperty("hibernate.format_sql", "false");
 		return props;
 	}
-
-	public static Persistence getInstance() {
-		if (persistence == null)
-			persistence = new Persistence();
-
-		return persistence;
+	
+	public static void closeConection() {
+		EMF.close();
 	}
 
-	public EntityManager createEntityManager() {
-		return emf.createEntityManager();
-	}
-
-	public Controlador() {
-		if (configbd != null)
-			emf = Persistence.createEntityManagerFactory("PersistenciaServidor", configbd);
-		else
-			emf = Persistence.createEntityManagerFactory("PersistenciaServidor");
-	}
-
-	public static void closeAll() {
-		if (persistence != null) {
-			((EntityManager) persistence).close();
+	// O bloco static é chamado na inicialização para
+	// criar os métodos staticos.
+	static {
+		try {
+			CONFIG_BD = getConfigBD();
+			EMF = Persistence.createEntityManagerFactory("PersistenciaServidor", CONFIG_BD);
+		} catch (Exception e) {
+			System.out.println("Erro ao iniciar o entity manager.\n" + e.getMessage());
+			e.printStackTrace();
 		}
 	}
+
 }

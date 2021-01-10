@@ -26,10 +26,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import comum.model.enums.Situacao;
+import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "empresas")
-public class Empresa implements Serializable {
+public class Empresa implements Serializable, Entidade {
 
 	public static final String TABELA = "empresas";
 	
