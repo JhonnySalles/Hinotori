@@ -56,17 +56,9 @@ public class Cliente extends Pessoa implements Entidade {
 	private Enquadramento enquadramento;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "clientes_contatos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "contato_id"), inverseForeignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCONTATO"), uniqueConstraints = {
-			@UniqueConstraint(name = "cliente_contato", columnNames = { "cliente_id", "contato_id" }) })
-	@ElementCollection(targetClass = Contato.class)
-	@CollectionTable(name = "clientes_contatos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_CONTATOS_IDCLIENTE"))
 	private Set<Contato> contatos = new HashSet<Contato>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDCLIENTE"), inverseJoinColumns = @JoinColumn(name = "endereco_id"), inverseForeignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDENDERECO"), uniqueConstraints = {
-			@UniqueConstraint(name = "cliente_endereco", columnNames = { "cliente_id", "endereco_id" }) })
-	@ElementCollection(targetClass = Endereco.class)
-	@CollectionTable(name = "clientes_enderecos", joinColumns = @JoinColumn(name = "cliente_id"), foreignKey = @ForeignKey(name = "FK_CLIENTES_ENDERECOS_IDCLIENTE"))
 	private Set<Endereco> enderecos = new HashSet<Endereco>();
 
 	public String getRazaoSocial() {

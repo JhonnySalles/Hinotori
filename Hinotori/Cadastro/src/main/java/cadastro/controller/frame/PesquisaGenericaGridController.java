@@ -10,18 +10,13 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
-import servidor.entities.PesquisaGenerica;
-import servidor.entities.PesquisaGenericaDados;
 
 public class PesquisaGenericaGridController implements Initializable {
 
@@ -89,8 +84,8 @@ public class PesquisaGenericaGridController implements Initializable {
 	 * do que digita e filtra a grid.
 	 * </p>
 	 */
-	public void carregaGrid(PesquisaGenericaDados dados, PesquisaGenerica pesquisa) {
-		this.lista = FXCollections.observableArrayList(dados.getData());
+	public void carregaGrid() {
+		/*this.lista = FXCollections.observableArrayList(dados.getData());
 		
 		tabela.getColumns().clear();
 		for (int i = 0; i < dados.getNumColumns(); i++) {
@@ -126,7 +121,7 @@ public class PesquisaGenericaGridController implements Initializable {
 		});
 		SortedList<List<Object>> sortedData = new SortedList<>(filteredData);
 		sortedData.comparatorProperty().bind(tabela.comparatorProperty());
-		tabela.setItems(sortedData);
+		tabela.setItems(sortedData);*/
 	}
 
 	/**

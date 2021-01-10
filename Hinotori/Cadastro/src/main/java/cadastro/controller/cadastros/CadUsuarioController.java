@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -18,6 +19,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.utils.CadastroUtils;
 import comum.form.CadastroFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
@@ -30,7 +32,6 @@ import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import comum.model.utils.ViewGerenciador;
-import cadastro.utils.CadastroUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
@@ -41,14 +42,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import servidor.entities.Imagem;
 import servidor.entities.Usuario;
+import servidor.entities.UsuarioImagem;
 import servidor.validations.ValidaUsuario;
 
 public class CadUsuarioController extends CadastroFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(CadUsuarioController.class.getName());
 
-	public final static Image ImagemPadrao = new Image(CadUsuarioController.class
-			.getResourceAsStream("/cadastro/imagens/white/geral/icoUsuarioImage_256.png"));
+	public final static Image ImagemPadrao = new Image(
+			CadUsuarioController.class.getResourceAsStream("/cadastro/imagens/white/geral/icoUsuarioImage_256.png"));
 
 	@FXML
 	private JFXTextField txtId;
@@ -80,7 +82,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 	@FXML
 	private JFXButton btnProcurarImagem;
 
-	private Set<Imagem> imagens;
+	private Set<UsuarioImagem> imagens;
 	private Usuario usuario;
 
 	@Override
@@ -137,10 +139,11 @@ public class CadUsuarioController extends CadastroFormPadrao {
 		if (caminhoImagem != null) {
 			try {
 				if (imagens == null)
-					imagens = new HashSet<Imagem>();
+					imagens = new HashSet<UsuarioImagem>();
 
 				imgUsuario.setImage(new Image(caminhoImagem.toURI().toString()));
-				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem));
+				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem).stream()
+						.map(imagem -> UsuarioImagem.toUsuarioImagem(imagem)).collect(Collectors.toList()));
 			} catch (IOException e) {
 				e.printStackTrace();
 				LOGGER.log(Level.INFO, "{Erro ao carregar e processar a imagem}", e);
@@ -246,11 +249,11 @@ public class CadUsuarioController extends CadastroFormPadrao {
 		} catch (ExcessaoCadastro | ExcessaoBd e) {
 			e.printStackTrace();
 		}
-		
+
 		txtNome.validate();
 		txtLogin.validate();
 		pswSenha.validate();
-		
+
 		Validadores.setTextFieldNotEmpty(txtNome);
 		Validadores.setTextFieldNotEmpty(txtLogin);
 		Validadores.setPasswordFieldNotEmpty(pswSenha);

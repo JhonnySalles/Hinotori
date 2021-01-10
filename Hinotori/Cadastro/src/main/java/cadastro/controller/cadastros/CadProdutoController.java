@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -46,14 +47,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
+import servidor.entities.ProdutoImagem;
 import servidor.validations.ValidaProduto;
 
 public class CadProdutoController extends CadastroFormPadrao {
 
 	private final static Logger LOGGER = Logger.getLogger(CadProdutoController.class.getName());
 
-	final static Image ImagemPadrao = new Image(CadUsuarioController.class
-			.getResourceAsStream("/cadastro/imagens/white/geral/icoProdutoImage_256.png"));
+	final static Image ImagemPadrao = new Image(
+			CadUsuarioController.class.getResourceAsStream("/cadastro/imagens/white/geral/icoProdutoImage_256.png"));
 
 	@FXML
 	private JFXTabPane tpContainer;
@@ -176,7 +178,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 	// -------------------------------- -------------------------------- //
 
-	private Set<Imagem> imagens;
+	private Set<ProdutoImagem> imagens;
 	private Produto produto;
 
 	@Override
@@ -227,10 +229,11 @@ public class CadProdutoController extends CadastroFormPadrao {
 		if (caminhoImagem != null) {
 			try {
 				if (imagens == null)
-					imagens = new HashSet<Imagem>();
+					imagens = new HashSet<ProdutoImagem>();
 
 				imgProduto.setImage(new Image(caminhoImagem.toURI().toString()));
-				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem));
+				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem).stream()
+						.map(imagem -> ProdutoImagem.toProdutoImagem(imagem)).collect(Collectors.toList()));
 
 			} catch (IOException e) {
 				e.printStackTrace();

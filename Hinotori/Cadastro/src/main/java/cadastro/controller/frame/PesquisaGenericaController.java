@@ -35,8 +35,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.robot.Robot;
 import javafx.stage.Screen;
-import servidor.entities.PesquisaGenerica;
-import servidor.entities.PesquisaGenericaDados;
 
 /**
  * <p>
@@ -65,8 +63,8 @@ public class PesquisaGenericaController implements Initializable {
 	@FXML
 	private JFXButton btnFraPesquisar;
 
-	private PesquisaGenerica pesquisa;
-	private PesquisaGenericaDados resultado;
+	//private PesquisaGenerica pesquisa;
+	//private PesquisaGenericaDados resultado;
 	private PesquisaGenericaGridController controllerGrid;
 	private PopOver pop;
 	private String titulo;
@@ -163,17 +161,17 @@ public class PesquisaGenericaController implements Initializable {
 		if (pop.isShowing())
 			pop.hide();
 
-		pesquisa = new PesquisaGenerica(campoID, campoFiltrar, select, tabela, joins, where, groupOrder);
+		/*pesquisa = new PesquisaGenerica(campoID, campoFiltrar, select, tabela, joins, where, groupOrder);
 		// resultado = pesquisaService.pesquisar(pesquisa);
 		if (resultado != null)
-			controllerGrid.carregaGrid(resultado, pesquisa);
+			controllerGrid.carregaGrid(resultado, pesquisa);*/
 		return this;
 	}
 
 	public void locateId(String id) {
 		limpaCampos();
-		if (resultado == null)
-			return;
+		//if (resultado == null)
+			//return;
 
 		for (int i = 0; i < controllerGrid.getTabela().getItems().size(); i++) {
 			if (controllerGrid.getTabela().getItems().get(i).get(controllerGrid.getIndexId()).toString()
@@ -189,17 +187,17 @@ public class PesquisaGenericaController implements Initializable {
 	public void locateFiltrar(String texto) {
 		limpaCampos();
 
-		if (resultado == null)
-			return;
+		//if (resultado == null)
+			//return;
 
 		txtFraPesquisa.setText(texto);
 		for (int i = 0; i < controllerGrid.getTabela().getItems().size(); i++) {
-			if (resultado.getData().get(i).get(controllerGrid.getIndexFiltrar()).toString().equalsIgnoreCase(texto)) {
+			//if (resultado.getData().get(i).get(controllerGrid.getIndexFiltrar()).toString().equalsIgnoreCase(texto)) {
 				controllerGrid.getTabela().getSelectionModel().select(i);
 				txtFraPesquisa
 						.setText(controllerGrid.getItemSelecionado().get(controllerGrid.getIndexFiltrar()).toString());
 				break;
-			}
+			//}
 		}
 	}
 
@@ -409,7 +407,7 @@ public class PesquisaGenericaController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		resultado = null;
+		//resultado = null;
 		// pesquisaService = new PesquisaGenericaServices();
 
 		/* Popup de descricao dos botoes */
