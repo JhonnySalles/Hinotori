@@ -32,11 +32,11 @@ public class Endereco implements Serializable, Entidade {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "Id")
 	private Long id;
 
 	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "IdBairro")
 	private Bairro bairro;
 
 	@Column(name = "Endereco", columnDefinition = "varchar(150)")

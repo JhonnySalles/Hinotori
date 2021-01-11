@@ -31,10 +31,11 @@ public class Cidade implements Serializable, Entidade {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "Id")
 	private Long id;
 
 	@OneToOne(targetEntity = Estado.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "estado_id", nullable = false, foreignKey = @ForeignKey(name = "FK_CIDADE_ESTADO"))
+	@JoinColumn(name = "IdEstado", nullable = false, foreignKey = @ForeignKey(name = "FK_CIDADE_ESTADO"))
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Estado estado;
 

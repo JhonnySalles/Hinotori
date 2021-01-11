@@ -25,7 +25,7 @@ public class Imagem implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "Id")
 	private Long id;
 
 	@Column(name = "Nome", columnDefinition = "varchar(250)")
@@ -34,7 +34,7 @@ public class Imagem implements Serializable {
 	@Column(name = "Extenssao", columnDefinition = "varchar(10)")
 	private String extenssao;
 	
-	@Column(name = "caminho", columnDefinition = "longtext")
+	@Column(name = "Caminho", columnDefinition = "longtext")
 	private String caminho;
 
 	@Column(name = "Imagem", columnDefinition = "longblob")

@@ -28,6 +28,7 @@ public class Estado implements Serializable, Entidade {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "Id")
 	private Long id;
 
 	@Column(name = "Nome", columnDefinition = "varchar(150)")
