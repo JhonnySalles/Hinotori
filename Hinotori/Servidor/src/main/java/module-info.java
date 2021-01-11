@@ -18,6 +18,7 @@ module Servidor {
 	requires javafx.base;
 	requires java.transaction;
 	requires java.naming;
+	requires java.sql;
 
 	opens servidor.entities to org.hibernate.orm.core;
 }

@@ -19,7 +19,6 @@ module Comum {
 	requires javafx.fxml;
 	requires org.controlsfx.controls;
 	requires transitive com.jfoenix;
-	requires transitive java.sql;
 	requires transitive javafx.controls;
 	requires transitive javafx.graphics;
 	requires transitive java.desktop;

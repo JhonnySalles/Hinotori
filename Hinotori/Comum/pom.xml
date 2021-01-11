@@ -19,8 +19,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>14</maven.compiler.source>
+		<maven.compiler.target>14</maven.compiler.target>
 	</properties>
 
 	<dependencies>
@@ -42,50 +42,50 @@
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
-			<version>12</version>
+			<version>15</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-web</artifactId>
-			<version>12</version>
+			<version>15</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-media</artifactId>
-			<version>12</version>
+			<version>15</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics</artifactId>
-			<version>12</version>
+			<version>15</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-base</artifactId>
-			<version>12</version>
+			<version>15</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
-			<version>12</version>
+			<version>15</version>
 		</dependency>
 
 		<!-- Bibliotecas para icones -->
 		<dependency>
 			<groupId>org.kordamp.ikonli</groupId>
 			<artifactId>ikonli-javafx</artifactId>
-			<version>11.5.0</version>
+			<version>12.1.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kordamp.ikonli</groupId>
 			<artifactId>ikonli-fontawesome5-pack</artifactId>
-			<version>11.5.0</version>
+			<version>12.1.0</version>
 		</dependency>
 
 
@@ -100,7 +100,7 @@
 		<dependency>
 			<groupId>com.jfoenix</groupId>
 			<artifactId>jfoenix</artifactId>
-			<version>9.0.9</version>
+			<version>9.0.10</version>
 		</dependency>
 
 		<!-- Biblioteca para popup -->
@@ -135,7 +135,7 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest</artifactId>
-			<version>2.1</version>
+			<version>2.2</version>
 			<scope>test</scope>
 		</dependency>
 
