@@ -23,8 +23,24 @@ public class Grupo extends GrupoBase implements Entidade {
 	private static final long serialVersionUID = 6729440671900319532L;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "grupo_subgrupo", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GRUPO_SUBGRUPO"))
+	@JoinColumn(name = "IdGrupo", referencedColumnName = "Id", foreignKey = @ForeignKey(name = "FK_GRUPO_SUBGRUPO"))
 	private Set<SubGrupo> subGrupos;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "IdGrupo", nullable = true, foreignKey = @ForeignKey(name = "FK_GRUPO_IMAGEM"))
+	private Set<GupoSubGrupoImagem> imagens;
+
+	public Set<GupoSubGrupoImagem> getImagens() {
+		return imagens;
+	}
+
+	public void setImagens(Set<GupoSubGrupoImagem> imagens) {
+		this.imagens = imagens;
+	}
+
+	public void addImagens(GupoSubGrupoImagem imagem) {
+		this.imagens.add(imagem);
+	}
 
 	public Set<SubGrupo> getSubGrupos() {
 		return subGrupos;
@@ -52,17 +68,20 @@ public class Grupo extends GrupoBase implements Entidade {
 
 	public Grupo() {
 		super();
+		this.imagens = new HashSet<>();
 		this.subGrupos = new HashSet<>();
 	}
 
 	public Grupo(Long id, String descricao, String cor, Situacao situacao) {
 		super(id, descricao, cor, situacao);
+		this.imagens = new HashSet<>();
 		this.subGrupos = new HashSet<>();
 	}
 
 	public Grupo(Long id, String descricao, String cor, Situacao situacao, Set<SubGrupo> subGrupos,
-			Set<GupoBaseImagem> imagens) {
-		super(id, descricao, cor, situacao, imagens);
+			Set<GupoSubGrupoImagem> imagens) {
+		super(id, descricao, cor, situacao);
+		this.imagens = imagens;
 		this.subGrupos = subGrupos;
 	}
 

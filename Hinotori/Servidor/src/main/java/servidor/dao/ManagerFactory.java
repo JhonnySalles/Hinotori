@@ -44,7 +44,7 @@ public class ManagerFactory {
 
 		/* Configurações específicas do Hibernate */
 		props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
-		props.setProperty("hibernate.hbm2ddl.auto", "update");
+		props.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		props.setProperty("hibernate.show_sql", dados_conexao.getHibernate_mostrar_sql() ? "true" : "false");
 		props.setProperty("hibernate.format_sql", "false");
 		return props;

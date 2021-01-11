@@ -37,11 +37,11 @@ public class Usuario extends Pessoa implements Entidade {
 	private String observacao;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "usuario_imagens", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_USUARIO_IMAGEM"))
+	@JoinColumn(name = "IdUsuario", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_USUARIO_IMAGEM"))
 	private Set<UsuarioImagem> imagens;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "usuario_contatos", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_USUARIO_CONTATO"))
+	@JoinColumn(name = "IdUsuario", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_USUARIO_CONTATO"))
 	private Set<Contato> contatos;
 
 	@Column(name = "Nivel", columnDefinition = "enum('USUARIO','ADMINISTRADOR','TOTAL')")

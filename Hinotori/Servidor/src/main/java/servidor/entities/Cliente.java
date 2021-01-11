@@ -33,6 +33,7 @@ public class Cliente extends Pessoa implements Entidade {
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 6989181117327049412L;
 
+	@Column(name = "RazaoSocial", nullable = true)
 	private String razaoSocial;
 
 	@Column(name = "CPF", unique = true, nullable = true, insertable = true, updatable = true, length = 15, columnDefinition = "varchar(15)")
@@ -53,11 +54,11 @@ public class Cliente extends Pessoa implements Entidade {
 	private Enquadramento enquadramento;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_contatos", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CLIENTE_CONTATO"))
+	@JoinColumn(name = "IdCliente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CLIENTE_CONTATO"))
 	private Set<Contato> contatos = new HashSet<Contato>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_enderecos", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CLIENTE_ENDERECO"))
+	@JoinColumn(name = "IdCliente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CLIENTE_ENDERECO"))
 	private Set<Endereco> enderecos = new HashSet<Endereco>();
 
 	public String getRazaoSocial() {

@@ -1,23 +1,16 @@
 package servidor.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 import comum.model.enums.Situacao;
 
@@ -31,22 +24,18 @@ public class GrupoBase implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "Id")
 	private Long id;
 
 	@Column(name = "Descricao", columnDefinition = "varchar(250)")
 	private String descricao;
 
-	@Column(name = "cor", columnDefinition = "varchar(10)")
+	@Column(name = "Cor", columnDefinition = "varchar(10)")
 	private String cor;
 
 	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUÍDO')")
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "grupo_imagens", nullable = true, foreignKey = @ForeignKey(name = "FK_GRUPO_IMAGEM"))
-	private Set<GupoBaseImagem> imagens;
 
 	public Long getId() {
 		return id;
@@ -75,18 +64,6 @@ public class GrupoBase implements Serializable {
 			this.cor = cor;
 	}
 
-	public Set<GupoBaseImagem> getImagens() {
-		return imagens;
-	}
-
-	public void setImagens(Set<GupoBaseImagem> imagens) {
-		this.imagens = imagens;
-	}
-
-	public void addImagens(GupoBaseImagem imagem) {
-		this.imagens.add(imagem);
-	}
-
 	public Situacao getSituacao() {
 		return situacao;
 	}
@@ -100,24 +77,13 @@ public class GrupoBase implements Serializable {
 		this.descricao = "";
 		this.cor = "#000000";
 		this.situacao = Situacao.ATIVO;
-		this.imagens = new HashSet<>();
 	}
 
 	public GrupoBase(Long id, String descricao, String cor, Situacao situacao) {
 		this.id = id;
 		this.descricao = descricao;
 		this.situacao = situacao;
-		this.imagens = new HashSet<>();
-
-		setCor(cor);
-	}
-
-	public GrupoBase(Long id, String descricao, String cor, Situacao situacao, Set<GupoBaseImagem> imagens) {
-		this.id = id;
-		this.descricao = descricao;
-		this.situacao = situacao;
-		this.imagens = imagens;
-
+		
 		setCor(cor);
 	}
 
@@ -149,7 +115,7 @@ public class GrupoBase implements Serializable {
 	@Override
 	public String toString() {
 		return "GrupoBase [id=" + id + ", descricao=" + descricao + ", cor=" + cor + ", situacao=" + situacao
-				+ ", imagens=" + imagens + "]";
+				+ "]";
 	}
 
 }

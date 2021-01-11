@@ -28,8 +28,6 @@ import servidor.dao.Entidade;
 @Table(name = "empresas")
 public class Empresa implements Serializable, Entidade {
 
-	public static final String TABELA = "empresas";
-
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 5585811158914792352L;
@@ -54,20 +52,20 @@ public class Empresa implements Serializable, Entidade {
 	@Enumerated(EnumType.STRING)
 	private Situacao situacao;
 
-	@OneToOne(targetEntity = Cidade.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "cidade_id", foreignKey = @ForeignKey(name = "FK_EMPRESA_CIDADE"))
-	private Cidade cidade;
+	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "IdBairro")
+	private Bairro bairro;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "empresa_enderecos", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_ENDERECO"))
+	@JoinColumn(name = "IdEmpresa", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_ENDERECO"))
 	private Set<Endereco> enderecos;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "empresa_contatos", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_CONTATO"))
+	@JoinColumn(name = "IdEmpresa", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_CONTATO"))
 	private Set<Contato> contatos;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "empresa_imagens", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_IMAGEM"))
+	@JoinColumn(name = "IdEmpresa", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_IMAGEM"))
 	private Set<EmpresaImagem> imagens;
 
 	public Long getId() {
@@ -118,12 +116,12 @@ public class Empresa implements Serializable, Entidade {
 		this.situacao = situacao;
 	}
 
-	public Cidade getCidade() {
-		return cidade;
+	public Bairro getBairro() {
+		return bairro;
 	}
 
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
+	public void setBairro(Bairro bairro) {
+		this.bairro = bairro;
 	}
 
 	public Set<Endereco> getEnderecos() {
@@ -198,21 +196,21 @@ public class Empresa implements Serializable, Entidade {
 	}
 
 	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
-			Situacao situacao, Cidade cidade) {
+			Situacao situacao, Bairro bairro) {
 		this.id = id;
 		this.nomeFantasia = nomeFantasia;
 		this.razaoSocial = razaoSocial;
 		this.cnpj = cnpj;
 		this.dataCadastro = dataCadastro;
 		this.situacao = situacao;
-		this.cidade = cidade;
+		this.bairro = bairro;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
 
 	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
-			Situacao situacao, Cidade cidade, Set<Endereco> enderecos, Set<Contato> contatos,
+			Situacao situacao, Bairro bairro, Set<Endereco> enderecos, Set<Contato> contatos,
 			Set<EmpresaImagem> imagens) {
 		this.id = id;
 		this.nomeFantasia = nomeFantasia;
@@ -220,7 +218,7 @@ public class Empresa implements Serializable, Entidade {
 		this.cnpj = cnpj;
 		this.dataCadastro = dataCadastro;
 		this.situacao = situacao;
-		this.cidade = cidade;
+		this.bairro = bairro;
 		this.enderecos = enderecos;
 		this.contatos = contatos;
 		this.imagens = imagens;
