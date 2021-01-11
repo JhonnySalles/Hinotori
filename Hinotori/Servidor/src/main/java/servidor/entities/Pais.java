@@ -15,6 +15,8 @@ import servidor.dao.Entidade;
 @Table(name = "paises")
 public class Pais implements Serializable, Entidade {
 
+	final public static String TABELA = Cidade.class.getAnnotation(Table.class).name();
+
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -8550095243834653978L;

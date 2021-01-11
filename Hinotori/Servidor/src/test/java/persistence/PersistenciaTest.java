@@ -12,6 +12,7 @@ import comum.model.enums.UsuarioNivel;
 import junit.framework.TestCase;
 import servidor.dao.services.GenericServices;
 import servidor.dao.services.UsuarioServices;
+import servidor.entities.Bairro;
 import servidor.entities.Cidade;
 import servidor.entities.Empresa;
 import servidor.entities.Estado;
@@ -90,9 +91,12 @@ public class PersistenciaTest extends TestCase {
 	public void testSaveEmpresa() {
 		GenericServices<Cidade> serviceCidade = new GenericServices<Cidade>(Cidade.class);
 		Cidade cidade = serviceCidade.pesquisar(Long.valueOf(1));
+		
+		GenericServices<Bairro> serviceBairro = new GenericServices<Bairro>(Bairro.class);
+		Bairro bairro = serviceBairro.pesquisar(Long.valueOf(1));
 
 		Empresa empresa = new Empresa(Long.valueOf(0), "Empresa de teste", "Empresa de demonstração", "27341631000120",
-				Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO, cidade);
+				Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO, bairro);
 
 		GenericServices<Empresa> service = new GenericServices<Empresa>(Empresa.class);
 		empresa = service.salvar(empresa);

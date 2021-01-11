@@ -22,6 +22,8 @@ import servidor.dao.Entidade;
 @Table(name = "estados")
 public class Estado implements Serializable, Entidade {
 
+	final public static String TABELA = Estado.class.getAnnotation(Table.class).name();
+
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 7631404138653459787L;
@@ -86,6 +88,13 @@ public class Estado implements Serializable, Entidade {
 	}
 
 	public Estado() {
+		this.id = Long.valueOf(0);
+		this.nome = "";
+		this.sigla = "";
+		this.codigoIBGE = 0;
+	}
+
+	public Estado(String nome, String sigla, Pais pais) {
 		this.id = Long.valueOf(0);
 		this.nome = "";
 		this.sigla = "";

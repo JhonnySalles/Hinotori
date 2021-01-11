@@ -23,9 +23,4 @@ public class ProdutoImagem extends Imagem {
 		super(nome, extenssao, imagem, tamanho);
 	}
 
-	public static ProdutoImagem toProdutoImagem(Imagem imagem) {
-		return new ProdutoImagem(imagem.getId(), imagem.getNome(), imagem.getExtenssao(), imagem.getImagem(),
-				imagem.getTamanho());
-	}
-
 }

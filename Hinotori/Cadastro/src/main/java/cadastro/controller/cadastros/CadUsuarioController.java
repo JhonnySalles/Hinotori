@@ -40,6 +40,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import servidor.dto.ImagemDTO;
 import servidor.entities.Imagem;
 import servidor.entities.Usuario;
 import servidor.entities.UsuarioImagem;
@@ -143,7 +144,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 				imgUsuario.setImage(new Image(caminhoImagem.toURI().toString()));
 				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem).stream()
-						.map(imagem -> UsuarioImagem.toUsuarioImagem(imagem)).collect(Collectors.toList()));
+						.map(imagem -> ImagemDTO.toUsuarioImagem(imagem)).collect(Collectors.toList()));
 			} catch (IOException e) {
 				e.printStackTrace();
 				LOGGER.log(Level.INFO, "{Erro ao carregar e processar a imagem}", e);

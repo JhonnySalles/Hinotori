@@ -45,6 +45,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import servidor.dto.ImagemDTO;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
 import servidor.entities.ProdutoImagem;
@@ -233,7 +234,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 
 				imgProduto.setImage(new Image(caminhoImagem.toURI().toString()));
 				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem).stream()
-						.map(imagem -> ProdutoImagem.toProdutoImagem(imagem)).collect(Collectors.toList()));
+						.map(imagem -> ImagemDTO.toProdutoImagem(imagem)).collect(Collectors.toList()));
 
 			} catch (IOException e) {
 				e.printStackTrace();
