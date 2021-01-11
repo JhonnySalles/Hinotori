@@ -23,9 +23,4 @@ public class UsuarioImagem extends Imagem {
 		super(nome, extenssao, imagem, tamanho);
 	}
 
-	public static UsuarioImagem toUsuarioImagem(Imagem imagem) {
-		return new UsuarioImagem(imagem.getId(), imagem.getNome(), imagem.getExtenssao(), imagem.getImagem(),
-				imagem.getTamanho());
-	}
-
 }

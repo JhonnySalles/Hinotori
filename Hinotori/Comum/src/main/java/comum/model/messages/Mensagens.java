@@ -24,6 +24,9 @@ public class Mensagens {
 	public final static String CONCLUIDO = "Concluído";
 	public final static String ERRO = "Erro";
 	public final static String AVISO = "Aviso";
+	
+	public final static String CEP_INVALIDO = "Cep não encontrado.";
+	public final static String CEP_SERVICO_INDISPONIVEL = "Serviço indisponível.";
 
 	// --------------------------------------------------------------------------//
 	// ************************** BANCO DE DADOS ********************************//

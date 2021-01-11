@@ -25,6 +25,8 @@ import servidor.dao.Entidade;
 @Table(name = "cidades")
 public class Cidade implements Serializable, Entidade {
 
+	final public static String TABELA = Cidade.class.getAnnotation(Table.class).name();
+	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = 8936948944326503399L;
@@ -93,6 +95,14 @@ public class Cidade implements Serializable, Entidade {
 		this.id = Long.valueOf(0);
 		this.nome = "";
 		this.ddd = "";
+		this.situacao = Situacao.ATIVO;
+	}
+	
+	public Cidade(String nome, String ddd, Estado estado) {
+		this.id = Long.valueOf(0);
+		this.estado = estado;
+		this.nome = nome;
+		this.ddd = ddd;
 		this.situacao = Situacao.ATIVO;
 	}
 

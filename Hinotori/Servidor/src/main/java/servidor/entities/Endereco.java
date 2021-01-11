@@ -208,6 +208,19 @@ public class Endereco implements Serializable, Entidade {
 		this.situacao = situacao;
 	}
 
+	public Endereco(Bairro bairro, String endereco, String cep) {
+		this.id = Long.valueOf(0);
+		this.bairro = bairro;
+		this.endereco = endereco;
+		this.numero = "";
+		this.cep = cep;
+		this.complemento = "";
+		this.observacao = "";
+		this.tipoEndereco = TipoEndereco.COBRANCA;
+		this.situacao = Situacao.ATIVO;
+		this.padrao.set(false);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

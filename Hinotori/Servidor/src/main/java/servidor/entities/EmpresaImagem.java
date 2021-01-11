@@ -23,9 +23,4 @@ public class EmpresaImagem extends Imagem {
 		super(nome, extenssao, imagem, tamanho);
 	}
 
-	public static EmpresaImagem toEmpresaImagem(Imagem imagem) {
-		return new EmpresaImagem(imagem.getId(), imagem.getNome(), imagem.getExtenssao(), imagem.getImagem(),
-				imagem.getTamanho());
-	}
-
 }
