@@ -47,7 +47,7 @@ Utilizado no projeto o mavem para controle e gerenciamento das dependências.
 ## Meta
 
 Distribuido sobre a licença GPL. Veja o arquivo ``COPYING`` para maiores informações.
-[https://github.com/JhonnySalles/github-link](https://github.com/dbader/)
+[https://github.com/JhonnySalles/github-link](https://github.com/JhonnySalles/Hinotori/blob/Colab/Hinotori/COPYING)
 
 ## Contribuindo
 
