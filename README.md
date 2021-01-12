@@ -27,7 +27,8 @@ Projetado para realizar simples lançamentos e controle de venda dos produtos.
 
 ## Ambiente de Desenvolvimento
 
-Necessário realizar préviamente a instalação do java na versão 11.
+Necessário realizar préviamente a instalação do [java na versão 15](https://www.java.com/pt-BR/).
+Pode-se utilizar qualquer IDE de desenvolvimento de sua escolha, recomenda-se a versão 2020-12 do [eclipse](https://www.eclipse.org/downloads/).
 Utilizado no projeto o mavem para controle e gerenciamento das dependências.
 
 ## Histórico de Release
