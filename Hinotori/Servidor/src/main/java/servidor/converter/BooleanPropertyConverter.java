@@ -17,5 +17,7 @@ public class BooleanPropertyConverter implements AttributeConverter<SimpleBoolea
 	public SimpleBooleanProperty convertToEntityAttribute(Boolean dbData) {
 		return new SimpleBooleanProperty(dbData);
 	}
+	
+	
 
 }

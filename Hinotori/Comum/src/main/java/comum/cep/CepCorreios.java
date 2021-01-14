@@ -23,7 +23,7 @@ public class CepCorreios {
 	 * @throws ExcessaoCep
 	 */
 	public static CEP getCep(String cep) throws ExcessaoCep {
-		if (!cep.matches(onlyNumber))
+		if (cep.matches(onlyNumber))
 			throw new NumberFormatException("Cep inválido, apenas números são aceito.");
 
 		try {

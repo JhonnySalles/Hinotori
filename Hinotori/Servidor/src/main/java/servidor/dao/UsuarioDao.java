@@ -9,11 +9,15 @@ import servidor.entities.Usuario;
 
 public class UsuarioDao extends Dao<Usuario> {
 
-	final static String SELECT_LISTA_LOGIN = "SELECT Login FROM usuarios WHERE SITUACAO = 'ATIVO' ";
-	final static String SELECT_LOGIN = "SELECT u FROM usuarios u WHERE Login = ? AND SITUACAO = 'ATIVO' ";
-	final static String SELECT_ALL = "SELECT u FROM usuarios u WHERE Situacao <> 'EXCLUIDO' AND Id <> 0";
-	final static String SELECT_EXISTE_LOGIN = "SELECT Login FROM usuarios u WHERE Login = ? AND ID <> ?";
-	
+	final static String SELECT_LISTA_LOGIN = "SELECT Login FROM " + Usuario.class.getName()
+			+ " WHERE SITUACAO = 'ATIVO' ";
+	final static String SELECT_LOGIN = "SELECT u FROM " + Usuario.class.getName()
+			+ " u WHERE Login = ? AND SITUACAO = 'ATIVO' ";
+	final static String SELECT_ALL = "SELECT u FROM " + Usuario.class.getName()
+			+ " u WHERE Situacao <> 'EXCLUIDO' AND Id <> 0";
+	final static String SELECT_EXISTE_LOGIN = "SELECT Login FROM " + Usuario.class.getName()
+			+ " u WHERE Login = '?' AND ID <> ?";
+
 	public Boolean validaLogin(Long id, String login) {
 		String query = SELECT_EXISTE_LOGIN;
 		query.replaceFirst("?", login).replaceFirst("?", id.toString());
@@ -35,4 +39,7 @@ public class UsuarioDao extends Dao<Usuario> {
 		return stringQuery.getResultList();
 	};
 
+	public UsuarioDao() {
+		super(Usuario.class);
+	};
 }

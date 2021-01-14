@@ -6,7 +6,7 @@ import comum.model.enums.TamanhoImagem;
 import servidor.dao.UsuarioDao;
 import servidor.entities.Usuario;
 
-public class UsuarioServices {
+public class UsuarioService {
 
 	private UsuarioDao service = new UsuarioDao();
 

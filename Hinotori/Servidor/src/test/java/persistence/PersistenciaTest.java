@@ -6,15 +6,26 @@ import java.time.LocalDateTime;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.talesolutions.cep.CEP;
 
+import comum.cep.CepCorreios;
+import comum.model.enums.Enquadramento;
 import comum.model.enums.Situacao;
+import comum.model.enums.TipoPessoa;
 import comum.model.enums.UsuarioNivel;
+import comum.model.exceptions.ExcessaoCep;
 import junit.framework.TestCase;
-import servidor.dao.services.GenericServices;
-import servidor.dao.services.UsuarioServices;
-import servidor.entities.Bairro;
+import servidor.dao.CidadeDao;
+import servidor.dao.services.CidadeService;
+import servidor.dao.services.EstadoService;
+import servidor.dao.services.GenericService;
+import servidor.dao.services.PaisService;
+import servidor.dao.services.UsuarioService;
+import servidor.dto.EnderecoDTO;
 import servidor.entities.Cidade;
+import servidor.entities.Cliente;
 import servidor.entities.Empresa;
+import servidor.entities.Endereco;
 import servidor.entities.Estado;
 import servidor.entities.Pais;
 import servidor.entities.Usuario;
@@ -27,7 +38,7 @@ public class PersistenciaTest extends TestCase {
 
 	@Test
 	public void testFindPais() {
-		GenericServices<Pais> service = new GenericServices<Pais>(Pais.class);
+		PaisService service = new PaisService();
 		pais = service.pesquisar(Long.valueOf(1));
 
 		assertTrue(pais != null && pais.getId() > 0);
@@ -36,7 +47,7 @@ public class PersistenciaTest extends TestCase {
 
 	@Test
 	public void testFindEstado() {
-		GenericServices<Estado> service = new GenericServices<Estado>(Estado.class);
+		EstadoService service = new EstadoService();
 		estado = service.pesquisar(Long.valueOf(1));
 
 		assertTrue(estado != null && estado.getId() > 0);
@@ -45,12 +56,12 @@ public class PersistenciaTest extends TestCase {
 
 	@Test
 	public void testSaveCidade() {
-		GenericServices<Estado> serviceEstado = new GenericServices<Estado>(Estado.class);
+		EstadoService serviceEstado = new EstadoService();
 		estado = serviceEstado.pesquisar(Long.valueOf(1));
 		
-		GenericServices<Cidade> service = new GenericServices<Cidade>(Cidade.class);
+		CidadeDao service = new CidadeDao();
 		Cidade cidade = new Cidade(Long.valueOf(0), "Cascavel", "45", Situacao.ATIVO, estado);
-		cidade = service.salvar(cidade);
+		cidade = service.salvarAtomico(cidade).getLastEntity();
 
 		assertTrue(cidade != null && cidade.getId() > 0);
 		fail("Erro ao salvar a cidade.");
@@ -58,8 +69,8 @@ public class PersistenciaTest extends TestCase {
 
 	@Test
 	public void testFindCidade() {
-		GenericServices<Cidade> service = new GenericServices<Cidade>(Cidade.class);
-		Cidade cidade = service.pesquisar(Long.valueOf(1));
+		CidadeService service = new CidadeService();
+		Cidade cidade = service.pesquisar("cascavel");
 
 		assertTrue(cidade != null && cidade.getId() > 0);
 		fail("Erro ao pesquisar a cidade.");
@@ -71,7 +82,7 @@ public class PersistenciaTest extends TestCase {
 				Timestamp.valueOf(LocalDateTime.now()), "MARIA", "Observação de teste", UsuarioNivel.ADMINISTRADOR,
 				Situacao.ATIVO);
 
-		UsuarioServices service = new UsuarioServices();
+		UsuarioService service = new UsuarioService();
 		usuario = service.salvar(usuario);
 
 		assertTrue(usuario.getId() > 0);
@@ -80,7 +91,7 @@ public class PersistenciaTest extends TestCase {
 
 	@Test
 	public void testFindUsuario() {
-		UsuarioServices service = new UsuarioServices();
+		UsuarioService service = new UsuarioService();
 		Usuario usuario = service.pesquisar(Long.valueOf(1));
 
 		assertTrue(usuario != null && usuario.getId() > 0);
@@ -89,16 +100,22 @@ public class PersistenciaTest extends TestCase {
 
 	@Test
 	public void testSaveEmpresa() {
-		GenericServices<Cidade> serviceCidade = new GenericServices<Cidade>(Cidade.class);
-		Cidade cidade = serviceCidade.pesquisar(Long.valueOf(1));
+		CEP cep;
+		Endereco endereco;
+		try {
+			cep = CepCorreios.getCep("85801000");
+			endereco = EnderecoDTO.toEndereco(cep);
+		} catch (ExcessaoCep e) {
+			e.printStackTrace();
+			return;
+		}
 		
-		GenericServices<Bairro> serviceBairro = new GenericServices<Bairro>(Bairro.class);
-		Bairro bairro = serviceBairro.pesquisar(Long.valueOf(1));
-
 		Empresa empresa = new Empresa(Long.valueOf(0), "Empresa de teste", "Empresa de demonstração", "27341631000120",
-				Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO, bairro);
+				Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO, endereco.getBairro());
+		
+		empresa.addEnderecos(endereco);
 
-		GenericServices<Empresa> service = new GenericServices<Empresa>(Empresa.class);
+		GenericService<Empresa> service = new GenericService<Empresa>(Empresa.class);
 		empresa = service.salvar(empresa);
 
 		assertTrue(empresa.getId() > 0);
@@ -107,17 +124,33 @@ public class PersistenciaTest extends TestCase {
 
 	@Test
 	public void testFindEmpresa() {
-		GenericServices<Empresa> service = new GenericServices<Empresa>(Empresa.class);
+		GenericService<Empresa> service = new GenericService<Empresa>(Empresa.class);
 		Empresa empresa = service.pesquisar(Long.valueOf(1));
 
 		assertTrue(empresa != null && empresa.getId() > 0);
-		fail("Erro ao pesquisar o usuário.");
+		fail("Erro ao pesquisar a empresa.");
 	}
 
 	@Test
-	public void testCliente() {
-		assertTrue(true);
-		fail("Erro ao salvar o usuário.");
+	public void testSaveCliente() {
+		GenericService<Cliente> service = new GenericService<Cliente>(Cliente.class);
+		
+		Cliente cliente = new Cliente("Hefer Ortas", "", "26353989091", "", "Teste de cadastro.",
+				TipoPessoa.FISICO, Enquadramento.CLIENTE);
+		
+		cliente = service.salvar(cliente);
+
+		assertTrue(cliente != null && cliente.getId() > 0);
+		fail("Erro ao salvar o cliente.");
+	}
+	
+	@Test
+	public void testFindCliente() {
+		GenericService<Cliente> service = new GenericService<Cliente>(Cliente.class);
+		Cliente cliente = service.pesquisar(Long.valueOf(1));
+
+		assertTrue(cliente != null && cliente.getId() > 0);
+		fail("Erro ao pesquisar o cliente.");
 	}
 
 	@Test

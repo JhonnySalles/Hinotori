@@ -5,7 +5,7 @@ import java.util.List;
 import servidor.dao.Dao;
 import servidor.dao.Entidade;
 
-public class GenericServices<E extends Entidade> {
+public class GenericService<E extends Entidade> {
 
 	private Dao<E> service;
 
@@ -13,7 +13,7 @@ public class GenericServices<E extends Entidade> {
 		return service;
 	}
 
-	public GenericServices(Class<E> classe) {
+	public GenericService(Class<E> classe) {
 		this.service = new Dao<E>(classe);
 	}
 

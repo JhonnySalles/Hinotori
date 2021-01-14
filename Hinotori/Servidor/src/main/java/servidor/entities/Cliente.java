@@ -160,6 +160,19 @@ public class Cliente extends Pessoa implements Entidade {
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 	}
+	
+	public Cliente(String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
+			TipoPessoa tipoPessoa, Enquadramento enquadramento) {
+		super(0L, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO);
+		this.razaoSocial = razaoSocial;
+		this.cpf = cpf;
+		this.cnpj = cnpj;
+		this.observacao = observacao;
+		this.tipoPessoa = tipoPessoa;
+		this.enquadramento = enquadramento;
+		this.enderecos = new HashSet<>();
+		this.contatos = new HashSet<>();
+	}
 
 	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
 			TipoPessoa tipoPessoa, Enquadramento enquadramento, Situacao situacao) {

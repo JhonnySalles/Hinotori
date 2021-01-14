@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.Table;
 import javax.persistence.TypedQuery;
 
 public class Dao<E extends Entidade> {
@@ -25,9 +24,8 @@ public class Dao<E extends Entidade> {
 	}
 
 	private String getTabela() {
-		// Checka a anotação da classe e obtem a tabela informada na anotação
-		Table tabela = classe.getAnnotation(Table.class);
-		return (tabela == null ? classe.getName() : tabela.name());
+		// Para pesquisa deve-se retornar o nome da classe.
+		return classe.getName();
 	}
 
 	public Dao() {
@@ -89,7 +87,16 @@ public class Dao<E extends Entidade> {
 	}
 
 	public E pesquisar(Long id) {
+		if (classe == null)
+			throw new UnsupportedOperationException("Classe nula, deve-se informar a classe no construtor.");
+
 		E entidade = em.find(classe, id);
+
+		if (entidade == null)
+			return entidade;
+
+		// Desfaz o vinculo do hibernate para que não seja refletido ao banco a
+		// alteração na classe.
 		em.detach(entidade);
 		return entidade;
 	};
@@ -104,7 +111,7 @@ public class Dao<E extends Entidade> {
 
 	public List<E> listar(int primeiroRegistro, int registros) {
 		if (classe == null)
-			throw new UnsupportedOperationException("Classe nula.");
+			throw new UnsupportedOperationException("Classe nula, deve-se informar a classe no construtor.");
 
 		TypedQuery<E> query = em.createQuery(String.format(SELECT, getTabela()), classe);
 

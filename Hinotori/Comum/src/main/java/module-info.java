@@ -13,6 +13,7 @@ module Comum {
 	exports comum.model.notification.controller;
 	exports comum.model.utils;
 	exports comum.form;
+	exports comum.cep;
 
 	requires java.logging;
 	requires javafx.base;
@@ -25,7 +26,7 @@ module Comum {
 	requires AnimateFX;
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.ikonli.fontawesome5;
-	requires busca.cep.java.client;
+	requires transitive busca.cep.java.client;
 	
 	opens comum.model.notification.controller to javafx.fxml;
 	opens comum.model.alerts.controller to javafx.fxml;
