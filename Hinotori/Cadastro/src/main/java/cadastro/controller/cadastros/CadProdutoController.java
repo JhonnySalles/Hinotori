@@ -45,7 +45,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import servidor.dao.services.GenericService;
 import servidor.dto.ImagemDTO;
+import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
 import servidor.entities.ProdutoImagem;
@@ -181,6 +183,7 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 
 	private Set<ProdutoImagem> imagens;
 	private Produto produto;
+	private GenericService<Produto> service = new GenericService<Produto>(Produto.class);
 
 	@Override
 	public void onBtnConfirmarClick() {
@@ -279,37 +282,31 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 
 	@Override
 	protected void salvar(Produto entidade) {
-		/*
-		 * try {
-		 * 
-		 * Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-		 * "Produto salvo com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
-		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-		 * LOGGER.log(Level.INFO, "{Erro ao salvar o produto}", e); }
-		 */
-
+		if (entidade == null)
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_SALVAR + " Nenhum produto selecionado.");
+		else {
+			service.salvar(entidade);
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Produto salvo com sucesso.");
+			limpaCampos();
+		}
 	}
 
 	@Override
 	protected void excluir(Produto entidade) {
-		/*
-		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-		 * "Produto excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
-		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-		 * LOGGER.log(Level.INFO, "{Erro ao excluir o produto}", e); }
-		 */
-
+		if (entidade == null || entidade.getId() == 0)
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_EXCLUIR + " Nenhuma produto selecionado.");
+		else {
+			service.deletar(entidade.getId());
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Produto excluído com sucesso.");
+			limpaCampos();
+		}
 	}
 
 	@Override
 	protected Produto pesquisar(Produto entidade) {
-		/*
-		 * try {
-		 * 
-		 * } catch (ExcessaoBd e) { e.printStackTrace(); LOGGER.log(Level.INFO,
-		 * "{Erro ao carregar o produto}", e); }
-		 */
-		return null;
+		return service.pesquisar(entidade.getId());
 	}
 
 	@Override

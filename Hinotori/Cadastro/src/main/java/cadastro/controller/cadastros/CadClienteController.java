@@ -3,10 +3,6 @@ package cadastro.controller.cadastros;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
-
-import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -14,7 +10,6 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import cadastro.controller.implementos.ValidateRazaoSocial;
 import cadastro.controller.lista.ListaContatoController;
 import cadastro.controller.lista.ListaEnderecoController;
 import comum.form.CadastroFormPadrao;
@@ -39,12 +34,14 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import servidor.dao.services.GenericService;
 import servidor.entities.Cliente;
 import servidor.validations.ValidaCliente;
 
 public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
-	private final static Logger LOGGER = Logger.getLogger(CadUsuarioController.class.getName());
+	// private final static Logger LOGGER =
+	// Logger.getLogger(CadUsuarioController.class.getName());
 
 	@FXML
 	private JFXTextField txtId;
@@ -83,6 +80,7 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	private JFXButton btnEndereco;
 
 	private Cliente cliente;
+	private GenericService<Cliente> service = new GenericService<Cliente>(Cliente.class);
 
 	@Override
 	public void onBtnConfirmarClick() {
@@ -185,24 +183,22 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 	@Override
 	protected void salvar(Cliente entidade) {
-		/*
-		 * try {
-		 * 
-		 * Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-		 * "Cliente salvo com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
-		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-		 * LOGGER.log(Level.INFO, "{Erro ao salvar o cliente}", e); }
-		 */
+		if (entidade == null)
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_SALVAR + " Nenhum cliente selecionado.");
+		else {
+			service.salvar(entidade);
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente salvo com sucesso.");
+			limpaCampos();
+		}
 	}
 
 	@Override
 	protected void excluir(Cliente entidade) {
-		/*
-		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-		 * "Cliente excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
-		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-		 * LOGGER.log(Level.INFO, "{Erro ao excluir o cliente}", e); }
-		 */
+		service.deletar(entidade.getId());
+
+		Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente excluído com sucesso.");
+		limpaCampos();
 	}
 
 	@Override
@@ -215,13 +211,7 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 	@Override
 	protected Cliente pesquisar(Cliente entidade) {
-		/*
-		 * try {
-		 * 
-		 * } catch (ExcessaoBd e) { e.printStackTrace(); LOGGER.log(Level.INFO,
-		 * "{Erro ao pesquisar o cliente}", e); }
-		 */
-		return entidade;
+		return service.pesquisar(entidade.getId());
 	}
 
 	@Override
@@ -233,8 +223,13 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 		}
 
 		txtNome.validate();
-		txtCpf.validate();
-		txtCnpj.validate();
+
+		if (!cbPessoaTipo.getValue().equals(TipoPessoa.JURIDICO))
+			txtCpf.validate();
+
+		if (!cbPessoaTipo.getValue().equals(TipoPessoa.FISICO))
+			txtCnpj.validate();
+
 		txtRazaoSocial.validate();
 
 		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
@@ -322,29 +317,21 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 					TipoPessoa newValue) {
 				if (newValue != null)
 					txtRazaoSocial.setDisable(newValue.equals(TipoPessoa.FISICO));
+
+				txtRazaoSocial.resetValidation();
+				txtCpf.resetValidation();
+				txtCnpj.resetValidation();
 			}
 		});
 
 		return this;
 	}
-	
+
 	private CadClienteController configuraValidate() {
 		Validadores.setTextFieldNotEmpty(txtNome);
-		Validadores.setTextFieldCPFValidate(txtCpf);
-		Validadores.setTextFieldCNPJValidate(txtCnpj);
-
-
-		ValidateRazaoSocial validator = new ValidateRazaoSocial(cbPessoaTipo, "Campo obrigatório!");
-		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
-		warnIcon.getStyleClass().add("error");
-		validator.setIcon(warnIcon);
-
-		txtRazaoSocial.getValidators().add(validator);
-		txtRazaoSocial.focusedProperty().addListener((o, oldVal, newVal) -> {
-			if (!newVal)
-				txtRazaoSocial.validate();
-		});
-		
+		Validadores.setTextFieldCPFValidate(cbPessoaTipo, txtCpf);
+		Validadores.setTextFieldCNPJValidate(cbPessoaTipo, txtCnpj);
+		Validadores.setTextFieldRazaoSocialValidate(cbPessoaTipo, txtRazaoSocial);
 		return this;
 	}
 
@@ -353,7 +340,7 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 		Limitadores.setTextFieldInteger(txtId);
 
 		configuraValidate();
-		
+
 		Mascaras.cpfField(txtCpf);
 		Mascaras.cnpjField(txtCnpj);
 

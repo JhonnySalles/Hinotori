@@ -65,7 +65,7 @@ public class Mensagens {
 	// ************************** CADASTROS *************************************//
 	// --------------------------------------------------------------------------//
 	public final static String CADASTRO_SALVAR = "Não foi possivel salvar, alguns campos não conseguiram ser validados, favor verificar o cadastro.";
-	public final static String CADASTRO_EXCLUIR = "Não foi possivel realizar a exclusão";
+	public final static String CADASTRO_EXCLUIR = "Não foi possivel realizar a exclusão.";
 
 	// ERROS DO CADASTRO DE USUARIO
 	public final static String CAD_USR_NOME_VAZIO = "Nome não pode ser vazio.";

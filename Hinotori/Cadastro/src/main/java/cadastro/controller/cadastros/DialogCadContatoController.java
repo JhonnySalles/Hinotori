@@ -24,7 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import servidor.entities.Contato;
 import servidor.validations.ValidaContato;
 
-public class DialogCadContatoController extends CadastroDialogPadrao {
+public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 
 	@FXML
 	private JFXComboBox<TipoContato> cbTipo;
@@ -63,22 +63,22 @@ public class DialogCadContatoController extends CadastroDialogPadrao {
 	}
 
 	@Override
-	protected <T> void salvar(T entidade) {
+	protected void salvar(Contato entidade) {
 		if (contatos == null)
 			contatos = new HashSet<>();
 
 		if (!contatos.contains(entidade))
-			contatos.add((Contato) entidade);
+			contatos.add(entidade);
 
 		limpaCampos();
 	}
 
 	@Override
-	public <T> void carregar(T entidade) {
+	public void carregar(Contato entidade) {
 		if (entidade == null)
 			limpaCampos();
 		else
-			atualizaTela((Contato) entidade);
+			atualizaTela(entidade);
 	}
 
 	@Override

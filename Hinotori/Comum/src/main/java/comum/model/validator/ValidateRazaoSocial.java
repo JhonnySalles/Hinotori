@@ -1,4 +1,4 @@
-package cadastro.controller.implementos;
+package comum.model.validator;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.validation.base.ValidatorBase;
@@ -27,7 +27,7 @@ public class ValidateRazaoSocial extends ValidatorBase {
 		if (cbTipoPessoa == null)
 			hasErrors.set(true);
 		else {
-			if (cbTipoPessoa.getValue().equals(TipoPessoa.JURIDICO)
+			if (!cbTipoPessoa.getValue().equals(TipoPessoa.JURIDICO)
 					&& (textField.getText() == null || textField.getText().isEmpty()))
 				hasErrors.set(true);
 			else

@@ -27,7 +27,7 @@ import javafx.scene.paint.Color;
 import servidor.entities.Endereco;
 import servidor.validations.ValidaEndereco;
 
-public class DialogCadEnderecoController extends CadastroDialogPadrao {
+public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> {
 
 	@FXML
 	private JFXComboBox<TipoEndereco> cbTipo;
@@ -82,7 +82,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 	}
 
 	@Override
-	protected <T> void salvar(T entidade) {
+	protected void salvar(Endereco entidade) {
 		if (enderecos == null)
 			enderecos = new HashSet<>();
 
@@ -90,17 +90,17 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao {
 			endereco.setPadrao(true);
 
 		if (!enderecos.contains(entidade))
-			enderecos.add((Endereco) entidade);
+			enderecos.add(entidade);
 
 		limpaCampos();
 	}
 
 	@Override
-	public <T> void carregar(T entidade) {
+	public void carregar(Endereco entidade) {
 		if (entidade == null)
 			limpaCampos();
 		else
-			atualizaTela((Endereco) entidade);
+			atualizaTela(entidade);
 	}
 
 	@Override

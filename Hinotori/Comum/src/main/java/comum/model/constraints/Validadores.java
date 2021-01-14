@@ -11,6 +11,11 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 
+import comum.model.enums.TipoPessoa;
+import comum.model.validator.ValidateCNPJ;
+import comum.model.validator.ValidateCPF;
+import comum.model.validator.ValidateRazaoSocial;
+
 /**
  * <p>
  * Classe que contem métodos estáticos para validações de campos field.
@@ -41,6 +46,8 @@ public class Validadores {
 			+ "(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])" // Dominio
 			+ "|" + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$";
 
+	private static final String OBRIGATORIO = "Campo obrigatório!";
+	
 	public static void setTextFieldRegexValidate(final JFXTextField textField, String regex, String menssagem) {
 		RegexValidator valid = new RegexValidator();
 
@@ -69,9 +76,35 @@ public class Validadores {
 	public static void setTextFieldCNPJValidate(final JFXTextField textField) {
 		setTextFieldRegexValidate(textField, REGEX_CNPJ, "CNPJ informado inválido!");
 	}
+	
+	public static void setTextFieldCNPJValidate(final JFXComboBox<TipoPessoa> comboBox, final JFXTextField textField) {
+		ValidateCNPJ validator = new ValidateCNPJ(comboBox, OBRIGATORIO);
+		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
+		warnIcon.getStyleClass().add("error");
+		validator.setIcon(warnIcon);
+
+		textField.getValidators().add(validator);
+		textField.focusedProperty().addListener((o, oldVal, newVal) -> {
+			if (!newVal)
+				textField.validate();
+		});
+	}
 
 	public static void setTextFieldCPFValidate(final JFXTextField textField) {
 		setTextFieldRegexValidate(textField, REGEX_CPF, "CPF informado inválido!");
+	}
+	
+	public static void setTextFieldCPFValidate(final JFXComboBox<TipoPessoa> comboBox,final JFXTextField textField) {
+		ValidateCPF validator = new ValidateCPF(comboBox, OBRIGATORIO);
+		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
+		warnIcon.getStyleClass().add("error");
+		validator.setIcon(warnIcon);
+
+		textField.getValidators().add(validator);
+		textField.focusedProperty().addListener((o, oldVal, newVal) -> {
+			if (!newVal)
+				textField.validate();
+		});
 	}
 
 	public static void setTextFieldNumberValidate(final JFXTextField textField) {
@@ -122,9 +155,22 @@ public class Validadores {
 				comboBox.validate();
 		});
 	}
+	
+	public static void setTextFieldRazaoSocialValidate(final JFXComboBox<TipoPessoa> comboBox, final JFXTextField textField) {
+		ValidateRazaoSocial validator = new ValidateRazaoSocial(comboBox, OBRIGATORIO);
+		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
+		warnIcon.getStyleClass().add("error");
+		validator.setIcon(warnIcon);
+
+		textField.getValidators().add(validator);
+		textField.focusedProperty().addListener((o, oldVal, newVal) -> {
+			if (!newVal)
+				textField.validate();
+		});
+	}
 
 	public static Boolean validaCpf(final String texto) {
-		if (texto.isEmpty() || texto.replaceAll("[^0-9]", "").length() > 12)
+		if (texto.isEmpty())
 			return false;
 
 		return Pattern.compile(REGEX_CPF).matcher(texto).matches();

@@ -36,6 +36,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import servidor.dao.services.GenericService;
 import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 import servidor.validations.ValidaEmpresa;
@@ -79,7 +80,7 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 
 	private Set<Imagem> imagens;
 	private Empresa empresa;
-//	private EmpresaServices empresaService;
+	private GenericService<Empresa> service = new GenericService<Empresa>(Empresa.class);
 	private String id;
 
 	@Override
@@ -188,37 +189,32 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 
 	@Override
 	protected void salvar(Empresa entidade) {
-		/*
-		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-		 * "Cliente salvo com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
-		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-		 * LOGGER.log(Level.INFO, "{Erro ao salvar empresa}", e); }
-		 */
+		if (entidade == null)
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_SALVAR + " Nenhuma empresa selecionada.");
+		else {
+			service.salvar(entidade);
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente salvo com sucesso.");
+			limpaCampos();
+		}
 	}
 
 	@Override
 	protected void excluir(Empresa entidade) {
-		/*
-		 * if ((empresa.getId() == null) || (empresa.getId() == 0) ||
-		 * txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-		 * Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-		 * Mensagens.CADASTRO_EXCLUIR + " Nenhuma empresa selecionada."); else { try {
-		 * // empresaService.deletar(empresa.getId());
-		 * Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-		 * "Empresa excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
-		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-		 * LOGGER.log(Level.INFO, "{Erro ao excluir empresa}", e); } }
-		 */
+		if (entidade == null || entidade.getId() == 0)
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_EXCLUIR + " Nenhuma empresa selecionada.");
+		else {
+			service.deletar(entidade.getId());
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Empresa excluído com sucesso.");
+			limpaCampos();
+		}
 
 	}
 
 	@Override
 	protected Empresa pesquisar(Empresa entidade) {
-		/*
-		 * try { } catch (ExcessaoBd e) { LOGGER.log(Level.INFO,
-		 * "{Erro ao pesquisar empresa}", e); e.printStackTrace(); }
-		 */
-		return entidade;
+		return service.pesquisar(entidade.getId());
 	}
 
 	@Override

@@ -9,9 +9,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 
-public abstract class CadastroDialogPadrao implements Initializable {
+public abstract class CadastroDialogPadrao<T> implements Initializable {
 
-	static protected CadastroDialogPadrao INSTANCIA;
+	static protected CadastroDialogPadrao<?> INSTANCIA;
 
 	@FXML
 	protected AnchorPane apContainer;
@@ -28,9 +28,9 @@ public abstract class CadastroDialogPadrao implements Initializable {
 	@FXML
 	protected abstract void onBtnCancelarClick();
 
-	protected abstract <T> void salvar(T entidade);
+	protected abstract void salvar(T entidade);
 
-	public abstract <T> void carregar(T entidade);
+	public abstract void carregar(T entidade);
 
 	protected abstract boolean validaCampos();
 
@@ -38,7 +38,7 @@ public abstract class CadastroDialogPadrao implements Initializable {
 	
 	public abstract void onClose();
 
-	public abstract CadastroDialogPadrao atualizaEntidade();
+	public abstract CadastroDialogPadrao<T> atualizaEntidade();
 	
 	public Boolean edicao;
 	
@@ -49,7 +49,7 @@ public abstract class CadastroDialogPadrao implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static CadastroDialogPadrao getInstancia() {
+	public static CadastroDialogPadrao<?> getInstancia() {
 		assert INSTANCIA != null : "A instância do cadastro não foi injetada";
 		return INSTANCIA;
 	}

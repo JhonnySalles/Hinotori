@@ -15,6 +15,7 @@ import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.utils.CadastroUtils;
 import comum.form.CadastroDialogPadrao;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
@@ -24,7 +25,6 @@ import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
-import cadastro.utils.CadastroUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -36,7 +36,7 @@ import servidor.entities.Imagem;
 import servidor.entities.SubGrupo;
 import servidor.validations.ValidaGrupoSubGrupo;
 
-public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao {
+public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<GrupoBase> {
 
 	private final static Logger LOGGER = Logger.getLogger(CadProdutoController.class.getName());
 	
@@ -83,21 +83,21 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao {
 	}
 
 	@Override
-	protected <T> void salvar(T entidade) {
+	protected void salvar(GrupoBase entidade) {
 		limpaCampos();
 		edicao = false;
 		recarregar = true;
 	}
 
 	@Override
-	public <T> void carregar(T entidade) {
+	public void carregar(GrupoBase entidade) {
 		edicao = entidade != null;
 		recarregar = false;
 
 		if (entidade == null)
 			limpaCampos();
 		else
-			atualizaTela((GrupoBase) entidade);
+			atualizaTela(entidade);
 	}
 
 	@Override

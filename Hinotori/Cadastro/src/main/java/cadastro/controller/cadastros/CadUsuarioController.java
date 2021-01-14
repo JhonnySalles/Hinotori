@@ -88,7 +88,7 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 
 	private Set<UsuarioImagem> imagens;
 	private Usuario usuario;
-	private UsuarioService service;
+	private UsuarioService service = new UsuarioService();
 
 	@Override
 	public void onBtnConfirmarClick() {
@@ -192,22 +192,33 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 
 	@Override
 	protected void salvar(Usuario entidade) {
-		try {
-			service.salvar((Usuario) entidade);
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-					"Cliente salvo com sucesso." + " Id:" + ((Usuario) entidade).getId());
-			limpaCampos();
-		} catch (EntityExistsException e) {
-			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-			LOGGER.log(Level.INFO, "{Erro entidade existente}", e);
+		if (entidade == null)
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_SALVAR + " Nenhum usuario selecionado.");
+		else {
+			try {
+
+				service.salvar(entidade);
+				Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+						"Cliente salvo com sucesso." + " Id:" + (entidade).getId());
+				limpaCampos();
+			} catch (EntityExistsException e) {
+				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+				LOGGER.log(Level.INFO, "{Erro entidade existente}", e);
+			}
 		}
 	}
 
 	@Override
 	protected void excluir(Usuario entidade) {
-		service.deletar(entidade.getId());
-		Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Usuário excluído com sucesso.");
-		limpaCampos();
+		if (entidade == null || entidade.getId() == 0)
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_EXCLUIR + " Nenhum usuário selecionado.");
+		else {
+			service.deletar(entidade.getId());
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Usuário excluído com sucesso.");
+			limpaCampos();
+		}
 
 	}
 
