@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityExistsException;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -40,13 +42,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import servidor.dao.services.UsuarioService;
 import servidor.dto.ImagemDTO;
 import servidor.entities.Imagem;
 import servidor.entities.Usuario;
 import servidor.entities.UsuarioImagem;
 import servidor.validations.ValidaUsuario;
 
-public class CadUsuarioController extends CadastroFormPadrao {
+public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 
 	private final static Logger LOGGER = Logger.getLogger(CadUsuarioController.class.getName());
 
@@ -85,6 +88,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 
 	private Set<UsuarioImagem> imagens;
 	private Usuario usuario;
+	private UsuarioService service;
 
 	@Override
 	public void onBtnConfirmarClick() {
@@ -187,44 +191,37 @@ public class CadUsuarioController extends CadastroFormPadrao {
 	}
 
 	@Override
-	protected <T> void salvar(T entidade) {
-		/*
-		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-		 * "Cliente salvo com sucesso." + " Id:" + usuario.getId()); limpaCampos(); }
-		 * catch (ExcessaoBd e) { Notificacoes.notificacao(AlertType.ERROR,
-		 * Mensagens.ERRO, e.getMessage()); LOGGER.log(Level.INFO,
-		 * "{Erro ao conectar ao banco}", e); }
-		 */
+	protected void salvar(Usuario entidade) {
+		try {
+			service.salvar((Usuario) entidade);
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+					"Cliente salvo com sucesso." + " Id:" + ((Usuario) entidade).getId());
+			limpaCampos();
+		} catch (EntityExistsException e) {
+			Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+			LOGGER.log(Level.INFO, "{Erro entidade existente}", e);
+		}
+	}
+
+	@Override
+	protected void excluir(Usuario entidade) {
+		service.deletar(entidade.getId());
+		Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Usuário excluído com sucesso.");
+		limpaCampos();
 
 	}
 
 	@Override
-	protected <T> void excluir(T entidade) {
-		/*
-		 * try {
-		 * 
-		 * Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-		 * "Usuário excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
-		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-		 * LOGGER.log(Level.INFO, "{Erro ao excluir o usuário ao banco}", e); }
-		 */
+	protected Usuario pesquisar(Usuario entidade) {
+		return service.pesquisar(entidade.getId());
 	}
 
 	@Override
-	protected <T> T pesquisar(T entidade) {
-		/*
-		 * try { } catch (ExcessaoBd e) { e.printStackTrace(); LOGGER.log(Level.INFO,
-		 * "{Erro ao pesquisar o usuário}", e); }
-		 */
-		return entidade;
-	}
-
-	@Override
-	public <T> void carregar(T entidade) {
+	public void carregar(Usuario entidade) {
 		if (entidade == null)
 			limpaCampos();
 		else
-			atualizaTela((Usuario) entidade);
+			atualizaTela(entidade);
 	}
 
 	@Override
@@ -289,7 +286,7 @@ public class CadUsuarioController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public CadastroFormPadrao atualizaEntidade() {
+	public CadastroFormPadrao<Usuario> atualizaEntidade() {
 		if (usuario == null)
 			usuario = new Usuario();
 

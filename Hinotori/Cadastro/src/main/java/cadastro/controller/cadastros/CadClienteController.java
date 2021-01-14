@@ -42,7 +42,7 @@ import javafx.scene.input.KeyEvent;
 import servidor.entities.Cliente;
 import servidor.validations.ValidaCliente;
 
-public class CadClienteController extends CadastroFormPadrao {
+public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 	private final static Logger LOGGER = Logger.getLogger(CadUsuarioController.class.getName());
 
@@ -184,7 +184,7 @@ public class CadClienteController extends CadastroFormPadrao {
 	}
 
 	@Override
-	protected <T> void salvar(T entidade) {
+	protected void salvar(Cliente entidade) {
 		/*
 		 * try {
 		 * 
@@ -196,7 +196,7 @@ public class CadClienteController extends CadastroFormPadrao {
 	}
 
 	@Override
-	protected <T> void excluir(T entidade) {
+	protected void excluir(Cliente entidade) {
 		/*
 		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
 		 * "Cliente excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
@@ -206,15 +206,15 @@ public class CadClienteController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public <T> void carregar(T entidade) {
+	public void carregar(Cliente entidade) {
 		if (entidade == null)
 			limpaCampos();
 		else
-			atualizaTela((Cliente) entidade);
+			atualizaTela(entidade);
 	}
 
 	@Override
-	protected <T> T pesquisar(T entidade) {
+	protected Cliente pesquisar(Cliente entidade) {
 		/*
 		 * try {
 		 * 

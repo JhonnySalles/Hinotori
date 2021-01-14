@@ -51,7 +51,7 @@ import servidor.entities.Produto;
 import servidor.entities.ProdutoImagem;
 import servidor.validations.ValidaProduto;
 
-public class CadProdutoController extends CadastroFormPadrao {
+public class CadProdutoController extends CadastroFormPadrao<Produto> {
 
 	private final static Logger LOGGER = Logger.getLogger(CadProdutoController.class.getName());
 
@@ -278,7 +278,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 	}
 
 	@Override
-	protected <T> void salvar(T entidade) {
+	protected void salvar(Produto entidade) {
 		/*
 		 * try {
 		 * 
@@ -291,7 +291,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 	}
 
 	@Override
-	protected <T> void excluir(T entidade) {
+	protected void excluir(Produto entidade) {
 		/*
 		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
 		 * "Produto excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
@@ -302,7 +302,7 @@ public class CadProdutoController extends CadastroFormPadrao {
 	}
 
 	@Override
-	protected <T> T pesquisar(T entidade) {
+	protected Produto pesquisar(Produto entidade) {
 		/*
 		 * try {
 		 * 
@@ -313,11 +313,11 @@ public class CadProdutoController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public <T> void carregar(T entidade) {
+	public void carregar(Produto entidade) {
 		if (entidade == null)
 			limpaCampos();
 		else
-			atualizaTela((Produto) entidade);
+			atualizaTela(entidade);
 
 	}
 

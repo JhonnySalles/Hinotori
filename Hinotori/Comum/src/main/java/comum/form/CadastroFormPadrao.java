@@ -21,11 +21,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
-public abstract class CadastroFormPadrao implements Initializable {
+public abstract class CadastroFormPadrao<T> implements Initializable {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
 
-	static protected CadastroFormPadrao INSTANCIA;
+	static protected CadastroFormPadrao<?> INSTANCIA;
 
 	@FXML
 	protected StackPane spRoot;
@@ -69,19 +69,19 @@ public abstract class CadastroFormPadrao implements Initializable {
 	@FXML
 	protected abstract void onBtnVoltarClick();
 
-	protected abstract <T> void salvar(T entidade);
+	protected abstract void salvar(T entidade);
 
-	protected abstract <T> void excluir(T entidade);
+	protected abstract void excluir(T entidade);
 
-	protected abstract <T> T pesquisar(T entidade);
+	protected abstract T pesquisar(T entidade);
 
-	public abstract <T> void carregar(T entidade);
+	public abstract void carregar(T entidade);
 
 	protected abstract boolean validaCampos();
 
 	protected abstract void limpaCampos();
 
-	public abstract CadastroFormPadrao atualizaEntidade();
+	public abstract CadastroFormPadrao<?> atualizaEntidade();
 	
 	public Boolean edicao;
 	
@@ -92,7 +92,7 @@ public abstract class CadastroFormPadrao implements Initializable {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public static CadastroFormPadrao getInstancia() {
+	public static CadastroFormPadrao<?> getInstancia() {
 		assert INSTANCIA != null : "A instância do cadastro não foi injetada";
 		return INSTANCIA;
 	}

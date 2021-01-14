@@ -40,7 +40,7 @@ import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 import servidor.validations.ValidaEmpresa;
 
-public class CadEmpresaController extends CadastroFormPadrao {
+public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 
 	private final static Logger LOGGER = Logger.getLogger(CadEmpresaController.class.getName());
 
@@ -187,7 +187,7 @@ public class CadEmpresaController extends CadastroFormPadrao {
 	}
 
 	@Override
-	protected <T> void salvar(T entidade) {
+	protected void salvar(Empresa entidade) {
 		/*
 		 * try { Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
 		 * "Cliente salvo com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
@@ -197,26 +197,23 @@ public class CadEmpresaController extends CadastroFormPadrao {
 	}
 
 	@Override
-	protected <T> void excluir(T entidade) {
-		/*if ((empresa.getId() == null) || (empresa.getId() == 0) || txtId.getText().isEmpty()
-				|| txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + " Nenhuma empresa selecionada.");
-		else {
-			try {
-			//	empresaService.deletar(empresa.getId());
-				Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Empresa excluído com sucesso.");
-				limpaCampos();
-			} catch (ExcessaoBd e) {
-				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-				LOGGER.log(Level.INFO, "{Erro ao excluir empresa}", e);
-			}
-		}*/
+	protected void excluir(Empresa entidade) {
+		/*
+		 * if ((empresa.getId() == null) || (empresa.getId() == 0) ||
+		 * txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+		 * Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+		 * Mensagens.CADASTRO_EXCLUIR + " Nenhuma empresa selecionada."); else { try {
+		 * // empresaService.deletar(empresa.getId());
+		 * Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+		 * "Empresa excluído com sucesso."); limpaCampos(); } catch (ExcessaoBd e) {
+		 * Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
+		 * LOGGER.log(Level.INFO, "{Erro ao excluir empresa}", e); } }
+		 */
 
 	}
 
 	@Override
-	protected <T> T pesquisar(T entidade) {
+	protected Empresa pesquisar(Empresa entidade) {
 		/*
 		 * try { } catch (ExcessaoBd e) { LOGGER.log(Level.INFO,
 		 * "{Erro ao pesquisar empresa}", e); e.printStackTrace(); }
@@ -225,11 +222,11 @@ public class CadEmpresaController extends CadastroFormPadrao {
 	}
 
 	@Override
-	public <T> void carregar(T entidade) {
+	public void carregar(Empresa entidade) {
 		if (entidade == null)
 			limpaCampos();
 		else
-			atualizaTela((Empresa) entidade);
+			atualizaTela(entidade);
 	}
 
 	@Override
