@@ -5,15 +5,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.persistence.EntityExistsException;
+
 import com.jfoenix.controls.JFXButton;
 
 import comum.model.animation.TelaAnimation;
+import comum.model.entities.Entidade;
+import comum.model.enums.NotificacaoCadastro;
+import comum.model.messages.Mensagens;
+import comum.model.notification.Notificacoes;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -21,7 +29,29 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
-public abstract class CadastroFormPadrao<T> implements Initializable {
+/**
+ * <p>
+ * Classe abstrata para gerênciar as funções padrões do cadastro.
+ * </p>
+ * 
+ * <p>
+ * Esta classe será responsável por conter a base do layout, com os atributos de
+ * <b>StackPane</b> e <b>AnchorPane</b>, como também a execução das funções de
+ * <i>Confirmação</i> e <i>Exclusão</i> .
+ * </p>
+ * <p>
+ * Possuirá uma função <i>onClose</i> que será implementado caso necessário para
+ * ser executado quando efetuar a chamada do fechamento da tela.
+ * </p>
+ * <p>
+ * Também possuirá o objeto <b>entidade</b> com o tipo específico da classe que
+ * servirá de objeto a ser editado no momento.
+ * </p>
+ * 
+ * 
+ * @author Jhonny de Salles Noschang
+ */
+public abstract class CadastroFormPadrao<T extends Entidade> implements Initializable {
 
 	private Map<KeyCodeCombination, Runnable> atalhosTecla = new HashMap<>();
 
@@ -57,14 +87,69 @@ public abstract class CadastroFormPadrao<T> implements Initializable {
 	@FXML
 	protected JFXButton btnVoltar;
 
-	@FXML
-	protected abstract void onBtnConfirmarClick();
+	protected T entidade;
+
+	public T getEntidade() {
+		return entidade;
+	}
+
+	/**
+	 * <p>
+	 * A função deverá retornar as menssagens padrões para os popups apresentados
+	 * pelo tipo da menssagem.
+	 * </p>
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	protected abstract String messagens(NotificacaoCadastro notificacao);
 
 	@FXML
-	protected abstract void onBtnCancelarClick();
+	protected void onBtnConfirmarClick() {
+		atualizaEntidade();
+		if (validaCampos()) {
+			if (entidade == null) {
+				Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+						messagens(NotificacaoCadastro.EntidadeVazia));
+				return;
+			}
+			try {
+				spRoot.cursorProperty().set(Cursor.WAIT);
+				desabilitaBotoes().salvar(entidade);
+			} catch (EntityExistsException e) {
+				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO,
+						messagens(NotificacaoCadastro.ErroDuplicidade));
+				return;
+			} finally {
+				spRoot.cursorProperty().set(null);
+				habilitaBotoes();
+			}
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+					messagens(NotificacaoCadastro.SalvoComSucesso));
+		}
+	};
 
 	@FXML
-	protected abstract void onBtnExcluirClick();
+	protected void onBtnCancelarClick() {
+		limpaCampos();
+	};
+
+	@FXML
+	protected void onBtnExcluirClick() {
+		if (entidade == null || entidade.getId().compareTo(0L) == 0) {
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_EXCLUIR + " " + messagens(NotificacaoCadastro.EntidadeVazia));
+			return;
+		}
+		try {
+			spRoot.cursorProperty().set(Cursor.WAIT);
+			desabilitaBotoes().atualizaEntidade().excluir(entidade);
+		} finally {
+			spRoot.cursorProperty().set(null);
+			habilitaBotoes();
+		}
+		Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
+				messagens(NotificacaoCadastro.ExcluidoComSucesso));
+	};
 
 	@FXML
 	protected abstract void onBtnVoltarClick();
@@ -81,10 +166,26 @@ public abstract class CadastroFormPadrao<T> implements Initializable {
 
 	protected abstract void limpaCampos();
 
-	public abstract CadastroFormPadrao<?> atualizaEntidade();
-	
+	public abstract CadastroFormPadrao<T> atualizaEntidade();
+
 	public Boolean edicao;
-	
+
+	protected CadastroFormPadrao<T> desabilitaBotoes() {
+		spRoot.setDisable(true);
+		btnConfirmar.setDisable(true);
+		btnCancelar.setDisable(true);
+		btnExcluir.setDisable(true);
+		return this;
+	}
+
+	protected CadastroFormPadrao<T> habilitaBotoes() {
+		spRoot.setDisable(false);
+		btnConfirmar.setDisable(false);
+		btnCancelar.setDisable(false);
+		btnExcluir.setDisable(false);
+		return this;
+	}
+
 	/**
 	 * <p>
 	 * Função para pegar a instância do cadastro que está iniciado.
@@ -98,7 +199,7 @@ public abstract class CadastroFormPadrao<T> implements Initializable {
 	}
 
 	/**
-	 * Função a ser executada quando a tela for fechada. {@code ListaFormPadrao}.
+	 * Função a ser executada quando a tela for fechada.
 	 *
 	 * @defaultValue null
 	 */
@@ -158,8 +259,6 @@ public abstract class CadastroFormPadrao<T> implements Initializable {
 			}
 		});
 	}
-
-	public String teste = "";
 
 	protected abstract void inicializa(URL arg0, ResourceBundle arg1);
 

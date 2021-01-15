@@ -9,11 +9,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
+import comum.model.entities.Entidade;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoContato;
 import javafx.beans.property.SimpleBooleanProperty;
 import servidor.converter.BooleanPropertyConverter;
-import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "contatos")

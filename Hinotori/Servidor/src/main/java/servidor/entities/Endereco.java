@@ -16,11 +16,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import comum.model.entities.Entidade;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoEndereco;
 import javafx.beans.property.SimpleBooleanProperty;
 import servidor.converter.BooleanPropertyConverter;
-import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "enderecos")

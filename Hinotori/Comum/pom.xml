@@ -146,5 +146,12 @@
 			<version>1.8</version>
 		</dependency>
 
+		<!-- Dependencia para o hibernate, usado para a excessao EntityExistsException -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.4.17.Final</version>
+		</dependency>
+
 	</dependencies>
 </project>

@@ -21,8 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import comum.model.entities.Entidade;
 import comum.model.enums.Situacao;
-import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "empresas")

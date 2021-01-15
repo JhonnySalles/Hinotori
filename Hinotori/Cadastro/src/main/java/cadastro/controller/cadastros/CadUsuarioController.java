@@ -13,8 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityExistsException;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -26,6 +24,7 @@ import comum.form.CadastroFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
 import comum.model.encode.DecodeHash;
+import comum.model.enums.NotificacaoCadastro;
 import comum.model.enums.Situacao;
 import comum.model.enums.UsuarioNivel;
 import comum.model.exceptions.ExcessaoBd;
@@ -35,7 +34,6 @@ import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import comum.model.utils.ViewGerenciador;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -87,49 +85,7 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 	private JFXButton btnProcurarImagem;
 
 	private Set<UsuarioImagem> imagens;
-	private Usuario usuario;
 	private UsuarioService service = new UsuarioService();
-
-	@Override
-	public void onBtnConfirmarClick() {
-		try {
-			spBackground.cursorProperty().set(Cursor.WAIT);
-			if (ValidaUsuario.validaUsuario(usuario))
-				desabilitaBotoes().salvar(usuario);
-
-		} catch (ExcessaoCadastro e) {
-			Notificacoes.notificacao(AlertType.INFORMATION, "Cadastro de usuário inválido", e.getMessage());
-			e.printStackTrace();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.INFORMATION, "Cadastro de usuário inválido", e.getMessage());
-			e.printStackTrace();
-			LOGGER.log(Level.INFO, "{Erro ao salvar o usuário}", e);
-		} finally {
-			spBackground.cursorProperty().set(null);
-			habilitaBotoes();
-		}
-	}
-
-	@Override
-	public void onBtnCancelarClick() {
-		limpaCampos();
-	}
-
-	@Override
-	public void onBtnExcluirClick() {
-		if ((usuario.getId() == null) || usuario.getId() == 0 || txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + " Nenhum usuário selecionado.");
-		else {
-			try {
-				spBackground.cursorProperty().set(Cursor.WAIT);
-				desabilitaBotoes().excluir(usuario);
-			} finally {
-				spBackground.cursorProperty().set(null);
-				habilitaBotoes();
-			}
-		}
-	}
 
 	@Override
 	public void onBtnVoltarClick() {
@@ -192,34 +148,14 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 
 	@Override
 	protected void salvar(Usuario entidade) {
-		if (entidade == null)
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_SALVAR + " Nenhum usuario selecionado.");
-		else {
-			try {
-
-				service.salvar(entidade);
-				Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO,
-						"Cliente salvo com sucesso." + " Id:" + (entidade).getId());
-				limpaCampos();
-			} catch (EntityExistsException e) {
-				Notificacoes.notificacao(AlertType.ERROR, Mensagens.ERRO, e.getMessage());
-				LOGGER.log(Level.INFO, "{Erro entidade existente}", e);
-			}
-		}
+		service.salvar(entidade);
+		limpaCampos();
 	}
 
 	@Override
 	protected void excluir(Usuario entidade) {
-		if (entidade == null || entidade.getId() == 0)
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + " Nenhum usuário selecionado.");
-		else {
-			service.deletar(entidade.getId());
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Usuário excluído com sucesso.");
-			limpaCampos();
-		}
-
+		service.deletar(entidade.getId());
+		limpaCampos();
 	}
 
 	@Override
@@ -238,9 +174,9 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 	@Override
 	protected boolean validaCampos() {
 		try {
-			ValidaUsuario.validaSenha(usuario.getSenha());
+			ValidaUsuario.validaSenha(entidade.getSenha());
 
-			usuario.setSenha(DecodeHash.CriptografaSenha(usuario.getSenha()));
+			entidade.setSenha(DecodeHash.CriptografaSenha(entidade.getSenha()));
 		} catch (ExcessaoCadastro e) {
 			txtNome.setUnFocusColor(Color.RED);
 			Notificacoes.notificacao(AlertType.INFORMATION, "Senha inválida", e.getMessage());
@@ -254,7 +190,7 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 		}
 
 		try {
-			return ValidaUsuario.validaUsuario(usuario);
+			return ValidaUsuario.validaUsuario(entidade);
 		} catch (ExcessaoCadastro | ExcessaoBd e) {
 			e.printStackTrace();
 		}
@@ -268,7 +204,7 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 		Validadores.setPasswordFieldNotEmpty(pswSenha);
 
 		try {
-			ValidaUsuario.validaLogin(usuario);
+			ValidaUsuario.validaLogin(entidade);
 		} catch (ExcessaoCadastro e) {
 			txtNome.setUnFocusColor(Color.RED);
 			Notificacoes.notificacao(AlertType.INFORMATION, "Login inválido", e.getMessage());
@@ -284,7 +220,7 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 
 	@Override
 	protected void limpaCampos() {
-		usuario = new Usuario();
+		entidade = new Usuario();
 
 		txtId.setText("");
 		txtNome.setText("");
@@ -298,37 +234,20 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 
 	@Override
 	public CadastroFormPadrao<Usuario> atualizaEntidade() {
-		if (usuario == null)
-			usuario = new Usuario();
+		entidade = new Usuario();
 
-		usuario.setNomeSobrenome(txtNome.getText());
-		usuario.setLogin(txtLogin.getText().toUpperCase());
-		usuario.setSenha(pswSenha.getText());
-		usuario.setObservacao(txtObservacao.getText());
-		usuario.setNivel(cbNivel.getSelectionModel().getSelectedItem());
-		usuario.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
+		entidade.setNomeSobrenome(txtNome.getText());
+		entidade.setLogin(txtLogin.getText().toUpperCase());
+		entidade.setSenha(pswSenha.getText());
+		entidade.setObservacao(txtObservacao.getText());
+		entidade.setNivel(cbNivel.getSelectionModel().getSelectedItem());
+		entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 
 		return this;
 	}
 
 	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	private CadUsuarioController desabilitaBotoes() {
-		spBackground.setDisable(true);
-		btnConfirmar.setDisable(true);
-		btnCancelar.setDisable(true);
-		btnExcluir.setDisable(true);
-		return this;
-	}
-
-	private CadUsuarioController habilitaBotoes() {
-		spBackground.setDisable(false);
-		btnConfirmar.setDisable(false);
-		btnCancelar.setDisable(false);
-		btnExcluir.setDisable(false);
-		return this;
+		return entidade;
 	}
 
 	// Devido a um erro no componente, caso venha do banco o valor null, estoura
@@ -338,7 +257,7 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 	private CadUsuarioController atualizaTela(Usuario usuario) {
 		limpaCampos();
 
-		this.usuario = usuario;
+		this.entidade = usuario;
 
 		txtId.setText(usuario.getId().toString());
 		txtNome.setText(usuario.getNomeSobrenome());
@@ -364,9 +283,20 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 		return this;
 	}
 
-	private CadUsuarioController configuraExitCampos() {
-
-		return this;
+	@Override
+	protected String messagens(NotificacaoCadastro notificacao) {
+		switch (notificacao) {
+		case SalvoComSucesso:
+			return "Usuário salvo com sucesso.";
+		case ExcluidoComSucesso:
+			return "Usuário excluído com sucesso.";
+		case EntidadeVazia:
+			return "Nenhum usuário selecionado.";
+		case ErroDuplicidade:
+			return "Usuário informado já cadastrado.";
+		default:
+			return "";
+		}
 	}
 
 	@Override
@@ -382,8 +312,6 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 		cbNivel.getItems().add(UsuarioNivel.ADMINISTRADOR);
 
 		limpaCampos();
-
-		configuraExitCampos();
 
 		atualizaTela(new Usuario());
 	}

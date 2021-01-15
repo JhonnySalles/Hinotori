@@ -1,4 +1,4 @@
-package servidor.dao;
+package comum.model.entities;
 
 public interface Entidade {
 

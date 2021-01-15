@@ -18,8 +18,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import comum.model.entities.Entidade;
 import comum.model.enums.Situacao;
-import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "cidades")

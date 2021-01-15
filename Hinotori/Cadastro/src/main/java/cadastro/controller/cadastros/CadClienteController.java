@@ -17,6 +17,7 @@ import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
 import comum.model.enums.Enquadramento;
+import comum.model.enums.NotificacaoCadastro;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoPessoa;
 import comum.model.exceptions.ExcessaoCadastro;
@@ -30,7 +31,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -79,45 +79,7 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	@FXML
 	private JFXButton btnEndereco;
 
-	private Cliente cliente;
 	private GenericService<Cliente> service = new GenericService<Cliente>(Cliente.class);
-
-	@Override
-	public void onBtnConfirmarClick() {
-		atualizaEntidade();
-		if (validaCampos()) {
-			try {
-				spRoot.cursorProperty().set(Cursor.WAIT);
-				desabilitaBotoes().salvar(cliente);
-			} finally {
-				spRoot.cursorProperty().set(null);
-				habilitaBotoes();
-			}
-		}
-	}
-
-	@Override
-	public void onBtnCancelarClick() {
-		limpaCampos();
-	}
-
-	@Override
-	public void onBtnExcluirClick() {
-		if ((cliente.getId() == null) || (cliente.getId() == 0) || txtId.getText().isEmpty()
-				|| txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + " Nenhum cliente selecionado.");
-		else {
-			try {
-				spRoot.cursorProperty().set(Cursor.WAIT);
-				desabilitaBotoes().atualizaEntidade().excluir(cliente);
-				Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente excluído com sucesso.");
-			} finally {
-				spRoot.cursorProperty().set(null);
-				habilitaBotoes();
-			}
-		}
-	}
 
 	@Override
 	public void onBtnVoltarClick() {
@@ -152,11 +114,11 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	public void onBtnEnderecoClick() {
 		ListaEnderecoController ctn = (ListaEnderecoController) ViewGerenciador
 				.loadTela(ListaEnderecoController.getFxmlLocate(), spRoot);
-		ctn.initData(txtNome.getText(), cliente.getEnderecos());
+		ctn.initData(txtNome.getText(), entidade.getEnderecos());
 		ctn.setOnClose(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				cliente.setEnderecos(ctn.getEndereco());
+				entidade.setEnderecos(ctn.getEndereco());
 			}
 		});
 	}
@@ -165,11 +127,11 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	public void onBtnContatoClick() {
 		ListaContatoController ctn = (ListaContatoController) ViewGerenciador
 				.loadTela(ListaContatoController.getFxmlLocate(), spRoot);
-		ctn.initData(txtNome.getText(), cliente.getContatos());
+		ctn.initData(txtNome.getText(), entidade.getContatos());
 		ctn.setOnClose(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				cliente.setContatos(ctn.getContato());
+				entidade.setContatos(ctn.getContato());
 			}
 		});
 	}
@@ -183,21 +145,13 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 	@Override
 	protected void salvar(Cliente entidade) {
-		if (entidade == null)
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_SALVAR + " Nenhum cliente selecionado.");
-		else {
-			service.salvar(entidade);
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente salvo com sucesso.");
-			limpaCampos();
-		}
+		service.salvar(entidade);
+		limpaCampos();
 	}
 
 	@Override
 	protected void excluir(Cliente entidade) {
 		service.deletar(entidade.getId());
-
-		Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente excluído com sucesso.");
 		limpaCampos();
 	}
 
@@ -217,7 +171,7 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	@Override
 	protected boolean validaCampos() {
 		try {
-			return ValidaCliente.validaCliente(cliente);
+			return ValidaCliente.validaCliente(entidade);
 		} catch (ExcessaoCadastro e) {
 			e.printStackTrace();
 		}
@@ -252,7 +206,7 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 	@Override
 	public CadClienteController atualizaEntidade() {
-		cliente = new Cliente(Long.valueOf(txtId.getText()), txtNome.getText(), txtRazaoSocial.getText(),
+		entidade = new Cliente(Long.valueOf(txtId.getText()), txtNome.getText(), txtRazaoSocial.getText(),
 				Utils.removeMascaras(txtCpf.getText()), Utils.removeMascaras(txtCnpj.getText()),
 				txtAreaObservacao.getText(), cbPessoaTipo.getSelectionModel().getSelectedItem(),
 				cbEnquadramento.getSelectionModel().getSelectedItem(),
@@ -268,7 +222,7 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	private CadClienteController atualizaTela(Cliente cliente) {
 		limpaCampos();
 
-		this.cliente = cliente;
+		this.entidade = cliente;
 
 		txtId.setText(cliente.getId().toString());
 
@@ -290,26 +244,6 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 		return this;
 	}
 
-	private CadClienteController desabilitaBotoes() {
-		spRoot.setDisable(true);
-		btnConfirmar.setDisable(true);
-		btnCancelar.setDisable(true);
-		btnExcluir.setDisable(true);
-		return this;
-	}
-
-	private CadClienteController habilitaBotoes() {
-		spRoot.setDisable(false);
-		btnConfirmar.setDisable(false);
-		btnCancelar.setDisable(false);
-		btnExcluir.setDisable(false);
-		return this;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
 	private CadClienteController configuraExitCampos() {
 		cbPessoaTipo.valueProperty().addListener(new ChangeListener<TipoPessoa>() {
 			@Override
@@ -325,6 +259,22 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 		});
 
 		return this;
+	}
+
+	@Override
+	protected String messagens(NotificacaoCadastro notificacao) {
+		switch (notificacao) {
+		case SalvoComSucesso:
+			return "Cliente salvo com sucesso.";
+		case ExcluidoComSucesso:
+			return "Cliente excluído com sucesso.";
+		case EntidadeVazia:
+			return "Não foi possível salvar, nenhum cliente informado.";
+		case ErroDuplicidade:
+			return "Cliente informado já cadastrado.";
+		default:
+			return "";
+		}
 	}
 
 	private CadClienteController configuraValidate() {
@@ -364,5 +314,4 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	public static URL getFxmlLocate() {
 		return CadClienteController.class.getResource("/cadastro/view/cadastros/CadCliente.fxml");
 	}
-
 }

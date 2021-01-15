@@ -2,9 +2,12 @@ package servidor.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
+import comum.model.entities.Entidade;
 
 public class Dao<E extends Entidade> {
 
@@ -52,7 +55,7 @@ public class Dao<E extends Entidade> {
 		return this;
 	}
 
-	public Dao<E> salvar(E entidade) {
+	public Dao<E> salvar(E entidade) throws EntityExistsException {
 		lastEntity = entidade;
 		if (entidade.getId().compareTo(0L) == 0)
 			em.persist(entidade);
@@ -62,7 +65,7 @@ public class Dao<E extends Entidade> {
 		return this;
 	}
 
-	public Dao<E> salvarAtomico(E entidade) {
+	public Dao<E> salvarAtomico(E entidade) throws EntityExistsException {
 		return this.begin().salvar(entidade).commit();
 	}
 

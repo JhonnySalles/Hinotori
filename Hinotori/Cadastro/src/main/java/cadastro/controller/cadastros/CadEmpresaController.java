@@ -20,6 +20,7 @@ import comum.form.CadastroFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.TecladoUtils;
 import comum.model.constraints.Validadores;
+import comum.model.enums.NotificacaoCadastro;
 import comum.model.enums.Situacao;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.mask.Mascaras;
@@ -30,7 +31,6 @@ import comum.model.utils.ViewGerenciador;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -79,44 +79,8 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 	private JFXButton btnProcurarImagem;
 
 	private Set<Imagem> imagens;
-	private Empresa empresa;
 	private GenericService<Empresa> service = new GenericService<Empresa>(Empresa.class);
 	private String id;
-
-	@Override
-	public void onBtnConfirmarClick() {
-		atualizaEntidade();
-		if (validaCampos()) {
-			try {
-				spBackground.getScene().getRoot().setCursor(Cursor.WAIT);
-				desabilitaBotoes().salvar(empresa);
-			} finally {
-				spBackground.getScene().getRoot().setCursor(null);
-				habilitaBotoes();
-			}
-		}
-	}
-
-	@Override
-	public void onBtnCancelarClick() {
-		limpaCampos();
-	}
-
-	@Override
-	public void onBtnExcluirClick() {
-		if ((empresa.getId() == null) || txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + " Nenhum cliente selecionado.");
-		else {
-			try {
-				spBackground.cursorProperty().set(Cursor.WAIT);
-				desabilitaBotoes().atualizaEntidade().excluir(empresa);
-			} finally {
-				spBackground.cursorProperty().set(null);
-				habilitaBotoes();
-			}
-		}
-	}
 
 	@Override
 	public void onBtnVoltarClick() {
@@ -145,14 +109,14 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 	public void onBtnEnderecoClick() {
 		ListaEnderecoController ctn = (ListaEnderecoController) ViewGerenciador
 				.loadTela(ListaEnderecoController.getFxmlLocate(), spRoot);
-		ctn.initData(txtNomeFantasia.getText(), empresa.getEnderecos());
+		ctn.initData(txtNomeFantasia.getText(), entidade.getEnderecos());
 	}
 
 	@FXML
 	public void onBtnContatoClick() {
 		ListaContatoController ctn = (ListaContatoController) ViewGerenciador
 				.loadTela(ListaContatoController.getFxmlLocate(), spRoot);
-		ctn.initData(txtRazaoSocial.getText(), empresa.getContatos());
+		ctn.initData(txtRazaoSocial.getText(), entidade.getContatos());
 	}
 
 	@FXML
@@ -189,27 +153,14 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 
 	@Override
 	protected void salvar(Empresa entidade) {
-		if (entidade == null)
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_SALVAR + " Nenhuma empresa selecionada.");
-		else {
-			service.salvar(entidade);
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Cliente salvo com sucesso.");
-			limpaCampos();
-		}
+		service.salvar(entidade);
+		limpaCampos();
 	}
 
 	@Override
 	protected void excluir(Empresa entidade) {
-		if (entidade == null || entidade.getId() == 0)
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + " Nenhuma empresa selecionada.");
-		else {
-			service.deletar(entidade.getId());
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Empresa excluído com sucesso.");
-			limpaCampos();
-		}
-
+		service.deletar(entidade.getId());
+		limpaCampos();
 	}
 
 	@Override
@@ -228,7 +179,7 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 	@Override
 	protected boolean validaCampos() {
 		try {
-			return ValidaEmpresa.validaEmpresa(empresa);
+			return ValidaEmpresa.validaEmpresa(entidade);
 		} catch (ExcessaoCadastro e) {
 			e.printStackTrace();
 		}
@@ -243,7 +194,7 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 
 	@Override
 	protected void limpaCampos() {
-		empresa = new Empresa();
+		entidade = new Empresa();
 		txtId.setText("0");
 		txtNomeFantasia.setText("");
 		txtRazaoSocial.setText("");
@@ -261,7 +212,7 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 	private CadEmpresaController atualizaTela(Empresa empresa) {
 		limpaCampos();
 
-		this.empresa = empresa;
+		this.entidade = empresa;
 
 		txtId.setText(empresa.getId().toString());
 
@@ -279,42 +230,37 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 		return this;
 	}
 
-	private CadEmpresaController desabilitaBotoes() {
-		spBackground.setDisable(true);
-		btnConfirmar.setDisable(true);
-		btnCancelar.setDisable(true);
-		btnExcluir.setDisable(true);
-		return this;
-	}
+	@Override
+	public CadEmpresaController atualizaEntidade() {
+		entidade = new Empresa();
 
-	private CadEmpresaController habilitaBotoes() {
-		spBackground.setDisable(false);
-		btnConfirmar.setDisable(false);
-		btnCancelar.setDisable(false);
-		btnExcluir.setDisable(false);
+		if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
+			entidade.setId(Long.valueOf(0));
+		else
+			entidade.setId(Long.valueOf(txtId.getText()));
+
+		entidade.setRazaoSocial(txtRazaoSocial.getText());
+		entidade.setNomeFantasia(txtNomeFantasia.getText());
+		entidade.setCnpj(Utils.removeMascaras(txtCnpj.getText()));
+		entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
+
 		return this;
 	}
 
 	@Override
-	public CadEmpresaController atualizaEntidade() {
-		if (empresa == null)
-			empresa = new Empresa();
-
-		if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			empresa.setId(Long.valueOf(0));
-		else
-			empresa.setId(Long.valueOf(txtId.getText()));
-
-		empresa.setRazaoSocial(txtRazaoSocial.getText());
-		empresa.setNomeFantasia(txtNomeFantasia.getText());
-		empresa.setCnpj(Utils.removeMascaras(txtCnpj.getText()));
-		empresa.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-
-		return this;
-	}
-
-	public Empresa getEmpresa() {
-		return empresa;
+	protected String messagens(NotificacaoCadastro notificacao) {
+		switch (notificacao) {
+		case SalvoComSucesso:
+			return "Empresa salva com sucesso.";
+		case ExcluidoComSucesso:
+			return "Empresa excluída com sucesso.";
+		case EntidadeVazia:
+			return "Não foi possível salvar, nenhuma empresa informada.";
+		case ErroDuplicidade:
+			return "Empresa informada já cadastrada.";
+		default:
+			return "";
+		}
 	}
 
 	private CadEmpresaController configuraExitId() {
@@ -355,7 +301,6 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 		cbSituacao.getSelectionModel().select(Situacao.ATIVO);
 
 		txtId.setText("0");
-		empresa = new Empresa();
 	}
 
 	public static URL getFxmlLocate() {

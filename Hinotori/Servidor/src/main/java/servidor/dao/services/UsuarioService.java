@@ -2,6 +2,8 @@ package servidor.dao.services;
 
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
+
 import comum.model.enums.TamanhoImagem;
 import servidor.dao.UsuarioDao;
 import servidor.entities.Usuario;
@@ -13,8 +15,8 @@ public class UsuarioService {
 	public UsuarioDao getService() {
 		return service;
 	}
-	
-	public Usuario salvar(Usuario usuario) {
+
+	public Usuario salvar(Usuario usuario) throws EntityExistsException {
 		service.salvarAtomico(usuario);
 		return usuario;
 	}

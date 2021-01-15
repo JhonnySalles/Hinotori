@@ -23,6 +23,7 @@ import cadastro.utils.CadastroUtils;
 import comum.form.CadastroFormPadrao;
 import comum.model.constraints.Limitadores;
 import comum.model.constraints.Validadores;
+import comum.model.enums.NotificacaoCadastro;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoProduto;
 import comum.model.exceptions.ExcessaoCadastro;
@@ -33,7 +34,6 @@ import comum.model.utils.ViewGerenciador;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.Tab;
@@ -47,7 +47,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import servidor.dao.services.GenericService;
 import servidor.dto.ImagemDTO;
-import servidor.entities.Empresa;
 import servidor.entities.Imagem;
 import servidor.entities.Produto;
 import servidor.entities.ProdutoImagem;
@@ -182,43 +181,7 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 	// -------------------------------- -------------------------------- //
 
 	private Set<ProdutoImagem> imagens;
-	private Produto produto;
 	private GenericService<Produto> service = new GenericService<Produto>(Produto.class);
-
-	@Override
-	public void onBtnConfirmarClick() {
-		atualizaEntidade();
-		if (validaCampos()) {
-			try {
-				spBackground.getScene().getRoot().setCursor(Cursor.WAIT);
-				desabilitaBotoes().salvar(produto);
-			} finally {
-				spBackground.getScene().getRoot().setCursor(null);
-				habilitaBotoes();
-			}
-		}
-	}
-
-	@Override
-	public void onBtnCancelarClick() {
-
-	}
-
-	@Override
-	public void onBtnExcluirClick() {
-		if ((produto.getId() == null) || txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + " Nenhum produto selecionado.");
-		else {
-			try {
-				spBackground.cursorProperty().set(Cursor.WAIT);
-				desabilitaBotoes().atualizaEntidade().excluir(produto);
-			} finally {
-				spBackground.cursorProperty().set(null);
-				habilitaBotoes();
-			}
-		}
-	}
 
 	@Override
 	public void onBtnVoltarClick() {
@@ -282,26 +245,14 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 
 	@Override
 	protected void salvar(Produto entidade) {
-		if (entidade == null)
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_SALVAR + " Nenhum produto selecionado.");
-		else {
-			service.salvar(entidade);
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Produto salvo com sucesso.");
-			limpaCampos();
-		}
+		service.salvar(entidade);
+		limpaCampos();
 	}
 
 	@Override
 	protected void excluir(Produto entidade) {
-		if (entidade == null || entidade.getId() == 0)
-			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_EXCLUIR + " Nenhuma produto selecionado.");
-		else {
-			service.deletar(entidade.getId());
-			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Produto excluído com sucesso.");
-			limpaCampos();
-		}
+		service.deletar(entidade.getId());
+		limpaCampos();
 	}
 
 	@Override
@@ -322,7 +273,7 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 	protected boolean validaCampos() {
 
 		try {
-			return ValidaProduto.validaProduto(produto);
+			return ValidaProduto.validaProduto(entidade);
 		} catch (ExcessaoCadastro e) {
 			e.printStackTrace();
 		}
@@ -330,7 +281,7 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		txtDescricao.validate();
 
 		try {
-			ValidaProduto.validaCodigoBarras(produto.getCodigoBarras());
+			ValidaProduto.validaCodigoBarras(entidade.getCodigoBarras());
 		} catch (ExcessaoCadastro e) {
 			txtCodigoBarras.setUnFocusColor(Color.RED);
 		}
@@ -341,7 +292,7 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 
 	@Override
 	protected void limpaCampos() {
-		produto = new Produto();
+		entidade = new Produto();
 
 		// ----------------- Produto ----------------- //
 		txtId.setText("0");
@@ -376,36 +327,19 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		return this;
 	}
 
-	private CadProdutoController desabilitaBotoes() {
-		spBackground.setDisable(true);
-		btnConfirmar.setDisable(true);
-		btnCancelar.setDisable(true);
-		btnExcluir.setDisable(true);
-		return this;
-	}
-
-	private CadProdutoController habilitaBotoes() {
-		spBackground.setDisable(false);
-		btnConfirmar.setDisable(false);
-		btnCancelar.setDisable(false);
-		btnExcluir.setDisable(false);
-		return this;
-	}
-
 	@Override
 	public CadProdutoController atualizaEntidade() {
-		if (produto == null)
-			produto = new Produto();
+		entidade = new Produto();
 
 		if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			produto.setId(Long.valueOf(0));
+			entidade.setId(Long.valueOf(0));
 		else
-			produto.setId(Long.valueOf(txtId.getText()));
+			entidade.setId(Long.valueOf(txtId.getText()));
 
-		produto.setDescricao(txtDescricao.getText());
-		produto.setCodigoBarras(txtCodigoBarras.getText());
-		produto.setMarca(txtUnidade.getText());
-		produto.setUnidade(txtUnidade.getText());
+		entidade.setDescricao(txtDescricao.getText());
+		entidade.setCodigoBarras(txtCodigoBarras.getText());
+		entidade.setMarca(txtUnidade.getText());
+		entidade.setUnidade(txtUnidade.getText());
 		/*
 		 * produto.setPeso(spnPeso.getValue()); produto.setVolume(spnVolume.getValue());
 		 * produto.setObservacao(txtAreaObservacao.getText());
@@ -414,9 +348,9 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		// if (frameNCMController.getId() != null)
 		// produto.setIdNcm(String.valueOf(frameNCMController.getId()));
 
-		produto.setTipoProduto(cbTipoProduto.getSelectionModel().getSelectedItem());
-		produto.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-		produto.setImagens(imagens);
+		entidade.setTipoProduto(cbTipoProduto.getSelectionModel().getSelectedItem());
+		entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
+		entidade.setImagens(imagens);
 
 		return this;
 	}
@@ -424,7 +358,7 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 	private CadProdutoController atualizaTela(Produto produto) {
 		limpaCampos();
 
-		this.produto = produto;
+		this.entidade = produto;
 
 		txtId.setText(produto.getId().toString());
 
@@ -474,6 +408,22 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 
 		frameNCMController.txtFraPesquisa.setPromptText("Pesquisa de ncm");
 		return this;
+	}
+
+	@Override
+	protected String messagens(NotificacaoCadastro notificacao) {
+		switch (notificacao) {
+		case SalvoComSucesso:
+			return "Produto salvo com sucesso.";
+		case ExcluidoComSucesso:
+			return "Produto excluído com sucesso.";
+		case EntidadeVazia:
+			return "Não foi possível salvar, nenhum produto informado.";
+		case ErroDuplicidade:
+			return "Produto informado já cadastrado.";
+		default:
+			return "";
+		}
 	}
 
 	private CadProdutoController configuraExitId() {

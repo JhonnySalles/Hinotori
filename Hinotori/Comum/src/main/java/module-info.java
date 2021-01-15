@@ -27,6 +27,7 @@ module Comum {
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.ikonli.fontawesome5;
 	requires transitive busca.cep.java.client;
+	requires java.persistence;
 	
 	opens comum.model.notification.controller to javafx.fxml;
 	opens comum.model.alerts.controller to javafx.fxml;

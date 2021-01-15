@@ -16,7 +16,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import servidor.dao.Entidade;
+import comum.model.entities.Entidade;
+
 
 @Entity
 @Table(name = "estados")

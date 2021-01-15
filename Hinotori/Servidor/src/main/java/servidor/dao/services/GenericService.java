@@ -2,8 +2,8 @@ package servidor.dao.services;
 
 import java.util.List;
 
+import comum.model.entities.Entidade;
 import servidor.dao.Dao;
-import servidor.dao.Entidade;
 
 public class GenericService<E extends Entidade> {
 

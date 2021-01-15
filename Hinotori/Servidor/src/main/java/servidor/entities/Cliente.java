@@ -17,10 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import comum.model.entities.Entidade;
 import comum.model.enums.Enquadramento;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoPessoa;
-import servidor.dao.Entidade;
 
 @Entity
 @Table(name = "clientes", uniqueConstraints = { @UniqueConstraint(columnNames = { "CPF" }, name = "UK_CLIENTE_CPF"),
@@ -160,7 +160,7 @@ public class Cliente extends Pessoa implements Entidade {
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 	}
-	
+
 	public Cliente(String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
 			TipoPessoa tipoPessoa, Enquadramento enquadramento) {
 		super(0L, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO);
