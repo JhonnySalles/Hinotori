@@ -27,13 +27,10 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-				 	<!-- Remover se um dia tiver testes -->
-					<skipTests>false</skipTests>
-					<testFailureIgnore>true</testFailureIgnore>
-					<forkMode>once</forkMode>
+					<source>14</source>
+					<target>14</target>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -67,9 +64,6 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>5.4.17.Final</version>
 		</dependency>
-
-		<!-- <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> 
-			<version>8.0.19</version> </dependency> -->
 
 		<dependency>
 			<groupId>mysql</groupId>

@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.talesolutions.cep.CEP;
 
-import comum.cep.CepCorreios;
+import comum.cep.BuscarCep;
+import comum.model.entities.Cep;
 import comum.model.enums.Enquadramento;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoPessoa;
@@ -100,10 +100,10 @@ public class PersistenciaTest extends TestCase {
 
 	@Test
 	public void testSaveEmpresa() {
-		CEP cep;
+		Cep cep;
 		Endereco endereco;
 		try {
-			cep = CepCorreios.getCep("85801000");
+			cep = BuscarCep.getCep("85801000");
 			endereco = EnderecoDTO.toEndereco(cep);
 		} catch (ExcessaoCep e) {
 			e.printStackTrace();
