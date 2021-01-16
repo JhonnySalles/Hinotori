@@ -27,6 +27,9 @@ public class Mensagens {
 	
 	public final static String CEP_INVALIDO = "Cep não encontrado.";
 	public final static String CEP_SERVICO_INDISPONIVEL = "Serviço indisponível.";
+	public final static String CEP_VAZIO = "Cep vazio.";
+	public final static String CEP_VIACEP_ERRO = "Erro ao consultar o cep.";
+	public final static String CEP_POSTMON_ERRO = "Erro ao consultar o cep.";
 
 	// --------------------------------------------------------------------------//
 	// ************************** BANCO DE DADOS ********************************//

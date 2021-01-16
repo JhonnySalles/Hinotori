@@ -1,7 +1,8 @@
 package servidor.dto;
 
-import org.talesolutions.cep.CEP;
-
+import comum.model.entities.Cep;
+import comum.model.exceptions.ExcessaoCep;
+import comum.model.messages.Mensagens;
 import servidor.dao.BairroDao;
 import servidor.dao.CidadeDao;
 import servidor.dao.EstadoDao;
@@ -18,33 +19,36 @@ public class EnderecoDTO {
 	private static EstadoDao serviceEstado = new EstadoDao();
 	private static CidadeDao serviceCidade = new CidadeDao();
 	private static BairroDao serviceBairro = new BairroDao();
-	
-	public static Endereco toEndereco(CEP cep) {
+
+	public static Endereco toEndereco(Cep cep) throws ExcessaoCep {
+		if (cep == null)
+			throw new ExcessaoCep(Mensagens.CEP_VAZIO);
+
 		Bairro bairro = serviceBairro.pesquisar(cep.getBairro().trim());
-		
+
 		if (bairro == null) {
-			Cidade cidade = serviceCidade.pesquisar(cep.getLocalidade().trim());
-			
+			Cidade cidade = serviceCidade.pesquisar(cep.getCidade().trim());
+
 			if (cidade == null) {
-				Estado estado = serviceEstado.pesquisar(cep.getUf().trim());
-				
+				Estado estado = serviceEstado.pesquisar(cep.getEstado().trim());
+
 				if (estado == null) {
 					Pais pais = servicePais.brasil();
-					
-					estado = new Estado(cep.getUf(), cep.getUf().trim(), pais);
-					serviceEstado.salvarAtomico(estado);			
+
+					estado = new Estado(cep.getEstado().trim(), cep.getUf().trim(), pais);
+					serviceEstado.salvarAtomico(estado);
 				}
-				
-				cidade = new Cidade(cep.getLocalidade().trim(), "", estado);
-				cidade.setNome(cep.getLocalidade().trim());
+
+				cidade = new Cidade(cep.getCidade().trim(), "", estado);
+				cidade.setNome(cep.getCidade().trim());
 				serviceCidade.salvarAtomico(cidade);
 			}
-			
+
 			bairro = new Bairro(0L, cep.getBairro().trim(), cidade);
 			serviceBairro.salvarAtomico(bairro);
 		}
 
-		return new Endereco(bairro, cep.getLogradouro().trim(), cep.getNumero().trim());
+		return new Endereco(bairro, cep.getLogradouro().trim(), "");
 	}
 
 }

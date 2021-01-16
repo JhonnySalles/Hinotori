@@ -139,18 +139,24 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--Bibliotecas para cidade e cep -->
-		<dependency>
-			<groupId>com.github.fabito</groupId>
-			<artifactId>busca-cep-java-client</artifactId>
-			<version>1.8</version>
-		</dependency>
-
 		<!-- Dependencia para o hibernate, usado para a excessao EntityExistsException -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>5.4.17.Final</version>
+		</dependency>
+
+		<!-- Dependencia paras consultas de cep -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.1.4</version>
 		</dependency>
 
 	</dependencies>
