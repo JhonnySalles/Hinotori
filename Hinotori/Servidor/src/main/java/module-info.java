@@ -9,8 +9,8 @@ module Servidor {
 	exports servidor.dto;
 	exports servidor.entities;
 	exports servidor.converter;
-	exports servidor.util;
 	exports servidor.validations;
+	exports servidor.util;
 
 	requires transitive Comum;
 	requires transitive java.persistence;
@@ -20,6 +20,7 @@ module Servidor {
 	requires java.transaction;
 	requires java.naming;
 	requires transitive java.sql;
+	requires org.flywaydb.core;
 
 	opens servidor.entities to org.hibernate.orm.core;
 }

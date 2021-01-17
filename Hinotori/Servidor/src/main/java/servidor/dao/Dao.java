@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import comum.model.entities.Entidade;
+import servidor.configuration.ManagerFactory;
 
 public class Dao<E extends Entidade> {
 

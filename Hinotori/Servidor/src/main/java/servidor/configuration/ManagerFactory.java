@@ -1,4 +1,4 @@
-package servidor.dao;
+package servidor.configuration;
 
 import java.util.Properties;
 import java.util.logging.Level;
@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.flywaydb.core.Flyway;
+
 import comum.model.config.ProcessaConfig;
 import comum.model.entities.Configuracao;
 import comum.model.exceptions.ExcessaoBd;
@@ -16,7 +18,9 @@ public class ManagerFactory {
 
 	private final static Logger LOGGER = Logger.getLogger(ManagerFactory.class.getName());
 
-	private static Properties CONFIG_BD;
+	private static Properties PROPERTIE_BD;
+	private static Configuracao CONFIG_BD;
+	private static String URL_DB;
 	private static EntityManagerFactory EMF;
 
 	public static EntityManager getEtityManager() {
@@ -25,27 +29,29 @@ public class ManagerFactory {
 
 	/* Substitui a configuração do arquivo de persistencia pelo arquivo de config */
 	private static Properties getConfigBD() throws ExcessaoBd {
-		Configuracao dados_conexao = ProcessaConfig.getDadosConexao();
+		CONFIG_BD = ProcessaConfig.getConfiguracaoSistema();
 
-		if (dados_conexao == null || dados_conexao.getServer_host().isEmpty())
+		if (CONFIG_BD == null || CONFIG_BD.getServerHost().isEmpty())
 			throw new ExcessaoBd(
 					"Arquivo de configuração do banco não encontrado ou caminho do servidor não informado.");
 
 		Properties props = new Properties();
 		props.setProperty("javax.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");
-		props.setProperty("javax.persistence.jdbc.user", dados_conexao.getServer_usuario());
-		props.setProperty("javax.persistence.jdbc.password", dados_conexao.getServer_senha());
+		props.setProperty("javax.persistence.jdbc.user", CONFIG_BD.getServerUser());
+		props.setProperty("javax.persistence.jdbc.password", CONFIG_BD.getServerPassword());
 
-		String url = "jdbc:mysql://" + dados_conexao.getServer_host() + ":" + dados_conexao.getServer_porta() + "/"
-				+ dados_conexao.getServer_base() + "?useTimezone=true&amp&serverTimezone=UTC"
-				+ (dados_conexao.getUnicode_usar() ? "&useUnicode=true" : "");
+		URL_DB = "jdbc:mysql://" + CONFIG_BD.getServerHost() + ":" + CONFIG_BD.getServerPort() + "/"
+				+ CONFIG_BD.getServerDatabase() + "?useTimezone=true&amp;serverTimezone=UTC"
+				+ (CONFIG_BD.getUnicodeUsar() ? "&amp;useUnicode=true" : "");
 
-		props.setProperty("javax.persistence.jdbc.url", url);
+		props.setProperty("javax.persistence.jdbc.url", URL_DB);
 
 		/* Configurações específicas do Hibernate */
 		props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
-		props.setProperty("hibernate.hbm2ddl.auto", "update");
-		props.setProperty("hibernate.show_sql", dados_conexao.getHibernate_mostrar_sql() ? "true" : "false");
+		// Quem irá cuidar da migração do banco é o flyway. Será usado o update somente
+		// em teste.
+		props.setProperty("hibernate.hbm2ddl.auto", "none");
+		props.setProperty("hibernate.show_sql", CONFIG_BD.getHibernateMostrarSQL() ? "true" : "false");
 		props.setProperty("hibernate.format_sql", "false");
 		return props;
 	}
@@ -58,8 +64,13 @@ public class ManagerFactory {
 	// criar os métodos staticos.
 	static {
 		try {
-			CONFIG_BD = getConfigBD();
-			EMF = Persistence.createEntityManagerFactory("PersistenciaServidor", CONFIG_BD);
+			PROPERTIE_BD = getConfigBD();
+
+			Flyway flyway = Flyway.configure()
+					.dataSource(URL_DB, CONFIG_BD.getServerUser(), CONFIG_BD.getServerPassword()).load();
+			flyway.migrate();
+
+			EMF = Persistence.createEntityManagerFactory("PersistenciaServidor", PROPERTIE_BD);
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "{Erro ao carregar o EntityManager}", e);
 			e.printStackTrace();

@@ -5,7 +5,7 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
@@ -24,7 +24,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,9 +34,6 @@ import javafx.scene.paint.Color;
 import servidor.util.DBUtil;
 
 public class TelaConfiguracaoController implements Initializable {
-
-	public final static Image ICO_CONFIGURACAO = new Image(
-			TelaConfiguracaoController.class.getResourceAsStream("/config/imagens/icoConfiguracao.png"));
 
 	@FXML
 	AnchorPane background;
@@ -55,10 +51,10 @@ public class TelaConfiguracaoController implements Initializable {
 	Button btnCancelar;
 
 	@FXML
-	ChoiceBox<String> chBoxBase;
+	JFXComboBox<String> cbBase;
 
 	@FXML
-	ChoiceBox<DataBase> chBoxDataBase;
+	JFXComboBox<DataBase> cbDataBase;
 
 	@FXML
 	JFXTextField txtIP;
@@ -73,7 +69,7 @@ public class TelaConfiguracaoController implements Initializable {
 	JFXPasswordField pswSenha;
 
 	@FXML
-	JFXCheckBox cbMostrarLog;
+	JFXTextField txtCaminhoLog;
 
 	@FXML
 	Pane pnImgAviso;
@@ -94,18 +90,11 @@ public class TelaConfiguracaoController implements Initializable {
 	}
 
 	@FXML
-	public void onBtnTesteEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			btnTestarConexao.fire();
-		}
-	}
-	
-	@FXML
 	public void onBtnTesteClick() {
 		lblAviso.setText("");
 		lblAviso.setVisible(false);
 		pnImgAviso.setVisible(false);
-		chBoxBase.getItems().clear();
+		cbBase.getItems().clear();
 
 		if (validaCampos() && Validadores.validaIp(txtIP.getText())) {
 
@@ -118,8 +107,8 @@ public class TelaConfiguracaoController implements Initializable {
 				@Override
 				protected Boolean call() throws Exception {
 					return DBUtil.testaConexaoMySQL(txtIP.getText().toString(), txtPorta.getText().toString(),
-							chBoxDataBase.getSelectionModel().getSelectedItem().toString(),
-							txtUsuario.getText().toString(), pswSenha.getText().toString());
+							cbBase.getSelectionModel().getSelectedItem().toString(), txtUsuario.getText().toString(),
+							pswSenha.getText().toString());
 				}
 
 				@Override
@@ -134,9 +123,9 @@ public class TelaConfiguracaoController implements Initializable {
 						imgViewConexao.setFitWidth(App.imgBancoWidth);
 						imgViewConexao.setFitHeight(App.imgBancoHeight);
 
-						chBoxBase.getItems().addAll(DBUtil.bases);
-						chBoxBase.setDisable(false);
-						chBoxBase.getSelectionModel().select(0);
+						cbBase.getItems().addAll(DBUtil.bases);
+						cbBase.setDisable(false);
+						cbBase.getSelectionModel().select(0);
 
 					} else {
 						TelaConfiguracaoController.this.aviso("",
@@ -151,14 +140,7 @@ public class TelaConfiguracaoController implements Initializable {
 			};
 			Thread t = new Thread(verificaConexao);
 			t.setDaemon(true);
-			//t.start();
-		}
-	}
-
-	@FXML
-	public void onBtnCancelarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			btnCancelar.fire();
+			// t.start();
 		}
 	}
 
@@ -171,61 +153,46 @@ public class TelaConfiguracaoController implements Initializable {
 	}
 
 	@FXML
-	public void onBtnConfirmarEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			btnConfirmar.fire();
-		}
-	}
-
-	@FXML
 	public void onBtnConfirmarClick() {
-		if (chBoxBase.getSelectionModel().getSelectedIndex() < 0) {
-			TelaConfiguracaoController.this.aviso("icoAviso_48.png",
-					"Necessário seleceionar uma base, por favor selecione uma base válida!");
-		} else {
-			dadosConexao.setServer_base(chBoxBase.getSelectionModel().getSelectedItem());
-			ProcessaConfig.gravaConfig();
+		if (validaCampos()) {
+			processaDados();
+			ProcessaConfig.gravaConfig(dadosConexao);
 		}
 	}
 
 	@FXML
 	public void onTxtPortaEventAction() {
-		
+
 	}
 
 	@FXML
 	public void onIpEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			txtPorta.requestFocus();
-		}
 	}
 
 	@FXML
 	public void onPortaEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
-			chBoxDataBase.requestFocus();
-		}
+		if (e.getCode().toString().equals("ENTER"))
+			cbDataBase.requestFocus();
 	}
 
 	@FXML
 	public void onDataBaseEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			txtUsuario.requestFocus();
-		}
 	}
 
 	@FXML
 	public void onUsuarioEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			pswSenha.requestFocus();
-		}
 	}
 
 	@FXML
 	public void onSenhaEnter(KeyEvent e) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		if (e.getCode().toString().equals("ENTER")) {
+		if (e.getCode().toString().equals("ENTER"))
 			btnTestarConexao.requestFocus();
-		}
 	}
 
 	public void onTxtIPExitAction() {
@@ -271,25 +238,19 @@ public class TelaConfiguracaoController implements Initializable {
 	public void setConfig(Configuracao dadosConexao) {
 		this.dadosConexao = dadosConexao;
 
-		txtIP.setText(dadosConexao.getServer_host());
-		txtPorta.setText(dadosConexao.getServer_porta());
-		txtUsuario.setText(dadosConexao.getServer_usuario());
-		pswSenha.setText(dadosConexao.getServer_senha());
-		chBoxDataBase.getSelectionModel().select(dadosConexao.getServer_database());
-		cbMostrarLog.setSelected(dadosConexao.getLog_mostrar());
-		//txtCaminhoLog.setText(dadosConexao.getLog_caminho()); *************************************
+		txtIP.setText(dadosConexao.getServerHost());
+		txtPorta.setText(dadosConexao.getServerPort());
+		txtUsuario.setText(dadosConexao.getServerUser());
+		pswSenha.setText(dadosConexao.getServerPassword());
+		cbDataBase.getSelectionModel().select(dadosConexao.getServerDatabase());
+		txtCaminhoLog.setText(dadosConexao.getLogCaminho());
 		validaCampos();
 	}
 
 	public void processaDados() {
-		dadosConexao.setServer_host(txtIP.getText());
-		dadosConexao.setServer_porta(txtPorta.getText());
-		dadosConexao.setServer_base(chBoxBase.getSelectionModel().getSelectedItem());
-		dadosConexao.setServer_usuario(txtUsuario.getText());
-		dadosConexao.setServer_senha(pswSenha.getText());
-		dadosConexao.setServer_database(chBoxDataBase.getSelectionModel().getSelectedItem());
-		dadosConexao.setLog_mostrar(cbMostrarLog.isSelected());
-		dadosConexao.setLog_caminho("");
+		dadosConexao = new Configuracao(cbDataBase.getSelectionModel().getSelectedItem(), txtIP.getText().trim(),
+				txtPorta.getText().trim(), cbBase.getSelectionModel().getSelectedItem(), txtUsuario.getText(),
+				pswSenha.getText(), txtCaminhoLog.getText().trim());
 	}
 
 	public Boolean validaCampos() {
@@ -402,8 +363,8 @@ public class TelaConfiguracaoController implements Initializable {
 			}
 		});
 
-		chBoxDataBase.getItems().addAll(DataBase.values());
-		chBoxDataBase.getSelectionModel().select(DataBase.MySQL);
+		cbDataBase.getItems().addAll(DataBase.values());
+		cbDataBase.getSelectionModel().select(DataBase.MySQL);
 	}
 
 	public static URL getFxmlLocate() {

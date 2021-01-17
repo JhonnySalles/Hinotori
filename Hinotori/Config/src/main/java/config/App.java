@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -63,7 +64,8 @@ public class App extends Application {
 
 			primaryStage.setScene(mainScene); // Seta a cena principal
 			primaryStage.setTitle("Config");
-			primaryStage.getIcons().add(TelaConfiguracaoController.ICO_CONFIGURACAO);
+			primaryStage.getIcons()
+					.add(new Image(getClass().getResourceAsStream("/config/imagens/icoConfiguracao.png")));
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.show(); // Mostra a tela.
 

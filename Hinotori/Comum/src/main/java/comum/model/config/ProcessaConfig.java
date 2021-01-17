@@ -21,10 +21,16 @@ public class ProcessaConfig {
 
 	private final static Logger LOGGER = Logger.getLogger(ProcessaConfig.class.getName());
 
-	public static Configuracao dadosConexao = new Configuracao();
+	public static Configuracao CONFIGURACAOSYSTEMA;
 	public final static File f = new File(Config.verificaConfig());
 
-	public static void leituraConfig(File arquivo) {
+	// O bloco static é chamado na inicialização para
+	// criar os métodos staticos.
+	static {
+		leituraConfig(f);
+	}
+
+	private static void leituraConfig(File arquivo) {
 		Properties prop = new Properties();
 
 		if (prop.isEmpty()) {
@@ -36,24 +42,17 @@ public class ProcessaConfig {
 			// Carrega o arquivo proprierts para ser manipulado
 			prop.load(new FileInputStream(arquivo));
 
-			// Carrega as informacoes para a entidade
-			dadosConexao.setServer_database(DataBase.valueOf(prop.getProperty("prop.server.database")));
-			dadosConexao.setServer_host(prop.getProperty("prop.server.host"));
-			dadosConexao.setServer_porta(prop.getProperty("prop.server.port"));
-			dadosConexao.setServer_base(prop.getProperty("prop.server.base"));
-			dadosConexao.setServer_usuario(prop.getProperty("prop.server.login"));
-			dadosConexao.setServer_senha(Encryption.decodifica(prop.getProperty("prop.server.password")));
-
-			dadosConexao.setUnicode_encode(prop.getProperty("prop.unicode.encode"));
-			dadosConexao.setUnicode_usar(prop.getProperty("prop.unicode.usar") == "1" ? true : false);
-
-			dadosConexao.setLog_caminho(prop.getProperty("prop.log.caminho"));
-			dadosConexao.setLog_mostrar(prop.getProperty("prop.log.mostrar") == "1" ? true : false);
-
-			dadosConexao.setHibernate_mostrar_sql(prop.getProperty("prop.hibernate.mostrarSql") == "1" ? true : false);
-
-			dadosConexao.setSistema_tema(Tema.valueOf(prop.getProperty("prop.sistema.tema")));
-			dadosConexao.setSistema_tipo(TipoLancamento.valueOf(prop.getProperty("prop.sistema.tipo")));
+			CONFIGURACAOSYSTEMA = new Configuracao(DataBase.valueOf(prop.getProperty("prop.server.database")),
+					prop.getProperty("prop.server.host"), prop.getProperty("prop.server.port"),
+					prop.getProperty("prop.server.base"), prop.getProperty("prop.server.user"),
+					Encryption.decodifica(prop.getProperty("prop.server.password")),
+					(prop.getProperty("prop.unicode.usar") == "1" ? true : false),
+					(prop.getProperty("prop.unicode.encode").isEmpty() ? "UTF-8"
+							: prop.getProperty("prop.unicode.encode")),
+					prop.getProperty("prop.log.caminho"),
+					(prop.getProperty("prop.hibernate.mostrarSql") == "1" ? true : false),
+					TipoLancamento.valueOf(prop.getProperty("prop.sistema.lancamento")),
+					Tema.valueOf(prop.getProperty("prop.sistema.tema")));
 
 			validaConfig();
 
@@ -69,32 +68,30 @@ public class ProcessaConfig {
 		}
 	}
 
-	private static void validaConfig() {
+	private static void validaConfig() throws IOException {
+		if (CONFIGURACAOSYSTEMA == null) {
+			Alertas.Alerta(AlertType.WARNING, "Aviso", "Arquivo de configuração não localizado.");
+			throw new IOException("Arquivo de configuração não localizado.");
+		}
 
-		if (dadosConexao.getServer_host().isEmpty())
+		if (CONFIGURACAOSYSTEMA.getServerHost().isEmpty())
 			Alertas.Alerta(AlertType.WARNING, "Aviso",
 					"Arquivo de configuração com informações faltando, não localizado ip do servidor.");
 
-		if (dadosConexao.getServer_porta().isEmpty())
+		if (CONFIGURACAOSYSTEMA.getServerPort().isEmpty())
 			Alertas.Alerta(AlertType.WARNING, "Aviso",
 					"Arquivo de configuração com informações faltando, não localizado a porta do servidor.");
 
-		if (dadosConexao.getServer_base().isEmpty())
+		if (CONFIGURACAOSYSTEMA.getServerBase().isEmpty())
 			Alertas.Alerta(AlertType.WARNING, "Aviso",
 					"Arquivo de configuração com informações faltando, não localizado a base de dados.");
 
-		if (dadosConexao.getServer_usuario().isEmpty() || dadosConexao.getServer_senha().isEmpty())
+		if (CONFIGURACAOSYSTEMA.getServerUser().isEmpty() || CONFIGURACAOSYSTEMA.getServerPassword().isEmpty())
 			Alertas.Alerta(AlertType.WARNING, "Aviso",
 					"Arquivo de configuração com informações faltando, não usuário ou senha de acesso.");
-
-		if (dadosConexao.getUnicode_encode().isEmpty()) {
-			dadosConexao.setUnicode_encode("UTF-8");
-			dadosConexao.setUnicode_usar(true);
-		}
-
 	}
 
-	public static void gravaConfig() {
+	public static void gravaConfig(Configuracao configuracao) {
 		Properties prop = new Properties();
 
 		try {
@@ -102,21 +99,20 @@ public class ProcessaConfig {
 			prop.load(new FileInputStream(f));
 
 			// Carrega as informacoes para a entidade
-			prop.setProperty("prop.server.database", dadosConexao.getServer_database().toString());
-			prop.setProperty("prop.server.host", dadosConexao.getServer_host());
-			prop.setProperty("prop.server.port", dadosConexao.getServer_porta());
-			prop.setProperty("prop.server.base", dadosConexao.getServer_base());
-			prop.setProperty("prop.server.login", dadosConexao.getServer_usuario());
-			prop.setProperty("prop.server.password", Encryption.codifica(dadosConexao.getServer_senha()));
+			prop.setProperty("prop.server.database", configuracao.getServerDatabase().toString());
+			prop.setProperty("prop.server.host", configuracao.getServerHost().trim());
+			prop.setProperty("prop.server.port", configuracao.getServerPort().trim());
+			prop.setProperty("prop.server.base", configuracao.getServerBase().trim());
+			prop.setProperty("prop.server.user", configuracao.getServerUser().trim());
+			prop.setProperty("prop.server.password", Encryption.codifica(configuracao.getServerPassword()));
 
-			prop.setProperty("prop.unicode.usar", dadosConexao.getUnicode_usar() ? "1" : "0");
-			prop.setProperty("prop.unicode.encode", dadosConexao.getUnicode_encode());
+			prop.setProperty("prop.unicode.usar", configuracao.getUnicodeUsar() ? "1" : "0");
+			prop.setProperty("prop.unicode.encode", configuracao.getUnicodeEncode().trim());
 
-			prop.setProperty("prop.log.caminho", dadosConexao.getLog_caminho());
-			prop.setProperty("prop.log.mostrar", dadosConexao.getLog_mostrar() ? "1" : "0");
+			prop.setProperty("prop.log.caminho", configuracao.getLogCaminho().trim());
 
-			prop.setProperty("prop.sistema.tema", dadosConexao.getSistema_tema().toString());
-			prop.setProperty("prop.sistema.tipo", dadosConexao.getSistema_tipo().toString());
+			prop.setProperty("prop.sistema.tema", configuracao.getSistemaTema().toString());
+			prop.setProperty("prop.sistema.lancamento", configuracao.getSistemaLancamento().toString());
 
 			FileOutputStream arquivoOut = new FileOutputStream(f);
 			prop.store(arquivoOut, null);
@@ -132,14 +128,12 @@ public class ProcessaConfig {
 		}
 	}
 
-	public static Configuracao getDadosConexao() {
-		ProcessaConfig.leituraConfig(f);
-		return dadosConexao;
+	public static Configuracao getConfiguracaoSistema() {
+		return CONFIGURACAOSYSTEMA;
 	}
 
 	public static String getCaminhoLog() {
-		ProcessaConfig.leituraConfig(f);
-		return dadosConexao.getLog_caminho();
+		return CONFIGURACAOSYSTEMA.getLogCaminho();
 	}
 
 }

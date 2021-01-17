@@ -25,6 +25,7 @@
 	</properties>
 
 	<build>
+		<finalName>${project.artifactId}}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -33,6 +34,27 @@
 					<target>14</target>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>7.5.0</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/servidorteste?serverTimezone=UTC&amp;useUnicode=true&amp;useTimezone=true&amp;</url>
+					<user>admin </user>
+					<password>admin</password>
+                    <locations>
+                        <location>classpath:db/migration</location>
+                    </locations>
+                </configuration>
+                <dependencies>
+                    <dependency>
+						<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+						<version>8.0.16</version>
+					</dependency>
+                </dependencies>
+            </plugin>
 		</plugins>
 	</build>
 
@@ -69,6 +91,19 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.16</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+
+		<!-- Dependencia para o versionamento do banco de dados -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>7.5.0</version>
 		</dependency>
 
 	</dependencies>
