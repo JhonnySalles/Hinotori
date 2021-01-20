@@ -8,8 +8,10 @@ import cadastro.controller.cadastros.CadClienteController;
 import cadastro.controller.cadastros.CadEmpresaController;
 import cadastro.controller.cadastros.CadProdutoController;
 import cadastro.controller.cadastros.CadUsuarioController;
+import comum.model.exceptions.ExcessaoBd;
 import comum.model.utils.ViewGerenciador;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -19,17 +21,46 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import pdv.Loading.CredentialsConsumer;
 import pdv.controller.DashboardController;
+import servidor.configuration.ManagerFactory;
+import servidor.entities.Usuario;
 
-public class Run extends Application {
+public class Run extends Application implements CredentialsConsumer {
 
 	private final static Logger LOGGER = Logger.getLogger(Run.class.getName());
 
 	private static Scene mainScene;
+	private static Stage stage;
 	private static DashboardController mainController;
+	private static Usuario usuario = null;
+	public static Boolean ERRO_BD = false;
+
+	@Override
+	public void init() throws InterruptedException {
+		try {
+			ManagerFactory.iniciaBD();
+		} catch (ExcessaoBd e) {
+			e.printStackTrace();
+			ERRO_BD = true;
+		}
+		Thread.sleep(4000);
+	}
+
+	private void inicia() {
+		if (usuario != null && stage != null) {
+			Platform.runLater(new Runnable() {
+				public void run() {
+					stage.show(); // Mostra a tela.
+					preCarregamentoTelas();
+				}
+			});
+		}
+	}
 
 	@Override
 	public synchronized void start(Stage primaryStage) {
+		stage = primaryStage;
 		try {
 			// Classe inicial
 			FXMLLoader loader = new FXMLLoader(DashboardController.getFxmlLocate());
@@ -48,12 +79,12 @@ public class Run extends Application {
 			primaryStage.centerOnScreen();
 			primaryStage.setMaximized(true);
 
-			primaryStage.show(); // Mostra a tela.
-
 			Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 			primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
 			primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
-
+			
+			//*********
+			stage.show(); // Mostra a tela.
 			preCarregamentoTelas();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,6 +111,14 @@ public class Run extends Application {
 	}
 
 	public static void main(String[] args) {
+		// Faz a chamada do preloader para carregamento do banco.
+		System.setProperty("javafx.preloader", Loading.class.getCanonicalName());
 		launch(args);
+	}
+
+	@Override
+	public void setCredential(Usuario user) {
+		usuario = user;
+		inicia();
 	}
 }

@@ -30,7 +30,7 @@ module Comum {
 	requires java.json;
 	requires org.apache.httpcomponents.httpcore;
 	requires org.apache.httpcomponents.httpclient;
-	
+
 	opens comum.model.notification.controller to javafx.fxml;
 	opens comum.model.alerts.controller to javafx.fxml;
 	opens comum.form to javafx.fxml;

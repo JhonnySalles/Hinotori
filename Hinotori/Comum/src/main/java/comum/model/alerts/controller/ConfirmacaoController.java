@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
 public class ConfirmacaoController implements Initializable {
 
 	public final static Image IMG_CONFIRMACAO = new Image(
-			ConfirmacaoController.class.getResourceAsStream("/comum/resources/imagens/alerta/icoConfirma_48.png"));
+			ConfirmacaoController.class.getResourceAsStream("/comum/imagens/alerta/icoConfirma_48.png"));
 
 	@FXML
 	private Button btnConfirmar;
@@ -69,7 +69,7 @@ public class ConfirmacaoController implements Initializable {
 	}
 
 	public static URL getFxmlLocate() {
-		return ConfirmacaoController.class.getResource("/comum/model/alerts/view/Confirmacao.fxml");
+		return ConfirmacaoController.class.getResource("/comum/view/alerts/Confirmacao.fxml");
 	}
 
 }

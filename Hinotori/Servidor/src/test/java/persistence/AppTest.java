@@ -1,4 +1,4 @@
-package pdv;
+package persistence;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

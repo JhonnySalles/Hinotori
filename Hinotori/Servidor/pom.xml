@@ -34,43 +34,65 @@
 					<target>14</target>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>7.5.0</version>
-                <configuration>
-                    <url>jdbc:mysql://localhost:3306/servidorteste?serverTimezone=UTC&amp;useUnicode=true&amp;useTimezone=true&amp;</url>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>7.5.0</version>
+				<configuration>
+					<url>jdbc:mysql://localhost:3306/servidorteste?serverTimezone=UTC&amp;useUnicode=true&amp;useTimezone=true&amp;</url>
 					<user>admin </user>
 					<password>admin</password>
-                    <locations>
-                        <location>classpath:db/migration</location>
-                    </locations>
-                </configuration>
-                <dependencies>
-                    <dependency>
+					<locations>
+						<location>filesystem:db/migration</location>
+					</locations>
+				</configuration>
+				<dependencies>
+					<dependency>
 						<groupId>mysql</groupId>
-					<artifactId>mysql-connector-java</artifactId>
+						<artifactId>mysql-connector-java</artifactId>
 						<version>8.0.16</version>
 					</dependency>
-                </dependencies>
-            </plugin>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- Dependencia para o módulo comum -->
 		<dependency>
 			<groupId>br.com.Hinotori</groupId>
 			<artifactId>Comum</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!--Bibliotecas de testes -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.5.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testfx</groupId>
+			<artifactId>testfx-core</artifactId>
+			<version>4.0.16-alpha</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testfx</groupId>
+			<artifactId>testfx-junit5</artifactId>
+			<version>4.0.16-alpha</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest</artifactId>
+			<version>2.1</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Dependencia para o hibernate -->

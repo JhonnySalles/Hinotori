@@ -387,7 +387,7 @@ public class ViewGerenciador {
 				// Os componentes de cadastro que extender de cadastro dialog podem utilizar a
 				// função onClose para eventual validação.
 				if (controller instanceof CadastroDialogPadrao)
-					((CadastroDialogPadrao) controller).onClose();
+					((CadastroDialogPadrao<?>) controller).onClose();
 
 				if (onClose != null)
 					onClose.handle(new ActionEvent(onClose, null));

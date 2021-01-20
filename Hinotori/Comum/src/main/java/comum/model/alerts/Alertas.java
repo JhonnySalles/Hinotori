@@ -33,7 +33,7 @@ public class Alertas {
 	private static boolean resposta;
 
 	public static boolean TITULO_VISIVEL = false;
-	public static boolean IMAGEM_VISIVEL = false;
+	public static boolean IMAGEM_VISIVEL = true;
 	public static TipoTela TELA = TipoTela.WINDOWS;
 	public static AlertType TIPO = AlertType.INFORMATION;
 
@@ -60,7 +60,7 @@ public class Alertas {
 
 	private static void Limpa() {
 		TITULO_VISIVEL = false;
-		IMAGEM_VISIVEL = false;
+		IMAGEM_VISIVEL = true;
 		TELA = TipoTela.WINDOWS;
 		TIPO = AlertType.INFORMATION;
 	}
@@ -288,7 +288,6 @@ public class Alertas {
 
 			stageTela.showAndWait(); // Mostra a tela.
 		} catch (Exception e) {
-			System.out.println("Erro ao tentar carregar o alerta.");
 			e.printStackTrace();
 			LOGGER.log(Level.FINE, "{Erro ao tentar carregar o alerta. }", e);
 		}

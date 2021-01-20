@@ -24,6 +24,9 @@ public class ManagerFactory {
 	private static EntityManagerFactory EMF;
 
 	public static EntityManager getEtityManager() {
+		Flyway flyway = Flyway.configure().dataSource(URL_DB, CONFIG_BD.getServerUser(), CONFIG_BD.getServerPassword())
+				.load();
+		flyway.migrate();
 		return EMF.createEntityManager();
 	}
 
@@ -41,8 +44,7 @@ public class ManagerFactory {
 		props.setProperty("javax.persistence.jdbc.password", CONFIG_BD.getServerPassword());
 
 		URL_DB = "jdbc:mysql://" + CONFIG_BD.getServerHost() + ":" + CONFIG_BD.getServerPort() + "/"
-				+ CONFIG_BD.getServerDatabase() + "?useTimezone=true&amp;serverTimezone=UTC"
-				+ (CONFIG_BD.getUnicodeUsar() ? "&amp;useUnicode=true" : "");
+				+ CONFIG_BD.getServerBase() + "?useTimezone=true&serverTimezone=UTC&useUnicode=true";
 
 		props.setProperty("javax.persistence.jdbc.url", URL_DB);
 
@@ -60,9 +62,7 @@ public class ManagerFactory {
 		EMF.close();
 	}
 
-	// O bloco static é chamado na inicialização para
-	// criar os métodos staticos.
-	static {
+	public static void iniciaBD() throws ExcessaoBd {
 		try {
 			PROPERTIE_BD = getConfigBD();
 
@@ -74,6 +74,7 @@ public class ManagerFactory {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "{Erro ao carregar o EntityManager}", e);
 			e.printStackTrace();
+			throw new ExcessaoBd(e.toString());
 		}
 	}
 

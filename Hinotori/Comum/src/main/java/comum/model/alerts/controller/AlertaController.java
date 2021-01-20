@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
 public class AlertaController implements Initializable {
 
 	public final static Image IMG_ALERTA = new Image(
-			AlertaController.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAlerta_48.png"));
+			AlertaController.class.getResourceAsStream("/comum/imagens/alerta/icoAlerta_48.png"));
 
 	@FXML
 	private Button btnOk;
@@ -67,6 +67,6 @@ public class AlertaController implements Initializable {
 	}
 
 	public static URL getFxmlLocate() {
-		return AlertaController.class.getResource("/comum/model/alerts/view/Alerta.fxml");
+		return AlertaController.class.getResource("/comum/view/alerts/Alerta.fxml");
 	}
 }

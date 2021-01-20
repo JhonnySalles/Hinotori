@@ -22,13 +22,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.5.1</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- Dependencia para o módulo comum -->
 		<dependency>
 			<groupId>br.com.Hinotori</groupId>
@@ -44,6 +37,13 @@
 		</dependency>
 
 		<!--Bibliotecas de testes -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.5.1</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.testfx</groupId>
 			<artifactId>testfx-core</artifactId>

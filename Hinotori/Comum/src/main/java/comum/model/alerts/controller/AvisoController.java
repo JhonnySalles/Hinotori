@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
 public class AvisoController implements Initializable {
 
 	public final static Image IMG_AVISO = new Image(
-			AvisoController.class.getResourceAsStream("/comum/resources/imagens/alerta/icoAviso_48.png"));
+			AvisoController.class.getResourceAsStream("/comum/imagens/alerta/icoAviso_48.png"));
 
 	@FXML
 	private Button btnOk;
@@ -65,6 +65,6 @@ public class AvisoController implements Initializable {
 	}
 
 	public static URL getFxmlLocate() {
-		return AvisoController.class.getResource("/comum/model/alerts/view/Aviso.fxml");
+		return AvisoController.class.getResource("/comum/view/alerts/Aviso.fxml");
 	}
 }

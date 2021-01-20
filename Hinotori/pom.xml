@@ -45,7 +45,7 @@
 		<module>Comum</module>
 		<module>Servidor</module>
 		<module>Config</module>
-		<module>Menu</module>
+		<module>Loguin</module>
 		<module>Cadastro</module>
 		<module>Administrador</module>
 		<module>Restaurante</module>

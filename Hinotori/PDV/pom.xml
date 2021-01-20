@@ -29,7 +29,7 @@
 			<version>4.13.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Windows Progress Bar -->
 		<dependency>
 			<groupId>com.github.Dansoftowner</groupId>
@@ -44,10 +44,17 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-		<!-- Dependencia para o funções do banco -->
+		<!-- Dependencia para funções do banco -->
 		<dependency>
 			<groupId>br.com.Hinotori</groupId>
 			<artifactId>Servidor</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- Dependencia para funções de loguin e carregamento -->
+		<dependency>
+			<groupId>br.com.Hinotori</groupId>
+			<artifactId>Loguin</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
@@ -59,7 +66,7 @@
 		</dependency>
 
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -105,7 +112,7 @@
 				<configuration>
 					<mainClass>PDV/pdv.App</mainClass>
 				</configuration>
-			</plugin>			
+			</plugin>
 		</plugins>
 	</build>
 </project>

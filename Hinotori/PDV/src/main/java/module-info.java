@@ -17,6 +17,7 @@ module PDV {
 	requires AnimateFX;
 	requires java.sql;
 	requires Cadastro;
+	requires Loguin;
 
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens pdv.controller to javafx.fxml;

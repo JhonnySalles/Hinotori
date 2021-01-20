@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
 public class ErroController implements Initializable {
 
 	public final static Image IMG_ERRO = new Image(
-			ErroController.class.getResourceAsStream("/comum/resources/imagens/alerta/icoErro_48.png"));
+			ErroController.class.getResourceAsStream("/comum/imagens/alerta/icoErro_48.png"));
 
 	@FXML
 	private Button btnOk;
@@ -67,6 +67,6 @@ public class ErroController implements Initializable {
 	}
 
 	public static URL getFxmlLocate() {
-		return ErroController.class.getResource("/comum/model/alerts/view/Erro.fxml");
+		return ErroController.class.getResource("/comum/view/alerts/Erro.fxml");
 	}
 }

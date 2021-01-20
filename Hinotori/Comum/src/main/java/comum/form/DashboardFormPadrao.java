@@ -576,5 +576,4 @@ public abstract class DashboardFormPadrao implements Initializable {
 
 		inicializa(arg0, arg1);
 	}
-
 }

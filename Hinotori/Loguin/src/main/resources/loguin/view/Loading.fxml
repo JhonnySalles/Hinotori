@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="background" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/White_Loading.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="loguin.controller.LoadingController">
+   <children>
+      <AnchorPane fx:id="paneEsquerda" prefHeight="350.0" prefWidth="602.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
+         <children>
+            <ImageView fx:id="logo" fitHeight="461.0" fitWidth="379.0" layoutX="-42.0" layoutY="-105.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-40.0" AnchorPane.topAnchor="-100.0">
+               <image>
+                  <Image url="@../images/loading/icoPrincipal_1300.png" />
+               </image></ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="paneDireita" layoutX="240.0" layoutY="44.0" prefHeight="356.0" prefWidth="362.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
+         <children>
+            <JFXSpinner fx:id="progress" cache="true" layoutX="145.0" layoutY="184.0" prefHeight="115.0" prefWidth="111.0" radius="30.0" startingAngle="0.0" viewOrder="1.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="150.0" />
+            <Label layoutX="132.0" layoutY="143.0" text="Carregando o banco" />
+            <Label fx:id="lblLog" layoutX="14.0" layoutY="231.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -4,6 +4,7 @@
  */
 module Servidor {
 
+	exports servidor.configuration;
 	exports servidor.dao;
 	exports servidor.dao.services;
 	exports servidor.dto;
@@ -21,6 +22,10 @@ module Servidor {
 	requires java.naming;
 	requires transitive java.sql;
 	requires org.flywaydb.core;
+	requires javafx.fxml;
+	requires javafx.controls;
+	requires com.jfoenix;
+	requires javafx.graphics;
 
 	opens servidor.entities to org.hibernate.orm.core;
 }

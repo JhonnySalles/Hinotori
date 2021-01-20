@@ -1,11 +1,13 @@
 package persistence;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
 
 import comum.cep.BuscarCep;
 import comum.model.entities.Cep;
@@ -13,8 +15,10 @@ import comum.model.enums.Enquadramento;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoPessoa;
 import comum.model.enums.UsuarioNivel;
+import comum.model.exceptions.ExcessaoBd;
 import comum.model.exceptions.ExcessaoCep;
-import junit.framework.TestCase;
+import javafx.stage.Stage;
+import servidor.configuration.ManagerFactory;
 import servidor.dao.CidadeDao;
 import servidor.dao.services.CidadeService;
 import servidor.dao.services.EstadoService;
@@ -30,11 +34,21 @@ import servidor.entities.Estado;
 import servidor.entities.Pais;
 import servidor.entities.Usuario;
 
-@FixMethodOrder(MethodSorters.JVM)
-public class PersistenciaTest extends TestCase {
+public class PersistenciaTest extends ApplicationTest {
 
 	private Pais pais;
 	private Estado estado;
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		try {
+			ManagerFactory.iniciaBD();
+			assertTrue(true);
+		} catch (ExcessaoBd e) {
+			e.printStackTrace();
+			fail("Erro ao iniciar o banco.");
+		}
+	}
 
 	@Test
 	public void testFindPais() {
@@ -42,7 +56,7 @@ public class PersistenciaTest extends TestCase {
 		pais = service.pesquisar(Long.valueOf(1));
 
 		assertTrue(pais != null && pais.getId() > 0);
-		fail("Erro ao pesquisar o país.");
+		fail("Erro ao pesquisar o país.");	
 	}
 
 	@Test
@@ -58,7 +72,7 @@ public class PersistenciaTest extends TestCase {
 	public void testSaveCidade() {
 		EstadoService serviceEstado = new EstadoService();
 		estado = serviceEstado.pesquisar(Long.valueOf(1));
-		
+
 		CidadeDao service = new CidadeDao();
 		Cidade cidade = new Cidade(Long.valueOf(0), "Cascavel", "45", Situacao.ATIVO, estado);
 		cidade = service.salvarAtomico(cidade).getLastEntity();
@@ -109,10 +123,10 @@ public class PersistenciaTest extends TestCase {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		Empresa empresa = new Empresa(Long.valueOf(0), "Empresa de teste", "Empresa de demonstração", "27341631000120",
 				Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO, endereco.getBairro());
-		
+
 		empresa.addEnderecos(endereco);
 
 		GenericService<Empresa> service = new GenericService<Empresa>(Empresa.class);
@@ -134,16 +148,16 @@ public class PersistenciaTest extends TestCase {
 	@Test
 	public void testSaveCliente() {
 		GenericService<Cliente> service = new GenericService<Cliente>(Cliente.class);
-		
-		Cliente cliente = new Cliente("Hefer Ortas", "", "26353989091", "", "Teste de cadastro.",
-				TipoPessoa.FISICO, Enquadramento.CLIENTE);
-		
+
+		Cliente cliente = new Cliente("Hefer Ortas", "", "26353989091", "", "Teste de cadastro.", TipoPessoa.FISICO,
+				Enquadramento.CLIENTE);
+
 		cliente = service.salvar(cliente);
 
 		assertTrue(cliente != null && cliente.getId() > 0);
 		fail("Erro ao salvar o cliente.");
 	}
-	
+
 	@Test
 	public void testFindCliente() {
 		GenericService<Cliente> service = new GenericService<Cliente>(Cliente.class);
