@@ -28,4 +28,5 @@ module Servidor {
 	requires javafx.graphics;
 
 	opens servidor.entities to org.hibernate.orm.core;
+	opens db.migration;
 }

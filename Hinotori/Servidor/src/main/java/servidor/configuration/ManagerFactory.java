@@ -24,9 +24,6 @@ public class ManagerFactory {
 	private static EntityManagerFactory EMF;
 
 	public static EntityManager getEtityManager() {
-		Flyway flyway = Flyway.configure().dataSource(URL_DB, CONFIG_BD.getServerUser(), CONFIG_BD.getServerPassword())
-				.load();
-		flyway.migrate();
 		return EMF.createEntityManager();
 	}
 
@@ -67,7 +64,8 @@ public class ManagerFactory {
 			PROPERTIE_BD = getConfigBD();
 
 			Flyway flyway = Flyway.configure()
-					.dataSource(URL_DB, CONFIG_BD.getServerUser(), CONFIG_BD.getServerPassword()).load();
+					.dataSource(URL_DB, CONFIG_BD.getServerUser(), CONFIG_BD.getServerPassword())
+					.load();
 			flyway.migrate();
 
 			EMF = Persistence.createEntityManagerFactory("PersistenciaServidor", PROPERTIE_BD);
