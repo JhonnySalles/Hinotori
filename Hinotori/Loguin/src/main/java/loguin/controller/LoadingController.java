@@ -45,6 +45,10 @@ public class LoadingController implements Initializable {
 
 	@FXML
 	private Circle Circulo5;
+	
+	public void setLog(String menssagem) {
+		lblLog.setText(menssagem);
+	}
 
 	private void animacao() {
 		new BounceOut(Circulo1).setCycleCount(-1).setDelay(Duration.valueOf("800ms")).play();
