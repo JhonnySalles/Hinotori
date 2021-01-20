@@ -15,6 +15,7 @@ module Loguin {
 	requires javafx.fxml;
 	requires transitive javafx.graphics;
 	requires com.jfoenix;
+	requires AnimateFX;
 	
 	/* Faz a abertura dos pacotes do javafx para ser utilizado nas clases */
 	opens loguin.controller to javafx.fxml;

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXSpinner?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="background" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/White_Loading.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="loguin.controller.LoadingController">
    <children>
@@ -16,11 +18,29 @@
                </image></ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="paneDireita" layoutX="240.0" layoutY="44.0" prefHeight="356.0" prefWidth="362.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
+      <AnchorPane fx:id="paneDireita" layoutX="240.0" layoutY="44.0" prefHeight="355.0" prefWidth="360.0" translateX="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
          <children>
-            <JFXSpinner fx:id="progress" cache="true" layoutX="145.0" layoutY="184.0" prefHeight="115.0" prefWidth="111.0" radius="30.0" startingAngle="0.0" viewOrder="1.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="150.0" />
-            <Label layoutX="132.0" layoutY="143.0" text="Carregando o banco" />
-            <Label fx:id="lblLog" layoutX="14.0" layoutY="231.0" />
+            <Label fx:id="lblLog" layoutX="14.0" layoutY="321.0" text="Carregando o banco..." AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font size="10.0" />
+               </font></Label>
+            <Circle fx:id="Circulo1" layoutX="117.0" layoutY="284.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fx:id="Circulo2" layoutX="144.0" layoutY="284.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fx:id="Circulo3" layoutX="171.0" layoutY="284.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fx:id="Circulo4" layoutX="198.0" layoutY="284.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fx:id="Circulo5" layoutX="225.0" layoutY="284.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label layoutX="118.0" layoutY="137.0" text="CARREGANDO">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Line endX="36.0" layoutX="179.0" layoutY="168.0" startX="-54.0" />
+            <Line endX="21.0" layoutX="177.0" layoutY="181.0" startX="-34.0" strokeWidth="0.5" />
+            <Label fx:id="lblLog1" layoutX="4.0" layoutY="337.0" text="\@ 2020-2021 Hinotori. All rights reserved" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

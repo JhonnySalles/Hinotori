@@ -3,17 +3,13 @@ package pdv;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import comum.model.alerts.Alertas;
-import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import loguin.Login;
 import loguin.controller.LoadingController;
 import servidor.entities.Usuario;
 
@@ -38,6 +34,7 @@ public class Loading extends Preloader {
 			FXMLLoader loader = new FXMLLoader(LoadingController.getFxmlLocate());
 			AnchorPane scPnTelaPrincipal = loader.load();
 			Scene tela = new Scene(scPnTelaPrincipal); // Carrega a scena
+			UPDATEDB.getIcons().add(LoadingController.getIconImage());
 			UPDATEDB.setScene(tela); // Seta a cena principal
 			UPDATEDB.setTitle("Carregando");
 			tela.setFill(Color.TRANSPARENT);
