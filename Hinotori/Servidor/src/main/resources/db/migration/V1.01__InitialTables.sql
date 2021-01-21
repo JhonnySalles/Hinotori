@@ -102,6 +102,8 @@ CREATE TABLE clientes (
   Observacao longtext,
   RazaoSocial varchar(255) DEFAULT NULL,
   Tipo enum('FISICO','JURIDICO','AMBOS') DEFAULT NULL,
+  UNIQUE KEY UK_CLIENTE_CNPJ (CNPJ),
+  UNIQUE KEY UK_CLIENTE_CPF (CPF),
   PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
