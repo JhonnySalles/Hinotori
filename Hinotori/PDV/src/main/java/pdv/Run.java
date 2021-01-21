@@ -12,6 +12,7 @@ import comum.model.exceptions.ExcessaoBd;
 import comum.model.utils.ViewGerenciador;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.application.Preloader.ProgressNotification;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -38,13 +39,16 @@ public class Run extends Application implements CredentialsConsumer {
 
 	@Override
 	public void init() throws InterruptedException {
+		notifyPreloader(new ProgressNotification(0.10));
 		try {
 			ManagerFactory.iniciaBD();
 		} catch (ExcessaoBd e) {
 			e.printStackTrace();
 			ERRO_BD = true;
 		}
+		notifyPreloader(new ProgressNotification(0.50));
 		Thread.sleep(4000);
+		notifyPreloader(new ProgressNotification(1));
 	}
 
 	private void inicia() {

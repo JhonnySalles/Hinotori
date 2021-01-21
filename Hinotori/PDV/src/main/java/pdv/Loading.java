@@ -3,9 +3,12 @@ package pdv;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import comum.model.alerts.Alertas;
+import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -51,19 +54,26 @@ public class Loading extends Preloader {
 	public void start(Stage primaryStage) throws Exception {
 		createLoading(primaryStage);
 	}
-
+	
+	@Override
+    public void handleProgressNotification(ProgressNotification pn) {
+        //bar.setProgress(pn.getProgress());
+        //if (pn.getProgress() > 0 && pn.getProgress() < 1.0) {
+          //  bar.setVisible(true);
+        //}
+    }
+	
 	@Override
 	public void handleStateChangeNotification(StateChangeNotification notification) {
 		if (notification.getType().equals(StateChangeNotification.Type.BEFORE_START)) {
 			UPDATEDB.close();
 
-			return;
-			/*if (Run.ERRO_BD) {
+			if (Run.ERRO_BD) {
 				Alertas.Alerta(AlertType.ERROR, "Erro", "Não foi possível conectar com o banco de dados.");
-				System.exit(1);
+				Platform.exit();
 			}
 
-			LOGUIN = new Stage();
+			/*LOGUIN = new Stage();
 			Login.start(LOGUIN, action -> usuario = (Usuario) action);
 
 			consumer = (CredentialsConsumer) notification.getApplication();

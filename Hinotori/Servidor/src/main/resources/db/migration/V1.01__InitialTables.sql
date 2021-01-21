@@ -44,8 +44,8 @@ CREATE TABLE empresas (
   Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
   IdBairro bigint(20) DEFAULT NULL,
   PRIMARY KEY (id),
-  KEY FKjpr01gtedig2c7rve0hlw2t09 (IdBairro),
-  CONSTRAINT FKjpr01gtedig2c7rve0hlw2t09 FOREIGN KEY (IdBairro) REFERENCES bairros (Id)
+  KEY FK_EMPRESA_BAIRRO (IdBairro),
+  CONSTRAINT FK_EMPRESA_BAIRRO FOREIGN KEY (IdBairro) REFERENCES bairros (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE empresas_imagens (
@@ -102,12 +102,8 @@ CREATE TABLE clientes (
   Observacao longtext,
   RazaoSocial varchar(255) DEFAULT NULL,
   Tipo enum('FISICO','JURIDICO','AMBOS') DEFAULT NULL,
-  PRIMARY KEY (Id),
-  UNIQUE KEY UK_k61tlitrrvbrdlcdteo46rpj4 (CNPJ),
-  UNIQUE KEY UK_8xckjwhbjvy36cklhf2kwt7uf (CPF),
-  UNIQUE KEY UK_CLIENTE_CPF (CPF),
-  UNIQUE KEY UK_CLIENTE_CNPJ (CNPJ)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (Id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE enderecos (
   Id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -124,12 +120,12 @@ CREATE TABLE enderecos (
   IdCliente bigint(20) DEFAULT NULL,
   IdEmpresa bigint(20) DEFAULT NULL,
   PRIMARY KEY (Id),
-  KEY FKl3sdlbnbbpmh2u4qewvk50vq7 (IdBairro),
+  KEY FK_BAIRRO_ENDERECO (IdBairro),
   KEY FK_CLIENTE_ENDERECO (IdCliente),
   KEY FK_EMPRESA_ENDERECO (IdEmpresa),
   CONSTRAINT FK_CLIENTE_ENDERECO FOREIGN KEY (IdCliente) REFERENCES clientes (Id),
   CONSTRAINT FK_EMPRESA_ENDERECO FOREIGN KEY (IdEmpresa) REFERENCES empresas (id),
-  CONSTRAINT FKl3sdlbnbbpmh2u4qewvk50vq7 FOREIGN KEY (IdBairro) REFERENCES bairros (Id)
+  CONSTRAINT FK_BAIRRO_ENDERECO FOREIGN KEY (IdBairro) REFERENCES bairros (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE contatos (
