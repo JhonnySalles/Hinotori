@@ -174,19 +174,24 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 			return ValidaCliente.validaCliente(entidade);
 		} catch (ExcessaoCadastro e) {
 			e.printStackTrace();
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_SALVAR + "\n" + e.getMessage());
 		}
 
 		txtNome.validate();
 
 		if (!cbPessoaTipo.getValue().equals(TipoPessoa.JURIDICO))
 			txtCpf.validate();
+		else
+			txtCpf.resetValidation();
 
 		if (!cbPessoaTipo.getValue().equals(TipoPessoa.FISICO))
 			txtCnpj.validate();
+		else
+			txtCnpj.resetValidation();
 
 		txtRazaoSocial.validate();
 
-		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
 		return false;
 	}
 

@@ -41,20 +41,23 @@
                                  <children>
                                     <HBox spacing="10.0">
                                        <children>
-                                          <JFXTextField fx:id="txtTitulo" editable="false" labelFloat="true" promptText="Endereço" HBox.hgrow="ALWAYS" />
+                                          <JFXTextField fx:id="txtTitulo" editable="false" labelFloat="true" promptText="Cliente" HBox.hgrow="ALWAYS" />
                                        </children>
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </HBox>
                                     <TableView fx:id="tbEnderecos" styleClass="table-border" VBox.vgrow="ALWAYS">
+                                      <placeholder>
+                                        <Label text="Lista vazia." />
+                                      </placeholder>
                                       <columns>
                                         <TableColumn fx:id="tbClCidade" prefWidth="75.0" text="Cidade" />
                                         <TableColumn fx:id="tbClBairro" prefWidth="130.0" text="Bairro" />
-                                          <TableColumn fx:id="tbClEndereco" prefWidth="200.0" text="Endereço" />
-                                          <TableColumn fx:id="tbClNumero" prefWidth="75.0" text="Número" />
-                                          <TableColumn fx:id="tbClCep" prefWidth="100.0" text="Cep" />
-                                          <TableColumn fx:id="tbClPadrao" prefWidth="50.0" style="-fx-alignment: CENTER;" text="Padrão" />
+                                        <TableColumn fx:id="tbClEndereco" prefWidth="200.0" text="Endereço" />
+                                        <TableColumn fx:id="tbClNumero" prefWidth="75.0" text="Número" />
+                                        <TableColumn fx:id="tbClCep" prefWidth="100.0" text="Cep" />
+                                        <TableColumn fx:id="tbClPadrao" prefWidth="50.0" style="-fx-alignment: CENTER;" text="Padrão" />
                                       </columns>
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
@@ -108,11 +111,6 @@
                      </font>
                   </JFXButton>
                   <JFXButton fx:id="btnEditar" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnEditarClick" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Editar" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btnAtualizar" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnAtualizarClick" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Atualizar" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>

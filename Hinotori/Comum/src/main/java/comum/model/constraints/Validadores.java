@@ -178,7 +178,7 @@ public class Validadores {
 
 	public static Boolean validaCnpj(final String texto) {
 		if (texto.isEmpty())
-			return true;
+			return false;
 
 		return Pattern.compile(REGEX_CNPJ).matcher(texto).matches();
 	}
@@ -194,7 +194,7 @@ public class Validadores {
 		if (texto.isEmpty())
 			return true;
 
-		return texto.matches(REGEX_EMAIL);
+		return Pattern.compile(REGEX_EMAIL).matcher(texto).matches();
 	}
 
 	public static Boolean validaTelefone(final String texto) {

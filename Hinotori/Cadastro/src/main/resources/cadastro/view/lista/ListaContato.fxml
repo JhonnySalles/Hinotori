@@ -41,21 +41,24 @@
                                  <children>
                                     <HBox spacing="10.0">
                                        <children>
-                                          <JFXTextField fx:id="txtTitulo" editable="false" labelFloat="true" promptText="Contato" HBox.hgrow="ALWAYS" />
+                                          <JFXTextField fx:id="txtTitulo" editable="false" labelFloat="true" promptText="Cliente" HBox.hgrow="ALWAYS" />
                                        </children>
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </HBox>
                                     <TableView fx:id="tbContatos" styleClass="table-border" VBox.vgrow="ALWAYS">
+                                      <placeholder>
+                                        <Label text="Lista vazia." />
+                                      </placeholder>
                                       <columns>
                                         <TableColumn fx:id="tbClNome" prefWidth="174.0" text="Nome" />
                                         <TableColumn fx:id="tbClTelefone" prefWidth="76.0" text="Telefone" />
-                                          <TableColumn fx:id="tbClCelular" prefWidth="84.0" text="Celular" />
-                                          <TableColumn fx:id="tbClEmail" prefWidth="223.0" text="Email" />
-                                          <TableColumn fx:id="tbClTipoContato" prefWidth="100.0" text="Tipo" />
-                                          <TableColumn fx:id="tbClSituacao" prefWidth="67.0" text="Situação" />
-                                          <TableColumn fx:id="tbClPadrao" prefWidth="50.0" style="-fx-alignment: CENTER;" text="Padrão" />
+                                        <TableColumn fx:id="tbClCelular" prefWidth="84.0" text="Celular" />
+                                        <TableColumn fx:id="tbClEmail" prefWidth="223.0" text="Email" />
+                                        <TableColumn fx:id="tbClTipoContato" prefWidth="100.0" text="Tipo" />
+                                        <TableColumn fx:id="tbClSituacao" prefWidth="67.0" text="Situação" />
+                                        <TableColumn fx:id="tbClPadrao" prefWidth="50.0" style="-fx-alignment: CENTER;" text="Padrão" />
                                       </columns>
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
@@ -114,11 +117,6 @@
                      </font>
                   </JFXButton>
                   <JFXButton fx:id="btnEditar" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnEditarClick" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Editar" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btnAtualizar" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" maxHeight="35.0" maxWidth="120.0" minHeight="35.0" minWidth="120.0" onAction="#onBtnAtualizarClick" prefHeight="35.0" prefWidth="120.0" ripplerFill="BLACK" text="Atualizar" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>

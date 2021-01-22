@@ -147,7 +147,7 @@ public class ListaContatoController extends ListaFormPadrao {
 	}
 
 	private ListaContatoController linkaCelulas() {
-		tbClNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+		tbClNome.setCellValueFactory(new PropertyValueFactory<>("nomeSobrenome"));
 		tbClTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 		tbClCelular.setCellValueFactory(new PropertyValueFactory<>("celular"));
 		tbClEmail.setCellValueFactory(new PropertyValueFactory<>("email"));

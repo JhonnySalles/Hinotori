@@ -27,7 +27,7 @@ public class ValidateRazaoSocial extends ValidatorBase {
 		if (cbTipoPessoa == null)
 			hasErrors.set(true);
 		else {
-			if (!cbTipoPessoa.getValue().equals(TipoPessoa.JURIDICO)
+			if (!cbTipoPessoa.getValue().equals(TipoPessoa.FISICO)
 					&& (textField.getText() == null || textField.getText().isEmpty()))
 				hasErrors.set(true);
 			else

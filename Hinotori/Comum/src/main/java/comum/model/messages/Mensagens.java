@@ -93,6 +93,7 @@ public class Mensagens {
 
 	// ERROS DO CADASTRO DE CONTATO
 	public final static String CAD_CONTATO_NOME_VAZIO = "O NOME do contato não pode ser vazio.";
+	public final static String CAD_CONTATO_VAZIO = "Ao menos um tipo de contato deve ser informado.";
 	public final static String CAD_CONTATO_TELEFONE = "O TELEFONE informado é inválido.";
 	public final static String CAD_CONTATO_CELULAR = "O CELULAR informado é inválido.";
 	public final static String CAD_CONTATO_EMAIL = "O EMAIL informado é inválido.";

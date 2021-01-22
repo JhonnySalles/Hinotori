@@ -139,10 +139,8 @@ public class Cliente extends Pessoa implements Entidade {
 
 	public Cliente() {
 		super();
-		this.razaoSocial = "";
-		this.cpf = "";
-		this.cnpj = "";
-		this.observacao = "";
+		this.cpf = null;
+		this.cnpj = null;
 		this.tipoPessoa = TipoPessoa.FISICO;
 		this.enquadramento = Enquadramento.CLIENTE;
 		this.enderecos = new HashSet<>();
@@ -151,10 +149,8 @@ public class Cliente extends Pessoa implements Entidade {
 
 	public Cliente(Long id) {
 		super(id);
-		this.razaoSocial = "";
-		this.cpf = "";
-		this.cnpj = "";
-		this.observacao = "";
+		this.cpf = null;
+		this.cnpj = null;
 		this.tipoPessoa = TipoPessoa.FISICO;
 		this.enquadramento = Enquadramento.CLIENTE;
 		this.enderecos = new HashSet<>();
@@ -165,8 +161,8 @@ public class Cliente extends Pessoa implements Entidade {
 			TipoPessoa tipoPessoa, Enquadramento enquadramento) {
 		super(0L, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO);
 		this.razaoSocial = razaoSocial;
-		this.cpf = cpf;
-		this.cnpj = cnpj;
+		this.cpf = (cpf != null && !cpf.isEmpty()) ? cpf : null;
+		this.cnpj = (cnpj != null && !cnpj.isEmpty()) ? cnpj : null;
 		this.observacao = observacao;
 		this.tipoPessoa = tipoPessoa;
 		this.enquadramento = enquadramento;
@@ -178,8 +174,8 @@ public class Cliente extends Pessoa implements Entidade {
 			TipoPessoa tipoPessoa, Enquadramento enquadramento, Situacao situacao) {
 		super(id, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), situacao);
 		this.razaoSocial = razaoSocial;
-		this.cpf = cpf;
-		this.cnpj = cnpj;
+		this.cpf = (cpf != null && !cpf.isEmpty()) ? cpf : null;
+		this.cnpj = (cnpj != null && !cnpj.isEmpty()) ? cnpj : null;
 		this.observacao = observacao;
 		this.tipoPessoa = tipoPessoa;
 		this.enquadramento = enquadramento;
@@ -192,8 +188,8 @@ public class Cliente extends Pessoa implements Entidade {
 			Situacao situacao, Set<Contato> contatos, Set<Endereco> enderecos) {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.razaoSocial = razaoSocial;
-		this.cpf = cpf;
-		this.cnpj = cnpj;
+		this.cpf = (cpf != null && !cpf.isEmpty()) ? cpf : null;
+		this.cnpj = (cnpj != null && !cnpj.isEmpty()) ? cnpj : null;
 		this.observacao = observacao;
 		this.tipoPessoa = tipoPessoa;
 		this.enquadramento = enquadramento;

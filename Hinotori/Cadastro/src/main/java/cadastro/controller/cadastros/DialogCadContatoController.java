@@ -67,6 +67,9 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 		if (contatos == null)
 			contatos = new HashSet<>();
 
+		if (contatos.isEmpty())
+			entidade.setPadrao(true);
+		
 		if (!contatos.contains(entidade))
 			contatos.add(entidade);
 
@@ -87,6 +90,8 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 			return ValidaContato.validaContato(contato);
 		} catch (ExcessaoCadastro e) {
 			e.printStackTrace();
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					Mensagens.CADASTRO_SALVAR + "\n" + e.getMessage());
 		}
 
 		txtNome.validate();
@@ -94,10 +99,9 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 		txtTelefone.validate();
 		txtEmail.validate();
 
-		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
 		return false;
 	}
-	
+
 	@Override
 	public void onClose() {
 		// TODO Auto-generated method stub
@@ -112,6 +116,11 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 		txtAreaObservacao.setText("");
 		cbTipo.getSelectionModel().selectFirst();
 		cbSituacao.getSelectionModel().selectFirst();
+		
+		txtNome.resetValidation();
+		txtCelular.resetValidation();
+		txtTelefone.resetValidation();
+		txtEmail.resetValidation();
 	}
 
 	public Set<Contato> getContato() {

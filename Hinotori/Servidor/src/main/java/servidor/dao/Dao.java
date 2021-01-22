@@ -116,7 +116,8 @@ public class Dao<E extends Entidade> {
 	public List<E> listar(int primeiroRegistro, int registros) {
 		if (classe == null)
 			throw new UnsupportedOperationException("Classe nula, deve-se informar a classe no construtor.");
-
+		
+		em.clear();
 		TypedQuery<E> query = em.createQuery(String.format(SELECT, getTabela()), classe);
 
 		if (registros >= 0)

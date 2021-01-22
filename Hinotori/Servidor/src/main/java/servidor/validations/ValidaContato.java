@@ -34,6 +34,9 @@ public class ValidaContato {
 
 		validaEmail(contato.getEmail());
 
+		if (contato.getCelular().isEmpty() && contato.getTelefone().isEmpty() && contato.getEmail().isEmpty())
+			throw new ExcessaoCadastro(Mensagens.CAD_CONTATO_VAZIO);
+
 		return true;
 	}
 
@@ -44,20 +47,20 @@ public class ValidaContato {
 
 	public static void validaCelular(String fone) throws ExcessaoCadastro {
 		if (fone != null && !fone.isEmpty())
-			if (!Validadores.validaTelefone(fone))
-				throw new ExcessaoCadastro(Mensagens.CAD_CONTATO_TELEFONE);
+			if (Validadores.validaTelefone(fone))
+				throw new ExcessaoCadastro(Mensagens.CAD_CONTATO_CELULAR);
 	}
 
 	public static void validaTelefone(String fone) throws ExcessaoCadastro {
 		if (fone != null && !fone.isEmpty())
-			if (!Validadores.validaTelefone(fone))
-				throw new ExcessaoCadastro(Mensagens.CAD_CONTATO_CELULAR);
+			if (Validadores.validaTelefone(fone))
+				throw new ExcessaoCadastro(Mensagens.CAD_CONTATO_TELEFONE);
 	}
 
 	public static void validaEmail(String email) throws ExcessaoCadastro {
 		if (email != null && !email.isEmpty())
-			if (!Validadores.validaEmail(email))
-				throw new ExcessaoCadastro(Mensagens.CAD_CLI_CPF);
+			if (Validadores.validaEmail(email))
+				throw new ExcessaoCadastro(Mensagens.CAD_CONTATO_EMAIL);
 	}
 
 }
