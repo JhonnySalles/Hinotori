@@ -48,11 +48,11 @@ Utilizado no projeto o mavem para controle e gerenciamento das dependências.
 ## Meta
 
 Distribuido sobre a licença GPL. Veja o arquivo ``COPYING`` para maiores informações.
-[https://github.com/JhonnySalles/github-link](https://github.com/JhonnySalles/Hinotori/blob/Colab/Hinotori/COPYING)
+[https://github.com/JhonnySalles/github-link](https://github.com/JhonnySalles/Fenix/blob/Colab/Fenix/COPYING)
 
 ## Contribuindo
 
-1. Fork (<https://github.com/JhonnySalles/Hinotori/fork>)
+1. Fork (<https://github.com/JhonnySalles/Fenix/fork>)
 2. Crie sua branch de recurso (`git checkout -b feature/fooBar`)
 3. Faça o commit com suas alterações (`git commit -am 'Add some fooBar'`)
 4. Realize o push de sua branch (`git push origin feature/fooBar`)
@@ -62,8 +62,8 @@ Distribuido sobre a licença GPL. Veja o arquivo ``COPYING`` para maiores inform
 
 [travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/Hinotori/wiki
+[wiki]: https://github.com/yourname/Fenix/wiki
 
 ## Licença
 
-[GPL-3.0 License](https://github.com/JhonnySalles/Hinotori/blob/master/COPYING)
+[GPL-3.0 License](https://github.com/JhonnySalles/Fenix/blob/master/COPYING)
