@@ -1,4 +1,4 @@
-# Hinotori
+# Fênix
 > Sistema para lançamento e controle de vendas.
 
 <h4 align="center"> 

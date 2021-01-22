@@ -36,7 +36,7 @@
             </Label>
             <Line endX="36.0" layoutX="179.0" layoutY="168.0" startX="-54.0" />
             <Line endX="21.0" layoutX="177.0" layoutY="181.0" startX="-34.0" strokeWidth="0.5" />
-            <Label fx:id="lblLog1" layoutX="4.0" layoutY="337.0" text="\@ 2020-2021 Hinotori. All rights reserved" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
+            <Label layoutX="4.0" layoutY="337.0" text="\@ 2020-2021 Fênix. All rights reserved" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
                <font>
                   <Font size="10.0" />
                </font>

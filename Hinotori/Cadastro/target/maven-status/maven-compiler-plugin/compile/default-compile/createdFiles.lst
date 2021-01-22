@@ -3,6 +3,7 @@ cadastro\controller\cadastros\CadClienteController$2.class
 cadastro\utils\CadastroUtils.class
 cadastro\controller\cadastros\CadEmpresaController$2.class
 cadastro\controller\componente\GrupoComponenteController$2.class
+cadastro\controller\lista\ListaClienteController$3.class
 cadastro\controller\componente\SubGrupoComponenteController.class
 cadastro\controller\lista\ListaContatoController$2.class
 cadastro\controller\cadastros\CadProdutoController$1.class
@@ -55,6 +56,7 @@ cadastro\controller\cadastros\CadClienteController$3.class
 cadastro\controller\frame\PesquisaGenericaController.class
 cadastro\controller\pesquisas\PsqUsuarioController$1$1.class
 cadastro\controller\cadastros\CadClienteController.class
+cadastro\controller\lista\ListaClienteController$2.class
 cadastro\controller\pesquisas\PsqEmpresaController.class
 cadastro\controller\componente\GrupoComponenteController$1.class
 cadastro\controller\lista\ListaEnderecoController$4.class

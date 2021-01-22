@@ -6,8 +6,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>br.com.Hinotori</groupId>
-		<artifactId>Hinotori</artifactId>
+		<groupId>br.com.Fenix</groupId>
+		<artifactId>Fenix</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
@@ -31,14 +31,14 @@
 
 		<!-- Dependencia para o módulo comum -->
 		<dependency>
-			<groupId>br.com.Hinotori</groupId>
+			<groupId>br.com.Fenix</groupId>
 			<artifactId>Comum</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Dependencia para o funções do banco -->
 		<dependency>
-			<groupId>br.com.Hinotori</groupId>
+			<groupId>br.com.Fenix</groupId>
 			<artifactId>Servidor</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

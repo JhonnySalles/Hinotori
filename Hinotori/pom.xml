@@ -5,12 +5,12 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>br.com.Hinotori</groupId>
-	<artifactId>Hinotori</artifactId>
+	<groupId>br.com.Fenix</groupId>
+	<artifactId>Fenix</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Hinotori</name>
+	<name>Fenix</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
