@@ -221,11 +221,12 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 			entidade.setEnquadramento(cbEnquadramento.getSelectionModel().getSelectedItem());
 			entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 		} else
-			entidade = new Cliente(Long.valueOf(txtId.getText()), txtNome.getText(), txtRazaoSocial.getText(),
-					Utils.removeMascaras(txtCpf.getText()), Utils.removeMascaras(txtCnpj.getText()),
-					txtAreaObservacao.getText(), cbPessoaTipo.getSelectionModel().getSelectedItem(),
+			entidade = new Cliente(txtNome.getText(), txtRazaoSocial.getText(), Utils.removeMascaras(txtCpf.getText()),
+					Utils.removeMascaras(txtCnpj.getText()), txtAreaObservacao.getText(),
+					cbPessoaTipo.getSelectionModel().getSelectedItem(),
 					cbEnquadramento.getSelectionModel().getSelectedItem(),
-					cbSituacao.getSelectionModel().getSelectedItem());
+					cbSituacao.getSelectionModel().getSelectedItem(), 
+					entidade.getContatos(), entidade.getEnderecos());
 
 		return this;
 	}

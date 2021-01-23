@@ -3,6 +3,8 @@ package servidor.validations;
 import comum.model.constraints.Validadores;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.messages.Mensagens;
+import servidor.entities.Bairro;
+import servidor.entities.Cidade;
 import servidor.entities.Endereco;
 
 /**
@@ -30,7 +32,9 @@ public class ValidaEndereco {
 
 		validaCEP(endereco.getCep());
 
-		// validaCidade(endereco.getCidade());
+		validaBairro(endereco.getBairro());
+
+		validaCidade(endereco.getBairro().getCidade());
 
 		return true;
 	}
@@ -46,10 +50,14 @@ public class ValidaEndereco {
 				throw new ExcessaoCadastro(Mensagens.CAD_ENDERECO_CEP);
 	}
 
-	/*
-	 * public static void validaCidade(String cidade) throws ExcessaoCadastro { if
-	 * (cidade == null || cidade.isEmpty()) throw new
-	 * ExcessaoCadastro(Mensagens.CAD_CLI_CNPJ); }
-	 */
+	public static void validaCidade(Cidade cidade) throws ExcessaoCadastro {
+		if (cidade == null)
+			throw new ExcessaoCadastro(Mensagens.CAD_ENDERECO_CIDADE);
+	}
+
+	public static void validaBairro(Bairro bairro) throws ExcessaoCadastro {
+		if (bairro == null || bairro.getDescricao().isEmpty())
+			throw new ExcessaoCadastro(Mensagens.CAD_ENDERECO_BAIRRO);
+	}
 
 }

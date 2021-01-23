@@ -115,6 +115,7 @@ public class ListaClienteController extends ListaFormPadrao {
 	private void atualizar() {
 		ObservableList<Cliente> obsClientes = FXCollections.observableArrayList(service.listar());
 		tbClientes.setItems(obsClientes);
+		tbClientes.refresh();
 	}
 
 	private ListaClienteController linkaCelulas() {

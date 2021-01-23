@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -49,8 +50,14 @@ public class PersistenciaTest {
 			assertTrue(true);
 		} catch (ExcessaoBd e) {
 			e.printStackTrace();
-			fail("Erro ao iniciar o banco.");
+			fail("Erro ao iniciar a conexão com o banco.");
 		}
+	}
+
+	@AfterAll
+	public static void finalizaBd() {
+		ManagerFactory.closeConection();
+		assertTrue(true);
 	}
 
 	@Test

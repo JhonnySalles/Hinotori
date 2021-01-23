@@ -47,7 +47,7 @@ public class Run extends Application implements CredentialsConsumer {
 			ERRO_BD = true;
 		}
 		notifyPreloader(new ProgressNotification(0.50));
-		Thread.sleep(4000);
+		Thread.sleep(1000);
 		notifyPreloader(new ProgressNotification(1));
 	}
 

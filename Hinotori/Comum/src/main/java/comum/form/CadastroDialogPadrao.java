@@ -35,13 +35,19 @@ public abstract class CadastroDialogPadrao<T> implements Initializable {
 	protected abstract boolean validaCampos();
 
 	protected abstract void limpaCampos();
-	
+
 	public abstract void onClose();
 
 	public abstract CadastroDialogPadrao<T> atualizaEntidade();
-	
+
 	public Boolean edicao;
-	
+
+	protected T entidade;
+
+	public T getEntidade() {
+		return entidade;
+	}
+
 	/**
 	 * <p>
 	 * Função para pegar a instância do cadastro que está iniciado.

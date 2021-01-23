@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import com.jfoenix.controls.JFXAutoCompletePopup;
 import com.jfoenix.controls.JFXTextField;
@@ -37,6 +38,11 @@ import servidor.dao.services.GenericService;
  * <i>Entidade</i>.
  * </p>
  * 
+ * <p>
+ * Caso alguma entidade foi selecionada, pode-se a função <b>getEntidade</b> irá
+ * retornar ela, caso contrário retornará <i>null</i>.
+ * </p>
+ * 
  * @author Jhonny de Salles Noschang
  */
 public class PesquisaGenericaController<E extends Entidade> implements Initializable {
@@ -54,6 +60,10 @@ public class PesquisaGenericaController<E extends Entidade> implements Initializ
 
 	private JFXAutoCompletePopup<E> autocomplete;
 
+	public String getDescricao() {
+		return txtFraPesquisa.getText();
+	}
+
 	public E getEntidade() {
 		return entidade;
 	}
@@ -61,6 +71,10 @@ public class PesquisaGenericaController<E extends Entidade> implements Initializ
 	public void setEntidade(E entidade) {
 		this.entidade = entidade;
 		txtFraPesquisa.setText(entidade.getDescricao());
+	}
+	
+	public void limpaEntidade() {
+		this.entidade = null;
 	}
 
 	private static List<KeyCode> IGNORE_KEY_CODES = new ArrayList<>();
@@ -86,11 +100,33 @@ public class PesquisaGenericaController<E extends Entidade> implements Initializ
 		entidade = null;
 	}
 
+	private Consumer<Object> ACTION = null;
+
+	/*
+	 * <p> Função que fará a chamada de uma ação quando for selecionado algum item.
+	 * </p>
+	 * 
+	 * @param action Função a ser executada quando um item for selecionado.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public void setSelectionAction(Consumer<Object> action) {
+		this.ACTION = action;
+	}
+
+	/*
+	 * <p> Necessário a inicialização do serviço do frame, pois o service precisa de
+	 * uma classe para o hibernate conseguir pesquisar corretamente. </p>
+	 * 
+	 * @param service Serviço generico para pesquisas pelo hibernate.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
 	public void setService(GenericService<E> service) {
 		this.service = service;
 	}
 
-	public void setLabel(String label) {
+	public void setPromptText(String label) {
 		txtFraPesquisa.setPromptText(label);
 	}
 
@@ -102,6 +138,11 @@ public class PesquisaGenericaController<E extends Entidade> implements Initializ
 				autocomplete.hide();
 			else {
 				if (newValue.length() == 1) {
+					limpaEntidade();
+					if (service == null)
+						throw new IllegalStateException(
+								"Não foi iniciado o service no frame. Favor utilizar a função setService no método initialize.");
+
 					lista = service.sugestao(newValue);
 					autocomplete.getSuggestions().clear();
 					autocomplete.getSuggestions().addAll(lista);
@@ -139,7 +180,12 @@ public class PesquisaGenericaController<E extends Entidade> implements Initializ
 			}
 		});
 
-		autocomplete.setSelectionHandler(e -> setEntidade(e.getObject()));
+		autocomplete.setSelectionHandler(e -> {
+			setEntidade(e.getObject());
+
+			if (ACTION != null)
+				ACTION.accept(e.getObject());
+		});
 	}
 
 	@Override

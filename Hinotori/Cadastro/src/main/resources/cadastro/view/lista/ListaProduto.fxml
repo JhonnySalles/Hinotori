@@ -46,7 +46,7 @@
                               <TableView fx:id="tbProdutos" VBox.vgrow="ALWAYS">
                                  <columns>
                                     <TableColumn fx:id="tbClId" minWidth="40.0" prefWidth="43.0" text="Id" />
-                                    <TableColumn fx:id="tbClImagem" minWidth="50.0" prefWidth="60.0" text="Imagem" />
+                                    <TableColumn fx:id="tbClImagem" minWidth="60.0" prefWidth="60.0" text="Imagem" />
                                     <TableColumn fx:id="tbClDescricao" minWidth="100.0" prefWidth="150.0" text="Descrição" />
                                     <TableColumn fx:id="tbClCodigoBarras" minWidth="100.0" prefWidth="100.0" text="Cód. Barras" />
                                     <TableColumn fx:id="tbClUnidade" minWidth="60.0" prefWidth="60.0" text="Unidade" />
@@ -60,6 +60,9 @@
                                     <String fx:value="table-border" />
                                     <String fx:value="tb-PsqProduto" />
                                  </styleClass>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
                               </TableView>
                            </children>
                            <padding>

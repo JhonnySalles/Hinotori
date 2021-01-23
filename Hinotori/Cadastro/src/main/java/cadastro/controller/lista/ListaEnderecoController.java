@@ -16,7 +16,6 @@ import comum.model.utils.ViewGerenciador;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -65,7 +64,6 @@ public class ListaEnderecoController extends ListaFormPadrao {
 
 	private DialogCadEnderecoController controller;
 
-	private ObservableList<Endereco> obsEnderecos;
 	private Set<Endereco> enderecos;
 	private ToggleGroup tgGroup;
 
@@ -114,7 +112,7 @@ public class ListaEnderecoController extends ListaFormPadrao {
 				.loadDialog(DialogCadEnderecoController.getFxmlLocate(), spRoot, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
-						enderecos = controller.getEndereco();
+						enderecos.addAll(controller.getEndereco());
 						carregaGrid();
 					}
 				});
@@ -124,9 +122,7 @@ public class ListaEnderecoController extends ListaFormPadrao {
 	private void carregaGrid() {
 		if (enderecos == null)
 			return;
-
-		obsEnderecos = FXCollections.observableArrayList(this.enderecos);
-		tbEnderecos.setItems(obsEnderecos);
+		tbEnderecos.setItems(FXCollections.observableArrayList(this.enderecos));
 		tbEnderecos.refresh();
 	}
 
@@ -145,11 +141,10 @@ public class ListaEnderecoController extends ListaFormPadrao {
 			public ObservableValue<String> call(CellDataFeatures<Endereco, String> p) {
 				if (p.getValue() != null && p.getValue().getBairro() != null
 						&& p.getValue().getBairro().getCidade() != null) {
-					return new SimpleStringProperty(p.getValue().getBairro().getCidade().getNome() + "/"
+					return new SimpleStringProperty(p.getValue().getBairro().getCidade().getNome() + " - "
 							+ p.getValue().getBairro().getCidade().getEstado().getSigla());
-				} else {
+				} else
 					return new SimpleStringProperty("");
-				}
 			}
 		});
 

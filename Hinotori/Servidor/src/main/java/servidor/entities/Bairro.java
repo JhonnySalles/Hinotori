@@ -51,12 +51,18 @@ public class Bairro extends EntidadeBase implements Serializable, Entidade {
 
 	@Override
 	public String getDescricao() {
-		return nome;
+		return nome + (cidade != null ? " / " + cidade.getDescricao() : "");
 	}
 
 	public Bairro() {
 		super();
 		this.nome = "";
+	}
+	
+	public Bairro(String nome, Cidade cidade) {
+		super();
+		this.nome = nome;
+		this.cidade = cidade;
 	}
 
 	public Bairro(Long id, String nome, Cidade cidade) {

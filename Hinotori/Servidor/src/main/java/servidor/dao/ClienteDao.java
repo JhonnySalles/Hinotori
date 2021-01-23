@@ -1,5 +1,6 @@
 package servidor.dao;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import servidor.entities.Cliente;
@@ -12,21 +13,24 @@ public class ClienteDao extends Dao<Cliente> {
 
 	public Cliente existeCPF(String cpf) {
 		String query = String.format(SELECT_EXISTE_CFP, cpf);
-		TypedQuery<Cliente> booleanQuery = em.createQuery(query, Cliente.class);
-
-		if (booleanQuery.getFirstResult() == 1)
-			return booleanQuery.getSingleResult();
-
-		return null;
+		TypedQuery<Cliente> result = em.createQuery(query, Cliente.class);
+		result.setMaxResults(1);
+		try {
+			return result.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	public Cliente existeCNPJ(String cnpj) {
 		String query = String.format(SELECT_EXISTE_CNPJ, cnpj);
-		TypedQuery<Cliente> booleanQuery = em.createQuery(query, Cliente.class);
+		TypedQuery<Cliente> result = em.createQuery(query, Cliente.class);
+		result.setMaxResults(1);
+		try {
+			return result.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 
-		if (booleanQuery.getFirstResult() == 1)
-			return booleanQuery.getSingleResult();
-
-		return null;
 	};
 }

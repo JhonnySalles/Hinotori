@@ -140,7 +140,7 @@ public class Cliente extends Pessoa implements Entidade {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	@Override
 	public String getDescricao() {
 		return nomeSobrenome;
@@ -179,9 +179,9 @@ public class Cliente extends Pessoa implements Entidade {
 		this.contatos = new HashSet<>();
 	}
 
-	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
+	public Cliente(String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
 			TipoPessoa tipoPessoa, Enquadramento enquadramento, Situacao situacao) {
-		super(id, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), situacao);
+		super(nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), situacao);
 		this.razaoSocial = razaoSocial;
 		this.cpf = (cpf != null && !cpf.isEmpty()) ? cpf : null;
 		this.cnpj = (cnpj != null && !cnpj.isEmpty()) ? cnpj : null;
@@ -190,6 +190,34 @@ public class Cliente extends Pessoa implements Entidade {
 		this.enquadramento = enquadramento;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
+	}
+
+	public Cliente(String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
+			TipoPessoa tipoPessoa, Enquadramento enquadramento, Situacao situacao, Set<Contato> contatos,
+			Set<Endereco> enderecos) {
+		super(nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), situacao);
+		this.razaoSocial = razaoSocial;
+		this.cpf = (cpf != null && !cpf.isEmpty()) ? cpf : null;
+		this.cnpj = (cnpj != null && !cnpj.isEmpty()) ? cnpj : null;
+		this.observacao = observacao;
+		this.tipoPessoa = tipoPessoa;
+		this.enquadramento = enquadramento;
+		this.contatos = contatos;
+		this.enderecos = enderecos;
+	}
+
+	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
+			TipoPessoa tipoPessoa, Enquadramento enquadramento, Situacao situacao, Set<Contato> contatos,
+			Set<Endereco> enderecos) {
+		super(id, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), situacao);
+		this.razaoSocial = razaoSocial;
+		this.cpf = (cpf != null && !cpf.isEmpty()) ? cpf : null;
+		this.cnpj = (cnpj != null && !cnpj.isEmpty()) ? cnpj : null;
+		this.observacao = observacao;
+		this.tipoPessoa = tipoPessoa;
+		this.enquadramento = enquadramento;
+		this.enderecos = enderecos;
+		this.contatos = contatos;
 	}
 
 	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,

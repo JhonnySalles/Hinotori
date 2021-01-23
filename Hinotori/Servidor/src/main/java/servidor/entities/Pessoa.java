@@ -58,10 +58,18 @@ public class Pessoa extends EntidadeBase implements Serializable {
 
 	public Pessoa() {
 		super();
-		this.id = Long.valueOf(0);
 		this.nomeSobrenome = "";
 		this.dataCadastro = Timestamp.from(Instant.now());
 		this.dataUltimaAlteracao = Timestamp.from(Instant.now());
+	}
+	
+	public Pessoa(String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao,
+			Situacao situacao) {
+		super(0L);
+		this.nomeSobrenome = nomeSobrenome;
+		this.dataCadastro = dataCadastro;
+		this.dataUltimaAlteracao = dataUltimaAlteracao;
+		this.situacao = situacao;
 	}
 
 	public Pessoa(Long id) {
@@ -69,6 +77,14 @@ public class Pessoa extends EntidadeBase implements Serializable {
 		this.nomeSobrenome = "";
 		this.dataCadastro = Timestamp.from(Instant.now());
 		this.dataUltimaAlteracao = Timestamp.from(Instant.now());
+	}
+	
+	public Pessoa(String nomeSobrenome, Timestamp dataCadastro, Situacao situacao) {
+		super(0L);
+		this.nomeSobrenome = nomeSobrenome;
+		this.dataCadastro = dataCadastro;
+		this.dataUltimaAlteracao = Timestamp.from(Instant.now());
+		this.situacao = situacao;
 	}
 
 	public Pessoa(Long id, String nomeSobrenome, Timestamp dataCadastro, Situacao situacao) {

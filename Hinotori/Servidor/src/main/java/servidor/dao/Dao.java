@@ -49,6 +49,12 @@ public class Dao<E extends Entidade> {
 	}
 
 	public Dao<E> begin() {
+		//Caso estorou algum erro na transação, ao tentar abrir uma nova ele
+		//apresenta erro, neste caso se estiver aberta assume que algum problema ocorreu
+		//e efetua um rollback para a próxima transação.
+		if (em.getTransaction().isActive())
+			em.getTransaction().rollback();
+		
 		em.getTransaction().begin();
 		return this;
 	}

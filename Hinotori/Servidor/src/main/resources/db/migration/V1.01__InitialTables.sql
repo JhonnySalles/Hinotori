@@ -112,12 +112,12 @@ CREATE TABLE clientes (
 
 CREATE TABLE enderecos (
   Id bigint(20) NOT NULL AUTO_INCREMENT,
-  CEP varchar(10) DEFAULT NULL,
-  Complemento varchar(150) DEFAULT NULL,
-  DataCadastro datetime DEFAULT NULL,
   Endereco varchar(150) DEFAULT NULL,
   Numero varchar(10) DEFAULT NULL,
+  CEP varchar(10) DEFAULT NULL,
+  Complemento varchar(150) DEFAULT NULL,
   Observacao longtext,
+  DataCadastro datetime DEFAULT NULL,
   Padrao tinyint(1) DEFAULT NULL,
   Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   Tipo enum('RESIDENCIAL','COMERCIAL','COBRANCA','ENTREGA','OUTROS') DEFAULT NULL,

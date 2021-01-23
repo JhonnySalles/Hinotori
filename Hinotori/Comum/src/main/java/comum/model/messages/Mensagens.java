@@ -103,6 +103,8 @@ public class Mensagens {
 	// ERROS DO CADASTRO DE ENDERECO
 	public final static String CAD_ENDERECO_ENDERECO_VAZIO = "O ENDEREÇO não pode ser vazio.";
 	public final static String CAD_ENDERECO_CEP = "O CEP informado não é valido.";
+	public final static String CAD_ENDERECO_BAIRRO = "O BAIRRO não foi informado.";
+	public final static String CAD_ENDERECO_CIDADE = "A CIDADE informada não foi encontrada.";
 	
 	// ERROS DO CADASTRO DE GRUPO E SUB GRUPO
 	public final static String CAD_GRUPO_DESCRICAO_VAZIO = "A descrição não pode ser vazio.";

@@ -2,7 +2,9 @@ package servidor.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -27,7 +29,7 @@ public class Endereco extends EntidadeBase implements Serializable, Entidade {
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -656350964511989081L;
 
-	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY)
+	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinColumn(name = "IdBairro")
 	private Bairro bairro;
 
@@ -149,12 +151,26 @@ public class Endereco extends EntidadeBase implements Serializable, Entidade {
 		this.cep = "";
 		this.complemento = "";
 		this.observacao = "";
+		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
 		this.tipoEndereco = TipoEndereco.COBRANCA;
 		this.padrao.set(false);
 	}
 
+	public Endereco(String endereco, String numero, String cep, String complemento, String observacao,
+			TipoEndereco tipoEndereco, Situacao situacao) {
+		super(0L, situacao);
+		this.endereco = endereco;
+		this.numero = numero;
+		this.cep = cep;
+		this.complemento = complemento;
+		this.observacao = observacao;
+		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
+		this.padrao.set(false);
+		this.tipoEndereco = tipoEndereco;
+	}
+
 	public Endereco(Bairro bairro, String endereco, String numero, String cep, String complemento, String observacao,
-			Timestamp dataCadastro, TipoEndereco tipoEndereco, Situacao situacao, Boolean padrao) {
+			TipoEndereco tipoEndereco, Situacao situacao, Boolean padrao) {
 		super(0L, situacao);
 		this.bairro = bairro;
 		this.endereco = endereco;
@@ -162,7 +178,7 @@ public class Endereco extends EntidadeBase implements Serializable, Entidade {
 		this.cep = cep;
 		this.complemento = complemento;
 		this.observacao = observacao;
-		this.dataCadastro = dataCadastro;
+		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
 		this.padrao.set(padrao);
 		this.tipoEndereco = tipoEndereco;
 	}

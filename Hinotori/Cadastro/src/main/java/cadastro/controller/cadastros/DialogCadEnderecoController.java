@@ -23,7 +23,6 @@ import comum.model.notification.Notificacoes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import servidor.dao.services.GenericService;
 import servidor.entities.Bairro;
 import servidor.entities.Cidade;
@@ -70,13 +69,12 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 	private JFXTextArea txtAreaObservacao;
 
 	private Set<Endereco> enderecos;
-	private Endereco endereco;
 
 	@Override
 	public void onBtnConfirmarClick() {
 		atualizaEntidade();
 		if (validaCampos())
-			salvar(endereco);
+			salvar(entidade);
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 			enderecos = new HashSet<>();
 
 		if (enderecos.size() < 1)
-			endereco.setPadrao(true);
+			entidade.setPadrao(true);
 
 		if (!enderecos.contains(entidade))
 			enderecos.add(entidade);
@@ -109,28 +107,20 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 	@Override
 	protected boolean validaCampos() {
 		try {
-			return ValidaEndereco.validaEndereco(endereco);
+			return ValidaEndereco.validaEndereco(entidade);
 		} catch (ExcessaoCadastro e) {
 			e.printStackTrace();
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					e.getMessage().isEmpty() ? Mensagens.CADASTRO_SALVAR : e.getMessage());
 		}
 
-		try {
-			ValidaEndereco.validaEndereco(endereco.getEndereco());
-		} catch (ExcessaoCadastro e) {
-			txtEndereco.setUnFocusColor(Color.RED);
-		}
-
-		try {
-			ValidaEndereco.validaCEP(endereco.getCep());
-		} catch (ExcessaoCadastro e) {
-			txtCep.setUnFocusColor(Color.RED);
-		}
-
-		Notificacoes.notificacao(AlertType.INFORMATION, "Aviso", Mensagens.CADASTRO_SALVAR);
+		txtEndereco.validate();
+		frameCidadeController.txtFraPesquisa.validate();
+		frameBairroController.txtFraPesquisa.validate();
 
 		return false;
 	}
-	
+
 	@Override
 	public void onClose() {
 		// TODO Auto-generated method stub
@@ -142,29 +132,30 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 
 	@Override
 	public DialogCadEnderecoController atualizaEntidade() {
-		if (endereco == null)
-			endereco = new Endereco();
+		if (edicao) {
+			entidade.setEndereco(txtEndereco.getText());
+			entidade.setNumero(txtNumero.getText());
+			entidade.setComplemento(txtComplemento.getText());
+			entidade.setCep(txtCep.getText());
+			entidade.setObservacao(txtAreaObservacao.getText());
+			entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
+			entidade.setTipoEndereco(cbTipo.getSelectionModel().getSelectedItem());
+		} else
+			entidade = new Endereco(txtEndereco.getText(), txtNumero.getText(), txtCep.getText(),
+					txtComplemento.getText(), txtAreaObservacao.getText(), cbTipo.getSelectionModel().getSelectedItem(),
+					cbSituacao.getSelectionModel().getSelectedItem());
 
-		endereco.setEndereco(txtEndereco.getText());
-		endereco.setNumero(txtNumero.getText());
-		endereco.setComplemento(txtComplemento.getText());
-		endereco.setCep(txtCep.getText());
-		endereco.setObservacao(txtAreaObservacao.getText());
-		endereco.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-		endereco.setTipoEndereco(cbTipo.getSelectionModel().getSelectedItem());
-
-		/*if (frameBairroController.getId() != null)
-			endereco.setBairro(new BairroServices().pesquisar(Long.parseLong(frameBairroController.getId())));
-		else {
-			endereco.setBairro(new Bairro());
-			endereco.getBairro().setId(Long.valueOf(0));
-		}*/
+		if (frameBairroController.getEntidade() != null)
+			entidade.setBairro(frameBairroController.getEntidade());
+		else
+			entidade.setBairro(new Bairro(frameBairroController.getDescricao(), frameCidadeController.getEntidade()));
 
 		return this;
 	}
 
 	public void limpaCampos() {
-		endereco = new Endereco();
+		edicao = false;
+		entidade = new Endereco();
 		txtEndereco.setText("");
 		txtNumero.setText("");
 		txtComplemento.setText("");
@@ -178,8 +169,8 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 
 	public DialogCadEnderecoController atualizaTela(Endereco endereco) {
 		limpaCampos();
-
-		this.endereco = endereco;
+		edicao = true;
+		entidade = endereco;
 
 		if (!endereco.getEndereco().isEmpty())
 			txtEndereco.setText(endereco.getEndereco());
@@ -196,6 +187,13 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 		if (!endereco.getObservacao().isEmpty())
 			txtAreaObservacao.setText(endereco.getObservacao());
 
+		if (endereco.getBairro() != null) {
+			frameBairroController.setEntidade(endereco.getBairro());
+			frameBairroController.txtFraPesquisa.setText(endereco.getBairro().getNome());
+			if (endereco.getBairro().getCidade() != null)
+				frameCidadeController.setEntidade(endereco.getBairro().getCidade());
+		}
+
 		cbSituacao.getSelectionModel().select(endereco.getSituacao().ordinal());
 		cbTipo.getSelectionModel().select(endereco.getTipoEndereco().ordinal());
 
@@ -208,13 +206,20 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 	}
 
 	@Override
-	public synchronized void inicializa(URL location, ResourceBundle resources) {	
+	public synchronized void inicializa(URL location, ResourceBundle resources) {
 		frameCidadeController.setService(new GenericService<Cidade>(Cidade.class));
-		frameCidadeController.setLabel("Cidade");
-		
+		frameCidadeController.setPromptText("Cidade");
+		frameCidadeController.setSelectionAction((objeto) -> frameBairroController.limpaEntidade());
+
 		frameBairroController.setService(new GenericService<Bairro>(Bairro.class));
-		frameBairroController.setLabel("Bairro");
-		
+		frameBairroController.setPromptText("Bairro");
+		frameBairroController.setSelectionAction((objeto) -> {
+			if (objeto != null) {
+				frameCidadeController.setEntidade(((Bairro) objeto).getCidade());
+				frameCidadeController.txtFraPesquisa.validate();
+			}
+		});
+
 		Validadores.setTextFieldNotEmpty(frameCidadeController.txtFraPesquisa);
 		Validadores.setTextFieldNotEmpty(frameBairroController.txtFraPesquisa);
 		Validadores.setTextFieldNotEmpty(txtEndereco);
