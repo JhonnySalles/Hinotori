@@ -103,6 +103,11 @@ public class Contato extends Pessoa implements Entidade {
 		return padrao;
 	}
 
+	@Override
+	public String getDescricao() {
+		return nomeSobrenome;
+	}
+	
 	public Contato() {
 		super();
 		this.telefone = "";

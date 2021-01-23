@@ -33,5 +33,9 @@ public class GenericService<E extends Entidade> {
 	public List<E> listar() {
 		return service.listar();
 	}
+	
+	public List<E> sugestao(String texto) {
+		return service.suegestao(texto);
+	}
 
 }

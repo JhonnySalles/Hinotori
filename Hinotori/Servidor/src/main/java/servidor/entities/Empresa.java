@@ -9,13 +9,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -26,15 +21,11 @@ import comum.model.enums.Situacao;
 
 @Entity
 @Table(name = "empresas")
-public class Empresa implements Serializable, Entidade {
+public class Empresa extends EntidadeBase implements Serializable, Entidade {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
-	private static final long serialVersionUID = 5585811158914792352L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private static final long serialVersionUID = -721892433851496543L;
 
 	@Column(name = "NomeFantasia")
 	private String nomeFantasia;
@@ -47,10 +38,6 @@ public class Empresa implements Serializable, Entidade {
 
 	@Column(name = "DataCadastro")
 	private Timestamp dataCadastro;
-
-	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	@Enumerated(EnumType.STRING)
-	private Situacao situacao;
 
 	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdBairro")
@@ -67,14 +54,6 @@ public class Empresa implements Serializable, Entidade {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdEmpresa", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_IMAGEM"))
 	private Set<EmpresaImagem> imagens;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getNomeFantasia() {
 		return nomeFantasia;
@@ -106,14 +85,6 @@ public class Empresa implements Serializable, Entidade {
 
 	public void setDataCadastro(Timestamp dataCadastro) {
 		this.dataCadastro = dataCadastro;
-	}
-
-	public Situacao getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Situacao situacao) {
-		this.situacao = situacao;
 	}
 
 	public Bairro getBairro() {
@@ -160,23 +131,26 @@ public class Empresa implements Serializable, Entidade {
 		this.imagens.add(imagens);
 	}
 
+	@Override
+	public String getDescricao() {
+		return nomeFantasia;
+	}
+
 	public Empresa() {
-		this.id = Long.valueOf(0);
+		super();
 		this.nomeFantasia = "";
 		this.razaoSocial = "";
 		this.cnpj = "";
-		this.situacao = Situacao.ATIVO;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
 
 	public Empresa(Long id) {
-		this.id = id;
+		super(id);
 		this.nomeFantasia = "";
 		this.razaoSocial = "";
 		this.cnpj = "";
-		this.situacao = Situacao.ATIVO;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
@@ -184,12 +158,11 @@ public class Empresa implements Serializable, Entidade {
 
 	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
 			Situacao situacao) {
-		this.id = id;
+		super(id, situacao);
 		this.nomeFantasia = nomeFantasia;
 		this.razaoSocial = razaoSocial;
 		this.cnpj = cnpj;
 		this.dataCadastro = dataCadastro;
-		this.situacao = situacao;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
@@ -197,12 +170,11 @@ public class Empresa implements Serializable, Entidade {
 
 	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
 			Situacao situacao, Bairro bairro) {
-		this.id = id;
+		super(id, situacao);
 		this.nomeFantasia = nomeFantasia;
 		this.razaoSocial = razaoSocial;
 		this.cnpj = cnpj;
 		this.dataCadastro = dataCadastro;
-		this.situacao = situacao;
 		this.bairro = bairro;
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
@@ -212,12 +184,11 @@ public class Empresa implements Serializable, Entidade {
 	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
 			Situacao situacao, Bairro bairro, Set<Endereco> enderecos, Set<Contato> contatos,
 			Set<EmpresaImagem> imagens) {
-		this.id = id;
+		super(id, situacao);
 		this.nomeFantasia = nomeFantasia;
 		this.razaoSocial = razaoSocial;
 		this.cnpj = cnpj;
 		this.dataCadastro = dataCadastro;
-		this.situacao = situacao;
 		this.bairro = bairro;
 		this.enderecos = enderecos;
 		this.contatos = contatos;
@@ -227,10 +198,8 @@ public class Empresa implements Serializable, Entidade {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((cnpj == null) ? 0 : cnpj.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nomeFantasia == null) ? 0 : nomeFantasia.hashCode());
 		return result;
 	}
 
@@ -238,7 +207,7 @@ public class Empresa implements Serializable, Entidade {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -248,24 +217,13 @@ public class Empresa implements Serializable, Entidade {
 				return false;
 		} else if (!cnpj.equals(other.cnpj))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nomeFantasia == null) {
-			if (other.nomeFantasia != null)
-				return false;
-		} else if (!nomeFantasia.equals(other.nomeFantasia))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Empresa [id=" + id + ", nomeFantasia=" + nomeFantasia + ", razaoSocial=" + razaoSocial + ", cnpj="
-				+ cnpj + ", dataCadastro=" + dataCadastro + ", situacao=" + situacao + ", enderecos=" + enderecos
-				+ ", contatos=" + contatos + ", imagens=" + imagens + "]";
+		return "Empresa [nomeFantasia=" + nomeFantasia + ", razaoSocial=" + razaoSocial + ", cnpj=" + cnpj
+				+ ", dataCadastro=" + dataCadastro + ", bairro=" + bairro + ", enderecos=" + enderecos + ", contatos="
+				+ contatos + ", imagens=" + imagens + ", id=" + id + ", situacao=" + situacao + "]";
 	}
-
 }

@@ -24,6 +24,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import servidor.dao.services.GenericService;
+import servidor.entities.Bairro;
+import servidor.entities.Cidade;
 import servidor.entities.Endereco;
 import servidor.validations.ValidaEndereco;
 
@@ -51,7 +54,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 	private AnchorPane frameCidade;
 
 	@FXML
-	private PesquisaGenericaController frameCidadeController;
+	private PesquisaGenericaController<Cidade> frameCidadeController;
 
 	// O formato do arquivo incluido é um anchorpane "conforme criei a tela",
 	// o nome aqui será o mesmo que no id do fxml incluido.
@@ -61,7 +64,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 	// Para utilizar o controlador do frame incluido, basta colocar a descrição
 	// "Controller" na frente do id do fxml incluido conforme abaixo.
 	@FXML
-	private PesquisaGenericaController frameBairroController;
+	private PesquisaGenericaController<Bairro> frameBairroController;
 
 	@FXML
 	private JFXTextArea txtAreaObservacao;
@@ -205,7 +208,13 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 	}
 
 	@Override
-	public synchronized void inicializa(URL location, ResourceBundle resources) {
+	public synchronized void inicializa(URL location, ResourceBundle resources) {	
+		frameCidadeController.setService(new GenericService<Cidade>(Cidade.class));
+		frameCidadeController.setLabel("Cidade");
+		
+		frameBairroController.setService(new GenericService<Bairro>(Bairro.class));
+		frameBairroController.setLabel("Bairro");
+		
 		Validadores.setTextFieldNotEmpty(frameCidadeController.txtFraPesquisa);
 		Validadores.setTextFieldNotEmpty(frameBairroController.txtFraPesquisa);
 		Validadores.setTextFieldNotEmpty(txtEndereco);

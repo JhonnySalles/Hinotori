@@ -388,8 +388,6 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		cbSituacao.getSelectionModel().select(produto.getSituacao().ordinal());
 		cbTipoProduto.getSelectionModel().select(produto.getTipoProduto().ordinal());
 
-		if (frameNCMController.getId() != null)
-			frameNCMController.locateId(frameNCMController.getId());
 
 		if (produto.getImagens() != null && produto.getImagens().size() > 0) {
 			imagens = produto.getImagens();
@@ -398,15 +396,6 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		} else
 			setImagemPadrao();
 
-		return this;
-	}
-
-	private CadProdutoController setSqlFrame() {
-
-		frameNCMController.setPesquisa("NCM", "Descricao", "NCM, CONCAT(NCM, ' - ', Descricao) AS Descricao", "ncm", "",
-				"", "ORDER BY NCM");
-
-		frameNCMController.txtFraPesquisa.setPromptText("Pesquisa de ncm");
 		return this;
 	}
 

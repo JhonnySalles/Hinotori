@@ -3,10 +3,11 @@ package servidor.dao;
 import javax.persistence.TypedQuery;
 
 import servidor.entities.Estado;
+import servidor.entities.Pais;
 
 public class EstadoDao extends Dao<Estado> {
 
-	final static String SELECT_ESTADO = "SELECT u FROM " + Estado.TABELA
+	final static String SELECT_ESTADO = "SELECT u FROM " + Pais.class.getName()
 			+ " u WHERE UPPER(Nome) = '%s' OR UPPER(Sigla) = '%s'";
 
 	/**
@@ -16,9 +17,9 @@ public class EstadoDao extends Dao<Estado> {
 	 * 
 	 * @author Jhonny de Salles Noschang
 	 */
-	public Estado pesquisar(String nome_uf) {
-		TypedQuery<Estado> query = em
-				.createQuery(String.format(SELECT_ESTADO, nome_uf.toUpperCase(), nome_uf.toUpperCase()), Estado.class);
+	public Estado pesquisar(String nomeORuf) {
+		TypedQuery<Estado> query = em.createQuery(
+				String.format(SELECT_ESTADO, nomeORuf.toUpperCase(), nomeORuf.toUpperCase()), Estado.class);
 		return query.getSingleResult();
 	};
 

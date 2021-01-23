@@ -9,12 +9,14 @@ import javax.persistence.Table;
 import javax.persistence.TypedQuery;
 
 import comum.model.entities.Entidade;
+import servidor.annotation.Sugestao;
 import servidor.configuration.ManagerFactory;
 
 public class Dao<E extends Entidade> {
 
 	final static String DELETE = "UPDATE %s SET Situacao = 'EXCLUIDO' WHERE id = %d";
 	final static String SELECT = "SELECT e FROM %s e WHERE Situacao <> 'EXCLUIDO' ";
+	final static String SUGESTAO = "SELECT e FROM %s e WHERE Situacao <> 'EXCLUIDO' AND %s LIKE '%s' ";
 
 	protected EntityManager em;
 	private Class<E> classe;
@@ -32,7 +34,7 @@ public class Dao<E extends Entidade> {
 		// Para pesquisa deve-se retornar o nome da classe.
 		return classe.getName();
 	}
-	
+
 	private String getTabelaNome() {
 		return classe.getAnnotation(Table.class).name();
 	}
@@ -121,7 +123,7 @@ public class Dao<E extends Entidade> {
 	public List<E> listar(int primeiroRegistro, int registros) {
 		if (classe == null)
 			throw new UnsupportedOperationException("Classe nula, deve-se informar a classe no construtor.");
-		
+
 		em.clear();
 		TypedQuery<E> query = em.createQuery(String.format(SELECT, getTabela()), classe);
 
@@ -130,6 +132,21 @@ public class Dao<E extends Entidade> {
 
 		if (primeiroRegistro >= 0)
 			query.setFirstResult(primeiroRegistro);
+
+		return query.getResultList();
+	}
+
+	public List<E> suegestao(String texto) {
+		if (classe == null)
+			throw new UnsupportedOperationException("Classe nula, deve-se informar a classe no construtor.");
+
+		if (classe.getAnnotation(Sugestao.class) == null || classe.getAnnotation(Sugestao.class).campo().isEmpty())
+			throw new UnsupportedOperationException("Não informado a anotação de sugestão para filtrar a classe.");
+
+		em.clear();
+		String pesquisa = String.format(SUGESTAO, getTabela(), classe.getAnnotation(Sugestao.class).campo(),
+				texto + "%");
+		TypedQuery<E> query = em.createQuery(pesquisa, classe);
 
 		return query.getResultList();
 	}

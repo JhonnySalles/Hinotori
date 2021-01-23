@@ -5,11 +5,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
@@ -18,40 +13,23 @@ import comum.model.enums.Situacao;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Pessoa implements Serializable {
+public class Pessoa extends EntidadeBase implements Serializable {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
-	private static final long serialVersionUID = 7073086540992937921L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id")
-	private Long id;
+	private static final long serialVersionUID = -3970512560770719706L;
 
 	@Column(name = "NomeSobrenome", nullable = true, insertable = true, updatable = true, length = 250)
-	private String nomeSobrenome;
+	protected String nomeSobrenome;
 
 	@Column(name = "DataCadastro", columnDefinition = "datetime")
-	private Timestamp dataCadastro;
+	protected Timestamp dataCadastro;
 
 	@Column(name = "DataUltimaAlteracao", columnDefinition = "datetime")
-	private Timestamp dataUltimaAlteracao;
-
-	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	@Enumerated(EnumType.STRING)
-	private Situacao situacao;
+	protected Timestamp dataUltimaAlteracao;
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getNomeSobrenome() {
@@ -78,32 +56,23 @@ public class Pessoa implements Serializable {
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
 	}
 
-	public Situacao getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Situacao situacao) {
-		this.situacao = situacao;
-	}
-
 	public Pessoa() {
+		super();
 		this.id = Long.valueOf(0);
 		this.nomeSobrenome = "";
 		this.dataCadastro = Timestamp.from(Instant.now());
 		this.dataUltimaAlteracao = Timestamp.from(Instant.now());
-		this.situacao = Situacao.ATIVO;
 	}
-	
+
 	public Pessoa(Long id) {
-		this.id = id;
+		super(id);
 		this.nomeSobrenome = "";
 		this.dataCadastro = Timestamp.from(Instant.now());
 		this.dataUltimaAlteracao = Timestamp.from(Instant.now());
-		this.situacao = Situacao.ATIVO;
 	}
 
 	public Pessoa(Long id, String nomeSobrenome, Timestamp dataCadastro, Situacao situacao) {
-		this.id = id;
+		super(id);
 		this.nomeSobrenome = nomeSobrenome;
 		this.dataCadastro = dataCadastro;
 		this.dataUltimaAlteracao = Timestamp.from(Instant.now());
@@ -112,7 +81,7 @@ public class Pessoa implements Serializable {
 
 	public Pessoa(Long id, String nomeSobrenome, Timestamp dataCadastro, Timestamp dataUltimaAlteracao,
 			Situacao situacao) {
-		this.id = id;
+		super(id);
 		this.nomeSobrenome = nomeSobrenome;
 		this.dataCadastro = dataCadastro;
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
@@ -122,8 +91,8 @@ public class Pessoa implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((nomeSobrenome == null) ? 0 : nomeSobrenome.hashCode());
 		return result;
 	}
 
@@ -131,23 +100,22 @@ public class Pessoa implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (nomeSobrenome == null) {
+			if (other.nomeSobrenome != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!nomeSobrenome.equals(other.nomeSobrenome))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nomeSobrenome=" + nomeSobrenome + ", dataCadastro=" + dataCadastro
-				+ ", dataUltimaAlteracao=" + dataUltimaAlteracao + "]";
+		return "Pessoa [nomeSobrenome=" + nomeSobrenome + ", dataCadastro=" + dataCadastro + ", dataUltimaAlteracao="
+				+ dataUltimaAlteracao + ", id=" + id + ", situacao=" + situacao + "]";
 	}
-
 }

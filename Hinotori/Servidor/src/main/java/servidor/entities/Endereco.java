@@ -9,9 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,16 +21,11 @@ import servidor.converter.BooleanPropertyConverter;
 
 @Entity
 @Table(name = "enderecos")
-public class Endereco implements Serializable, Entidade {
+public class Endereco extends EntidadeBase implements Serializable, Entidade {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
-	private static final long serialVersionUID = -7050982212146652850L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id")
-	private Long id;
+	private static final long serialVersionUID = -656350964511989081L;
 
 	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdBairro")
@@ -61,24 +53,12 @@ public class Endereco implements Serializable, Entidade {
 	@Enumerated(EnumType.STRING)
 	private TipoEndereco tipoEndereco;
 
-	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')")
-	@Enumerated(EnumType.STRING)
-	private Situacao situacao;
-
 	@Column(name = "Padrao", columnDefinition = "tinyint(1)")
 	@Convert(converter = BooleanPropertyConverter.class)
 	private SimpleBooleanProperty padrao = new SimpleBooleanProperty(false);
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Bairro getBairro() {
@@ -137,15 +117,6 @@ public class Endereco implements Serializable, Entidade {
 		this.dataCadastro = dataCadastro;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public Enum<Situacao> getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Situacao situacao) {
-		this.situacao = situacao;
-	}
-
 	public TipoEndereco getTipoEndereco() {
 		return tipoEndereco;
 	}
@@ -166,21 +137,25 @@ public class Endereco implements Serializable, Entidade {
 		this.padrao.set(padrao);
 	}
 
+	@Override
+	public String getDescricao() {
+		return endereco + ", " + numero;
+	}
+
 	public Endereco() {
-		this.id = Long.valueOf(0);
+		super();
 		this.endereco = "";
 		this.numero = "";
 		this.cep = "";
 		this.complemento = "";
 		this.observacao = "";
 		this.tipoEndereco = TipoEndereco.COBRANCA;
-		this.situacao = Situacao.ATIVO;
 		this.padrao.set(false);
 	}
 
 	public Endereco(Bairro bairro, String endereco, String numero, String cep, String complemento, String observacao,
 			Timestamp dataCadastro, TipoEndereco tipoEndereco, Situacao situacao, Boolean padrao) {
-		this.id = Long.valueOf(0);
+		super(0L, situacao);
 		this.bairro = bairro;
 		this.endereco = endereco;
 		this.numero = numero;
@@ -190,12 +165,11 @@ public class Endereco implements Serializable, Entidade {
 		this.dataCadastro = dataCadastro;
 		this.padrao.set(padrao);
 		this.tipoEndereco = tipoEndereco;
-		this.situacao = situacao;
 	}
 
 	public Endereco(Long id, Bairro bairro, String endereco, String numero, String cep, String complemento,
 			String observacao, Timestamp dataCadastro, TipoEndereco tipoEndereco, Situacao situacao, Boolean padrao) {
-		this.id = id;
+		super(id, situacao);
 		this.bairro = bairro;
 		this.endereco = endereco;
 		this.numero = numero;
@@ -205,11 +179,10 @@ public class Endereco implements Serializable, Entidade {
 		this.dataCadastro = dataCadastro;
 		this.padrao.set(padrao);
 		this.tipoEndereco = tipoEndereco;
-		this.situacao = situacao;
 	}
 
 	public Endereco(Bairro bairro, String endereco, String cep) {
-		this.id = Long.valueOf(0);
+		super();
 		this.bairro = bairro;
 		this.endereco = endereco;
 		this.numero = "";
@@ -217,18 +190,16 @@ public class Endereco implements Serializable, Entidade {
 		this.complemento = "";
 		this.observacao = "";
 		this.tipoEndereco = TipoEndereco.COBRANCA;
-		this.situacao = Situacao.ATIVO;
 		this.padrao.set(false);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
 		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		result = prime * result + ((tipoEndereco == null) ? 0 : tipoEndereco.hashCode());
 		return result;
@@ -238,7 +209,7 @@ public class Endereco implements Serializable, Entidade {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -258,29 +229,21 @@ public class Endereco implements Serializable, Entidade {
 				return false;
 		} else if (!endereco.equals(other.endereco))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		if (numero == null) {
 			if (other.numero != null)
 				return false;
 		} else if (!numero.equals(other.numero))
 			return false;
-		if (tipoEndereco == null) {
-			if (other.tipoEndereco != null)
-				return false;
-		} else if (!tipoEndereco.equals(other.tipoEndereco))
+		if (tipoEndereco != other.tipoEndereco)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Endereco [id=" + id + ", bairro=" + bairro + ", endereco=" + endereco + ", numero=" + numero + ", cep="
-				+ cep + ", complemento=" + complemento + ", observacao=" + observacao + ", dataCadastro=" + dataCadastro
-				+ ", tipoEndereco=" + tipoEndereco + ", situacao=" + situacao + ", padrao=" + padrao + "]";
+		return "Endereco [bairro=" + bairro + ", endereco=" + endereco + ", numero=" + numero + ", cep=" + cep
+				+ ", complemento=" + complemento + ", observacao=" + observacao + ", dataCadastro=" + dataCadastro
+				+ ", tipoEndereco=" + tipoEndereco + ", padrao=" + padrao + ", id=" + id + ", situacao=" + situacao
+				+ "]";
 	}
-
 }

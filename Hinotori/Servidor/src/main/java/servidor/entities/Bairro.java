@@ -6,9 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -17,21 +14,16 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import comum.model.entities.Entidade;
+import servidor.annotation.Sugestao;
 
 @Entity
 @Table(name = "bairros")
-public class Bairro implements Serializable, Entidade {
+@Sugestao(campo = "Nome")
+public class Bairro extends EntidadeBase implements Serializable, Entidade {
 
-	final public static String TABELA = Bairro.class.getAnnotation(Table.class).name();
-	
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
-	private static final long serialVersionUID = 6407704915654886503L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id")
-	private Long id;
+	private static final long serialVersionUID = -4970755261542388345L;
 
 	@OneToOne(targetEntity = Cidade.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdCidade", nullable = false, foreignKey = @ForeignKey(name = "FK_BAIRRO_CIDADE"))
@@ -40,14 +32,6 @@ public class Bairro implements Serializable, Entidade {
 
 	@Column(name = "Nome", columnDefinition = "varchar(150)")
 	private String nome;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Cidade getCidade() {
 		return cidade;
@@ -65,25 +49,27 @@ public class Bairro implements Serializable, Entidade {
 		this.nome = nome;
 	}
 
+	@Override
+	public String getDescricao() {
+		return nome;
+	}
+
 	public Bairro() {
-		this.id = Long.valueOf(0);
+		super();
 		this.nome = "";
 	}
 
 	public Bairro(Long id, String nome, Cidade cidade) {
-		this.id = id;
+		super(id);
 		this.nome = nome;
 		this.cidade = cidade;
 	}
 
-	// Utilizado para que possamos comparar os objetos por conteúdo e não
-	// por referência de ponteiro.
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
@@ -92,7 +78,7 @@ public class Bairro implements Serializable, Entidade {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -101,11 +87,6 @@ public class Bairro implements Serializable, Entidade {
 			if (other.cidade != null)
 				return false;
 		} else if (!cidade.equals(other.cidade))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
@@ -117,7 +98,7 @@ public class Bairro implements Serializable, Entidade {
 
 	@Override
 	public String toString() {
-		return "Bairro [id=" + id + ", nome=" + nome + ", cidade=" + cidade + "]";
+		return "Bairro [cidade=" + cidade + ", nome=" + nome + ", id=" + id + ", situacao=" + situacao + "]";
 	}
 
 }

@@ -1,6 +1,7 @@
 CREATE TABLE paises (
   Id bigint(20) NOT NULL AUTO_INCREMENT,
   Nome varchar(150) DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT 'ATIVO',
   PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -9,6 +10,7 @@ CREATE TABLE estados (
   CodigoIBGE int(3) DEFAULT NULL,
   Nome varchar(150) DEFAULT NULL,
   Sigla varchar(2) DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT 'ATIVO',
   IdPais bigint(20) NOT NULL,
   PRIMARY KEY (Id),
   KEY FK_ESTADO_PAIS (IdPais),
@@ -19,7 +21,7 @@ CREATE TABLE cidades (
   Id bigint(20) NOT NULL AUTO_INCREMENT,
   Ddd varchar(3) DEFAULT NULL,
   Nome varchar(150) DEFAULT NULL,
-  Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT 'ATIVO',
   IdEstado bigint(20) NOT NULL,
   PRIMARY KEY (Id),
   KEY FK_CIDADE_ESTADO (IdEstado),
@@ -30,6 +32,7 @@ CREATE TABLE bairros (
   Id bigint(20) NOT NULL AUTO_INCREMENT,
   Nome varchar(150) DEFAULT NULL,
   IdCidade bigint(20) NOT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT 'ATIVO',
   PRIMARY KEY (Id),
   KEY FK_BAIRRO_CIDADE (IdCidade),
   CONSTRAINT FK_BAIRRO_CIDADE FOREIGN KEY (IdCidade) REFERENCES cidades (Id)
@@ -41,7 +44,7 @@ CREATE TABLE empresas (
   DataCadastro datetime DEFAULT NULL,
   NomeFantasia varchar(255) DEFAULT NULL,
   RazaoSocial varchar(255) DEFAULT NULL,
-  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   IdBairro bigint(20) DEFAULT NULL,
   PRIMARY KEY (id),
   KEY FK_EMPRESA_BAIRRO (IdBairro),
@@ -66,7 +69,7 @@ CREATE TABLE usuarios (
   DataCadastro datetime DEFAULT NULL,
   DataUltimaAlteracao datetime DEFAULT NULL,
   NomeSobrenome varchar(250) DEFAULT NULL,
-  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   Login char(20) DEFAULT NULL,
   Nivel enum('USUARIO','ADMINISTRADOR','TOTAL') DEFAULT NULL,
   Observacao longtext,
@@ -95,7 +98,7 @@ CREATE TABLE clientes (
   DataCadastro datetime DEFAULT NULL,
   DataUltimaAlteracao datetime DEFAULT NULL,
   NomeSobrenome varchar(250) DEFAULT NULL,
-  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   CNPJ varchar(15) DEFAULT NULL,
   CPF varchar(15) DEFAULT NULL,
   Enquadramento enum('CLIENTE','FORNECEDOR','AMBOS') DEFAULT NULL,
@@ -116,7 +119,7 @@ CREATE TABLE enderecos (
   Numero varchar(10) DEFAULT NULL,
   Observacao longtext,
   Padrao tinyint(1) DEFAULT NULL,
-  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   Tipo enum('RESIDENCIAL','COMERCIAL','COBRANCA','ENTREGA','OUTROS') DEFAULT NULL,
   IdBairro bigint(20) DEFAULT NULL,
   IdCliente bigint(20) DEFAULT NULL,
@@ -135,7 +138,7 @@ CREATE TABLE contatos (
   DataCadastro datetime DEFAULT NULL,
   DataUltimaAlteracao datetime DEFAULT NULL,
   NomeSobrenome varchar(250) DEFAULT NULL,
-  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   Celular varchar(15) DEFAULT NULL,
   Email varchar(250) DEFAULT NULL,
   Observacao longtext,
@@ -157,6 +160,7 @@ CREATE TABLE contatos (
 CREATE TABLE ncm (
   ncm varchar(8) NOT NULL,
   Descricao longtext,
+  Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT 'ATIVO',
   PRIMARY KEY (ncm)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -170,7 +174,7 @@ CREATE TABLE produtos (
   Marca varchar(250) DEFAULT NULL,
   Observacao longtext,
   Peso double DEFAULT NULL,
-  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUIDO') DEFAULT 'ATIVO',
   TipoProduto enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL') DEFAULT NULL,
   Unidade varchar(4) DEFAULT NULL,
   Volume double DEFAULT NULL,
@@ -197,7 +201,7 @@ CREATE TABLE grupos (
   Id bigint(20) NOT NULL AUTO_INCREMENT,
   Cor varchar(10) DEFAULT NULL,
   Descricao varchar(250) DEFAULT NULL,
-  Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT NULL,
+  Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT 'ATIVO',
   PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

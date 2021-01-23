@@ -104,6 +104,11 @@ public class Usuario extends Pessoa implements Entidade {
 		return serialVersionUID;
 	}
 
+	@Override
+	public String getDescricao() {
+		return nomeSobrenome;
+	}
+
 	public Usuario() {
 		super();
 		this.login = "";

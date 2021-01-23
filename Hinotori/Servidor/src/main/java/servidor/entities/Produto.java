@@ -13,9 +13,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -27,16 +24,11 @@ import comum.model.enums.TipoProduto;
 
 @Entity
 @Table(name = "produtos")
-public class Produto implements Serializable, Entidade {
+public class Produto extends EntidadeBase implements Serializable, Entidade {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
-	private static final long serialVersionUID = -2972348557775718310L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
+	private static final long serialVersionUID = 1736586839536047759L;
 
 	private Long idGrupo;
 
@@ -71,10 +63,6 @@ public class Produto implements Serializable, Entidade {
 	@Enumerated(EnumType.STRING)
 	private TipoProduto tipoProduto;
 
-	@Column(name = "Situacao", columnDefinition = "enum('ATIVO','INATIVO','EXCLUIDO')", length = 10)
-	@Enumerated(EnumType.STRING)
-	private Situacao situacao;
-
 	@OneToOne(targetEntity = Ncm.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "NCM", nullable = true, foreignKey = @ForeignKey(name = "FK_PRODUTO_NCM"))
 	private Ncm ncm;
@@ -85,14 +73,6 @@ public class Produto implements Serializable, Entidade {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Long getIdGrupo() {
@@ -183,14 +163,6 @@ public class Produto implements Serializable, Entidade {
 		this.volume = volume;
 	}
 
-	public Situacao getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Situacao situacao) {
-		this.situacao = situacao;
-	}
-
 	public Ncm getNcm() {
 		return ncm;
 	}
@@ -212,7 +184,7 @@ public class Produto implements Serializable, Entidade {
 	}
 
 	public Produto() {
-		this.id = Long.valueOf(0);
+		super();
 		this.descricao = "";
 		this.observacao = "";
 		this.codigoBarras = "";
@@ -227,7 +199,7 @@ public class Produto implements Serializable, Entidade {
 	}
 
 	public Produto(Long id) {
-		this.id = id;
+		super(id);
 		this.descricao = "";
 		this.observacao = "";
 		this.codigoBarras = "";
@@ -244,7 +216,7 @@ public class Produto implements Serializable, Entidade {
 	public Produto(String descricao, String observacao, String codigoBarras, String unidade, String marca, Double peso,
 			Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao, TipoProduto tipoProduto,
 			Situacao situacao) {
-		this.id = Long.valueOf(0);
+		super(0L, situacao);
 		this.descricao = descricao;
 		this.observacao = observacao;
 		this.codigoBarras = codigoBarras;
@@ -255,14 +227,13 @@ public class Produto implements Serializable, Entidade {
 		this.dataCadastro = dataCadastro;
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
 		this.tipoProduto = tipoProduto;
-		this.situacao = situacao;
 		this.imagens = new HashSet<>();
 	}
 
 	public Produto(Long id, Long idGrupo, String descricao, String observacao, String codigoBarras, String unidade,
 			String marca, Double peso, Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao,
 			TipoProduto tipoProduto, Situacao situacao) {
-		this.id = id;
+		super(id, situacao);
 		this.idGrupo = idGrupo;
 		this.descricao = descricao;
 		this.observacao = observacao;
@@ -274,14 +245,13 @@ public class Produto implements Serializable, Entidade {
 		this.dataCadastro = dataCadastro;
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
 		this.tipoProduto = tipoProduto;
-		this.situacao = situacao;
 		this.imagens = new HashSet<>();
 	}
 
 	public Produto(Long id, Long idGrupo, String descricao, String observacao, String codigoBarras, String unidade,
 			String marca, Double peso, Double volume, Timestamp dataCadastro, Timestamp dataUltimaAlteracao,
 			TipoProduto tipoProduto, Situacao situacao, Ncm ncm, Set<ProdutoImagem> imagens) {
-		this.id = id;
+		super(id, situacao);
 		this.idGrupo = idGrupo;
 		this.descricao = descricao;
 		this.observacao = observacao;
@@ -293,41 +263,16 @@ public class Produto implements Serializable, Entidade {
 		this.dataCadastro = dataCadastro;
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
 		this.tipoProduto = tipoProduto;
-		this.situacao = situacao;
 		this.ncm = ncm;
 		this.imagens = imagens;
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Produto other = (Produto) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
 	public String toString() {
-		return "Produto [id=" + id + ", descricao=" + descricao + ", observacao=" + observacao + ", codigoBarras="
-				+ codigoBarras + ", unidade=" + unidade + ", marca=" + marca + ", dataCadastro=" + dataCadastro
-				+ ", tipoProduto=" + tipoProduto + ", peso=" + peso + ", situacao=" + situacao + "]";
+		return "Produto [idGrupo=" + idGrupo + ", descricao=" + descricao + ", codigoBarras=" + codigoBarras
+				+ ", marca=" + marca + ", unidade=" + unidade + ", peso=" + peso + ", volume=" + volume
+				+ ", observacao=" + observacao + ", dataCadastro=" + dataCadastro + ", dataUltimaAlteracao="
+				+ dataUltimaAlteracao + ", tipoProduto=" + tipoProduto + ", ncm=" + ncm + ", imagens=" + imagens
+				+ ", id=" + id + ", situacao=" + situacao + "]";
 	}
-
 }

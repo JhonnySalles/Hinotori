@@ -140,6 +140,11 @@ public class Cliente extends Pessoa implements Entidade {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	@Override
+	public String getDescricao() {
+		return nomeSobrenome;
+	}
 
 	public Cliente() {
 		super();
