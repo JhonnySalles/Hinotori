@@ -264,18 +264,21 @@ public class Mascaras {
 		Mascaras.maxField(textField, 14);
 		textField.lengthProperty().addListener((observableValue, number, number2) -> {
 			Platform.runLater(() -> {
-				String value = textField.getText();
-				value = value.replaceAll("[^0-9]", "");
-				value = value.replaceFirst("(\\d{3})(\\d)", "$1.$2");
-				value = value.replaceFirst("(\\d{3})(\\d)", "$1.$2");
-				value = value.replaceFirst("(\\d{3})(\\d)", "$1-$2");
-				textField.setText(value);
+				textField.setText(formatCpf(textField.getText()));
 
-				if (textField.getText().length() != 0) {
+				if (textField.getText().length() != 0)
 					textField.positionCaret(textField.getText().length());
-				}
 			});
 		});
+	}
+
+	public static String formatCpf(String cpf) {
+		String value = cpf;
+		value = value.replaceAll("[^0-9]", "");
+		value = value.replaceFirst("(\\d{3})(\\d)", "$1.$2");
+		value = value.replaceFirst("(\\d{3})(\\d)", "$1.$2");
+		value = value.replaceFirst("(\\d{3})(\\d)", "$1-$2");
+		return value;
 	}
 
 	/**
@@ -296,19 +299,22 @@ public class Mascaras {
 		Mascaras.maxField(textField, 18);
 		textField.lengthProperty().addListener((observableValue, number, number2) -> {
 			Platform.runLater(() -> {
-				String value = textField.getText();
-				value = value.replaceAll("[^0-9]", "");
-				value = value.replaceFirst("(\\d{2})(\\d)", "$1.$2");
-				value = value.replaceFirst("(\\d{3})(\\d)", "$1.$2");
-				value = value.replaceFirst("(\\d{3})(\\d)", "$1/$2");
-				value = value.replaceFirst("(\\d{4})(\\d)", "$1-$2");
-				textField.setText(value);
+				textField.setText(formatCnpj(textField.getText()));
 
-				if (textField.getText().length() != 0) {
+				if (textField.getText().length() != 0)
 					textField.positionCaret(textField.getText().length());
-				}
 			});
 		});
+	}
+
+	public static String formatCnpj(String cnpj) {
+		String value = cnpj;
+		value = value.replaceAll("[^0-9]", "");
+		value = value.replaceFirst("(\\d{2})(\\d)", "$1.$2");
+		value = value.replaceFirst("(\\d{3})(\\d)", "$1.$2");
+		value = value.replaceFirst("(\\d{3})(\\d)", "$1/$2");
+		value = value.replaceFirst("(\\d{4})(\\d)", "$1-$2");
+		return value;
 	}
 
 	/**

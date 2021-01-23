@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.Table;
 import javax.persistence.TypedQuery;
 
 import comum.model.entities.Entidade;
@@ -13,7 +14,7 @@ import servidor.configuration.ManagerFactory;
 public class Dao<E extends Entidade> {
 
 	final static String DELETE = "UPDATE %s SET Situacao = 'EXCLUIDO' WHERE id = %d";
-	final static String SELECT = "SELECT e FROM %s e ";
+	final static String SELECT = "SELECT e FROM %s e WHERE Situacao <> 'EXCLUIDO' ";
 
 	protected EntityManager em;
 	private Class<E> classe;
@@ -30,6 +31,10 @@ public class Dao<E extends Entidade> {
 	private String getTabela() {
 		// Para pesquisa deve-se retornar o nome da classe.
 		return classe.getName();
+	}
+	
+	private String getTabelaNome() {
+		return classe.getAnnotation(Table.class).name();
 	}
 
 	public Dao() {
@@ -71,7 +76,7 @@ public class Dao<E extends Entidade> {
 	}
 
 	public Dao<E> remover(Long id) {
-		Query querry = em.createNativeQuery("BEGIN " + String.format(DELETE, getTabela(), id) + " END;");
+		Query querry = em.createNativeQuery(String.format(DELETE, getTabelaNome(), id));
 		querry.executeUpdate();
 		return this;
 	}

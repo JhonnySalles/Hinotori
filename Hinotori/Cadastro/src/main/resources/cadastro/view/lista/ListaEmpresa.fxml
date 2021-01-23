@@ -50,7 +50,7 @@
                                     <TableColumn fx:id="tbClRazaoSocial" minWidth="100.0" prefWidth="150.0" text="Razão Social" />
                                     <TableColumn fx:id="tbClNomeFantasia" minWidth="100.0" prefWidth="150.0" text="Nome Fantasia" />
                                     <TableColumn fx:id="tbClCnpj" minWidth="100.0" prefWidth="120.0" text="CNPJ" />
-                                    <TableColumn fx:id="tbClDataCadastro" minWidth="100.0" prefWidth="100.0" text="Data cadastro" />
+                                    <TableColumn fx:id="tbClDataCadastro" minWidth="100.0" prefWidth="150.0" text="Data cadastro" />
                                     <TableColumn fx:id="tbClContatoPadrao" minWidth="100.0" prefWidth="100.0" text="Contato Padrão" />
                                     <TableColumn fx:id="tbClEnderecoPadrao" minWidth="200.0" prefWidth="200.0" text="Endereço padrão" />
                                  </columns>

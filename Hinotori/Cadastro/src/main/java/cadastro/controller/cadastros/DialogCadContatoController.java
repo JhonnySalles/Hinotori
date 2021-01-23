@@ -69,7 +69,7 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 
 		if (contatos.isEmpty())
 			entidade.setPadrao(true);
-		
+
 		if (!contatos.contains(entidade))
 			contatos.add(entidade);
 
@@ -91,13 +91,25 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 		} catch (ExcessaoCadastro e) {
 			e.printStackTrace();
 			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_SALVAR + "\n" + e.getMessage());
+					e.getMessage().isEmpty() ? Mensagens.CADASTRO_SALVAR : e.getMessage());
 		}
 
 		txtNome.validate();
-		txtCelular.validate();
-		txtTelefone.validate();
-		txtEmail.validate();
+
+		if (txtCelular.getText().isEmpty() && txtTelefone.getText().isEmpty() && txtEmail.getText().isEmpty()) {
+			txtCelular.validate();
+			txtTelefone.validate();
+			txtEmail.validate();
+		} else {
+			if (!txtCelular.getText().isEmpty())
+				txtCelular.validate();
+
+			if (!txtTelefone.getText().isEmpty())
+				txtTelefone.validate();
+
+			if (!txtEmail.getText().isEmpty())
+				txtEmail.validate();
+		}
 
 		return false;
 	}
@@ -116,7 +128,7 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 		txtAreaObservacao.setText("");
 		cbTipo.getSelectionModel().selectFirst();
 		cbSituacao.getSelectionModel().selectFirst();
-		
+
 		txtNome.resetValidation();
 		txtCelular.resetValidation();
 		txtTelefone.resetValidation();
@@ -187,6 +199,7 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 		TecladoUtils.onEnterConfigureTab(cbSituacao);
 
 		cbSituacao.getItems().addAll(Situacao.values());
+		cbSituacao.getItems().remove(Situacao.EXCLUIDO);
 		cbTipo.getItems().addAll(TipoContato.values());
 
 		limpaCampos();

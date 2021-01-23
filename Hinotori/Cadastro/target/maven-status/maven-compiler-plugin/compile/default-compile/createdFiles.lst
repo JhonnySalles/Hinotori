@@ -1,3 +1,4 @@
+cadastro\controller\lista\ListaClienteController$6.class
 cadastro\controller\lista\ListaEmpresaController.class
 cadastro\controller\cadastros\CadClienteController$2.class
 cadastro\utils\CadastroUtils.class
@@ -20,6 +21,7 @@ cadastro\controller\lista\ListaContatoController.class
 cadastro\controller\lista\ListaGrupoSubGrupoController$4.class
 module-info.class
 cadastro\controller\pesquisas\PsqClienteController.class
+cadastro\controller\lista\ListaClienteController$5.class
 cadastro\controller\cadastros\CadClienteController$1.class
 cadastro\controller\frame\PesquisaGenericaController$1.class
 cadastro\controller\cadastros\CadUsuarioController$1.class
@@ -39,6 +41,7 @@ cadastro\controller\lista\ListaGrupoSubGrupoController.class
 cadastro\controller\pesquisas\PsqProdutoController.class
 cadastro\controller\lista\ListaGrupoSubGrupoController$3.class
 cadastro\controller\cadastros\DialogCadContatoController.class
+cadastro\controller\lista\ListaClienteController$4.class
 cadastro\controller\lista\ListaProdutoController.class
 cadastro\controller\cadastros\DialogCadGrupoSubGrupoController.class
 cadastro\controller\lista\ListaUsuarioController$1.class

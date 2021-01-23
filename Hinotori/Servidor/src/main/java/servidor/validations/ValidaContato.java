@@ -59,7 +59,7 @@ public class ValidaContato {
 
 	public static void validaEmail(String email) throws ExcessaoCadastro {
 		if (email != null && !email.isEmpty())
-			if (Validadores.validaEmail(email))
+			if (!Validadores.validaEmail(email))
 				throw new ExcessaoCadastro(Mensagens.CAD_CONTATO_EMAIL);
 	}
 

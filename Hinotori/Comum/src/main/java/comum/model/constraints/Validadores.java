@@ -185,14 +185,14 @@ public class Validadores {
 
 	public static Boolean validaCep(final String texto) {
 		if (texto.isEmpty())
-			return true;
+			return false;
 
 		return Pattern.compile(REGEX_CEP).matcher(texto).matches();
 	}
 
 	public static Boolean validaEmail(final String texto) {
 		if (texto.isEmpty())
-			return true;
+			return false;
 
 		return Pattern.compile(REGEX_EMAIL).matcher(texto).matches();
 	}
@@ -206,7 +206,7 @@ public class Validadores {
 
 	public static Boolean validaTelefoneInternacional(final String texto) {
 		if (texto.isEmpty())
-			return true;
+			return false;
 
 		return Pattern.compile(REGEX_TELEFONE_INTERNACIONAL).matcher(texto).matches();
 	}

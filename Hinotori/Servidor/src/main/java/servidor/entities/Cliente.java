@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Where;
+
 import comum.model.entities.Entidade;
 import comum.model.enums.Enquadramento;
 import comum.model.enums.Situacao;
@@ -55,10 +57,12 @@ public class Cliente extends Pessoa implements Entidade {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdCliente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CLIENTE_CONTATO"))
+	@Where(clause = "Situacao <> 'EXCLUIDO'")
 	private Set<Contato> contatos = new HashSet<Contato>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdCliente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CLIENTE_ENDERECO"))
+	@Where(clause = "Situacao <> 'EXCLUIDO'")
 	private Set<Endereco> enderecos = new HashSet<Endereco>();
 
 	public String getRazaoSocial() {
@@ -74,7 +78,7 @@ public class Cliente extends Pessoa implements Entidade {
 	}
 
 	public void setCpf(String cpf) {
-		this.cpf = cpf;
+		this.cpf = (cpf != null && !cpf.isEmpty()) ? cpf : null;
 	}
 
 	public String getCnpj() {
@@ -82,7 +86,7 @@ public class Cliente extends Pessoa implements Entidade {
 	}
 
 	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+		this.cnpj = (cnpj != null && !cnpj.isEmpty()) ? cnpj : null;
 	}
 
 	public String getObservacao() {

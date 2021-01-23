@@ -1,19 +1,25 @@
 package cadastro.controller.lista;
 
 import java.net.URL;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 import cadastro.controller.cadastros.CadClienteController;
 import comum.form.ListaFormPadrao;
+import comum.model.alerts.AlertasPopup;
 import comum.model.enums.Situacao;
+import comum.model.mask.Mascaras;
+import comum.model.notification.Notificacoes;
 import comum.model.utils.ViewGerenciador;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -39,16 +45,13 @@ public class ListaClienteController extends ListaFormPadrao {
 	private TableColumn<Cliente, String> tbClCnpj;
 
 	@FXML
-	private TableColumn<Cliente, String> tbClDataCadastro;
+	private TableColumn<Cliente, Timestamp> tbClDataCadastro;
 
 	@FXML
 	private TableColumn<Cliente, String> tbClContatoPadrao;
 
 	@FXML
 	private TableColumn<Cliente, String> tbClEnderecoPadrao;
-
-	private ObservableList<Cliente> obsClientes;
-	private FilteredList<Cliente> filteredData;
 
 	final PseudoClass excluido = PseudoClass.getPseudoClass("excluido");
 
@@ -72,7 +75,16 @@ public class ListaClienteController extends ListaFormPadrao {
 
 	@Override
 	public void onBtnExcluirClick() {
-
+		if (tbClientes.getItems().isEmpty())
+			Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item",
+					"Não existe nenhum cliente cadastrado.");
+		else if (tbClientes.getSelectionModel().isEmpty())
+			Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item", "Nenhum item selecionado.");
+		else if (AlertasPopup.ConfirmacaoModal(spRoot, apContainer, "Exclusão",
+				"Deseja realmente excluir o cliente?")) {
+			service.deletar(tbClientes.getSelectionModel().getSelectedItem().getId());
+			atualizar();
+		}
 	}
 
 	@Override
@@ -101,9 +113,8 @@ public class ListaClienteController extends ListaFormPadrao {
 	}
 
 	private void atualizar() {
-		obsClientes = FXCollections.observableArrayList(service.listar());
+		ObservableList<Cliente> obsClientes = FXCollections.observableArrayList(service.listar());
 		tbClientes.setItems(obsClientes);
-		tbClientes.refresh();
 	}
 
 	private ListaClienteController linkaCelulas() {
@@ -116,6 +127,53 @@ public class ListaClienteController extends ListaFormPadrao {
 		// PropertyValueFactory<>("tipoContato"));
 		// tbClEnderecoPadrao.setCellValueFactory(new
 		// PropertyValueFactory<>("tipoContato"));
+
+		tbClCpf.setCellFactory(column -> {
+			TableCell<Cliente, String> cell = new TableCell<Cliente, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null)
+						setText(null);
+					else
+						setText(Mascaras.formatCpf(item));
+				}
+			};
+
+			return cell;
+		});
+
+		tbClCnpj.setCellFactory(column -> {
+			TableCell<Cliente, String> cell = new TableCell<Cliente, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null)
+						setText(null);
+					else
+						setText(Mascaras.formatCnpj(item));
+				}
+			};
+
+			return cell;
+		});
+
+		tbClDataCadastro.setCellFactory(column -> {
+			TableCell<Cliente, Timestamp> cell = new TableCell<Cliente, Timestamp>() {
+				private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+
+				@Override
+				protected void updateItem(Timestamp item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty)
+						setText(null);
+					else
+						setText(format.format(item));
+				}
+			};
+
+			return cell;
+		});
 
 		tbClientes.setRowFactory(tv -> {
 			TableRow<Cliente> row = new TableRow<>() {
@@ -145,9 +203,23 @@ public class ListaClienteController extends ListaFormPadrao {
 		return this;
 	}
 
+	private void filtrarLista(String nome) {
+		tbClientes.getItems().filtered(cliente -> {
+			if (nome == null || nome.isEmpty())
+				return true;
+
+			String lowerCaseFilter = nome.toLowerCase();
+			if (cliente.getNomeSobrenome().toLowerCase().contains(lowerCaseFilter))
+				return true;
+			else
+				return false;
+		});
+	}
+
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
 		linkaCelulas();
+		txtPesquisa.textProperty().addListener((observable, oldValue, newValue) -> filtrarLista(newValue));
 	}
 
 	public static URL getFxmlLocate() {

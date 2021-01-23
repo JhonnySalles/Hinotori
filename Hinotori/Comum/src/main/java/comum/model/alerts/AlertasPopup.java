@@ -205,7 +205,9 @@ public class AlertasPopup {
 
 		JFXDialogLayout layout = new JFXDialogLayout();
 		layout.setHeading(new Label(titulo));
-		layout.setBody(CONFIRMA, new VBox(new Label(texto)));
+		HBox conteudo = new HBox(imagem, new VBox(new Label(texto)));
+		conteudo.setSpacing(10);
+		layout.setBody(conteudo);
 		layout.getStylesheets()
 				.add(AlertasPopup.class.getResource("/comum/css/White_Alertas.css").toExternalForm());
 
@@ -237,9 +239,8 @@ public class AlertasPopup {
 			return null;
 		});
 		Optional<String> result = alert.showAndWait();
-		if (result.isPresent()) {
+		if (result.isPresent())
 			alert.setResult(null);
-		}
 
 		return RESULTADO;
 	}

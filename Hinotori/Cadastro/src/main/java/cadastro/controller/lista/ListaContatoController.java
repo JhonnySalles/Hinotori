@@ -78,20 +78,23 @@ public class ListaContatoController extends ListaFormPadrao {
 
 	@Override
 	public void onBtnExcluirClick() {
-		if (contatos.isEmpty() || tbContatos.getSelectionModel().isEmpty())
-			if (contatos.isEmpty())
-				Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item",
-						"Não existe nenhum endereço cadastrado.");
-			else
-				Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item",
-						"Não foi possível apagar o endereço, nenhum item selecionado.");
-		else
+		if (contatos.isEmpty())
+			Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item",
+					"Não existe nenhum endereço cadastrado.");
+		else if (tbContatos.getSelectionModel().isEmpty())
+			Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível apagar item", "Nenhum item selecionado.");
+		else {
 			tbContatos.getSelectionModel().getSelectedItem().setSituacao(Situacao.EXCLUIDO);
+			tbContatos.refresh();
+		}
 	}
 
 	@Override
 	public void onBtnEditarClick() {
+		if (tbContatos.getSelectionModel().getSelectedItem() == null)
+			return;
 
+		abreTelaContato(tbContatos.getSelectionModel().getSelectedItem());
 	}
 
 	@Override
@@ -120,7 +123,7 @@ public class ListaContatoController extends ListaFormPadrao {
 				spRoot, new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent t) {
-						contatos = controller.getContato();
+						contatos.addAll(controller.getContato());
 						carregaGrid();
 					}
 				});
@@ -202,7 +205,7 @@ public class ListaContatoController extends ListaFormPadrao {
 			};
 
 			row.setOnMouseClicked(event -> {
-				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+				if (event.getClickCount() == 3 && (!row.isEmpty())) {
 					abreTelaContato(row.getItem());
 				}
 			});

@@ -40,9 +40,6 @@ import servidor.validations.ValidaCliente;
 
 public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
-	// private final static Logger LOGGER =
-	// Logger.getLogger(CadUsuarioController.class.getName());
-
 	@FXML
 	private JFXTextField txtId;
 
@@ -175,20 +172,22 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 		} catch (ExcessaoCadastro e) {
 			e.printStackTrace();
 			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
-					Mensagens.CADASTRO_SALVAR + "\n" + e.getMessage());
+					e.getMessage().isEmpty() ? Mensagens.CADASTRO_SALVAR : e.getMessage());
 		}
 
 		txtNome.validate();
 
-		if (!cbPessoaTipo.getValue().equals(TipoPessoa.JURIDICO))
-			txtCpf.validate();
-		else
-			txtCpf.resetValidation();
+		if (!txtCpf.getText().isEmpty())
+			if (!cbPessoaTipo.getValue().equals(TipoPessoa.JURIDICO))
+				txtCpf.validate();
+			else
+				txtCpf.resetValidation();
 
-		if (!cbPessoaTipo.getValue().equals(TipoPessoa.FISICO))
-			txtCnpj.validate();
-		else
-			txtCnpj.resetValidation();
+		if (!txtCnpj.getText().isEmpty())
+			if (!cbPessoaTipo.getValue().equals(TipoPessoa.FISICO))
+				txtCnpj.validate();
+			else
+				txtCnpj.resetValidation();
 
 		txtRazaoSocial.validate();
 
@@ -197,6 +196,7 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 	@Override
 	protected void limpaCampos() {
+		edicao = false;
 		txtId.setText("0");
 		txtNome.setText("");
 		txtRazaoSocial.setText("");
@@ -211,11 +211,21 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 	@Override
 	public CadClienteController atualizaEntidade() {
-		entidade = new Cliente(Long.valueOf(txtId.getText()), txtNome.getText(), txtRazaoSocial.getText(),
-				Utils.removeMascaras(txtCpf.getText()), Utils.removeMascaras(txtCnpj.getText()),
-				txtAreaObservacao.getText(), cbPessoaTipo.getSelectionModel().getSelectedItem(),
-				cbEnquadramento.getSelectionModel().getSelectedItem(),
-				cbSituacao.getSelectionModel().getSelectedItem());
+		if (edicao) {
+			entidade.setNomeSobrenome(txtNome.getText());
+			entidade.setRazaoSocial(txtRazaoSocial.getText());
+			entidade.setCpf(Utils.removeMascaras(txtCpf.getText()));
+			entidade.setCnpj(Utils.removeMascaras(txtCnpj.getText()));
+			entidade.setObservacao(txtAreaObservacao.getText());
+			entidade.setTipoPessoa(cbPessoaTipo.getSelectionModel().getSelectedItem());
+			entidade.setEnquadramento(cbEnquadramento.getSelectionModel().getSelectedItem());
+			entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
+		} else
+			entidade = new Cliente(Long.valueOf(txtId.getText()), txtNome.getText(), txtRazaoSocial.getText(),
+					Utils.removeMascaras(txtCpf.getText()), Utils.removeMascaras(txtCnpj.getText()),
+					txtAreaObservacao.getText(), cbPessoaTipo.getSelectionModel().getSelectedItem(),
+					cbEnquadramento.getSelectionModel().getSelectedItem(),
+					cbSituacao.getSelectionModel().getSelectedItem());
 
 		return this;
 	}
@@ -226,13 +236,17 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	// banco.
 	private CadClienteController atualizaTela(Cliente cliente) {
 		limpaCampos();
-
+		edicao = true;
 		this.entidade = cliente;
 
 		txtId.setText(cliente.getId().toString());
 
 		if (cliente.getNomeSobrenome() != null && !cliente.getNomeSobrenome().isEmpty())
 			txtNome.setText(cliente.getNomeSobrenome());
+
+		if (cliente.getRazaoSocial() != null && !cliente.getRazaoSocial().isEmpty())
+			txtRazaoSocial.setText(cliente.getRazaoSocial());
+
 		if (cliente.getCpf() != null && !cliente.getCpf().isEmpty())
 			txtCpf.setText(cliente.getCpf());
 
@@ -241,6 +255,8 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 		if (cliente.getObservacao() != null && !cliente.getObservacao().isEmpty())
 			txtAreaObservacao.setText(cliente.getObservacao());
+
+		dtPkCadastro.setValue(cliente.getDataCadastro().toLocalDateTime().toLocalDate());
 
 		cbSituacao.getSelectionModel().select(cliente.getSituacao().ordinal());
 		cbEnquadramento.getSelectionModel().select(cliente.getTipoPessoa().ordinal());
@@ -309,11 +325,12 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 		configuraExitCampos();
 
 		cbSituacao.getItems().addAll(Situacao.values());
+		cbSituacao.getItems().remove(Situacao.EXCLUIDO);
 		cbPessoaTipo.getItems().addAll(TipoPessoa.values());
 		cbEnquadramento.getItems().addAll(Enquadramento.values());
 
 		limpaCampos();
-
+		entidade = new Cliente();
 	}
 
 	public static URL getFxmlLocate() {

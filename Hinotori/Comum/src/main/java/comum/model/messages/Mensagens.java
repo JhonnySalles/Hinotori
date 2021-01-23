@@ -80,6 +80,8 @@ public class Mensagens {
 	public final static String CAD_CLI_NOME_VAZIO = "O NOME não pode ser vazio.";
 	public final static String CAD_CLI_CPF = "O CPF informado é inválido.";
 	public final static String CAD_CLI_CNPJ = "O CNPJ informado é inválido.";
+	public final static String CAD_CLI_EXISTE_CPF = "O CPF informado já cadastrado para o cliente %s.\nFavor informar um CPF diferente.";
+	public final static String CAD_CLI_EXISTE_CNPJ = "O CNPJ informado já cadastrado para o cliente %s.\nFavor informar um CNPJ diferente.";
 	public final static String CAD_CLI_TIPO_CLIENTE_VAZIO = "Necessário selecionar um tipo de cliente.";
 	public final static String CAD_RAZAO_SOCIAL_VAZIA = "Devido ao tipo do cliente ser JURÍDICO, necessário informar a razão social.";
 	

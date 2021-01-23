@@ -54,7 +54,7 @@
                                     <TableColumn fx:id="tbClPeso" minWidth="100.0" prefWidth="100.0" text="Marca" />
                                     <TableColumn fx:id="tbClVolume" minWidth="100.0" prefWidth="100.0" text="Marca" />
                                     <TableColumn fx:id="tbClObservacao" minWidth="200.0" prefWidth="200.0" text="Observação" />
-                                    <TableColumn fx:id="tbClDataCadastro" minWidth="100.0" prefWidth="100.0" text="Data cadastro" />
+                                    <TableColumn fx:id="tbClDataCadastro" minWidth="100.0" prefWidth="150.0" text="Data cadastro" />
                                  </columns>
                                  <styleClass>
                                     <String fx:value="table-border" />

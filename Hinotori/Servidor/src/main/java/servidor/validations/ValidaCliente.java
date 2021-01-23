@@ -4,6 +4,7 @@ import comum.model.constraints.Validadores;
 import comum.model.enums.TipoPessoa;
 import comum.model.exceptions.ExcessaoCadastro;
 import comum.model.messages.Mensagens;
+import servidor.dao.services.ClienteService;
 import servidor.entities.Cliente;
 
 /**
@@ -22,13 +23,17 @@ import servidor.entities.Cliente;
  */
 public class ValidaCliente {
 
-	public static boolean validaCliente(Cliente cliente) throws ExcessaoCadastro {
+	private static ClienteService service = new ClienteService();
 
+	private static Cliente entidade;
+
+	public static boolean validaCliente(Cliente cliente) throws ExcessaoCadastro {
 		if (cliente == null)
 			return false;
 
 		validaNome(cliente.getNomeSobrenome());
 
+		entidade = cliente;
 		validaPessoa(cliente.getTipoPessoa(), cliente.getCnpj(), cliente.getCpf());
 
 		validaRazaoSocial(cliente.getTipoPessoa(), cliente.getRazaoSocial());
@@ -59,19 +64,39 @@ public class ValidaCliente {
 	}
 
 	public static void validaCPF(String cpf) throws ExcessaoCadastro {
-		if (cpf == null || cpf.isEmpty())
+		if (!cpf.isEmpty() && Validadores.validaCpf(cpf))
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CPF);
 
-		if (Validadores.validaCpf(cpf))
-			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CPF);
+		if (!cpf.isEmpty()) {
+			Cliente cliente = service.existeCPF(cpf);
+			if (cliente != null) {
+				if (entidade != null) {
+					if (!entidade.getId().equals(cliente.getId()))
+						throw new ExcessaoCadastro(String.format(Mensagens.CAD_CLI_EXISTE_CPF,
+								cliente.getId() + " - " + cliente.getNomeSobrenome()));
+				} else
+					throw new ExcessaoCadastro(String.format(Mensagens.CAD_CLI_EXISTE_CPF,
+							cliente.getId() + " - " + cliente.getNomeSobrenome()));
+			}
+		}
 	}
 
 	public static void validaCNPJ(String cnpj) throws ExcessaoCadastro {
-		if (cnpj == null || cnpj.isEmpty())
+		if (!cnpj.isEmpty() && Validadores.validaCnpj(cnpj))
 			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CNPJ);
 
-		if (Validadores.validaCnpj(cnpj))
-			throw new ExcessaoCadastro(Mensagens.CAD_CLI_CNPJ);
+		if (!cnpj.isEmpty()) {
+			Cliente cliente = service.existeCNPJ(cnpj);
+			if (cliente != null) {
+				if (entidade != null) {
+					if (!entidade.getId().equals(cliente.getId()))
+						throw new ExcessaoCadastro(String.format(Mensagens.CAD_CLI_EXISTE_CNPJ,
+								cliente.getId() + " - " + cliente.getNomeSobrenome()));
+				} else
+					throw new ExcessaoCadastro(String.format(Mensagens.CAD_CLI_EXISTE_CNPJ,
+							cliente.getId() + " - " + cliente.getNomeSobrenome()));
+			}
+		}
 	}
 
 	public static void validaRazaoSocial(TipoPessoa pessoa, String razaoSocial) throws ExcessaoCadastro {
