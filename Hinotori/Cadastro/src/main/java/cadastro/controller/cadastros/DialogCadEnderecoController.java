@@ -68,7 +68,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 	@FXML
 	private JFXTextArea txtAreaObservacao;
 
-	private Set<Endereco> enderecos;
+	private Set<Endereco> enderecos = new HashSet<>();
 
 	@Override
 	public void onBtnConfirmarClick() {
@@ -84,9 +84,6 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 
 	@Override
 	protected void salvar(Endereco entidade) {
-		if (enderecos == null)
-			enderecos = new HashSet<>();
-
 		if (enderecos.size() < 1)
 			entidade.setPadrao(true);
 
@@ -163,7 +160,6 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 		txtAreaObservacao.setText("");
 		cbTipo.getSelectionModel().selectFirst();
 		cbSituacao.getSelectionModel().selectFirst();
-		frameCidadeController.limpaCampos();
 		frameBairroController.limpaCampos();
 	}
 
@@ -216,6 +212,7 @@ public class DialogCadEnderecoController extends CadastroDialogPadrao<Endereco> 
 		frameBairroController.setSelectionAction((objeto) -> {
 			if (objeto != null) {
 				frameCidadeController.setEntidade(((Bairro) objeto).getCidade());
+				frameBairroController.setPromptText(((Bairro) objeto).getNome());
 				frameCidadeController.txtFraPesquisa.validate();
 			}
 		});

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -14,6 +13,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import comum.model.entities.Entidade;
 import comum.model.enums.Situacao;
@@ -29,8 +31,9 @@ public class Endereco extends EntidadeBase implements Serializable, Entidade {
 	// e poder então trafegar os dados em rede ou salvar em arquivo.
 	private static final long serialVersionUID = -656350964511989081L;
 
-	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdBairro")
+	@Cascade(CascadeType.ALL)
 	private Bairro bairro;
 
 	@Column(name = "Endereco", columnDefinition = "varchar(150)")
@@ -155,7 +158,7 @@ public class Endereco extends EntidadeBase implements Serializable, Entidade {
 		this.tipoEndereco = TipoEndereco.COBRANCA;
 		this.padrao.set(false);
 	}
-
+	
 	public Endereco(String endereco, String numero, String cep, String complemento, String observacao,
 			TipoEndereco tipoEndereco, Situacao situacao) {
 		super(0L, situacao);
@@ -167,6 +170,19 @@ public class Endereco extends EntidadeBase implements Serializable, Entidade {
 		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
 		this.padrao.set(false);
 		this.tipoEndereco = tipoEndereco;
+	}
+
+	public Endereco(Bairro bairro, String endereco, String numero, String cep, String complemento, String observacao, Boolean padrao) {
+		super(0L);
+		this.bairro = bairro;
+		this.endereco = endereco;
+		this.numero = numero;
+		this.cep = cep;
+		this.complemento = complemento;
+		this.observacao = observacao;
+		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
+		this.padrao.set(padrao);
+		this.tipoEndereco = TipoEndereco.COBRANCA;
 	}
 
 	public Endereco(Bairro bairro, String endereco, String numero, String cep, String complemento, String observacao,

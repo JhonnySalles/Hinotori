@@ -17,6 +17,7 @@ public class Dao<E extends Entidade> {
 	final static String DELETE = "UPDATE %s SET Situacao = 'EXCLUIDO' WHERE id = %d";
 	final static String SELECT = "SELECT e FROM %s e WHERE Situacao <> 'EXCLUIDO' ";
 	final static String SUGESTAO = "SELECT e FROM %s e WHERE Situacao <> 'EXCLUIDO' AND %s LIKE '%s' ";
+	final static String PROXIMO_ID = "SELECT IFNULL(MAX(id), 0) + 1 AS id FROM %s e ";
 
 	protected EntityManager em;
 	private Class<E> classe;
@@ -49,12 +50,13 @@ public class Dao<E extends Entidade> {
 	}
 
 	public Dao<E> begin() {
-		//Caso estorou algum erro na transação, ao tentar abrir uma nova ele
-		//apresenta erro, neste caso se estiver aberta assume que algum problema ocorreu
-		//e efetua um rollback para a próxima transação.
+		// Caso estorou algum erro na transação, ao tentar abrir uma nova ele
+		// apresenta erro, neste caso se estiver aberta assume que algum problema
+		// ocorreu
+		// e efetua um rollback para a próxima transação.
 		if (em.getTransaction().isActive())
 			em.getTransaction().rollback();
-		
+
 		em.getTransaction().begin();
 		return this;
 	}
@@ -155,6 +157,17 @@ public class Dao<E extends Entidade> {
 		TypedQuery<E> query = em.createQuery(pesquisa, classe);
 
 		return query.getResultList();
+	}
+
+	public String proximoId() {
+		if (classe == null)
+			throw new UnsupportedOperationException("Classe nula, deve-se informar a classe no construtor.");
+
+		em.clear();
+		String pesquisa = String.format(PROXIMO_ID, getTabela());
+		TypedQuery<Integer> query = em.createQuery(pesquisa, Integer.class);
+
+		return query.getSingleResult().toString();
 	}
 
 	public void close() {

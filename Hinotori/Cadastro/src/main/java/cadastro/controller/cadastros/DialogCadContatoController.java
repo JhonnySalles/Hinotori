@@ -47,7 +47,7 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 	@FXML
 	private JFXTextArea txtAreaObservacao;
 
-	private Set<Contato> contatos;
+	private Set<Contato> contatos = new HashSet<>();
 	private Contato contato;
 
 	@Override
@@ -64,9 +64,6 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 
 	@Override
 	protected void salvar(Contato entidade) {
-		if (contatos == null)
-			contatos = new HashSet<>();
-
 		if (contatos.isEmpty())
 			entidade.setPadrao(true);
 
@@ -184,9 +181,9 @@ public class DialogCadContatoController extends CadastroDialogPadrao<Contato> {
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
 		Validadores.setTextFieldNotEmpty(txtNome);
-		Validadores.setTextFieldEmailValidate(txtEmail);
-		Validadores.setTextFieldTelefoneValidate(txtTelefone);
-		Validadores.setTextFieldTelefoneValidate(txtCelular);
+		Validadores.setTextFieldEmailValidate(txtEmail, false);
+		Validadores.setTextFieldTelefoneValidate(txtTelefone, false);
+		Validadores.setTextFieldTelefoneValidate(txtCelular, false);
 
 		Mascaras.foneField(txtTelefone);
 		Mascaras.foneField(txtCelular);

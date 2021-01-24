@@ -79,6 +79,14 @@ public class Cidade extends EntidadeBase implements Serializable, Entidade {
 		this.ddd = ddd;
 	}
 
+	public Cidade(String nome, String ddd, Situacao situacao, Estado estado) {
+		super();
+		this.estado = estado;
+		this.nome = nome;
+		this.ddd = ddd;
+		this.situacao = situacao;
+	}
+	
 	public Cidade(Long id, String nome, String ddd, Situacao situacao, Estado estado) {
 		super(id);
 		this.estado = estado;

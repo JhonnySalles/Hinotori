@@ -47,13 +47,13 @@ public class ValidaContato {
 
 	public static void validaCelular(String fone) throws ExcessaoCadastro {
 		if (fone != null && !fone.isEmpty())
-			if (Validadores.validaTelefone(fone))
+			if (!Validadores.validaTelefone(fone))
 				throw new ExcessaoCadastro(Mensagens.CAD_CONTATO_CELULAR);
 	}
 
 	public static void validaTelefone(String fone) throws ExcessaoCadastro {
 		if (fone != null && !fone.isEmpty())
-			if (Validadores.validaTelefone(fone))
+			if (!Validadores.validaTelefone(fone))
 				throw new ExcessaoCadastro(Mensagens.CAD_CONTATO_TELEFONE);
 	}
 

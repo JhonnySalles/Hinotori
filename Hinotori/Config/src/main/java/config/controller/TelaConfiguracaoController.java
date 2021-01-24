@@ -303,7 +303,7 @@ public class TelaConfiguracaoController implements Initializable {
 
 	@Override
 	public synchronized void initialize(URL arg0, ResourceBundle arg1) {
-		Validadores.setTextFieldNumberValidate(txtIP);
+		Validadores.setTextFieldNumberValidate(txtIP, true);
 
 		txtIP.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override

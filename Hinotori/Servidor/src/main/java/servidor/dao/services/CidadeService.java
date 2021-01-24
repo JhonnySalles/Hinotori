@@ -5,14 +5,19 @@ import java.util.List;
 import servidor.dao.CidadeDao;
 import servidor.entities.Cidade;
 
-public class CidadeService {
+public class CidadeService extends GenericService<Cidade> {
+
+	public CidadeService() {
+		super(Cidade.class);
+	}
 
 	private CidadeDao service = new CidadeDao();
 
+	@Override
 	public CidadeDao getService() {
 		return service;
 	}
-	
+
 	public Cidade salvar(Cidade cidade) {
 		service.salvarAtomico(cidade);
 		return cidade;

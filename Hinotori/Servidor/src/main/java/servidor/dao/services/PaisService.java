@@ -1,37 +1,26 @@
 package servidor.dao.services;
 
-import java.util.List;
-
 import servidor.dao.PaisDao;
 import servidor.entities.Pais;
 
-public class PaisService {
+public class PaisService extends GenericService<Pais> {
+
+	public PaisService() {
+		super(Pais.class);
+	}
 
 	private PaisDao service = new PaisDao();
 
+	@Override
 	public PaisDao getService() {
 		return service;
-	}
-	
-	public Pais salvar(Pais pais) {
-		service.salvarAtomico(pais);
-		return pais;
-	}
-
-	public void deletar(Long id) {
-		service.removerAtomico(id);
 	}
 
 	public Pais pesquisar(String nome) {
 		return service.pesquisar(nome);
 	}
 
-	public Pais pesquisar(Long id) {
-		return service.pesquisar(id);
+	public Pais brasil() {
+		return service.brasil();
 	}
-
-	public List<Pais> listar() {
-		return service.listar();
-	}
-
 }

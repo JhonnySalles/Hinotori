@@ -2,27 +2,21 @@ package servidor.dao.services;
 
 import java.util.List;
 
-import javax.persistence.EntityExistsException;
-
 import comum.model.enums.TamanhoImagem;
 import servidor.dao.UsuarioDao;
 import servidor.entities.Usuario;
 
-public class UsuarioService {
+public class UsuarioService extends GenericService<Usuario> {
+
+	public UsuarioService() {
+		super(Usuario.class);
+	}
 
 	private UsuarioDao service = new UsuarioDao();
 
+	@Override
 	public UsuarioDao getService() {
 		return service;
-	}
-
-	public Usuario salvar(Usuario usuario) throws EntityExistsException {
-		service.salvarAtomico(usuario);
-		return usuario;
-	}
-
-	public void deletar(Long id) {
-		service.removerAtomico(id);
 	}
 
 	public Boolean validaLogin(Long id, String login) {
@@ -31,10 +25,6 @@ public class UsuarioService {
 
 	public Usuario pesquisar(String login) {
 		return service.pesquisar(login);
-	}
-
-	public Usuario pesquisar(Long id) {
-		return service.pesquisar(id);
 	}
 
 	public List<Usuario> listar(TamanhoImagem tamanho) {

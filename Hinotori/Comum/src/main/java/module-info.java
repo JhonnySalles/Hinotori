@@ -7,6 +7,7 @@ module Comum {
 	exports comum.model.entities;
 	exports comum.model.enums;
 	exports comum.model.exceptions;
+	exports comum.model.generator;
 	exports comum.model.mask;
 	exports comum.model.messages;
 	exports comum.model.notification;

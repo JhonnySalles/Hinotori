@@ -117,6 +117,17 @@ public class Contato extends Pessoa implements Entidade {
 		this.tipoContato = TipoContato.RESIDENCIAL;
 		this.padrao.set(false);
 	}
+	
+	public Contato(String nomeSobrenome, String telefone, String celular, String email, String observacao,
+			Boolean padrao) {
+		super();
+		this.telefone = telefone;
+		this.celular = celular;
+		this.email = email;
+		this.observacao = observacao;
+		this.tipoContato = TipoContato.RESIDENCIAL;
+		this.padrao.set(padrao);
+	}
 
 	public Contato(Long id, String nomeSobrenome, String telefone, String celular, String email, String observacao,
 			Timestamp dataCadastro, TipoContato tipoContato, Situacao situacao, Boolean padrao) {

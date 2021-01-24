@@ -12,6 +12,7 @@ import com.jfoenix.validation.RegexValidator;
 import com.jfoenix.validation.RequiredFieldValidator;
 
 import comum.model.enums.TipoPessoa;
+import comum.model.mask.Mascaras;
 import comum.model.validator.ValidateCNPJ;
 import comum.model.validator.ValidateCPF;
 import comum.model.validator.ValidateRazaoSocial;
@@ -47,8 +48,9 @@ public class Validadores {
 			+ "|" + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$";
 
 	private static final String OBRIGATORIO = "Campo obrigatório!";
-	
-	public static void setTextFieldRegexValidate(final JFXTextField textField, String regex, String menssagem) {
+
+	public static void setTextFieldRegexValidate(final JFXTextField textField, String regex, String menssagem,
+			final Boolean validaVazio) {
 		RegexValidator valid = new RegexValidator();
 
 		valid.setRegexPattern(regex);
@@ -60,23 +62,28 @@ public class Validadores {
 
 		textField.setValidators(valid);
 		textField.focusedProperty().addListener((o, oldVal, newVal) -> {
-			if (!newVal)
-				textField.validate();
+			if (validaVazio) {
+				if (!newVal)
+					textField.validate();
+			} else {
+				if (!newVal && !textField.getText().isEmpty())
+					textField.validate();
+			}
 		});
 	}
 
-	public static void setTextFieldEmailValidate(final JFXTextField textField) {
-		setTextFieldRegexValidate(textField, REGEX_EMAIL, "Email informado inválido!");
+	public static void setTextFieldEmailValidate(final JFXTextField textField, final Boolean validaVazio) {
+		setTextFieldRegexValidate(textField, REGEX_EMAIL, "Email informado inválido!", validaVazio);
 	}
 
-	public static void setTextFieldTelefoneValidate(final JFXTextField textField) {
-		setTextFieldRegexValidate(textField, REGEX_TELEFONE, "Telefone informado inválido!");
+	public static void setTextFieldTelefoneValidate(final JFXTextField textField, final Boolean validaVazio) {
+		setTextFieldRegexValidate(textField, REGEX_TELEFONE, "Telefone informado inválido!", validaVazio);
 	}
 
-	public static void setTextFieldCNPJValidate(final JFXTextField textField) {
-		setTextFieldRegexValidate(textField, REGEX_CNPJ, "CNPJ informado inválido!");
+	public static void setTextFieldCNPJValidate(final JFXTextField textField, final Boolean validaVazio) {
+		setTextFieldRegexValidate(textField, REGEX_CNPJ, "CNPJ informado inválido!", validaVazio);
 	}
-	
+
 	public static void setTextFieldCNPJValidate(final JFXComboBox<TipoPessoa> comboBox, final JFXTextField textField) {
 		ValidateCNPJ validator = new ValidateCNPJ(comboBox, OBRIGATORIO);
 		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
@@ -90,11 +97,11 @@ public class Validadores {
 		});
 	}
 
-	public static void setTextFieldCPFValidate(final JFXTextField textField) {
-		setTextFieldRegexValidate(textField, REGEX_CPF, "CPF informado inválido!");
+	public static void setTextFieldCPFValidate(final JFXTextField textField, final Boolean validaVazio) {
+		setTextFieldRegexValidate(textField, REGEX_CPF, "CPF informado inválido!", validaVazio);
 	}
-	
-	public static void setTextFieldCPFValidate(final JFXComboBox<TipoPessoa> comboBox,final JFXTextField textField) {
+
+	public static void setTextFieldCPFValidate(final JFXComboBox<TipoPessoa> comboBox, final JFXTextField textField) {
 		ValidateCPF validator = new ValidateCPF(comboBox, OBRIGATORIO);
 		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
 		warnIcon.getStyleClass().add("error");
@@ -107,8 +114,8 @@ public class Validadores {
 		});
 	}
 
-	public static void setTextFieldNumberValidate(final JFXTextField textField) {
-		setTextFieldRegexValidate(textField, REGEX_APENAS_NUMEROS, "Somente números são aceito!");
+	public static void setTextFieldNumberValidate(final JFXTextField textField, final Boolean validaVazio) {
+		setTextFieldRegexValidate(textField, REGEX_APENAS_NUMEROS, "Somente números são aceito!", validaVazio);
 	}
 
 	public static void setTextFieldNotEmpty(final JFXTextField textField) {
@@ -140,7 +147,7 @@ public class Validadores {
 				passwordField.validate();
 		});
 	}
-	
+
 	public static void setComboBoxNotEmpty(final JFXComboBox<?> comboBox) {
 		RequiredFieldValidator validator = new RequiredFieldValidator();
 		validator.setMessage("Campo obrigatório!");
@@ -155,8 +162,9 @@ public class Validadores {
 				comboBox.validate();
 		});
 	}
-	
-	public static void setTextFieldRazaoSocialValidate(final JFXComboBox<TipoPessoa> comboBox, final JFXTextField textField) {
+
+	public static void setTextFieldRazaoSocialValidate(final JFXComboBox<TipoPessoa> comboBox,
+			final JFXTextField textField) {
 		ValidateRazaoSocial validator = new ValidateRazaoSocial(comboBox, OBRIGATORIO);
 		FontIcon warnIcon = new FontIcon(FontAwesomeSolid.EXCLAMATION_TRIANGLE);
 		warnIcon.getStyleClass().add("error");
@@ -170,44 +178,26 @@ public class Validadores {
 	}
 
 	public static Boolean validaCpf(final String texto) {
-		if (texto.isEmpty())
-			return false;
-
-		return Pattern.compile(REGEX_CPF).matcher(texto).matches();
+		return Pattern.compile(REGEX_CPF).matcher(Mascaras.formatCpf(texto)).matches();
 	}
 
 	public static Boolean validaCnpj(final String texto) {
-		if (texto.isEmpty())
-			return false;
-
-		return Pattern.compile(REGEX_CNPJ).matcher(texto).matches();
+		return Pattern.compile(REGEX_CNPJ).matcher(Mascaras.formatCnpj(texto)).matches();
 	}
 
 	public static Boolean validaCep(final String texto) {
-		if (texto.isEmpty())
-			return false;
-
-		return Pattern.compile(REGEX_CEP).matcher(texto).matches();
+		return Pattern.compile(REGEX_CEP).matcher(Mascaras.formatCep(texto)).matches();
 	}
 
 	public static Boolean validaEmail(final String texto) {
-		if (texto.isEmpty())
-			return false;
-
 		return Pattern.compile(REGEX_EMAIL).matcher(texto).matches();
 	}
 
 	public static Boolean validaTelefone(final String texto) {
-		if (texto.isEmpty())
-			return true;
-
-		return Pattern.compile(REGEX_TELEFONE).matcher(texto).matches();
+		return Pattern.compile(REGEX_TELEFONE).matcher(Mascaras.formatFone(texto)).matches();
 	}
 
 	public static Boolean validaTelefoneInternacional(final String texto) {
-		if (texto.isEmpty())
-			return false;
-
 		return Pattern.compile(REGEX_TELEFONE_INTERNACIONAL).matcher(texto).matches();
 	}
 

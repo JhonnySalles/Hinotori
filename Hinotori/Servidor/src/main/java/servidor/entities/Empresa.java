@@ -2,11 +2,11 @@ package servidor.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import comum.model.entities.Entidade;
 import comum.model.enums.Situacao;
@@ -41,18 +44,22 @@ public class Empresa extends EntidadeBase implements Serializable, Entidade {
 
 	@OneToOne(targetEntity = Bairro.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdBairro")
+	@Cascade(CascadeType.ALL)
 	private Bairro bairro;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdEmpresa", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_ENDERECO"))
+	@Cascade(CascadeType.ALL)
 	private Set<Endereco> enderecos;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdEmpresa", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_CONTATO"))
+	@Cascade(CascadeType.ALL)
 	private Set<Contato> contatos;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdEmpresa", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_EMPRESA_IMAGEM"))
+	@Cascade(CascadeType.ALL)
 	private Set<EmpresaImagem> imagens;
 
 	public String getNomeFantasia() {
@@ -156,13 +163,12 @@ public class Empresa extends EntidadeBase implements Serializable, Entidade {
 		this.imagens = new HashSet<>();
 	}
 
-	public Empresa(Long id, String nomeFantasia, String razaoSocial, String cnpj, Timestamp dataCadastro,
-			Situacao situacao) {
-		super(id, situacao);
+	public Empresa(String nomeFantasia, String razaoSocial, String cnpj, Situacao situacao) {
+		super(0L, situacao);
 		this.nomeFantasia = nomeFantasia;
 		this.razaoSocial = razaoSocial;
 		this.cnpj = cnpj;
-		this.dataCadastro = dataCadastro;
+		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();

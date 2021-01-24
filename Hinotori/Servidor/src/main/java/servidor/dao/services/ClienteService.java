@@ -3,10 +3,15 @@ package servidor.dao.services;
 import servidor.dao.ClienteDao;
 import servidor.entities.Cliente;
 
-public class ClienteService {
+public class ClienteService extends GenericService<Cliente> {
+
+	public ClienteService() {
+		super(Cliente.class);
+	}
 
 	private ClienteDao service = new ClienteDao();
 
+	@Override
 	public ClienteDao getService() {
 		return service;
 	}

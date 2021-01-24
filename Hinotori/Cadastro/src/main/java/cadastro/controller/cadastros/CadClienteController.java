@@ -196,8 +196,14 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 	@Override
 	protected void limpaCampos() {
-		edicao = false;
-		txtId.setText("0");
+		this.edicao = false;
+		this.entidade = new Cliente();
+
+		if (service != null)
+			txtId.setText(service.proximoId());
+		else
+			txtId.setText("0");
+
 		txtNome.setText("");
 		txtRazaoSocial.setText("");
 		txtCpf.setText("");
@@ -211,23 +217,14 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 
 	@Override
 	public CadClienteController atualizaEntidade() {
-		if (edicao) {
-			entidade.setNomeSobrenome(txtNome.getText());
-			entidade.setRazaoSocial(txtRazaoSocial.getText());
-			entidade.setCpf(Utils.removeMascaras(txtCpf.getText()));
-			entidade.setCnpj(Utils.removeMascaras(txtCnpj.getText()));
-			entidade.setObservacao(txtAreaObservacao.getText());
-			entidade.setTipoPessoa(cbPessoaTipo.getSelectionModel().getSelectedItem());
-			entidade.setEnquadramento(cbEnquadramento.getSelectionModel().getSelectedItem());
-			entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-		} else
-			entidade = new Cliente(txtNome.getText(), txtRazaoSocial.getText(), Utils.removeMascaras(txtCpf.getText()),
-					Utils.removeMascaras(txtCnpj.getText()), txtAreaObservacao.getText(),
-					cbPessoaTipo.getSelectionModel().getSelectedItem(),
-					cbEnquadramento.getSelectionModel().getSelectedItem(),
-					cbSituacao.getSelectionModel().getSelectedItem(), 
-					entidade.getContatos(), entidade.getEnderecos());
-
+		entidade.setNomeSobrenome(txtNome.getText());
+		entidade.setRazaoSocial(txtRazaoSocial.getText());
+		entidade.setCpf(Utils.removeMascaras(txtCpf.getText()));
+		entidade.setCnpj(Utils.removeMascaras(txtCnpj.getText()));
+		entidade.setObservacao(txtAreaObservacao.getText());
+		entidade.setTipoPessoa(cbPessoaTipo.getSelectionModel().getSelectedItem());
+		entidade.setEnquadramento(cbEnquadramento.getSelectionModel().getSelectedItem());
+		entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
 		return this;
 	}
 
@@ -237,7 +234,8 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	// banco.
 	private CadClienteController atualizaTela(Cliente cliente) {
 		limpaCampos();
-		edicao = true;
+
+		this.edicao = true;
 		this.entidade = cliente;
 
 		txtId.setText(cliente.getId().toString());
@@ -331,7 +329,6 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 		cbEnquadramento.getItems().addAll(Enquadramento.values());
 
 		limpaCampos();
-		entidade = new Cliente();
 	}
 
 	public static URL getFxmlLocate() {

@@ -1,6 +1,7 @@
 package servidor.entities;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -141,6 +142,15 @@ public class Usuario extends Pessoa implements Entidade {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.login = login;
 		this.nivel = nivel;
+		this.observacao = observacao;
+		this.contatos = new HashSet<>();
+		this.imagens = new HashSet<>();
+	}
+
+	public Usuario(String nomeSobrenome, String login, String observacao) {
+		super(nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO);
+		this.login = login;
+		this.nivel = UsuarioNivel.USUARIO;
 		this.observacao = observacao;
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();

@@ -201,15 +201,18 @@ public class Mascaras {
 	public static void cepField(TextField textField) {
 		Mascaras.maxField(textField, 9);
 		textField.lengthProperty().addListener((observableValue, number, number2) -> {
-			String value = textField.getText();
-			value = value.replaceAll("[^0-9]", "");
-			value = value.replaceFirst("(\\d{5})(\\d)", "$1-$2");
-			textField.setText(value);
+			textField.setText(formatCep(textField.getText()));
 
-			if (textField.getText().length() != 0) {
+			if (textField.getText().length() != 0)
 				textField.positionCaret(textField.getText().length());
-			}
 		});
+	}
+
+	public static String formatCep(String cep) {
+		String value = cep;
+		value = value.replaceAll("[^0-9]", "");
+		value = value.replaceFirst("(\\d{5})(\\d)", "$1-$2");
+		return value;
 	}
 
 	/**
@@ -227,23 +230,26 @@ public class Mascaras {
 		Mascaras.maxField(textField, 15);
 		textField.lengthProperty().addListener((observableValue, number, number2) -> {
 			Platform.runLater(() -> {
-				String value = textField.getText();
-				value = value.replaceAll("[^0-9]", "");
-				int tam = value.length();
-				value = value.replaceFirst("(\\d{2})(\\d)", "($1) $2");
-				value = value.replaceFirst("(\\d{4})(\\d)", "$1-$2");
-				if (tam > 10) {
-					value = value.replaceAll("-", "");
-					value = value.replaceFirst("(\\d{5})(\\d)", "$1-$2");
-				}
-				textField.setText(value);
+				textField.setText(formatFone(textField.getText()));
 
-				if (textField.getText().length() != 0) {
+				if (textField.getText().length() != 0)
 					textField.positionCaret(textField.getText().length());
-				}
 			});
 
 		});
+	}
+
+	public static String formatFone(String fone) {
+		String value = fone;
+		value = value.replaceAll("[^0-9]", "");
+		int tam = value.length();
+		value = value.replaceFirst("(\\d{2})(\\d)", "($1) $2");
+		value = value.replaceFirst("(\\d{4})(\\d)", "$1-$2");
+		if (tam > 10) {
+			value = value.replaceAll("-", "");
+			value = value.replaceFirst("(\\d{5})(\\d)", "$1-$2");
+		}
+		return value;
 	}
 
 	/**
@@ -348,9 +354,8 @@ public class Mascaras {
 	 */
 	public static String onlyAlfaNumericValue(TextField field) {
 		String result = field.getText();
-		if (result == null) {
+		if (result == null)
 			return null;
-		}
 		return result.replaceAll("[^0-9]", "");
 	}
 

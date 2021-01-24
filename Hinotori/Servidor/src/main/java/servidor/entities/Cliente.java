@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 
 import comum.model.entities.Entidade;
@@ -55,14 +56,16 @@ public class Cliente extends Pessoa implements Entidade {
 	@Enumerated(EnumType.STRING)
 	private Enquadramento enquadramento;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdCliente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CLIENTE_CONTATO"))
 	@Where(clause = "Situacao <> 'EXCLUIDO'")
+	@Cascade(CascadeType.ALL)
 	private Set<Contato> contatos = new HashSet<Contato>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdCliente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_CLIENTE_ENDERECO"))
 	@Where(clause = "Situacao <> 'EXCLUIDO'")
+	@Cascade(CascadeType.ALL)
 	private Set<Endereco> enderecos = new HashSet<Endereco>();
 
 	public String getRazaoSocial() {
@@ -167,19 +170,6 @@ public class Cliente extends Pessoa implements Entidade {
 	}
 
 	public Cliente(String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
-			TipoPessoa tipoPessoa, Enquadramento enquadramento) {
-		super(0L, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO);
-		this.razaoSocial = razaoSocial;
-		this.cpf = (cpf != null && !cpf.isEmpty()) ? cpf : null;
-		this.cnpj = (cnpj != null && !cnpj.isEmpty()) ? cnpj : null;
-		this.observacao = observacao;
-		this.tipoPessoa = tipoPessoa;
-		this.enquadramento = enquadramento;
-		this.enderecos = new HashSet<>();
-		this.contatos = new HashSet<>();
-	}
-
-	public Cliente(String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
 			TipoPessoa tipoPessoa, Enquadramento enquadramento, Situacao situacao) {
 		super(nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), situacao);
 		this.razaoSocial = razaoSocial;
@@ -204,20 +194,6 @@ public class Cliente extends Pessoa implements Entidade {
 		this.enquadramento = enquadramento;
 		this.contatos = contatos;
 		this.enderecos = enderecos;
-	}
-
-	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
-			TipoPessoa tipoPessoa, Enquadramento enquadramento, Situacao situacao, Set<Contato> contatos,
-			Set<Endereco> enderecos) {
-		super(id, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), situacao);
-		this.razaoSocial = razaoSocial;
-		this.cpf = (cpf != null && !cpf.isEmpty()) ? cpf : null;
-		this.cnpj = (cnpj != null && !cnpj.isEmpty()) ? cnpj : null;
-		this.observacao = observacao;
-		this.tipoPessoa = tipoPessoa;
-		this.enquadramento = enquadramento;
-		this.enderecos = enderecos;
-		this.contatos = contatos;
 	}
 
 	public Cliente(Long id, String nomeSobrenome, String razaoSocial, String cpf, String cnpj, String observacao,
