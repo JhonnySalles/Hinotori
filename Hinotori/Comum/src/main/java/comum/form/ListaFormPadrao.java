@@ -66,7 +66,25 @@ public abstract class ListaFormPadrao implements Initializable {
 
 	@FXML
 	protected abstract void onBtnAtualizarClick();
-	
+
+	protected ListaFormPadrao desabilitaBotoes() {
+		spRoot.setDisable(true);
+		btnNovo.setDisable(true);
+		btnAtualizar.setDisable(true);
+		btnExcluir.setDisable(true);
+		btnEditar.setDisable(true);
+		return this;
+	}
+
+	protected ListaFormPadrao habilitaBotoes() {
+		spRoot.setDisable(false);
+		btnNovo.setDisable(false);
+		btnAtualizar.setDisable(false);
+		btnExcluir.setDisable(false);
+		btnEditar.setDisable(false);
+		return this;
+	}
+
 	/**
 	 * <p>
 	 * Função para pegar a instância da lista que está iniciado.

@@ -18,8 +18,11 @@ public class GenericService<E extends Entidade> {
 	}
 
 	public E salvar(E entidade) {
-		service.salvarAtomico(entidade);
-		return entidade;
+		return service.salvarAtomico(entidade).getLastEntity();
+	}
+	
+	public List<E> salvar(List<E> entidade) {
+		return service.salvarAtomico(entidade).getLastList();
 	}
 
 	public void deletar(Long id) {

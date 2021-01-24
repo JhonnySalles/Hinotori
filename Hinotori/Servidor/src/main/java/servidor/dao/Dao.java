@@ -22,6 +22,7 @@ public class Dao<E extends Entidade> {
 	protected EntityManager em;
 	private Class<E> classe;
 	private E lastEntity;
+	private List<E> lastList;
 
 	public EntityManager getEntityManager() {
 		return em;
@@ -29,6 +30,10 @@ public class Dao<E extends Entidade> {
 
 	public E getLastEntity() {
 		return lastEntity;
+	}
+
+	public List<E> getLastList() {
+		return lastList;
 	}
 
 	protected String getTabela() {
@@ -72,17 +77,34 @@ public class Dao<E extends Entidade> {
 	}
 
 	public Dao<E> salvar(E entidade) throws EntityExistsException {
-		lastEntity = entidade;
 		if (entidade.getId().compareTo(0L) == 0)
 			em.persist(entidade);
 		else
 			em.merge(entidade);
 
+		em.detach(entidade);
+		lastEntity = entidade;
+		return this;
+	}
+
+	public Dao<E> salvar(List<E> lista) throws EntityExistsException {
+		for (E entidade : lista) {
+			if (entidade.getId().compareTo(0L) == 0)
+				em.persist(entidade);
+			else
+				em.merge(entidade);
+			em.detach(entidade);
+		}
+		lastList = lista;
 		return this;
 	}
 
 	public Dao<E> salvarAtomico(E entidade) throws EntityExistsException {
 		return this.begin().salvar(entidade).commit();
+	}
+
+	public Dao<E> salvarAtomico(List<E> lista) throws EntityExistsException {
+		return this.begin().salvar(lista).commit();
 	}
 
 	public Dao<E> remover(Long id) {

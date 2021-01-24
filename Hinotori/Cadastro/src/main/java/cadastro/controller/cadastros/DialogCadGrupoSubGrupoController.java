@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -30,8 +31,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import servidor.dao.services.GenericService;
+import servidor.dto.ImagemDTO;
 import servidor.entities.Grupo;
 import servidor.entities.GrupoBase;
+import servidor.entities.GupoSubGrupoImagem;
 import servidor.entities.Imagem;
 import servidor.entities.SubGrupo;
 import servidor.validations.ValidaGrupoSubGrupo;
@@ -39,10 +43,10 @@ import servidor.validations.ValidaGrupoSubGrupo;
 public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<GrupoBase> {
 
 	private final static Logger LOGGER = Logger.getLogger(CadProdutoController.class.getName());
-	
+
 	final static Image ImagemPadrao = new Image(DialogCadGrupoSubGrupoController.class
 			.getResourceAsStream("/cadastro/imagens/white/geral/icoProdutoImage_256.png"));
-	
+
 	@FXML
 	private JFXTextField txtDescricao;
 
@@ -65,7 +69,9 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<Grupo
 	private JFXButton btnProcurarImagem;
 
 	private GrupoBase grupoSubGrupo;
-	private Set<Imagem> imagens;
+	private Set<GupoSubGrupoImagem> imagens;
+	private GenericService<Grupo> serviceGrupo = new GenericService<Grupo>(Grupo.class);
+	private GenericService<SubGrupo> serviceSubGrupo = new GenericService<SubGrupo>(SubGrupo.class);
 
 	private Boolean recarregar;
 
@@ -79,25 +85,28 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<Grupo
 	@Override
 	public void onBtnCancelarClick() {
 		limpaCampos();
-		edicao = false;
 	}
 
 	@Override
 	protected void salvar(GrupoBase entidade) {
+		if (grupoSubGrupo instanceof Grupo)
+			serviceGrupo.salvar((Grupo) entidade);
+		else if (grupoSubGrupo instanceof SubGrupo)
+			serviceSubGrupo.salvar((SubGrupo) entidade);
+		
 		limpaCampos();
-		edicao = false;
 		recarregar = true;
 	}
 
 	@Override
 	public void carregar(GrupoBase entidade) {
-		edicao = entidade != null;
+		limpaCampos();
 		recarregar = false;
 
-		if (entidade == null)
-			limpaCampos();
-		else
+		if (entidade != null) {
+			this.edicao = true;
 			atualizaTela(entidade);
+		}
 	}
 
 	@Override
@@ -106,10 +115,11 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<Grupo
 			return ValidaGrupoSubGrupo.validaGrupoSubGrupo(grupoSubGrupo);
 		} catch (ExcessaoCadastro e) {
 			e.printStackTrace();
+			Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO,
+					e.getMessage().isEmpty() ? Mensagens.CADASTRO_SALVAR : e.getMessage());
 		}
 
 		txtDescricao.validate();
-		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
 		return false;
 	}
 
@@ -125,12 +135,11 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<Grupo
 		grupoSubGrupo.setDescricao(txtDescricao.getText());
 		grupoSubGrupo.setCor(Utils.colorToHexString(cpCorFundo.getValue()));
 		grupoSubGrupo.setSituacao(cbAtivo.selectedProperty().get() ? Situacao.ATIVO : Situacao.INATIVO);
-		// grupoSubGrupo.setImagens(imagens);
+		grupoSubGrupo.setImagens(imagens);
 
 		return this;
 	}
-	
-	
+
 	@Override
 	public void onClose() {
 
@@ -143,10 +152,11 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<Grupo
 		if (caminhoImagem != null) {
 			try {
 				if (imagens == null)
-					imagens = new HashSet<Imagem>();
+					imagens = new HashSet<GupoSubGrupoImagem>();
 
 				imgGrupo.setImage(new Image(caminhoImagem.toURI().toString()));
-				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem));
+				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem).stream()
+						.map(imagem -> ImagemDTO.toGrupoSubGrupoImagem(imagem)).collect(Collectors.toList()));
 			} catch (IOException e) {
 				e.printStackTrace();
 				LOGGER.log(Level.INFO, "{Erro ao carregar e processar a imagem}", e);
@@ -155,7 +165,7 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<Grupo
 			}
 		}
 	}
-	
+
 	private DialogCadGrupoSubGrupoController setImagemPadrao() {
 		imagens = null;
 		imgGrupo.setImage(ImagemPadrao);
@@ -169,7 +179,7 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<Grupo
 
 		setImagemPadrao();
 	}
-	
+
 	public Boolean getRecarregar() {
 		return recarregar;
 	}
@@ -179,16 +189,17 @@ public class DialogCadGrupoSubGrupoController extends CadastroDialogPadrao<Grupo
 	}
 
 	public void limpaCampos() {
+		this.edicao = false;
 		grupoSubGrupo = new GrupoBase();
 		txtDescricao.setText("");
 		cpCorFundo.setValue(Color.WHITE);
 		cbAtivo.setSelected(true);
-		cbTipo.getSelectionModel().selectFirst();
 		cbTipo.setDisable(false);
 	}
 
 	public DialogCadGrupoSubGrupoController atualizaTela(GrupoBase grupoSubGrupo) {
 		limpaCampos();
+		this.edicao = true;
 
 		if (grupoSubGrupo instanceof Grupo)
 			cbTipo.getSelectionModel().select(TipoGrupo.GRUPO);

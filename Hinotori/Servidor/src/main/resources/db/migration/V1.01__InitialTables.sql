@@ -210,10 +210,7 @@ CREATE TABLE sub_grupos (
   Cor varchar(10) DEFAULT NULL,
   Descricao varchar(250) DEFAULT NULL,
   Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT NULL,
-  IdGrupo bigint(20) DEFAULT NULL,
-  PRIMARY KEY (Id),
-  KEY FK_GRUPO_SUBGRUPO (IdGrupo),
-  CONSTRAINT FK_GRUPO_SUBGRUPO FOREIGN KEY (IdGrupo) REFERENCES grupos (Id)
+  PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE grupo_subgrupo_imagens (
@@ -232,3 +229,12 @@ CREATE TABLE grupo_subgrupo_imagens (
   CONSTRAINT FK_SUBGRUPO_IMAGEM FOREIGN KEY (IdSubGrupo) REFERENCES sub_grupos (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE grupo_subgrupos (
+  idGrupo bigint(20) NOT NULL,
+  idSubGrupo bigint(20) NOT NULL,
+  PRIMARY KEY (idGrupo,idSubGrupo),
+  KEY FK_GRUPO_GRUPOSUBGRUPO (idGrupo),
+  KEY FK_SUBGRUPO_GRUPOSUBGRUPO (idSubGrupo),
+  CONSTRAINT FK_GRUPOSUBGRUPO_GRUPO FOREIGN KEY (IdGrupo) REFERENCES grupos (Id),
+  CONSTRAINT FK_GRUPOSUBGRUPO_SUBGRUPO FOREIGN KEY (idSubGrupo) REFERENCES sub_grupos (Id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci

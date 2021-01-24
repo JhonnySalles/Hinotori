@@ -116,13 +116,6 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 		});
 	}
 
-	public void onTxtIdExit() {
-		if (!txtId.getText().isEmpty() && !txtId.getText().equalsIgnoreCase("0"))
-			carregar(pesquisar(new Cliente(Long.valueOf(txtId.getText()))));
-		else if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			limpaCampos();
-	}
-
 	@Override
 	protected void salvar(Cliente entidade) {
 		service.salvar(entidade);

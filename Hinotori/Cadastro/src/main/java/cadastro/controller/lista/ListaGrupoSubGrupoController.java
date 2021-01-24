@@ -2,10 +2,13 @@ package cadastro.controller.lista;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXMasonryPane;
@@ -15,7 +18,8 @@ import cadastro.controller.cadastros.DialogCadGrupoSubGrupoController;
 import cadastro.controller.componente.GrupoComponenteController;
 import cadastro.controller.componente.SubGrupoComponenteController;
 import comum.form.ListaFormPadrao;
-import comum.model.enums.Situacao;
+import comum.model.messages.Mensagens;
+import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import comum.model.utils.ViewGerenciador;
 import javafx.collections.FXCollections;
@@ -25,7 +29,9 @@ import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.ClipboardContent;
@@ -36,6 +42,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import servidor.dao.services.GenericService;
 import servidor.entities.Grupo;
 import servidor.entities.GrupoBase;
 import servidor.entities.SubGrupo;
@@ -69,13 +76,16 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
 	private DialogCadGrupoSubGrupoController controller;
 
+	private GenericService<Grupo> serviceGrupo = new GenericService<Grupo>(Grupo.class);
+	private GenericService<SubGrupo> serviceSubGrupo = new GenericService<SubGrupo>(SubGrupo.class);
+
 	private ObservableList<GrupoComponenteController> grupo = FXCollections.observableArrayList();
 
 	private ObservableList<SubGrupoComponenteController> subGrupo = FXCollections.observableArrayList();
 
 	final static PseudoClass ADICIONAR = PseudoClass.getPseudoClass("Adicionar");
 	final static PseudoClass REMOVER = PseudoClass.getPseudoClass("Remover");
-	
+
 	@Override
 	protected void onBtnNovoClick() {
 		abreTelaCadGrupoSubGrupo(null);
@@ -93,13 +103,42 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
 	@Override
 	protected void onBtnAtualizarClick() {
-		System.out.println("recarregar");
-
+		grupo.clear();
+		subGrupo.clear();
+		listGrupo(new HashSet<>(serviceGrupo.listar()));
+		listSubGrupo(new HashSet<>(serviceSubGrupo.listar()));
 	}
 
 	@FXML
 	public void onBtnConfirmarClick() {
+		try {
+			spRoot.cursorProperty().set(Cursor.WAIT);
+			this.desabilitaBotoes();
 
+			System.out.println(grupo.toString());
+			List<Grupo> grupos = grupo.stream().parallel().map(gp -> gp.getGrupo()).collect(Collectors.toList());
+			serviceGrupo.salvar(grupos);
+
+			Notificacoes.notificacao(AlertType.NONE, Mensagens.CONCLUIDO, "Grupos salvo com sucesso.");
+		} finally {
+			spRoot.cursorProperty().set(null);
+			this.habilitaBotoes();
+		}
+
+	}
+
+	@Override
+	protected ListaGrupoSubGrupoController desabilitaBotoes() {
+		super.desabilitaBotoes();
+		btnConfirmar.setDisable(false);
+		return this;
+	}
+
+	@Override
+	protected ListaGrupoSubGrupoController habilitaBotoes() {
+		super.habilitaBotoes();
+		btnConfirmar.setDisable(false);
+		return this;
 	}
 
 	public JFXMasonryPane getComponenteGrupo() {
@@ -113,7 +152,7 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 					public void handle(ActionEvent t) {
 						if (controller.getGrupoSubGrupo() == null)
 							return;
-						
+
 						if (controller.getRecarregar() || controller.getGrupoSubGrupo().getId() == 0) {
 							onBtnAtualizarClick();
 						} else {
@@ -124,7 +163,7 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 						}
 					}
 				});
-		
+
 		controller.carregar(grupoSubGrupo);
 	}
 
@@ -151,6 +190,20 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 				aplicarEfeitoGrupos(true);
 			}
 		}
+	}
+
+	/**
+	 * <p>
+	 * Função será utilizada para listar os subGrupos no panel dos subGrupos.
+	 * </p>
+	 * 
+	 * @param subGrupos Uma lista <b>Set</b> de subGrupos.
+	 * 
+	 * @author Jhonny de Salles Noschang
+	 */
+	public void listGrupo(Set<Grupo> grupos) {
+		for (Grupo gp : grupos)
+			addGrupo(gp);
 	}
 
 	/**
@@ -197,6 +250,8 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 			} else
 				event.setDropCompleted(false);
 			event.consume();
+
+			spBackground.requestLayout();
 		});
 
 		// Gera um evento de duplo clique para edição.
@@ -249,6 +304,16 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
 		sub.getRoot().setOnDragDone(e -> setTextoAvisoCampoRemover("", false));
 
+		sub.getRoot().setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+					if (mouseEvent.getClickCount() == 2)
+						abreTelaCadGrupoSubGrupo(sub.getSubGrupo());
+				}
+			}
+		});
+
 		this.subGrupo.add(sub);
 	}
 
@@ -283,49 +348,6 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 
 		if (obj.isPresent())
 			obj.get().removeSubGrupo(idSubGrupo);
-	}
-
-	private void inicializaTeste() {
-
-		Grupo teste1 = new Grupo(Long.valueOf(4), "Grupo 4 - Preto claro", "#333333", Situacao.ATIVO);
-		teste1.addSubGrupo(new SubGrupo(Long.valueOf(5), "Sub Grupo 1", "#FFFFFF", Situacao.ATIVO));
-		teste1.addSubGrupo(new SubGrupo(Long.valueOf(6), "Sub Grupo 2", "#BBBBBB", Situacao.INATIVO));
-		teste1.addSubGrupo(new SubGrupo(Long.valueOf(7), "Sub Grupo 3", "#CCCCCC", Situacao.ATIVO));
-
-		addGrupo(teste1);
-
-		addGrupo(new Grupo(Long.valueOf(1), "Grupo 1 - Preto", "#000000", Situacao.ATIVO));
-		addGrupo(new Grupo(Long.valueOf(2), "Grupo 2 - Branco", "#ffffff", Situacao.INATIVO));
-		addGrupo(new Grupo(Long.valueOf(3), "Grupo 3 - Verde", "#009933", Situacao.EXCLUIDO));
-
-		teste1 = new Grupo();
-		teste1.setId(Long.valueOf(8));
-		teste1.setDescricao("Grupo 7 - Verde claro");
-		teste1.setCor("#66ff66");
-		addGrupo(teste1);
-
-		teste1 = new Grupo();
-		teste1.setId(Long.valueOf(9));
-		teste1.setDescricao("Grupo 6 - Azul claro");
-		teste1.setCor("#99ccff");
-		addGrupo(teste1);
-
-		teste1 = new Grupo();
-		teste1.setId(Long.valueOf(10));
-		teste1.setDescricao("Grupo 5 - Vermelho claro");
-		teste1.setCor("#ff9966");
-		teste1.addSubGrupo(new SubGrupo(Long.valueOf(13), "Sub Grupo 5 - Vermelho", "#cc0000", Situacao.ATIVO));
-		teste1.addSubGrupo(new SubGrupo(Long.valueOf(11), "Sub Grupo 6 - Rosa", "#cc0099", Situacao.INATIVO));
-		teste1.addSubGrupo(new SubGrupo(Long.valueOf(12), "Sub Grupo 7 - Azul", "#0000ff", Situacao.ATIVO));
-		addGrupo(teste1);
-
-		listSubGrupo(new SubGrupo(Long.valueOf(5), "Sub Grupo 1 - Roxo", "#660066", Situacao.ATIVO));
-		listSubGrupo(new SubGrupo(Long.valueOf(6), "Sub Grupo 2 - Amarelo", "#ffff00", Situacao.INATIVO));
-		listSubGrupo(new SubGrupo(Long.valueOf(7), "Sub Grupo 3 - Marrom", "#663300", Situacao.ATIVO));
-		listSubGrupo(new SubGrupo(Long.valueOf(13), "Sub Grupo 5 - Azul marinho", "#006666", Situacao.ATIVO));
-		listSubGrupo(new SubGrupo(Long.valueOf(11), "Sub Grupo 6 - Verde escuro", "#003300", Situacao.INATIVO));
-		listSubGrupo(new SubGrupo(Long.valueOf(12), "Sub Grupo 7 - Cinza", "#666666", Situacao.ATIVO));
-
 	}
 
 	/**
@@ -426,7 +448,6 @@ public class ListaGrupoSubGrupoController extends ListaFormPadrao {
 	protected void inicializa(URL arg0, ResourceBundle arg1) {
 		createListener();
 		setEfeito();
-		inicializaTeste();
 
 	}
 
