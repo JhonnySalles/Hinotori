@@ -17,7 +17,8 @@ import loguin.controller.LoginController;
 
 public class Login {
 
-	private static Scene mainScene;
+	private static Scene MAIN_SCENE;
+	private static Stage MAIN_STAGE;
 
 	// Metodo para fazer a tela se movimentar
 	public static double xOffset = 0;
@@ -32,6 +33,7 @@ public class Login {
 	// Fim do metodo.
 
 	public static LoginController start(Stage primaryStage, Consumer<Object> action) {
+		MAIN_STAGE = primaryStage;
 		LoginController controller = null;
 		try {
 			// Comentar esta linha para teste.
@@ -40,11 +42,11 @@ public class Login {
 			controller = loader.getController();
 			controller.setLoguinAction(action);
 
-			mainScene = new Scene(scPnTelaPrincipal); // Carrega a scena
-			mainScene.setFill(Color.TRANSPARENT);
+			MAIN_SCENE = new Scene(scPnTelaPrincipal); // Carrega a scena
+			MAIN_SCENE.setFill(Color.TRANSPARENT);
 
 			// Eventos de clique do mouse realizando a movimenta��o da tela.
-			mainScene.setOnMousePressed(new EventHandler<MouseEvent>() {
+			MAIN_SCENE.setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					dragDelta.x = primaryStage.getX() - event.getScreenX();
@@ -54,7 +56,7 @@ public class Login {
 				}
 			});
 
-			mainScene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			MAIN_SCENE.setOnMouseDragged(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					primaryStage.setX(event.getScreenX() + dragDelta.x);
@@ -67,7 +69,7 @@ public class Login {
 				}
 			}); // Fim do evento.
 
-			primaryStage.setScene(mainScene); // Seta a cena principal
+			primaryStage.setScene(MAIN_SCENE); // Seta a cena principal
 			primaryStage.setTitle("Hinotori");
 			primaryStage.getIcons().add(new Image(Login.class.getResourceAsStream(LoginController.getIcon())));
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -77,5 +79,9 @@ public class Login {
 			e.printStackTrace();
 		}
 		return controller;
+	}
+	
+	public static Stage getMain() {
+		return MAIN_STAGE;
 	}
 }

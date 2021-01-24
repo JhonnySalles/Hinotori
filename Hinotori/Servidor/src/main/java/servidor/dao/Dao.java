@@ -31,12 +31,12 @@ public class Dao<E extends Entidade> {
 		return lastEntity;
 	}
 
-	private String getTabela() {
+	protected String getTabela() {
 		// Para pesquisa deve-se retornar o nome da classe.
 		return classe.getName();
 	}
 
-	private String getTabelaNome() {
+	protected String getTabelaNome() {
 		return classe.getAnnotation(Table.class).name();
 	}
 

@@ -113,6 +113,7 @@ public class Usuario extends Pessoa implements Entidade {
 	public Usuario() {
 		super();
 		this.login = "";
+		this.senha = "";
 		this.nivel = UsuarioNivel.USUARIO;
 		this.observacao = "";
 		this.contatos = new HashSet<>();
@@ -122,15 +123,17 @@ public class Usuario extends Pessoa implements Entidade {
 	public Usuario(Long id) {
 		super(id);
 		this.login = "";
+		this.senha = "";
 		this.nivel = UsuarioNivel.USUARIO;
 		this.observacao = "";
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
 	}
 
-	public Usuario(String login) {
+	public Usuario(String login, String senha) {
 		super();
 		this.login = login;
+		this.senha = senha;
 		this.nivel = UsuarioNivel.USUARIO;
 		this.observacao = "";
 		this.contatos = new HashSet<>();
@@ -141,6 +144,7 @@ public class Usuario extends Pessoa implements Entidade {
 			String observacao, UsuarioNivel nivel, Situacao situacao) {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.login = login;
+		this.senha = "";
 		this.nivel = nivel;
 		this.observacao = observacao;
 		this.contatos = new HashSet<>();
@@ -150,6 +154,7 @@ public class Usuario extends Pessoa implements Entidade {
 	public Usuario(String nomeSobrenome, String login, String observacao) {
 		super(nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO);
 		this.login = login;
+		this.senha = "";
 		this.nivel = UsuarioNivel.USUARIO;
 		this.observacao = observacao;
 		this.contatos = new HashSet<>();
@@ -160,6 +165,7 @@ public class Usuario extends Pessoa implements Entidade {
 			String observacao, UsuarioNivel nivel, Situacao situacao, Set<UsuarioImagem> imagens) {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.login = login;
+		this.senha = "";
 		this.observacao = observacao;
 		this.imagens = imagens;
 		this.nivel = nivel;
@@ -171,6 +177,7 @@ public class Usuario extends Pessoa implements Entidade {
 			Set<UsuarioImagem> imagens) {
 		super(id, nomeSobrenome, dataCadastro, dataUltimaAlteracao, situacao);
 		this.login = login;
+		this.senha = "";
 		this.observacao = observacao;
 		this.imagens = imagens;
 		this.nivel = nivel;

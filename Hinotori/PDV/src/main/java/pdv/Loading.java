@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import loguin.Login;
 import loguin.controller.LoadingController;
 import servidor.entities.Usuario;
 
@@ -54,15 +55,15 @@ public class Loading extends Preloader {
 	public void start(Stage primaryStage) throws Exception {
 		createLoading(primaryStage);
 	}
-	
+
 	@Override
-    public void handleProgressNotification(ProgressNotification pn) {
-        //bar.setProgress(pn.getProgress());
-        //if (pn.getProgress() > 0 && pn.getProgress() < 1.0) {
-          //  bar.setVisible(true);
-        //}
-    }
-	
+	public void handleProgressNotification(ProgressNotification pn) {
+		// bar.setProgress(pn.getProgress());
+		// if (pn.getProgress() > 0 && pn.getProgress() < 1.0) {
+		// bar.setVisible(true);
+		// }
+	}
+
 	@Override
 	public void handleStateChangeNotification(StateChangeNotification notification) {
 		if (notification.getType().equals(StateChangeNotification.Type.BEFORE_START)) {
@@ -79,11 +80,9 @@ public class Loading extends Preloader {
 			consumer = (CredentialsConsumer) notification.getApplication();
 
 			if (LOGUIN.isShowing() && usuario != null && consumer != null) {
-				System.out.println("consumer");
 				consumer.setCredential(usuario);
 				Platform.runLater(new Runnable() {
 					public void run() {
-						System.out.println("rum");
 						LOGUIN.hide();
 					}
 				});

@@ -9,8 +9,7 @@
 }
 
 #apLoginCadastro{
-    -fx-background-color: #f2f2f2;
-    -fx-background-radius: 20px;
+    -fx-background-color: linear-gradient(to bottom right, #f2f2f2 0%, #ffffff 30%, #ffffff 70%, #d9d9d9 100%);
 }
 
 

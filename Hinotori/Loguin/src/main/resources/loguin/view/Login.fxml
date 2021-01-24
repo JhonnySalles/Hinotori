@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,9 +16,9 @@
 
 <AnchorPane fx:id="background" maxHeight="500.0" maxWidth="730.0" minHeight="500.0" minWidth="730.0" prefHeight="500.0" prefWidth="730.0" stylesheets="@../css/White_Login.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="loguin.controller.LoginController">
    <children>
-      <AnchorPane fx:id="apLoginCadastro" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="125.0">
+      <AnchorPane fx:id="apLoginCadastro" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
          <children>
-            <VBox fx:id="vbCadastro" alignment="CENTER" disable="true" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="vbCadastro" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox>
                      <children>
@@ -30,9 +31,9 @@
                   </HBox>
                   <VBox alignment="CENTER" spacing="30.0">
                      <children>
-                        <JFXTextField fx:id="txtNome" promptText="Nome" />
-                        <JFXTextField fx:id="txtLoguin" promptText="Loguin" />
-                        <JFXPasswordField fx:id="pswPassword" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" promptText="Senha" />
+                        <JFXTextField fx:id="txtNome" labelFloat="true" promptText="Nome" />
+                        <JFXTextField fx:id="txtLoguin" labelFloat="true" promptText="Loguin" />
+                        <JFXPasswordField fx:id="pswPassword" labelFloat="true" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" promptText="Senha" />
                         <VBox spacing="5.0">
                            <children>
                               <JFXButton fx:id="btnCadastrar" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" minWidth="200.0" onAction="#onCadastrarClick" prefHeight="35.0" prefWidth="200.0" text="Cadastrar" />
@@ -59,14 +60,15 @@
                   </HBox>
                   <VBox alignment="CENTER" spacing="30.0">
                      <children>
-                        <JFXComboBox fx:id="cbBoxUsuario" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" promptText="Usuário" />
-                        <JFXPasswordField fx:id="pswSenha" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" promptText="Senha" />
+                        <JFXComboBox fx:id="cbBoxUsuario" labelFloat="true" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" promptText="Usuário" />
+                        <JFXPasswordField fx:id="pswSenha" labelFloat="true" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" promptText="Senha" />
                         <VBox spacing="5.0">
                            <children>
                               <JFXButton fx:id="btnLogin" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" minWidth="200.0" onAction="#onLoginClick" prefHeight="35.0" prefWidth="200.0" text="Login" />
                               <JFXButton maxHeight="35.0" maxWidth="200.0" minHeight="35.0" minWidth="200.0" onAction="#onSairClick" prefHeight="35.0" prefWidth="200.0" styleClass="btnSair" text="Sair" />
                            </children>
                         </VBox>
+                        <Label fx:id="lblAviso" prefHeight="40.0" prefWidth="200.0" textFill="#ff0b0b" wrapText="true" />
                      </children>
                   </VBox>
                   <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
@@ -111,9 +113,9 @@
                </children>
             </VBox>
          </children>
-         <padding>
-            <Insets right="3.0" />
-         </padding>
+         <effect>
+            <DropShadow />
+         </effect>
       </AnchorPane>
    </children>
 </AnchorPane>

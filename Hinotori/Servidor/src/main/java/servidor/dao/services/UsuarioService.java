@@ -2,7 +2,9 @@ package servidor.dao.services;
 
 import java.util.List;
 
+import comum.model.enums.Situacao;
 import comum.model.enums.TamanhoImagem;
+import comum.model.enums.UsuarioNivel;
 import servidor.dao.UsuarioDao;
 import servidor.entities.Usuario;
 
@@ -17,6 +19,19 @@ public class UsuarioService extends GenericService<Usuario> {
 	@Override
 	public UsuarioDao getService() {
 		return service;
+	}
+	
+	public Usuario cadastro(Usuario entidade) {
+		if (service.isPrimeiroRegistro()) {
+			entidade.setSituacao(Situacao.ATIVO);
+			entidade.setNivel(UsuarioNivel.ADMINISTRADOR);
+		} else {
+			entidade.setSituacao(Situacao.INATIVO);
+			entidade.setNivel(UsuarioNivel.USUARIO);
+		}
+		
+		service.salvarAtomico(entidade);
+		return entidade;
 	}
 
 	public Boolean validaLogin(Long id, String login) {
