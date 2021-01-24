@@ -1,6 +1,5 @@
 package cadastro.controller.cadastros;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -19,6 +18,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import cadastro.controller.lista.ListaContatoController;
 import cadastro.utils.CadastroUtils;
 import comum.form.CadastroFormPadrao;
 import comum.model.constraints.Limitadores;
@@ -33,13 +33,12 @@ import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import comum.model.utils.ViewGerenciador;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import servidor.dao.services.UsuarioService;
 import servidor.dto.ImagemDTO;
 import servidor.entities.Imagem;
@@ -84,7 +83,11 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 	@FXML
 	private JFXButton btnProcurarImagem;
 
+	@FXML
+	private JFXButton btnContato;
+
 	private Set<UsuarioImagem> imagens;
+	private Boolean mudouSenha;
 	private UsuarioService service = new UsuarioService();
 
 	@Override
@@ -123,27 +126,16 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 	}
 
 	@FXML
-	public void onTxtIdClick() {
-		txtId.getSelectedText();
-	}
-
-	@FXML
-	public void onTxtIdEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER)) {
-			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
-				onTxtIdExit();
-			else
-				limpaCampos();
-
-			Utils.clickTab();
-		}
-	}
-
-	public void onTxtIdExit() {
-		if (!txtId.getText().isEmpty())
-			carregar(pesquisar(new Usuario(Long.valueOf(txtId.getText()))));
-		else if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			limpaCampos();
+	public void onBtnContatoClick() {
+		ListaContatoController ctn = (ListaContatoController) ViewGerenciador
+				.loadTela(ListaContatoController.getFxmlLocate(), spRoot);
+		ctn.initData(txtNome.getText(), entidade.getContatos());
+		ctn.setOnClose(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				entidade.setContatos(ctn.getContato());
+			}
+		});
 	}
 
 	@Override
@@ -173,54 +165,54 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 
 	@Override
 	protected boolean validaCampos() {
-		try {
-			ValidaUsuario.validaSenha(entidade.getSenha());
 
-			entidade.setSenha(DecodeHash.CriptografaSenha(entidade.getSenha()));
-		} catch (ExcessaoCadastro e) {
-			txtNome.setUnFocusColor(Color.RED);
-			Notificacoes.notificacao(AlertType.INFORMATION, "Senha inválida", e.getMessage());
-			e.printStackTrace();
-			return false;
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível codificar a senha");
-			e.printStackTrace();
-			LOGGER.log(Level.WARNING, "{Erro ao codificar a senha}", e);
-			return false;
+		if (!edicao || mudouSenha) {
+			try {
+				ValidaUsuario.validaSenha(entidade.getSenha());
+
+				entidade.setSenha(DecodeHash.CriptografaSenha(entidade.getSenha()));
+			} catch (ExcessaoCadastro e) {
+				pswSenha.validate();
+				Notificacoes.notificacao(AlertType.INFORMATION, "Senha inválida", e.getMessage());
+				e.printStackTrace();
+				return false;
+			} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+				Notificacoes.notificacao(AlertType.ERROR, "Erro", "Não foi possível codificar a senha");
+				e.printStackTrace();
+				LOGGER.log(Level.WARNING, "{Erro ao codificar a senha}", e);
+			}
 		}
 
 		try {
-			return ValidaUsuario.validaUsuario(entidade);
-		} catch (ExcessaoCadastro | ExcessaoBd e) {
+			return ValidaUsuario.validaUsuario(entidade, !edicao || mudouSenha);
+		} catch (ExcessaoCadastro e) {
+			Notificacoes.notificacao(AlertType.ERROR, "Cadastro inválido", e.getMessage());
 			e.printStackTrace();
+		} catch (ExcessaoBd e) {
+			Notificacoes.notificacao(AlertType.ERROR, "Não foi possível conectar ao banco de dados", e.getMessage());
+			e.printStackTrace();
+			LOGGER.log(Level.INFO, "{Erro ao conectar ao banco}", e);
 		}
 
 		txtNome.validate();
 		txtLogin.validate();
-		pswSenha.validate();
 
-		Validadores.setTextFieldNotEmpty(txtNome);
-		Validadores.setTextFieldNotEmpty(txtLogin);
-		Validadores.setPasswordFieldNotEmpty(pswSenha);
-
-		try {
-			ValidaUsuario.validaLogin(entidade);
-		} catch (ExcessaoCadastro e) {
-			txtNome.setUnFocusColor(Color.RED);
-			Notificacoes.notificacao(AlertType.INFORMATION, "Login inválido", e.getMessage());
-			e.printStackTrace();
-		} catch (ExcessaoBd e) {
-			Notificacoes.notificacao(AlertType.INFORMATION, "Não foi possível validar o login", e.getMessage());
-			e.printStackTrace();
-			LOGGER.log(Level.INFO, "{Erro ao conectar ao banco}", e);
-		}
+		if (!edicao || mudouSenha)
+			pswSenha.validate();
 
 		return true;
 	}
 
 	@Override
 	protected void limpaCampos() {
-		entidade = new Usuario();
+		this.edicao = false;
+		this.mudouSenha = false;
+		this.entidade = new Usuario();
+
+		if (service != null)
+			txtId.setText(service.proximoId());
+		else
+			txtId.setText("0");
 
 		txtId.setText("");
 		txtNome.setText("");
@@ -234,20 +226,17 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 
 	@Override
 	public CadastroFormPadrao<Usuario> atualizaEntidade() {
-		entidade = new Usuario();
-
 		entidade.setNomeSobrenome(txtNome.getText());
 		entidade.setLogin(txtLogin.getText().toUpperCase());
-		entidade.setSenha(pswSenha.getText());
+
+		if (!edicao || mudouSenha)
+			entidade.setSenha(pswSenha.getText());
+
 		entidade.setObservacao(txtObservacao.getText());
 		entidade.setNivel(cbNivel.getSelectionModel().getSelectedItem());
 		entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-
+		entidade.setImagens(imagens);
 		return this;
-	}
-
-	public Usuario getUsuario() {
-		return entidade;
 	}
 
 	// Devido a um erro no componente, caso venha do banco o valor null, estoura
@@ -257,20 +246,19 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 	private CadUsuarioController atualizaTela(Usuario usuario) {
 		limpaCampos();
 
+		this.edicao = true;
 		this.entidade = usuario;
 
 		txtId.setText(usuario.getId().toString());
 		txtNome.setText(usuario.getNomeSobrenome());
 		txtLogin.setText(usuario.getLogin());
-		pswSenha.setText(""); // A senha será necessária sempre informa-la ao editar o cadastro.
 		txtObservacao.setText(usuario.getObservacao());
 		cbSituacao.getSelectionModel().select(usuario.getSituacao().ordinal());
 		cbNivel.getSelectionModel().select(usuario.getNivel().ordinal());
 
 		if (usuario.getImagens() != null && usuario.getImagens().size() > 0) {
 			imagens = usuario.getImagens();
-			imgUsuario
-					.setImage(new Image(new ByteArrayInputStream(usuario.getImagens().iterator().next().getImagem())));
+			imgUsuario.setImage(CadastroUtils.processaByteToImagem(usuario.getImagens().iterator().next().getImagem()));
 		} else
 			setImagemPadrao();
 
@@ -307,13 +295,17 @@ public class CadUsuarioController extends CadastroFormPadrao<Usuario> {
 		Validadores.setTextFieldNotEmpty(txtLogin);
 		Validadores.setPasswordFieldNotEmpty(pswSenha);
 
+		pswSenha.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!oldValue.equalsIgnoreCase(newValue))
+				mudouSenha = true;
+		});
+
 		cbSituacao.getItems().addAll(Situacao.values());
+		cbSituacao.getItems().remove(Situacao.EXCLUIDO);
 		cbNivel.getItems().add(UsuarioNivel.USUARIO);
 		cbNivel.getItems().add(UsuarioNivel.ADMINISTRADOR);
 
 		limpaCampos();
-
-		atualizaTela(new Usuario());
 	}
 
 	public static URL getFxmlLocate() {

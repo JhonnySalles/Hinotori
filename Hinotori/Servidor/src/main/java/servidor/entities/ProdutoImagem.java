@@ -15,11 +15,11 @@ public class ProdutoImagem extends Imagem {
 		super();
 	}
 
-	public ProdutoImagem(Long id, String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
+	public ProdutoImagem(Long id, String nome, String extenssao, byte[] imagem, TamanhoImagem tamanho) {
 		super(id, nome, extenssao, imagem, tamanho);
 	}
 
-	public ProdutoImagem(String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
+	public ProdutoImagem(String nome, String extenssao, byte[] imagem, TamanhoImagem tamanho) {
 		super(nome, extenssao, imagem, tamanho);
 	}
 

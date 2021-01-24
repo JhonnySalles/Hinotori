@@ -13,7 +13,7 @@ package comum.model.enums;
  */
 public enum TamanhoImagem {
 
-	NENHUMA("Nenhuma"), TODOS("Todos"), ORIGINAL("Original"), PEQUENA("Pequena (100x100)"), MEDIA("Média (600x600)");
+	NENHUMA("Nenhuma"), TODOS("Todos"), ORIGINAL("Original"), PEQUENA("Pequena (100x100)"), MEDIA("Média (500x500)");
 
 	private String tamanhoImagem;
 

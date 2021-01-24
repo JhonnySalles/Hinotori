@@ -33,7 +33,7 @@ public class Imagem implements Serializable {
 
 	@Column(name = "Extenssao", columnDefinition = "varchar(10)")
 	private String extenssao;
-	
+
 	@Column(name = "Caminho", columnDefinition = "longtext")
 	private String caminho;
 
@@ -41,7 +41,8 @@ public class Imagem implements Serializable {
 	private byte[] imagem;
 
 	@Column(name = "Tamanho", columnDefinition = "enum('ORIGINAL','PEQUENA','MEDIA')")
-	private Enum<TamanhoImagem> tamanho;
+	@Enumerated(EnumType.STRING)
+	private TamanhoImagem tamanho;
 
 	@Transient
 	private Boolean excluir;
@@ -78,12 +79,11 @@ public class Imagem implements Serializable {
 		this.imagem = imagem;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public Enum<TamanhoImagem> getTamanho() {
+	public TamanhoImagem getTamanho() {
 		return tamanho;
 	}
 
-	public void setTamanho(Enum<TamanhoImagem> tamanho) {
+	public void setTamanho(TamanhoImagem tamanho) {
 		this.tamanho = tamanho;
 	}
 
@@ -98,9 +98,12 @@ public class Imagem implements Serializable {
 	public Imagem() {
 		this.id = Long.valueOf(0);
 		this.excluir = false;
+		this.nome = "";
+		this.extenssao = "";
+		this.tamanho = TamanhoImagem.NENHUMA;
 	}
 
-	public Imagem(String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
+	public Imagem(String nome, String extenssao, byte[] imagem, TamanhoImagem tamanho) {
 		this.id = Long.valueOf(0);
 		this.nome = nome;
 		this.extenssao = extenssao;
@@ -109,7 +112,7 @@ public class Imagem implements Serializable {
 		this.excluir = false;
 	}
 
-	public Imagem(Long id, String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
+	public Imagem(Long id, String nome, String extenssao, byte[] imagem, TamanhoImagem tamanho) {
 		this.id = id;
 		this.nome = nome;
 		this.extenssao = extenssao;
@@ -123,6 +126,8 @@ public class Imagem implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((tamanho == null) ? 0 : tamanho.hashCode());
 		return result;
 	}
 
@@ -139,6 +144,13 @@ public class Imagem implements Serializable {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (tamanho != other.tamanho)
 			return false;
 		return true;
 	}

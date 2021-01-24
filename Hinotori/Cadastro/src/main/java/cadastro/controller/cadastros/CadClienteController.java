@@ -85,23 +85,6 @@ public class CadClienteController extends CadastroFormPadrao<Cliente> {
 	}
 
 	@FXML
-	public void onTxtIdClick() {
-		txtId.getSelectedText();
-	}
-
-	@FXML
-	public void onTxtIdEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER)) {
-			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
-				onTxtIdExit();
-			else
-				limpaCampos();
-
-			Utils.clickTab();
-		}
-	}
-
-	@FXML
 	public void onBtnEnderecoEnter(KeyEvent e) {
 		if (e.getCode().equals(KeyCode.ENTER))
 			btnEndereco.fire();

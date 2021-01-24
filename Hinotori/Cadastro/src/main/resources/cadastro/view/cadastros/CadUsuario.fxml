@@ -54,7 +54,7 @@
                                              <children>
                                                 <HBox alignment="CENTER" minHeight="35.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <JFXTextField fx:id="txtId" editable="false" labelFloat="true" minHeight="30.0" onKeyPressed="#onTxtIdEnter" onMouseClicked="#onTxtIdClick" prefWidth="80.0" promptText="Id">
+                                                      <JFXTextField fx:id="txtId" editable="false" labelFloat="true" minHeight="30.0" prefWidth="80.0" promptText="Id">
                                                          <font>
                                                             <Font name="Times New Roman" size="12.0" />
                                                          </font>
@@ -84,6 +84,15 @@
                                                             <Font name="Times New Roman" size="12.0" />
                                                          </font>
                                                       </JFXPasswordField>
+                                                      <JFXButton fx:id="btnContato" buttonType="RAISED" onAction="#onBtnContatoClick" styleClass="btnContatos-cliente" text="Cad. Contato">
+                                                         <graphic>
+                                                            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                               <image>
+                                                                  <Image url="@../../imagens/white/cadastros/btnContato_100.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </graphic>
+                                                      </JFXButton>
                                                    </children>
                                                 </HBox>
                                              </children>

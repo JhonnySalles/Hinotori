@@ -148,6 +148,7 @@ public class Empresa extends EntidadeBase implements Serializable, Entidade {
 		this.nomeFantasia = "";
 		this.razaoSocial = "";
 		this.cnpj = "";
+		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();
@@ -158,6 +159,7 @@ public class Empresa extends EntidadeBase implements Serializable, Entidade {
 		this.nomeFantasia = "";
 		this.razaoSocial = "";
 		this.cnpj = "";
+		this.dataCadastro = Timestamp.valueOf(LocalDateTime.now());
 		this.enderecos = new HashSet<>();
 		this.contatos = new HashSet<>();
 		this.imagens = new HashSet<>();

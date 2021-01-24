@@ -14,7 +14,6 @@ import cadastro.controller.cadastros.CadClienteController;
 import comum.form.DashboardFormPadrao;
 import comum.model.alerts.AlertasPopup;
 import comum.model.entities.Configuracao;
-import comum.model.notification.Notificacoes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;

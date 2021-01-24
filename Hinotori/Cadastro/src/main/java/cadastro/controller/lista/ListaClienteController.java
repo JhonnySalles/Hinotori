@@ -3,7 +3,9 @@ package cadastro.controller.lista;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import cadastro.controller.cadastros.CadClienteController;
 import comum.form.ListaFormPadrao;
@@ -26,6 +28,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import servidor.dao.services.GenericService;
 import servidor.entities.Cliente;
+import servidor.entities.Contato;
+import servidor.entities.Endereco;
 
 public class ListaClienteController extends ListaFormPadrao {
 
@@ -48,10 +52,10 @@ public class ListaClienteController extends ListaFormPadrao {
 	private TableColumn<Cliente, Timestamp> tbClDataCadastro;
 
 	@FXML
-	private TableColumn<Cliente, String> tbClContatoPadrao;
+	private TableColumn<Cliente, Set<Contato>> tbClContatoPadrao;
 
 	@FXML
-	private TableColumn<Cliente, String> tbClEnderecoPadrao;
+	private TableColumn<Cliente, Set<Endereco>> tbClEnderecoPadrao;
 
 	final PseudoClass excluido = PseudoClass.getPseudoClass("excluido");
 
@@ -124,10 +128,45 @@ public class ListaClienteController extends ListaFormPadrao {
 		tbClCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
 		tbClCnpj.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
 		tbClDataCadastro.setCellValueFactory(new PropertyValueFactory<>("dataCadastro"));
-		// tbClContatoPadrao.setCellValueFactory(new
-		// PropertyValueFactory<>("tipoContato"));
-		// tbClEnderecoPadrao.setCellValueFactory(new
-		// PropertyValueFactory<>("tipoContato"));
+		tbClContatoPadrao.setCellValueFactory(new PropertyValueFactory<>("contatos"));
+		tbClEnderecoPadrao.setCellValueFactory(new PropertyValueFactory<>("enderecos"));
+
+		tbClContatoPadrao.setCellFactory(column -> {
+			TableCell<Cliente, Set<Contato>> cell = new TableCell<Cliente, Set<Contato>>() {
+
+				@Override
+				protected void updateItem(Set<Contato> item, boolean empty) {
+					super.updateItem(item, empty);
+					setText(null);
+					if (item != null) {
+						Optional<Contato> contato = item.stream().parallel().filter(entidade -> entidade.isPadrao())
+								.findFirst();
+						if (contato.isPresent())
+							setText(contato.get().getResumeContato());
+					}
+				}
+			};
+
+			return cell;
+		});
+
+		tbClEnderecoPadrao.setCellFactory(column -> {
+			TableCell<Cliente, Set<Endereco>> cell = new TableCell<Cliente, Set<Endereco>>() {
+				@Override
+				protected void updateItem(Set<Endereco> item, boolean empty) {
+					super.updateItem(item, empty);
+					setText(null);
+					if (item != null) {
+						Optional<Endereco> endereco = item.stream().parallel().filter(entidade -> entidade.isPadrao())
+								.findFirst();
+						if (endereco.isPresent())
+							setText(endereco.get().getResumeEndereco());
+					}
+				}
+			};
+
+			return cell;
+		});
 
 		tbClCpf.setCellFactory(column -> {
 			TableCell<Cliente, String> cell = new TableCell<Cliente, String>() {
@@ -166,7 +205,7 @@ public class ListaClienteController extends ListaFormPadrao {
 				@Override
 				protected void updateItem(Timestamp item, boolean empty) {
 					super.updateItem(item, empty);
-					if (empty)
+					if (empty || item == null)
 						setText(null);
 					else
 						setText(format.format(item));

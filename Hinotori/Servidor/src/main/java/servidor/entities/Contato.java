@@ -1,6 +1,7 @@
 package servidor.entities;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 import comum.model.entities.Entidade;
 import comum.model.enums.Situacao;
 import comum.model.enums.TipoContato;
+import comum.model.mask.Mascaras;
 import javafx.beans.property.SimpleBooleanProperty;
 import servidor.converter.BooleanPropertyConverter;
 
@@ -87,10 +89,6 @@ public class Contato extends Pessoa implements Entidade {
 		this.tipoContato = tipo;
 	}
 
-	public boolean getPadrao() {
-		return padrao.get();
-	}
-
 	public void setPadrao(boolean padrao) {
 		this.padrao.set(padrao);
 	}
@@ -107,7 +105,13 @@ public class Contato extends Pessoa implements Entidade {
 	public String getDescricao() {
 		return nomeSobrenome;
 	}
-	
+
+	public String getResumeContato() {
+		return (nomeSobrenome.indexOf(" ") > 0 ? nomeSobrenome.substring(0, nomeSobrenome.indexOf(" ")) : nomeSobrenome)
+				+ " - " + (!telefone.isEmpty() ? Mascaras.formatFone(telefone)
+						: (!celular.isEmpty() ? Mascaras.formatFone(celular) : email));
+	}
+
 	public Contato() {
 		super();
 		this.telefone = "";
@@ -117,10 +121,10 @@ public class Contato extends Pessoa implements Entidade {
 		this.tipoContato = TipoContato.RESIDENCIAL;
 		this.padrao.set(false);
 	}
-	
+
 	public Contato(String nomeSobrenome, String telefone, String celular, String email, String observacao,
 			Boolean padrao) {
-		super();
+		super(0L, nomeSobrenome, Timestamp.valueOf(LocalDateTime.now()), Situacao.ATIVO);
 		this.telefone = telefone;
 		this.celular = celular;
 		this.email = email;
@@ -180,8 +184,7 @@ public class Contato extends Pessoa implements Entidade {
 	@Override
 	public String toString() {
 		return "Contato [telefone=" + telefone + ", celular=" + celular + ", email=" + email + ", observacao="
-				+ observacao + ", tipoContato=" + tipoContato + ", padrao=" + padrao
-				+ "]";
+				+ observacao + ", tipoContato=" + tipoContato + ", padrao=" + padrao + "]";
 	}
 
 }

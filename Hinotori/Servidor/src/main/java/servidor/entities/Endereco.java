@@ -146,6 +146,10 @@ public class Endereco extends EntidadeBase implements Serializable, Entidade {
 	public String getDescricao() {
 		return endereco + ", " + numero;
 	}
+	
+	public String getResumeEndereco() {
+		return endereco + ", " + numero + " - " + (bairro != null ? bairro.getDescricao() : "");
+	}
 
 	public Endereco() {
 		super();

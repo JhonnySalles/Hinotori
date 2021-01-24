@@ -15,11 +15,11 @@ public class GupoSubGrupoImagem extends Imagem {
 		super();
 	}
 
-	public GupoSubGrupoImagem(Long id, String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
+	public GupoSubGrupoImagem(Long id, String nome, String extenssao, byte[] imagem, TamanhoImagem tamanho) {
 		super(id, nome, extenssao, imagem, tamanho);
 	}
 
-	public GupoSubGrupoImagem(String nome, String extenssao, byte[] imagem, Enum<TamanhoImagem> tamanho) {
+	public GupoSubGrupoImagem(String nome, String extenssao, byte[] imagem, TamanhoImagem tamanho) {
 		super(nome, extenssao, imagem, tamanho);
 	}
 

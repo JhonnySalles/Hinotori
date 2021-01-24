@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -34,11 +35,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import servidor.dao.services.GenericService;
+import servidor.dto.ImagemDTO;
 import servidor.entities.Empresa;
-import servidor.entities.Imagem;
+import servidor.entities.EmpresaImagem;
 import servidor.validations.ValidaEmpresa;
 
 public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
@@ -78,7 +78,7 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 	@FXML
 	private JFXButton btnProcurarImagem;
 
-	private Set<Imagem> imagens;
+	private Set<EmpresaImagem> imagens;
 	private GenericService<Empresa> service = new GenericService<Empresa>(Empresa.class);
 	private String id;
 
@@ -86,23 +86,6 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 	public void onBtnVoltarClick() {
 		ViewGerenciador.closeTela(spRoot);
 		onClose();
-	}
-
-	@FXML
-	public void onTxtIdClick() {
-		txtId.getSelectedText();
-	}
-
-	@FXML
-	public void onTxtIdEnter(KeyEvent e) {
-		if (e.getCode().equals(KeyCode.ENTER)) {
-			if (!txtId.getText().equalsIgnoreCase("0") && !txtId.getText().isEmpty())
-				onTxtIdExit();
-			else
-				limpaCampos();
-
-			Utils.clickTab();
-		}
 	}
 
 	@FXML
@@ -126,10 +109,11 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 		if (caminhoImagem != null) {
 			try {
 				if (imagens == null)
-					imagens = new HashSet<Imagem>();
+					imagens = new HashSet<EmpresaImagem>();
 
 				imgLogo.setImage(new Image(caminhoImagem.toURI().toString()));
-				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem));
+				imagens.addAll(CadastroUtils.processaImagens(caminhoImagem).stream()
+						.map(imagem -> ImagemDTO.toEmpresaImagem(imagem)).collect(Collectors.toList()));
 			} catch (IOException e) {
 				e.printStackTrace();
 				LOGGER.log(Level.INFO, "{Erro ao carregar e processar a imagem}", e);
@@ -212,6 +196,7 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 	private CadEmpresaController atualizaTela(Empresa empresa) {
 		limpaCampos();
 
+		this.edicao = true;
 		this.entidade = empresa;
 
 		txtId.setText(empresa.getId().toString());
@@ -232,18 +217,11 @@ public class CadEmpresaController extends CadastroFormPadrao<Empresa> {
 
 	@Override
 	public CadEmpresaController atualizaEntidade() {
-		entidade = new Empresa();
-
-		if (txtId.getText().isEmpty() || txtId.getText().equalsIgnoreCase("0"))
-			entidade.setId(Long.valueOf(0));
-		else
-			entidade.setId(Long.valueOf(txtId.getText()));
-
 		entidade.setRazaoSocial(txtRazaoSocial.getText());
 		entidade.setNomeFantasia(txtNomeFantasia.getText());
 		entidade.setCnpj(Utils.removeMascaras(txtCnpj.getText()));
 		entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
-
+		entidade.setImagens(imagens);
 		return this;
 	}
 

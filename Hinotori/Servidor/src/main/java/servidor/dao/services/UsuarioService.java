@@ -3,7 +3,6 @@ package servidor.dao.services;
 import java.util.List;
 
 import comum.model.enums.Situacao;
-import comum.model.enums.TamanhoImagem;
 import comum.model.enums.UsuarioNivel;
 import servidor.dao.UsuarioDao;
 import servidor.entities.Usuario;
@@ -42,8 +41,9 @@ public class UsuarioService extends GenericService<Usuario> {
 		return service.pesquisar(login);
 	}
 
-	public List<Usuario> listar(TamanhoImagem tamanho) {
-		return service.listar();
+	@Override
+	public List<Usuario> listar() {
+		return service.pesquisarTodos();
 	}
 
 	public List<String> carregaLogins() {

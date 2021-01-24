@@ -24,7 +24,7 @@ public class ValidaUsuario {
 
 	private static UsuarioService service = new UsuarioService();
 
-	public static boolean validaUsuario(Usuario usuario) throws ExcessaoCadastro, ExcessaoBd {
+	public static boolean validaUsuario(Usuario usuario, Boolean mudouSenha) throws ExcessaoCadastro, ExcessaoBd {
 
 		if (usuario == null)
 			return false;
@@ -33,7 +33,8 @@ public class ValidaUsuario {
 
 		validaLogin(usuario);
 
-		validaSenha(usuario.getSenha());
+		if (mudouSenha)
+			validaSenha(usuario.getSenha());
 
 		return true;
 	}

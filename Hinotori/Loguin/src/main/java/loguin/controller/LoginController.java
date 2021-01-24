@@ -5,6 +5,8 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -35,6 +37,8 @@ import servidor.validations.ValidaUsuario;
 
 public class LoginController implements Initializable {
 
+	private final static Logger LOGGER = Logger.getLogger(LoginController.class.getName());
+	
 	@FXML
 	private AnchorPane background;
 
@@ -173,7 +177,7 @@ public class LoginController implements Initializable {
 					"Cadastrado pelo Loguin.");
 			usuario.setSenha(DecodeHash.CriptografaSenha(pswPassword.getText().trim()));
 
-			ValidaUsuario.validaUsuario(usuario);
+			ValidaUsuario.validaUsuario(usuario, true);
 
 			UsuarioService service = new UsuarioService();
 			usuario = service.cadastro(usuario);
@@ -189,6 +193,7 @@ public class LoginController implements Initializable {
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			Alertas.Alerta(AlertType.ERROR, "Erro de senha", "Erro ao criptografar a senha.");
 			e.printStackTrace();
+			LOGGER.log(Level.WARNING, "{Erro ao codificar a senha}", e);
 		} catch (ExcessaoBd e) {
 			Alertas.Alerta(AlertType.ERROR, "Erro ao conectar ao banco",
 					"Erro ao tentar conectar ao banco, tente novamente.");

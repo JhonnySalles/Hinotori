@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
-import comum.model.enums.TamanhoImagem;
 import servidor.entities.Usuario;
 
 public class UsuarioDao extends Dao<Usuario> {
@@ -33,7 +32,7 @@ public class UsuarioDao extends Dao<Usuario> {
 		return result.getSingleResult();
 	};
 
-	public List<Usuario> pesquisarTodos(TamanhoImagem tamanho) {
+	public List<Usuario> pesquisarTodos() {
 		return em.createQuery(SELECT_ALL, Usuario.class).getResultList();
 	};
 
