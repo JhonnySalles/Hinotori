@@ -21,9 +21,11 @@ import org.hibernate.annotations.CascadeType;
 
 import comum.model.entities.Entidade;
 import comum.model.enums.Situacao;
+import servidor.annotation.Sugestao;
 
 @Entity
 @Table(name = "empresas")
+@Sugestao(campo = "NomeFantasia")
 public class Empresa extends EntidadeBase implements Serializable, Entidade {
 
 	// Utilizado para poder ser transformado em sequencia de bytes
@@ -139,7 +141,7 @@ public class Empresa extends EntidadeBase implements Serializable, Entidade {
 	}
 
 	@Override
-	public String getDescricao() {
+	public String getDescricaoFrame() {
 		return nomeFantasia;
 	}
 

@@ -106,7 +106,7 @@ public class Usuario extends Pessoa implements Entidade {
 	}
 
 	@Override
-	public String getDescricao() {
+	public String getDescricaoFrame() {
 		return nomeSobrenome;
 	}
 

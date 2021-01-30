@@ -182,6 +182,11 @@ public class Produto extends EntidadeBase implements Serializable, Entidade {
 	public void addImagens(ProdutoImagem imagens) {
 		this.imagens.add(imagens);
 	}
+	
+	@Override
+	public String getDescricaoFrame() {
+		return descricao;
+	}
 
 	public Produto() {
 		super();

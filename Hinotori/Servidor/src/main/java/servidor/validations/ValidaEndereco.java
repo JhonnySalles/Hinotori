@@ -56,7 +56,7 @@ public class ValidaEndereco {
 	}
 
 	public static void validaBairro(Bairro bairro) throws ExcessaoCadastro {
-		if (bairro == null || bairro.getDescricao().isEmpty())
+		if (bairro == null || bairro.getNome().isEmpty())
 			throw new ExcessaoCadastro(Mensagens.CAD_ENDERECO_BAIRRO);
 	}
 

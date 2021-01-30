@@ -70,7 +70,7 @@ public class Estado extends EntidadeBase implements Serializable, Entidade {
 	}
 
 	@Override
-	public String getDescricao() {
+	public String getDescricaoFrame() {
 		return nome;
 	}
 

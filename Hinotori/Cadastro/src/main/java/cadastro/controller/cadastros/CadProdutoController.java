@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
@@ -31,23 +30,19 @@ import comum.model.messages.Mensagens;
 import comum.model.notification.Notificacoes;
 import comum.model.utils.Utils;
 import comum.model.utils.ViewGerenciador;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import servidor.dao.services.GenericService;
 import servidor.dto.ImagemDTO;
 import servidor.entities.Imagem;
+import servidor.entities.Ncm;
 import servidor.entities.Produto;
 import servidor.entities.ProdutoImagem;
 import servidor.validations.ValidaProduto;
@@ -114,7 +109,7 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 	// Para utilizar o controlador do frame incluido, basta colocar a descrição
 	// "Controller" na frente do id do fxml incluido conforme abaixo.
 	@FXML
-	private PesquisaGenericaController frameNCMController;
+	private PesquisaGenericaController<Ncm> frameNCMController;
 
 	@FXML
 	private ImageView imgProduto;
@@ -127,56 +122,15 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 
 	// -------------------------------- Unidade -------------------------------- //
 
+	// O formato do arquivo incluido é um anchorpane "conforme criei a tela",
+	// o nome aqui será o mesmo que no id do fxml incluido.
 	@FXML
-	private JFXTextField txtEmpresa;
+	private AnchorPane unidade;
 
+	// Para utilizar o controlador do frame incluido, basta colocar a descrição
+	// "Controller" na frente do id do fxml incluido conforme abaixo.
 	@FXML
-	private JFXTextField txtUnidade;
-
-	@FXML
-	private JFXTextField txtCodigoBarras;
-
-	@FXML
-	private JFXCheckBox cbUnidadePadrao;
-
-	@FXML
-	private JFXCheckBox cbEmbalagemPadrao;
-
-	@FXML
-	private Spinner<Double> spnQuantidade;
-
-	@FXML
-	private Spinner<Double> spnFatorConversao;
-
-	@FXML
-	private JFXButton btnAdicionar;
-
-	@FXML
-	private JFXButton btnRemover;
-
-	@FXML
-	private TableView<Produto> tbUnidade;
-
-	@FXML
-	private TableColumn<Produto, String> tbClFilial;
-
-	@FXML
-	private TableColumn<Produto, String> tbClUnidade;
-
-	@FXML
-	private TableColumn<Produto, String> tbClCodigoBarras;
-
-	@FXML
-	private TableColumn<Produto, String> tbClQuantidade;
-
-	@FXML
-	private TableColumn<Produto, String> tbClFatorConversao;
-
-	@FXML
-	private TableColumn<Produto, String> tbClUnidadePadrao;
-
-	@FXML
-	private TableColumn<Produto, String> tbClEmbalagemPadrao;
+	private CadProdutoUnidadeController unidadeController;
 
 	// -------------------------------- -------------------------------- //
 
@@ -279,26 +233,23 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		}
 
 		txtDescricao.validate();
-
-		try {
-			ValidaProduto.validaCodigoBarras(entidade.getCodigoBarras());
-		} catch (ExcessaoCadastro e) {
-			txtCodigoBarras.setUnFocusColor(Color.RED);
-		}
-
+		
 		Notificacoes.notificacao(AlertType.INFORMATION, Mensagens.AVISO, Mensagens.CADASTRO_SALVAR);
 		return false;
 	}
 
 	@Override
 	protected void limpaCampos() {
-		entidade = new Produto();
+		this.edicao = false;
+		this.entidade = new Produto();
 
 		// ----------------- Produto ----------------- //
-		txtId.setText("0");
+		if (service != null)
+			txtId.setText(service.proximoId());
+		else
+			txtId.setText("0");
+
 		txtDescricao.setText("");
-		txtCodigoBarras.setText("");
-		txtUnidade.setText("");
 		txtGrupo.setText("");
 		txtSubGrupo.setText("");
 		txtNCM.setText("");
@@ -309,15 +260,9 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		cbTipoProduto.getSelectionModel().selectFirst();
 
 		// ----------------- Unidade ----------------- //
-		txtEmpresa.setText("");
-		txtUnidade.setText("");
-		txtCodigoBarras.setText("");
-		cbUnidadePadrao.setSelected(true);
-		cbEmbalagemPadrao.setSelected(false);
-		spnQuantidade.getEditor().setText("0");
-		spnFatorConversao.getEditor().setText("0");
+	
 
-		// ----------------- ----------------- //
+		// ----------------- Imagem ----------------- //
 		setImagemPadrao();
 	}
 
@@ -337,16 +282,7 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 			entidade.setId(Long.valueOf(txtId.getText()));
 
 		entidade.setDescricao(txtDescricao.getText());
-		entidade.setCodigoBarras(txtCodigoBarras.getText());
-		entidade.setMarca(txtUnidade.getText());
-		entidade.setUnidade(txtUnidade.getText());
-		/*
-		 * produto.setPeso(spnPeso.getValue()); produto.setVolume(spnVolume.getValue());
-		 * produto.setObservacao(txtAreaObservacao.getText());
-		 */
 
-		// if (frameNCMController.getId() != null)
-		// produto.setIdNcm(String.valueOf(frameNCMController.getId()));
 
 		entidade.setTipoProduto(cbTipoProduto.getSelectionModel().getSelectedItem());
 		entidade.setSituacao(cbSituacao.getSelectionModel().getSelectedItem());
@@ -365,29 +301,9 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		if (produto.getDescricao() != null && !produto.getDescricao().isEmpty())
 			txtDescricao.setText(produto.getDescricao());
 
-		if (produto.getCodigoBarras() != null && !produto.getCodigoBarras().isEmpty())
-			txtCodigoBarras.setText(produto.getCodigoBarras());
-
-		if (produto.getUnidade() != null && !produto.getUnidade().isEmpty())
-			txtUnidade.setText(produto.getUnidade());
-
-		/*
-		 * if (produto.getMarca() != null && !produto.getMarca().isEmpty())
-		 * txtMarca.setText(produto.getMarca());
-		 * 
-		 * if (produto.getPeso() != null)
-		 * spnPeso.getEditor().setText(produto.getPeso().toString());
-		 * 
-		 * if (produto.getVolume() != null)
-		 * spnVolume.getEditor().setText(produto.getVolume().toString());
-		 * 
-		 * if (produto.getObservacao() != null && !produto.getObservacao().isEmpty())
-		 * txtAreaObservacao.setText(produto.getObservacao());
-		 */
 
 		cbSituacao.getSelectionModel().select(produto.getSituacao().ordinal());
 		cbTipoProduto.getSelectionModel().select(produto.getTipoProduto().ordinal());
-
 
 		if (produto.getImagens() != null && produto.getImagens().size() > 0) {
 			imagens = produto.getImagens();
@@ -415,24 +331,12 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		}
 	}
 
-	private CadProdutoController configuraExitId() {
-		txtId.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue,
-					Boolean newPropertyValue) {
-
-				if (!newPropertyValue) {
-					if (!txtId.getText().equalsIgnoreCase("0"))
-						onTxtIdExit();
-				}
-			}
-		});
-
-		return this;
-	}
-
 	@Override
 	public synchronized void inicializa(URL location, ResourceBundle resources) {
+		frameNCMController.setService(new GenericService<Ncm>(Ncm.class));
+		frameNCMController.setPromptText("NCM");
+
+		Validadores.setTextFieldNotEmpty(frameNCMController.txtFraPesquisa);
 		Limitadores.setTextFieldInteger(txtId);
 		Validadores.setTextFieldNotEmpty(txtDescricao);
 
@@ -442,7 +346,8 @@ public class CadProdutoController extends CadastroFormPadrao<Produto> {
 		cbTipoProduto.getSelectionModel().select(TipoProduto.PRODUTOFINAL);
 
 		txtId.setText("0");
-		configuraExitId();
+		
+		tpContainer.getSelectionModel().selectFirst();
 	}
 
 	public static URL getFxmlLocate() {

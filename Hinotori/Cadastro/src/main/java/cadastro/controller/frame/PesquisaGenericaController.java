@@ -70,7 +70,7 @@ public class PesquisaGenericaController<E extends Entidade> implements Initializ
 
 	public void setEntidade(E entidade) {
 		this.entidade = entidade;
-		txtFraPesquisa.setText(entidade.getDescricao());
+		txtFraPesquisa.setText(entidade.getDescricaoFrame());
 	}
 	
 	public void limpaEntidade() {
@@ -148,7 +148,7 @@ public class PesquisaGenericaController<E extends Entidade> implements Initializ
 					autocomplete.getSuggestions().addAll(lista);
 				}
 
-				autocomplete.filter(e -> e.getDescricao().toUpperCase().contains(newValue.toUpperCase()));
+				autocomplete.filter(e -> e.getDescricaoFrame().toUpperCase().contains(newValue.toUpperCase()));
 
 				if (autocomplete.getFilteredSuggestions().isEmpty())
 					autocomplete.hide();
@@ -170,11 +170,10 @@ public class PesquisaGenericaController<E extends Entidade> implements Initializ
 					@Override
 					protected void updateItem(E item, boolean empty) {
 						super.updateItem(item, empty);
-						if (item == null || empty) {
+						if (item == null || empty)
 							setGraphic(null);
-						} else {
-							setText(item.getDescricao());
-						}
+						else
+							setText(item.getDescricaoFrame());
 					}
 				};
 			}

@@ -27,7 +27,6 @@ public class Pais extends EntidadeBase implements Serializable, Entidade {
 		this.nome = nome;
 	}
 
-	@Override
 	public String getDescricao() {
 		return nome;
 	}
@@ -40,6 +39,11 @@ public class Pais extends EntidadeBase implements Serializable, Entidade {
 	public Pais(Long id, String nome) {
 		super(id);
 		this.nome = nome;
+	}
+	
+	@Override
+	public String getDescricaoFrame() {
+		return nome;
 	}
 
 	@Override

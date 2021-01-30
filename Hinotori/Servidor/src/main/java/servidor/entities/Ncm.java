@@ -4,16 +4,18 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
+
+import comum.model.entities.Entidade;
+import servidor.annotation.Sugestao;
 
 @Entity
 @Table(name = "ncm")
-public class Ncm implements Serializable {
+@Sugestao(campo = "Descricao")
+public class Ncm extends EntidadeBase implements Serializable, Entidade  {
 
 	private static final long serialVersionUID = 1778071323939610003L;
 
-	@Id
 	@Column(name = "ncm", columnDefinition = "Varchar(8)")
 	private String ncm;
 
@@ -38,6 +40,11 @@ public class Ncm implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	@Override
+	public String getDescricaoFrame() {
+		return ncm + " - " + descricao;
 	}
 
 	public Ncm() {

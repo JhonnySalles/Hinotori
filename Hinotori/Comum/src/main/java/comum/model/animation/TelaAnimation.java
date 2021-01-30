@@ -1,10 +1,7 @@
 package comum.model.animation;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -12,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
-import javafx.util.Duration;
 
 public class TelaAnimation {
 
@@ -30,17 +26,12 @@ public class TelaAnimation {
 	public synchronized void abrirPane(Pane rootPane, Node rootPaneFilho) {
 		Node nodeBaixo = rootPane.getChildren().get(0);
 
-		rootPaneFilho.setTranslateY(rootPane.getScene().getHeight());
-		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(300),
-				new KeyValue(rootPaneFilho.translateYProperty(), 0, Interpolator.EASE_OUT)));
-		timeline.setOnFinished(event -> {
+		FadeIn fade = new FadeIn(rootPaneFilho);
+		fade.setOnFinished(event -> {
 			nodeBaixo.setVisible(false);
 			nodeBaixo.setDisable(true);
 		});
-
-		Platform.runLater(() -> {
-			timeline.play();
-		});
+		fade.play();
 	}
 
 	/**
@@ -60,14 +51,13 @@ public class TelaAnimation {
 		nodeBaixo.setDisable(false);
 		nodeBaixo.setVisible(true);
 
-		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(300),
-				new KeyValue(nodeCima.translateYProperty(), spRoot.getScene().getHeight(), Interpolator.EASE_BOTH)));
+		FadeOut fade = new FadeOut(nodeCima);
 
-		timeline.setOnFinished(event -> {
+		fade.setOnFinished(event -> {
 			spRoot.getChildren().remove(spRoot.getChildren().indexOf(nodeCima));
 			nodeCima.setVisible(false);
 		});
-		timeline.play();
+		fade.play();
 	}
 
 	// Função responsável pela transição de opacidade do fundo do cadastro e dos

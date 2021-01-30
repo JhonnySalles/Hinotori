@@ -62,7 +62,7 @@ public class Cidade extends EntidadeBase implements Serializable, Entidade {
 	}
 
 	@Override
-	public String getDescricao() {
+	public String getDescricaoFrame() {
 		return nome + " - " + estado.getSigla();
 	}
 

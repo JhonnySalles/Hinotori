@@ -102,7 +102,7 @@ public class Contato extends Pessoa implements Entidade {
 	}
 
 	@Override
-	public String getDescricao() {
+	public String getDescricaoFrame() {
 		return nomeSobrenome;
 	}
 

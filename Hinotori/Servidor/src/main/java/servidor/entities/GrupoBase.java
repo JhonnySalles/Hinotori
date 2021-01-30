@@ -67,6 +67,10 @@ public class GrupoBase extends EntidadeBase implements Serializable {
 		else
 			this.cor = cor;
 	}
+	
+	public String getDescricaoFrame() {
+		return descricao;
+	}
 
 	public GrupoBase() {
 		this.id = Long.valueOf(0);

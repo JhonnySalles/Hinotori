@@ -158,10 +158,11 @@ CREATE TABLE contatos (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE ncm (
+  Id bigint(20) NOT NULL AUTO_INCREMENT,
   ncm varchar(8) NOT NULL,
   Descricao longtext,
   Situacao enum('ATIVO','INATIVO','EXCLUÍDO') DEFAULT 'ATIVO',
-  PRIMARY KEY (ncm)
+  PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE produtos (
@@ -178,10 +179,10 @@ CREATE TABLE produtos (
   TipoProduto enum('PRODUZIDO','MATERIAPRIMA','SERVICO','PRODUTOFINAL') DEFAULT NULL,
   Unidade varchar(4) DEFAULT NULL,
   Volume double DEFAULT NULL,
-  NCM varchar(8) DEFAULT NULL,
+  idNcm bigint(20) DEFAULT NULL,
   PRIMARY KEY (id),
-  KEY FK_PRODUTO_NCM (NCM),
-  CONSTRAINT FK_PRODUTO_NCM FOREIGN KEY (NCM) REFERENCES ncm (ncm)
+  KEY FK_PRODUTO_NCM (idNcm),
+  CONSTRAINT FK_PRODUTO_NCM FOREIGN KEY (idNcm) REFERENCES ncm (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE produtos_imagens (
